@@ -71,6 +71,8 @@
 		84D0682A24487B7C000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84D0682C24487F5E000B708B /* CrashLibWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; };
 		84D0682D24487F5E000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D068A32448FFEE000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D068A42449000D000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
@@ -203,10 +205,6 @@
 		C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2F156D52338C30400798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C2F156D62338C30400798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2F156DA2338C30C00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C2F156DB2338C30C00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156E02338C31500798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156E12338C31E00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156E22338C31E00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -609,20 +607,6 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
-		C2F156CB2338C2CE00798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C2F156CD2338C2D400798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
 		C2F156CF2338C2DA00798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
@@ -824,7 +808,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2F156D62338C30400798480 /* CrashLibIOS.framework in Embed Frameworks */,
+				84D068A42449000D000B708B /* CrashLibWatch.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -835,7 +819,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2F156DB2338C30C00798480 /* CrashLibIOS.framework in Embed Frameworks */,
+				84D068A32448FFEE000B708B /* CrashLibWatch.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1195,7 +1179,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F156DA2338C30C00798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1240,7 +1223,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F156D52338C30400798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1942,7 +1924,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2F156CC2338C2CE00798480 /* PBXTargetDependency */,
 				D31EF9631E9517C600450162 /* PBXTargetDependency */,
 				C2F156DD2338C30C00798480 /* PBXTargetDependency */,
 			);
@@ -1963,7 +1944,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2F156CE2338C2D400798480 /* PBXTargetDependency */,
 				C2F156D82338C30400798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchWatchSwift Extension";
@@ -3041,16 +3021,6 @@
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
 			targetProxy = C2F156C92338C2C800798480 /* PBXContainerItemProxy */;
-		};
-		C2F156CC2338C2CE00798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156CB2338C2CE00798480 /* PBXContainerItemProxy */;
-		};
-		C2F156CE2338C2D400798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156CD2338C2D400798480 /* PBXContainerItemProxy */;
 		};
 		C2F156D02338C2DA00798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
