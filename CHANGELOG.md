@@ -2,13 +2,12 @@
 
 ## Version 3.1.2 (Under development)
 
-___
-
-## Version 3.1.1
-
 ### App Center
 
 * **[Improvement]** Use namespaced `NSUserDefaults` keys with the **MSAppCenter** prefix for all the keys set by the SDK. Fixed a few keys missing namespace.
+___
+
+## Version 3.1.1
 
 ### App Center Crashes
 
