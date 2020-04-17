@@ -1,6 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 3.1.1 (In development)
+## Version 3.1.2 (Under development)
+
+___
+
+## Version 3.1.1
 
 ### App Center
 
@@ -9,6 +13,7 @@
 ### App Center Crashes
 
 * **[Improvement]** Update PLCrashReporter to 1.5.1.
+* **[Fix]** Remove the multiple attachments warning as that is now supported by the portal.
 
 ___
 

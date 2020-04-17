@@ -1,0 +1,65 @@
+{
+    "Registrations": [
+        {
+            "component": {
+                "type": "git",
+                "git": {
+                    "name": "PLCrashReporter",
+                    "repositoryUrl": "https://github.com/microsoft/plcrashreporter.git",
+                    "commitHash": "524144339aff8bc38bd62d13104bdb9f934560f5"
+                }
+            }
+        },        
+        {
+            "component": {
+                "type": "git",
+                "git": {
+                    "name": "OCHamcrest",
+                    "repositoryUrl": "https://github.com/hamcrest/OCHamcrest.git",
+                    "commitHash": "edbded0a97d5c5e26f43c125ffc4522300970d98"
+                }
+            }
+        },
+        {
+            "component": {
+                "type": "git",
+                "git": {
+                    "name": "OCMock",
+                    "repositoryUrl": "https://github.com/erikdoe/ocmock.git",
+                    "commitHash": "a8e58d45b47f0a8aca04dcba4980b7ee6ffc06dc"
+                }
+            }
+        },
+        {
+            "component": {
+                "type": "git",
+                "git": {
+                    "name":"OHHTTPStubs",
+                    "repositoryUrl": "https://github.com/AliSoftware/OHHTTPStubs.git",
+                    "commitHash": "75c04cbaed43ea180283b1c9e028409b4d371b64"
+                }
+            }
+        },
+        {
+            "component": {
+                "type": "git",
+                "git": {
+                    "name": "Official Git mirror of the SQLite source tree",
+                    "repositoryUrl": "https://github.com/sqlite/sqlite.git",
+                    "commitHash": "653b4f6078ecc34055f2ce47fbd80f74501ca4b8"
+                }
+            }
+        },
+        {
+            "component": {
+                "type": "git",
+                "git": {
+                    "name": "Protocol Buffers implementation in C",
+                    "repositoryUrl": "https://github.com/protobuf-c/protobuf-c.git",
+                    "commitHash": "1390409f4ee4e26d0635310995b516eb702c3f9e"
+                }
+            }
+        }     
+    ],
+    "Version": 1
+}
