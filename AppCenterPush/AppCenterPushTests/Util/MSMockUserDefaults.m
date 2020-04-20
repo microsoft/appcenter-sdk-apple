@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 #import "MSMockUserDefaults.h"
+#import "MSAppCenterUserDefaults.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSTestFrameworks.h"
-#import "MSUserDefaults.h"
 
 @interface MSMockUserDefaults ()
 
@@ -20,10 +21,14 @@
     _dictionary = [NSMutableDictionary new];
 
     // Mock MSUserDefaults shared method to return this instance.
-    _mockMSUserDefaults = OCMClassMock([MSUserDefaults class]);
+    _mockMSUserDefaults = OCMClassMock([MSAppCenterUserDefaults class]);
     OCMStub([_mockMSUserDefaults shared]).andReturn(self);
   }
   return self;
+}
+
+- (void)migrateKeys:(__unused NSDictionary *)migratedKeys forService:(nonnull NSString *)service {
+  [self setObject:@YES forKey:[NSString stringWithFormat:kMSMockMigrationKey, service]];
 }
 
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {

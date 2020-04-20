@@ -34,7 +34,7 @@ static NSString *const kMSGroupId = @"Push";
 /**
  * Key for storing push token
  */
-static NSString *const kMSPushServiceStorageKey = @"pushServiceStorageKey";
+static NSString *const kMSPushServiceStorageKey = @"PushServiceStorage";
 
 #if TARGET_OS_OSX
 /**
@@ -59,8 +59,13 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #pragma mark - Service initialization
 
 - (instancetype)init {
-  if ((self = [super init])) {
 
+  [MS_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+    @"MSAppCenterPushIsEnabled" : @"kMSPushIsEnabledKey",       // [MSPush isEnabled]
+    @"MSAppCenterPushServiceStorage" : @"pushServiceStorageKey" // [MSPush didRegisterForRemoteNotificationsWithDeviceToken]
+  }
+                                forService:kMSServiceName];
+  if ((self = [super init])) {
     // Init channel configuration.
     _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
@@ -270,7 +275,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     return;
   }
   self.pushToken = pushToken;
-  [MS_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
   [self sendPushToken:pushToken userId:[[MSUserIdContext sharedInstance] userId]];
 }
 

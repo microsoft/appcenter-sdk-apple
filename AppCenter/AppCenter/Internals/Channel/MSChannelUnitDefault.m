@@ -15,7 +15,7 @@
 /**
  * Key for the start timestamp.
  */
-static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
+static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
 
 @implementation MSChannelUnitDefault
 
@@ -372,7 +372,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
       [strongSelf resetTimer];
 
       // Remove the current timestamp. All pending logs will be sent in flushQueue call.
-      [MS_USER_DEFAULTS removeObjectForKey:[strongSelf oldestPendingLogTimestampKey]];
+      [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:[strongSelf oldestPendingLogTimestampKey]];
     }
   });
   dispatch_resume(self.timerSource);
@@ -384,16 +384,16 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
   // If the interval is custom.
   if (flushInterval > kMSFlushIntervalDefault) {
     NSDate *now = [NSDate date];
-    NSDate *oldestPendingLogTimestamp = [MS_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
+    NSDate *oldestPendingLogTimestamp = [MS_APP_CENTER_USER_DEFAULTS objectForKey:[self oldestPendingLogTimestampKey]];
 
     // The timer isn't started or has invalid value (start time in the future), so start it and store the current time.
     if (oldestPendingLogTimestamp == nil || [now compare:oldestPendingLogTimestamp] == NSOrderedAscending) {
-      [MS_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:now forKey:[self oldestPendingLogTimestampKey]];
     }
 
     // If the interval is over.
     else if ([now compare:[oldestPendingLogTimestamp dateByAddingTimeInterval:flushInterval]] == NSOrderedDescending) {
-      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
+      [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
       return 0;
     }
 
@@ -440,7 +440,7 @@ static NSString *const kMSStartTimestampPrefix = @"MSChannelStartTimer";
       self.itemsCount = 0;
       self.availableBatchFromStorage = NO;
       self.pendingBatchQueueFull = NO;
-      [MS_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
+      [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:[self oldestPendingLogTimestampKey]];
 
       // Prevent further logs from being persisted.
       self.discardLogs = YES;

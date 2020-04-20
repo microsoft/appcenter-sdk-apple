@@ -18,4 +18,4 @@
 #import "MSLog.h"
 #import "Model/MSAbstractLogInternal.h"
 #import "Model/MSLogContainer.h"
-#import "Model/Util/MSUserDefaults.h"
+#import "Model/Util/MSAppCenterUserDefaults.h"

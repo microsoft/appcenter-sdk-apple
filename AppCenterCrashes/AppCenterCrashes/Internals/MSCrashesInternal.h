@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Key for a low memory warning in the last session.
  */
-static NSString *const kMSAppDidReceiveMemoryWarningKey = @"MSAppDidReceiveMemoryWarning";
+static NSString *const kMSAppDidReceiveMemoryWarningKey = @"AppDidReceiveMemoryWarning";
 
 @class MSException;
 @class MSErrorAttachmentLog;

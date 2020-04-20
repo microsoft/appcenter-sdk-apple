@@ -46,8 +46,13 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 #pragma mark - Service initialization
 
 - (instancetype)init {
-  if ((self = [super init])) {
 
+  [MS_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+    @"MSAppCenterAnalyticsIsEnabled" : MSPrefixKeyFrom(@"kMSAnalyticsIsEnabledKey"), // [MSAnalytics isEnabled]
+    @"MSAppCenterPastSessions" : @"pastSessionsKey"                                  // [MSSessionTracker init]
+  }
+                                forService:kMSServiceName];
+  if ((self = [super init])) {
     // Set defaults.
     _autoPageTrackingEnabled = NO;
     _flushInterval = kMSFlushIntervalDefault;

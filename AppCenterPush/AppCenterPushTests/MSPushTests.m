@@ -9,6 +9,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "MSAppCenterUserDefaults.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSChannelGroupProtocol.h"
 #import "MSChannelUnitProtocol.h"
 #import "MSMockPushDelegate.h"
@@ -97,6 +99,11 @@ static NSString *const kMSTestPushToken = @"TestPushToken";
 }
 
 #pragma mark - Tests
+
+- (void)testMigrateOnInit {
+  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Push"];
+  XCTAssertNotNil([self.settingsMock objectForKey:key]);
+}
 
 - (void)testApplyEnabledStateWorks {
 
