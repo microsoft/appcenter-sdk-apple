@@ -85,7 +85,7 @@ static dispatch_once_t delayedProcessingToken;
 #pragma mark - Callbacks Setup
 
 static MSCrashesCallbacks msCrashesCallbacks = {.context = nullptr, .handleSignal = nullptr};
-static NSString *const kMSUserConfirmationKey = @"MSUserConfirmation";
+static NSString *const kMSUserConfirmationKey = @"CrashesUserConfirmation";
 static volatile BOOL writeBufferTaskStarted = NO;
 
 static void ms_save_log_buffer(const std::string &data, const std::string &path) {
@@ -273,6 +273,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #pragma mark - Service initialization
 
 - (instancetype)init {
+  [MS_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+    @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSCrashes isEnabled]
+    @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSCrashes processMemoryWarningInLastSession]
+    @"MSAppCenterCrashesUserConfirmation" : @"MSUserConfirmation" // [MSCrashes shouldAlwaysSend], [MSCrashes notifyWithUserConfirmation]
+  }
+                                forService:kMSServiceName];
   if ((self = [super init])) {
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
@@ -419,7 +425,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     [self.plCrashReporter purgePendingCrashReport];
     [self clearUnprocessedReports];
     [self clearContextHistoryAndKeepCurrentSession];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
     MSLogInfo([MSCrashes logTag], @"Crashes service has been disabled.");
   }
 }
@@ -492,7 +498,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
 - (void)didReceiveMemoryWarning:(NSNotification *)__unused notification {
   MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
-  [MS_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:@YES forKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 #pragma mark - Channel Delegate
@@ -670,8 +676,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #endif
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
   PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                                                         symbolicationStrategy:symbolicationStrategy
-                                                        shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
+                                                                     symbolicationStrategy:symbolicationStrategy
+                                                    shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
 
   /*
@@ -899,14 +905,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   }
 
   // Read and reset the memory warning state.
-  NSNumber *didReceiveMemoryWarning = [MS_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
+  NSNumber *didReceiveMemoryWarning = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSAppDidReceiveMemoryWarningKey];
   self.didReceiveMemoryWarningInLastSession = didReceiveMemoryWarning.boolValue;
   if (self.didReceiveMemoryWarningInLastSession) {
     MSLogDebug([MSCrashes logTag], @"The application received a low memory warning in the last session.");
   }
 
   // Clean the flag.
-  [MS_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
+  [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSAppDidReceiveMemoryWarningKey];
 }
 
 /**
@@ -1196,7 +1202,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
  * This is an instance method to make testing easier.
  */
 - (BOOL)shouldAlwaysSend {
-  NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
+  NSNumber *flag = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUserConfirmationKey];
   return flag.boolValue;
 }
 
@@ -1243,7 +1249,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
      * Always send logs. Set the flag YES to bypass user confirmation next time.
      * Continue crash processing afterwards.
      */
-    [MS_USER_DEFAULTS setObject:@YES forKey:kMSUserConfirmationKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:@YES forKey:kMSUserConfirmationKey];
   }
 
   // Process crashes logs.

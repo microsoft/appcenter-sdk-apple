@@ -15,7 +15,7 @@
 - (instancetype)init {
   if ((self = [super init])) {
     _started = NO;
-    _isEnabledKey = [NSString stringWithFormat:@"kMS%@IsEnabledKey", self.groupId];
+    _isEnabledKey = [NSString stringWithFormat:@"%@IsEnabled", self.groupId];
   }
   return self;
 }
@@ -26,7 +26,7 @@
 
   // Get isEnabled value from persistence.
   // No need to cache the value in a property, user settings already have their cache mechanism.
-  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:self.isEnabledKey];
+  NSNumber *isEnabledNumber = [MS_APP_CENTER_USER_DEFAULTS objectForKey:self.isEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -39,7 +39,7 @@
     [self applyEnabledState:isEnabled];
 
     // Persist the enabled status.
-    [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
   }
 }
 

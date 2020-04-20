@@ -15,7 +15,7 @@ static NSString *const kMSEncryptionCipherMode = @"CBC";
 // One year.
 static NSTimeInterval const kMSEncryptionKeyLifetimeInSeconds = 365 * 24 * 60 * 60;
 static int const kMSEncryptionKeySize = kCCKeySizeAES256;
-static NSString *const kMSEncryptionKeyMetadataKey = @"MSEncryptionKeyMetadata";
+static NSString *const kMSEncryptionKeyMetadataKey = @"EncryptionKeyMetadata";
 static NSString *const kMSEncryptionKeyTagAlternate = @"kMSEncryptionKeyTagAlternate";
 static NSString *const kMSEncryptionKeyTagOriginal = @"kMSEncryptionKeyTag";
 

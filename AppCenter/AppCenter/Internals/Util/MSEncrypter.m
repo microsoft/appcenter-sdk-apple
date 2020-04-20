@@ -95,7 +95,7 @@ static NSObject *const classLock;
 
 + (NSString *)getCurrentKeyTag {
   @synchronized(classLock) {
-    NSString *keyMetadata = [MS_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey];
+    NSString *keyMetadata = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey];
     if (!keyMetadata) {
       [self rotateToNewKeyTag:kMSEncryptionKeyTagAlternate];
       return kMSEncryptionKeyTagAlternate;
@@ -128,7 +128,7 @@ static NSObject *const classLock;
 
   // Format is {keyTag}/{expiration as iso}.
   NSString *keyMetadata = [@[ newKeyTag, expirationIso ] componentsJoinedByString:kMSEncryptionMetadataInternalSeparator];
-  [MS_USER_DEFAULTS setObject:keyMetadata forKey:kMSEncryptionKeyMetadataKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:keyMetadata forKey:kMSEncryptionKeyMetadataKey];
 }
 
 - (NSData *)getKeyWithKeyTag:(NSString *)keyTag {

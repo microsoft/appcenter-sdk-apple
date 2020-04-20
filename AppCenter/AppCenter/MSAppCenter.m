@@ -241,6 +241,30 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
   if ((self = [super init])) {
     _services = [NSMutableArray new];
     _enabledStateUpdating = NO;
+    NSDictionary *changedKeys = @{
+      @"MSAppCenterChannelStartTimer" : MSPrefixKeyFrom(@"MSChannelStartTimer"),
+      // [MSChannelUnitDefault oldestPendingLogTimestampKey]
+      @"MSAppCenterPastDevices" : @"pastDevicesKey",
+      // [MSDeviceTracker init],
+      // [MSDeviceTracker device],
+      // [MSDeviceTracker clearDevices]
+      @"MSAppCenterInstallId" : @"MSInstallId",
+      // [MSAppCenter installId]
+      @"MSAppCenterAppCenterIsEnabled" : @"MSAppCenterIsEnabled",
+      // [MSAppCenter isEnabled]
+      @"MSAppCenterEncryptionKeyMetadata" : @"MSEncryptionKeyMetadata",
+      // [MSEncrypter getCurrentKeyTag],
+      // [MSEncrypter rotateToNewKeyTag]
+      @"MSAppCenterSessionIdHistory" : @"SessionIdHistory",
+      // [MSSessionContext init],
+      // [MSSessionContext setSessionId],
+      // [MSSessionContext clearSessionHistoryAndKeepCurrentSession]
+      @"MSAppCenterUserIdHistory" : @"UserIdHistory"
+      // [MSUserIdContext init],
+      // [MSUserIdContext setUserId],
+      // [MSUserIdContext clearUserIdHistory]
+    };
+    [MS_APP_CENTER_USER_DEFAULTS migrateKeys:changedKeys forService:kMSServiceName];
   }
   return self;
 }
@@ -526,7 +550,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     if ([self isEnabled] != isEnabled) {
 
       // Persist the enabled status.
-      [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSAppCenterIsEnabledKey];
 
       // Enable/disable pipeline.
       [self applyPipelineEnabledState:isEnabled];
@@ -547,7 +571,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
    * Get isEnabled value from persistence.
    * No need to cache the value in a property, user settings already have their cache mechanism.
    */
-  NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
+  NSNumber *isEnabledNumber = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSAppCenterIsEnabledKey];
 
   // Return the persisted value otherwise it's enabled by default.
   return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -633,7 +657,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
     if (!_installId) {
 
       // Check if install Id has already been persisted.
-      NSString *savedInstallId = [MS_USER_DEFAULTS objectForKey:kMSInstallIdKey];
+      NSString *savedInstallId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSInstallIdKey];
       if (savedInstallId) {
         _installId = MS_UUID_FROM_STRING(savedInstallId);
       }
@@ -643,7 +667,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
         _installId = [NSUUID UUID];
 
         // Persist the install Id string.
-        [MS_USER_DEFAULTS setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
+        [MS_APP_CENTER_USER_DEFAULTS setObject:[_installId UUIDString] forKey:kMSInstallIdKey];
       }
     }
     return _installId;

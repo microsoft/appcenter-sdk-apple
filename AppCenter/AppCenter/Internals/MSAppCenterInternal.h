@@ -11,8 +11,8 @@
 /*
  * Persisted storage keys.
  */
-static NSString *const kMSInstallIdKey = @"MSInstallId";
-static NSString *const kMSAppCenterIsEnabledKey = @"MSAppCenterIsEnabled";
+static NSString *const kMSInstallIdKey = @"InstallId";
+static NSString *const kMSAppCenterIsEnabledKey = @"AppCenterIsEnabled";
 
 /*
  * Name of the environment variable to check for which services should be disabled.
