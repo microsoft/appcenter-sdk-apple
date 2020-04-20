@@ -12,8 +12,8 @@
 #import "MSHttpTestUtil.h"
 #import "MSMockLog.h"
 #import "MSTestFrameworks.h"
-#import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "NSURLRequest+HTTPBodyTesting.h"
+#import "HTTPStubs.h"
 @interface MSHttpCallTests : XCTestCase
 @end
 

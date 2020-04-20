@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "HTTPStubs.h"
 
 #import "MSConstants.h"
 #import "MSHttpTestUtil.h"
@@ -34,7 +34,7 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)removeAllStubs {
-  [OHHTTPStubs removeAllStubs];
+  [HTTPStubs removeAllStubs];
 }
 
 + (void)stubNetworkDownResponse {
@@ -43,12 +43,12 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubLongTimeOutResponse {
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
-        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
+      withStubResponse:^HTTPStubsResponse *(__unused NSURLRequest *request) {
+        HTTPStubsResponse *responseStub = [HTTPStubsResponse new];
         responseStub.statusCode = MSHTTPCodesNo200OK;
         return [responseStub responseTime:kMSStubbedResponseTimeout];
       }]
@@ -56,12 +56,12 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubResponseWithCode:(NSInteger)code name:(NSString *)name {
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
-        OHHTTPStubsResponse *responseStub = [OHHTTPStubsResponse new];
+      withStubResponse:^HTTPStubsResponse *(__unused NSURLRequest *request) {
+        HTTPStubsResponse *responseStub = [HTTPStubsResponse new];
         responseStub.statusCode = (int)code;
         return responseStub;
       }]
@@ -69,23 +69,23 @@ static NSString *const kMSStubLongResponseTimeOutName = @"httpStub_LongResponseT
 }
 
 + (void)stubResponseWithData:(NSData *)data statusCode:(int)code headers:(NSDictionary *)headers name:(NSString *)name {
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithData:data statusCode:code headers:headers];
+      withStubResponse:^HTTPStubsResponse *(__unused NSURLRequest *request) {
+        return [HTTPStubsResponse responseWithData:data statusCode:code headers:headers];
       }]
       .name = name;
 }
 
 + (void)stubResponseWithError:(NSError *)error name:(NSString *)name {
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
-        return [OHHTTPStubsResponse responseWithError:error];
+      withStubResponse:^HTTPStubsResponse *(__unused NSURLRequest *request) {
+        return [HTTPStubsResponse responseWithError:error];
       }]
       .name = name;
 }

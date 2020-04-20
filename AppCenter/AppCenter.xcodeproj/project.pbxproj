@@ -111,7 +111,6 @@
 		0446DF331F3B870A00C8E338 /* MSLogDBStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7877911EA0CFF3002263CC /* MSLogDBStorageTests.m */; };
 		0446DF341F3B871B00C8E338 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD121F3908840092B777 /* OCHamcrest.framework */; };
 		0446DF351F3B872700C8E338 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD141F3908CC0092B777 /* OCMock.framework */; };
-		0446DF361F3B873200C8E338 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD161F3908E00092B777 /* OHHTTPStubs.framework */; };
 		045660FB1D99EEEB002F7055 /* MSLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSLogWithPropertiesTests.m */; };
 		046AEAD31ECA562A00CBE511 /* MSCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSCustomPropertiesLogTests.m */; };
 		046AEAD41ECA562A00CBE511 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSMockUserDefaults.m */; };
@@ -159,7 +158,6 @@
 		04B59A4622050383008DA079 /* MSHttpIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B59A4022050370008DA079 /* MSHttpIngestionTests.m */; };
 		04B7BBEF1E5FAD4D001A0CE1 /* MSHttpUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSHttpUtilTests.m */; };
 		04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED70E1ECB63A100E20975 /* OCHamcrest.framework */; };
-		04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */; };
 		04FD126B1E4103CC007ABFE7 /* MSKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */; };
 		2434213223A456C900EDFA83 /* MSDependencyConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2434213123A456C900EDFA83 /* MSDependencyConfigurationTests.m */; };
 		2434213323A456C900EDFA83 /* MSDependencyConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2434213123A456C900EDFA83 /* MSDependencyConfigurationTests.m */; };
@@ -250,7 +248,6 @@
 		B29D884721E9286100EAF084 /* MSOrderedDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D884621E9286100EAF084 /* MSOrderedDictionaryTest.m */; };
 		B29D884821E9286100EAF084 /* MSOrderedDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D884621E9286100EAF084 /* MSOrderedDictionaryTest.m */; };
 		B29D884921E9286100EAF084 /* MSOrderedDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D884621E9286100EAF084 /* MSOrderedDictionaryTest.m */; };
-		B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */; };
 		B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */ = {isa = PBXBuildFile; fileRef = 805F3F6A1F209C9D00B489E4 /* MSMockService.m */; };
 		B2FD53651E567BCF0050F909 /* MSDeviceHistoryInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53641E567BCF0050F909 /* MSDeviceHistoryInfoTests.m */; };
 		C28A8A4C230EDBEF00C4CE43 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91FB6230C01140068070D /* AppCenter.framework */; };
@@ -400,6 +397,49 @@
 		DF5DA1FD23A0E57B00DE695C /* MSDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */; };
 		DF5DA1FE23A0E57B00DE695C /* MSDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */; };
 		DF5DA1FF23A0E57B00DE695C /* MSDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */; };
+		DFE954C1244D88450061E3FA /* MSAppCenterIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */; };
+		DFE9552F244D96170061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95520244D96170061E3FA /* HTTPStubs.m */; };
+		DFE95530244D96170061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95520244D96170061E3FA /* HTTPStubs.m */; };
+		DFE95531244D96170061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95520244D96170061E3FA /* HTTPStubs.m */; };
+		DFE95532244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95521244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m */; };
+		DFE95533244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95521244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m */; };
+		DFE95534244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95521244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m */; };
+		DFE95535244D96170061E3FA /* HTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552A244D96170061E3FA /* HTTPStubsResponse+JSON.m */; };
+		DFE95536244D96170061E3FA /* HTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552A244D96170061E3FA /* HTTPStubsResponse+JSON.m */; };
+		DFE95537244D96170061E3FA /* HTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552A244D96170061E3FA /* HTTPStubsResponse+JSON.m */; };
+		DFE95538244D96170061E3FA /* HTTPStubsMethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552B244D96170061E3FA /* HTTPStubsMethodSwizzling.m */; };
+		DFE95539244D96170061E3FA /* HTTPStubsMethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552B244D96170061E3FA /* HTTPStubsMethodSwizzling.m */; };
+		DFE9553A244D96170061E3FA /* HTTPStubsMethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552B244D96170061E3FA /* HTTPStubsMethodSwizzling.m */; };
+		DFE9553B244D96170061E3FA /* HTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552C244D96170061E3FA /* HTTPStubsResponse.m */; };
+		DFE9553C244D96170061E3FA /* HTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552C244D96170061E3FA /* HTTPStubsResponse.m */; };
+		DFE9553D244D96170061E3FA /* HTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552C244D96170061E3FA /* HTTPStubsResponse.m */; };
+		DFE9553E244D96170061E3FA /* HTTPStubsPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552D244D96170061E3FA /* HTTPStubsPathHelpers.m */; };
+		DFE9553F244D96170061E3FA /* HTTPStubsPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552D244D96170061E3FA /* HTTPStubsPathHelpers.m */; };
+		DFE95540244D96170061E3FA /* HTTPStubsPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552D244D96170061E3FA /* HTTPStubsPathHelpers.m */; };
+		DFE95541244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552E244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */; };
+		DFE95542244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552E244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */; };
+		DFE95543244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE9552E244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */; };
+		DFE95544244D96520061E3FA /* HTTPStubsMethodSwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95522244D96170061E3FA /* HTTPStubsMethodSwizzling.h */; };
+		DFE95545244D96540061E3FA /* HTTPStubsMethodSwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95522244D96170061E3FA /* HTTPStubsMethodSwizzling.h */; };
+		DFE95546244D96550061E3FA /* HTTPStubsMethodSwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95522244D96170061E3FA /* HTTPStubsMethodSwizzling.h */; };
+		DFE95547244D96590061E3FA /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95524244D96170061E3FA /* Compatibility.h */; };
+		DFE95548244D96590061E3FA /* HTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95525244D96170061E3FA /* HTTPStubsResponse+JSON.h */; };
+		DFE95549244D96590061E3FA /* HTTPStubsPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95526244D96170061E3FA /* HTTPStubsPathHelpers.h */; };
+		DFE9554A244D96590061E3FA /* HTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95527244D96170061E3FA /* HTTPStubsResponse.h */; };
+		DFE9554B244D96590061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95528244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.h */; };
+		DFE9554C244D96590061E3FA /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95529244D96170061E3FA /* HTTPStubs.h */; };
+		DFE9554D244D965A0061E3FA /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95524244D96170061E3FA /* Compatibility.h */; };
+		DFE9554E244D965A0061E3FA /* HTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95525244D96170061E3FA /* HTTPStubsResponse+JSON.h */; };
+		DFE9554F244D965A0061E3FA /* HTTPStubsPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95526244D96170061E3FA /* HTTPStubsPathHelpers.h */; };
+		DFE95550244D965A0061E3FA /* HTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95527244D96170061E3FA /* HTTPStubsResponse.h */; };
+		DFE95551244D965A0061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95528244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.h */; };
+		DFE95552244D965A0061E3FA /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95529244D96170061E3FA /* HTTPStubs.h */; };
+		DFE95553244D965B0061E3FA /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95524244D96170061E3FA /* Compatibility.h */; };
+		DFE95554244D965B0061E3FA /* HTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95525244D96170061E3FA /* HTTPStubsResponse+JSON.h */; };
+		DFE95555244D965B0061E3FA /* HTTPStubsPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95526244D96170061E3FA /* HTTPStubsPathHelpers.h */; };
+		DFE95556244D965B0061E3FA /* HTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95527244D96170061E3FA /* HTTPStubsResponse.h */; };
+		DFE95557244D965B0061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95528244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.h */; };
+		DFE95558244D965B0061E3FA /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE95529244D96170061E3FA /* HTTPStubs.h */; };
 		E79750EB20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSOneCollectorChannelDelegateTests.m */; };
 		E7D23C5120B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
 		E7D23C5220B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C5020B4E0CA00A47D62 /* MSCommonSchemaLogTests.m */; };
@@ -407,7 +447,6 @@
 		E7D23C6F20B6412300A47D62 /* MSCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSCSExtensionsTests.m */; };
 		E7D23C7020B6412300A47D62 /* MSCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSCSExtensionsTests.m */; };
 		E7D23C7120B6412300A47D62 /* MSCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSCSExtensionsTests.m */; };
-		E829E4231D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */; };
 		E88D17061D35B6B500A5EA57 /* MSMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* MSMockLog.m */; };
 		E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* MSLogContainerTests.m */; };
 		F803BC381E8E6927004B1E7A /* MSCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSCustomPropertiesTests.m */; };
@@ -935,7 +974,6 @@
 		04840CD71ECCF6560020B0FC /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		0484DD121F3908840092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		0484DD141F3908CC0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
-		0484DD161F3908E00092B777 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../tvOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		0484DD5E1F3910DF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0485AFEE1EAAAD0000C10CAF /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
@@ -950,7 +988,6 @@
 		04B59A4022050370008DA079 /* MSHttpIngestionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHttpIngestionTests.m; sourceTree = "<group>"; };
 		04B7BBEE1E5FAD4D001A0CE1 /* MSHttpUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSHttpUtilTests.m; sourceTree = "<group>"; };
 		04BED70E1ECB63A100E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
-		04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OHHTTPStubs.framework; path = ../../macOS/OHHTTPStubs/OHHTTPStubs.framework; sourceTree = "<group>"; };
 		04F3613C1FE1A92000A5A6D2 /* MSNoAutoAssignSessionIdLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSNoAutoAssignSessionIdLog.h; sourceTree = "<group>"; };
 		04FD126A1E4103CC007ABFE7 /* MSKeychainUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSKeychainUtilTests.m; sourceTree = "<group>"; };
 		2434213123A456C900EDFA83 /* MSDependencyConfigurationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDependencyConfigurationTests.m; sourceTree = "<group>"; };
@@ -1106,7 +1143,6 @@
 		B2ADB1412124C13300D0D7D9 /* MSOneCollectorIngestionPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorIngestionPrivate.h; sourceTree = "<group>"; };
 		B2B7D50920C5E562001D31B8 /* MSOneCollectorIngestion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSOneCollectorIngestion.h; sourceTree = "<group>"; };
 		B2B7D50A20C5E562001D31B8 /* MSOneCollectorIngestion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSOneCollectorIngestion.m; sourceTree = "<group>"; };
-		B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		B2C3C1831DB83A3E00CB83F7 /* MSDeviceInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDeviceInternal.h; sourceTree = "<group>"; };
 		B2CD74551F22BB710070E7DF /* MSWrapperSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSWrapperSdk.h; path = Model/MSWrapperSdk.h; sourceTree = "<group>"; };
 		B2CD74561F22BB710070E7DF /* MSWrapperSdk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSWrapperSdk.m; path = Model/MSWrapperSdk.m; sourceTree = "<group>"; };
@@ -1146,6 +1182,20 @@
 		D5812F312423C2FA00C5F5C5 /* MSUserDefaultsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserDefaultsTests.m; sourceTree = "<group>"; };
 		DF5DA1F823A0E55500DE695C /* MSDispatcherUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDispatcherUtil.h; sourceTree = "<group>"; };
 		DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDispatcherUtil.m; sourceTree = "<group>"; };
+		DFE95520244D96170061E3FA /* HTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
+		DFE95521244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
+		DFE95522244D96170061E3FA /* HTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
+		DFE95524244D96170061E3FA /* Compatibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
+		DFE95525244D96170061E3FA /* HTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
+		DFE95526244D96170061E3FA /* HTTPStubsPathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPStubsPathHelpers.h; sourceTree = "<group>"; };
+		DFE95527244D96170061E3FA /* HTTPStubsResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPStubsResponse.h; sourceTree = "<group>"; };
+		DFE95528244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
+		DFE95529244D96170061E3FA /* HTTPStubs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPStubs.h; sourceTree = "<group>"; };
+		DFE9552A244D96170061E3FA /* HTTPStubsResponse+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubsResponse+JSON.m"; sourceTree = "<group>"; };
+		DFE9552B244D96170061E3FA /* HTTPStubsMethodSwizzling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubsMethodSwizzling.m; sourceTree = "<group>"; };
+		DFE9552C244D96170061E3FA /* HTTPStubsResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubsResponse.m; sourceTree = "<group>"; };
+		DFE9552D244D96170061E3FA /* HTTPStubsPathHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubsPathHelpers.m; sourceTree = "<group>"; };
+		DFE9552E244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		E74B149720B364EE002C0183 /* MSCommonSchemaLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCommonSchemaLog.h; sourceTree = "<group>"; };
 		E74B149820B364EE002C0183 /* MSCommonSchemaLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSCommonSchemaLog.m; sourceTree = "<group>"; };
 		E74B14A120B36AAB002C0183 /* MSUserExtension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSUserExtension.m; sourceTree = "<group>"; };
@@ -1213,7 +1263,6 @@
 			files = (
 				C2CB275F230EDE380076A4E0 /* AppCenter.framework in Frameworks */,
 				0446DF351F3B872700C8E338 /* OCMock.framework in Frameworks */,
-				0446DF361F3B873200C8E338 /* OHHTTPStubs.framework in Frameworks */,
 				0446DF341F3B871B00C8E338 /* OCHamcrest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1225,7 +1274,6 @@
 				C2CB275C230EDCD30076A4E0 /* AppCenter.framework in Frameworks */,
 				04BED7101ECB63A800E20975 /* OCHamcrest.framework in Frameworks */,
 				046AEB0C1ECA729400CBE511 /* OCMock.framework in Frameworks */,
-				04F21A071ECB74200074978D /* OHHTTPStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1236,7 +1284,6 @@
 				C28A8A4C230EDBEF00C4CE43 /* AppCenter.framework in Frameworks */,
 				6E171ADC1D22F6ED000DC480 /* OCHamcrestIOS.framework in Frameworks */,
 				046AEB091ECA727200CBE511 /* OCMock.framework in Frameworks */,
-				B2B9441E1DF0DF23009117D1 /* OHHTTPStubs.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,14 +1377,6 @@
 			name = tvOS;
 			sourceTree = "<group>";
 		};
-		0484DD111F3908710092B777 /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				0484DD161F3908E00092B777 /* OHHTTPStubs.framework */,
-			);
-			name = tvOS;
-			sourceTree = "<group>";
-		};
 		04A140AB1ECE7F6F001CEE94 /* Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -1370,22 +1409,6 @@
 			isa = PBXGroup;
 			children = (
 				6E171ADB1D22F6ED000DC480 /* OCHamcrestIOS.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		04F21A021ECB73AA0074978D /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				04F21A041ECB73EE0074978D /* OHHTTPStubs.framework */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
-		04F21A031ECB73AE0074978D /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				B2B9441D1DF0DF23009117D1 /* OHHTTPStubs.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -1615,18 +1638,6 @@
 				0484DD101F39086A0092B777 /* tvOS */,
 			);
 			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
-			sourceTree = "<group>";
-		};
-		6E171B221D22FF40000DC480 /* OHHTTPStubs */ = {
-			isa = PBXGroup;
-			children = (
-				04F21A031ECB73AE0074978D /* iOS */,
-				04F21A021ECB73AA0074978D /* macOS */,
-				0484DD111F3908710092B777 /* tvOS */,
-			);
-			name = OHHTTPStubs;
-			path = ../../Vendor/iOS/OHHTTPStubs;
 			sourceTree = "<group>";
 		};
 		6E171B511D234717000DC480 /* Model */ = {
@@ -1702,10 +1713,10 @@
 		6E2395831D22EF5F00E543C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F82E4C6C217F159A00EDAB34 /* sqlite3.c */,
 				04BED70B1ECB636900E20975 /* OCHamcrest */,
 				6E171B121D22FC2E000DC480 /* OCMock */,
-				6E171B221D22FF40000DC480 /* OHHTTPStubs */,
+				DFE9551F244D96170061E3FA /* OHHTTPStubs */,
+				F82E4C6C217F159A00EDAB34 /* sqlite3.c */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1747,6 +1758,36 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DFE9551F244D96170061E3FA /* OHHTTPStubs */ = {
+			isa = PBXGroup;
+			children = (
+				DFE95520244D96170061E3FA /* HTTPStubs.m */,
+				DFE95521244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m */,
+				DFE95522244D96170061E3FA /* HTTPStubsMethodSwizzling.h */,
+				DFE95523244D96170061E3FA /* include */,
+				DFE9552A244D96170061E3FA /* HTTPStubsResponse+JSON.m */,
+				DFE9552B244D96170061E3FA /* HTTPStubsMethodSwizzling.m */,
+				DFE9552C244D96170061E3FA /* HTTPStubsResponse.m */,
+				DFE9552D244D96170061E3FA /* HTTPStubsPathHelpers.m */,
+				DFE9552E244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */,
+			);
+			name = OHHTTPStubs;
+			path = ../../Vendor/OHHTTPStubs/Sources/OHHTTPStubs;
+			sourceTree = "<group>";
+		};
+		DFE95523244D96170061E3FA /* include */ = {
+			isa = PBXGroup;
+			children = (
+				DFE95524244D96170061E3FA /* Compatibility.h */,
+				DFE95525244D96170061E3FA /* HTTPStubsResponse+JSON.h */,
+				DFE95526244D96170061E3FA /* HTTPStubsPathHelpers.h */,
+				DFE95527244D96170061E3FA /* HTTPStubsResponse.h */,
+				DFE95528244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.h */,
+				DFE95529244D96170061E3FA /* HTTPStubs.h */,
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 		E74B149F20B369BF002C0183 /* CommonSchema */ = {
@@ -1942,6 +1983,8 @@
 				F8936CF8230C2603006A330F /* MSOrderedDictionaryPrivate.h in Headers */,
 				F8936CF9230C2603006A330F /* MSEncrypterPrivate.h in Headers */,
 				F8936D3D230C2804006A330F /* MSSessionContext.h in Headers */,
+				DFE95549244D96590061E3FA /* HTTPStubsPathHelpers.h in Headers */,
+				DFE95547244D96590061E3FA /* Compatibility.h in Headers */,
 				F8936D71230C2804006A330F /* MSHistoryInfo.h in Headers */,
 				F8936D2D230C2804006A330F /* MSCustomApplicationDelegate.h in Headers */,
 				F8936D40230C2804006A330F /* MSUserIdHistoryInfo.h in Headers */,
@@ -1958,6 +2001,7 @@
 				F8936CB5230C24D9006A330F /* MSChannelGroupProtocol.h in Headers */,
 				F8936D54230C2804006A330F /* MSNetExtension.h in Headers */,
 				F8936CF1230C2603006A330F /* MSUserIdContextPrivate.h in Headers */,
+				DFE95548244D96590061E3FA /* HTTPStubsResponse+JSON.h in Headers */,
 				F8936D3E230C2804006A330F /* MSSessionHistoryInfo.h in Headers */,
 				F8936D58230C2804006A330F /* MSUserExtension.h in Headers */,
 				F8936D55230C2804006A330F /* MSOSExtension.h in Headers */,
@@ -1987,6 +2031,8 @@
 				F8936D73230C2804006A330F /* MSUtility.h in Headers */,
 				F8936D2F230C2804006A330F /* MSCustomDelegate.h in Headers */,
 				F8936D26230C2804006A330F /* MSCustomPropertiesInternal.h in Headers */,
+				DFE9554B244D96590061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
+				DFE95544244D96520061E3FA /* HTTPStubsMethodSwizzling.h in Headers */,
 				F8936D74230C2804006A330F /* MSUtility+Application.h in Headers */,
 				F8936D32230C2804006A330F /* MSChannelUnitDefault.h in Headers */,
 				F8936D2C230C2804006A330F /* MSAppDelegateForwarder.h in Headers */,
@@ -2003,6 +2049,7 @@
 				F8936CD8230C25A3006A330F /* MSLog.h in Headers */,
 				F8936D75230C2804006A330F /* MSUtility+Date.h in Headers */,
 				F8936D57230C2804006A330F /* MSSDKExtension.h in Headers */,
+				DFE9554A244D96590061E3FA /* HTTPStubsResponse.h in Headers */,
 				F8936D6A230C2804006A330F /* MSDBStorage.h in Headers */,
 				F8936D5B230C2804006A330F /* MSDeviceInternal.h in Headers */,
 				F8936CEC230C2603006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
@@ -2012,6 +2059,7 @@
 				F8936D53230C2804006A330F /* MSMetadataExtension.h in Headers */,
 				F8936CB6230C24D9006A330F /* MSChannelProtocol.h in Headers */,
 				F8936D44230C2804006A330F /* MSHttpCall.h in Headers */,
+				DFE9554C244D96590061E3FA /* HTTPStubs.h in Headers */,
 				F8BA7A2923AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */,
 				F8936CD7230C25A3006A330F /* MSDevice.h in Headers */,
 				F8DC50D623AA828D00BF8839 /* MSStorageBindableType.h in Headers */,
@@ -2074,6 +2122,8 @@
 				F8936DC9230C2805006A330F /* MSHistoryInfo.h in Headers */,
 				F8936D85230C2805006A330F /* MSCustomApplicationDelegate.h in Headers */,
 				F8936D98230C2805006A330F /* MSUserIdHistoryInfo.h in Headers */,
+				DFE9554F244D965A0061E3FA /* HTTPStubsPathHelpers.h in Headers */,
+				DFE9554D244D965A0061E3FA /* Compatibility.h in Headers */,
 				F8936DD0230C2805006A330F /* MSUtility+PropertyValidation.h in Headers */,
 				F8936D8C230C2805006A330F /* MSOneCollectorChannelDelegate.h in Headers */,
 				F8936DBE230C2805006A330F /* MSLongTypedProperty.h in Headers */,
@@ -2090,6 +2140,7 @@
 				F8936D96230C2805006A330F /* MSSessionHistoryInfo.h in Headers */,
 				F8936DB0230C2805006A330F /* MSUserExtension.h in Headers */,
 				F8936DAD230C2805006A330F /* MSOSExtension.h in Headers */,
+				DFE9554E244D965A0061E3FA /* HTTPStubsResponse+JSON.h in Headers */,
 				F8936DB9230C2805006A330F /* MSWrapperSdkInternal.h in Headers */,
 				F8936D9E230C2805006A330F /* MSIngestionProtocol.h in Headers */,
 				F8936D03230C2604006A330F /* MSDeviceTrackerPrivate.h in Headers */,
@@ -2119,6 +2170,8 @@
 				F8936D87230C2805006A330F /* MSCustomDelegate.h in Headers */,
 				F8936D7E230C2805006A330F /* MSCustomPropertiesInternal.h in Headers */,
 				F8936DCC230C2805006A330F /* MSUtility+Application.h in Headers */,
+				DFE95551244D965A0061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
+				DFE95545244D96540061E3FA /* HTTPStubsMethodSwizzling.h in Headers */,
 				F8936D8A230C2805006A330F /* MSChannelUnitDefault.h in Headers */,
 				F8936D84230C2805006A330F /* MSAppDelegateForwarder.h in Headers */,
 				F8936CFD230C2604006A330F /* MSCustomPropertiesPrivate.h in Headers */,
@@ -2135,6 +2188,7 @@
 				F8936DCD230C2805006A330F /* MSUtility+Date.h in Headers */,
 				F8936DAF230C2805006A330F /* MSSDKExtension.h in Headers */,
 				F8936DC2230C2805006A330F /* MSDBStorage.h in Headers */,
+				DFE95550244D965A0061E3FA /* HTTPStubsResponse.h in Headers */,
 				F8936DB3230C2805006A330F /* MSDeviceInternal.h in Headers */,
 				F8936D00230C2604006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
 				F8936DD1230C2805006A330F /* MSUtility+StringFormatting.h in Headers */,
@@ -2144,6 +2198,7 @@
 				F8936CC2230C24D9006A330F /* MSChannelProtocol.h in Headers */,
 				F8936D9C230C2805006A330F /* MSHttpCall.h in Headers */,
 				F8936CDD230C25A4006A330F /* MSDevice.h in Headers */,
+				DFE95552244D965A0061E3FA /* HTTPStubs.h in Headers */,
 				F8BA7A2A23AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */,
 				F8936D8B230C2805006A330F /* MSChannelDelegate.h in Headers */,
 				F8DC50DD23AA828E00BF8839 /* MSStorageBindableType.h in Headers */,
@@ -2206,6 +2261,8 @@
 				F8936E21230C2805006A330F /* MSHistoryInfo.h in Headers */,
 				F8936DDD230C2805006A330F /* MSCustomApplicationDelegate.h in Headers */,
 				F8936DF0230C2805006A330F /* MSUserIdHistoryInfo.h in Headers */,
+				DFE95555244D965B0061E3FA /* HTTPStubsPathHelpers.h in Headers */,
+				DFE95553244D965B0061E3FA /* Compatibility.h in Headers */,
 				F8936E28230C2805006A330F /* MSUtility+PropertyValidation.h in Headers */,
 				F8936DE4230C2805006A330F /* MSOneCollectorChannelDelegate.h in Headers */,
 				F8936E16230C2805006A330F /* MSLongTypedProperty.h in Headers */,
@@ -2222,6 +2279,7 @@
 				F8936DEE230C2805006A330F /* MSSessionHistoryInfo.h in Headers */,
 				F8936E08230C2805006A330F /* MSUserExtension.h in Headers */,
 				F8936E05230C2805006A330F /* MSOSExtension.h in Headers */,
+				DFE95554244D965B0061E3FA /* HTTPStubsResponse+JSON.h in Headers */,
 				F8936E11230C2805006A330F /* MSWrapperSdkInternal.h in Headers */,
 				F8936DF6230C2805006A330F /* MSIngestionProtocol.h in Headers */,
 				F8936D17230C2604006A330F /* MSDeviceTrackerPrivate.h in Headers */,
@@ -2251,6 +2309,8 @@
 				F8936DDF230C2805006A330F /* MSCustomDelegate.h in Headers */,
 				F8936DD6230C2805006A330F /* MSCustomPropertiesInternal.h in Headers */,
 				F8936E24230C2805006A330F /* MSUtility+Application.h in Headers */,
+				DFE95557244D965B0061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
+				DFE95546244D96550061E3FA /* HTTPStubsMethodSwizzling.h in Headers */,
 				F8936DE2230C2805006A330F /* MSChannelUnitDefault.h in Headers */,
 				F8936DDC230C2805006A330F /* MSAppDelegateForwarder.h in Headers */,
 				F8936D11230C2604006A330F /* MSCustomPropertiesPrivate.h in Headers */,
@@ -2267,6 +2327,7 @@
 				F8936E25230C2805006A330F /* MSUtility+Date.h in Headers */,
 				F8936E07230C2805006A330F /* MSSDKExtension.h in Headers */,
 				F8936E1A230C2805006A330F /* MSDBStorage.h in Headers */,
+				DFE95556244D965B0061E3FA /* HTTPStubsResponse.h in Headers */,
 				F8936E0B230C2805006A330F /* MSDeviceInternal.h in Headers */,
 				F8936D14230C2604006A330F /* MSChannelUnitDefaultPrivate.h in Headers */,
 				F8936E29230C2805006A330F /* MSUtility+StringFormatting.h in Headers */,
@@ -2276,6 +2337,7 @@
 				F8936CCE230C24DA006A330F /* MSChannelProtocol.h in Headers */,
 				F8936DF4230C2805006A330F /* MSHttpCall.h in Headers */,
 				F8936CE3230C25A5006A330F /* MSDevice.h in Headers */,
+				DFE95558244D965B0061E3FA /* HTTPStubs.h in Headers */,
 				F8BA7A2B23AA8A26009FBCCF /* MSStorageBindableArray.h in Headers */,
 				F8936DE3230C2805006A330F /* MSChannelDelegate.h in Headers */,
 				F8DC50E423AA828F00BF8839 /* MSStorageBindableType.h in Headers */,
@@ -2658,6 +2720,7 @@
 				0446DF081F3B864600C8E338 /* MSDeviceTrackerTests.m in Sources */,
 				0446DF091F3B864600C8E338 /* MSAppDelegateForwarderTests.m in Sources */,
 				0446DF0A1F3B864600C8E338 /* MSChannelUnitDefaultTests.m in Sources */,
+				DFE95543244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				0446DF0B1F3B864600C8E338 /* MSAppCenterTests.m in Sources */,
 				0446DF0C1F3B864600C8E338 /* MSStoragePerformanceTests.m in Sources */,
 				0446DF0D1F3B864600C8E338 /* MSLogDBStorageTests.m in Sources */,
@@ -2672,9 +2735,13 @@
 				35DFC2352170051600455589 /* MSDoubleTypedPropertyTests.m in Sources */,
 				359E8992224BF70900795CF5 /* MSHttpCallTests.m in Sources */,
 				0446DF0E1F3B864600C8E338 /* MSHttpTestUtil.m in Sources */,
+				DFE9553D244D96170061E3FA /* HTTPStubsResponse.m in Sources */,
 				0446DF0F1F3B864600C8E338 /* MSDeviceHistoryInfoTests.m in Sources */,
 				35DFC2342170051200455589 /* MSDateTimeTypedPropertyTests.m in Sources */,
 				0446DF101F3B864600C8E338 /* MSUtilityTests.m in Sources */,
+				DFE95540244D96170061E3FA /* HTTPStubsPathHelpers.m in Sources */,
+				DFE95534244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */,
+				DFE9553A244D96170061E3FA /* HTTPStubsMethodSwizzling.m in Sources */,
 				04B45C4C21E90E4600FE6746 /* MSCustomPropertiesLogTests.m in Sources */,
 				D5812F372423C5E100C5F5C5 /* MSUserDefaultsTests.m in Sources */,
 				0446DF111F3B864600C8E338 /* MSDBStorageTests.m in Sources */,
@@ -2694,6 +2761,8 @@
 				B26D4DBC211B5BE300AB4E28 /* MSMockCommonSchemaLog.m in Sources */,
 				E7D23C5320B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */,
 				0446DF191F3B864600C8E338 /* MSLoggerTests.m in Sources */,
+				DFE95531244D96170061E3FA /* HTTPStubs.m in Sources */,
+				DFE95537244D96170061E3FA /* HTTPStubsResponse+JSON.m in Sources */,
 				35C0E3CB1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				7FB7054D222E596200D93258 /* MSMockReachability.m in Sources */,
 				0446DF1B1F3B864600C8E338 /* MSHttpUtilTests.m in Sources */,
@@ -2724,6 +2793,7 @@
 				B26D4DD8211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */,
 				35DFC2362170051800455589 /* MSDoubleTypedPropertyTests.m in Sources */,
 				046AEAD71ECA562A00CBE511 /* MSLogWithPropertiesTests.m in Sources */,
+				DFE95542244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				046AEAD81ECA562A00CBE511 /* MSDeviceLogTests.m in Sources */,
 				046AEADA1ECA562A00CBE511 /* MSChannelUnitDefaultTests.m in Sources */,
 				35DFC2322170051000455589 /* MSDateTimeTypedPropertyTests.m in Sources */,
@@ -2738,9 +2808,13 @@
 				9CE97B2C21A4C0BA00A1B160 /* MSUserIdContextTests.m in Sources */,
 				359E8991224BF70800795CF5 /* MSHttpCallTests.m in Sources */,
 				E7D23C5220B4E0CA00A47D62 /* MSCommonSchemaLogTests.m in Sources */,
+				DFE9553C244D96170061E3FA /* HTTPStubsResponse.m in Sources */,
 				35DFC22F2170044A00455589 /* MSBooleanTypedPropertyTests.m in Sources */,
 				046AEAE31ECA562A00CBE511 /* MSKeychainUtilTests.m in Sources */,
 				04A1408B1ECE63CB001CEE94 /* MSAppCenterIngestionTests.m in Sources */,
+				DFE9553F244D96170061E3FA /* HTTPStubsPathHelpers.m in Sources */,
+				DFE95533244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */,
+				DFE95539244D96170061E3FA /* HTTPStubsMethodSwizzling.m in Sources */,
 				35C0E3CC1FD6146A004E841E /* MSMockSecondService.m in Sources */,
 				D5812F362423C5DF00C5F5C5 /* MSUserDefaultsTests.m in Sources */,
 				046AEAE41ECA562A00CBE511 /* MSStartServiceLogTests.m in Sources */,
@@ -2760,6 +2834,8 @@
 				384A92622188BE400099BE70 /* MSDelegateForwarderTestUtil.m in Sources */,
 				B2CD74CE1F22BFD00070E7DF /* MSMockService.m in Sources */,
 				35DFC2392170052000455589 /* MSLongTypedPropertyTests.m in Sources */,
+				DFE95530244D96170061E3FA /* HTTPStubs.m in Sources */,
+				DFE95536244D96170061E3FA /* HTTPStubsResponse+JSON.m in Sources */,
 				04873E871F2FDDEC00A13AFF /* MSAppDelegateForwarderTests.m in Sources */,
 				7FB7054C222E596100D93258 /* MSMockReachability.m in Sources */,
 				046AEAEB1ECA562A00CBE511 /* MSMockLog.m in Sources */,
@@ -2790,6 +2866,7 @@
 				384959D51D491D4F008F6B3A /* MSAppCenterTests.m in Sources */,
 				D36136831E7BB338004AE043 /* MSStoragePerformanceTests.m in Sources */,
 				38A3891C212B6E3C00F1C0D8 /* MSDeadLockTests.m in Sources */,
+				DFE95541244D96170061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				5C7877921EA0CFF3002263CC /* MSLogDBStorageTests.m in Sources */,
 				35DFC2332170051100455589 /* MSDateTimeTypedPropertyTests.m in Sources */,
 				386E8D931E25932100EECF0F /* MSHttpTestUtil.m in Sources */,
@@ -2801,12 +2878,16 @@
 				04B45C5121E90F2000FE6746 /* MSStorageTestUtil.m in Sources */,
 				9CE97B2B21A4C0B900A1B160 /* MSUserIdContextTests.m in Sources */,
 				24D44B422395DBBE003CC224 /* MSTestUtil.m in Sources */,
+				DFE954C1244D88450061E3FA /* MSAppCenterIngestionTests.m in Sources */,
 				3849BA7E1EF3489D0072E3E0 /* MSDBStorageTests.m in Sources */,
 				359E8990224BF70600795CF5 /* MSHttpCallTests.m in Sources */,
+				DFE9553B244D96170061E3FA /* HTTPStubsResponse.m in Sources */,
 				38FDFF6A2109409900E17269 /* MSMockKeychainUtil.m in Sources */,
 				35C0E3CD1FD6146A004E841E /* MSMockSecondService.m in Sources */,
-				E829E4231D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m in Sources */,
 				04A20D72217660E10096723C /* MSWrapperLoggerTests.m in Sources */,
+				DFE9553E244D96170061E3FA /* HTTPStubsPathHelpers.m in Sources */,
+				DFE95532244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */,
+				DFE95538244D96170061E3FA /* HTTPStubsMethodSwizzling.m in Sources */,
 				805F3F6B1F209C9D00B489E4 /* MSMockService.m in Sources */,
 				D5812F352423C5DD00C5F5C5 /* MSUserDefaultsTests.m in Sources */,
 				E88EBBFB1D2C8CC7007E7785 /* MSLogContainerTests.m in Sources */,
@@ -2826,6 +2907,8 @@
 				049378411FE4914B000ADBAF /* MSSessionContextTests.m in Sources */,
 				8087362C20C1DE1B004C4157 /* MSEncrypterTests.m in Sources */,
 				F82E4C6D217F159A00EDAB34 /* sqlite3.c in Sources */,
+				DFE9552F244D96170061E3FA /* HTTPStubs.m in Sources */,
+				DFE95535244D96170061E3FA /* HTTPStubsResponse+JSON.m in Sources */,
 				B26D4DD7211B9B5E00AB4E28 /* MSTicketCacheTests.m in Sources */,
 				7FB7054B222E595F00D93258 /* MSMockReachability.m in Sources */,
 				6E48A5A71D383893006E8B5F /* MSChannelGroupDefaultTests.m in Sources */,
