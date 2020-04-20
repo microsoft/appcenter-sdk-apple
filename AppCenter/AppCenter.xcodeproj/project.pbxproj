@@ -1638,7 +1638,6 @@
 				0484DD101F39086A0092B777 /* tvOS */,
 			);
 			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E171B511D234717000DC480 /* Model */ = {
@@ -1714,10 +1713,10 @@
 		6E2395831D22EF5F00E543C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DFE9551F244D96170061E3FA /* OHHTTPStubs */,
-				F82E4C6C217F159A00EDAB34 /* sqlite3.c */,
 				04BED70B1ECB636900E20975 /* OCHamcrest */,
 				6E171B121D22FC2E000DC480 /* OCMock */,
+				DFE9551F244D96170061E3FA /* OHHTTPStubs */,
+				F82E4C6C217F159A00EDAB34 /* sqlite3.c */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
