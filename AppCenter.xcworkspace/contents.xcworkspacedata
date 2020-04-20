@@ -23,6 +23,9 @@
          location = "group:macOS.xcconfig">
       </FileRef>
       <FileRef
+         location = "group:Target config.xcconfig">
+      </FileRef>
+      <FileRef
          location = "group:Tests iOS.xcconfig">
       </FileRef>
       <FileRef
@@ -39,6 +42,9 @@
       </FileRef>
       <FileRef
          location = "group:Version.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:watchOS.xcconfig">
       </FileRef>
    </Group>
    <FileRef
