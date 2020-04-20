@@ -36,7 +36,7 @@
                 "git": {
                     "name":"OHHTTPStubs",
                     "repositoryUrl": "https://github.com/AliSoftware/OHHTTPStubs.git",
-                    "commitHash": "75c04cbaed43ea180283b1c9e028409b4d371b64"
+                    "commitHash": "e92b5a5746ef16add2a1424f1fc19529d9a75cde"
                 }
             }
         },
