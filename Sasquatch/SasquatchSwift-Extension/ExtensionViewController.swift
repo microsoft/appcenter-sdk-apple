@@ -46,9 +46,10 @@ class ExtensionViewController: UIViewController, NCWidgetProviding, MSCrashesDel
   private func pokeAllCrashes() {
     var count = UInt32(0)
     let classList = objc_copyClassList(&count)
+    let classes = UnsafeBufferPointer(start: classList, count: Int(count))
     MSCrash.removeAllCrashes()
-    for i in 0 ..< Int(count) {
-      let className: AnyClass = classList![i]
+    for i in 0..<Int(count){
+      let className: AnyClass = classes[i]
       if class_getSuperclass(className) == MSCrash.self && className != MSCrash.self {
         MSCrash.register((className as! MSCrash.Type).init())
       }

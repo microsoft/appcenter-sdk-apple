@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
-#import <OHHTTPStubs/OHHTTPStubs.h>
+#import "NSURLRequest+HTTPBodyTesting.h"
+#import "HTTPStubs.h"
 
 #import "AppCenter+Internal.h"
 #import "MSAppCenterErrors.h"
@@ -67,14 +67,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block NSURLRequest *actualRequest;
 
   // Stub HTTP response.
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
-        return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
+        return [HTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   MSHttpClient *httpClient = [MSHttpClient new];
@@ -139,14 +139,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block NSURLRequest *actualRequest;
 
   // Stub HTTP response.
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorBadURL userInfo:nil];
-        return [OHHTTPStubsResponse responseWithError:error];
+        return [HTTPStubsResponse responseWithError:error];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Network error"];
   MSHttpClient *httpClient = [MSHttpClient new];
@@ -182,14 +182,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   // If
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         ++numRequests;
         actualRequest = request;
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo400BadRequest headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo400BadRequest headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [MSHttpClient new];
@@ -238,11 +238,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block NSURLRequest *actualRequest;
   dispatch_semaphore_t networkDownSemaphore = dispatch_semaphore_create(0);
   NSArray *retryIntervals = @[ @1, @2 ];
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         if (firstTime) {
           firstTime = NO;
@@ -253,9 +253,9 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
           // Network is down so it is now okay for the test to bring the network back.
           dispatch_semaphore_signal(networkDownSemaphore);
-          return [OHHTTPStubsResponse responseWithError:error];
+          return [HTTPStubsResponse responseWithError:error];
         }
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:self.reachabilityMock];
@@ -310,11 +310,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   dispatch_semaphore_t networkDownSemaphore = dispatch_semaphore_create(0);
   NSArray *retryIntervals = @[ @5, @2 ];
   __block MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:self.reachabilityMock];
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         if (firstTime) {
 
@@ -326,9 +326,9 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
             dispatch_semaphore_signal(networkDownSemaphore);
           });
           firstTime = NO;
-          return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo503ServiceUnavailable headers:nil];
+          return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo503ServiceUnavailable headers:nil];
         }
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -380,14 +380,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block NSURLRequest *actualRequest;
   __block BOOL completionHandlerCalled = NO;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         ++numRequests;
         actualRequest = request;
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -438,14 +438,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   NSArray *retryIntervals = @[ @1, @2 ];
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         ++numRequests;
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo500InternalServerError headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:nil];
@@ -488,11 +488,11 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block int numRequests = 0;
   dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t pauseSemaphore = dispatch_semaphore_create(0);
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(__unused NSURLRequest *request) {
         ++numRequests;
 
         // Use this semaphore to prevent the pause from occurring before the call is enqueued.
@@ -500,7 +500,7 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
         // Don't let the request finish before pausing.
         dispatch_semaphore_wait(pauseSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kMSTestTimeout * NSEC_PER_SEC)));
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:self.reachabilityMock];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -535,16 +535,16 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   dispatch_semaphore_t responseSemaphore = dispatch_semaphore_create(0);
   dispatch_semaphore_t testCompletedSemaphore = dispatch_semaphore_create(0);
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(__unused NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(__unused NSURLRequest *request) {
         dispatch_semaphore_signal(responseSemaphore);
 
         // Sleep to ensure that the call is really canceled instead of waiting for the response.
         dispatch_semaphore_wait(testCompletedSemaphore, DISPATCH_TIME_FOREVER);
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:nil];
   NSURL *url = [NSURL URLWithString:@"https://mock/something?a=b"];
@@ -587,14 +587,14 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block NSURLRequest *actualRequest;
 
   // Stub HTTP response.
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         NSData *responsePayload = [@"OK" dataUsingEncoding:kCFStringEncodingUTF8];
-        return [OHHTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
+        return [HTTPStubsResponse responseWithData:responsePayload statusCode:MSHTTPCodesNo200OK headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@"HTTP Response 200"];
   MSHttpClient *httpClient = [MSHttpClient new];
@@ -635,19 +635,19 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
   __block int numRequests = 0;
   __block NSURLRequest *actualRequest;
   NSArray *retryIntervals = @[ @1000000000, @100000000 ];
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
         ++numRequests;
         if (numRequests < 3) {
-          return [OHHTTPStubsResponse responseWithData:[NSData data]
-                                            statusCode:MSHTTPCodesNo429TooManyRequests
-                                               headers:@{@"x-ms-retry-after-ms" : @"100"}];
+          return [HTTPStubsResponse responseWithData:[NSData data]
+                                          statusCode:MSHTTPCodesNo429TooManyRequests
+                                             headers:@{@"x-ms-retry-after-ms" : @"100"}];
         }
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [[MSHttpClient alloc] initWithMaxHttpConnectionsPerHost:nil reachability:nil];
@@ -684,13 +684,13 @@ static NSTimeInterval const kMSTestTimeout = 5.0;
 
   // If
   __block NSURLRequest *actualRequest;
-  [OHHTTPStubs
+  [HTTPStubs
       stubRequestsPassingTest:^BOOL(__unused NSURLRequest *request) {
         return YES;
       }
-      withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+      withStubResponse:^HTTPStubsResponse *(NSURLRequest *request) {
         actualRequest = request;
-        return [OHHTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
+        return [HTTPStubsResponse responseWithData:[NSData data] statusCode:MSHTTPCodesNo204NoContent headers:nil];
       }];
   __weak XCTestExpectation *expectation = [self expectationWithDescription:@""];
   MSHttpClient *httpClient = [MSHttpClient new];

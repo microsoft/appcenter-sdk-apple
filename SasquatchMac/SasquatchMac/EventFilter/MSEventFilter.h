@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Event filtering service.
  */
-@interface MSEventFilter : MSServiceAbstract <MSChannelDelegate>
+@interface MSEventFilter : MSServiceAbstract
 
 /**
  * Get the unique instance.

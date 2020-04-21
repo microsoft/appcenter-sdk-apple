@@ -1,0 +1,3 @@
+[submodule "Vendor/OHHTTPStubs"]
+	path = Vendor/OHHTTPStubs
+	url = https://github.com/AliSoftware/OHHTTPStubs.git

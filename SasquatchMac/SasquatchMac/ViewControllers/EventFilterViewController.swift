@@ -6,16 +6,20 @@ import Cocoa
 class EventFilterViewController: NSViewController {
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
+  private var eventFilterStarted = false
 
   @IBOutlet weak var setEnabledButton: NSButton!
 
   @IBAction func setEnabled(_ sender: NSButton) {
+    if !eventFilterStarted {
+      appCenter.startEventFilterService()
+      eventFilterStarted = true
+    }
     appCenter.setEventFilterEnabled(sender.state == .on)
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    appCenter.startEventFilterService()
     setEnabledButton?.state = appCenter.isEventFilterEnabled() ? .on : .off
   }
 }

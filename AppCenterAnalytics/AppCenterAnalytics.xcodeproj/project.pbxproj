@@ -326,9 +326,6 @@
 		043121721EE0C248007054C5 /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		043121731EE0C248007054C5 /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		0446DF541F3B8E6300C8E338 /* AppCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-appletvsimulator/libAppCenter.a"; sourceTree = "<group>"; };
-		0446DF611F3B95EB00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libAppCenter.a"; sourceTree = "<group>"; };
-		0446DF631F3B95F200C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-iphonesimulator/libAppCenter.a"; sourceTree = "<group>"; };
 		04545DC9227B604700A49E06 /* AppCenterAnalytics.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterAnalytics.xcconfig; sourceTree = "<group>"; };
 		0469D1B21F4DFE4C00A43A8E /* AppCenterAnalytics Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAnalytics Release.xcconfig"; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* AppCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -606,12 +603,9 @@
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F82E4C70217F1FA600EDAB34 /* sqlite3.c */,
-				0446DF631F3B95F200C8E338 /* libAppCenter.a */,
-				0446DF611F3B95EB00C8E338 /* libAppCenter.a */,
-				0446DF5E1F3B8FBA00C8E338 /* libAppCenter.a */,
 				04BED7131ECB64B100E20975 /* OCHamcrest */,
 				6E0684391D35A3C800A8CC6C /* OCMock */,
+				F82E4C70217F1FA600EDAB34 /* sqlite3.c */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -624,7 +618,6 @@
 				0484DD1E1F3909470092B777 /* tvOS */,
 			);
 			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E3E2CC21D359D5E00B1EE50 /* Model */ = {
