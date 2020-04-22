@@ -33,9 +33,9 @@ let package = Package(
                 .linkedLibrary("sqlite3"),
                 .linkedFramework("Foundation"),
                 .linkedFramework("SystemConfiguration"),
-                .linkedFramework("AppKit", .when(platforms: [.macOS]))
-                .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS]))
-                .linkedFramework("CoreTelephony", .when(platforms: [.iOS]))
+                .linkedFramework("AppKit", .when(platforms: [.macOS])),
+                .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("CoreTelephony", .when(platforms: [.iOS])),
             ]
         ),
         .target(
@@ -45,15 +45,16 @@ let package = Package(
             exclude: ["Support"],
             cSettings: [
                 .headerSearchPath("**"),
+                .headerSearchPath("../../AppCenter/AppCenter/**"),
             ],
             linkerSettings: [
                 .linkedLibrary("z"),
                 .linkedLibrary("sqlite3"),
                 .linkedFramework("Foundation"),
-                .linkedFramework("UIKit", when(platforms: [.iOS, .tvOS])),
-                .linkedFramework("AppKit", .when(platforms: [.macOS]))
+                .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("AppKit", .when(platforms: [.macOS])),
             ]
-        )
+        ),
         .target(
             name: "AppCenterPush",
             dependencies: ["AppCenter"],         
@@ -61,13 +62,14 @@ let package = Package(
             exclude: ["Support"],
             cSettings: [
                 .headerSearchPath("**"),
+                .headerSearchPath("../../AppCenter/AppCenter/**"),         
             ],
             linkerSettings: [
                 .linkedLibrary("z"),
                 .linkedLibrary("sqlite3"),
                 .linkedFramework("Foundation"),
                 .linkedFramework("SystemConfiguration"),
-                .linkedFramework("AppKit", .when(platforms: [.macOS]))
+                .linkedFramework("AppKit", .when(platforms: [.macOS])),
             ]
         )
     ]

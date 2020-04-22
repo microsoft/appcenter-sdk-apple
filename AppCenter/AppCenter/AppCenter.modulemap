@@ -1,0 +1,6 @@
+framework module AppCenter {
+  umbrella header "AppCenter.h"
+  
+  export *
+  module * { export * }
+}
