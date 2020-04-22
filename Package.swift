@@ -20,7 +20,7 @@ let package = Package(
     targets: [
         .target(
             name: "AppCenter",
-            dependencies: [],         
+            dependencies: [],
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
             cSettings: [
@@ -43,7 +43,7 @@ let package = Package(
         ),
         .target(
             name: "AppCenterAnalytics",
-            dependencies: ["AppCenter"],         
+            dependencies: ["AppCenter"],
             path: "AppCenterAnalytics/AppCenterAnalytics",
             exclude: ["Support"],
             cSettings: [

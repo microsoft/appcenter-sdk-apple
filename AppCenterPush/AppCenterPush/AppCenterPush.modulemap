@@ -1,6 +1,0 @@
-framework module AppCenterPush {
-  umbrella header "AppCenterPush.h"
-
-  export *
-  module * { export * }
-}
