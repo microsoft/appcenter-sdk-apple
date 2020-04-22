@@ -7,10 +7,10 @@ let package = Package(
     products: [
         .library(
             name: "AppCenterAnalytics",
-            targets: ["AppCenterAnalytics"]),
+            targets: ["AppCenter", "AppCenterAnalytics"]),
         .library(
             name: "AppCenterPush",
-            targets: ["AppCenterPush"]),
+            targets: ["AppCenter", "AppCenterPush"]),
     ],
     dependencies: [
     ],
@@ -40,12 +40,11 @@ let package = Package(
         ),
         .target(
             name: "AppCenterAnalytics",
-            dependencies: ["AppCenter"],         
+            dependencies: [],         
             path: "AppCenterAnalytics/AppCenterAnalytics",
             exclude: ["Support"],
             cSettings: [
                 .headerSearchPath("**"),
-                .headerSearchPath("../../AppCenter/AppCenter/**"),
             ],
             linkerSettings: [
                 .linkedLibrary("z"),
@@ -57,12 +56,11 @@ let package = Package(
         ),
         .target(
             name: "AppCenterPush",
-            dependencies: ["AppCenter"],         
+            dependencies: [],         
             path: "AppCenterPush/AppCenterPush",
             exclude: ["Support"],
             cSettings: [
-                .headerSearchPath("**"),
-                .headerSearchPath("../../AppCenter/AppCenter/**"),         
+                .headerSearchPath("**"),    
             ],
             linkerSettings: [
                 .linkedLibrary("z"),
