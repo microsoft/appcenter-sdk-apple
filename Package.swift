@@ -13,10 +13,7 @@ let package = Package(
             targets: ["AppCenter"]),
         .library(
             name: "AppCenterAnalytics",
-            targets: ["AppCenterAnalytics"]),
-        .library(
-            name: "AppCenterPush",
-            targets: ["AppCenterPush"]),
+            targets: ["AppCenterAnalytics"])
     ],
     dependencies: [
     ],
@@ -58,23 +55,6 @@ let package = Package(
                 .linkedLibrary("sqlite3"),
                 .linkedFramework("Foundation"),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
-                .linkedFramework("AppKit", .when(platforms: [.macOS])),
-            ]
-        ),
-        .target(
-            name: "AppCenterPush",
-            dependencies: ["AppCenter"],         
-            path: "AppCenterPush/AppCenterPush",
-            exclude: ["Support"],
-            cSettings: [
-                .headerSearchPath("**"),
-                .headerSearchPath("../../AppCenter/AppCenter/**"),
-            ],
-            linkerSettings: [
-                .linkedLibrary("z"),
-                .linkedLibrary("sqlite3"),
-                .linkedFramework("Foundation"),
-                .linkedFramework("SystemConfiguration"),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
             ]
         )
