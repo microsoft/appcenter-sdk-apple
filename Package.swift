@@ -45,6 +45,7 @@ let package = Package(
             exclude: ["Support"],
             cSettings: [
                 .headerSearchPath("**"),
+                .headerSearchPath("../../AppCenter/AppCenter/**"),
             ],
             linkerSettings: [
                 .linkedLibrary("z"),
@@ -60,7 +61,8 @@ let package = Package(
             path: "AppCenterPush/AppCenterPush",
             exclude: ["Support"],
             cSettings: [
-                .headerSearchPath("**"),    
+                .headerSearchPath("**"),
+                .headerSearchPath("../../AppCenter/AppCenter/**"),
             ],
             linkerSettings: [
                 .linkedLibrary("z"),
