@@ -6,11 +6,14 @@ let package = Package(
     name: "App Center",
     products: [
         .library(
+            name: "AppCenter",
+            targets: ["AppCenter"]),
+        .library(
             name: "AppCenterAnalytics",
-            targets: ["AppCenter", "AppCenterAnalytics"]),
+            targets: ["AppCenterAnalytics"]),
         .library(
             name: "AppCenterPush",
-            targets: ["AppCenter", "AppCenterPush"]),
+            targets: ["AppCenterPush"]),
     ],
     dependencies: [
     ],
@@ -40,7 +43,7 @@ let package = Package(
         ),
         .target(
             name: "AppCenterAnalytics",
-            dependencies: [],         
+            dependencies: ["AppCenter"],         
             path: "AppCenterAnalytics/AppCenterAnalytics",
             exclude: ["Support"],
             cSettings: [
@@ -57,7 +60,7 @@ let package = Package(
         ),
         .target(
             name: "AppCenterPush",
-            dependencies: [],         
+            dependencies: ["AppCenter"],         
             path: "AppCenterPush/AppCenterPush",
             exclude: ["Support"],
             cSettings: [
