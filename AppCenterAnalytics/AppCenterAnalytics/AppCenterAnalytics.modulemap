@@ -1,6 +1,0 @@
-framework module AppCenterAnalytics {
-  umbrella header "AppCenterAnalytics.h"
-
-  export *
-  module * { export * }
-}
