@@ -52,7 +52,6 @@ let package = Package(
             ],
             linkerSettings: [
                 .linkedLibrary("z"),
-                .linkedLibrary("sqlite3"),
                 .linkedFramework("Foundation"),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
