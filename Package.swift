@@ -51,7 +51,6 @@ let package = Package(
                 .headerSearchPath("../../AppCenter/AppCenter/**"),
             ],
             linkerSettings: [
-                .linkedLibrary("z"),
                 .linkedFramework("Foundation"),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
