@@ -1,0 +1,1 @@
+../Model/MSAbstractLog.h

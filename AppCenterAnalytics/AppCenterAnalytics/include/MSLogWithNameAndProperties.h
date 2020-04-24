@@ -1,0 +1,1 @@
+../Model/MSLogWithNameAndProperties.h
