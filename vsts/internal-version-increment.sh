@@ -74,9 +74,6 @@ fi
 
 if [ "$BUILD_SOURCEBRANCHNAME" != "master" ]; then
   sed -i '' 's/\(VERSION_STRING[[:space:]]*=[[:space:]]*\).*/\1'$publish_version'/g' $VERSION_FILENAME
+  sed -i '' 's/\(define("APP_CENTER_C_VERSION",[[:space:]]*to:*\).*/\1''"\\"'$publish_version'\\""''/g' Package.swift
+  sed -i '' 's/\(define("APP_CENTER_C_BUILD",[[:space:]]*to:*\).*/\1''"\\"'$latest_build_number'\\""''/g' Package.swift
 fi
-sed '/define("APP_CENTER_C_VERSION"*/c\'$'\n''dd'$'\n''' Package.swift
-package_version_text='"\"'$publish_version'\""'
-latest_build_number_text='"\"'$latest_build_number'\""'
-sed 's/\(define("APP_CENTER_C_VERSION",[[:space:]]*to:*\).*/\1'$package_version_text'/g' Package.swift
-sed 's/\(define("APP_CENTER_C_BUILD",[[:space:]]*to:*\).*/\1'$latest_build_number_text'/g' Package.swift
