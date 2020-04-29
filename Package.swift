@@ -9,9 +9,6 @@ let package = Package(
     name: "App Center",
     products: [
         .library(
-            name: "AppCenter",
-            targets: ["AppCenter"]),
-        .library(
             name: "AppCenterAnalytics",
             targets: ["AppCenterAnalytics"])
     ],
