@@ -72,6 +72,9 @@
       location = "group:Scripts"
       name = "Scripts">
       <FileRef
+         location = "group:/Users/admin/Documents/Projects/AppCenter/AppCenter-SDK-Apple/Scripts/build-xcframework.sh">
+      </FileRef>
+      <FileRef
          location = "group:build-docs.sh">
       </FileRef>
       <FileRef

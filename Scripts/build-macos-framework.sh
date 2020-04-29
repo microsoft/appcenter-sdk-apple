@@ -13,6 +13,9 @@ echo "Building ${TARGET_NAME}."
 # The following line create it in the root folder of the current project.
 PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS
 
+# Dir to gather all frameworks and build it into xcframework.
+XCFRAMEWORK_DIR="${SRCROOT}/../AppCenter-SDK-Apple/xcframework"
+
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
 DEVICE_DIR="${WORK_DIR}/Release/"
@@ -36,3 +39,7 @@ mkdir -p "${PRODUCTS_DIR}"
 
 # Copy framework.
 cp -R "${DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
+
+mkdir -p "${XCFRAMEWORK_DIR}/Release-macos/"
+
+cp -R "${DEVICE_DIR}/" "${XCFRAMEWORK_DIR}/Release-macos/"
