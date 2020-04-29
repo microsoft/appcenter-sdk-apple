@@ -76,6 +76,17 @@
 			name = "AppCenterCrashes iOS Documentation";
 			productName = "Jazzy Docs";
 		};
+		8414DF842459D41B00B316C5 /* AppCenterCrashes XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8414DF862459D41B00B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterCrashes XCFramework" */;
+			buildPhases = (
+				8414DF852459D41B00B316C5 /* Build XCFramework */,
+			);
+			dependencies = (
+			);
+			name = "AppCenterCrashes XCFramework";
+			productName = "Fat Framework";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -1587,6 +1598,7 @@
 				0446DF651F3B977100C8E338 /* AppCenterCrashes tvOS Tests */,
 				04EBBEE91F01C0E10006B8AE /* AppCenterCrashes tvOS Fat Framework */,
 				04EBBEF11F01C7100006B8AE /* AppCenterCrashes tvOS Documentation */,
+				8414DF842459D41B00B316C5 /* AppCenterCrashes XCFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -1798,6 +1810,20 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
 			showEnvVarsInLog = 0;
+		};
+		8414DF852459D41B00B316C5 /* Build XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build XCFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
 		};
 		C2B25A21230F03A200511D49 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2195,6 +2221,20 @@
 			};
 			name = Release;
 		};
+		8414DF872459D41B00B316C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8414DF882459D41B00B316C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		C9A91F4F230BFD930068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
@@ -2326,6 +2366,15 @@
 			buildConfigurations = (
 				6E6BFC371D23504F00DF7617 /* Debug */,
 				6E6BFC381D23504F00DF7617 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8414DF862459D41B00B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterCrashes XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8414DF872459D41B00B316C5 /* Debug */,
+				8414DF882459D41B00B316C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
