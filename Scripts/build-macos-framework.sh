@@ -15,6 +15,7 @@ PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/macOS
 
 # Dir to gather all frameworks and build it into xcframework.
 XCFRAMEWORK_DIR="${SRCROOT}/../AppCenter-SDK-Apple/xcframework"
+XCFRAMEWORK_RELEASE_DIR="${XCFRAMEWORK_DIR}/Release-macos"
 
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
@@ -33,6 +34,7 @@ xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target
 if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
   rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
 fi
+rm -rf "${XCFRAMEWORK_RELEASE_DIR}/${PROJECT_NAME}.framework"
 
 # Creates and renews the final product folder.
 mkdir -p "${PRODUCTS_DIR}"
@@ -40,6 +42,5 @@ mkdir -p "${PRODUCTS_DIR}"
 # Copy framework.
 cp -R "${DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
-mkdir -p "${XCFRAMEWORK_DIR}/Release-macos/"
-
-cp -R "${DEVICE_DIR}/" "${XCFRAMEWORK_DIR}/Release-macos/"
+mkdir -p "${XCFRAMEWORK_RELEASE_DIR}/"
+cp -R "${DEVICE_DIR}/${PROJECT_NAME}.framework" "${XCFRAMEWORK_RELEASE_DIR}/${PROJECT_NAME}.framework"
