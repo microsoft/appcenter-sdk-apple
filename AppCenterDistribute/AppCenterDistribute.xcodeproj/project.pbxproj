@@ -31,6 +31,18 @@
 			name = "AppCenterDistribute iOS Documentation";
 			productName = "Jazzy Docs";
 		};
+		845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 845017E0245ADB360026E0DB /* Build configuration list for PBXAggregateTarget "AppCenterDistribute XCFramework" */;
+			buildPhases = (
+				845017DF245ADB360026E0DB /* Build XCFramework */,
+			);
+			dependencies = (
+				845017DD245ADB360026E0DB /* PBXTargetDependency */,
+			);
+			name = "AppCenterDistribute XCFramework";
+			productName = "Fat Framework";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -124,6 +136,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04FD4A281E451E90009B4468;
 			remoteInfo = "Fat Framework";
+		};
+		845017DE245ADB360026E0DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
+			remoteInfo = AppCenterDistributeResources;
 		};
 		B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -742,6 +761,7 @@
 				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */,
 				04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */,
 				B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */,
+				845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -803,6 +823,20 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
 			showEnvVarsInLog = 0;
+		};
+		845017DF245ADB360026E0DB /* Build XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build XCFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
 		};
 		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -897,6 +931,11 @@
 			isa = PBXTargetDependency;
 			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
 			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
+		};
+		845017DD245ADB360026E0DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */;
+			targetProxy = 845017DE245ADB360026E0DB /* PBXContainerItemProxy */;
 		};
 		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -997,6 +1036,20 @@
 			};
 			name = Release;
 		};
+		845017E1245ADB360026E0DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		845017E2245ADB360026E0DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		B2C070BC1E5E68540076D6A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8B8EAE621106436004BCECB /* Resources.xcconfig */;
@@ -1060,6 +1113,15 @@
 			buildConfigurations = (
 				04FD4A3E1E453640009B4468 /* Debug */,
 				04FD4A3F1E453640009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		845017E0245ADB360026E0DB /* Build configuration list for PBXAggregateTarget "AppCenterDistribute XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				845017E1245ADB360026E0DB /* Debug */,
+				845017E2245ADB360026E0DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

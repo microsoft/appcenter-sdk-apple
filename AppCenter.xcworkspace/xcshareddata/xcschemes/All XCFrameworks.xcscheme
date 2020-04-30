@@ -140,6 +140,48 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "04FD4A281E451E90009B4468"
+               BuildableName = "AppCenterDistribute iOS Fat Framework"
+               BlueprintName = "AppCenterDistribute iOS Fat Framework"
+               ReferencedContainer = "container:AppCenterDistribute/AppCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
+               BuildableName = "AppCenterPush iOS Fat Framework"
+               BlueprintName = "AppCenterPush iOS Fat Framework"
+               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
+               BuildableName = "AppCenterPush macOS Fat Framework"
+               BlueprintName = "AppCenterPush macOS Fat Framework"
+               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8414DF7824599AF800B316C5"
                BuildableName = "AppCenter XCFramework"
                BlueprintName = "AppCenter XCFramework"
@@ -172,6 +214,34 @@
                BuildableName = "AppCenterCrashes XCFramework"
                BlueprintName = "AppCenterCrashes XCFramework"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "845017DC245ADB360026E0DB"
+               BuildableName = "AppCenterDistribute XCFramework"
+               BlueprintName = "AppCenterDistribute XCFramework"
+               ReferencedContainer = "container:AppCenterDistribute/AppCenterDistribute.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "845017E4245ADB650026E0DB"
+               BuildableName = "AppCenterPush XCFramework"
+               BlueprintName = "AppCenterPush XCFramework"
+               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
