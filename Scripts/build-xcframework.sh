@@ -13,7 +13,31 @@ OUTPUT="${WORK_DIR}/Output"
 rm -rf ${PROJECT_NAME}.xcframework/
 
 # Build XCFramework.
-xcodebuild -create-xcframework -framework $WORK_DIR/Release-iphoneos/${PROJECT_NAME}.framework -framework $WORK_DIR/Release-iphonesimulator/${PROJECT_NAME}.framework -framework $WORK_DIR/Release-appletvos/${PROJECT_NAME}.framework -framework $WORK_DIR/Release-appletvsimulator/${PROJECT_NAME}.framework -framework $WORK_DIR/Release-macos/${PROJECT_NAME}.framework -output "$OUTPUT/${PROJECT_NAME}.xcframework"
+XC_BUILD_COMMAND="xcodebuild -create-xcframework"
+
+# Create a cycle instead next lines
+PLATFORM_NAME="iphoneos"
+FRAMEWORK_PATH="$WORK_DIR/Release-${PLATFORM_NAME}/${PROJECT_NAME}.framework"
+[ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH"
+
+PLATFORM_NAME="iphonesimulator"
+FRAMEWORK_PATH="$WORK_DIR/Release-${PLATFORM_NAME}/${PROJECT_NAME}.framework"
+[ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH"
+
+PLATFORM_NAME="appletvos"
+FRAMEWORK_PATH="$WORK_DIR/Release-${PLATFORM_NAME}/${PROJECT_NAME}.framework"
+[ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH"
+
+PLATFORM_NAME="appletvsimulator"
+FRAMEWORK_PATH="$WORK_DIR/Release-${PLATFORM_NAME}/${PROJECT_NAME}.framework"
+[ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH"
+
+PLATFORM_NAME="macos"
+FRAMEWORK_PATH="$WORK_DIR/Release-${PLATFORM_NAME}/${PROJECT_NAME}.framework"
+[ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH"
+
+XC_BUILD_COMMAND="$XC_BUILD_COMMAND -output  $OUTPUT/${PROJECT_NAME}.xcframework"
+eval "$XC_BUILD_COMMAND"
 
 # Clean build frameworks which was used to create XCFramework.
 rm -rf $WORK_DIR/Release-*/${PROJECT_NAME}.framework
