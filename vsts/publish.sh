@@ -85,8 +85,6 @@ else
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   xcframework_zip_filename="$(echo $XCFRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
 
-echo "XCF XCF" $xcframework_prerelease
-
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   # Rename zip archive to $FRAMEWORKS_ZIP_FILENAME
@@ -203,7 +201,6 @@ else
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
   carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.carthage.framework.zip/-'${publish_version}'.carthage.framework.zip/g')
 
-  echo "GH F" $gh_filename
   # Rename Carthage ZIP with publish_version.
   mv $CARTHAGE_ZIP_FILENAME $carthage_filename
   mv $XCFRAMEWORKS_ZIP_FILENAME $gh_filename
