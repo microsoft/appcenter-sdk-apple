@@ -193,7 +193,7 @@ if [ "$mode" == "internal" ]; then
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
 
   # Replace the latest binary in Azure Storage
-  #echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
+  echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
 else
 
   # Determine the filename for the release
