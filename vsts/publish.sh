@@ -206,10 +206,10 @@ else
   echo "GH F" $gh_filename
   # Rename Carthage ZIP with publish_version.
   mv $CARTHAGE_ZIP_FILENAME $carthage_filename
-  mv $FRAMEWORKS_ZIP_FILENAME $filename
+  mv $XCFRAMEWORKS_ZIP_FILENAME $gh_filename
 fi
 
-mv $XCFRAMEWORKS_ZIP_FILENAME $gh_filename
+mv $FRAMEWORKS_ZIP_FILENAME $filename
 
 # Upload binary to Azure Storage
 #echo "Y" | azure storage blob upload ${filename} sdk
