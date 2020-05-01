@@ -197,13 +197,13 @@ if [ "$mode" == "internal" ]; then
 else
 
   # Determine the filename for the release
-  gh_filename=$(echo $XCFRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
+  xcframework_filename=$(echo $XCFRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
   carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.carthage.framework.zip/-'${publish_version}'.carthage.framework.zip/g')
 
   # Rename Carthage ZIP with publish_version.
   mv $CARTHAGE_ZIP_FILENAME $carthage_filename
-  mv $XCFRAMEWORKS_ZIP_FILENAME $gh_filename
+  mv $XCFRAMEWORKS_ZIP_FILENAME $xcframework_filename
 fi
 
 mv $FRAMEWORKS_ZIP_FILENAME $filename
@@ -230,7 +230,7 @@ uploadToGithub() {
 }
 
 if [ "$mode" == "external" ]; then
-  uploadToGithub $gh_filename
+  uploadToGithub $xcframework_filename
   uploadToGithub $filename
   uploadToGithub $carthage_filename
 fi
