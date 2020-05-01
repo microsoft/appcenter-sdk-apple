@@ -186,7 +186,7 @@ fi
 
 ## V. Upload binary
 echo "Upload binaries"
-#azure telemetry --disable
+azure telemetry --disable
 if [ "$mode" == "internal" ]; then
 
   # Determine the filename for the release
@@ -209,7 +209,7 @@ fi
 mv $FRAMEWORKS_ZIP_FILENAME $filename
 
 # Upload binary to Azure Storage
-#echo "Y" | azure storage blob upload ${filename} sdk
+echo "Y" | azure storage blob upload ${filename} sdk
 
 # Upload binary to GitHub for external release
 uploadToGithub() {
