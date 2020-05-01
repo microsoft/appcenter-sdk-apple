@@ -91,7 +91,7 @@ else
   mv $ARTIFACT_PATH/zip/$prerelease $FRAMEWORKS_ZIP_FILENAME
   
   # Rename zip archive to $XCFRAMEWORKS_ZIP_FILENAME
-  mv $ARTIFACT_PATH/zip/$xcframework_prerelease $XCFRAMEWORKS_ZIP_FILENAME
+  mv $ARTIFACT_PATH/$XCFRAMEWORKS_ZIP_FOLDER/$xcframework_prerelease $XCFRAMEWORKS_ZIP_FILENAME
 
   # Rename Carthage zip archive to $CARTHAGE_ZIP_FILENAME
   mv $ARTIFACT_PATH/Carthage/$carthage_prerelease $CARTHAGE_ZIP_FILENAME
