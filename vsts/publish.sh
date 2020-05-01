@@ -80,7 +80,7 @@ else
 
   ## 0. Get artifact filename and commit hash from build
   prerelease=$(echo $ARTIFACT_PATH/zip/*.zip | rev | cut -d/ -f1 | rev)
-  xcframework_prerelease=$(echo $ARTIFACT_PATH/$XCFRAMEWORKS_ZIP_FOLDER/*.zip | rev | cut -d/ -f1 | rev)
+  xcframework_prerelease=$(echo $ARTIFACT_PATH/xcframeworks/*.zip | rev | cut -d/ -f1 | rev)
   carthage_prerelease=$(echo $ARTIFACT_PATH/Carthage/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
   xcframework_zip_filename="$(echo $XCFRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
