@@ -186,7 +186,7 @@ fi
 
 ## V. Upload binary
 echo "Upload binaries"
-azure telemetry --disable
+#azure telemetry --disable
 if [ "$mode" == "internal" ]; then
 
   # Determine the filename for the release
@@ -194,7 +194,7 @@ if [ "$mode" == "internal" ]; then
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'+'$BUILD_SOURCEVERSION'.zip/g')
 
   # Replace the latest binary in Azure Storage
-  echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
+  #echo "Y" | azure storage blob upload $FRAMEWORKS_ZIP_FILENAME sdk --verbose
 else
 
   # Determine the filename for the release
@@ -210,7 +210,7 @@ mv $XCFRAMEWORKS_ZIP_FILENAME $gh_filename
 
 # Upload binary to Azure Storage
 mv $FRAMEWORKS_ZIP_FILENAME $filename
-echo "Y" | azure storage blob upload ${filename} sdk
+#echo "Y" | azure storage blob upload ${filename} sdk
 
 # Upload binary to GitHub for external release
 uploadToGithub() {
