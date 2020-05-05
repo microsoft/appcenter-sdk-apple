@@ -53,6 +53,7 @@ cp -R "${DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
 mkdir -p "${XCFRAMEWORK_DIR}"
 
+# Copy all framework files to use them for xcframework file creation.
 cp -R "${WORK_DIR}/" "${XCFRAMEWORK_DIR}"
 
 # Copy the resource bundle for App Center Distribute.

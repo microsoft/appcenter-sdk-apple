@@ -7,7 +7,7 @@
 WORK_DIR="${SRCROOT}/../AppCenter-SDK-Apple/xcframework"
 
 # Work dir will be the final output to the framework.
-OUTPUT="${WORK_DIR}/Output"
+XC_FRAMEWORK_PATH="${WORK_DIR}/Output/${PROJECT_NAME}.xcframework"
 
 # Clean previus XCFramework build.
 rm -rf ${PROJECT_NAME}.xcframework/
@@ -16,11 +16,6 @@ rm -rf ${PROJECT_NAME}.xcframework/
 function SetXcBuildCommandFramework() {
     FRAMEWORK_PATH="$WORK_DIR/Release-$1/${PROJECT_NAME}.framework"
     [ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH";
-    
-    local RES_FILE_PATH="$WORK_DIR/Release-$1/AppCenterDistributeResources.bundle"
-    if [[ ${PROJECT_NAME} == "AppCenterDistribute" ]] && [[ $1 == "iphoneos" || $1 == "iphonesimulator" ]] && [ -e "${RES_FILE_PATH}" ]; then
-        mv "${RES_FILE_PATH}" "${FRAMEWORK_PATH}"
-    fi
 }
 
 # Create a cycle instead next lines
@@ -30,8 +25,13 @@ SetXcBuildCommandFramework "appletvos"
 SetXcBuildCommandFramework "appletvsimulator"
 SetXcBuildCommandFramework "macos"
 
-XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output $OUTPUT/${PROJECT_NAME}.xcframework"
+XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output $XC_FRAMEWORK_PATH"
 eval "$XC_BUILD_COMMAND"
+
+RES_FILE_PATH="$WORK_DIR/Release-iphoneos/AppCenterDistributeResources.bundle"
+if [[ ${PROJECT_NAME} == "AppCenterDistribute" ]] && [ -e "${RES_FILE_PATH}" ]; then
+    mv "${RES_FILE_PATH}" "${XC_FRAMEWORK_PATH}"
+fi
 
 # Clean build frameworks which was used to create XCFramework.
 rm -rf $WORK_DIR/Release-*/${PROJECT_NAME}.framework
