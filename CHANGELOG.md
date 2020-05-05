@@ -5,7 +5,7 @@
 ### App Center
 
 * **[Improvement]** Use namespaced `NSUserDefaults` keys with the **MSAppCenter** prefix for all the keys set by the SDK. Fixed a few keys missing namespace.
-* **[Feature]** Swift Package Manager support for Core, Analytics and Crashes modules.
+* **[Feature]** Swift Package Manager support for Analytics and Crashes modules.
 
 ___
 
