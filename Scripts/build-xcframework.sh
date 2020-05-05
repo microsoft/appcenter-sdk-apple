@@ -16,6 +16,11 @@ rm -rf ${PROJECT_NAME}.xcframework/
 function SetXcBuildCommandFramework() {
     FRAMEWORK_PATH="$WORK_DIR/Release-$1/${PROJECT_NAME}.framework"
     [ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH";
+    
+    local RES_FILE_PATH="$WORK_DIR/Release-$1/AppCenterDistributeResources.bundle"
+    if [[ ${PROJECT_NAME} == "AppCenterDistribute" ]] && [[ $1 == "iphoneos" || $1 == "iphonesimulator" ]] && [ -e "${RES_FILE_PATH}" ]; then
+        mv "${RES_FILE_PATH}" "${FRAMEWORK_PATH}"
+    fi
 }
 
 # Create a cycle instead next lines
@@ -25,7 +30,7 @@ SetXcBuildCommandFramework "appletvos"
 SetXcBuildCommandFramework "appletvsimulator"
 SetXcBuildCommandFramework "macos"
 
-XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output  $OUTPUT/${PROJECT_NAME}.xcframework"
+XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output $OUTPUT/${PROJECT_NAME}.xcframework"
 eval "$XC_BUILD_COMMAND"
 
 # Clean build frameworks which was used to create XCFramework.
