@@ -44,6 +44,7 @@ cp -R "${DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
 mkdir -p "${XCFRAMEWORK_DIR}"
 
+# Copy all framework files to use them for xcframework file creation.
 cp -R "${WORK_DIR}/" "${XCFRAMEWORK_DIR}"
 
 # Uses the Lipo Tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64) into one Universal final product.
