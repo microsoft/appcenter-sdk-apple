@@ -13,21 +13,19 @@ OUTPUT="${WORK_DIR}/Output"
 rm -rf ${PROJECT_NAME}.xcframework/
 
 # Build XCFramework.
-XC_BUILD_COMMAND="xcodebuild -create-xcframework"
-
-function  SET_XC_BUILD_COMMAND_FRAMEWORK() {
+function SetXcBuildCommandFramework() {
     FRAMEWORK_PATH="$WORK_DIR/Release-$1/${PROJECT_NAME}.framework"
     [ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH";
 }
 
 # Create a cycle instead next lines
-SET_XC_BUILD_COMMAND_FRAMEWORK "iphoneos"
-SET_XC_BUILD_COMMAND_FRAMEWORK "iphonesimulator"
-SET_XC_BUILD_COMMAND_FRAMEWORK "appletvos"
-SET_XC_BUILD_COMMAND_FRAMEWORK "appletvsimulator"
-SET_XC_BUILD_COMMAND_FRAMEWORK "macos"
+SetXcBuildCommandFramework "iphoneos"
+SetXcBuildCommandFramework "iphonesimulator"
+SetXcBuildCommandFramework "appletvos"
+SetXcBuildCommandFramework "appletvsimulator"
+SetXcBuildCommandFramework "macos"
 
-XC_BUILD_COMMAND="$XC_BUILD_COMMAND -output  $OUTPUT/${PROJECT_NAME}.xcframework"
+XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output  $OUTPUT/${PROJECT_NAME}.xcframework"
 eval "$XC_BUILD_COMMAND"
 
 # Clean build frameworks which was used to create XCFramework.
