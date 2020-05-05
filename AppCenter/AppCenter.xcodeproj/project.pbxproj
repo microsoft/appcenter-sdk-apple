@@ -76,6 +76,17 @@
 			name = "AppCenter iOS Documentation";
 			productName = "Jazzy Docs";
 		};
+		8414DF7824599AF800B316C5 /* AppCenter XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8414DF7A24599AF800B316C5 /* Build configuration list for PBXAggregateTarget "AppCenter XCFramework" */;
+			buildPhases = (
+				8414DF7924599AF800B316C5 /* Build XCFramework */,
+			);
+			dependencies = (
+			);
+			name = "AppCenter XCFramework";
+			productName = "Fat Framework";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -2514,8 +2525,9 @@
 				C9A91FB5230C01140068070D /* AppCenter iOS Framework */,
 				6E2395771D22EF4F00E543C8 /* AppCenter iOS Tests */,
 				6E04017D1D1CAC710051BCFA /* AppCenter iOS Fat Framework */,
-				6E6BFC311D234FAE00DF7617 /* AppCenter iOS Documentation */,
+				8414DF7824599AF800B316C5 /* AppCenter XCFramework */,
 				C9A91FFE230C05D70068070D /* AppCenter macOS Framework */,
+				6E6BFC311D234FAE00DF7617 /* AppCenter iOS Documentation */,
 				046AEACF1ECA562A00CBE511 /* AppCenter macOS Tests */,
 				0485AFE61EAA937000C10CAF /* AppCenter macOS Fat Framework */,
 				04FD114C1EF2F5F0000C5A5C /* AppCenter macOS Documentation */,
@@ -2609,6 +2621,21 @@
 			shellPath = /bin/sh;
 			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh tvOS\n";
 			showEnvVarsInLog = 0;
+		};
+		8414DF7924599AF800B316C5 /* Build XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"",
+			);
+			name = "Build XCFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
 		};
 		B23355C7210F8EC900999632 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3329,6 +3356,20 @@
 			};
 			name = Release;
 		};
+		8414DF7B24599AF800B316C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8414DF7C24599AF800B316C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		C9A91FBC230C01140068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
@@ -3460,6 +3501,15 @@
 			buildConfigurations = (
 				6E6BFC321D234FAE00DF7617 /* Debug */,
 				6E6BFC331D234FAE00DF7617 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8414DF7A24599AF800B316C5 /* Build configuration list for PBXAggregateTarget "AppCenter XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8414DF7B24599AF800B316C5 /* Debug */,
+				8414DF7C24599AF800B316C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
