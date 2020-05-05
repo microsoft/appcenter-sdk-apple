@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "845017DC245ADB360026E0DB"
-               BuildableName = "AppCenterDistribute XCFramework"
-               BlueprintName = "AppCenterDistribute XCFramework"
-               ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
+               BlueprintIdentifier = "8414DF7E2459D3C500B316C5"
+               BuildableName = "AppCenterAnalytics XCFramework"
+               BlueprintName = "AppCenterAnalytics XCFramework"
+               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,10 +50,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "845017DC245ADB360026E0DB"
-            BuildableName = "AppCenterDistribute XCFramework"
-            BlueprintName = "AppCenterDistribute XCFramework"
-            ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
+            BlueprintIdentifier = "8414DF7E2459D3C500B316C5"
+            BuildableName = "AppCenterAnalytics XCFramework"
+            BlueprintName = "AppCenterAnalytics XCFramework"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
