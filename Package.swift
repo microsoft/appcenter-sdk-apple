@@ -10,9 +10,13 @@ let package = Package(
     products: [
         .library(
             name: "AppCenterAnalytics",
-            targets: ["AppCenterAnalytics"])
+            targets: ["AppCenterAnalytics"]),
+        .library(
+            name: "AppCenterCrashes",
+            targets: ["AppCenterCrashes"])
     ],
     dependencies: [
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .branch("feature/spm")),
     ],
     targets: [
         .target(
@@ -42,6 +46,21 @@ let package = Package(
             name: "AppCenterAnalytics",
             dependencies: ["AppCenter"],
             path: "AppCenterAnalytics/AppCenterAnalytics",
+            exclude: ["Support"],
+            cSettings: [
+                .headerSearchPath("**"),
+                .headerSearchPath("../../AppCenter/AppCenter/**"),
+            ],
+            linkerSettings: [
+                .linkedFramework("Foundation"),
+                .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
+                .linkedFramework("AppKit", .when(platforms: [.macOS])),
+            ]
+        ),
+        .target(
+            name: "AppCenterCrashes",
+            dependencies: ["AppCenter", "CrashReporter"],
+            path: "AppCenterCrashes/AppCenterCrashes",
             exclude: ["Support"],
             cSettings: [
                 .headerSearchPath("**"),
