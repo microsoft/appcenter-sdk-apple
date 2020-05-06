@@ -7,6 +7,11 @@ import PackageDescription
 
 let package = Package(
     name: "App Center",
+    platforms: [
+        .iOS(.v9),
+        .macOS(.v10_10),
+        .tvOS(.v11)
+    ],
     products: [
         .library(
             name: "AppCenterAnalytics",
@@ -21,7 +26,6 @@ let package = Package(
     targets: [
         .target(
             name: "AppCenter",
-            dependencies: [],
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
             cSettings: [
