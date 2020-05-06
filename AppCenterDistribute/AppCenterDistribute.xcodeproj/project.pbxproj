@@ -38,6 +38,7 @@
 				845017DF245ADB360026E0DB /* Build XCFramework */,
 			);
 			dependencies = (
+				F809280F2461FC4F00CDA1A8 /* PBXTargetDependency */,
 				845017DD245ADB360026E0DB /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute XCFramework";
@@ -157,6 +158,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
 			remoteInfo = "AppCenterDistribute iOS Framework";
+		};
+		F809280E2461FC4F00CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A281E451E90009B4468;
+			remoteInfo = "AppCenterDistribute iOS Fat Framework";
 		};
 		F8DD7524230D7E7A00B095B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -946,6 +954,11 @@
 			isa = PBXTargetDependency;
 			target = C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */;
 			targetProxy = C220060F230FDF6800848D5B /* PBXContainerItemProxy */;
+		};
+		F809280F2461FC4F00CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
+			targetProxy = F809280E2461FC4F00CDA1A8 /* PBXContainerItemProxy */;
 		};
 		F8DD7525230D7E7A00B095B6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

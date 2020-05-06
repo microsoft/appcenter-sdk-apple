@@ -60,6 +60,9 @@
 				8414DF7F2459D3C500B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
+				F80928172461FE0D00CDA1A8 /* PBXTargetDependency */,
+				F80928192461FE0D00CDA1A8 /* PBXTargetDependency */,
+				F809281B2461FE0D00CDA1A8 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics XCFramework";
 			productName = "Fat Framework";
@@ -323,6 +326,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F2B230BFB8A0068070D;
 			remoteInfo = "AppCenterAnalytics tvOS Framework";
+		};
+		F80928162461FE0D00CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
+			remoteInfo = "AppCenterAnalytics iOS Fat Framework";
+		};
+		F80928182461FE0D00CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
+			remoteInfo = "AppCenterAnalytics macOS Fat Framework";
+		};
+		F809281A2461FE0D00CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0431216D1EE0C213007054C5;
+			remoteInfo = "AppCenterAnalytics tvOS Fat Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1400,6 +1424,21 @@
 			isa = PBXTargetDependency;
 			target = C9A91F2B230BFB8A0068070D /* AppCenterAnalytics tvOS Framework */;
 			targetProxy = C2D73CDE230FC7C700390198 /* PBXContainerItemProxy */;
+		};
+		F80928172461FE0D00CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */;
+			targetProxy = F80928162461FE0D00CDA1A8 /* PBXContainerItemProxy */;
+		};
+		F80928192461FE0D00CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */;
+			targetProxy = F80928182461FE0D00CDA1A8 /* PBXContainerItemProxy */;
+		};
+		F809281B2461FE0D00CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */;
+			targetProxy = F809281A2461FE0D00CDA1A8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -14,34 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterPush iOS Fat Framework"
-               BlueprintName = "AppCenterPush iOS Fat Framework"
-               ReferencedContainer = "container:AppCenterPush.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0469640E1F2A558F00F9D31F"
-               BuildableName = "AppCenterPush macOS Fat Framework"
-               BlueprintName = "AppCenterPush macOS Fat Framework"
-               ReferencedContainer = "container:AppCenterPush.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "845017E4245ADB650026E0DB"
                BuildableName = "AppCenterPush XCFramework"
                BlueprintName = "AppCenterPush XCFramework"

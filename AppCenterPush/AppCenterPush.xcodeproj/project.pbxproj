@@ -37,6 +37,8 @@
 				845017E5245ADB650026E0DB /* Build XCFramework */,
 			);
 			dependencies = (
+				F80928232461FE3100CDA1A8 /* PBXTargetDependency */,
+				F80928252461FE3100CDA1A8 /* PBXTargetDependency */,
 			);
 			name = "AppCenterPush XCFramework";
 			productName = "Fat Framework";
@@ -163,6 +165,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
 			remoteInfo = "Fat Framework";
+		};
+		F80928222461FE3100CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
+			remoteInfo = "AppCenterPush iOS Fat Framework";
+		};
+		F80928242461FE3100CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0469640E1F2A558F00F9D31F;
+			remoteInfo = "AppCenterPush macOS Fat Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -866,6 +882,16 @@
 			isa = PBXTargetDependency;
 			target = D3AD5F221E5C9562001627AB /* AppCenterPush iOS Fat Framework */;
 			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
+		};
+		F80928232461FE3100CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3AD5F221E5C9562001627AB /* AppCenterPush iOS Fat Framework */;
+			targetProxy = F80928222461FE3100CDA1A8 /* PBXContainerItemProxy */;
+		};
+		F80928252461FE3100CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0469640E1F2A558F00F9D31F /* AppCenterPush macOS Fat Framework */;
+			targetProxy = F80928242461FE3100CDA1A8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

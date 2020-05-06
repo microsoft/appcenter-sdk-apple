@@ -83,6 +83,9 @@
 				8414DF852459D41B00B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
+				F80928112461FDFC00CDA1A8 /* PBXTargetDependency */,
+				F80928132461FDFC00CDA1A8 /* PBXTargetDependency */,
+				F80928152461FDFC00CDA1A8 /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes XCFramework";
 			productName = "Fat Framework";
@@ -474,6 +477,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
+		};
+		F80928102461FDFC00CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
+			remoteInfo = "AppCenterCrashes iOS Fat Framework";
+		};
+		F80928122461FDFC00CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
+			remoteInfo = "AppCenterCrashes macOS Fat Framework";
+		};
+		F80928142461FDFC00CDA1A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04EBBEE91F01C0E10006B8AE;
+			remoteInfo = "AppCenterCrashes tvOS Fat Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -2077,6 +2101,21 @@
 			isa = PBXTargetDependency;
 			target = C9A91F5D230BFDB70068070D /* AppCenterCrashes macOS Framework */;
 			targetProxy = C2B25A2E230F07AB00511D49 /* PBXContainerItemProxy */;
+		};
+		F80928112461FDFC00CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E3729771D1DE83200F1E4AE /* AppCenterCrashes iOS Fat Framework */;
+			targetProxy = F80928102461FDFC00CDA1A8 /* PBXContainerItemProxy */;
+		};
+		F80928132461FDFC00CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFF91EAAB27E00C10CAF /* AppCenterCrashes macOS Fat Framework */;
+			targetProxy = F80928122461FDFC00CDA1A8 /* PBXContainerItemProxy */;
+		};
+		F80928152461FDFC00CDA1A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04EBBEE91F01C0E10006B8AE /* AppCenterCrashes tvOS Fat Framework */;
+			targetProxy = F80928142461FDFC00CDA1A8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
