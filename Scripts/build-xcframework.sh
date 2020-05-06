@@ -34,4 +34,5 @@ if [[ ${PROJECT_NAME} == "AppCenterDistribute" ]] && [ -e "${RES_FILE_PATH}" ]; 
 fi
 
 # Clean build frameworks which was used to create XCFramework.
-rm -rf $WORK_DIR/Release-*/${PROJECT_NAME}.framework
+shopt -s extglob
+rm -rfv $WORK_DIR/!("Output")
