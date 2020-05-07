@@ -72,9 +72,6 @@
       location = "group:Scripts"
       name = "Scripts">
       <FileRef
-         location = "group:/Users/admin/Documents/Projects/AppCenter/AppCenter-SDK-Apple/Scripts/build-xcframework.sh">
-      </FileRef>
-      <FileRef
          location = "group:build-docs.sh">
       </FileRef>
       <FileRef
@@ -85,6 +82,9 @@
       </FileRef>
       <FileRef
          location = "group:build-tvos-framework.sh">
+      </FileRef>
+      <FileRef
+         location = "group:build-xcframework.sh">
       </FileRef>
       <FileRef
          location = "group:VerifyNoBuildSettings.swift">
