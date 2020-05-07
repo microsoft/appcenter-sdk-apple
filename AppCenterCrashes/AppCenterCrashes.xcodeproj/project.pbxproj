@@ -1549,15 +1549,12 @@
 				TargetAttributes = {
 					C9A91F49230BFD930068070D = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 					C9A91F52230BFDB40068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 					C9A91F5D230BFDB70068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -2199,6 +2196,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -2206,6 +2204,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -2213,6 +2212,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -2220,6 +2220,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -2227,6 +2228,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -2234,6 +2236,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};

@@ -1003,16 +1003,13 @@
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
 					C9A91F2B230BFB8A0068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 					C9A91F36230BFB970068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 					C9CA69D82306CAF700EE82AA = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1466,6 +1463,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -1473,6 +1471,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -1480,6 +1479,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -1487,6 +1487,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -1494,6 +1495,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -1501,6 +1503,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
