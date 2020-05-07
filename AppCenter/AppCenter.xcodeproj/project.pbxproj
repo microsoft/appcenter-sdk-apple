@@ -83,9 +83,6 @@
 				8414DF7924599AF800B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
-				F809281D2461FE2000CDA1A8 /* PBXTargetDependency */,
-				F809281F2461FE2000CDA1A8 /* PBXTargetDependency */,
-				F80928212461FE2000CDA1A8 /* PBXTargetDependency */,
 			);
 			name = "AppCenter XCFramework";
 			productName = "Fat Framework";
@@ -1023,27 +1020,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A9201B230C07A50068070D;
 			remoteInfo = "AppCenter tvOS Framework";
-		};
-		F809281C2461FE2000CDA1A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
-		};
-		F809281E2461FE2000CDA1A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
-			remoteInfo = "AppCenter macOS Fat Framework";
-		};
-		F80928202461FE2000CDA1A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 043121491EE0BFC7007054C5;
-			remoteInfo = "AppCenter tvOS Fat Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -3357,21 +3333,6 @@
 			isa = PBXTargetDependency;
 			target = C9A9201B230C07A50068070D /* AppCenter tvOS Framework */;
 			targetProxy = C2CB275D230EDE320076A4E0 /* PBXContainerItemProxy */;
-		};
-		F809281D2461FE2000CDA1A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6E04017D1D1CAC710051BCFA /* AppCenter iOS Fat Framework */;
-			targetProxy = F809281C2461FE2000CDA1A8 /* PBXContainerItemProxy */;
-		};
-		F809281F2461FE2000CDA1A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0485AFE61EAA937000C10CAF /* AppCenter macOS Fat Framework */;
-			targetProxy = F809281E2461FE2000CDA1A8 /* PBXContainerItemProxy */;
-		};
-		F80928212461FE2000CDA1A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 043121491EE0BFC7007054C5 /* AppCenter tvOS Fat Framework */;
-			targetProxy = F80928202461FE2000CDA1A8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
