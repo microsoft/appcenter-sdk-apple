@@ -62,20 +62,6 @@
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "845017E4245ADB650026E0DB"
-               BuildableName = "AppCenterPush XCFramework"
-               BlueprintName = "AppCenterPush XCFramework"
-               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
