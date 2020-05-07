@@ -15,9 +15,11 @@ let package = Package(
     products: [
         .library(
             name: "AppCenterAnalytics",
+            type: .static,
             targets: ["AppCenterAnalytics"]),
         .library(
             name: "AppCenterCrashes",
+            type: .static,
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
