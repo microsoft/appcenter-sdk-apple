@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		789FEDBD23E05B630026D59E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789FEDBC23E05B630026D59E /* Cocoa.framework */; };
-		789FEDBF23E05B6C0026D59E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789FEDBE23E05B6C0026D59E /* UIKit.framework */; };
-		789FEDC123E05B720026D59E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789FEDC023E05B720026D59E /* UIKit.framework */; };
 		78FBB4A8239FAD0100ADFA1F /* MSCrashDelayedObjCException.h in Headers */ = {isa = PBXBuildFile; fileRef = 78FBB4A6239FAD0000ADFA1F /* MSCrashDelayedObjCException.h */; };
 		78FBB4A9239FAD0100ADFA1F /* MSCrashDelayedObjCException.m in Sources */ = {isa = PBXBuildFile; fileRef = 78FBB4A7239FAD0100ADFA1F /* MSCrashDelayedObjCException.m */; };
 		801C25311F04001300F4859B /* CrashLib-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187A21DD2A7F900D820D8 /* CrashLib-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -142,7 +140,6 @@
 		84D067CD244864DC000B708B /* MSCrashNXPage.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187AE1DD2A7F900D820D8 /* MSCrashNXPage.m */; };
 		84D067CE244864DC000B708B /* MSCrashCorruptObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187991DD2A7F900D820D8 /* MSCrashCorruptObjC.m */; };
 		84D067CF244864DC000B708B /* MSCrashReleasedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187A31DD2A7F900D820D8 /* MSCrashReleasedObject.m */; };
-		84D067D1244864DC000B708B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789FEDC023E05B720026D59E /* UIKit.framework */; };
 		84D067D3244864DC000B708B /* MSCrashROPage.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187AB1DD2A7F900D820D8 /* MSCrashROPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84D067D4244864DC000B708B /* MSCrashOverwriteLinkRegister.h in Headers */ = {isa = PBXBuildFile; fileRef = B241878F1DD2A7F900D820D8 /* MSCrashOverwriteLinkRegister.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84D067D5244864DC000B708B /* MSCrashUndefInst.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187B51DD2A7F900D820D8 /* MSCrashUndefInst.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -220,6 +217,9 @@
 		B24187EC1DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s in Sources */ = {isa = PBXBuildFile; fileRef = B24187B91DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s */; };
 		B24187ED1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h in Headers */ = {isa = PBXBuildFile; fileRef = B24187BA1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B24187EE1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m in Sources */ = {isa = PBXBuildFile; fileRef = B24187BB1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m */; };
+		C2392ED52464252C00425640 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392ED42464252C00425640 /* UIKit.framework */; };
+		C2392ED72464253C00425640 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392ED62464253C00425640 /* UIKit.framework */; };
+		C2392ED92464254D00425640 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392ED82464254D00425640 /* UIKit.framework */; };
 		C2B7DF5523DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */; };
 		C2B7DF5623DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */; };
 		C2B7DF5723DF355100243AC7 /* MSCrashCXXCustomException.h in Headers */ = {isa = PBXBuildFile; fileRef = C2B7DF5323DF355100243AC7 /* MSCrashCXXCustomException.h */; };
@@ -238,14 +238,11 @@
 
 /* Begin PBXFileReference section */
 		789FEDBC23E05B630026D59E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		789FEDBE23E05B6C0026D59E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		789FEDC023E05B720026D59E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		78FBB4A6239FAD0000ADFA1F /* MSCrashDelayedObjCException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashDelayedObjCException.h; sourceTree = "<group>"; };
 		78FBB4A7239FAD0100ADFA1F /* MSCrashDelayedObjCException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashDelayedObjCException.m; sourceTree = "<group>"; };
 		8065B5781F4C3FF4004FF622 /* CrashLibMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F991211F0265070040FAD7 /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D067F1244864DC000B708B /* CrashLibWatch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibWatch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		84D067F2244864DC000B708B /* CrashLibTV copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "CrashLibTV copy-Info.plist"; path = "/Users/admin/Documents/Projects/AppCenter/AppCenter-SDK-Apple/CrashLib/CrashLibTV copy-Info.plist"; sourceTree = "<absolute>"; };
 		84D067F3244867E8000B708B /* watchOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = watchOS.xcconfig; path = ../../Config/watchOS.xcconfig; sourceTree = "<group>"; };
 		9CD0C47B228A27EE00B14FCA /* CrashLib Release iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "CrashLib Release iOS.xcconfig"; sourceTree = "<group>"; };
 		B21A71DB1DD2A38C0044BB1C /* CrashLibIOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashLibIOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -301,6 +298,9 @@
 		B24187B91DD2A7F900D820D8 /* MSFramelessDWARF_x86_64.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MSFramelessDWARF_x86_64.s; sourceTree = "<group>"; };
 		B24187BA1DD2A7F900D820D8 /* MSCrashFramelessDWARF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashFramelessDWARF.h; sourceTree = "<group>"; };
 		B24187BB1DD2A7F900D820D8 /* MSCrashFramelessDWARF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSCrashFramelessDWARF.m; sourceTree = "<group>"; };
+		C2392ED42464252C00425640 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		C2392ED62464253C00425640 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		C2392ED82464254D00425640 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		C2B2102121B691F100F116BD /* CrashLib.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = CrashLib.xcconfig; sourceTree = "<group>"; };
 		C2B2102321B6A9FF00F116BD /* iOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOS.xcconfig; path = ../../Config/iOS.xcconfig; sourceTree = "<group>"; };
 		C2B2102421B6A9FF00F116BD /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = macOS.xcconfig; path = ../../Config/macOS.xcconfig; sourceTree = "<group>"; };
@@ -328,7 +328,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789FEDC123E05B720026D59E /* UIKit.framework in Frameworks */,
+				C2392ED72464253C00425640 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,7 +336,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D067D1244864DC000B708B /* UIKit.framework in Frameworks */,
+				C2392ED92464254D00425640 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +344,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				789FEDBF23E05B6C0026D59E /* UIKit.framework in Frameworks */,
+				C2392ED52464252C00425640 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,8 +354,9 @@
 		789FEDBB23E05B630026D59E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				789FEDBE23E05B6C0026D59E /* UIKit.framework */,
-				789FEDC023E05B720026D59E /* UIKit.framework */,
+				C2392ED42464252C00425640 /* UIKit.framework */,
+				C2392ED62464253C00425640 /* UIKit.framework */,
+				C2392ED82464254D00425640 /* UIKit.framework */,
 				789FEDBC23E05B630026D59E /* Cocoa.framework */,
 			);
 			name = Frameworks;
@@ -368,7 +369,6 @@
 				B21A71DD1DD2A38C0044BB1C /* CrashLib */,
 				B21A71DC1DD2A38C0044BB1C /* Products */,
 				789FEDBB23E05B630026D59E /* Frameworks */,
-				84D067F2244864DC000B708B /* CrashLibTV copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
