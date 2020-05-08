@@ -87,6 +87,9 @@
          location = "group:build-tvos-framework.sh">
       </FileRef>
       <FileRef
+         location = "group:build-xcframework.sh">
+      </FileRef>
+      <FileRef
          location = "group:VerifyNoBuildSettings.swift">
       </FileRef>
       <Group

@@ -4,6 +4,7 @@
 
 ### App Center
 
+* **[Feature]** Add support for XCFrameworks.
 * **[Improvement]** Use namespaced `NSUserDefaults` keys with the **MSAppCenter** prefix for all the keys set by the SDK. Fixed a few keys missing namespace.
 * **[Feature]** Swift Package Manager support for Analytics and Crashes modules.
 

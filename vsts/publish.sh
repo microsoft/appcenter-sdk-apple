@@ -80,12 +80,18 @@ else
 
   ## 0. Get artifact filename and commit hash from build
   prerelease=$(echo $ARTIFACT_PATH/zip/*.zip | rev | cut -d/ -f1 | rev)
+  xcframework_prerelease=$(echo $ARTIFACT_PATH/xcframeworks/*.zip | rev | cut -d/ -f1 | rev)
   carthage_prerelease=$(echo $ARTIFACT_PATH/Carthage/*.zip | rev | cut -d/ -f1 | rev)
   zip_filename="$(echo $FRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
+  xcframework_zip_filename="$(echo $XCFRAMEWORKS_ZIP_FILENAME | cut -d. -f1)"
+
   commit_hash="$(echo $prerelease | sed 's/'$zip_filename'-[[:digit:]]\{1,\}.[[:digit:]]\{1,\}.[[:digit:]]\{1,\}-[[:digit:]]\{1,\}+\(.\{40\}\)\.zip.*/\1/1')"
 
   # Rename zip archive to $FRAMEWORKS_ZIP_FILENAME
   mv $ARTIFACT_PATH/zip/$prerelease $FRAMEWORKS_ZIP_FILENAME
+  
+  # Rename zip archive to $XCFRAMEWORKS_ZIP_FILENAME
+  mv $ARTIFACT_PATH/xcframeworks/$xcframework_prerelease $XCFRAMEWORKS_ZIP_FILENAME
 
   # Rename Carthage zip archive to $CARTHAGE_ZIP_FILENAME
   mv $ARTIFACT_PATH/Carthage/$carthage_prerelease $CARTHAGE_ZIP_FILENAME
@@ -191,15 +197,18 @@ if [ "$mode" == "internal" ]; then
 else
 
   # Determine the filename for the release
+  xcframework_filename=$(echo $XCFRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
   filename=$(echo $FRAMEWORKS_ZIP_FILENAME | sed 's/.zip/-'${publish_version}'.zip/g')
   carthage_filename=$(echo $CARTHAGE_ZIP_FILENAME | sed 's/.carthage.framework.zip/-'${publish_version}'.carthage.framework.zip/g')
 
   # Rename Carthage ZIP with publish_version.
   mv $CARTHAGE_ZIP_FILENAME $carthage_filename
+  mv $XCFRAMEWORKS_ZIP_FILENAME $xcframework_filename
 fi
 
-# Upload binary to Azure Storage
 mv $FRAMEWORKS_ZIP_FILENAME $filename
+
+# Upload binary to Azure Storage
 echo "Y" | azure storage blob upload ${filename} sdk
 
 # Upload binary to GitHub for external release
@@ -221,6 +230,7 @@ uploadToGithub() {
 }
 
 if [ "$mode" == "external" ]; then
+  uploadToGithub $xcframework_filename
   uploadToGithub $filename
   uploadToGithub $carthage_filename
 fi

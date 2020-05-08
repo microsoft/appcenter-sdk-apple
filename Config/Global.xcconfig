@@ -168,3 +168,6 @@ GCC_TREAT_WARNINGS_AS_ERRORS = YES
 
 // Swift Compiler - Code Generation
 SWIFT_ENFORCE_EXCLUSIVE_ACCESS = on
+
+// Option for xcframework
+BUILD_LIBRARIES_FOR_DISTRIBUTION = YES
