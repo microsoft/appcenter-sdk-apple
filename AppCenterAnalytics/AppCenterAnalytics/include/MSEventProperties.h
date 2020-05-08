@@ -1,0 +1,1 @@
+../Model/MSEventProperties.h
