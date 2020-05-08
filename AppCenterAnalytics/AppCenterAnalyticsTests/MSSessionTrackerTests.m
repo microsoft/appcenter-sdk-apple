@@ -168,7 +168,9 @@ static NSTimeInterval const kMSTestSessionTimeout = 1.5;
   [NSThread sleepForTimeInterval:kMSTestSessionTimeout + 1];
 
   [[NSNotificationCenter defaultCenter]
-#if TARGET_OS_OSX
+#if TARGET_OS_MACCATALYST
+      postNotificationName:UIApplicationDidBecomeActiveNotification
+#elif TARGET_OS_OSX
       postNotificationName:NSApplicationWillBecomeActiveNotification
 #else
       postNotificationName:UIApplicationWillEnterForegroundNotification

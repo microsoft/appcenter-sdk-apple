@@ -15,7 +15,9 @@
 
 + (void)simulateDidEnterBackgroundNotification {
   [[NSNotificationCenter defaultCenter]
-#if TARGET_OS_OSX
+#if TARGET_OS_MACCATALYST
+      postNotificationName:UIApplicationWillResignActiveNotification
+#elif TARGET_OS_OSX
       postNotificationName:NSApplicationDidResignActiveNotification
 #else
       postNotificationName:UIApplicationDidEnterBackgroundNotification
@@ -25,7 +27,9 @@
 
 + (void)simulateWillEnterForegroundNotification {
   [[NSNotificationCenter defaultCenter]
-#if TARGET_OS_OSX
+#if TARGET_OS_MACCATALYST
+      postNotificationName:UIApplicationDidBecomeActiveNotification
+#elif TARGET_OS_OSX
       postNotificationName:NSApplicationWillBecomeActiveNotification
 #else
       postNotificationName:UIApplicationWillEnterForegroundNotification
