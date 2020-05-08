@@ -33,6 +33,3 @@ if [[ ${PROJECT_NAME} == "AppCenterDistribute" ]] && [ -e "${RES_FILE_PATH}" ]; 
     mv "${RES_FILE_PATH}" "${XC_FRAMEWORK_PATH}"
 fi
 
-# Clean build frameworks which was used to create XCFramework.
-shopt -s extglob
-rm -rfv $WORK_DIR/!("Output")
