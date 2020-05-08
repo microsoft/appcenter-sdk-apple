@@ -78,7 +78,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testDeviceOSName {
 
 // If
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   NSString *expected = @"macOS";
 #else
   NSString *expected = @"iMock OS";
@@ -87,7 +87,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 #endif
 
 // When
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   NSString *osName = [self.sut osName];
 #else
   NSString *osName = [self.sut osName:deviceMock];
@@ -103,7 +103,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // If
   NSString *expected = @"4.5.6";
 
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   id processInfoMock;
   if (@available(macOS 10.10, *)) {
     processInfoMock = OCMClassMock([NSProcessInfo class]);
@@ -123,7 +123,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 #endif
 
 // When
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
   NSString *osVersion = expected;
   if (@available(macOS 10.10, *)) {
@@ -137,7 +137,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(osVersion, is(expected));
 
-#if TARGET_OS_OSX && __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+#if (TARGET_OS_OSX || TARGET_OS_MACCATALYST) && __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
   [processInfoMock stopMocking];
 #endif
 }

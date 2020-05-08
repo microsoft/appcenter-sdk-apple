@@ -170,11 +170,14 @@ static MSDeviceTracker *sharedInstance = nil;
     newDevice.sdkVersion = [MSUtility sdkVersion];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
+      newDevice.osName = [self osName];
+#else
+      newDevice.osName = [self osName:MS_DEVICE];
+#endif
 #if TARGET_OS_OSX
-    newDevice.osName = [self osName];
     newDevice.osVersion = [self osVersion];
 #else
-    newDevice.osName = [self osName:MS_DEVICE];
     newDevice.osVersion = [self osVersion:MS_DEVICE];
 #endif
     newDevice.osBuild = [self osBuild];
@@ -272,7 +275,7 @@ static MSDeviceTracker *sharedInstance = nil;
 
 - (NSString *)deviceModel {
   size_t size;
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   const char *name = "hw.model";
 #else
   const char *name = "hw.machine";
@@ -288,7 +291,7 @@ static MSDeviceTracker *sharedInstance = nil;
   return model;
 }
 
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
 - (NSString *)osName {
   return @"macOS";
 }
