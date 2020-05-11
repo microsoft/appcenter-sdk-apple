@@ -59,7 +59,17 @@
                     "commitHash": "1390409f4ee4e26d0635310995b516eb702c3f9e"
                 }
             }
-        }     
+        },
+        {
+            "component": {
+                "type": "other",
+                "other": {
+                    "Name": "Reachability",
+                    "Version": "5.0",
+                    "DownloadUrl": "https://developer.apple.com/library/archive/samplecode/Reachability/Reachability.zip"
+                }
+            }
+        }
     ],
     "Version": 1
 }
