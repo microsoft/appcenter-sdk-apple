@@ -64,9 +64,9 @@
             "component": {
                 "type": "other",
                 "other": {
-                    "Name": "Reachability",
-                    "Version": "5.0",
-                    "DownloadUrl": "https://developer.apple.com/library/archive/samplecode/Reachability/Reachability.zip"
+                    "name": "Reachability",
+                    "version": "5.0",
+                    "downloadUrl": "https://developer.apple.com/library/archive/samplecode/Reachability/Reachability.zip"
                 }
             }
         }
