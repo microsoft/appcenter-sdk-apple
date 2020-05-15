@@ -29,7 +29,8 @@ let ignoreSettings = [
   "PROVISIONING_PROFILE_SPECIFIER",
   "INFOPLIST_FILE",
   "TEST_TARGET_NAME",
-  "IBSC_MODULE"
+  "IBSC_MODULE",
+  "SUPPORTS_MACCATALYST"
 ]
 let startTime = Date()
 let xcodeprojPath = CommandLine.arguments[1]
