@@ -405,6 +405,9 @@
 		DF5DA1FD23A0E57B00DE695C /* MSDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */; };
 		DF5DA1FE23A0E57B00DE695C /* MSDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */; };
 		DF5DA1FF23A0E57B00DE695C /* MSDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */; };
+		DFCB80192472D1B20058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80102472C1BD0058D292 /* OCHamcrest.framework */; };
+		DFCB801F2472D4370058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80082472C1BD0058D292 /* OCHamcrest.framework */; };
+		DFCB80222472D50A0058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80122472C1BD0058D292 /* OCHamcrest.framework */; };
 		DFE954C1244D88450061E3FA /* MSAppCenterIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E829E4221D25C8BA00F19DA1 /* MSAppCenterIngestionTests.m */; };
 		DFE9552F244D96170061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95520244D96170061E3FA /* HTTPStubs.m */; };
 		DFE95530244D96170061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95520244D96170061E3FA /* HTTPStubs.m */; };
@@ -1018,6 +1021,76 @@
 			remoteGlobalIDString = C9A9201B230C07A50068070D;
 			remoteInfo = "AppCenter tvOS Framework";
 		};
+		DFCB80072472C1BD0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 087601E213440806001B439B;
+			remoteInfo = OCHamcrest;
+		};
+		DFCB80092472C1BD0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 087601F713440807001B439B;
+			remoteInfo = OCHamcrestTests;
+		};
+		DFCB800B2472C1BD0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 081BEE621345979F003F846A;
+			remoteInfo = libochamcrest;
+		};
+		DFCB800D2472C1BD0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 081BEE6C1345979F003F846A;
+			remoteInfo = libochamcrestTests;
+		};
+		DFCB800F2472C1BD0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 24C5BFE91C1777D900C2BAFD;
+			remoteInfo = "OCHamcrest-iOS";
+		};
+		DFCB80112472C1BD0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 24C5BFF61C17781400C2BAFD;
+			remoteInfo = "OCHamcrest-tvOS";
+		};
+		DFCB80132472C1BD0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 24C5C0031C17782500C2BAFD;
+			remoteInfo = "OCHamcrest-watchOS";
+		};
+		DFCB80172472D1960058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 24C5BFE81C1777D900C2BAFD;
+			remoteInfo = "OCHamcrest-iOS";
+		};
+		DFCB801D2472D42E0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 087601E113440806001B439B;
+			remoteInfo = OCHamcrest;
+		};
+		DFCB80202472D5010058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 24C5BFF51C17781400C2BAFD;
+			remoteInfo = "OCHamcrest-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -1255,6 +1328,9 @@
 		D5812F312423C2FA00C5F5C5 /* MSUserDefaultsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSUserDefaultsTests.m; sourceTree = "<group>"; };
 		DF5DA1F823A0E55500DE695C /* MSDispatcherUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSDispatcherUtil.h; sourceTree = "<group>"; };
 		DF5DA1FC23A0E57B00DE695C /* MSDispatcherUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDispatcherUtil.m; sourceTree = "<group>"; };
+		DFCB7D712472B6680058D292 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-iphonesimulator/OCHamcrest.framework"; sourceTree = "<group>"; };
+		DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
+		DFCB80152472C23E0058D292 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-maccatalyst/OCHamcrest.framework"; sourceTree = "<group>"; };
 		DFE95520244D96170061E3FA /* HTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
 		DFE95521244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
 		DFE95522244D96170061E3FA /* HTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
@@ -1335,6 +1411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2CB275F230EDE380076A4E0 /* AppCenter.framework in Frameworks */,
+				DFCB80222472D50A0058D292 /* OCHamcrest.framework in Frameworks */,
 				C2392EF8246429E200425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1344,6 +1421,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2CB275C230EDCD30076A4E0 /* AppCenter.framework in Frameworks */,
+				DFCB801F2472D4370058D292 /* OCHamcrest.framework in Frameworks */,
 				C2392EF7246429CE00425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1353,6 +1431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C28A8A4C230EDBEF00C4CE43 /* AppCenter.framework in Frameworks */,
+				DFCB80192472D1B20058D292 /* OCHamcrest.framework in Frameworks */,
 				C2392EF6246429B300425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1715,6 +1794,7 @@
 		6E2395831D22EF5F00E543C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */,
 				C2392EDA2464279400425640 /* OCMock.xcodeproj */,
 				DFE9551F244D96170061E3FA /* OHHTTPStubs */,
 				F82E4C6C217F159A00EDAB34 /* sqlite3.c */,
@@ -1771,8 +1851,24 @@
 		C934BFBF230AC17500083490 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFCB80152472C23E0058D292 /* OCHamcrest.framework */,
+				DFCB7D712472B6680058D292 /* OCHamcrest.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DFCB7FFE2472C1BD0058D292 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DFCB80082472C1BD0058D292 /* OCHamcrest.framework */,
+				DFCB800A2472C1BD0058D292 /* OCHamcrestTests.xctest */,
+				DFCB800C2472C1BD0058D292 /* libochamcrest.a */,
+				DFCB800E2472C1BD0058D292 /* libochamcrestTests.xctest */,
+				DFCB80102472C1BD0058D292 /* OCHamcrest.framework */,
+				DFCB80122472C1BD0058D292 /* OCHamcrest.framework */,
+				DFCB80142472C1BD0058D292 /* OCHamcrest.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		DFE9551F244D96170061E3FA /* OHHTTPStubs */ = {
@@ -2392,6 +2488,7 @@
 			);
 			dependencies = (
 				C2CB275E230EDE320076A4E0 /* PBXTargetDependency */,
+				DFCB80212472D5010058D292 /* PBXTargetDependency */,
 				C2392EFE24642BD700425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenter tvOS Tests";
@@ -2411,6 +2508,7 @@
 			);
 			dependencies = (
 				C2CB275B230EDCCC0076A4E0 /* PBXTargetDependency */,
+				DFCB801E2472D42E0058D292 /* PBXTargetDependency */,
 				C2392EFC24642BCF00425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenter macOS Tests";
@@ -2430,6 +2528,7 @@
 			);
 			dependencies = (
 				C28A8A4E230EDC0700C4CE43 /* PBXTargetDependency */,
+				DFCB80182472D1960058D292 /* PBXTargetDependency */,
 				C2392EFA24642B9000425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenter iOS Tests";
@@ -2526,6 +2625,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = DFCB7FFE2472C1BD0058D292 /* Products */;
+					ProjectRef = DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */;
+				},
+				{
 					ProductGroup = C2392EDB2464279400425640 /* Products */;
 					ProjectRef = C2392EDA2464279400425640 /* OCMock.xcodeproj */;
 				},
@@ -2597,6 +2700,55 @@
 			fileType = wrapper.framework;
 			path = OCMock.framework;
 			remoteRef = C2392EF02464279400425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80082472C1BD0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB80072472C1BD0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB800A2472C1BD0058D292 /* OCHamcrestTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCHamcrestTests.xctest;
+			remoteRef = DFCB80092472C1BD0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB800C2472C1BD0058D292 /* libochamcrest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libochamcrest.a;
+			remoteRef = DFCB800B2472C1BD0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB800E2472C1BD0058D292 /* libochamcrestTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = libochamcrestTests.xctest;
+			remoteRef = DFCB800D2472C1BD0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80102472C1BD0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB800F2472C1BD0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80122472C1BD0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB80112472C1BD0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80142472C1BD0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB80132472C1BD0058D292 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3289,6 +3441,21 @@
 			isa = PBXTargetDependency;
 			target = C9A9201B230C07A50068070D /* AppCenter tvOS Framework */;
 			targetProxy = C2CB275D230EDE320076A4E0 /* PBXContainerItemProxy */;
+		};
+		DFCB80182472D1960058D292 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OCHamcrest-iOS";
+			targetProxy = DFCB80172472D1960058D292 /* PBXContainerItemProxy */;
+		};
+		DFCB801E2472D42E0058D292 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCHamcrest;
+			targetProxy = DFCB801D2472D42E0058D292 /* PBXContainerItemProxy */;
+		};
+		DFCB80212472D5010058D292 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OCHamcrest-tvOS";
+			targetProxy = DFCB80202472D5010058D292 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
