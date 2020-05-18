@@ -59,7 +59,6 @@
 		389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */; };
 		38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683621E774DCE00A63BC8 /* MSSemVerTests.m */; };
 		38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */; };
-		38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380304421E7B007E006A55FB /* OCHamcrestIOS.framework */; };
 		58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */; };
 		78B7D8B723D581B900E08D9B /* MSAlertControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B623D581B900E08D9B /* MSAlertControllerTests.m */; };
 		78B7D8BA23D5849600E08D9B /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B823D5849600E08D9B /* MSAlertController.m */; };
@@ -263,7 +262,6 @@
 		24E6AC9423A18AC900B8D33A /* MSTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSTestUtil.m; sourceTree = "<group>"; };
 		24E6AC9623A18BA800B8D33A /* MSMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockLog.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockLog.m; sourceTree = "<group>"; };
 		24E6AC9723A18BA800B8D33A /* MSMockLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockLog.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockLog.h; sourceTree = "<group>"; };
-		380304421E7B007E006A55FB /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeAppDelegate.h; sourceTree = "<group>"; };
 		383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegate.m; sourceTree = "<group>"; };
 		387CC62F210A9D9C002BA068 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
@@ -339,7 +337,6 @@
 			files = (
 				C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */,
 				C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */,
-				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
 				C2392F7324642DC600425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,14 +439,6 @@
 			name = Support;
 			sourceTree = "<group>";
 		};
-		04BED71D1ECB659700E20975 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				380304421E7B007E006A55FB /* OCHamcrestIOS.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
 		04FD4A131E451E12009B4468 = {
 			isa = PBXGroup;
 			children = (
@@ -515,7 +504,6 @@
 		04FD4A491E453930009B4468 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				380304401E7B007E006A55FB /* OCHamcrest */,
 				C2392F2F24642CB500425640 /* OCMock.xcodeproj */,
 				DFE954F1244D8B410061E3FA /* OHHTTPStubs */,
 				F82E4C82217F217F00EDAB34 /* sqlite3.c */,
@@ -530,15 +518,6 @@
 				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		380304401E7B007E006A55FB /* OCHamcrest */ = {
-			isa = PBXGroup;
-			children = (
-				04BED71D1ECB659700E20975 /* iOS */,
-			);
-			name = OCHamcrest;
-			path = ../../Vendor/iOS/OCHamcrest;
 			sourceTree = "<group>";
 		};
 		389638A21E79F557007C3809 /* Util */ = {

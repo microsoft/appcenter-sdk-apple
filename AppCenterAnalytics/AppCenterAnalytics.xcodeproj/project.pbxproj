@@ -98,7 +98,6 @@
 		0446DF451F3B8E6300C8E338 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
 		0446DF461F3B8E6300C8E338 /* MSSessionTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */; };
 		0446DF471F3B8E6300C8E338 /* MSStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591291D526956003D5F3C /* MSStartSessionLogTests.m */; };
-		0446DF561F3B8EAC00C8E338 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD201F39096E0092B777 /* OCHamcrest.framework */; };
 		046AEAB61ECA51AF00CBE511 /* MSAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 042A17A71DEFA950003BA80A /* MSAnalyticsTests.m */; };
 		046AEAB71ECA51AF00CBE511 /* MSMockAnalyticsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 35BF19E41DF9D59E00193027 /* MSMockAnalyticsDelegate.m */; };
 		046AEAB81ECA51AF00CBE511 /* MSSessionTrackerUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591311D526C3B003D5F3C /* MSSessionTrackerUtil.m */; };
@@ -107,7 +106,6 @@
 		046AEABB1ECA51AF00CBE511 /* MSSessionTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E815912B1D526A09003D5F3C /* MSSessionTrackerTests.m */; };
 		046AEABC1ECA51AF00CBE511 /* MSStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E81591291D526956003D5F3C /* MSStartSessionLogTests.m */; };
 		04B45C5721E9100700FE6746 /* MSPropertyConfiguratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B25E21CC214044A400CAA156 /* MSPropertyConfiguratorTests.m */; };
-		04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BED7161ECB64CE00E20975 /* OCHamcrest.framework */; };
 		351343372058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 351343362058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m */; };
 		351343382058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 351343362058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m */; };
 		351343392058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 351343362058900800E6DC7D /* MSAnalyticsTransmissionTargetTests.m */; };
@@ -118,7 +116,6 @@
 		38C215E120E692C700191F3C /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C215DF20E692C700191F3C /* MSMockUserDefaults.m */; };
 		38C215E220E692C700191F3C /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C215DF20E692C700191F3C /* MSMockUserDefaults.m */; };
 		38C215E320E692C700191F3C /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C215DF20E692C700191F3C /* MSMockUserDefaults.m */; };
-		6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */; };
 		6E3E2CD31D359F3300B1EE50 /* MSEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* MSEventLogTests.m */; };
 		6E3E2CD41D359F3300B1EE50 /* MSPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSPageLogTests.m */; };
 		B25E21CD214044A400CAA156 /* MSPropertyConfiguratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B25E21CC214044A400CAA156 /* MSPropertyConfiguratorTests.m */; };
@@ -408,7 +405,6 @@
 		04545DC9227B604700A49E06 /* AppCenterAnalytics.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterAnalytics.xcconfig; sourceTree = "<group>"; };
 		0469D1B21F4DFE4C00A43A8E /* AppCenterAnalytics Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterAnalytics Release.xcconfig"; sourceTree = "<group>"; };
 		046AEAC61ECA51AF00CBE511 /* AppCenterAnalytics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterAnalytics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0484DD201F39096E0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		0485AF8D1EAA852A00C10CAF /* MSAnalyticsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAnalyticsCategory.h; sourceTree = "<group>"; };
 		0485AF8E1EAA852A00C10CAF /* MSAnalyticsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAnalyticsCategory.m; sourceTree = "<group>"; };
@@ -417,7 +413,6 @@
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
 		04A082051F74BB8600DC776D /* MSService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSService.h; path = ../AppCenter/AppCenter/MSService.h; sourceTree = "<group>"; };
 		04B525BC2194D49C00FA37FD /* MSConstants+Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MSConstants+Flags.h"; path = "../AppCenter/AppCenter/MSConstants+Flags.h"; sourceTree = "<group>"; };
-		04BED7161ECB64CE00E20975 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		266ED07D29C2A2CC67AD1F60 /* MSEventPropertiesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventPropertiesInternal.h; sourceTree = "<group>"; };
@@ -440,7 +435,6 @@
 		387C77041D6CC39400D68CC1 /* MSServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSServiceAbstract.h; path = ../AppCenter/AppCenter/MSServiceAbstract.h; sourceTree = "<group>"; };
 		38C215DF20E692C700191F3C /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 		38C215E020E692C700191F3C /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
-		6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		6E3E2CC51D359D5E00B1EE50 /* MSEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventLog.h; sourceTree = "<group>"; };
 		6E3E2CC61D359D5E00B1EE50 /* MSEventLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventLog.m; sourceTree = "<group>"; };
 		6E3E2CC71D359D5E00B1EE50 /* MSPageLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPageLog.h; sourceTree = "<group>"; };
@@ -498,7 +492,6 @@
 			files = (
 				C2D73CE2230FC7DC00390198 /* AppCenter.framework in Frameworks */,
 				C2D73CE0230FC7D400390198 /* AppCenterAnalytics.framework in Frameworks */,
-				0446DF561F3B8EAC00C8E338 /* OCHamcrest.framework in Frameworks */,
 				C2392F6724642D6C00425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,7 +502,6 @@
 			files = (
 				C2D73CE5230FC7EF00390198 /* AppCenter.framework in Frameworks */,
 				C2D73CE3230FC7E900390198 /* AppCenterAnalytics.framework in Frameworks */,
-				04BED7181ECB64FB00E20975 /* OCHamcrest.framework in Frameworks */,
 				C2392F6424642D5100425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,7 +536,6 @@
 			files = (
 				C2D73CE8230FC7FC00390198 /* AppCenter.framework in Frameworks */,
 				C2D73CE6230FC7F900390198 /* AppCenterAnalytics.framework in Frameworks */,
-				6E0684381D35A3B900A8CC6C /* OCHamcrestIOS.framework in Frameworks */,
 				C2392F6124642D3F00425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,14 +543,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0484DD1F1F3909580092B777 /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				0484DD201F39096E0092B777 /* OCHamcrest.framework */,
-			);
-			name = tvOS;
-			sourceTree = "<group>";
-		};
 		04A1409C1ECE7245001CEE94 /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -601,32 +584,6 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		04BED7131ECB64B100E20975 /* OCHamcrest */ = {
-			isa = PBXGroup;
-			children = (
-				04BED7151ECB64C000E20975 /* iOS */,
-				04BED7141ECB64BB00E20975 /* macOS */,
-				0484DD1F1F3909580092B777 /* tvOS */,
-			);
-			name = OCHamcrest;
-			sourceTree = "<group>";
-		};
-		04BED7141ECB64BB00E20975 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				04BED7161ECB64CE00E20975 /* OCHamcrest.framework */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
-		04BED7151ECB64C000E20975 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				6E0684371D35A3B900A8CC6C /* OCHamcrestIOS.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
 		242A6C5D22D3F57500CB02C7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -658,7 +615,6 @@
 		6E0684361D35A39300A8CC6C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04BED7131ECB64B100E20975 /* OCHamcrest */,
 				C2392EFF24642C8700425640 /* OCMock.xcodeproj */,
 				F82E4C70217F1FA600EDAB34 /* sqlite3.c */,
 			);

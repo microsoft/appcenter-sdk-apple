@@ -56,7 +56,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0469643B1F2A570000F9D31F /* OCHamcrest.framework */; };
 		0469644F1F2A5D4A00F9D31F /* MSPushTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD5EC21E5C4F6A001627AB /* MSPushTests.m */; };
 		046964501F2A5D4F00F9D31F /* MSPushLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04849D781E9E913A0093ECA6 /* MSPushLogTests.m */; };
 		046964511F2A5D8D00F9D31F /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
@@ -119,7 +118,6 @@
 		C9EBAB39230D73B300A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB38230D73B300A20F0F /* AppCenter.framework */; };
 		C9EBAB3B230D73B700A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB3A230D73B700A20F0F /* AppCenter.framework */; };
 		D39B04E41E66FBD50048E397 /* MSPushTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = D39B04E31E66FBD50048E397 /* MSPushTestUtil.m */; };
-		D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */; };
 		F82E4C85217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C86217F218D00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C84217F218D00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 /* End PBXBuildFile section */
@@ -227,7 +225,6 @@
 		0469642E1F2A55CF00F9D31F /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		0469642F1F2A55CF00F9D31F /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		046964301F2A561900F9D31F /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
-		0469643B1F2A570000F9D31F /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../Vendor/macOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
 		047919B21EBA3AC5004834A6 /* MSPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushNotification.h; sourceTree = "<group>"; };
 		047919B41EBA3B1B004834A6 /* MSPushDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSPushDelegate.h; sourceTree = "<group>"; };
 		047919B61EBA42F0004834A6 /* MSPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSPushNotification.m; sourceTree = "<group>"; };
@@ -271,7 +268,6 @@
 		D3AD5F3E1E5D69B0001627AB /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		D3AD5F6A1E5D7464001627AB /* MSPushLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSPushLog.h; path = Model/MSPushLog.h; sourceTree = "<group>"; };
 		D3AD5F6B1E5D7464001627AB /* MSPushLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushLog.m; path = Model/MSPushLog.m; sourceTree = "<group>"; };
-		D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = ../Vendor/iOS/OCHamcrest/OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		F82E4C84217F218D00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F8DD7526230D7EA400B095B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -283,7 +279,6 @@
 			files = (
 				C220061D230FDF9600848D5B /* AppCenter.framework in Frameworks */,
 				C220061B230FDF9200848D5B /* AppCenterPush.framework in Frameworks */,
-				0469643D1F2A570500F9D31F /* OCHamcrest.framework in Frameworks */,
 				C2392F7924642DFB00425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,7 +307,6 @@
 				C220061A230FDF8500848D5B /* AppCenter.framework in Frameworks */,
 				C2200618230FDF8200848D5B /* AppCenterPush.framework in Frameworks */,
 				C203273D2350B51A00EA65A5 /* UserNotifications.framework in Frameworks */,
-				D3D0CFE91E640ABD003015AF /* OCHamcrestIOS.framework in Frameworks */,
 				C2392F7624642DE500425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,14 +314,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		046964351F2A56C500F9D31F /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				0469643B1F2A570000F9D31F /* OCHamcrest.framework */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
 		04A140C21ECE8769001CEE94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,23 +331,6 @@
 				046964301F2A561900F9D31F /* Tests macOS.xcconfig */,
 			);
 			name = Support;
-			sourceTree = "<group>";
-		};
-		04BED71B1ECB653800E20975 /* OCHamcrest */ = {
-			isa = PBXGroup;
-			children = (
-				04BED71C1ECB654000E20975 /* iOS */,
-				046964351F2A56C500F9D31F /* macOS */,
-			);
-			name = OCHamcrest;
-			sourceTree = "<group>";
-		};
-		04BED71C1ECB654000E20975 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				D3D0CFE81E640ABD003015AF /* OCHamcrestIOS.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		242A6C5C22D3F30F00CB02C7 /* Model */ = {
@@ -506,7 +475,6 @@
 		D3AD5F661E5D73F2001627AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				04BED71B1ECB653800E20975 /* OCHamcrest */,
 				C2392F1724642CA300425640 /* OCMock.xcodeproj */,
 				F82E4C84217F218D00EDAB34 /* sqlite3.c */,
 			);
