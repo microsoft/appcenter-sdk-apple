@@ -1660,7 +1660,6 @@
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
-				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
@@ -1670,7 +1669,6 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				DEVELOPMENT_TEAM = "";
-				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
@@ -1692,7 +1690,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
@@ -1700,7 +1697,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 041CFF8B1ECCFF6700B4654B /* Tests iOS.xcconfig */;
 			buildSettings = {
-				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
