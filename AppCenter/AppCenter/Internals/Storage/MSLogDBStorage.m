@@ -68,9 +68,8 @@ static const NSUInteger kMSSchemaVersion = 5;
   [addLogValues addString:groupId];
   [addLogValues addString:base64Data];
   [addLogValues addNumber:@(persistenceFlags)];
-  NSString *addLogQuery =
-      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES (?, ?, ?)", kMSLogTableName,
-                                 kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName];
+  NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES (?, ?, ?)", kMSLogTableName,
+                                                     kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName];
 
   // Serialize target token.
   if ([(NSObject *)log isKindOfClass:[MSCommonSchemaLog class]]) {
@@ -84,10 +83,9 @@ static const NSUInteger kMSSchemaVersion = 5;
     [addLogValues addString:encryptedToken];
     [addLogValues addString:targetKey];
     [addLogValues addNumber:@(persistenceFlags)];
-    addLogQuery =
-        [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?, ?)",
-                                   kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName,
-                                   kMSTargetKeyColumnName, kMSPriorityColumnName];
+    addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\", \"%@\", \"%@\") VALUES (?, ?, ?, ?, ?)",
+                                             kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSTargetTokenColumnName,
+                                             kMSTargetKeyColumnName, kMSPriorityColumnName];
   }
   return [self executeQueryUsingBlock:^int(void *db) {
            // Check maximum size.
@@ -306,10 +304,8 @@ static const NSUInteger kMSSchemaVersion = 5;
     // Deserialize the log.
     @try {
       if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class]
-                                                                     fromData:logData
-                                                                        error:nil];
-          log = (id<MSLog>)unarchivedObject;
+        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:logData error:nil];
+        log = (id<MSLog>)unarchivedObject;
       } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -410,7 +406,7 @@ static const NSUInteger kMSSchemaVersion = 5;
  * After altering current schema, database version should be bumped and actions for migration should be implemented in this method.
  */
 - (void)migrateDatabase:(void *)db fromVersion:(NSUInteger __unused)version {
-  
+
   /*
    * With version 3.0 of the SDK we decided to remove timestamp column and as
    * it's a major SDK version and SQLite does not support removing column we just start over.

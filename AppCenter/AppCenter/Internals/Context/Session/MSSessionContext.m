@@ -34,9 +34,7 @@ static dispatch_once_t onceToken;
     NSData *data = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
     if (data != nil) {
       if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class]
-                                                                           fromData:data
-                                                                              error:nil];
+        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:data error:nil];
         _sessionHistory = (NSMutableArray *)[unarchivedObject mutableCopy];
       } else {
 #pragma clang diagnostic push
