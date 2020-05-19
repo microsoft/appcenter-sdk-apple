@@ -6,6 +6,7 @@
 #import "MSMockUserDefaults.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSSessionContextTests : XCTestCase
 
@@ -59,16 +60,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  NSMutableArray *savedData;
-  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-    NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:data error:nil];
-    savedData = (NSMutableArray *)[unarchivedObject mutableCopy];
-  } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    savedData = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
-#pragma clang diagnostic pop
-  }
+  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
   XCTAssertEqual([savedData count], 2);
 
   // When
@@ -79,15 +71,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-    NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:data error:nil];
-    savedData = (NSMutableArray *)[unarchivedObject mutableCopy];
-  } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    savedData = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
-#pragma clang diagnostic pop
-  }
+  savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
   XCTAssertEqual([savedData count], 0);
 }
 
@@ -102,16 +86,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  NSMutableArray *savedData;
-  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-    NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:data error:nil];
-    savedData = (NSMutableArray *)[unarchivedObject mutableCopy];
-  } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    savedData = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
-#pragma clang diagnostic pop
-  }
+  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
   XCTAssertEqual([savedData count], 2);
 
   // When
@@ -122,15 +97,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-    NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:data error:nil];
-    savedData = (NSMutableArray *)[unarchivedObject mutableCopy];
-  } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    savedData = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
-#pragma clang diagnostic pop
-  }
+  savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
   XCTAssertEqual([savedData count], 1);
 }
 

@@ -1100,16 +1100,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   for (NSArray *row in rows) {
     NSString *base64Data = row[2];
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    id<MSLog> log;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:logData error:nil];
-      log = (id<MSLog>)unarchivedObject;
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-#pragma clang diagnostic pop
-    }
+    id<MSLog> log = id<MSLog> MS_KEYED_UNARCHIVER_DATA(logData);
     [logs addObject:log];
   }
   sqlite3_close(db);

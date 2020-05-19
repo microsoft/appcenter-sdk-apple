@@ -59,15 +59,7 @@ static MSDeviceTracker *sharedInstance = nil;
     NSData *devices = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
     NSArray *arrayFromData;
     if (devices != nil) {
-      if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:devices error:nil];
-        arrayFromData = (NSArray *)[unarchivedObject mutableCopy];
-      } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-        arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
-#pragma clang diagnostic pop
-      }
+      arrayFromData = (NSArray *)[MS_KEYED_UNARCHIVER_DATA(devices) mutableCopy];
 
       // If array is not nil, create a mutable version.
       if (arrayFromData)

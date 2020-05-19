@@ -39,4 +39,17 @@ __attribute__((used)) static void importCategories() {
   return [NSString stringWithUTF8String:appcenter_library_info.ms_version];
 }
 
++ (NSObject *)unarchiveKeyedData:(NSData *)data {
+    if (@available(macOS 10.11, *)) {
+        NSKeyedUnarchiver* unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
+        unarchiver.requiresSecureCoding = NO;
+        return [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:nil];
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+        return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+#pragma clang diagnostic pop
+    }
+}
+
 @end

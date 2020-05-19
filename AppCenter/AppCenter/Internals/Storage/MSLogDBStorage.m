@@ -303,15 +303,7 @@ static const NSUInteger kMSSchemaVersion = 5;
 
     // Deserialize the log.
     @try {
-      if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:logData error:nil];
-        log = (id<MSLog>)unarchivedObject;
-      } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-        log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
-#pragma clang diagnostic pop
-      }
+      log = (id<MSLog>)MS_KEYED_UNARCHIVER_DATA(logData);
     } @catch (NSException *e) {
       exception = e;
     }
