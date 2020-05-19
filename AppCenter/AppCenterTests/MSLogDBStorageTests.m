@@ -1091,7 +1091,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   for (NSArray *row in rows) {
     NSString *base64Data = row[2];
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    id<MSLog> log = (id<MSLog>) MS_KEYED_UNARCHIVER_DATA(logData);
+    id<MSLog> log = (id<MSLog>)MS_KEYED_UNARCHIVER_DATA(logData);
     [logs addObject:log];
   }
   sqlite3_close(db);

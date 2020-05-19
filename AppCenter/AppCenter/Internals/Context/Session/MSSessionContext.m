@@ -33,7 +33,7 @@ static dispatch_once_t onceToken;
   if (self) {
     NSData *data = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
     if (data != nil) {
-        _sessionHistory = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+      _sessionHistory = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
     }
     if (!_sessionHistory) {
       _sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];
