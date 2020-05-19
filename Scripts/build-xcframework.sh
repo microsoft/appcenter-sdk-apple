@@ -27,5 +27,3 @@ SetXcBuildCommandFramework "macos"
 
 XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output $XC_FRAMEWORK_PATH"
 eval "$XC_BUILD_COMMAND"
-
-
