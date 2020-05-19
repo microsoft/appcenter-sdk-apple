@@ -57,9 +57,20 @@ static MSDeviceTracker *sharedInstance = nil;
 
     // Restore past sessions from NSUserDefaults.
     NSData *devices = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
+    NSArray *arrayFromData;
     if (devices != nil) {
-      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
-
+      if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class]
+                                                                       fromData:devices
+                                                                          error:nil];
+        arrayFromData = (NSArray *)[unarchivedObject mutableCopy];
+      } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+        arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+#pragma clang diagnostic pop
+      }
+        
       // If array is not nil, create a mutable version.
       if (arrayFromData)
         _deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
@@ -130,7 +141,16 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+      NSObject *archObj = nil;
+      if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+        archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory requiringSecureCoding:NO error:nil];
+      } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+        archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory];
+#pragma clang diagnostic pop
+      }
+      [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -265,9 +285,18 @@ static MSDeviceTracker *sharedInstance = nil;
     if (self.deviceHistory.count > 1) {
       [self.deviceHistory removeObjectsInRange:NSMakeRange(0, self.deviceHistory.count - 1)];
     }
-
+    NSObject *archObj = nil;
+    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory requiringSecureCoding:NO error:nil];
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory];
+#pragma clang diagnostic pop
+    }
+      
     // Clear persistence, but keep the latest information about the device.
-    [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSPastDevicesKey];
   }
 }
 

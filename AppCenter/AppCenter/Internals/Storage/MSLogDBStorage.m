@@ -53,8 +53,16 @@ static const NSUInteger kMSSchemaVersion = 5;
   MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
 
   // Insert this log to the DB.
-  NSData *logData = [NSKeyedArchiver archivedDataWithRootObject:log];
-  NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+  NSObject *logData = nil;
+  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+    logData = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:nil];
+  } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    logData = [NSKeyedArchiver archivedDataWithRootObject:log];
+#pragma clang diagnostic pop
+  }
+  NSString *base64Data = [(NSData *)logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
 
   MSStorageBindableArray *addLogValues = [MSStorageBindableArray new];
   [addLogValues addString:groupId];
@@ -297,7 +305,17 @@ static const NSUInteger kMSSchemaVersion = 5;
 
     // Deserialize the log.
     @try {
-      log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
+      if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class]
+                                                                     fromData:logData
+                                                                        error:nil];
+          log = (id<MSLog>)unarchivedObject;
+      } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+        log = [NSKeyedUnarchiver unarchiveObjectWithData:logData];
+#pragma clang diagnostic pop
+      }
     } @catch (NSException *e) {
       exception = e;
     }
