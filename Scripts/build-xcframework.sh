@@ -16,7 +16,7 @@ CATALYST_BUILD_DIR="build/Release-maccatalyst/"
 rm -rf ${PROJECT_NAME}.xcframework/
 
 # Build and move mac catalyst framework
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -scheme "${PROJECT_NAME} iOS Framework" -destination 'platform=macOS,variant=Mac Catalyst' 
+xcodebuild -project "${SRCROOT}/${PROJECT_NAME}.xcodeproj" -configuration "Release" -scheme "${PROJECT_NAME} iOS Framework" -destination 'platform=macOS,variant=Mac Catalyst' 
 cp -R "$CATALYST_BUILD_DIR" "${XCFRAMEWORK_DIR}"
 
 # Create a command to build XCFramework.
