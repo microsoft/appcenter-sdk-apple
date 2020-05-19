@@ -46,7 +46,7 @@
                 "git": {
                     "name": "Official Git mirror of the SQLite source tree",
                     "repositoryUrl": "https://github.com/sqlite/sqlite.git",
-                    "commitHash": "653b4f6078ecc34055f2ce47fbd80f74501ca4b8"
+                    "commitHash": "562fd18b9dc27216191c0a6477bba9b175f7f0d2"
                 }
             }
         },
