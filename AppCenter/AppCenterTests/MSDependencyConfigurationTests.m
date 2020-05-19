@@ -33,7 +33,7 @@
 
   // If
   id httpClientClassMock = OCMClassMock([MSHttpClient class]);
-  OCMStub([httpClientClassMock alloc]).andReturn(httpClientClassMock);
+  OCMStub([httpClientClassMock new]).andReturn(httpClientClassMock);
 
   // When
   [MSAppCenter configureWithAppSecret:@"App-Secret"];
