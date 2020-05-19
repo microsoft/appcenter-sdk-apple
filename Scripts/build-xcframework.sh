@@ -12,20 +12,14 @@ XC_FRAMEWORK_PATH="${WORK_DIR}/Output/${PROJECT_NAME}.xcframework"
 # Clean previus XCFramework build.
 rm -rf ${PROJECT_NAME}.xcframework/
 
-# Build XCFramework.
-function SetXcBuildCommandFramework() {
-    FRAMEWORK_PATH="$WORK_DIR/Release-$1/${PROJECT_NAME}.framework"
+# Create a command to build XCFramework.
+for SDK in iphoneos iphonesimulator appletvos appletvsimulator macOS maccatalyst; do
+    FRAMEWORK_PATH="$WORK_DIR/Release-$SDK/${PROJECT_NAME}.framework"
     [ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH";
-}
-
-# Create a cycle instead next lines
-SetXcBuildCommandFramework "iphoneos"
-SetXcBuildCommandFramework "iphonesimulator"
-SetXcBuildCommandFramework "appletvos"
-SetXcBuildCommandFramework "appletvsimulator"
-SetXcBuildCommandFramework "macos"
-
+done
 XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output $XC_FRAMEWORK_PATH"
+
+#Build XCFramework
 eval "$XC_BUILD_COMMAND"
 
 RES_FILE_PATH="$WORK_DIR/Release-iphoneos/AppCenterDistributeResources.bundle"
