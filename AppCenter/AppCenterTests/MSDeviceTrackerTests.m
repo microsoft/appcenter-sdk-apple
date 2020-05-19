@@ -103,7 +103,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // If
   NSString *expected = @"4.5.6";
 
-#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
+#if TARGET_OS_OSX
   id processInfoMock;
   if (@available(macOS 10.10, *)) {
     processInfoMock = OCMClassMock([NSProcessInfo class]);
@@ -123,7 +123,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 #endif
 
 // When
-#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
+#if TARGET_OS_OSX
   // TODO: No way to mock C-style functions like Gestalt. Skip the test on machine running on macOS version <= 10.9.
   NSString *osVersion = expected;
   if (@available(macOS 10.10, *)) {
@@ -468,21 +468,21 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 
 - (void)testNSUserDefaultsDeviceHistory {
-    MSMockUserDefaults *defaults = [MSMockUserDefaults new];
+  MSMockUserDefaults *defaults = [MSMockUserDefaults new];
 
-    // When
-    [self.sut clearDevices];
+  // When
+  [self.sut clearDevices];
 
-    // Restore past devices from NSUserDefaults.
-    NSData *devices = [defaults objectForKey:kMSPastDevicesKey];
-    NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+  // Restore past devices from NSUserDefaults.
+  NSData *devices = [defaults objectForKey:kMSPastDevicesKey];
+  NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
 
-    NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
+  NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
 
-    // Then
-    XCTAssertTrue([deviceHistory count] == 1);
+  // Then
+  XCTAssertTrue([deviceHistory count] == 1);
 
-    [defaults stopMocking];
+  [defaults stopMocking];
 }
 
 - (void)testClearingDeviceHistoryWorks {

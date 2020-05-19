@@ -145,15 +145,15 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-      
+
     // The CTTelephonyNetworkInfo.serviceSubscriberCellularProviders method crash because of an issue in iOS 12.0
     // It was fixed in iOS 12.1
     if (@available(iOS 12.1, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       carrier = [self firstCarrier:carriers];
     } else if (@available(iOS 12, *)) {
-        NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
-        carrier = [self firstCarrier:carriers];
+      NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
+      carrier = [self firstCarrier:carriers];
     }
 
     // Use the old API as fallback if new one doesn't work.
@@ -171,9 +171,9 @@ static MSDeviceTracker *sharedInstance = nil;
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
 #if TARGET_OS_OSX || TARGET_OS_MACCATALYST
-      newDevice.osName = [self osName];
+    newDevice.osName = [self osName];
 #else
-      newDevice.osName = [self osName:MS_DEVICE];
+    newDevice.osName = [self osName:MS_DEVICE];
 #endif
 #if TARGET_OS_OSX
     newDevice.osVersion = [self osVersion];
@@ -399,11 +399,11 @@ static MSDeviceTracker *sharedInstance = nil;
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
 }
 
-- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *) carriers {
-    for (NSString *key in carriers) {
-        return carriers[key];
-    }
-    return nil;
+- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
+  for (NSString *key in carriers) {
+    return carriers[key];
+  }
+  return nil;
 }
 #endif
 
