@@ -53,7 +53,7 @@ static const NSUInteger kMSSchemaVersion = 5;
   MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
 
   // Insert this log to the DB.
-  NSObject *logData = nil;
+  NSData *logData = nil;
   if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
     logData = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:nil];
   } else {
@@ -304,7 +304,7 @@ static const NSUInteger kMSSchemaVersion = 5;
     // Deserialize the log.
     @try {
       if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:logData error:nil];
+        NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:logData error:nil];
         log = (id<MSLog>)unarchivedObject;
       } else {
 #pragma clang diagnostic push

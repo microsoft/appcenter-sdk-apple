@@ -60,7 +60,7 @@ static MSDeviceTracker *sharedInstance = nil;
     NSArray *arrayFromData;
     if (devices != nil) {
       if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:devices error:nil];
+        NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:devices error:nil];
         arrayFromData = (NSArray *)[unarchivedObject mutableCopy];
       } else {
 #pragma clang diagnostic push
@@ -139,7 +139,7 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      NSObject *archObj = nil;
+      NSData *archObj = nil;
       if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
         archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory requiringSecureCoding:NO error:nil];
       } else {
@@ -283,7 +283,7 @@ static MSDeviceTracker *sharedInstance = nil;
     if (self.deviceHistory.count > 1) {
       [self.deviceHistory removeObjectsInRange:NSMakeRange(0, self.deviceHistory.count - 1)];
     }
-    NSObject *archObj = nil;
+    NSData *archObj = nil;
     if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
       archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory requiringSecureCoding:NO error:nil];
     } else {

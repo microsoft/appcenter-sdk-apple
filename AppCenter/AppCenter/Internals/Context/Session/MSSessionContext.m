@@ -34,7 +34,7 @@ static dispatch_once_t onceToken;
     NSData *data = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
     if (data != nil) {
       if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        NSObject *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:data error:nil];
+        NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:data error:nil];
         _sessionHistory = (NSMutableArray *)[unarchivedObject mutableCopy];
       } else {
 #pragma clang diagnostic push
@@ -69,7 +69,7 @@ static dispatch_once_t onceToken;
     self.currentSessionInfo.sessionId = sessionId;
     self.currentSessionInfo.timestamp = [NSDate date];
     [self.sessionHistory addObject:self.currentSessionInfo];
-    NSObject *archObj = nil;
+    NSData *archObj = nil;
     if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
       archObj = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory requiringSecureCoding:NO error:nil];
     } else {
@@ -101,7 +101,7 @@ static dispatch_once_t onceToken;
     if (keepCurrentSession) {
       [self.sessionHistory addObject:self.currentSessionInfo];
     }
-    NSObject *archObj = nil;
+    NSData *archObj = nil;
     if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
       archObj = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory requiringSecureCoding:NO error:nil];
     } else {

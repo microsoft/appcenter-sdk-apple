@@ -56,7 +56,17 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"UserIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
+  NSMutableArray *savedData;
+  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+    NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:data error:nil];
+    savedData = (NSMutableArray *)[unarchivedObject mutableCopy];
+  } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    savedData = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
+#pragma clang diagnostic pop
+  }
+  XCTAssertEqual([savedData count], 2);
 
   // When
   [[MSUserIdContext sharedInstance] clearUserIdHistory];
@@ -66,7 +76,16 @@
   XCTAssertNotNil(data);
 
   // Should keep the current userId.
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 1);
+  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+    NSData *unarchivedObject = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSData class] fromData:data error:nil];
+    savedData = (NSMutableArray *)[unarchivedObject mutableCopy];
+  } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    savedData = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
+#pragma clang diagnostic pop
+  }
+  XCTAssertEqual([savedData count], 1);
 }
 
 - (void)testUserId {
