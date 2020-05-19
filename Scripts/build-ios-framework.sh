@@ -56,6 +56,12 @@ mkdir -p "${XCFRAMEWORK_DIR}"
 # Copy all framework files to use them for xcframework file creation.
 cp -R "${WORK_DIR}/" "${XCFRAMEWORK_DIR}"
 
+# Copy the resource bundle for App Center Distribute.
+if [ -d "${SRCROOT}/${DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" ]; then
+  echo "Copying resource bundle."
+  cp -R "${SRCROOT}/${DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" "${PRODUCTS_DIR}" || true
+fi
+
 LIB_IPHONEOS_FINAL="${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
 
 # Create the arm64e slice in Xcode 10.1 and lipo it with the device binary that was created with oldest supported Xcode version.
