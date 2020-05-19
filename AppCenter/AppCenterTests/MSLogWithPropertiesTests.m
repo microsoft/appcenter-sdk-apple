@@ -48,7 +48,7 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
   id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
 
   // Then
@@ -66,7 +66,7 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
   id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
   MSLogWithProperties *actualLogWithProperties = actual;
 

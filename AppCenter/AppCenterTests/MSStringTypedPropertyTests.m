@@ -20,7 +20,7 @@
   sut.value = @"value";
 
   // When
-  NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
+  NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
   MSStringTypedProperty *actual = MS_KEYED_UNARCHIVER_DATA(serializedProperty);
 
   // Then

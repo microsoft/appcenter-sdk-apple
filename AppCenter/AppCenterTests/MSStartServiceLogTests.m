@@ -49,7 +49,7 @@
   self.sut.services = services;
 
   // When
-  NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
+  NSData *serializedLog = MS_KEYED_ARCHIVER_DATA(self.sut);
   id actual = MS_KEYED_UNARCHIVER_DATA(serializedLog);
 
   // Then

@@ -1013,16 +1013,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   NSUInteger trueLogCount;
   for (NSUInteger i = 0; i < count; ++i) {
     id<MSLog> log = [self generateLogWithSize:size];
-    NSData *logData = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      logData = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      logData = [NSKeyedArchiver archivedDataWithRootObject:log];
-#pragma clang diagnostic pop
-    }
-    NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString *base64Data = [MS_KEYED_ARCHIVER_DATA(log) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES (?, ?, ?)", kMSLogTableName,
                                                        kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName];
 
@@ -1119,16 +1110,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   sqlite3_exec(db, [[NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount] UTF8String], NULL, NULL, NULL);
   do {
     MSAbstractLog *log = [MSAbstractLog new];
-    NSData *logData = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      logData = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      logData = [NSKeyedArchiver archivedDataWithRootObject:log];
-#pragma clang diagnostic pop
-    }
-    NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString *base64Data = [MS_KEYED_ARCHIVER_DATA(log) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)",
                                                        kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName,
                                                        kMSTestGroupId, base64Data, (unsigned int)priority];
@@ -1160,16 +1142,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   sqlite3_exec(db, [[NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount] UTF8String], NULL, NULL, NULL);
   do {
     MSAbstractLog *log = [MSAbstractLog new];
-    NSData *logData = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      logData = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      logData = [NSKeyedArchiver archivedDataWithRootObject:log];
-#pragma clang diagnostic pop
-    }
-    NSString *base64Data = [logData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString *base64Data = [MS_KEYED_ARCHIVER_DATA(log) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery =
         [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)", kMSLogTableName,
                                    kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTestGroupId, base64Data,

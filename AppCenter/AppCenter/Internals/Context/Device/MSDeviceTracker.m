@@ -131,16 +131,7 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      NSData *archObj = nil;
-      if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-        archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory requiringSecureCoding:NO error:nil];
-      } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-        archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory];
-#pragma clang diagnostic pop
-      }
-      [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSPastDevicesKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.deviceHistory) forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -275,18 +266,9 @@ static MSDeviceTracker *sharedInstance = nil;
     if (self.deviceHistory.count > 1) {
       [self.deviceHistory removeObjectsInRange:NSMakeRange(0, self.deviceHistory.count - 1)];
     }
-    NSData *archObj = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory];
-#pragma clang diagnostic pop
-    }
 
     // Clear persistence, but keep the latest information about the device.
-    [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSPastDevicesKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.deviceHistory) forKey:kMSPastDevicesKey];
   }
 }
 

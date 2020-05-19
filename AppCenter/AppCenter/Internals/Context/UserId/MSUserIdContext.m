@@ -61,16 +61,7 @@ static dispatch_once_t onceToken;
      * Persist nil userId as a current userId to NSUserDefaults so that Crashes can retrieve a correct userId when apps crash between App
      * Center start and setUserId call.
      */
-    NSData *archObj = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory];
-#pragma clang diagnostic pop
-    }
-    [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSUserIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.userIdHistory) forKey:kMSUserIdHistoryKey];
     _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
@@ -102,16 +93,7 @@ static dispatch_once_t onceToken;
      */
     [self.userIdHistory removeLastObject];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    NSData *archObj = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory];
-#pragma clang diagnostic pop
-    }
-    [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSUserIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.userIdHistory) forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
                  self.currentUserIdInfo.timestamp);
     synchronizedDelegates = [self.delegates allObjects];
@@ -138,16 +120,7 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     [self.userIdHistory removeAllObjects];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    NSData *archObj = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory];
-#pragma clang diagnostic pop
-    }
-    [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSUserIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.userIdHistory) forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds while keeping current userId.");
   }
 }

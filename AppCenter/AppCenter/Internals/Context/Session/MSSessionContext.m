@@ -61,16 +61,7 @@ static dispatch_once_t onceToken;
     self.currentSessionInfo.sessionId = sessionId;
     self.currentSessionInfo.timestamp = [NSDate date];
     [self.sessionHistory addObject:self.currentSessionInfo];
-    NSData *archObj = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory];
-#pragma clang diagnostic pop
-    }
-    [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSSessionIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.sessionHistory) forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new session with id:%@ and timestamp: %@.", self.currentSessionInfo.sessionId,
                  self.currentSessionInfo.timestamp);
   }
@@ -93,16 +84,7 @@ static dispatch_once_t onceToken;
     if (keepCurrentSession) {
       [self.sessionHistory addObject:self.currentSessionInfo];
     }
-    NSData *archObj = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory requiringSecureCoding:NO error:nil];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archObj = [NSKeyedArchiver archivedDataWithRootObject:self.sessionHistory];
-#pragma clang diagnostic pop
-    }
-    [MS_APP_CENTER_USER_DEFAULTS setObject:archObj forKey:kMSSessionIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.sessionHistory) forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old sessions.");
   }
 }
