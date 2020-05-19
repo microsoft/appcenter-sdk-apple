@@ -46,7 +46,8 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqualObjects([[NSKeyedUnarchiver unarchiveObjectWithData:data][0] sessionId], expectedSessionId);
+  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  XCTAssertEqualObjects([savedData[0] sessionId], expectedSessionId);
 }
 
 - (void)testClearSessionHistory {

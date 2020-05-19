@@ -3,6 +3,7 @@
 
 #import "MSStartServiceLog.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSStartServiceLogTests : XCTestCase
 
@@ -49,7 +50,7 @@
 
   // When
   NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+  id actual = MS_KEYED_UNARCHIVER_DATA(serializedLog);
 
   // Then
   assertThat(actual, notNilValue());
