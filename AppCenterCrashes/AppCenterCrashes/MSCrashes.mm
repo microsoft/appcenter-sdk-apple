@@ -528,15 +528,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized(self) {
     NSData *serializedLog = nil;
-    #if TARGET_OS_MACCATALYST
-      NSError *error = nil;
-      serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:&error];
-      if (error != nil) {
-        MSLogError([MSAppCenter logTag], @"Failed to save log: %@.", error.localizedDescription);
-      }
-    #else
+    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
+      serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:nil];
+    } else {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdeprecated"
       serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
-    #endif
+    #pragma clang diagnostic pop
+    }
     if (serializedLog && (serializedLog.length > 0)) {
 
       // Serialize target token.
@@ -876,16 +875,26 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
       if (serializedLog && serializedLog.length && serializedLog.length > 0) {
-        id<MSLog> item = nil;
-        #if TARGET_OS_MACCATALYST
-        NSError *error = nil;
-        item = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSObject class] fromData:serializedLog error:&error];
-        if (error != nil) {
-          MSLogError([MSAppCenter logTag], @"Failed to unarchive serialized log: %@.", error.localizedDescription);
+        id<MSLog> item;
+        NSException *exception;
+
+        // Deserialize the log.
+        @try {
+          #pragma clang diagnostic push
+          #pragma clang diagnostic ignored "-Wold-style-cast"
+            item = (id<MSLog>)MS_KEYED_UNARCHIVER_DATA(serializedLog);
+          #pragma clang diagnostic pop
+        } @catch (NSException *e) {
+          exception = e;
         }
-        #else
-          item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
-        #endif
+        if (!item || exception) {
+
+          // The archived log is not valid.
+          MSLogError([MSAppCenter logTag], @"Deserialization failed for log: %@",
+                     exception ? exception.reason : @"The log deserialized to NULL.");
+          
+          continue;
+        }
         if (item) {
 
           // Try to set target token.
