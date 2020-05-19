@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSAppCenterInternal.h"
 #import "MSCrashesInternal.h"
 #import "MSCrashesUtil.h"
 #import "MSException.h"
+#import "MSLoggerInternal.h"
 #import "MSUtility+File.h"
 #import "MSWrapperExceptionInternal.h"
 #import "MSWrapperExceptionManagerInternal.h"
@@ -84,7 +86,17 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
 + (void)saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
 
   // For some reason, archiving directly to a file fails in some cases, so archive to NSData and write that to the file
-  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException];
+  NSData *data = nil;
+  #if TARGET_OS_MACCATALYST
+    NSError *error = nil;
+    data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException requiringSecureCoding:NO error:&error];
+    if (error != nil) {
+      MSLogError([MSAppCenter logTag], @"Failed to save exception: %@.", error.localizedDescription);
+    }
+  #else
+    data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException];
+  #endif
+  
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
   [MSUtility createFileAtPathComponent:pathComponent withData:data atomically:YES forceOverwrite:YES];
 }
@@ -107,7 +119,15 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   NSData *data = [MSUtility loadDataForPathComponent:pathComponent];
   MSWrapperException *wrapperException = nil;
   @try {
-    wrapperException = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    #if TARGET_OS_MACCATALYST
+    NSError *error = nil;
+    wrapperException = [NSKeyedUnarchiver unarchivedObjectOfClass:[MSWrapperException class] fromData:data error:&error];
+    if (error != nil) {
+      MSLogError([MSAppCenter logTag], @"Failed to unarchive the exception data: %@.", error.localizedDescription);
+    }
+    #else
+      wrapperException = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    #endif
   } @catch (__attribute__((unused)) NSException *exception) {
     MSLogError([MSCrashes logTag], @"Could not read exception data stored on disk with file name %@", baseFilename);
     [self deleteWrapperExceptionWithBaseFilename:baseFilename];
