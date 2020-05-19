@@ -475,7 +475,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 
   // Restore past devices from NSUserDefaults.
   NSData *devices = [defaults objectForKey:kMSPastDevicesKey];
-  NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+  NSArray *arrayFromData = (NSArray *)[MS_KEYED_UNARCHIVER_DATA(devices) mutableCopy];
 
   NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
 

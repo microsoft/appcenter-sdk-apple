@@ -3,6 +3,7 @@
 
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSStringTypedPropertyTests : XCTestCase
 
@@ -19,8 +20,8 @@
   sut.value = @"value";
 
   // When
-  NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  MSStringTypedProperty *actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedProperty];
+  NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
+  MSStringTypedProperty *actual = MS_KEYED_UNARCHIVER_DATA(serializedProperty);
 
   // Then
   XCTAssertNotNil(actual);

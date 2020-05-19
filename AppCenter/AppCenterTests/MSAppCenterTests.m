@@ -935,7 +935,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   NSMutableArray *history = [NSMutableArray new];
   [history addObject:[[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate dateWithTimeIntervalSince1970:0] andUserId:@"alice"]];
   [history addObject:[[MSUserIdHistoryInfo alloc] initWithTimestamp:[NSDate dateWithTimeIntervalSince1970:3000] andUserId:@"bob"]];
-  [self.settingsMock setObject:[NSKeyedArchiver archivedDataWithRootObject:history] forKey:@"UserIdHistory"];
+  [self.settingsMock setObject:MS_KEYED_ARCHIVER_DATA(history) forKey:@"UserIdHistory"];
   [MSUserIdContext resetSharedInstance];
 
   // When
