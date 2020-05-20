@@ -225,6 +225,9 @@
 		C2392F6A24642D8900425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5A24642CEA00425640 /* OCMock.framework */; };
 		C2392F6D24642D9B00425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5224642CEA00425640 /* OCMock.framework */; };
 		C2392F7024642DAD00425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5C24642CEA00425640 /* OCMock.framework */; };
+		C24C9D1D2472B49E0072C35D /* libCrashReporter-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CF32472B3C30072C35D /* libCrashReporter-iphoneos.a */; };
+		C24C9D1E2472B4AA0072C35D /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CEF2472B3C30072C35D /* libCrashReporter-MacOSX-Static.a */; };
+		C24C9D1F2472B4B20072C35D /* libCrashReporter-appletvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CF92472B3C30072C35D /* libCrashReporter-appletvos.a */; };
 		C291A048237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
 		C291A049237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
 		C291A04A237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
@@ -405,8 +408,6 @@
 		DFCB80662472D6920058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB805B2472D6770058D292 /* OCHamcrest.framework */; };
 		DFCB80692472D6DF0058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80532472D6770058D292 /* OCHamcrest.framework */; };
 		DFCB806C2472D6F00058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB805D2472D6770058D292 /* OCHamcrest.framework */; };
-		DFEB98292318FAF400AE88C1 /* libCrashReporter-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98282318FAF400AE88C1 /* libCrashReporter-tvOS.a */; };
-		DFEB98332318FF5500AE88C1 /* libCrashReporter-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEB98262318F90400AE88C1 /* libCrashReporter-iOS.a */; };
 		F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C74217F1FD600EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -428,7 +429,6 @@
 		F859D1131E549B45008B2D8E /* live_report_swift_crash.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1021E549B45008B2D8E /* live_report_swift_crash.plcrash */; };
 		F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */; };
 		F859D1151E549B45008B2D8E /* live_report_write_readonly.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */; };
-		F8DD752D230D89F800B095B6 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
 		F8FAFDFA242CABC300C7864B /* MSMockNSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FAFDF9242CABC300C7864B /* MSMockNSUserDefaults.m */; };
 /* End PBXBuildFile section */
 
@@ -523,6 +523,125 @@
 			proxyType = 1;
 			remoteGlobalIDString = 817EB1151BD765130047E85A;
 			remoteInfo = "OCMock tvOS";
+		};
+		C24C9CEC2472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = "CrashReporter-MacOSX";
+		};
+		C24C9CEE2472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05E731F30EFA1AAB005EDFB7;
+			remoteInfo = "CrashReporter-MacOSX-Static";
+		};
+		C24C9CF02472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 058812B91040582D009128FB;
+			remoteInfo = "CrashReporter-iOS";
+		};
+		C24C9CF22472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD31520EE936A9000FDE88;
+			remoteInfo = "CrashReporter-iOS-Device";
+		};
+		C24C9CF62472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8064D8BB1C4D22E5005A8B4C;
+			remoteInfo = "CrashReporter-tvOS";
+		};
+		C24C9CF82472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8064D81B1C4D22D8005A8B4C;
+			remoteInfo = "CrashReporter-tvOS-Device";
+		};
+		C24C9CFC2472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05E731E30EFA1A3E005EDFB7;
+			remoteInfo = plcrashutil;
+		};
+		C24C9CFE2472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD32690EE93DC3000FDE88;
+			remoteInfo = "Tests-MacOSX";
+		};
+		C24C9D022472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD33240EE94439000FDE88;
+			remoteInfo = "Tests-iOS-Device";
+		};
+		C24C9D062472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8064D9951C4D27E2005A8B4C;
+			remoteInfo = "Tests-tvOS-Device";
+		};
+		C24C9D082472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05F40CE70EF7AB80008050CF;
+			remoteInfo = DemoCrash;
+		};
+		C24C9D0A2472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 052A45CF136353FB00987004;
+			remoteInfo = "DemoCrash-iOS-Device";
+		};
+		C24C9D0E2472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8064D9A31C4D27E9005A8B4C;
+			remoteInfo = "DemoCrash-tvOS-Device";
+		};
+		C24C9D122472B3C30072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 050DE24D0F61B80B00152ED3;
+			remoteInfo = "Fuzz Testing";
+		};
+		C24C9D142472B4810072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 05CD31510EE936A9000FDE88;
+			remoteInfo = "CrashReporter iOS";
+		};
+		C24C9D192472B4870072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 05E731F20EFA1AAB005EDFB7;
+			remoteInfo = "CrashReporter macOS";
+		};
+		C24C9D1B2472B48D0072C35D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8064D7AD1C4D22D8005A8B4C;
+			remoteInfo = "CrashReporter tvOS";
 		};
 		C2B25A24230F03F300511D49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -629,7 +748,6 @@
 		0469D1B31F4E013C00A43A8E /* AppCenterCrashes Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterCrashes Release.xcconfig"; sourceTree = "<group>"; };
 		0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		049327961ECA170D00D0187A /* AppCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
 		049553051EF19F9F0097E071 /* MSCrashesUtilPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSCrashesUtilPrivate.h; sourceTree = "<group>"; };
 		049BC8251ECE36D400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8261ECE370100FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -740,6 +858,7 @@
 		BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockCrashesDelegate.m; sourceTree = "<group>"; };
 		BA6829F386854E39B92F77C4 /* MSMockCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockCrashesDelegate.h; sourceTree = "<group>"; };
 		C2392F4724642CEA00425640 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../Vendor/OCMock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
+		C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSApplicationForwarderTests.m; sourceTree = "<group>"; };
 		C2B25A26230F040400511D49 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B25A2B230F079800511D49 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -754,76 +873,6 @@
 		C9EBAB2E230D736A00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB30230D736F00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
-		DFEB97C62318F0BA00AE88C1 /* PLCrashNamespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
-		DFEB97C72318F0BA00AE88C1 /* PLCrashAsyncSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashAsyncSignalInfo.h; sourceTree = "<group>"; };
-		DFEB97C82318F0BA00AE88C1 /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
-		DFEB97C92318F0BA00AE88C1 /* PLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
-		DFEB97CA2318F0BA00AE88C1 /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
-		DFEB97CB2318F0BA00AE88C1 /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
-		DFEB97CC2318F0BA00AE88C1 /* PLCrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
-		DFEB97CD2318F0BA00AE88C1 /* PLCrashMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
-		DFEB97CE2318F0BA00AE88C1 /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
-		DFEB97CF2318F0BA00AE88C1 /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
-		DFEB97D02318F0BA00AE88C1 /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
-		DFEB97D12318F0BA00AE88C1 /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
-		DFEB97D22318F0BA00AE88C1 /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
-		DFEB97D32318F0BA00AE88C1 /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
-		DFEB97D42318F0BA00AE88C1 /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
-		DFEB97D52318F0BA00AE88C1 /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
-		DFEB97D62318F0BA00AE88C1 /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
-		DFEB97D72318F0BA00AE88C1 /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
-		DFEB97D82318F0BA00AE88C1 /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
-		DFEB97D92318F0BA00AE88C1 /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
-		DFEB97DA2318F0BA00AE88C1 /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
-		DFEB97DB2318F0BA00AE88C1 /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
-		DFEB97DC2318F0BA00AE88C1 /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
-		DFEB97F82318F42700AE88C1 /* PLCrashNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
-		DFEB97F92318F42700AE88C1 /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
-		DFEB97FA2318F42700AE88C1 /* PLCrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
-		DFEB97FB2318F42700AE88C1 /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
-		DFEB97FC2318F42700AE88C1 /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
-		DFEB97FD2318F42700AE88C1 /* PLCrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
-		DFEB97FE2318F42700AE88C1 /* PLCrashMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
-		DFEB97FF2318F42700AE88C1 /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
-		DFEB98002318F42700AE88C1 /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
-		DFEB98012318F42700AE88C1 /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
-		DFEB98022318F42700AE88C1 /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
-		DFEB98032318F42700AE88C1 /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
-		DFEB98042318F42700AE88C1 /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
-		DFEB98052318F42700AE88C1 /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
-		DFEB98062318F42700AE88C1 /* CrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
-		DFEB98072318F42700AE88C1 /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
-		DFEB98082318F42700AE88C1 /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
-		DFEB98092318F42700AE88C1 /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
-		DFEB980A2318F42700AE88C1 /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
-		DFEB980B2318F42700AE88C1 /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
-		DFEB980C2318F42700AE88C1 /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
-		DFEB980D2318F42700AE88C1 /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
-		DFEB980F2318F56B00AE88C1 /* PLCrashNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
-		DFEB98102318F56B00AE88C1 /* PLCrashAsyncSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashAsyncSignalInfo.h; sourceTree = "<group>"; };
-		DFEB98112318F56B00AE88C1 /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
-		DFEB98122318F56B00AE88C1 /* PLCrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
-		DFEB98132318F56B00AE88C1 /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
-		DFEB98142318F56B00AE88C1 /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
-		DFEB98152318F56B00AE88C1 /* PLCrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
-		DFEB98162318F56B00AE88C1 /* PLCrashMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
-		DFEB98172318F56B00AE88C1 /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
-		DFEB98182318F56B00AE88C1 /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
-		DFEB98192318F56B00AE88C1 /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
-		DFEB981A2318F56B00AE88C1 /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
-		DFEB981B2318F56B00AE88C1 /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
-		DFEB981C2318F56B00AE88C1 /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
-		DFEB981D2318F56B00AE88C1 /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
-		DFEB981E2318F56B00AE88C1 /* CrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
-		DFEB981F2318F56B00AE88C1 /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
-		DFEB98202318F56B00AE88C1 /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
-		DFEB98212318F56B00AE88C1 /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
-		DFEB98222318F56B00AE88C1 /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
-		DFEB98232318F56B00AE88C1 /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
-		DFEB98242318F56B00AE88C1 /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
-		DFEB98252318F56B00AE88C1 /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
-		DFEB98262318F90400AE88C1 /* libCrashReporter-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-iOS.a"; sourceTree = "<group>"; };
-		DFEB98282318FAF400AE88C1 /* libCrashReporter-tvOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-tvOS.a"; sourceTree = "<group>"; };
 		F82E4C74217F1FD600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F851DAEC1E81867D00525570 /* MSCrashesCXXExceptionTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSCrashesCXXExceptionTests.mm; sourceTree = "<group>"; };
 		F859D0F41E549B45008B2D8E /* live_report_bad_ptr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_bad_ptr.plcrash; sourceTree = "<group>"; };
@@ -886,8 +935,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFEB98332318FF5500AE88C1 /* libCrashReporter-iOS.a in Frameworks */,
 				C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */,
+				C24C9D1D2472B49E0072C35D /* libCrashReporter-iphoneos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -895,8 +944,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFEB98292318FAF400AE88C1 /* libCrashReporter-tvOS.a in Frameworks */,
 				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
+				C24C9D1F2472B4B20072C35D /* libCrashReporter-appletvos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -904,24 +953,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8DD752D230D89F800B095B6 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 				C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */,
+				C24C9D1E2472B4AA0072C35D /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		049327981ECA19FD00D0187A /* PLCrashReporter */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB97F72318F42700AE88C1 /* include */,
-				049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */,
-			);
-			name = PLCrashReporter;
-			path = ../Vendor/macOS/PLCrashReporter;
-			sourceTree = "<group>";
-		};
+	
 		04A140B31ECE8249001CEE94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -971,30 +1011,10 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		04EBBEAB1F01C0980006B8AE /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB97C32318F0BA00AE88C1 /* PLCrashReporter */,
-			);
-			name = tvOS;
-			sourceTree = "<group>";
-		};
-		04EBBEAC1F01C0A00006B8AE /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				049327981ECA19FD00D0187A /* PLCrashReporter */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
-		04EBBEAD1F01C0A50006B8AE /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB978F2318F09A00AE88C1 /* PLCrashReporter */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
+		
+
+		
+			
 		350B29E91F192A5C009B91CF /* WrapperSDKUtilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -1162,9 +1182,7 @@
 		6EC99A221D4151C60016C325 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				04EBBEAD1F01C0A50006B8AE /* iOS */,
-				04EBBEAC1F01C0A00006B8AE /* macOS */,
-				04EBBEAB1F01C0980006B8AE /* tvOS */,
+				C24C9CD02472B3AB0072C35D /* PLCrashReporter */,
 			);
 			name = Vendor;
 			sourceTree = "<group>";
@@ -1228,6 +1246,36 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C24C9CD02472B3AB0072C35D /* PLCrashReporter */ = {
+			isa = PBXGroup;
+			children = (
+				C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */,
+			);
+			name = PLCrashReporter;
+			path = ../Vendor/PLCrashReporter;
+			sourceTree = "<group>";
+		};
+		C24C9CD22472B3C30072C35D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C24C9CED2472B3C30072C35D /* CrashReporter.framework */,
+				C24C9CF12472B3C30072C35D /* CrashReporter.framework */,
+				C24C9CF72472B3C30072C35D /* CrashReporter.framework */,
+				C24C9CEF2472B3C30072C35D /* libCrashReporter-MacOSX-Static.a */,
+				C24C9CF32472B3C30072C35D /* libCrashReporter-iphoneos.a */,
+				C24C9CF92472B3C30072C35D /* libCrashReporter-appletvos.a */,
+				C24C9CFF2472B3C30072C35D /* Tests-MacOSX.xctest */,
+				C24C9D032472B3C30072C35D /* Tests-iOS-Device.xctest */,
+				C24C9D072472B3C30072C35D /* Tests-tvOS-Device.xctest */,
+				C24C9D092472B3C30072C35D /* DemoCrash.app */,
+				C24C9D0B2472B3C30072C35D /* DemoCrash-iOS-Device.app */,
+				C24C9D0F2472B3C30072C35D /* DemoCrash-tvOS-Device.app */,
+				C24C9CFD2472B3C30072C35D /* plcrashutil */,
+				C24C9D132472B3C30072C35D /* Fuzz Testing */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C9A91F68230BFDFD0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1266,115 +1314,6 @@
 				DFCB805F2472D6770058D292 /* OCHamcrest.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		DFEB978F2318F09A00AE88C1 /* PLCrashReporter */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB980E2318F56B00AE88C1 /* include */,
-				DFEB98262318F90400AE88C1 /* libCrashReporter-iOS.a */,
-			);
-			name = PLCrashReporter;
-			path = ../Vendor/iOS/PLCrashReporter;
-			sourceTree = "<group>";
-		};
-		DFEB97C32318F0BA00AE88C1 /* PLCrashReporter */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB97C52318F0BA00AE88C1 /* include */,
-				DFEB98282318FAF400AE88C1 /* libCrashReporter-tvOS.a */,
-			);
-			name = PLCrashReporter;
-			path = ../Vendor/tvOS/PLCrashReporter;
-			sourceTree = "<group>";
-		};
-		DFEB97C52318F0BA00AE88C1 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB97C62318F0BA00AE88C1 /* PLCrashNamespace.h */,
-				DFEB97C72318F0BA00AE88C1 /* PLCrashAsyncSignalInfo.h */,
-				DFEB97C82318F0BA00AE88C1 /* PLCrashFeatureConfig.h */,
-				DFEB97C92318F0BA00AE88C1 /* PLCrashReporter.h */,
-				DFEB97CA2318F0BA00AE88C1 /* PLCrashReportRegisterInfo.h */,
-				DFEB97CB2318F0BA00AE88C1 /* PLCrashReportBinaryImageInfo.h */,
-				DFEB97CC2318F0BA00AE88C1 /* PLCrashReport.h */,
-				DFEB97CD2318F0BA00AE88C1 /* PLCrashMacros.h */,
-				DFEB97CE2318F0BA00AE88C1 /* PLCrashReporterConfig.h */,
-				DFEB97CF2318F0BA00AE88C1 /* PLCrashReportMachExceptionInfo.h */,
-				DFEB97D02318F0BA00AE88C1 /* PLCrashReportThreadInfo.h */,
-				DFEB97D12318F0BA00AE88C1 /* PLCrashReportStackFrameInfo.h */,
-				DFEB97D22318F0BA00AE88C1 /* PLCrashReportSystemInfo.h */,
-				DFEB97D32318F0BA00AE88C1 /* PLCrashReportExceptionInfo.h */,
-				DFEB97D42318F0BA00AE88C1 /* PLCrashReportProcessorInfo.h */,
-				DFEB97D52318F0BA00AE88C1 /* CrashReporter.h */,
-				DFEB97D62318F0BA00AE88C1 /* PLCrashReportSignalInfo.h */,
-				DFEB97D72318F0BA00AE88C1 /* PLCrashReportApplicationInfo.h */,
-				DFEB97D82318F0BA00AE88C1 /* PLCrashReportMachineInfo.h */,
-				DFEB97D92318F0BA00AE88C1 /* PLCrashReportTextFormatter.h */,
-				DFEB97DA2318F0BA00AE88C1 /* PLCrashReportFormatter.h */,
-				DFEB97DB2318F0BA00AE88C1 /* PLCrashReportProcessInfo.h */,
-				DFEB97DC2318F0BA00AE88C1 /* PLCrashReportSymbolInfo.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		DFEB97F72318F42700AE88C1 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB97F82318F42700AE88C1 /* PLCrashNamespace.h */,
-				DFEB97F92318F42700AE88C1 /* PLCrashFeatureConfig.h */,
-				DFEB97FA2318F42700AE88C1 /* PLCrashReporter.h */,
-				DFEB97FB2318F42700AE88C1 /* PLCrashReportRegisterInfo.h */,
-				DFEB97FC2318F42700AE88C1 /* PLCrashReportBinaryImageInfo.h */,
-				DFEB97FD2318F42700AE88C1 /* PLCrashReport.h */,
-				DFEB97FE2318F42700AE88C1 /* PLCrashMacros.h */,
-				DFEB97FF2318F42700AE88C1 /* PLCrashReporterConfig.h */,
-				DFEB98002318F42700AE88C1 /* PLCrashReportMachExceptionInfo.h */,
-				DFEB98012318F42700AE88C1 /* PLCrashReportThreadInfo.h */,
-				DFEB98022318F42700AE88C1 /* PLCrashReportStackFrameInfo.h */,
-				DFEB98032318F42700AE88C1 /* PLCrashReportSystemInfo.h */,
-				DFEB98042318F42700AE88C1 /* PLCrashReportExceptionInfo.h */,
-				DFEB98052318F42700AE88C1 /* PLCrashReportProcessorInfo.h */,
-				DFEB98062318F42700AE88C1 /* CrashReporter.h */,
-				DFEB98072318F42700AE88C1 /* PLCrashReportSignalInfo.h */,
-				DFEB98082318F42700AE88C1 /* PLCrashReportApplicationInfo.h */,
-				DFEB98092318F42700AE88C1 /* PLCrashReportMachineInfo.h */,
-				DFEB980A2318F42700AE88C1 /* PLCrashReportTextFormatter.h */,
-				DFEB980B2318F42700AE88C1 /* PLCrashReportFormatter.h */,
-				DFEB980C2318F42700AE88C1 /* PLCrashReportProcessInfo.h */,
-				DFEB980D2318F42700AE88C1 /* PLCrashReportSymbolInfo.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		DFEB980E2318F56B00AE88C1 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				DFEB980F2318F56B00AE88C1 /* PLCrashNamespace.h */,
-				DFEB98102318F56B00AE88C1 /* PLCrashAsyncSignalInfo.h */,
-				DFEB98112318F56B00AE88C1 /* PLCrashFeatureConfig.h */,
-				DFEB98122318F56B00AE88C1 /* PLCrashReporter.h */,
-				DFEB98132318F56B00AE88C1 /* PLCrashReportRegisterInfo.h */,
-				DFEB98142318F56B00AE88C1 /* PLCrashReportBinaryImageInfo.h */,
-				DFEB98152318F56B00AE88C1 /* PLCrashReport.h */,
-				DFEB98162318F56B00AE88C1 /* PLCrashMacros.h */,
-				DFEB98172318F56B00AE88C1 /* PLCrashReporterConfig.h */,
-				DFEB98182318F56B00AE88C1 /* PLCrashReportMachExceptionInfo.h */,
-				DFEB98192318F56B00AE88C1 /* PLCrashReportThreadInfo.h */,
-				DFEB981A2318F56B00AE88C1 /* PLCrashReportStackFrameInfo.h */,
-				DFEB981B2318F56B00AE88C1 /* PLCrashReportSystemInfo.h */,
-				DFEB981C2318F56B00AE88C1 /* PLCrashReportExceptionInfo.h */,
-				DFEB981D2318F56B00AE88C1 /* PLCrashReportProcessorInfo.h */,
-				DFEB981E2318F56B00AE88C1 /* CrashReporter.h */,
-				DFEB981F2318F56B00AE88C1 /* PLCrashReportSignalInfo.h */,
-				DFEB98202318F56B00AE88C1 /* PLCrashReportApplicationInfo.h */,
-				DFEB98212318F56B00AE88C1 /* PLCrashReportMachineInfo.h */,
-				DFEB98222318F56B00AE88C1 /* PLCrashReportTextFormatter.h */,
-				DFEB98232318F56B00AE88C1 /* PLCrashReportFormatter.h */,
-				DFEB98242318F56B00AE88C1 /* PLCrashReportProcessInfo.h */,
-				DFEB98252318F56B00AE88C1 /* PLCrashReportSymbolInfo.h */,
-			);
-			path = include;
 			sourceTree = "<group>";
 		};
 		F859D0F31E549B45008B2D8E /* CrashProbe */ = {
@@ -1608,6 +1547,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C24C9D152472B4810072C35D /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes iOS Framework";
 			productName = AppCenterCrashesStaticIOS;
@@ -1626,6 +1566,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C24C9D1C2472B48D0072C35D /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes tvOS Framework";
 			productName = AppCenterCrashesStaticIOS;
@@ -1644,6 +1585,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C24C9D1A2472B4870072C35D /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes macOS Framework";
 			productName = AppCenterCrashesStaticIOS;
@@ -1687,6 +1629,10 @@
 				{
 					ProductGroup = DFCB80492472D6770058D292 /* Products */;
 					ProjectRef = DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */;
+				},
+				{
+					ProductGroup = C24C9CD22472B3C30072C35D /* Products */;
+					ProjectRef = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
 				},
 				{
 					ProductGroup = C2392F4824642CEA00425640 /* Products */;
@@ -1809,6 +1755,104 @@
 			fileType = wrapper.framework;
 			path = OCHamcrest.framework;
 			remoteRef = DFCB805E2472D6770058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CED2472B3C30072C35D /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = C24C9CEC2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CEF2472B3C30072C35D /* libCrashReporter-MacOSX-Static.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCrashReporter-MacOSX-Static.a";
+			remoteRef = C24C9CEE2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF12472B3C30072C35D /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = C24C9CF02472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF32472B3C30072C35D /* libCrashReporter-iphoneos.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCrashReporter-iphoneos.a";
+			remoteRef = C24C9CF22472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF72472B3C30072C35D /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = C24C9CF62472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF92472B3C30072C35D /* libCrashReporter-appletvos.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCrashReporter-appletvos.a";
+			remoteRef = C24C9CF82472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CFD2472B3C30072C35D /* plcrashutil */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = plcrashutil;
+			remoteRef = C24C9CFC2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CFF2472B3C30072C35D /* Tests-MacOSX.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests-MacOSX.xctest";
+			remoteRef = C24C9CFE2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D032472B3C30072C35D /* Tests-iOS-Device.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests-iOS-Device.xctest";
+			remoteRef = C24C9D022472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D072472B3C30072C35D /* Tests-tvOS-Device.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests-tvOS-Device.xctest";
+			remoteRef = C24C9D062472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D092472B3C30072C35D /* DemoCrash.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = DemoCrash.app;
+			remoteRef = C24C9D082472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D0B2472B3C30072C35D /* DemoCrash-iOS-Device.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DemoCrash-iOS-Device.app";
+			remoteRef = C24C9D0A2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D0F2472B3C30072C35D /* DemoCrash-tvOS-Device.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DemoCrash-tvOS-Device.app";
+			remoteRef = C24C9D0E2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D132472B3C30072C35D /* Fuzz Testing */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Fuzz Testing";
+			remoteRef = C24C9D122472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2287,6 +2331,21 @@
 			isa = PBXTargetDependency;
 			name = "OCMock tvOS";
 			targetProxy = C2392F6E24642DA400425640 /* PBXContainerItemProxy */;
+		};
+		C24C9D152472B4810072C35D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CrashReporter iOS";
+			targetProxy = C24C9D142472B4810072C35D /* PBXContainerItemProxy */;
+		};
+		C24C9D1A2472B4870072C35D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CrashReporter macOS";
+			targetProxy = C24C9D192472B4870072C35D /* PBXContainerItemProxy */;
+		};
+		C24C9D1C2472B48D0072C35D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CrashReporter tvOS";
+			targetProxy = C24C9D1B2472B48D0072C35D /* PBXContainerItemProxy */;
 		};
 		C2B25A25230F03F300511D49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

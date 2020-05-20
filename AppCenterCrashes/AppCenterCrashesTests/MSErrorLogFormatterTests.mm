@@ -456,7 +456,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   // If
   NSError *error = nil;
-  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
   MSDevice *device = self.deviceMock;
   device.wrapperSdkVersion = @"10.11.12";
   device.wrapperSdkName = @"Wrapper SDK for iOS";
