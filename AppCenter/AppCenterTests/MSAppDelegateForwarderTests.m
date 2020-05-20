@@ -116,7 +116,7 @@
   [self.sut.selectorsToSwizzle removeObject:expectedSelectorStr];
 }
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testSwizzleOriginalOpenURLDelegate {
 
   // If
@@ -247,7 +247,7 @@
   [self waitForExpectations:@[ exceptionCaughtExpectation ] timeout:1];
 }
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testWithoutCustomDelegate {
 
   // If
@@ -308,7 +308,7 @@
   [self waitForExpectations:@[ originalCalledExpectation ] timeout:1];
 }
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testWithOneCustomDelegate {
 
   // If
@@ -354,7 +354,7 @@
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testWithMultipleCustomOpenURLDelegates {
 
   // If
@@ -413,7 +413,7 @@
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testWithRemovedCustomOpenURLDelegate {
 
   // If
@@ -461,7 +461,7 @@
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testDontForwardOpenURLOnDisable {
 
   // If
@@ -510,7 +510,7 @@
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testReturnValueChaining {
 
   // If

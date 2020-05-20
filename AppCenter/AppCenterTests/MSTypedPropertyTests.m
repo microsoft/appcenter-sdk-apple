@@ -22,7 +22,7 @@
 
   // When
   NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
-  MSTypedProperty *actual = MS_KEYED_UNARCHIVER_DATA(serializedProperty);
+  MSTypedProperty *actual = (MSTypedProperty *)MS_KEYED_UNARCHIVER_DATA(serializedProperty);
 
   // Then
   XCTAssertNotNil(actual);
