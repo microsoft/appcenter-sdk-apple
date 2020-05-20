@@ -1,0 +1,3 @@
+#include "./iOS.xcconfig"
+
+SUPPORTS_MACCATALYST = NO
