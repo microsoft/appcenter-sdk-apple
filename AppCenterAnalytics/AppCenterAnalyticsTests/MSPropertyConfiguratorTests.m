@@ -56,7 +56,7 @@
 }
 
 - (void)testCollectsDeviceIdWhenShouldCollectDeviceIdIsTrue {
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
+#if !TARGET_OS_OSX
 
   // If
   NSUUID *fakeIdentifier = [[NSUUID alloc] initWithUUIDString:@"00000000-0000-0000-0000-000000000000"];
