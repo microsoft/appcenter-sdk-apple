@@ -5,6 +5,7 @@
 #import "MSDeviceInternal.h"
 #import "MSTestFrameworks.h"
 #import "MSWrapperSdkInternal.h"
+#import "MSUtility.h"
 
 @interface MSDeviceLogTests : XCTestCase
 
@@ -134,8 +135,8 @@
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
+  id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
 
   // Then
   assertThat(actual, notNilValue());
@@ -204,8 +205,8 @@
   self.sut.liveUpdatePackageHash = liveUpdatePackageHash;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
+  id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
   MSDevice *actualDevice = actual;
 
   // Then
