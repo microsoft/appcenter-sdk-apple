@@ -28,7 +28,7 @@ static dispatch_once_t swizzlingOnceToken;
 
 - (instancetype)init {
   if ((self = [super init])) {
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
     self.deprecatedSelectors = @{kMSOpenURLOptions : kMSOpenURLSourceApplicationAnnotation};
 #endif
   }
@@ -75,7 +75,7 @@ static dispatch_once_t swizzlingOnceToken;
 
 #pragma mark - Custom UIApplicationDelegate
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 
 /*
  * Those methods will never get called but their implementation will be used by swizzling. Those implementations will run within the

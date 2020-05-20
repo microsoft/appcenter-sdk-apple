@@ -48,7 +48,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
 #pragma mark - MSUtility+Application.h
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testMSAppStateMatchesUIAppStateWhenAvailable {
 
   // Then
@@ -91,7 +91,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   assertThat(@(state), is(@(expectedState)));
 }
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testAppInactive {
 
   // If
@@ -157,7 +157,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 #pragma mark - MSUtility+Environment.h
 
 // FIXME: This method actually opens a dialog to ask to handle the URL on Mac.
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testSharedAppOpenEmptyCallCallback {
 
   // If
@@ -603,7 +603,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 #if TARGET_OS_TV
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/afile.test";
 #else
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/afile.test"];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/afile.test";
@@ -656,7 +656,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 #if TARGET_OS_TV
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
 #else
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/anotherfile.test" ];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
@@ -684,7 +684,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 #if TARGET_OS_TV
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing";
 #else
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing"];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing";
@@ -782,7 +782,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 #if TARGET_OS_TV
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
 #else
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/anotherfile.test"];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";

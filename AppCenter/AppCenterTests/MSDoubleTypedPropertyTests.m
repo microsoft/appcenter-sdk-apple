@@ -3,6 +3,7 @@
 
 #import "MSDoubleTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSDoubleTypedPropertyTests : XCTestCase
 
@@ -19,8 +20,8 @@
   sut.value = 12.23432;
 
   // When
-  NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  MSDoubleTypedProperty *actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedProperty];
+  NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
+  MSDoubleTypedProperty *actual = (MSDoubleTypedProperty *)MS_KEYED_UNARCHIVER_DATA(serializedProperty);
 
   // Then
   XCTAssertNotNil(actual);
