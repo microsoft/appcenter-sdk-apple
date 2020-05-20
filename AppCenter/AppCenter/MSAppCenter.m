@@ -584,7 +584,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
   // Hookup to application life-cycle events.
   if (isEnabled) {
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
+#if !TARGET_OS_OSX
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidEnterBackground)
                                    name:UIApplicationDidEnterBackgroundNotification
@@ -713,7 +713,7 @@ static const long kMSMinUpperSizeLimitInBytes = 24 * 1024;
 
 #pragma mark - Application life cycle
 
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
+#if !TARGET_OS_OSX
 /**
  *  The application will go to the foreground.
  */
