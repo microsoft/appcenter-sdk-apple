@@ -527,7 +527,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized(self) {
-    NSData *serializedLog = MS_KEYED_ARCHIVER_DATA(log);
+    NSData *serializedLog = [MSUtility archiveKeyedData:log];
     if (serializedLog && (serializedLog.length > 0)) {
 
       // Serialize target token.
@@ -874,7 +874,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         @try {
           #pragma clang diagnostic push
           #pragma clang diagnostic ignored "-Wold-style-cast"
-            item = (id<MSLog>)MS_KEYED_UNARCHIVER_DATA(serializedLog);
+            item = (id<MSLog>)[MSUtility unarchiveKeyedData:serializedLog];
           #pragma clang diagnostic pop
         } @catch (NSException *e) {
           exception = e;

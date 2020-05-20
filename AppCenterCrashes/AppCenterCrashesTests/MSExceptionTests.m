@@ -38,8 +38,8 @@
   sut.innerExceptions = @[ [MSCrashesTestUtil exception] ];
 
   // When
-  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(sut);
-  id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
+  NSData *serializedEvent = [MSUtility archiveKeyedData:sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());

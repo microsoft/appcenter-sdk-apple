@@ -86,7 +86,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
 + (void)saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
 
   // For some reason, archiving directly to a file fails in some cases, so archive to NSData and write that to the file
-  NSData *data = MS_KEYED_ARCHIVER_DATA(wrapperException);
+  NSData *data = [MSUtility archiveKeyedData:wrapperException];
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
   [MSUtility createFileAtPathComponent:pathComponent withData:data atomically:YES forceOverwrite:YES];
 }
@@ -110,7 +110,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   MSWrapperException *wrapperException = nil;
   NSException *exception = nil;
   @try {
-    wrapperException = (MSWrapperException *)MS_KEYED_UNARCHIVER_DATA(data);
+    wrapperException = (MSWrapperException *)[MSUtility unarchiveKeyedData:data];
   } @catch (NSException *e) {
     exception = e;
   }
