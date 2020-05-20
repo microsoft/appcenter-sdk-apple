@@ -61,8 +61,8 @@
   self.sut.sid = sessionId;
 
   // When
-  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
-  id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
+  NSData *serializedEvent = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());
