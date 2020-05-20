@@ -33,7 +33,7 @@ static dispatch_once_t onceToken;
   if (self) {
     NSData *data = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSSessionIdHistoryKey];
     if (data != nil) {
-      _sessionHistory = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+      _sessionHistory = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
     }
     if (!_sessionHistory) {
       _sessionHistory = [NSMutableArray<MSSessionHistoryInfo *> new];
@@ -61,7 +61,7 @@ static dispatch_once_t onceToken;
     self.currentSessionInfo.sessionId = sessionId;
     self.currentSessionInfo.timestamp = [NSDate date];
     [self.sessionHistory addObject:self.currentSessionInfo];
-    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.sessionHistory) forKey:kMSSessionIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.sessionHistory] forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new session with id:%@ and timestamp: %@.", self.currentSessionInfo.sessionId,
                  self.currentSessionInfo.timestamp);
   }
@@ -84,7 +84,7 @@ static dispatch_once_t onceToken;
     if (keepCurrentSession) {
       [self.sessionHistory addObject:self.currentSessionInfo];
     }
-    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.sessionHistory) forKey:kMSSessionIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.sessionHistory] forKey:kMSSessionIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old sessions.");
   }
 }

@@ -21,8 +21,8 @@
   sut.name = propertyName;
 
   // When
-  NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
-  MSTypedProperty *actual = (MSTypedProperty *)MS_KEYED_UNARCHIVER_DATA(serializedProperty);
+  NSData *serializedProperty = [MSUtility archiveKeyedData:sut];
+  MSTypedProperty *actual = (MSTypedProperty *)[MSUtility unarchiveKeyedData:serializedProperty];
 
   // Then
   XCTAssertNotNil(actual);

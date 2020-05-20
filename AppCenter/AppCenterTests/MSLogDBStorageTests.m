@@ -1013,7 +1013,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   NSUInteger trueLogCount;
   for (NSUInteger i = 0; i < count; ++i) {
     id<MSLog> log = [self generateLogWithSize:size];
-    NSString *base64Data = [MS_KEYED_ARCHIVER_DATA(log) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString *base64Data = [[MSUtility archiveKeyedData:log] base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES (?, ?, ?)", kMSLogTableName,
                                                        kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName];
 
@@ -1091,7 +1091,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   for (NSArray *row in rows) {
     NSString *base64Data = row[2];
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:base64Data options:NSDataBase64DecodingIgnoreUnknownCharacters];
-    id<MSLog> log = (id<MSLog>)MS_KEYED_UNARCHIVER_DATA(logData);
+    id<MSLog> log = (id<MSLog>)[MSUtility unarchiveKeyedData:logData];
     [logs addObject:log];
   }
   sqlite3_close(db);
@@ -1110,7 +1110,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   sqlite3_exec(db, [[NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount] UTF8String], NULL, NULL, NULL);
   do {
     MSAbstractLog *log = [MSAbstractLog new];
-    NSString *base64Data = [MS_KEYED_ARCHIVER_DATA(log) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString *base64Data = [[MSUtility archiveKeyedData:log] base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)",
                                                        kMSLogTableName, kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName,
                                                        kMSTestGroupId, base64Data, (unsigned int)priority];
@@ -1142,7 +1142,7 @@ static NSString *const kMSLatestSchema = @"CREATE TABLE \"logs\" ("
   sqlite3_exec(db, [[NSString stringWithFormat:@"PRAGMA max_page_count = %ld;", maxPageCount] UTF8String], NULL, NULL, NULL);
   do {
     MSAbstractLog *log = [MSAbstractLog new];
-    NSString *base64Data = [MS_KEYED_ARCHIVER_DATA(log) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    NSString *base64Data = [[MSUtility archiveKeyedData:log] base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery =
         [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)", kMSLogTableName,
                                    kMSGroupIdColumnName, kMSLogColumnName, kMSPriorityColumnName, kMSTestGroupId, base64Data,
