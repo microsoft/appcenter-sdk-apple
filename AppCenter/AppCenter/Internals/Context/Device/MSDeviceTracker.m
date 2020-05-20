@@ -379,6 +379,11 @@ static MSDeviceTracker *sharedInstance = nil;
   NSScreen *focusScreen = [NSScreen mainScreen];
   CGFloat scale = focusScreen.backingScaleFactor;
   CGSize screenSize = [focusScreen frame].size;
+#elif TARGET_OS_MACCATALYST
+  // This returns scale value based on scale values iOS.
+  // So we need to use base value for macOS.
+  CGFloat scale = 3;
+  CGSize screenSize = [UIScreen mainScreen].bounds.size;
 #else
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
