@@ -173,8 +173,8 @@
 - (void)testNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  MSErrorAttachmentLog *actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
+  MSErrorAttachmentLog *actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
 
   // Then
   assertThat(actual, notNilValue());

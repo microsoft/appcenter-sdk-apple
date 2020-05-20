@@ -57,8 +57,8 @@
   MSStackFrame *sut = [self stackFrame];
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(sut);
+  id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
 
   // Then
   assertThat(actual, notNilValue());

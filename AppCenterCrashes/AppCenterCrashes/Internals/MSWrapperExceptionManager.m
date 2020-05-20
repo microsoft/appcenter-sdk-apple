@@ -86,16 +86,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
 + (void)saveWrapperException:(MSWrapperException *)wrapperException withBaseFilename:(NSString *)baseFilename {
 
   // For some reason, archiving directly to a file fails in some cases, so archive to NSData and write that to the file
-  
-  NSData *data = nil;
-  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-    data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException requiringSecureCoding:NO error:nil];
-  } else {
-  #pragma clang diagnostic push
-  #pragma clang diagnostic ignored "-Wdeprecated"
-    data = [NSKeyedArchiver archivedDataWithRootObject:wrapperException];
-  #pragma clang diagnostic pop
-  }
+  NSData *data = MS_KEYED_ARCHIVER_DATA(wrapperException);
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
   [MSUtility createFileAtPathComponent:pathComponent withData:data atomically:YES forceOverwrite:YES];
 }

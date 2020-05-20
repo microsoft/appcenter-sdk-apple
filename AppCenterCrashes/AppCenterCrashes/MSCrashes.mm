@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
+#if !TARGET_OS_OSX
 #import <UIKit/UIKit.h>
 #endif
 
@@ -317,7 +317,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 - (void)applyEnabledState:(BOOL)isEnabled {
   [super applyEnabledState:isEnabled];
 
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
+#if !TARGET_OS_OSX
 
   // Remove all notification handlers.
   [MS_NOTIFICATION_CENTER removeObserver:self];
@@ -347,7 +347,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     }
 
     // Set up lifecycle event handler.
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
+#if !TARGET_OS_OSX
     [MS_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationWillEnterForeground)
                                    name:UIApplicationWillEnterForegroundNotification
@@ -527,15 +527,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized(self) {
-    NSData *serializedLog = nil;
-    if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, tvOS 11.0, *)) {
-      serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log requiringSecureCoding:NO error:nil];
-    } else {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wdeprecated"
-      serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
-    #pragma clang diagnostic pop
-    }
+    NSData *serializedLog = MS_KEYED_ARCHIVER_DATA(log);
     if (serializedLog && (serializedLog.length > 0)) {
 
       // Serialize target token.

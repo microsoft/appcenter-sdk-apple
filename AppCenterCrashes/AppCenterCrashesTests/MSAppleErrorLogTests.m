@@ -101,8 +101,8 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
+  id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
 
   // Then
   assertThat(actual, notNilValue());
