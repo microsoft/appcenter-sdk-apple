@@ -13,8 +13,6 @@
 #define MS_CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:2]
 #define MS_IS_APP_EXTENSION ([[[NSBundle mainBundle] executablePath] rangeOfString:@".appex/"].length > 0)
 #define MS_APP_MAIN_BUNDLE [NSBundle mainBundle]
-#define MS_KEYED_UNARCHIVER_DATA(data) [MSUtility unarchiveKeyedData:data]
-#define MS_KEYED_ARCHIVER_DATA(data) [MSUtility archiveKeyedData:data]
 
 /**
  * Utility class that is used throughout the SDK.

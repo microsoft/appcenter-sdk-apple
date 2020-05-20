@@ -174,8 +174,8 @@
   [sut setDate:[NSDate new] forKey:@"dateKey"];
 
   // When
-  NSData *serializedSut = MS_KEYED_ARCHIVER_DATA(sut);
-  MSEventProperties *deserializedSut = (MSEventProperties *)MS_KEYED_UNARCHIVER_DATA(serializedSut);
+  NSData *serializedSut = [MSUtility archiveKeyedData:sut];
+  MSEventProperties *deserializedSut = (MSEventProperties *)[MSUtility unarchiveKeyedData:serializedSut];
 
   // Then
   XCTAssertNotNil(deserializedSut);

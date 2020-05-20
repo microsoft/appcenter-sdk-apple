@@ -20,8 +20,8 @@
   sut.value = 12.23432;
 
   // When
-  NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
-  MSDoubleTypedProperty *actual = (MSDoubleTypedProperty *)MS_KEYED_UNARCHIVER_DATA(serializedProperty);
+  NSData *serializedProperty = [MSUtility archiveKeyedData:sut];
+  MSDoubleTypedProperty *actual = (MSDoubleTypedProperty *)[MSUtility unarchiveKeyedData:serializedProperty];
 
   // Then
   XCTAssertNotNil(actual);

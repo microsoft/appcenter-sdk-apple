@@ -103,8 +103,8 @@
 - (void)testExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedExt = MS_KEYED_ARCHIVER_DATA(self.ext);
-  MSCSExtensions *actualExt = MS_KEYED_UNARCHIVER_DATA(serializedExt);
+  NSData *serializedExt = [MSUtility archiveKeyedData:self.ext];
+  MSCSExtensions *actualExt = [MSUtility unarchiveKeyedData:serializedExt];
 
   // Then
   XCTAssertNotNil(actualExt);
@@ -214,8 +214,8 @@
 - (void)testMetadataExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedMetadataExt = MS_KEYED_ARCHIVER_DATA(self.metadataExt);
-  MSMetadataExtension *actualMetadataExt = (MSMetadataExtension *)MS_KEYED_UNARCHIVER_DATA(serializedMetadataExt);
+  NSData *serializedMetadataExt = [MSUtility archiveKeyedData:self.metadataExt];
+  MSMetadataExtension *actualMetadataExt = (MSMetadataExtension *)[MSUtility unarchiveKeyedData:serializedMetadataExt];
 
   // Then
   XCTAssertNotNil(actualMetadataExt);
@@ -270,8 +270,8 @@
 - (void)testUserExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedUserExt = MS_KEYED_ARCHIVER_DATA(self.userExt);
-  MSUserExtension *actualUserExt = (MSUserExtension *)MS_KEYED_UNARCHIVER_DATA(serializedUserExt);
+  NSData *serializedUserExt = [MSUtility archiveKeyedData:self.userExt];
+  MSUserExtension *actualUserExt = (MSUserExtension *)[MSUtility unarchiveKeyedData:serializedUserExt];
 
   // Then
   XCTAssertNotNil(actualUserExt);
@@ -333,8 +333,8 @@
 - (void)testLocExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedlocExt = MS_KEYED_ARCHIVER_DATA(self.locExt);
-  MSLocExtension *actualLocExt = (MSLocExtension *)MS_KEYED_UNARCHIVER_DATA(serializedlocExt);
+  NSData *serializedlocExt = [MSUtility archiveKeyedData:self.locExt];
+  MSLocExtension *actualLocExt = (MSLocExtension *)[MSUtility unarchiveKeyedData:serializedlocExt];
 
   // Then
   XCTAssertNotNil(actualLocExt);
@@ -388,8 +388,8 @@
 - (void)testOSExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedOSExt = MS_KEYED_ARCHIVER_DATA(self.osExt);
-  MSOSExtension *actualOSExt = (MSOSExtension *)MS_KEYED_UNARCHIVER_DATA(serializedOSExt);
+  NSData *serializedOSExt = [MSUtility archiveKeyedData:self.osExt];
+  MSOSExtension *actualOSExt = (MSOSExtension *)[MSUtility unarchiveKeyedData:serializedOSExt];
 
   // Then
   XCTAssertNotNil(actualOSExt);
@@ -451,8 +451,8 @@
 - (void)testAppExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedAppExt = MS_KEYED_ARCHIVER_DATA(self.appExt);
-  MSAppExtension *actualAppExt = (MSAppExtension *)MS_KEYED_UNARCHIVER_DATA(serializedAppExt);
+  NSData *serializedAppExt = [MSUtility archiveKeyedData:self.appExt];
+  MSAppExtension *actualAppExt = (MSAppExtension *)[MSUtility unarchiveKeyedData:serializedAppExt];
 
   // Then
   XCTAssertNotNil(actualAppExt);
@@ -530,8 +530,8 @@
 - (void)testProtocolExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedProtocolExt = MS_KEYED_ARCHIVER_DATA(self.protocolExt);
-  MSProtocolExtension *actualProtocolExt = (MSProtocolExtension *)MS_KEYED_UNARCHIVER_DATA(serializedProtocolExt);
+  NSData *serializedProtocolExt = [MSUtility archiveKeyedData:self.protocolExt];
+  MSProtocolExtension *actualProtocolExt = (MSProtocolExtension *)[MSUtility unarchiveKeyedData:serializedProtocolExt];
 
   // Then
   XCTAssertNotNil(actualProtocolExt);
@@ -594,8 +594,8 @@
 - (void)testNetExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedNetExt = MS_KEYED_ARCHIVER_DATA(self.netExt);
-  MSNetExtension *actualNetExt = (MSNetExtension *)MS_KEYED_UNARCHIVER_DATA(serializedNetExt);
+  NSData *serializedNetExt = [MSUtility archiveKeyedData:self.netExt];
+  MSNetExtension *actualNetExt = (MSNetExtension *)[MSUtility unarchiveKeyedData:serializedNetExt];
 
   // Then
   XCTAssertNotNil(actualNetExt);
@@ -650,8 +650,8 @@
 - (void)testSDKExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedSDKExt = MS_KEYED_ARCHIVER_DATA(self.sdkExt);
-  MSSDKExtension *actualSDKExt = (MSSDKExtension *)MS_KEYED_UNARCHIVER_DATA(serializedSDKExt);
+  NSData *serializedSDKExt = [MSUtility archiveKeyedData:self.sdkExt];
+  MSSDKExtension *actualSDKExt = (MSSDKExtension *)[MSUtility unarchiveKeyedData:serializedSDKExt];
 
   // Then
   XCTAssertNotNil(actualSDKExt);
@@ -729,8 +729,8 @@
 - (void)testDeviceExtNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedDeviceExt = MS_KEYED_ARCHIVER_DATA(self.deviceExt);
-  MSDeviceExtension *actualDeviceExt = (MSDeviceExtension *)MS_KEYED_UNARCHIVER_DATA(serializedDeviceExt);
+  NSData *serializedDeviceExt = [MSUtility archiveKeyedData:self.deviceExt];
+  MSDeviceExtension *actualDeviceExt = (MSDeviceExtension *)[MSUtility unarchiveKeyedData:serializedDeviceExt];
 
   // Then
   XCTAssertNotNil(actualDeviceExt);
@@ -790,8 +790,8 @@
 - (void)testDataNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedData = MS_KEYED_ARCHIVER_DATA(self.data);
-  MSCSData *actualData = (MSCSData *)MS_KEYED_UNARCHIVER_DATA(serializedData);
+  NSData *serializedData = [MSUtility archiveKeyedData:self.data];
+  MSCSData *actualData = (MSCSData *)[MSUtility unarchiveKeyedData:serializedData];
 
   // Then
   XCTAssertNotNil(actualData);
