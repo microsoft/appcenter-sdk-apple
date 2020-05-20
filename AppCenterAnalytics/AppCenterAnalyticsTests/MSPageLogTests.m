@@ -4,6 +4,7 @@
 #import "AppCenter+Internal.h"
 #import "MSPageLog.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSPageLogTests : XCTestCase
 
@@ -73,8 +74,8 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = MS_KEYED_ARCHIVER_DATA(self.sut);
+  id actual = MS_KEYED_UNARCHIVER_DATA(serializedEvent);
 
   // Then
   assertThat(actual, notNilValue());
