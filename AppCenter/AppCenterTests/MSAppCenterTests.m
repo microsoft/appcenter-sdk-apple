@@ -717,7 +717,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMVerify([self.channelGroupMock addDelegate:[OCMArg isKindOfClass:[MSOneCollectorChannelDelegate class]]]);
 }
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testAppIsBackgrounded {
 
   // If
