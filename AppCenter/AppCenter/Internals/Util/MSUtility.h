@@ -34,11 +34,19 @@
 
 /**
  * Unarchive data.
+ * 
+ * @param data The data for unarchiving in NSData type.
+ *
+ * @return The unarchived data as an NSObject.
  */
 + (NSObject *)unarchiveKeyedData:(NSData *)data;
 
 /**
  * Archive data.
+ *
+ * @param data The data for archiving.
+ *
+ * @return The unarchived data as an NSData.
  */
 + (NSData *)archiveKeyedData:(id)data;
 

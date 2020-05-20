@@ -11,7 +11,7 @@
 
 #import "MSUtility.h"
 
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
+#if !TARGET_OS_OSX
 #define MS_DEVICE [UIDevice currentDevice]
 #endif
 
