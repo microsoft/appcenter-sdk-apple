@@ -23,7 +23,7 @@ let package = Package(
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.6.0")),
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .revision("748087386cfc517936315c107f722b146b0ad1ab")),
     ],
     targets: [
         .target(
@@ -45,7 +45,7 @@ let package = Package(
                 .linkedFramework("SystemConfiguration"),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
-                .linkedFramework("CoreTelephony", .when(platforms: [.iOS])),
+                .linkedFramework("CoreTelephony", .when(platforms: [.iOS, .macOS])),
             ]
         ),
         .target(
