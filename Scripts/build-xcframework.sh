@@ -27,9 +27,3 @@ SetXcBuildCommandFramework "macos"
 
 XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output $XC_FRAMEWORK_PATH"
 eval "$XC_BUILD_COMMAND"
-
-RES_FILE_PATH="$WORK_DIR/Release-iphoneos/AppCenterDistributeResources.bundle"
-if [[ ${PROJECT_NAME} == "AppCenterDistribute" ]] && [ -e "${RES_FILE_PATH}" ]; then
-    mv "${RES_FILE_PATH}" "${XC_FRAMEWORK_PATH}"
-fi
-
