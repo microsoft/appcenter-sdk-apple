@@ -125,6 +125,7 @@
 		DFE9550D244D8B570061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954FA244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.h */; };
 		DFE9550E244D8B570061E3FA /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954FB244D8B410061E3FA /* HTTPStubs.h */; };
 		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		F8A27E472476714F002DDDAA /* iOS Distribute.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */; };
 		F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */; };
 /* End PBXBuildFile section */
 
@@ -382,6 +383,7 @@
 		DFE95500244D8B410061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		F82E4C82217F217F00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
+		F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Distribute.xcconfig"; sourceTree = "<group>"; };
 		F8B8EAE621106436004BCECB /* Resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Resources.xcconfig; sourceTree = "<group>"; };
 		F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 		0471B5F31E45466F0022F951 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */,
 				F8D6848E230D7DE9000A7CED /* Info.plist */,
 				04545DCC227B606600A49E06 /* AppCenterDistribute.xcconfig */,
 				0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */,
@@ -1000,6 +1003,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8A27E472476714F002DDDAA /* iOS Distribute.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1282,7 +1286,7 @@
 		};
 		C9A91F91230BFFFF0068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
 			};
@@ -1290,7 +1294,7 @@
 		};
 		C9A91F92230BFFFF0068070D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
 			};

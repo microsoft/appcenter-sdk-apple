@@ -20,8 +20,8 @@
   sut.value = 12;
 
   // When
-  NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
-  MSLongTypedProperty *actual = (MSLongTypedProperty *)MS_KEYED_UNARCHIVER_DATA(serializedProperty);
+  NSData *serializedProperty = [MSUtility archiveKeyedData:sut];
+  MSLongTypedProperty *actual = (MSLongTypedProperty *)[MSUtility unarchiveKeyedData:serializedProperty];
 
   // Then
   XCTAssertNotNil(actual);

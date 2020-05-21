@@ -157,7 +157,7 @@ static const char deviceIdPrefix = 'i';
 
 + (NSString *)getDeviceIdentifier {
   NSString *baseIdentifier;
-#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
+#if TARGET_OS_OSX 
 
   io_service_t platformExpert = IOServiceGetMatchingService(
     kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));

@@ -46,7 +46,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
   XCTAssertEqualObjects([savedData[0] sessionId], expectedSessionId);
 }
 
@@ -61,7 +61,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
   XCTAssertEqual([savedData count], 2);
 
   // When
@@ -72,7 +72,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
   XCTAssertEqual([savedData count], 0);
 }
 
@@ -87,7 +87,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
   XCTAssertEqual([savedData count], 2);
 
   // When
@@ -98,7 +98,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
   XCTAssertEqual([savedData count], 1);
 }
 

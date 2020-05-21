@@ -36,8 +36,8 @@
   sut.value = YES;
 
   // When
-  NSData *serializedProperty = MS_KEYED_ARCHIVER_DATA(sut);
-  MSBooleanTypedProperty *actual = MS_KEYED_UNARCHIVER_DATA(serializedProperty);
+  NSData *serializedProperty = [MSUtility archiveKeyedData:sut];
+  MSBooleanTypedProperty *actual = [MSUtility unarchiveKeyedData:serializedProperty];
 
   // Then
   XCTAssertNotNil(actual);

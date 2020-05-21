@@ -60,8 +60,8 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedLog = MS_KEYED_ARCHIVER_DATA(self.sut);
-  id actual = MS_KEYED_UNARCHIVER_DATA(serializedLog);
+  NSData *serializedLog = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedLog];
 
   // Then
   assertThat(actual, notNilValue());

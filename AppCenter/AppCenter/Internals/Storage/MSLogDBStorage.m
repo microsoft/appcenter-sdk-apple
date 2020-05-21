@@ -53,7 +53,7 @@ static const NSUInteger kMSSchemaVersion = 5;
   MSFlags persistenceFlags = flags & kMSPersistenceFlagsMask;
 
   // Insert this log to the DB.
-  NSString *base64Data = [MS_KEYED_ARCHIVER_DATA(log) base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+  NSString *base64Data = [[MSUtility archiveKeyedData:log] base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
 
   MSStorageBindableArray *addLogValues = [MSStorageBindableArray new];
   [addLogValues addString:groupId];
@@ -294,7 +294,7 @@ static const NSUInteger kMSSchemaVersion = 5;
 
     // Deserialize the log.
     @try {
-      log = (id<MSLog>)MS_KEYED_UNARCHIVER_DATA(logData);
+      log = (id<MSLog>)[MSUtility unarchiveKeyedData:logData];
     } @catch (NSException *e) {
       exception = e;
     }

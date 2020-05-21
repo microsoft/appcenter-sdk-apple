@@ -44,7 +44,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"UserIdHistory"];
   XCTAssertNotNil(data);
-  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
   XCTAssertEqualObjects([savedData[0] userId], expectedUserId);
 }
 
@@ -58,7 +58,7 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"UserIdHistory"];
   XCTAssertNotNil(data);
-  NSMutableArray *savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
 
   XCTAssertEqual([savedData count], 2);
 
@@ -70,7 +70,7 @@
   XCTAssertNotNil(data);
 
   // Should keep the current userId.
-  savedData = (NSMutableArray *)[MS_KEYED_UNARCHIVER_DATA(data) mutableCopy];
+  savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
   XCTAssertEqual([savedData count], 1);
 }
 

@@ -59,7 +59,7 @@ static MSDeviceTracker *sharedInstance = nil;
     NSData *devices = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
     NSArray *arrayFromData;
     if (devices != nil) {
-      arrayFromData = (NSArray *)[MS_KEYED_UNARCHIVER_DATA(devices) mutableCopy];
+      arrayFromData = (NSArray *)[[MSUtility unarchiveKeyedData:devices] mutableCopy];
 
       // If array is not nil, create a mutable version.
       if (arrayFromData)
@@ -131,7 +131,7 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.deviceHistory) forKey:kMSPastDevicesKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.deviceHistory] forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -268,7 +268,7 @@ static MSDeviceTracker *sharedInstance = nil;
     }
 
     // Clear persistence, but keep the latest information about the device.
-    [MS_APP_CENTER_USER_DEFAULTS setObject:MS_KEYED_ARCHIVER_DATA(self.deviceHistory) forKey:kMSPastDevicesKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.deviceHistory] forKey:kMSPastDevicesKey];
   }
 }
 
