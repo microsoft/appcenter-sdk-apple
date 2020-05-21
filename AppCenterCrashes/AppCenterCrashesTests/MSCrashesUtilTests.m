@@ -39,7 +39,7 @@
 #if TARGET_OS_TV
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crashes";
 #else
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   expectedDir = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/crashes"];
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crashes";
@@ -64,7 +64,7 @@
 #if TARGET_OS_TV
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheslogbuffer";
 #else
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   expectedDir =  [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/crasheslogbuffer"];
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheslogbuffer";
@@ -89,7 +89,7 @@
 #if TARGET_OS_TV
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheswrapperexceptions";
 #else
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   expectedDir =  [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/crasheswrapperexceptions"];
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheswrapperexceptions";
