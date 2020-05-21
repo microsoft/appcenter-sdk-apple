@@ -15,6 +15,7 @@
 #import "MSMockUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSThread.h"
+#import "MSWrapperSdkInternal.h"
 
 static NSString *kFixture = @"fixtureName";
 static NSString *kThreadNumber = @"crashedThreadNumber";
@@ -53,18 +54,34 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
 @interface MSErrorLogFormatterTests : XCTestCase
 
+@property(nonatomic) id deviceMock;
+@property(nonatomic) id deviceTrackerMock;
+
 @end
 
 @implementation MSErrorLogFormatterTests
+
+- (void)setUp {
+  [MSDeviceTracker resetSharedInstance];
+  self.deviceMock = OCMPartialMock([MSDevice new]);
+  OCMStub([self.deviceMock isValid]).andReturn(YES);
+  self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
+  OCMStub([self.deviceTrackerMock sharedInstance]).andReturn(self.deviceTrackerMock);
+  OCMStub([self.deviceTrackerMock device]).andReturn(self.deviceMock);
+  OCMStub([self.deviceTrackerMock deviceForTimestamp:OCMOCK_ANY]).andReturn(self.deviceMock);
+}
+
+- (void)tearDown {
+  [self.deviceMock stopMocking];
+  [self.deviceTrackerMock stopMocking];
+  [MSDeviceTracker resetSharedInstance];
+}
 
 - (void)testCreateErrorReport {
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
 
   MSMockUserDefaults *defaults = [MSMockUserDefaults new];
-  MSDevice *device = [MSDeviceTracker sharedInstance].device;
-  XCTAssertNotNil(device);
-
   NSError *error = nil;
   PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
 
@@ -80,7 +97,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertEqual([errorReport.appErrorTime timeIntervalSince1970], [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
-  XCTAssertEqualObjects(errorReport.device, device);
+  XCTAssertEqualObjects(errorReport.device, self.deviceMock);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
   crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -99,7 +116,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   // FIXME: PLCrashReporter doesn't support millisecond precision, here is a workaround to fill 999 for its millisecond.
   XCTAssertEqual([errorReport.appErrorTime timeIntervalSince1970], [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
-  XCTAssertEqualObjects(errorReport.device, device);
+  XCTAssertEqualObjects(errorReport.device, self.deviceMock);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
   [defaults stopMocking];
 }
@@ -242,9 +259,6 @@ static NSArray *kMacOSCrashReportsParameters = @[
 - (void)testCreateErrorLogForException {
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
   XCTAssertNotNil(crashData);
-
-  MSDevice *device = [MSDeviceTracker sharedInstance].device;
-  XCTAssertNotNil(device);
 
   NSError *error = nil;
   PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
@@ -433,7 +447,6 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   // If
   MSMockUserDefaults *defaults = [MSMockUserDefaults new];
-  [MSDeviceTracker resetSharedInstance];
 
   // When
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -444,15 +457,15 @@ static NSArray *kMacOSCrashReportsParameters = @[
   // If
   NSError *error = nil;
   MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
-  MSWrapperSdk *wrapperSdk = [[MSWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
-                                                              wrapperSdkName:@"Wrapper SDK for iOS"
-                                                       wrapperRuntimeVersion:@"13.14"
-                                                      liveUpdateReleaseLabel:@"Release Label"
-                                                     liveUpdateDeploymentKey:@"Deployment Key"
-                                                       liveUpdatePackageHash:@"Package Hash"];
+  MSDevice *device = self.deviceMock;
+  device.wrapperSdkVersion = @"10.11.12";
+  device.wrapperSdkName = @"Wrapper SDK for iOS";
+  device.wrapperRuntimeVersion = @"13.14";
+  device.liveUpdateReleaseLabel = @"Release Label";
+  device.liveUpdateDeploymentKey = @"Deployment Key";
+  device.liveUpdatePackageHash = @"Package Hash";
 
   // When
-  [[MSDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
   MSAppleErrorLog *errorLog = [MSErrorLogFormatter errorLogFromCrashReport:report];
 
   // Then

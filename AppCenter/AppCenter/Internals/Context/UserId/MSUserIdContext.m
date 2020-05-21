@@ -43,7 +43,7 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
   self = [super init];
   if (self) {
-    NSData *data = [MS_USER_DEFAULTS objectForKey:kMSUserIdHistoryKey];
+    NSData *data = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUserIdHistoryKey];
     if (data != nil) {
       _userIdHistory = (NSMutableArray *)[(NSObject *)[NSKeyedUnarchiver unarchiveObjectWithData:data] mutableCopy];
     }
@@ -61,7 +61,7 @@ static dispatch_once_t onceToken;
      * Persist nil userId as a current userId to NSUserDefaults so that Crashes can retrieve a correct userId when apps crash between App
      * Center start and setUserId call.
      */
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     _delegates = [NSHashTable weakObjectsHashTable];
   }
   return self;
@@ -93,7 +93,7 @@ static dispatch_once_t onceToken;
      */
     [self.userIdHistory removeLastObject];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
                  self.currentUserIdInfo.timestamp);
     synchronizedDelegates = [self.delegates allObjects];
@@ -120,7 +120,7 @@ static dispatch_once_t onceToken;
   @synchronized(self) {
     [self.userIdHistory removeAllObjects];
     [self.userIdHistory addObject:self.currentUserIdInfo];
-    [MS_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.userIdHistory] forKey:kMSUserIdHistoryKey];
     MSLogVerbose([MSAppCenter logTag], @"Cleared old userIds while keeping current userId.");
   }
 }

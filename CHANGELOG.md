@@ -1,5 +1,19 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.2.0
+
+### App Center
+
+* **[Feature]** Add support for XCFrameworks.
+* **[Improvement]** Use namespaced `NSUserDefaults` keys with the **MSAppCenter** prefix for all the keys set by the SDK. Fixed a few keys missing namespace.
+* **[Feature]** Swift Package Manager support for Analytics and Crashes modules.
+
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.6.0.
+
+___
+
 ## Version 3.1.1
 
 ### App Center Crashes

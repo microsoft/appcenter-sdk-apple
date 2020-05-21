@@ -3,9 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSUserDefaults.h"
+#import "MSAppCenterUserDefaults.h"
 
-#define MS_USER_DEFAULTS [MSUserDefaults shared]
+#define MS_APP_CENTER_USER_DEFAULTS [MSAppCenterUserDefaults shared]
 #define MS_NOTIFICATION_CENTER [NSNotificationCenter defaultCenter]
 #define MS_UUID_STRING [[NSUUID UUID] UUIDString]
 #define MS_UUID_FROM_STRING(uuidString) [[NSUUID alloc] initWithUUIDString:uuidString]

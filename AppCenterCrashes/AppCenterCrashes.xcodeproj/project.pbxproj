@@ -76,11 +76,20 @@
 			name = "AppCenterCrashes iOS Documentation";
 			productName = "Jazzy Docs";
 		};
+		8414DF842459D41B00B316C5 /* AppCenterCrashes XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8414DF862459D41B00B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterCrashes XCFramework" */;
+			buildPhases = (
+				8414DF852459D41B00B316C5 /* Build XCFramework */,
+			);
+			dependencies = (
+			);
+			name = "AppCenterCrashes XCFramework";
+			productName = "Fat Framework";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68C1ECA7AA800915619 /* OCMock.framework */; };
-		0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A68A1ECA7A9B00915619 /* OCMock.framework */; };
 		043281651F74A673002F7205 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 043281621F74A665002F7205 /* MSMockUserDefaults.m */; };
 		043281661F74A675002F7205 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 043281621F74A665002F7205 /* MSMockUserDefaults.m */; };
 		043281671F74A677002F7205 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 043281621F74A665002F7205 /* MSMockUserDefaults.m */; };
@@ -125,7 +134,6 @@
 		0446DF951F3B977100C8E338 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		0446DF961F3B977100C8E338 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
 		0446DF9F1F3B981000C8E338 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD1A1F39091D0092B777 /* OCHamcrest.framework */; };
-		0446DFA01F3B981500C8E338 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0484DD1C1F39092A0092B777 /* OCMock.framework */; };
 		049327651ECA170D00D0187A /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		049327661ECA170D00D0187A /* MSCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSCrashesTests.mm */; };
 		049327671ECA170D00D0187A /* MSExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSExceptionTests.m */; };
@@ -217,6 +225,9 @@
 		B2F120D71D65469D0060DED7 /* MSErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSErrorReportTests.m */; };
 		B2FF130C1DD12F61003DC677 /* MSAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */; };
 		BA682CFA6F4C5A8841507CF7 /* MSMockCrashesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */; };
+		C2392F6A24642D8900425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5A24642CEA00425640 /* OCMock.framework */; };
+		C2392F6D24642D9B00425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5224642CEA00425640 /* OCMock.framework */; };
+		C2392F7024642DAD00425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5C24642CEA00425640 /* OCMock.framework */; };
 		C291A048237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
 		C291A049237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
 		C291A04A237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
@@ -418,6 +429,7 @@
 		F859D1141E549B45008B2D8E /* live_report_undefined_instr.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */; };
 		F859D1151E549B45008B2D8E /* live_report_write_readonly.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */; };
 		F8DD752D230D89F800B095B6 /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */; };
+		F8FAFDFA242CABC300C7864B /* MSMockNSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = F8FAFDF9242CABC300C7864B /* MSMockNSUserDefaults.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -441,6 +453,76 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
 			remoteInfo = "Fat Framework";
+		};
+		C2392F5124642CEA00425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0A814632FD000B04273;
+			remoteInfo = OCMock;
+		};
+		C2392F5324642CEA00425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03565A3118F0566E003AE91E;
+			remoteInfo = OCMockTests;
+		};
+		C2392F5524642CEA00425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0DC14632FF700B04273;
+			remoteInfo = OCMockLib;
+		};
+		C2392F5724642CEA00425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D31108AD1828DB8700737925;
+			remoteInfo = OCMockLibTests;
+		};
+		C2392F5924642CEA00425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F0B950F11B0080BE00942C38;
+			remoteInfo = "OCMock iOS";
+		};
+		C2392F5B24642CEA00425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 817EB1621BD765130047E85A;
+			remoteInfo = "OCMock tvOS";
+		};
+		C2392F5D24642CEA00425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DE97CA022B43EE60098C63F;
+			remoteInfo = "OCMock watchOS";
+		};
+		C2392F6824642D8400425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F0B950F01B0080BE00942C38;
+			remoteInfo = "OCMock iOS";
+		};
+		C2392F6B24642D9500425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 030EF0A714632FD000B04273;
+			remoteInfo = OCMock;
+		};
+		C2392F6E24642DA400425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 817EB1151BD765130047E85A;
+			remoteInfo = "OCMock tvOS";
 		};
 		C2B25A24230F03F300511D49 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -468,20 +550,14 @@
 /* Begin PBXFileReference section */
 		041CFF911ECD00DC00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
 		041CFF981ECD010000B4654B /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
-		0420A68A1ECA7A9B00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
-		0420A68C1ECA7AA800915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../macOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF41EE08697007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		04311FFB1EE08885007054C5 /* MSCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSCrashReporter.h; sourceTree = "<group>"; };
 		043281611F74A665002F7205 /* MSMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockUserDefaults.h; path = ../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.h; sourceTree = "<group>"; };
 		043281621F74A665002F7205 /* MSMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockUserDefaults.m; path = ../../AppCenter/AppCenterTests/Util/MSMockUserDefaults.m; sourceTree = "<group>"; };
 		0446DF9D1F3B977100C8E338 /* AppCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0446DFA41F3B986B00C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-appletvsimulator/libAppCenter.a"; sourceTree = "<group>"; };
-		0446DFA91F3B98A300C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug-iphonesimulator/libAppCenter.a"; sourceTree = "<group>"; };
-		0446DFAB1F3B98A800C8E338 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/MobileCenter-atgozldoovnqvrcmynluxwlivwkq/Build/Products/Debug/libAppCenter.a"; sourceTree = "<group>"; };
 		04545DCA227B605200A49E06 /* AppCenterCrashes.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterCrashes.xcconfig; sourceTree = "<group>"; };
 		0469D1B31F4E013C00A43A8E /* AppCenterCrashes Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterCrashes Release.xcconfig"; sourceTree = "<group>"; };
 		0484DD1A1F39091D0092B777 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ../../Vendor/tvOS/OCHamcrest/OCHamcrest.framework; sourceTree = "<group>"; };
-		0484DD1C1F39092A0092B777 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../tvOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		0484DD5F1F3910EF0092B777 /* Tests tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests tvOS.xcconfig"; path = "../../Config/Tests tvOS.xcconfig"; sourceTree = "<group>"; };
 		049327961ECA170D00D0187A /* AppCenterCrashes.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterCrashes.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		049327B11ECA19FD00D0187A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
@@ -596,6 +672,7 @@
 		B2FF130B1DD12F61003DC677 /* MSAppleErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAppleErrorLogTests.m; sourceTree = "<group>"; };
 		BA68266A68B7F21A86A093B0 /* MSMockCrashesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSMockCrashesDelegate.m; sourceTree = "<group>"; };
 		BA6829F386854E39B92F77C4 /* MSMockCrashesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSMockCrashesDelegate.h; sourceTree = "<group>"; };
+		C2392F4724642CEA00425640 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../Vendor/OCMock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSApplicationForwarderTests.m; sourceTree = "<group>"; };
 		C2B25A26230F040400511D49 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B25A2B230F079800511D49 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -699,6 +776,8 @@
 		F859D1031E549B45008B2D8E /* live_report_undefined_instr.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_undefined_instr.plcrash; sourceTree = "<group>"; };
 		F859D1041E549B45008B2D8E /* live_report_write_readonly.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_write_readonly.plcrash; sourceTree = "<group>"; };
 		F8DD7527230D7EC400B095B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8FAFDF8242CABA700C7864B /* MSMockNSUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSMockNSUserDefaults.h; sourceTree = "<group>"; };
+		F8FAFDF9242CABC300C7864B /* MSMockNSUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSMockNSUserDefaults.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -708,8 +787,8 @@
 			files = (
 				C2B25A2C230F079800511D49 /* AppCenter.framework in Frameworks */,
 				C2B25A2D230F079800511D49 /* AppCenterCrashes.framework in Frameworks */,
-				0446DFA01F3B981500C8E338 /* OCMock.framework in Frameworks */,
 				0446DF9F1F3B981000C8E338 /* OCHamcrest.framework in Frameworks */,
+				C2392F7024642DAD00425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,7 +799,7 @@
 				C2B25A32230F07B500511D49 /* AppCenter.framework in Frameworks */,
 				C2B25A30230F07B000511D49 /* AppCenterCrashes.framework in Frameworks */,
 				04BED7231ECB65E100E20975 /* OCHamcrest.framework in Frameworks */,
-				0420A6961ECA7BF500915619 /* OCMock.framework in Frameworks */,
+				C2392F6D24642D9B00425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,7 +810,7 @@
 				C2B25A27230F040400511D49 /* AppCenter.framework in Frameworks */,
 				C2B25A28230F040400511D49 /* AppCenterCrashes.framework in Frameworks */,
 				6E171AEE1D22F7BE000DC480 /* OCHamcrestIOS.framework in Frameworks */,
-				0420A6981ECA7C1700915619 /* OCMock.framework in Frameworks */,
+				C2392F6A24642D8900425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,34 +844,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0420A6881ECA7A7000915619 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A68A1ECA7A9B00915619 /* OCMock.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		0420A6891ECA7A7800915619 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A68C1ECA7AA800915619 /* OCMock.framework */,
-			);
-			name = macOS;
-			sourceTree = "<group>";
-		};
 		0484DD181F3909030092B777 /* tvOS */ = {
 			isa = PBXGroup;
 			children = (
 				0484DD1A1F39091D0092B777 /* OCHamcrest.framework */,
-			);
-			name = tvOS;
-			sourceTree = "<group>";
-		};
-		0484DD191F39090D0092B777 /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				0484DD1C1F39092A0092B777 /* OCMock.framework */,
 			);
 			name = tvOS;
 			sourceTree = "<group>";
@@ -834,6 +889,8 @@
 				043281611F74A665002F7205 /* MSMockUserDefaults.h */,
 				043281621F74A665002F7205 /* MSMockUserDefaults.m */,
 				04311FF41EE08697007054C5 /* MSTestFrameworks.h */,
+				F8FAFDF8242CABA700C7864B /* MSMockNSUserDefaults.h */,
+				F8FAFDF9242CABC300C7864B /* MSMockNSUserDefaults.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -1018,25 +1075,11 @@
 		6E171AEC1D22F7AB000DC480 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F82E4C74217F1FD600EDAB34 /* sqlite3.c */,
-				0446DFA91F3B98A300C8E338 /* libAppCenter.a */,
-				0446DFAB1F3B98A800C8E338 /* libAppCenter.a */,
-				0446DFA41F3B986B00C8E338 /* libAppCenter.a */,
 				04BED71E1ECB65BF00E20975 /* OCHamcrest */,
-				6E171B041D22FABA000DC480 /* OCMock */,
+				C2392F4724642CEA00425640 /* OCMock.xcodeproj */,
+				F82E4C74217F1FD600EDAB34 /* sqlite3.c */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6E171B041D22FABA000DC480 /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				0420A6881ECA7A7000915619 /* iOS */,
-				0420A6891ECA7A7800915619 /* macOS */,
-				0484DD191F39090D0092B777 /* tvOS */,
-			);
-			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		6E37297E1D1DE93800F1E4AE /* Support */ = {
@@ -1135,6 +1178,20 @@
 				B26A310B21891A7800F09AE1 /* macOS_report_pthread_lock.plcrash */,
 			);
 			path = CrashProbeMacOS;
+			sourceTree = "<group>";
+		};
+		C2392F4824642CEA00425640 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C2392F5224642CEA00425640 /* OCMock.framework */,
+				C2392F5424642CEA00425640 /* OCMockTests.xctest */,
+				C2392F5624642CEA00425640 /* libOCMock.a */,
+				C2392F5824642CEA00425640 /* OCMockLibTests.xctest */,
+				C2392F5A24642CEA00425640 /* OCMock.framework */,
+				C2392F5C24642CEA00425640 /* OCMock.framework */,
+				C2392F5E24642CEA00425640 /* OCMock.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		C9A91F68230BFDFD0068070D /* Frameworks */ = {
@@ -1443,6 +1500,7 @@
 			);
 			dependencies = (
 				C2B25A2A230F079000511D49 /* PBXTargetDependency */,
+				C2392F6F24642DA400425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes tvOS Tests";
 			productName = AppCenterCrashesTests;
@@ -1461,6 +1519,7 @@
 			);
 			dependencies = (
 				C2B25A2F230F07AB00511D49 /* PBXTargetDependency */,
+				C2392F6C24642D9500425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes macOS Tests";
 			productName = AppCenterCrashesTests;
@@ -1479,6 +1538,7 @@
 			);
 			dependencies = (
 				C2B25A25230F03F300511D49 /* PBXTargetDependency */,
+				C2392F6924642D8400425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes iOS Tests";
 			productName = AppCenterCrashesTests;
@@ -1551,15 +1611,12 @@
 				TargetAttributes = {
 					C9A91F49230BFD930068070D = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 					C9A91F52230BFDB40068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 					C9A91F5D230BFDB70068070D = {
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1575,6 +1632,12 @@
 			mainGroup = 6E04012A1D1C98690051BCFA;
 			productRefGroup = 6E0401341D1C98690051BCFA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C2392F4824642CEA00425640 /* Products */;
+					ProjectRef = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C9A91F49230BFD930068070D /* AppCenterCrashes iOS Framework */,
@@ -1589,9 +1652,62 @@
 				0446DF651F3B977100C8E338 /* AppCenterCrashes tvOS Tests */,
 				04EBBEE91F01C0E10006B8AE /* AppCenterCrashes tvOS Fat Framework */,
 				04EBBEF11F01C7100006B8AE /* AppCenterCrashes tvOS Documentation */,
+				8414DF842459D41B00B316C5 /* AppCenterCrashes XCFramework */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C2392F5224642CEA00425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F5124642CEA00425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F5424642CEA00425640 /* OCMockTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockTests.xctest;
+			remoteRef = C2392F5324642CEA00425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F5624642CEA00425640 /* libOCMock.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOCMock.a;
+			remoteRef = C2392F5524642CEA00425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F5824642CEA00425640 /* OCMockLibTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockLibTests.xctest;
+			remoteRef = C2392F5724642CEA00425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F5A24642CEA00425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F5924642CEA00425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F5C24642CEA00425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F5B24642CEA00425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F5E24642CEA00425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F5D24642CEA00425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0446DF7E1F3B977100C8E338 /* Resources */ = {
@@ -1801,6 +1917,20 @@
 			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
 			showEnvVarsInLog = 0;
 		};
+		8414DF852459D41B00B316C5 /* Build XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build XCFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+		};
 		C2B25A21230F03A200511D49 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1909,6 +2039,7 @@
 				0493276E1ECA170D00D0187A /* MSBinaryTests.m in Sources */,
 				9224468D1F62277400E4034A /* MSHandledErrorLogTests.m in Sources */,
 				049327701ECA170D00D0187A /* MSWrapperExceptionManagerTests.m in Sources */,
+				F8FAFDFA242CABC300C7864B /* MSMockNSUserDefaults.m in Sources */,
 				049327711ECA170D00D0187A /* MSErrorAttachmentLogTests.m in Sources */,
 				049327721ECA170D00D0187A /* MSMockCrashesDelegate.m in Sources */,
 				049327731ECA170D00D0187A /* MSCrashesUtilTests.m in Sources */,
@@ -2037,6 +2168,21 @@
 			isa = PBXTargetDependency;
 			target = 6E3729771D1DE83200F1E4AE /* AppCenterCrashes iOS Fat Framework */;
 			targetProxy = 386352E51D51105800D0D450 /* PBXContainerItemProxy */;
+		};
+		C2392F6924642D8400425640 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OCMock iOS";
+			targetProxy = C2392F6824642D8400425640 /* PBXContainerItemProxy */;
+		};
+		C2392F6C24642D9500425640 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCMock;
+			targetProxy = C2392F6B24642D9500425640 /* PBXContainerItemProxy */;
+		};
+		C2392F6F24642DA400425640 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OCMock tvOS";
+			targetProxy = C2392F6E24642DA400425640 /* PBXContainerItemProxy */;
 		};
 		C2B25A25230F03F300511D49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2196,10 +2342,25 @@
 			};
 			name = Release;
 		};
+		8414DF872459D41B00B316C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8414DF882459D41B00B316C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		C9A91F4F230BFD930068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -2207,6 +2368,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -2214,6 +2376,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -2221,6 +2384,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -2228,6 +2392,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -2235,6 +2400,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -2327,6 +2493,15 @@
 			buildConfigurations = (
 				6E6BFC371D23504F00DF7617 /* Debug */,
 				6E6BFC381D23504F00DF7617 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8414DF862459D41B00B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterCrashes XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8414DF872459D41B00B316C5 /* Debug */,
+				8414DF882459D41B00B316C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

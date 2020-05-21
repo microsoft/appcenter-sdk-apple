@@ -16,7 +16,7 @@
 - (void)setUp {
   [super setUp];
   self.keychainUtilMock = OCMClassMock([MSKeychainUtil class]);
-  self.acServiceName = [NSString stringWithFormat:@"(null).%@", kMSServiceSuffix];
+  self.acServiceName = [NSString stringWithFormat:@"%@.%@", [self getBundleIdentifier], kMSServiceSuffix];
 }
 
 - (void)tearDown {
@@ -119,5 +119,16 @@
 }
 
 #endif
+
+// Before SDK 12.2 (bundled with Xcode 10.*) when running in a unit test bundle the bundle identifier is null.
+// 12.2 and after the above bundle identifier is com.apple.dt.xctest.tool.
+- (NSString *)getBundleIdentifier {
+#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120200) || \
+    (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 101404))
+    return @"com.apple.dt.xctest.tool";
+#else
+    return @"(null)";
+#endif
+}
 
 @end

@@ -62,11 +62,48 @@ static dispatch_once_t onceToken;
 @implementation MSDistribute
 
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
+
 @synthesize updateTrack = _updateTrack;
 
 #pragma mark - Service initialization
 
 - (instancetype)init {
+
+  [MS_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+    @"MSAppCenterDistributeIsEnabled" : @"kMSDistributeIsEnabledKey", // [MSDistribute isEnabled]
+    @"MSAppCenterPostponedTimestamp" : @"MSPostponedTimestamp",
+    // [MSDistribute notifyUpdateAction],
+    // [MSDistribute handleUpdate],
+    // [MSDistribute checkLatestRelease]
+    @"MSAppCenterSDKHasLaunchedWithDistribute" : @"MSSDKHasLaunchedWithDistribute",
+    // [MSDistribute init],
+    // [MSDistribute checkLatestRelease]
+    @"MSAppCenterMandatoryRelease" : @"MSMandatoryRelease",
+    // [MSDistribute checkLatestRelease],
+    // [MSDistribute handleUpdate]
+    @"MSAppCenterDistributionGroupId" : @"MSDistributionGroupId",
+    // [MSDistribute startUpdateOnStart],
+    // [MSDistribute processDistributionGroupId],
+    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
+    @"MSAppCenterUpdateSetupFailedPackageHash" : @"MSUpdateSetupFailedPackageHash",
+    // [MSDistribute showUpdateSetupFailedAlert],
+    // [MSDistribute requestInstallInformationWith]
+    @"MSAppCenterDownloadedReleaseHash" : @"MSDownloadedReleaseHash",
+    // [MSDistribute storeDownloadedReleaseDetails],
+    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    @"MSAppCenterDownloadedReleaseId" : @"MSDownloadedReleaseId",
+    // [MSDistribute getReportingParametersForUpdatedRelease],
+    // [MSDistribute storeDownloadedReleaseDetails],
+    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    @"MSAppCenterDownloadedDistributionGroupId" : @"MSDownloadedDistributionGroupId",
+    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
+    // [MSDistribute storeDownloadedReleaseDetails]
+    @"MSAppCenterTesterAppUpdateSetupFailed" : @"MSTesterAppUpdateSetupFailed"
+    // [MSDistribute showUpdateSetupFailedAlert],
+    // [MSDistribute openUrl],
+    // [MSDistribute requestInstallInformationWith]
+  }
+                                forService:kMSServiceName];
   if ((self = [super init])) {
 
     // Init.
@@ -80,11 +117,11 @@ static dispatch_once_t onceToken;
      * data won't be automatically deleted by uninstall so we should detect it and clean up keychain data when Distribute service gets
      * initialized.
      */
-    NSNumber *flag = [MS_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
+    NSNumber *flag = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSSDKHasLaunchedWithDistribute];
     if (!flag) {
       MSLogInfo([MSDistribute logTag], @"Delete update token if exists.");
       [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
-      [MS_USER_DEFAULTS setObject:@(1) forKey:kMSSDKHasLaunchedWithDistribute];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:@1 forKey:kMSSDKHasLaunchedWithDistribute];
     }
 
     // Set a default value for update track.
@@ -149,7 +186,7 @@ static dispatch_once_t onceToken;
     [self.channelGroup addDelegate:self.distributeInfoTracker];
 
     // Store distributionGroupId in distributeInfoTracker
-    NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+    NSString *distributionGroupId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
     if (distributionGroupId) {
       MSLogDebug([MSDistribute logTag], @"Successfully retrieved distribution group Id setting it in distributeInfoTracker.");
       [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
@@ -159,11 +196,11 @@ static dispatch_once_t onceToken;
     [self dismissEmbeddedSafari];
     [self.channelGroup removeDelegate:self.distributeInfoTracker];
     [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
-    [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
     MSLogInfo([MSDistribute logTag], @"Distribute service has been disabled.");
   }
 }
@@ -206,7 +243,7 @@ static dispatch_once_t onceToken;
       break;
     case MSUpdateActionPostpone:
       MSLogDebug([MSDistribute logTag], @"The SDK will ask for the update again tomorrow.");
-      [MS_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSUtility nowInMilliseconds]) forKey:kMSPostponedTimestampKey];
       break;
     }
 
@@ -307,7 +344,7 @@ static dispatch_once_t onceToken;
       MSLogError([MSDistribute logTag], @"Failed to get update token from keychain. This might occur when the device is locked.");
       return;
     }
-    NSString *distributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+    NSString *distributionGroupId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
     @synchronized(self) {
       if (self.updateFlowInProgress) {
         MSLogDebug([MSDistribute logTag], @"Previous update flow is in progress. Ignore the request.");
@@ -341,28 +378,28 @@ static dispatch_once_t onceToken;
      * If failed to enable in-app updates on the same app build before, don't try again. Only if the app build is different (different
      * package hash), try enabling in-app updates again.
      */
-    NSString *updateSetupFailedPackageHash = [MS_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedPackageHashKey];
+    NSString *updateSetupFailedPackageHash = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateSetupFailedPackageHashKey];
     if (updateSetupFailedPackageHash) {
       if ([updateSetupFailedPackageHash isEqualToString:releaseHash]) {
         MSLogDebug([MSDistribute logTag], @"Skipping in-app updates setup, because it already failed on this release before.");
         return;
       } else {
         MSLogDebug([MSDistribute logTag], @"Re-attempting in-app updates setup and cleaning up failure info from storage.");
-        [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
-        [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
+        [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+        [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
       }
     }
 
     // Create the request ID string and persist it.
     NSString *requestId = MS_UUID_STRING;
-    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
     MSLogInfo([MSDistribute logTag], @"Request information of initial installation.");
 
     // Don't run on the UI thread, or else the app may be slow to startup.
     NSURL *testerAppUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:true];
     NSURL *installUrl = [self buildTokenRequestURLWithAppSecret:self.appSecret releaseHash:releaseHash isTesterApp:false];
     dispatch_async(dispatch_get_main_queue(), ^{
-      BOOL shouldUseTesterAppForUpdateSetup = [MS_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] == NULL;
+      BOOL shouldUseTesterAppForUpdateSetup = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSTesterAppUpdateSetupFailedKey] == NULL;
       BOOL testerAppOpened = NO;
       if (shouldUseTesterAppForUpdateSetup) {
         MSLogInfo([MSDistribute logTag], @"Attempting to use tester app for update setup.");
@@ -403,11 +440,12 @@ static dispatch_once_t onceToken;
 
     // Use persisted mandatory update while network is down.
     if ([MS_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
-      MSReleaseDetails *details = [[MSReleaseDetails alloc] initWithDictionary:[MS_USER_DEFAULTS objectForKey:kMSMandatoryReleaseKey]];
+      MSReleaseDetails *details =
+          [[MSReleaseDetails alloc] initWithDictionary:[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSMandatoryReleaseKey]];
       if (details && ![self handleUpdate:details]) {
 
         // This release is no more a candidate for update, deleting it.
-        [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
+        [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
       }
     }
 
@@ -447,7 +485,7 @@ static dispatch_once_t onceToken;
               [self removeDownloadedReleaseDetailsIfUpdated:releaseHash];
 
               // If there is not already a saved public distribution group, process it now.
-              NSString *existingDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+              NSString *existingDistributionGroupId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
               if (!existingDistributionGroupId && details.distributionGroupId) {
                 [self processDistributionGroupId:details.distributionGroupId];
               }
@@ -488,10 +526,10 @@ static dispatch_once_t onceToken;
               // If the response payload is MSErrorDetails, consider it as a recoverable error.
               if (!details || ![kMSErrorCodeNoReleasesForUser isEqualToString:details.code]) {
                 [MSKeychainUtil deleteStringForKey:kMSUpdateTokenKey];
-                [MS_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
-                [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
-                [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
-                [MS_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
+                [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSSDKHasLaunchedWithDistribute];
+                [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+                [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+                [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSDistributionGroupIdKey];
                 [self.distributeInfoTracker removeDistributionGroupId];
               }
             }
@@ -579,10 +617,10 @@ static dispatch_once_t onceToken;
   }
 
   // Get the stored request ID, or create one if it doesn't exist yet.
-  NSString *requestId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
+  NSString *requestId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
   if (!requestId) {
     requestId = MS_UUID_STRING;
-    [MS_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:requestId forKey:kMSUpdateTokenRequestIdKey];
   }
 
   // Set URL query parameters.
@@ -734,7 +772,7 @@ static dispatch_once_t onceToken;
   }
 
   // Step 3. Check if the update is postponed by a user.
-  NSNumber *postponedTimestamp = [MS_USER_DEFAULTS objectForKey:kMSPostponedTimestampKey];
+  NSNumber *postponedTimestamp = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPostponedTimestampKey];
   if (postponedTimestamp) {
     long long duration = (long long)[MSUtility nowInMilliseconds] - [postponedTimestamp longLongValue];
     if (duration >= 0 && duration < kMSDayInMillisecond) {
@@ -746,7 +784,7 @@ static dispatch_once_t onceToken;
         return NO;
       }
     }
-    [MS_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSPostponedTimestampKey];
   }
 
   // Step 4. Check min OS version.
@@ -765,11 +803,11 @@ static dispatch_once_t onceToken;
   if (details.mandatoryUpdate) {
 
     // Persist this mandatory update now.
-    [MS_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[details serializeToDictionary] forKey:kMSMandatoryReleaseKey];
   } else {
 
     // Clean up mandatory release cache.
-    [MS_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSMandatoryReleaseKey];
   }
 
   // Step 7. Open a dialog and ask a user to choose options for the update.
@@ -821,14 +859,14 @@ static dispatch_once_t onceToken;
    * comma separated string.
    */
   NSString *releaseHashes = [details.packageHashes count] > 0 ? [details.packageHashes componentsJoinedByString:@","] : nil;
-  [MS_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
-  [MS_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
-  [MS_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:groupId forKey:kMSDownloadedDistributionGroupIdKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:releaseId forKey:kMSDownloadedReleaseIdKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:releaseHashes forKey:kMSDownloadedReleaseHashKey];
   MSLogDebug([MSDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.", releaseHashes, releaseId);
 }
 
 - (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash {
-  NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  NSString *lastDownloadedReleaseHashes = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
   if (lastDownloadedReleaseHashes == nil) {
     return;
   }
@@ -843,8 +881,8 @@ static dispatch_once_t onceToken;
   // Successfully reported, remove downloaded release details.
   MSLogDebug([MSDistribute logTag], @"Successfully reported app update for downloaded release hash (%@), removing from store.",
              currentInstalledReleaseHash);
-  [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseIdKey];
-  [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
+  [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseIdKey];
+  [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSDownloadedReleaseHashKey];
 }
 
 - (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(BOOL)isPublic
@@ -852,7 +890,7 @@ static dispatch_once_t onceToken;
                                                       distributionGroupId:(NSString *)distributionGroupId {
 
   // Check if we need to report release installation.
-  NSString *lastDownloadedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  NSString *lastDownloadedReleaseHashes = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
   if (lastDownloadedReleaseHashes == nil) {
     MSLogDebug([MSDistribute logTag], @"Current release was already reported, skip reporting.");
     return nil;
@@ -871,35 +909,35 @@ static dispatch_once_t onceToken;
   if (isPublic) {
     reportingParameters[kMSURLQueryInstallIdKey] = [[MSAppCenter installId] UUIDString];
   }
-  NSString *lastDownloadedReleaseId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseIdKey];
+  NSString *lastDownloadedReleaseId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDownloadedReleaseIdKey];
   reportingParameters[kMSURLQueryDownloadedReleaseIdKey] = lastDownloadedReleaseId;
   return reportingParameters;
 }
 
 - (void)changeDistributionGroupIdAfterAppUpdateIfNeeded:(NSString *)currentInstalledReleaseHash {
-  NSString *updatedReleaseDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDownloadedDistributionGroupIdKey];
+  NSString *updatedReleaseDistributionGroupId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDownloadedDistributionGroupIdKey];
   if (updatedReleaseDistributionGroupId == nil) {
     return;
   }
 
   // Skip if the current release was not updated.
-  NSString *updatedReleaseHashes = [MS_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
+  NSString *updatedReleaseHashes = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDownloadedReleaseHashKey];
   if ((updatedReleaseHashes == nil) || ([updatedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound)) {
     return;
   }
 
   // Skip if the group ID of an updated release is the same as the stored one.
-  NSString *storedDistributionGroupId = [MS_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
+  NSString *storedDistributionGroupId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSDistributionGroupIdKey];
   if ((storedDistributionGroupId == nil) || ([updatedReleaseDistributionGroupId isEqualToString:storedDistributionGroupId] == NO)) {
 
     // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
     MSLogDebug([MSDistribute logTag], @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@",
                updatedReleaseDistributionGroupId);
-    [MS_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSDistributionGroupIdKey];
   }
 
   // Remove saved downloaded group ID.
-  [MS_USER_DEFAULTS removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
+  [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
 }
 
 - (void)showConfirmationAlert:(MSReleaseDetails *)details {
@@ -986,7 +1024,7 @@ static dispatch_once_t onceToken;
     // Add "Ignore" button to the dialog
     [alertController addDefaultActionWithTitle:MSDistributeLocalizedString(@"MSDistributeIgnore")
                                        handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                         [MS_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
+                                         [MS_APP_CENTER_USER_DEFAULTS setObject:MSPackageHash() forKey:kMSUpdateSetupFailedPackageHashKey];
                                        }];
 
     // Add "Reinstall" button to the dialog
@@ -1015,8 +1053,8 @@ static dispatch_once_t onceToken;
                               [self openUrlInAuthenticationSessionOrSafari:installUrl];
 
                               // Clear the update setup failure info from storage, to re-attempt setup on reinstall
-                              [MS_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
-                              [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
+                              [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSTesterAppUpdateSetupFailedKey];
+                              [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSUpdateSetupFailedPackageHashKey];
                             }];
 
     [alertController show];
@@ -1076,7 +1114,7 @@ static dispatch_once_t onceToken;
   if ([self isEnabled]) {
 
     // Parse query parameters
-    NSString *requestedId = [MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
+    NSString *requestedId = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey];
     NSString *queryRequestId = nil;
     NSString *queryDistributionGroupId = nil;
     NSString *queryUpdateToken = nil;
@@ -1108,7 +1146,7 @@ static dispatch_once_t onceToken;
     [self dismissEmbeddedSafari];
 
     // Delete stored request ID.
-    [MS_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
+    [MS_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSUpdateTokenRequestIdKey];
 
     // Store distribution group ID.
     if (queryDistributionGroupId) {
@@ -1137,7 +1175,7 @@ static dispatch_once_t onceToken;
     // If the in-app updates setup from the native tester app failed, retry using the browser update setup.
     if (queryTesterAppUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
-      [MS_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
       [self startUpdateOnStart:YES];
       return YES;
     }
@@ -1159,7 +1197,7 @@ static dispatch_once_t onceToken;
 - (void)processDistributionGroupId:(NSString *)queryDistributionGroupId {
 
   // Storing the distribution group ID to storage.
-  [MS_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:queryDistributionGroupId forKey:kMSDistributionGroupIdKey];
 
   // Update distribution group ID which is added to logs.
   [self.distributeInfoTracker updateDistributionGroupId:queryDistributionGroupId];
@@ -1193,7 +1231,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)applicationDidBecomeActive {
-  if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+  if (self.canBeUsed && self.isEnabled && ![MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdateOnStart:YES];
   }
 }
@@ -1209,7 +1247,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)checkForUpdate {
-  if (self.canBeUsed && self.isEnabled && ![MS_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+  if (self.canBeUsed && self.isEnabled && ![MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
     [self startUpdateOnStart:NO];
   }
 }

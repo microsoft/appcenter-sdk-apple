@@ -9,14 +9,22 @@
 #import "MSCrashesPrivate.h"
 #import "MSCrashesTestUtil.h"
 #import "MSCrashesUtil.h"
+#import "MSDeviceTrackerPrivate.h"
 #import "MSErrorAttachmentLog.h"
 #import "MSException.h"
 #import "MSHandledErrorLog.h"
+#import "MSHttpClient.h"
 #import "MSLogWithProperties.h"
 #import "MSTestFrameworks.h"
 #import "MSWrapperCrashesHelper.h"
+#import "MS_Reachability.h"
 
 @interface MSWrapperCrashesHelperTests : XCTestCase
+
+@property(nonatomic) id httpClientMock;
+@property(nonatomic) id reachabilityMock;
+@property(nonatomic) id deviceTrackerMock;
+
 @end
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
@@ -24,8 +32,22 @@ static NSString *const kMSTypeHandledError = @"handledError";
 
 @implementation MSWrapperCrashesHelperTests
 
+- (void)setUp {
+  self.httpClientMock = OCMClassMock([MSHttpClient class]);
+  OCMStub([self.httpClientMock alloc]).andReturn(self.httpClientMock);
+  self.reachabilityMock = OCMClassMock([MS_Reachability class]);
+  OCMStub([self.reachabilityMock reachabilityForInternetConnection]).andReturn(self.reachabilityMock);
+  [MSDeviceTracker resetSharedInstance];
+  self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
+  OCMStub([self.deviceTrackerMock sharedInstance]).andReturn(self.deviceTrackerMock);
+}
+
 - (void)tearDown {
   [super tearDown];
+  [self.httpClientMock stopMocking];
+  [self.reachabilityMock stopMocking];
+  [self.deviceTrackerMock stopMocking];
+  [MSDeviceTracker resetSharedInstance];
   [MSCrashes resetSharedInstance];
 }
 

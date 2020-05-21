@@ -8,6 +8,7 @@
 #import "MSAppCenter.h"
 #import "MSAppCenterInternal.h"
 #import "MSAppCenterPrivate.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSBooleanTypedProperty.h"
 #import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
@@ -100,6 +101,11 @@ static NSString *const kMSAnalyticsServiceName = @"Analytics";
 }
 
 #pragma mark - Tests
+
+- (void)testMigrateOnInit {
+  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Analytics"];
+  XCTAssertNotNil([self.settingsMock objectForKey:key]);
+}
 
 - (void)testValidateEventName {
   const int maxEventNameLength = 256;

@@ -32,7 +32,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
 
     // Disable if ancestor is disabled.
     if (![self isImmediateParent]) {
-      [MS_USER_DEFAULTS setObject:@(NO) forKey:self.isEnabledKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:@NO forKey:self.isEnabledKey];
     }
 
     // Add property configurator to the channel group as a delegate.
@@ -119,7 +119,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
   @synchronized([MSAnalytics sharedInstance]) {
 
     // Get isEnabled value from persistence. No need to cache the value in a property, user settings already have their cache mechanism.
-    NSNumber *isEnabledNumber = [MS_USER_DEFAULTS objectForKey:self.isEnabledKey];
+    NSNumber *isEnabledNumber = [MS_APP_CENTER_USER_DEFAULTS objectForKey:self.isEnabledKey];
 
     // Return the persisted value otherwise it's enabled by default.
     return (isEnabledNumber) ? [isEnabledNumber boolValue] : YES;
@@ -139,7 +139,7 @@ static MSAnalyticsAuthenticationProvider *_authenticationProvider;
       }
 
       // Persist the enabled status.
-      [MS_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:@(isEnabled) forKey:self.isEnabledKey];
 
       if (isEnabled) {
 

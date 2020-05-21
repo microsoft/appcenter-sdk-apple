@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAppCenterInternal.h"
+#import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSAppleErrorLog.h"
 #import "MSApplicationForwarder.h"
 #import "MSChannelGroupDefault.h"
@@ -59,6 +60,8 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 
 @property(nonatomic) id deviceTrackerMock;
 
+@property(nonatomic) MSMockUserDefaults *settingsMock;
+
 @property(nonatomic) id sessionContextMock;
 
 @end
@@ -69,6 +72,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 
 - (void)setUp {
   [super setUp];
+  self.settingsMock = [MSMockUserDefaults new];
   self.sut = [MSCrashes new];
   [MSDeviceTracker resetSharedInstance];
   self.deviceTrackerMock = OCMClassMock([MSDeviceTracker class]);
@@ -82,6 +86,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [super tearDown];
 
   // Reset mocked shared instances and stop mocking them.
+  [self.settingsMock stopMocking];
   [self.deviceTrackerMock stopMocking];
   [self.sessionContextMock stopMocking];
   [MSDeviceTracker resetSharedInstance];
@@ -100,6 +105,11 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 }
 
 #pragma mark - Tests
+
+- (void)testMigrateOnInit {
+  NSString *key = [NSString stringWithFormat:kMSMockMigrationKey, @"Crashes"];
+  XCTAssertNotNil([self.settingsMock objectForKey:key]);
+}
 
 - (void)testNewInstanceWasInitialisedCorrectly {
 

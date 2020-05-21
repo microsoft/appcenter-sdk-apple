@@ -67,6 +67,12 @@
 		84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
 		84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
 		84A0FF6D1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
+		84D067A224486415000B708B /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
+		84D0682A24487B7C000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D0682C24487F5E000B708B /* CrashLibWatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; };
+		84D0682D24487F5E000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D068A32448FFEE000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84D068A42449000D000B708B /* CrashLibWatch.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84D067FB24486B22000B708B /* CrashLibWatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B203FF4D20E5922C002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
@@ -199,20 +205,12 @@
 		C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2F156D52338C30400798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C2F156D62338C30400798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2F156DA2338C30C00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C2F156DB2338C30C00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156E02338C31500798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156E12338C31E00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156E22338C31E00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156E52338C32300798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156E62338C32C00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156E72338C32C00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2F156EA2338C33100798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C2F156EB2338C33100798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C2F156EF2338C33600798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
-		C2F156F02338C33600798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156F52338C34500798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156F62338C34500798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156F92338C34B00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
@@ -314,6 +312,41 @@
 			proxyType = 1;
 			remoteGlobalIDString = 84226C461E88FF4A00798417;
 			remoteInfo = SasquatchObjC;
+		};
+		840B18DE244DC7D400BD8B92 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84D067B0244864DC000B708B;
+			remoteInfo = CrashLibWatch;
+		};
+		840B190D244DC7DD00BD8B92 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84D067B0244864DC000B708B;
+			remoteInfo = CrashLibWatch;
+		};
+		8439244B244DC0940039D94B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84D067B0244864DC000B708B;
+			remoteInfo = CrashLibWatch;
+		};
+		8439247B244DC09F0039D94B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84D067B0244864DC000B708B;
+			remoteInfo = CrashLibWatch;
+		};
+		84D067FA24486B22000B708B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84D067F1244864DC000B708B;
+			remoteInfo = CrashLibWatch;
 		};
 		B20AE3CA2102812300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -574,20 +607,6 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
-		C2F156BF2338C2A700798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C2F156C12338C2AD00798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
 		C2F156C32338C2B300798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
@@ -616,20 +635,6 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
-		C2F156CB2338C2CE00798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C2F156CD2338C2D400798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
 		C2F156CF2338C2DA00798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
@@ -644,20 +649,6 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
-		C2F156D72338C30400798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C2F156DC2338C30C00798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
 		C2F156E32338C31E00798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
@@ -666,20 +657,6 @@
 			remoteInfo = CrashLibIOS;
 		};
 		C2F156E82338C32C00798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C2F156EC2338C33100798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
-		C2F156F12338C33600798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
 			proxyType = 1;
@@ -781,6 +758,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84D0682E24487F5E000B708B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				84D0682D24487F5E000B708B /* CrashLibWatch.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B20AE3A421027D6200A1A195 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -820,7 +808,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2F156D62338C30400798480 /* CrashLibIOS.framework in Embed Frameworks */,
+				84D068A42449000D000B708B /* CrashLibWatch.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -831,18 +819,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2F156DB2338C30C00798480 /* CrashLibIOS.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C2F156EE2338C33100798480 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C2F156EB2338C33100798480 /* CrashLibIOS.framework in Embed Frameworks */,
+				84D068A32448FFEE000B708B /* CrashLibWatch.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -853,7 +830,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C2F156F02338C33600798480 /* CrashLibIOS.framework in Embed Frameworks */,
+				84D0682A24487B7C000B708B /* CrashLibWatch.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1202,7 +1179,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F156DA2338C30C00798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1210,7 +1186,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F156EF2338C33600798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1240,7 +1215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F156EA2338C33100798480 /* CrashLibIOS.framework in Frameworks */,
+				84D0682C24487F5E000B708B /* CrashLibWatch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1248,7 +1223,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2F156D52338C30400798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1570,6 +1544,7 @@
 				C2F156AA2338C26A00798480 /* CrashLibIOS.framework */,
 				C2F156AC2338C26A00798480 /* CrashLibTV.framework */,
 				C2F156AE2338C26A00798480 /* CrashLibMac.framework */,
+				84D067FB24486B22000B708B /* CrashLibWatch.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1909,9 +1884,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2F156C02338C2A700798480 /* PBXTargetDependency */,
+				840B18DF244DC7D400BD8B92 /* PBXTargetDependency */,
 				D31EF9381E9517B600450162 /* PBXTargetDependency */,
-				C2F156F22338C33600798480 /* PBXTargetDependency */,
 			);
 			name = SasquatchWatchObjC;
 			productName = SasquatchWatchObjC;
@@ -1925,13 +1899,12 @@
 				D31EF9311E9517B600450162 /* Sources */,
 				D31EF9321E9517B600450162 /* Frameworks */,
 				D31EF9331E9517B600450162 /* Resources */,
-				C2F156EE2338C33100798480 /* Embed Frameworks */,
+				84D0682E24487F5E000B708B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C2F156C22338C2AD00798480 /* PBXTargetDependency */,
-				C2F156ED2338C33100798480 /* PBXTargetDependency */,
+				840B190E244DC7DD00BD8B92 /* PBXTargetDependency */,
 			);
 			name = "SasquatchWatchObjC Extension";
 			productName = "SasquatchWatchObjC Extension";
@@ -1951,9 +1924,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2F156CC2338C2CE00798480 /* PBXTargetDependency */,
+				8439244C244DC0940039D94B /* PBXTargetDependency */,
 				D31EF9631E9517C600450162 /* PBXTargetDependency */,
-				C2F156DD2338C30C00798480 /* PBXTargetDependency */,
 			);
 			name = SasquatchWatchSwift;
 			productName = SasquatchWatchSwift;
@@ -1972,8 +1944,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2F156CE2338C2D400798480 /* PBXTargetDependency */,
-				C2F156D82338C30400798480 /* PBXTargetDependency */,
+				8439247C244DC09F0039D94B /* PBXTargetDependency */,
 			);
 			name = "SasquatchWatchSwift Extension";
 			productName = "SasquatchWatchSwift Extension";
@@ -2170,6 +2141,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		84D067FB24486B22000B708B /* CrashLibWatch.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashLibWatch.framework;
+			remoteRef = 84D067FA24486B22000B708B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		B20AE3CB2102812300A1A195 /* AppCenter.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -2902,7 +2880,7 @@
 				B2A4CF94210A6E6900199B4F /* CommonSchemaPropertiesTableSection.swift in Sources */,
 				B2A4CF95210A6E6900199B4F /* MSCustomPropertiesViewController.swift in Sources */,
 				B2A4CF96210A6E6900199B4F /* MSTransmissionTargets.swift in Sources */,
-				F83587C9242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
+				84D067A224486415000B708B /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B2A4CF97210A6E6900199B4F /* MSAnalyticsResultViewController.swift in Sources */,
 				B2A4CF98210A6E6900199B4F /* MSMainViewController.swift in Sources */,
 				B2A4CF99210A6E6900199B4F /* PropertiesTableSection.swift in Sources */,
@@ -2979,6 +2957,26 @@
 			target = 84226C461E88FF4A00798417 /* SasquatchObjC */;
 			targetProxy = 5CE2588C1EA5F62400DA8FB9 /* PBXContainerItemProxy */;
 		};
+		840B18DF244DC7D400BD8B92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibWatch;
+			targetProxy = 840B18DE244DC7D400BD8B92 /* PBXContainerItemProxy */;
+		};
+		840B190E244DC7DD00BD8B92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibWatch;
+			targetProxy = 840B190D244DC7DD00BD8B92 /* PBXContainerItemProxy */;
+		};
+		8439244C244DC0940039D94B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibWatch;
+			targetProxy = 8439244B244DC0940039D94B /* PBXContainerItemProxy */;
+		};
+		8439247C244DC09F0039D94B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibWatch;
+			targetProxy = 8439247B244DC09F0039D94B /* PBXContainerItemProxy */;
+		};
 		B2A888A42102A407001ACFDF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AppCenterDistributeResources;
@@ -3024,16 +3022,6 @@
 			name = CrashLibIOS;
 			targetProxy = C2F156BD2338C2A000798480 /* PBXContainerItemProxy */;
 		};
-		C2F156C02338C2A700798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156BF2338C2A700798480 /* PBXContainerItemProxy */;
-		};
-		C2F156C22338C2AD00798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156C12338C2AD00798480 /* PBXContainerItemProxy */;
-		};
 		C2F156C42338C2B300798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
@@ -3054,16 +3042,6 @@
 			name = CrashLibIOS;
 			targetProxy = C2F156C92338C2C800798480 /* PBXContainerItemProxy */;
 		};
-		C2F156CC2338C2CE00798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156CB2338C2CE00798480 /* PBXContainerItemProxy */;
-		};
-		C2F156CE2338C2D400798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156CD2338C2D400798480 /* PBXContainerItemProxy */;
-		};
 		C2F156D02338C2DA00798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
@@ -3074,16 +3052,6 @@
 			name = CrashLibIOS;
 			targetProxy = C2F156D32338C2FC00798480 /* PBXContainerItemProxy */;
 		};
-		C2F156D82338C30400798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156D72338C30400798480 /* PBXContainerItemProxy */;
-		};
-		C2F156DD2338C30C00798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156DC2338C30C00798480 /* PBXContainerItemProxy */;
-		};
 		C2F156E42338C31E00798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
@@ -3093,16 +3061,6 @@
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
 			targetProxy = C2F156E82338C32C00798480 /* PBXContainerItemProxy */;
-		};
-		C2F156ED2338C33100798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156EC2338C33100798480 /* PBXContainerItemProxy */;
-		};
-		C2F156F22338C33600798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156F12338C33600798480 /* PBXContainerItemProxy */;
 		};
 		C2F156F82338C34500798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

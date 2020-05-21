@@ -604,7 +604,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/afile.test";
 #else
 #if TARGET_OS_OSX
-  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/afile.test";
+  expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/afile.test"];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/afile.test";
 #endif
@@ -657,7 +657,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
 #else
 #if TARGET_OS_OSX
-  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/anotherfile.test";
+  expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/anotherfile.test" ];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
 #endif
@@ -685,7 +685,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing";
 #else
 #if TARGET_OS_OSX
-  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing";
+  expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing"];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing";
 #endif
@@ -783,7 +783,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
 #else
 #if TARGET_OS_OSX
-  expectedFile = @"/Library/Application%20Support/(null)/com.microsoft.appcenter/testing/anotherfile.test";
+  expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/anotherfile.test"];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
 #endif
@@ -989,6 +989,19 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
 - (void)methodWithArgs:(NSString *)str secondArg:(NSString *)secondStr completionHandler:(void (^)(NSString *, NSString *))completion {
   completion(str, secondStr);
+}
+
+// Before SDK 12.2 (bundled with Xcode 10.*) when running in a unit test bundle the bundle identifier is null.
+// 12.2 and after the above bundle identifier is com.apple.dt.xctest.tool.
+- (NSString *)getPathWithBundleIdentifier:(NSString *)path {
+    NSString* bundleId;
+#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120200) || \
+    (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 101404))
+    bundleId = @"com.apple.dt.xctest.tool";
+#else
+    bundleId = @"(null)";
+#endif
+    return [NSString stringWithFormat:path, bundleId];
 }
 
 @end

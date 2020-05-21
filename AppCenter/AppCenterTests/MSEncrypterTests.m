@@ -40,7 +40,7 @@
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
   NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
-  [MS_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
@@ -117,8 +117,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration =
-      [[MS_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, kMSEncryptionKeyTagAlternate);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -140,7 +140,7 @@
   NSString *currentKeyTag = kMSEncryptionKeyTagOriginal;
   NSString *expectedNewKeyTag = kMSEncryptionKeyTagAlternate;
   NSString *currentKeyMetadataString = [NSString stringWithFormat:@"%@/%@", currentKeyTag, currentExpirationIso];
-  [MS_USER_DEFAULTS setObject:currentKeyMetadataString forKey:kMSEncryptionKeyMetadataKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:currentKeyMetadataString forKey:kMSEncryptionKeyMetadataKey];
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", expectedNewKeyTag];
 
   // Mock NSDate to "freeze" time.
@@ -181,8 +181,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyTagAndExpiration =
-      [[MS_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyTagAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKeyTag = newKeyTagAndExpiration[0];
   XCTAssertEqualObjects(newKeyTag, expectedNewKeyTag);
   NSString *expirationIso = newKeyTagAndExpiration[1];
@@ -204,7 +204,7 @@
   NSString *oldKey = kMSEncryptionKeyTagOriginal;
   NSString *expectedNewKeyTag = kMSEncryptionKeyTagAlternate;
   NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", oldKey, oldExpirationIso];
-  [MS_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
   NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", expectedNewKeyTag];
 
   // Mock NSDate to "freeze" time.
@@ -243,8 +243,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration =
-      [[MS_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, expectedNewKeyTag);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -315,8 +315,8 @@
   XCTAssertNotEqualObjects(cipherText, clearText);
 
   // Ensure a new key and expiration were added to the user defaults.
-  NSArray *newKeyAndExpiration =
-      [[MS_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey] componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
+  NSArray *newKeyAndExpiration = [[MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSEncryptionKeyMetadataKey]
+      componentsSeparatedByString:kMSEncryptionMetadataInternalSeparator];
   NSString *newKey = newKeyAndExpiration[0];
   XCTAssertEqualObjects(newKey, kMSEncryptionKeyTagAlternate);
   NSString *expirationIso = newKeyAndExpiration[1];
@@ -339,7 +339,7 @@
   NSString *keyId = kMSEncryptionKeyTagOriginal;
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
   NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyId, expirationIso];
-  [MS_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];
@@ -353,7 +353,7 @@
   NSDate *pastDate = [NSDate dateWithTimeIntervalSinceNow:-1000000];
   NSString *oldExpirationIso = [MSUtility dateToISO8601:pastDate];
   NSString *alteredKeyMetadataString = [NSString stringWithFormat:@"%@/%@", keyId, oldExpirationIso];
-  [MS_USER_DEFAULTS setObject:alteredKeyMetadataString forKey:kMSEncryptionKeyMetadataKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:alteredKeyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // When
   NSString *decryptedString = [encrypter decryptString:encryptedString];
@@ -373,7 +373,7 @@
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
   NSString *expirationIso = [MSUtility dateToISO8601:expiration];
   NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
-  [MS_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
+  [MS_APP_CENTER_USER_DEFAULTS setObject:keyMetadataString forKey:kMSEncryptionKeyMetadataKey];
 
   // Save key to the Keychain.
   NSString *currentKey = [self generateTestEncryptionKey];

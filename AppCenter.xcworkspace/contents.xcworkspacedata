@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <FileRef
+      location = "group:Package.swift">
+   </FileRef>
    <Group
       location = "group:Config"
       name = "Config">
@@ -23,6 +26,9 @@
          location = "group:macOS.xcconfig">
       </FileRef>
       <FileRef
+         location = "group:Target config.xcconfig">
+      </FileRef>
+      <FileRef
          location = "group:Tests iOS.xcconfig">
       </FileRef>
       <FileRef
@@ -39,6 +45,9 @@
       </FileRef>
       <FileRef
          location = "group:Version.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:watchOS.xcconfig">
       </FileRef>
    </Group>
    <FileRef
@@ -76,6 +85,9 @@
       </FileRef>
       <FileRef
          location = "group:build-tvos-framework.sh">
+      </FileRef>
+      <FileRef
+         location = "group:build-xcframework.sh">
       </FileRef>
       <FileRef
          location = "group:VerifyNoBuildSettings.swift">

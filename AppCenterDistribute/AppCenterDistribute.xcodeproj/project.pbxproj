@@ -31,13 +31,23 @@
 			name = "AppCenterDistribute iOS Documentation";
 			productName = "Jazzy Docs";
 		};
+		845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 845017E0245ADB360026E0DB /* Build configuration list for PBXAggregateTarget "AppCenterDistribute XCFramework" */;
+			buildPhases = (
+				845017DF245ADB360026E0DB /* Build XCFramework */,
+			);
+			dependencies = (
+			);
+			name = "AppCenterDistribute XCFramework";
+			productName = "Fat Framework";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
 		040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0231E523B80005C1174 /* MSReleaseDetailsTests.m */; };
 		040AF02A1E52748D005C1174 /* MSDistributeIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040AF0291E52748D005C1174 /* MSDistributeIngestionTests.m */; };
 		0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */; };
-		0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0420A69B1ECA7C8E00915619 /* OCMock.framework */; };
 		04980B642413003C00F384A5 /* MSDistributeCheckForUpdateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04980B632413003B00F384A5 /* MSDistributeCheckForUpdateTests.m */; };
 		04A140C91ECE89BD001CEE94 /* MSMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A140C61ECE89B2001CEE94 /* MSMockUserDefaults.m */; };
 		04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DC2EC81E78A3B4003F23B5 /* error_details.json */; };
@@ -64,6 +74,7 @@
 		B2C070C11E5E69D00076D6A9 /* AppCenterDistribute.strings in Resources */ = {isa = PBXBuildFile; fileRef = B29CE3471E5E5F9A00CEB04D /* AppCenterDistribute.strings */; };
 		C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */; };
 		C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200612230FDF7000848D5B /* AppCenter.framework */; };
+		C2392F7324642DC600425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F4224642CB600425640 /* OCMock.framework */; };
 		C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; };
@@ -99,8 +110,21 @@
 		C9EBAAEF230D3A9B00A20F0F /* MSDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */; };
 		C9EBAAF0230D3A9B00A20F0F /* MSReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */; };
 		C9EBAB37230D73A800A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB36230D73A800A20F0F /* AppCenter.framework */; };
+		DFE95501244D8B4D0061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F2244D8B410061E3FA /* HTTPStubs.m */; };
+		DFE95502244D8B4D0061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */; };
+		DFE95503244D8B4D0061E3FA /* HTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954FC244D8B410061E3FA /* HTTPStubsResponse+JSON.m */; };
+		DFE95504244D8B4D0061E3FA /* HTTPStubsMethodSwizzling.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954FD244D8B410061E3FA /* HTTPStubsMethodSwizzling.m */; };
+		DFE95505244D8B4D0061E3FA /* HTTPStubsResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954FE244D8B410061E3FA /* HTTPStubsResponse.m */; };
+		DFE95506244D8B4D0061E3FA /* HTTPStubsPathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954FF244D8B410061E3FA /* HTTPStubsPathHelpers.m */; };
+		DFE95507244D8B4D0061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE95500244D8B410061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */; };
+		DFE95508244D8B570061E3FA /* HTTPStubsMethodSwizzling.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954F4244D8B410061E3FA /* HTTPStubsMethodSwizzling.h */; };
+		DFE95509244D8B570061E3FA /* Compatibility.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954F6244D8B410061E3FA /* Compatibility.h */; };
+		DFE9550A244D8B570061E3FA /* HTTPStubsResponse+JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954F7244D8B410061E3FA /* HTTPStubsResponse+JSON.h */; };
+		DFE9550B244D8B570061E3FA /* HTTPStubsPathHelpers.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954F8244D8B410061E3FA /* HTTPStubsPathHelpers.h */; };
+		DFE9550C244D8B570061E3FA /* HTTPStubsResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954F9244D8B410061E3FA /* HTTPStubsResponse.h */; };
+		DFE9550D244D8B570061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954FA244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.h */; };
+		DFE9550E244D8B570061E3FA /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954FB244D8B410061E3FA /* HTTPStubs.h */; };
 		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */; };
 		F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +150,62 @@
 			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
 			remoteInfo = "AppCenterDistribute iOS Framework";
 		};
+		C2392F3924642CB600425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0A814632FD000B04273;
+			remoteInfo = OCMock;
+		};
+		C2392F3B24642CB600425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03565A3118F0566E003AE91E;
+			remoteInfo = OCMockTests;
+		};
+		C2392F3D24642CB600425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0DC14632FF700B04273;
+			remoteInfo = OCMockLib;
+		};
+		C2392F3F24642CB600425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D31108AD1828DB8700737925;
+			remoteInfo = OCMockLibTests;
+		};
+		C2392F4124642CB600425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F0B950F11B0080BE00942C38;
+			remoteInfo = "OCMock iOS";
+		};
+		C2392F4324642CB600425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 817EB1621BD765130047E85A;
+			remoteInfo = "OCMock tvOS";
+		};
+		C2392F4524642CB600425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DE97CA022B43EE60098C63F;
+			remoteInfo = "OCMock watchOS";
+		};
+		C2392F7124642DC100425640 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F0B950F01B0080BE00942C38;
+			remoteInfo = "OCMock iOS";
+		};
 		F8DD7524230D7E7A00B095B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
@@ -142,7 +222,6 @@
 		040AF0321E52859F005C1174 /* MSIngestionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSIngestionProtocol.h; path = ../AppCenter/AppCenter/Internals/Ingestion/MSIngestionProtocol.h; sourceTree = "<group>"; };
 		0415974A1E9D639D00EC6BDA /* MSDistributionGroupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributionGroupTests.m; sourceTree = "<group>"; };
 		041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests iOS.xcconfig"; path = "../../Config/Tests iOS.xcconfig"; sourceTree = "<group>"; };
-		0420A69B1ECA7C8E00915619 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ../../iOS/OCMock/OCMock.framework; sourceTree = "<group>"; };
 		04311FF71EE0871D007054C5 /* MSTestFrameworks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestFrameworks.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestFrameworks.h; sourceTree = "<group>"; };
 		043E2AB31F4E024300615AD9 /* AppCenterDistribute Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterDistribute Release.xcconfig"; sourceTree = "<group>"; };
 		04545DCC227B606600A49E06 /* AppCenterDistribute.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppCenterDistribute.xcconfig; sourceTree = "<group>"; };
@@ -180,7 +259,6 @@
 		04FD4A311E453531009B4468 /* AppCenterDistribute.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppCenterDistribute.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FD4A331E453531009B4468 /* MSDistributeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSDistributeTests.m; sourceTree = "<group>"; };
 		04FD4A351E453531009B4468 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04FD4A4A1E453930009B4468 /* libAppCenter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAppCenter.a; path = "../../../../Library/Developer/Xcode/DerivedData/MobileCenter-cxbmzrupyysdsehdxmozcvjphajr/Build/Products/Debug-iphonesimulator/libAppCenter.a"; sourceTree = "<group>"; };
 		24E6AC9323A18AC800B8D33A /* MSTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSTestUtil.h; sourceTree = "<group>"; };
 		24E6AC9423A18AC900B8D33A /* MSTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSTestUtil.m; sourceTree = "<group>"; };
 		24E6AC9623A18BA800B8D33A /* MSMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockLog.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockLog.m; sourceTree = "<group>"; };
@@ -229,12 +307,26 @@
 		BA6820A043C816916AF34A04 /* MSErrorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSErrorDetails.h; sourceTree = "<group>"; };
 		BA6826E3C58372A269A6B43A /* MSErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSErrorDetails.m; sourceTree = "<group>"; };
 		C2200612230FDF7000848D5B /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2392F2F24642CB500425640 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../Vendor/OCMock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterDistribute.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB36230D73A800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFE954F2244D8B410061E3FA /* HTTPStubs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
+		DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
+		DFE954F4244D8B410061E3FA /* HTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
+		DFE954F6244D8B410061E3FA /* Compatibility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Compatibility.h; sourceTree = "<group>"; };
+		DFE954F7244D8B410061E3FA /* HTTPStubsResponse+JSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HTTPStubsResponse+JSON.h"; sourceTree = "<group>"; };
+		DFE954F8244D8B410061E3FA /* HTTPStubsPathHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPStubsPathHelpers.h; sourceTree = "<group>"; };
+		DFE954F9244D8B410061E3FA /* HTTPStubsResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPStubsResponse.h; sourceTree = "<group>"; };
+		DFE954FA244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+HTTPBodyTesting.h"; sourceTree = "<group>"; };
+		DFE954FB244D8B410061E3FA /* HTTPStubs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPStubs.h; sourceTree = "<group>"; };
+		DFE954FC244D8B410061E3FA /* HTTPStubsResponse+JSON.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubsResponse+JSON.m"; sourceTree = "<group>"; };
+		DFE954FD244D8B410061E3FA /* HTTPStubsMethodSwizzling.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStubsMethodSwizzling.m; sourceTree = "<group>"; };
+		DFE954FE244D8B410061E3FA /* HTTPStubsResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStubsResponse.m; sourceTree = "<group>"; };
+		DFE954FF244D8B410061E3FA /* HTTPStubsPathHelpers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStubsPathHelpers.m; sourceTree = "<group>"; };
+		DFE95500244D8B410061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		F82E4C82217F217F00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
 		F8B8EAE621106436004BCECB /* Resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Resources.xcconfig; sourceTree = "<group>"; };
-		F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OHHTTPStubs.framework; sourceTree = "<group>"; };
 		F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
 		F8D6848E230D7DE9000A7CED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -248,8 +340,7 @@
 				C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */,
 				C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */,
 				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
-				0420A69C1ECA7C8E00915619 /* OCMock.framework in Frameworks */,
-				F8BEA3CA1FBB0A6E00D4DE37 /* OHHTTPStubs.framework in Frameworks */,
+				C2392F7324642DC600425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,14 +369,6 @@
 				040AF0111E523AC2005C1174 /* release_details.json */,
 			);
 			path = Fixtures;
-			sourceTree = "<group>";
-		};
-		0420A69D1ECA7CAD00915619 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				0420A69B1ECA7C8E00915619 /* OCMock.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		04690E841E4E39850056B916 /* Internals */ = {
@@ -432,11 +515,10 @@
 		04FD4A491E453930009B4468 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F82E4C82217F217F00EDAB34 /* sqlite3.c */,
-				04FD4A4A1E453930009B4468 /* libAppCenter.a */,
 				380304401E7B007E006A55FB /* OCHamcrest */,
-				380304321E7B007E006A55FB /* OCMock */,
-				F8BEA3BD1FBB08A900D4DE37 /* OHHTTPStubs */,
+				C2392F2F24642CB500425640 /* OCMock.xcodeproj */,
+				DFE954F1244D8B410061E3FA /* OHHTTPStubs */,
+				F82E4C82217F217F00EDAB34 /* sqlite3.c */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -448,15 +530,6 @@
 				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		380304321E7B007E006A55FB /* OCMock */ = {
-			isa = PBXGroup;
-			children = (
-				0420A69D1ECA7CAD00915619 /* iOS */,
-			);
-			name = OCMock;
-			path = ../../Vendor/Common/OCMock;
 			sourceTree = "<group>";
 		};
 		380304401E7B007E006A55FB /* OCHamcrest */ = {
@@ -536,6 +609,20 @@
 			path = AppCenterDistributeResources;
 			sourceTree = "<group>";
 		};
+		C2392F3024642CB500425640 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C2392F3A24642CB600425640 /* OCMock.framework */,
+				C2392F3C24642CB600425640 /* OCMockTests.xctest */,
+				C2392F3E24642CB600425640 /* libOCMock.a */,
+				C2392F4024642CB600425640 /* OCMockLibTests.xctest */,
+				C2392F4224642CB600425640 /* OCMock.framework */,
+				C2392F4424642CB600425640 /* OCMock.framework */,
+				C2392F4624642CB600425640 /* OCMock.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C9A91F94230C000B0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -545,21 +632,34 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F8BEA3BD1FBB08A900D4DE37 /* OHHTTPStubs */ = {
+		DFE954F1244D8B410061E3FA /* OHHTTPStubs */ = {
 			isa = PBXGroup;
 			children = (
-				F8BEA3C71FBB0A5900D4DE37 /* iOS */,
+				DFE954F2244D8B410061E3FA /* HTTPStubs.m */,
+				DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */,
+				DFE954F4244D8B410061E3FA /* HTTPStubsMethodSwizzling.h */,
+				DFE954F5244D8B410061E3FA /* include */,
+				DFE954FC244D8B410061E3FA /* HTTPStubsResponse+JSON.m */,
+				DFE954FD244D8B410061E3FA /* HTTPStubsMethodSwizzling.m */,
+				DFE954FE244D8B410061E3FA /* HTTPStubsResponse.m */,
+				DFE954FF244D8B410061E3FA /* HTTPStubsPathHelpers.m */,
+				DFE95500244D8B410061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */,
 			);
 			name = OHHTTPStubs;
-			path = ../../Vendor/iOS/OHHTTPStubs;
+			path = ../../Vendor/OHHTTPStubs/Sources/OHHTTPStubs;
 			sourceTree = "<group>";
 		};
-		F8BEA3C71FBB0A5900D4DE37 /* iOS */ = {
+		DFE954F5244D8B410061E3FA /* include */ = {
 			isa = PBXGroup;
 			children = (
-				F8BEA3C81FBB0A5900D4DE37 /* OHHTTPStubs.framework */,
+				DFE954F6244D8B410061E3FA /* Compatibility.h */,
+				DFE954F7244D8B410061E3FA /* HTTPStubsResponse+JSON.h */,
+				DFE954F8244D8B410061E3FA /* HTTPStubsPathHelpers.h */,
+				DFE954F9244D8B410061E3FA /* HTTPStubsResponse.h */,
+				DFE954FA244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.h */,
+				DFE954FB244D8B410061E3FA /* HTTPStubs.h */,
 			);
-			name = iOS;
+			path = include;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -580,17 +680,24 @@
 				C9EBAA37230D384900A20F0F /* MSSemVer.h in Headers */,
 				C9EBAA3C230D385400A20F0F /* MSDistributeInternal.h in Headers */,
 				78B7D8BB23D5849600E08D9B /* MSAlertController.h in Headers */,
+				DFE9550A244D8B570061E3FA /* HTTPStubsResponse+JSON.h in Headers */,
 				C9EBAA36230D384900A20F0F /* MSSemVerPreReleaseId.h in Headers */,
 				C9EBAA35230D384900A20F0F /* MSDistributeIngestion.h in Headers */,
 				C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */,
+				DFE9550C244D8B570061E3FA /* HTTPStubsResponse.h in Headers */,
+				DFE9550D244D8B570061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
 				C9EBAA3A230D384900A20F0F /* MSGuidedAccessUtil.h in Headers */,
 				C9EBAA30230D37FD00A20F0F /* MSDistributeDelegate.h in Headers */,
 				C9EBAA3D230D385400A20F0F /* MSDistributeAppDelegate.h in Headers */,
 				C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */,
 				C9EBAA38230D384900A20F0F /* MSBasicMachOParser.h in Headers */,
 				C9EBAA40230D387400A20F0F /* MSReleaseDetails.h in Headers */,
+				DFE9550B244D8B570061E3FA /* HTTPStubsPathHelpers.h in Headers */,
+				DFE9550E244D8B570061E3FA /* HTTPStubs.h in Headers */,
 				C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */,
 				C9EBAA3F230D385700A20F0F /* MSDistributePrivate.h in Headers */,
+				DFE95508244D8B570061E3FA /* HTTPStubsMethodSwizzling.h in Headers */,
+				DFE95509244D8B570061E3FA /* Compatibility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,6 +716,7 @@
 			);
 			dependencies = (
 				C2200610230FDF6800848D5B /* PBXTargetDependency */,
+				C2392F7224642DC100425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute iOS Tests";
 			productName = AppCenterDistributeTests;
@@ -664,7 +772,6 @@
 				TargetAttributes = {
 					C9A91F8B230BFFFF0068070D = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 5Z97G9NZQ6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -693,6 +800,12 @@
 			mainGroup = 04FD4A131E451E12009B4468;
 			productRefGroup = 04FD4A1D1E451E12009B4468 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C2392F3024642CB500425640 /* Products */;
+					ProjectRef = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */,
@@ -700,9 +813,62 @@
 				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */,
 				04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */,
 				B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */,
+				845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C2392F3A24642CB600425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F3924642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F3C24642CB600425640 /* OCMockTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockTests.xctest;
+			remoteRef = C2392F3B24642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F3E24642CB600425640 /* libOCMock.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOCMock.a;
+			remoteRef = C2392F3D24642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F4024642CB600425640 /* OCMockLibTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockLibTests.xctest;
+			remoteRef = C2392F3F24642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F4224642CB600425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F4124642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F4424642CB600425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F4324642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C2392F4624642CB600425640 /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = C2392F4524642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		04FD4A2F1E453531009B4468 /* Resources */ = {
@@ -762,6 +928,20 @@
 			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
 			showEnvVarsInLog = 0;
 		};
+		845017DF245ADB360026E0DB /* Build XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build XCFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+		};
 		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -789,12 +969,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				040AF0251E523B80005C1174 /* MSReleaseDetailsTests.m in Sources */,
+				DFE95501244D8B4D0061E3FA /* HTTPStubs.m in Sources */,
 				F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */,
+				DFE95505244D8B4D0061E3FA /* HTTPStubsResponse.m in Sources */,
 				B20DE7B71E5F97330023075C /* MSDistributeUtilTests.m in Sources */,
+				DFE95504244D8B4D0061E3FA /* HTTPStubsMethodSwizzling.m in Sources */,
 				9E8E3A39203E68B4001A23FD /* MSDistributionStartSessionLogTest.m in Sources */,
 				387CC631210A9D9C002BA068 /* MSMockKeychainUtil.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSDistributeIngestionTests.m in Sources */,
 				7FB7054E222E59A000D93258 /* MSMockReachability.m in Sources */,
+				DFE95506244D8B4D0061E3FA /* HTTPStubsPathHelpers.m in Sources */,
 				F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */,
 				04DC2ECB1E78A3E3003F23B5 /* MSErrorDetailsTests.m in Sources */,
 				04FD4A341E453531009B4468 /* MSDistributeTests.m in Sources */,
@@ -804,10 +988,13 @@
 				78B7D8B723D581B900E08D9B /* MSAlertControllerTests.m in Sources */,
 				04980B642413003C00F384A5 /* MSDistributeCheckForUpdateTests.m in Sources */,
 				848860451E6EC32B003A9B96 /* MSBasicMachOParserTests.m in Sources */,
+				DFE95507244D8B4D0061E3FA /* HTTPStubs+NSURLSessionConfiguration.m in Sources */,
 				389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */,
 				0415974B1E9D639D00EC6BDA /* MSDistributionGroupTests.m in Sources */,
 				24E6AC9523A18AC900B8D33A /* MSTestUtil.m in Sources */,
 				38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */,
+				DFE95503244D8B4D0061E3FA /* HTTPStubsResponse+JSON.m in Sources */,
+				DFE95502244D8B4D0061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */,
 				58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */,
 				24E6AC9823A18BA800B8D33A /* MSMockLog.m in Sources */,
 			);
@@ -858,6 +1045,11 @@
 			isa = PBXTargetDependency;
 			target = C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */;
 			targetProxy = C220060F230FDF6800848D5B /* PBXContainerItemProxy */;
+		};
+		C2392F7224642DC100425640 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OCMock iOS";
+			targetProxy = C2392F7124642DC100425640 /* PBXContainerItemProxy */;
 		};
 		F8DD7525230D7E7A00B095B6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -948,6 +1140,20 @@
 			};
 			name = Release;
 		};
+		845017E1245ADB360026E0DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		845017E2245ADB360026E0DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
 		B2C070BC1E5E68540076D6A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8B8EAE621106436004BCECB /* Resources.xcconfig */;
@@ -966,6 +1172,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -973,6 +1180,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -1011,6 +1219,15 @@
 			buildConfigurations = (
 				04FD4A3E1E453640009B4468 /* Debug */,
 				04FD4A3F1E453640009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		845017E0245ADB360026E0DB /* Build configuration list for PBXAggregateTarget "AppCenterDistribute XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				845017E1245ADB360026E0DB /* Debug */,
+				845017E2245ADB360026E0DB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -349,7 +349,7 @@
 
   // In the end the completion handler must be called with the forwarded value.
   assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  assertThatInteger(forwardedFetchResult, equalToUnsignedInteger(expectedFetchResult));
 }
 
 - (void)testDidReceiveRemoteNotificationCompletionHandlerImplementedByOriginalAndCustomDelegates {
@@ -405,7 +405,7 @@
 
   // In the end the completion handler must be called with the forwarded value.
   assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  assertThatInteger(forwardedFetchResult, equalToUnsignedInteger(expectedFetchResult));
 }
 
 - (void)testDidReceiveRemoteNotificationCompletionHandlerImplementedByOriginalOnly {
@@ -449,7 +449,7 @@
 
   // In the end the completion handler must be called with the forwarded value.
   assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  assertThatInteger(forwardedFetchResult, equalToUnsignedInteger(expectedFetchResult));
 }
 
 - (void)testDidReceiveRemoteNotificationCompletionHandlerImplementedByNoOne {
@@ -480,7 +480,7 @@
 
   // In the end the completion handler must be called with the forwarded value.
   assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  assertThatInteger(forwardedFetchResult, equalToUnsignedInteger(expectedFetchResult));
 }
 
 - (void)testDidReceiveRemoteNotificationCompletionHandlerTriage {
@@ -687,7 +687,7 @@
 
   // In the end the completion handler must be called with the forwarded value.
   assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  assertThatInteger(forwardedFetchResult, equalToUnsignedInteger(expectedFetchResult));
 }
 
 - (void)testDidReceiveRemoteNotificationCompletionHandlerCustomCalledFirst {
@@ -753,7 +753,7 @@
 
   // In the end the completion handler must be called with the forwarded value.
   assertThatBool(isExpectedHandlerCalled, isTrue());
-  assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+  assertThatInteger(forwardedFetchResult, equalToUnsignedInteger(expectedFetchResult));
 }
 
 - (void)testDidReceiveRemoteNotificationCompletionHandlerAsyncWithMultipleCustomDelegates {
@@ -848,7 +848,7 @@
                                  } else {
                                    XCTAssertTrue(delegateCalledCounter == 3);
                                    assertThatBool(isExpectedHandlerCalled, isTrue());
-                                   assertThatInteger(forwardedFetchResult, equalToInteger(expectedFetchResult));
+                                   assertThatInteger(forwardedFetchResult, equalToUnsignedInteger(expectedFetchResult));
                                  }
                                }];
 }

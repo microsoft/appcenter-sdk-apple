@@ -4,7 +4,7 @@
 #import "MSAppCenterInternal.h"
 #import "MSApplicationForwarder.h"
 #import "MSCrashesPrivate.h"
-#import "MSMockUserDefaults.h"
+#import "MSMockNSUserDefaults.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Application.h"
 
@@ -54,8 +54,8 @@ static void exceptionHandler(NSException *exception) { lastException = exception
   // Then
   XCTAssertNil(lastException);
 
-  // Enable crash on exeptions
-  MSMockUserDefaults *settings = [MSMockUserDefaults new];
+  // Enable crash on exсeptions.
+  MSMockNSUserDefaults *settings = [MSMockNSUserDefaults new];
   [settings setObject:@YES forKey:@"NSApplicationCrashOnExceptions"];
 
   // When
