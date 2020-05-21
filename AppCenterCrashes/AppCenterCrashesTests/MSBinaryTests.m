@@ -38,8 +38,8 @@
   MSBinary *sut = [self binary];
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = [MSUtility archiveKeyedData:sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());

@@ -56,8 +56,8 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedWrapperException = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedWrapperException];
+  NSData *serializedWrapperException = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedWrapperException];
 
   // Then
   assertThat(actual, notNilValue());
