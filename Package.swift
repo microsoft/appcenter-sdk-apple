@@ -34,7 +34,7 @@ let package = Package(
                 .define("APP_CENTER_C_NAME", to: "\"appcenter.ios\"", .when(platforms: [.iOS])),
                 .define("APP_CENTER_C_NAME", to: "\"appcenter.macos\"", .when(platforms: [.macOS])),
                 .define("APP_CENTER_C_NAME", to: "\"appcenter.tvos\"", .when(platforms: [.tvOS])),
-                .define("APP_CENTER_C_VERSION", to:"\"3.1.1\""),
+                .define("APP_CENTER_C_VERSION", to:"\"3.2.0\""),
                 .define("APP_CENTER_C_BUILD", to:"\"1\""),
                 .headerSearchPath("**"),
             ],
