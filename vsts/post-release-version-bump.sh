@@ -40,3 +40,7 @@ for file in $files
 do
   sed -i '' 's/\(module_version:[[:space:]]\).*/\1'$new_version'/g' $file
 done
+
+# Update swift package manager config file
+swift_package_file='Package.swift'
+sed -i '' 's/\(define("APP_CENTER_C_VERSION",[[:space:]]*to:*\).*/\1''"\\"'$new_version'\\""),''/g' $swift_package_file
