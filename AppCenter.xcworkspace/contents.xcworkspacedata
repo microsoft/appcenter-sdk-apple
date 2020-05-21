@@ -20,9 +20,6 @@
          location = "group:Global.xcconfig">
       </FileRef>
       <FileRef
-         location = "group:iOS Distribute.xcconfig">
-      </FileRef>
-      <FileRef
          location = "group:iOS.xcconfig">
       </FileRef>
       <FileRef
