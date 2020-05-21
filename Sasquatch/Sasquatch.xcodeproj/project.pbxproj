@@ -39,6 +39,10 @@
 		80B3CADB211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
 		80B3CADC211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
 		80B3CADD211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
+		840F3E0F2476A85700927CB9 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0C2476A83E00927CB9 /* AppCenter.framework */; platformFilter = maccatalyst; };
+		840F3E112476A85700927CB9 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0D2476A83E00927CB9 /* AppCenterAnalytics.framework */; platformFilter = maccatalyst; };
+		840F3E132476A85700927CB9 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0B2476A83E00927CB9 /* AppCenterCrashes.framework */; platformFilter = maccatalyst; };
+		840F3E542476B35800927CB9 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0E2476A83E00927CB9 /* libCrashReporter.a */; platformFilter = maccatalyst; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -281,17 +285,10 @@
 		DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
 		DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */; };
-		DF4D2E4624769101004A12DC /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3C247690F9004A12DC /* libCrashReporter.a */; platformFilter = maccatalyst; };
 		DF4D2E5E247691A3004A12DC /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; platformFilter = maccatalyst; };
 		DF4D2E5F247691A3004A12DC /* CrashLibIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DF4D2E62247693C1004A12DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4D2E61247693C1004A12DC /* AppDelegate.swift */; };
 		DF4D2E6724769451004A12DC /* SasquatchCatalystSwift.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E6624769451004A12DC /* SasquatchCatalystSwift.plist */; };
-		DF4D2E682476972C004A12DC /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3D247690F9004A12DC /* AppCenter.framework */; platformFilter = maccatalyst; };
-		DF4D2E692476972C004A12DC /* AppCenter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF4D2E3D247690F9004A12DC /* AppCenter.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DF4D2E6A2476972E004A12DC /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3F247690F9004A12DC /* AppCenterAnalytics.framework */; platformFilter = maccatalyst; };
-		DF4D2E6B2476972E004A12DC /* AppCenterAnalytics.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF4D2E3F247690F9004A12DC /* AppCenterAnalytics.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		DF4D2E6C2476972F004A12DC /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3E247690F9004A12DC /* AppCenterCrashes.framework */; platformFilter = maccatalyst; };
-		DF4D2E6D2476972F004A12DC /* AppCenterCrashes.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF4D2E3E247690F9004A12DC /* AppCenterCrashes.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DF4D2E6E2476991D004A12DC /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4D2E63247693DE004A12DC /* AppCenterDelegateSwift.swift */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
@@ -991,9 +988,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				DF4D2E5F247691A3004A12DC /* CrashLibIOS.framework in CopyFiles */,
-				DF4D2E6D2476972F004A12DC /* AppCenterCrashes.framework in CopyFiles */,
-				DF4D2E6B2476972E004A12DC /* AppCenterAnalytics.framework in CopyFiles */,
-				DF4D2E692476972C004A12DC /* AppCenter.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1055,6 +1049,10 @@
 		5CE258871EA5F62400DA8FB9 /* SasquatchObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		807DB551212164E000F35E03 /* MSSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSSignInViewController.swift; sourceTree = "<group>"; };
 		80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAuthenticationViewController.swift; sourceTree = "<group>"; };
+		840F3E0B2476A83E00927CB9 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-fujxsrineyldsfbhdzhsbbaqaaun/Build/Products/Debug-maccatalyst/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+		840F3E0C2476A83E00927CB9 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-fujxsrineyldsfbhdzhsbbaqaaun/Build/Products/Debug-maccatalyst/AppCenter.framework"; sourceTree = "<group>"; };
+		840F3E0D2476A83E00927CB9 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-fujxsrineyldsfbhdzhsbbaqaaun/Build/Products/Debug-maccatalyst/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
+		840F3E0E2476A83E00927CB9 /* libCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCrashReporter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-fujxsrineyldsfbhdzhsbbaqaaun/Build/Products/Debug-maccatalyst/libCrashReporter.a"; sourceTree = "<group>"; };
 		84226C1C1E88FEFC00798417 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84226C471E88FF4A00798417 /* SasquatchObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84226C4A1E88FF4A00798417 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1357,11 +1355,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF4D2E682476972C004A12DC /* AppCenter.framework in Frameworks */,
-				DF4D2E4624769101004A12DC /* libCrashReporter.a in Frameworks */,
 				DF4D2E5E247691A3004A12DC /* CrashLibIOS.framework in Frameworks */,
-				DF4D2E6A2476972E004A12DC /* AppCenterAnalytics.framework in Frameworks */,
-				DF4D2E6C2476972F004A12DC /* AppCenterCrashes.framework in Frameworks */,
+				840F3E132476A85700927CB9 /* AppCenterCrashes.framework in Frameworks */,
+				840F3E542476B35800927CB9 /* libCrashReporter.a in Frameworks */,
+				840F3E112476A85700927CB9 /* AppCenterAnalytics.framework in Frameworks */,
+				840F3E0F2476A85700927CB9 /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1550,6 +1548,10 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				840F3E0C2476A83E00927CB9 /* AppCenter.framework */,
+				840F3E0D2476A83E00927CB9 /* AppCenterAnalytics.framework */,
+				840F3E0B2476A83E00927CB9 /* AppCenterCrashes.framework */,
+				840F3E0E2476A83E00927CB9 /* libCrashReporter.a */,
 				DF4D2E4724769101004A12DC /* include */,
 				DF4D2E3D247690F9004A12DC /* AppCenter.framework */,
 				DF4D2E3F247690F9004A12DC /* AppCenterAnalytics.framework */,
@@ -2181,6 +2183,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DF4D2DED24768E40004A12DC /* Build configuration list for PBXNativeTarget "SasquatchCatalystSwift" */;
 			buildPhases = (
+				840F3E162476A8AE00927CB9 /* Verify No Build Settings */,
 				DF4D2DB724768E40004A12DC /* Sources */,
 				DF4D2DD524768E40004A12DC /* Frameworks */,
 				DF4D2DDC24768E40004A12DC /* Resources */,
@@ -2796,6 +2799,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
+		};
+		840F3E162476A8AE00927CB9 /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 		};
 		C9FA992323200B9E007E276C /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3522,6 +3543,24 @@
 			};
 			name = Release;
 		};
+		840F3DD82476A14100927CB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = SasquatchCatalystSwift/SasquatchCatalystSwift.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
+			};
+			name = Debug;
+		};
+		840F3DD92476A14100927CB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = SasquatchCatalystSwift/SasquatchCatalystSwift.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
+			};
+			name = Release;
+		};
 		84226C381E88FEFC00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */;
@@ -3999,8 +4038,8 @@
 		DF4D2DED24768E40004A12DC /* Build configuration list for PBXNativeTarget "SasquatchCatalystSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DF4D2DEE24768E40004A12DC /* Debug */,
-				DF4D2DEF24768E40004A12DC /* Release */,
+				840F3DD82476A14100927CB9 /* Debug */,
+				840F3DD92476A14100927CB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
