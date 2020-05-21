@@ -23,7 +23,7 @@ let package = Package(
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .revision("44b167048312b404f5aeb70381019deb6158f219")),
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.6.0")),
     ],
     targets: [
         .target(
@@ -34,7 +34,7 @@ let package = Package(
                 .define("APP_CENTER_C_NAME", to: "\"appcenter.ios\"", .when(platforms: [.iOS])),
                 .define("APP_CENTER_C_NAME", to: "\"appcenter.macos\"", .when(platforms: [.macOS])),
                 .define("APP_CENTER_C_NAME", to: "\"appcenter.tvos\"", .when(platforms: [.tvOS])),
-                .define("APP_CENTER_C_VERSION", to:"\"3.1.1\""),
+                .define("APP_CENTER_C_VERSION", to:"\"3.2.0\""),
                 .define("APP_CENTER_C_BUILD", to:"\"1\""),
                 .headerSearchPath("**"),
             ],
