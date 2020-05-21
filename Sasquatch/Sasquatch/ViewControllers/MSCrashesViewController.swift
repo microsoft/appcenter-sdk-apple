@@ -108,12 +108,13 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Read async to display size instead of url.
         if referenceUrl != nil {
-          let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
-          if asset != nil {
-            PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
-              cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
-            })
-          }
+          //todo:fix
+//          let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
+//          if asset != nil {
+//            PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
+//              cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
+//            })
+//          }
         }
       } else if (indexPath.row == 3) {
         cell.textLabel?.text = "Clear crash user confirmation"

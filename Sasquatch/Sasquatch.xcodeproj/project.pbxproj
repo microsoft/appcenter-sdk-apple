@@ -246,6 +246,53 @@
 		D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF96B1E9517C600450162 /* NotificationController.swift */; };
 		D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF96D1E9517C600450162 /* Assets.xcassets */; };
 		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
+		DF4D2DB824768E40004A12DC /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
+		DF4D2DB924768E40004A12DC /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
+		DF4D2DBA24768E40004A12DC /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
+		DF4D2DBB24768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F322164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift */; };
+		DF4D2DBC24768E40004A12DC /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
+		DF4D2DBD24768E40004A12DC /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
+		DF4D2DBE24768E40004A12DC /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
+		DF4D2DBF24768E40004A12DC /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
+		DF4D2DC024768E40004A12DC /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
+		DF4D2DC124768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
+		DF4D2DC224768E40004A12DC /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
+		DF4D2DC324768E40004A12DC /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
+		DF4D2DC424768E40004A12DC /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */; };
+		DF4D2DC524768E40004A12DC /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
+		DF4D2DC624768E40004A12DC /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
+		DF4D2DC724768E40004A12DC /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
+		DF4D2DC824768E40004A12DC /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
+		DF4D2DC924768E40004A12DC /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
+		DF4D2DCA24768E40004A12DC /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
+		DF4D2DCB24768E40004A12DC /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
+		DF4D2DCD24768E40004A12DC /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
+		DF4D2DCE24768E40004A12DC /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
+		DF4D2DCF24768E40004A12DC /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */; };
+		DF4D2DD124768E40004A12DC /* MSDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */; };
+		DF4D2DD224768E40004A12DC /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
+		DF4D2DD424768E40004A12DC /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
+		DF4D2DDE24768E40004A12DC /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		DF4D2DDF24768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
+		DF4D2DE024768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
+		DF4D2DE124768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8AA9F052164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib */; };
+		DF4D2DE224768E40004A12DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
+		DF4D2DE324768E40004A12DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
+		DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
+		DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */; };
+		DF4D2E4624769101004A12DC /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3C247690F9004A12DC /* libCrashReporter.a */; platformFilter = maccatalyst; };
+		DF4D2E5E247691A3004A12DC /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; platformFilter = maccatalyst; };
+		DF4D2E5F247691A3004A12DC /* CrashLibIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DF4D2E62247693C1004A12DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4D2E61247693C1004A12DC /* AppDelegate.swift */; };
+		DF4D2E6724769451004A12DC /* SasquatchCatalystSwift.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E6624769451004A12DC /* SasquatchCatalystSwift.plist */; };
+		DF4D2E682476972C004A12DC /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3D247690F9004A12DC /* AppCenter.framework */; platformFilter = maccatalyst; };
+		DF4D2E692476972C004A12DC /* AppCenter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF4D2E3D247690F9004A12DC /* AppCenter.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DF4D2E6A2476972E004A12DC /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3F247690F9004A12DC /* AppCenterAnalytics.framework */; platformFilter = maccatalyst; };
+		DF4D2E6B2476972E004A12DC /* AppCenterAnalytics.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF4D2E3F247690F9004A12DC /* AppCenterAnalytics.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DF4D2E6C2476972F004A12DC /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4D2E3E247690F9004A12DC /* AppCenterCrashes.framework */; platformFilter = maccatalyst; };
+		DF4D2E6D2476972F004A12DC /* AppCenterCrashes.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = DF4D2E3E247690F9004A12DC /* AppCenterCrashes.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DF4D2E6E2476991D004A12DC /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4D2E63247693DE004A12DC /* AppCenterDelegateSwift.swift */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F83587C8242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
@@ -719,6 +766,20 @@
 			remoteGlobalIDString = D31EF9531E9517C500450162;
 			remoteInfo = SasquatchWatchSwift;
 		};
+		DF4D2DAE24768E40004A12DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
+		DF4D2DB424768E40004A12DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -923,6 +984,19 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DF4D2DEA24768E40004A12DC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DF4D2E5F247691A3004A12DC /* CrashLibIOS.framework in CopyFiles */,
+				DF4D2E6D2476972F004A12DC /* AppCenterCrashes.framework in CopyFiles */,
+				DF4D2E6B2476972E004A12DC /* AppCenterAnalytics.framework in CopyFiles */,
+				DF4D2E692476972C004A12DC /* AppCenter.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F89D790B1E93DA3B0094521F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1070,6 +1144,59 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF4D2DF024768E40004A12DC /* SasquatchCatalystSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchCatalystSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Catalyst.xcconfig"; sourceTree = "<group>"; };
+		DF4D2E26247690F9004A12DC /* PLCrashNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
+		DF4D2E27247690F9004A12DC /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
+		DF4D2E28247690F9004A12DC /* PLCrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
+		DF4D2E29247690F9004A12DC /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
+		DF4D2E2A247690F9004A12DC /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
+		DF4D2E2B247690F9004A12DC /* PLCrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
+		DF4D2E2C247690F9004A12DC /* PLCrashMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
+		DF4D2E2D247690F9004A12DC /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
+		DF4D2E2E247690F9004A12DC /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
+		DF4D2E2F247690F9004A12DC /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		DF4D2E30247690F9004A12DC /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
+		DF4D2E31247690F9004A12DC /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
+		DF4D2E32247690F9004A12DC /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
+		DF4D2E33247690F9004A12DC /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
+		DF4D2E34247690F9004A12DC /* CrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
+		DF4D2E35247690F9004A12DC /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
+		DF4D2E36247690F9004A12DC /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
+		DF4D2E37247690F9004A12DC /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
+		DF4D2E38247690F9004A12DC /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		DF4D2E39247690F9004A12DC /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
+		DF4D2E3A247690F9004A12DC /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
+		DF4D2E3B247690F9004A12DC /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
+		DF4D2E3C247690F9004A12DC /* libCrashReporter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCrashReporter.a; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-maccatalyst/libCrashReporter.a"; sourceTree = "<group>"; };
+		DF4D2E3D247690F9004A12DC /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-maccatalyst/AppCenter.framework"; sourceTree = "<group>"; };
+		DF4D2E3E247690F9004A12DC /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-maccatalyst/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+		DF4D2E3F247690F9004A12DC /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-maccatalyst/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
+		DF4D2E4824769101004A12DC /* PLCrashNamespace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
+		DF4D2E4924769101004A12DC /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
+		DF4D2E4A24769101004A12DC /* PLCrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
+		DF4D2E4B24769101004A12DC /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
+		DF4D2E4C24769101004A12DC /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
+		DF4D2E4D24769101004A12DC /* PLCrashReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
+		DF4D2E4E24769101004A12DC /* PLCrashMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
+		DF4D2E4F24769101004A12DC /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
+		DF4D2E5024769101004A12DC /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
+		DF4D2E5124769101004A12DC /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		DF4D2E5224769101004A12DC /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
+		DF4D2E5324769101004A12DC /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
+		DF4D2E5424769101004A12DC /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
+		DF4D2E5524769101004A12DC /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
+		DF4D2E5624769101004A12DC /* CrashReporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
+		DF4D2E5724769101004A12DC /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
+		DF4D2E5824769101004A12DC /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
+		DF4D2E5924769101004A12DC /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
+		DF4D2E5A24769101004A12DC /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		DF4D2E5B24769101004A12DC /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
+		DF4D2E5C24769101004A12DC /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
+		DF4D2E5D24769101004A12DC /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
+		DF4D2E61247693C1004A12DC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DF4D2E63247693DE004A12DC /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
+		DF4D2E6624769451004A12DC /* SasquatchCatalystSwift.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SasquatchCatalystSwift.plist; sourceTree = "<group>"; };
 		E8BABE9E224416FC0001B7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAAnalyticsAuthenticationProvider.swift; sourceTree = "<group>"; };
@@ -1226,6 +1353,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DF4D2DD524768E40004A12DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF4D2E682476972C004A12DC /* AppCenter.framework in Frameworks */,
+				DF4D2E4624769101004A12DC /* libCrashReporter.a in Frameworks */,
+				DF4D2E5E247691A3004A12DC /* CrashLibIOS.framework in Frameworks */,
+				DF4D2E6A2476972E004A12DC /* AppCenterAnalytics.framework in Frameworks */,
+				DF4D2E6C2476972F004A12DC /* AppCenterCrashes.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1278,6 +1417,7 @@
 				C2F156A12338C22C00798480 /* CrashLib */,
 				B20AE3F12102816B00A1A195 /* AppCenter */,
 				F849241D2111C48A00E14DBE /* Config */,
+				DF4D2E602476937F004A12DC /* SasquatchCatalystSwift */,
 				84226C141E88FEFC00798417 /* Sasquatch */,
 				84226C481E88FF4A00798417 /* SasquatchObjC */,
 				84226C811E8908CA00798417 /* SasquatchSwift */,
@@ -1311,6 +1451,7 @@
 				B2A4CFB6210A6E6900199B4F /* SasquatchSwift-Preview.app */,
 				C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */,
 				C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */,
+				DF4D2DF024768E40004A12DC /* SasquatchCatalystSwift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1409,6 +1550,12 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DF4D2E4724769101004A12DC /* include */,
+				DF4D2E3D247690F9004A12DC /* AppCenter.framework */,
+				DF4D2E3F247690F9004A12DC /* AppCenterAnalytics.framework */,
+				DF4D2E3E247690F9004A12DC /* AppCenterCrashes.framework */,
+				DF4D2E25247690F9004A12DC /* include */,
+				DF4D2E3C247690F9004A12DC /* libCrashReporter.a */,
 				C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */,
 				84226D2E1E89301A00798417 /* AppCenter.framework */,
 				84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */,
@@ -1626,6 +1773,84 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DF4D2E25247690F9004A12DC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				DF4D2E26247690F9004A12DC /* PLCrashNamespace.h */,
+				DF4D2E27247690F9004A12DC /* PLCrashFeatureConfig.h */,
+				DF4D2E28247690F9004A12DC /* PLCrashReporter.h */,
+				DF4D2E29247690F9004A12DC /* PLCrashReportRegisterInfo.h */,
+				DF4D2E2A247690F9004A12DC /* PLCrashReportBinaryImageInfo.h */,
+				DF4D2E2B247690F9004A12DC /* PLCrashReport.h */,
+				DF4D2E2C247690F9004A12DC /* PLCrashMacros.h */,
+				DF4D2E2D247690F9004A12DC /* PLCrashReporterConfig.h */,
+				DF4D2E2E247690F9004A12DC /* PLCrashReportMachExceptionInfo.h */,
+				DF4D2E2F247690F9004A12DC /* PLCrashReportThreadInfo.h */,
+				DF4D2E30247690F9004A12DC /* PLCrashReportStackFrameInfo.h */,
+				DF4D2E31247690F9004A12DC /* PLCrashReportSystemInfo.h */,
+				DF4D2E32247690F9004A12DC /* PLCrashReportExceptionInfo.h */,
+				DF4D2E33247690F9004A12DC /* PLCrashReportProcessorInfo.h */,
+				DF4D2E34247690F9004A12DC /* CrashReporter.h */,
+				DF4D2E35247690F9004A12DC /* PLCrashReportSignalInfo.h */,
+				DF4D2E36247690F9004A12DC /* PLCrashReportApplicationInfo.h */,
+				DF4D2E37247690F9004A12DC /* PLCrashReportMachineInfo.h */,
+				DF4D2E38247690F9004A12DC /* PLCrashReportTextFormatter.h */,
+				DF4D2E39247690F9004A12DC /* PLCrashReportFormatter.h */,
+				DF4D2E3A247690F9004A12DC /* PLCrashReportProcessInfo.h */,
+				DF4D2E3B247690F9004A12DC /* PLCrashReportSymbolInfo.h */,
+			);
+			name = include;
+			path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-maccatalyst/include";
+			sourceTree = "<group>";
+		};
+		DF4D2E4724769101004A12DC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				DF4D2E4824769101004A12DC /* PLCrashNamespace.h */,
+				DF4D2E4924769101004A12DC /* PLCrashFeatureConfig.h */,
+				DF4D2E4A24769101004A12DC /* PLCrashReporter.h */,
+				DF4D2E4B24769101004A12DC /* PLCrashReportRegisterInfo.h */,
+				DF4D2E4C24769101004A12DC /* PLCrashReportBinaryImageInfo.h */,
+				DF4D2E4D24769101004A12DC /* PLCrashReport.h */,
+				DF4D2E4E24769101004A12DC /* PLCrashMacros.h */,
+				DF4D2E4F24769101004A12DC /* PLCrashReporterConfig.h */,
+				DF4D2E5024769101004A12DC /* PLCrashReportMachExceptionInfo.h */,
+				DF4D2E5124769101004A12DC /* PLCrashReportThreadInfo.h */,
+				DF4D2E5224769101004A12DC /* PLCrashReportStackFrameInfo.h */,
+				DF4D2E5324769101004A12DC /* PLCrashReportSystemInfo.h */,
+				DF4D2E5424769101004A12DC /* PLCrashReportExceptionInfo.h */,
+				DF4D2E5524769101004A12DC /* PLCrashReportProcessorInfo.h */,
+				DF4D2E5624769101004A12DC /* CrashReporter.h */,
+				DF4D2E5724769101004A12DC /* PLCrashReportSignalInfo.h */,
+				DF4D2E5824769101004A12DC /* PLCrashReportApplicationInfo.h */,
+				DF4D2E5924769101004A12DC /* PLCrashReportMachineInfo.h */,
+				DF4D2E5A24769101004A12DC /* PLCrashReportTextFormatter.h */,
+				DF4D2E5B24769101004A12DC /* PLCrashReportFormatter.h */,
+				DF4D2E5C24769101004A12DC /* PLCrashReportProcessInfo.h */,
+				DF4D2E5D24769101004A12DC /* PLCrashReportSymbolInfo.h */,
+			);
+			name = include;
+			path = "../../../../../Library/Developer/Xcode/DerivedData/AppCenter-gpfxuikqxttcjbbawrgyhnkoxjrm/Build/Products/Debug-maccatalyst/include";
+			sourceTree = "<group>";
+		};
+		DF4D2E602476937F004A12DC /* SasquatchCatalystSwift */ = {
+			isa = PBXGroup;
+			children = (
+				DF4D2E65247693FC004A12DC /* Supporting Files */,
+				DF4D2E61247693C1004A12DC /* AppDelegate.swift */,
+				DF4D2E63247693DE004A12DC /* AppCenterDelegateSwift.swift */,
+			);
+			path = SasquatchCatalystSwift;
+			sourceTree = "<group>";
+		};
+		DF4D2E65247693FC004A12DC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DF4D2E6624769451004A12DC /* SasquatchCatalystSwift.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		F849241D2111C48A00E14DBE /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -1634,6 +1859,7 @@
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
 				C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */,
+				DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
 				F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */,
@@ -1951,6 +2177,26 @@
 			productReference = D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
+		DF4D2DAC24768E40004A12DC /* SasquatchCatalystSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DF4D2DED24768E40004A12DC /* Build configuration list for PBXNativeTarget "SasquatchCatalystSwift" */;
+			buildPhases = (
+				DF4D2DB724768E40004A12DC /* Sources */,
+				DF4D2DD524768E40004A12DC /* Frameworks */,
+				DF4D2DDC24768E40004A12DC /* Resources */,
+				DF4D2DEA24768E40004A12DC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DF4D2DAD24768E40004A12DC /* PBXTargetDependency */,
+				DF4D2DB324768E40004A12DC /* PBXTargetDependency */,
+			);
+			name = SasquatchCatalystSwift;
+			productName = SasquatchSwift;
+			productReference = DF4D2DF024768E40004A12DC /* SasquatchCatalystSwift.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2129,6 +2375,7 @@
 				B2A4CF85210A6E6900199B4F /* SasquatchSwift-Preview */,
 				C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */,
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
+				DF4D2DAC24768E40004A12DC /* SasquatchCatalystSwift */,
 				C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */,
 				D31EF9531E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
@@ -2497,6 +2744,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DF4D2DDC24768E40004A12DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF4D2DDE24768E40004A12DC /* Sasquatch.strings in Resources */,
+				DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */,
+				DF4D2DDF24768E40004A12DC /* Assets.xcassets in Resources */,
+				DF4D2E6724769451004A12DC /* SasquatchCatalystSwift.plist in Resources */,
+				DF4D2DE024768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
+				DF4D2DE124768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				DF4D2DE224768E40004A12DC /* LaunchScreen.storyboard in Resources */,
+				DF4D2DE324768E40004A12DC /* Main.storyboard in Resources */,
+				DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */,
+				DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2944,6 +3208,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DF4D2DB724768E40004A12DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF4D2DB824768E40004A12DC /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
+				DF4D2DB924768E40004A12DC /* AppCenterProtocol.swift in Sources */,
+				DF4D2DBA24768E40004A12DC /* MSCrashesViewController.swift in Sources */,
+				DF4D2DBB24768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
+				DF4D2DBC24768E40004A12DC /* EventPropertiesTableSection.swift in Sources */,
+				DF4D2DBD24768E40004A12DC /* MSTableViewCellExtension.swift in Sources */,
+				DF4D2DBE24768E40004A12DC /* MSAnalyticsViewController.swift in Sources */,
+				DF4D2DBF24768E40004A12DC /* MSSignInViewController.swift in Sources */,
+				DF4D2DC024768E40004A12DC /* MSTransmissionTargetsViewController.swift in Sources */,
+				DF4D2DC124768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
+				DF4D2DC224768E40004A12DC /* AppCenterDelegate.swift in Sources */,
+				DF4D2DC324768E40004A12DC /* MSCustomPropertyTableViewCell.swift in Sources */,
+				DF4D2DC424768E40004A12DC /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
+				DF4D2DC524768E40004A12DC /* CommonSchemaPropertiesTableSection.swift in Sources */,
+				DF4D2DC624768E40004A12DC /* MSCustomPropertiesViewController.swift in Sources */,
+				DF4D2DC724768E40004A12DC /* MSTransmissionTargets.swift in Sources */,
+				DF4D2DC824768E40004A12DC /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
+				DF4D2DC924768E40004A12DC /* MSAnalyticsResultViewController.swift in Sources */,
+				DF4D2DCA24768E40004A12DC /* MSMainViewController.swift in Sources */,
+				DF4D2DCB24768E40004A12DC /* PropertiesTableSection.swift in Sources */,
+				DF4D2DCD24768E40004A12DC /* TargetPropertiesTableSection.swift in Sources */,
+				DF4D2DCE24768E40004A12DC /* MSAuthenticationViewController.swift in Sources */,
+				DF4D2DCF24768E40004A12DC /* MSAnalyticsResult.swift in Sources */,
+				DF4D2DD124768E40004A12DC /* MSDatePicker.swift in Sources */,
+				DF4D2DD224768E40004A12DC /* MSEnumPicker.swift in Sources */,
+				DF4D2DD424768E40004A12DC /* SimplePropertiesTableSection.swift in Sources */,
+				DF4D2E6E2476991D004A12DC /* AppCenterDelegateSwift.swift in Sources */,
+				DF4D2E62247693C1004A12DC /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3101,6 +3400,16 @@
 			isa = PBXTargetDependency;
 			target = D31EF9531E9517C500450162 /* SasquatchWatchSwift */;
 			targetProxy = D31EF9701E9517C600450162 /* PBXContainerItemProxy */;
+		};
+		DF4D2DAD24768E40004A12DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = DF4D2DAE24768E40004A12DC /* PBXContainerItemProxy */;
+		};
+		DF4D2DB324768E40004A12DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = DF4D2DB424768E40004A12DC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3683,6 +3992,15 @@
 			buildConfigurations = (
 				D31EF9781E9517C600450162 /* Debug */,
 				D31EF9791E9517C600450162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DF4D2DED24768E40004A12DC /* Build configuration list for PBXNativeTarget "SasquatchCatalystSwift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF4D2DEE24768E40004A12DC /* Debug */,
+				DF4D2DEF24768E40004A12DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
