@@ -335,6 +335,7 @@
 		D3AD5F6B1E5D7464001627AB /* MSPushLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSPushLog.m; path = Model/MSPushLog.m; sourceTree = "<group>"; };
 		DFCB808E2472D7500058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
 		F82E4C84217F218D00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
+		F8A27E48247679EE002DDDAA /* iOS Push.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Push.xcconfig"; sourceTree = "<group>"; };
 		F8DD7526230D7EA400B095B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -516,6 +517,7 @@
 		D3AD5F031E5C7FC9001627AB /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F8A27E48247679EE002DDDAA /* iOS Push.xcconfig */,
 				F8DD7526230D7EA400B095B6 /* Info.plist */,
 				04545DCD227B607200A49E06 /* AppCenterPush.xcconfig */,
 				D3AD5F051E5C7FFF001627AB /* AppCenterPush Debug.xcconfig */,
@@ -1123,7 +1125,7 @@
 		};
 		C9A91FA0230C004A0068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = F8A27E48247679EE002DDDAA /* iOS Push.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
 			};
@@ -1131,7 +1133,7 @@
 		};
 		C9A91FA1230C004A0068070D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC81E1ECE333700FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = F8A27E48247679EE002DDDAA /* iOS Push.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
 			};
