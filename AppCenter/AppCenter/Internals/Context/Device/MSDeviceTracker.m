@@ -381,11 +381,12 @@ static MSDeviceTracker *sharedInstance = nil;
   id screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
   if (screen == nil) {
     CGSize screenSize = [UIScreen mainScreen].nativeBounds.size;
-    return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.width), (int)(screenSize.height)];
+    return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
   }
+  SEL selector = NSSelectorFromString(@"frame");
   NSInvocation *invocation =
-      [NSInvocation invocationWithMethodSignature:[[screen class] instanceMethodSignatureForSelector:NSSelectorFromString(@"frame")]];
-  [invocation setSelector:NSSelectorFromString(@"frame")];
+      [NSInvocation invocationWithMethodSignature:[[screen class] instanceMethodSignatureForSelector:selector]];
+  [invocation setSelector:selector];
   [invocation setTarget:screen];
   [invocation invoke];
   CGRect frame;
