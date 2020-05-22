@@ -83,6 +83,7 @@
 				8414DF7924599AF800B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
+				D559CA002477ECEF00CF60D5 /* PBXTargetDependency */,
 			);
 			name = "AppCenter XCFramework";
 			productName = "Fat Framework";
@@ -1020,6 +1021,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A9201B230C07A50068070D;
 			remoteInfo = "AppCenter tvOS Framework";
+		};
+		D559C9FF2477ECEF00CF60D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
+			remoteInfo = "AppCenter iOS Fat Framework";
 		};
 		DFCB80072472C1BD0058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3429,6 +3437,11 @@
 			isa = PBXTargetDependency;
 			target = C9A9201B230C07A50068070D /* AppCenter tvOS Framework */;
 			targetProxy = C2CB275D230EDE320076A4E0 /* PBXContainerItemProxy */;
+		};
+		D559CA002477ECEF00CF60D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E04017D1D1CAC710051BCFA /* AppCenter iOS Fat Framework */;
+			targetProxy = D559C9FF2477ECEF00CF60D5 /* PBXContainerItemProxy */;
 		};
 		DFCB80182472D1960058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

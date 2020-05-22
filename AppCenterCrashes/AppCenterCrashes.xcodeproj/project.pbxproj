@@ -83,6 +83,7 @@
 				8414DF852459D41B00B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
+				D559CA142477ED0500CF60D5 /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes XCFramework";
 			productName = "Fat Framework";
@@ -664,6 +665,13 @@
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
 		};
+		D559CA132477ED0500CF60D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
+			remoteInfo = "AppCenterCrashes iOS Fat Framework";
+		};
 		DFCB80522472D6770058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */;
@@ -961,7 +969,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-	
 		04A140B31ECE8249001CEE94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1623,12 +1630,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DFCB80492472D6770058D292 /* Products */;
-					ProjectRef = DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */;
-				},
-				{
 					ProductGroup = C24C9CD22472B3C30072C35D /* Products */;
 					ProjectRef = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+				},
+				{
+					ProductGroup = DFCB80492472D6770058D292 /* Products */;
+					ProjectRef = DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */;
 				},
 				{
 					ProductGroup = C2392F4824642CEA00425640 /* Products */;
@@ -1702,55 +1709,6 @@
 			fileType = wrapper.framework;
 			path = OCMock.framework;
 			remoteRef = C2392F5D24642CEA00425640 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DFCB80532472D6770058D292 /* OCHamcrest.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OCHamcrest.framework;
-			remoteRef = DFCB80522472D6770058D292 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DFCB80552472D6770058D292 /* OCHamcrestTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OCHamcrestTests.xctest;
-			remoteRef = DFCB80542472D6770058D292 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DFCB80572472D6770058D292 /* libochamcrest.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libochamcrest.a;
-			remoteRef = DFCB80562472D6770058D292 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DFCB80592472D6770058D292 /* libochamcrestTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = libochamcrestTests.xctest;
-			remoteRef = DFCB80582472D6770058D292 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DFCB805B2472D6770058D292 /* OCHamcrest.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OCHamcrest.framework;
-			remoteRef = DFCB805A2472D6770058D292 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DFCB805D2472D6770058D292 /* OCHamcrest.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OCHamcrest.framework;
-			remoteRef = DFCB805C2472D6770058D292 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		DFCB805F2472D6770058D292 /* OCHamcrest.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OCHamcrest.framework;
-			remoteRef = DFCB805E2472D6770058D292 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C24C9CED2472B3C30072C35D /* CrashReporter.framework */ = {
@@ -1849,6 +1807,55 @@
 			fileType = "compiled.mach-o.executable";
 			path = "Fuzz Testing";
 			remoteRef = C24C9D122472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80532472D6770058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB80522472D6770058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80552472D6770058D292 /* OCHamcrestTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCHamcrestTests.xctest;
+			remoteRef = DFCB80542472D6770058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80572472D6770058D292 /* libochamcrest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libochamcrest.a;
+			remoteRef = DFCB80562472D6770058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80592472D6770058D292 /* libochamcrestTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = libochamcrestTests.xctest;
+			remoteRef = DFCB80582472D6770058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB805B2472D6770058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB805A2472D6770058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB805D2472D6770058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB805C2472D6770058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB805F2472D6770058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB805E2472D6770058D292 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2357,6 +2364,11 @@
 			isa = PBXTargetDependency;
 			target = C9A91F5D230BFDB70068070D /* AppCenterCrashes macOS Framework */;
 			targetProxy = C2B25A2E230F07AB00511D49 /* PBXContainerItemProxy */;
+		};
+		D559CA142477ED0500CF60D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E3729771D1DE83200F1E4AE /* AppCenterCrashes iOS Fat Framework */;
+			targetProxy = D559CA132477ED0500CF60D5 /* PBXContainerItemProxy */;
 		};
 		DFCB80652472D6880058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -38,6 +38,7 @@
 				845017DF245ADB360026E0DB /* Build XCFramework */,
 			);
 			dependencies = (
+				D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute XCFramework";
 			productName = "Fat Framework";
@@ -206,6 +207,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = F0B950F01B0080BE00942C38;
 			remoteInfo = "OCMock iOS";
+		};
+		D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A281E451E90009B4468;
+			remoteInfo = "AppCenterDistribute iOS Fat Framework";
 		};
 		DFCB80772472D71C0058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1161,6 +1169,11 @@
 			isa = PBXTargetDependency;
 			name = "OCMock iOS";
 			targetProxy = C2392F7124642DC100425640 /* PBXContainerItemProxy */;
+		};
+		D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
+			targetProxy = D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */;
 		};
 		DFCB808C2472D7280058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
