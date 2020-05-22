@@ -1,2 +1,4 @@
 
 SUPPORTS_MACCATALYST = YES
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -fprofile-instr-generate
+
