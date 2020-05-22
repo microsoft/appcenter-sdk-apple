@@ -11,41 +11,44 @@ echo "Building ${TARGET_NAME}."
 
 # Install dir will be the final output to the framework.
 # The following line create it in the root folder of the current project.
-PRODUCTS_DIR=${SRCROOT}/../AppCenter-SDK-Apple/tvOS
-
-# The directory to gather all frameworks and build it into xcframework.
-XCFRAMEWORK_DIR="${SRCROOT}/../AppCenter-SDK-Apple/xcframework"
+WORK_DIR=build
+BUILD_DIR="${SRCROOT}/../AppCenter-SDK-Apple/tvOS"
+TEMP_DIR="${SRCROOT}/../AppCenter-SDK-Apple/output"
 
 # Working dir will be deleted after the framework creation.
-WORK_DIR=build
-DEVICE_DIR="${WORK_DIR}/Release-appletvos/"
-SIMULATOR_DIR="${WORK_DIR}/Release-appletvsimulator/"
+OUTPUT_DEVICE_DIR="${TEMP_DIR}/${CONFIGURATION}-appletvos/"
+OUTPUT_SIMULATOR_DIR="${TEMP_DIR}/${CONFIGURATION}-appletvsimulator/"
 
 # Make sure we're inside $SRCROOT.
 cd "${SRCROOT}"
 
-# Cleaning previous build.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" clean
-
-# Building both architectures.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk appletvos 
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "Release" -target "${TARGET_NAME}" -sdk appletvsimulator 
-
 # Cleaning the previous build.
-if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
-  rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
+if [ -d "${BUILD_DIR}/${PROJECT_NAME}.framework" ]; then
+  rm -rf "${BUILD_DIR}/${PROJECT_NAME}.framework"
+fi
+if [ -d "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" ]; then
+  rm -rf "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework"
+fi
+if [ -d "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework" ]; then
+  rm -rf "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework"
 fi
 
 # Creates and renews the final product folder.
-mkdir -p "${PRODUCTS_DIR}"
+mkdir -p "${BUILD_DIR}"
+
+# Create temp directories.
+mkdir -p "${OUTPUT_DEVICE_DIR}"
+mkdir -p "${OUTPUT_SIMULATOR_DIR}"
+
+# Clean build.
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" clean
+
+# Building both architectures.
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk appletvos CONFIGURATION_BUILD_DIR="${OUTPUT_DEVICE_DIR}"
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk appletvsimulator CONFIGURATION_BUILD_DIR="${OUTPUT_SIMULATOR_DIR}"
 
 # Copy framework.
-cp -R "${DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
+cp -R "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${BUILD_DIR}"
 
-mkdir -p "${XCFRAMEWORK_DIR}"
-
-# Copy all framework files to use them for xcframework file creation.
-cp -R "${WORK_DIR}/" "${XCFRAMEWORK_DIR}"
-
-# Uses the Lipo Tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64) into one Universal final product.
-lipo -create "${DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
+# # Uses the Lipo Tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64) into one Universal final product.
+lipo -create "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${BUILD_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
