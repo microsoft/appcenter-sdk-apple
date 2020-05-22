@@ -115,7 +115,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMVerify([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:MSStartServiceLog.class] flags:MSFlagsDefault]);
 }
 
-#if !TARGET_OS_MACCATALYST
+#if TARGET_OS_IOS
 - (void)testStartWithAppSecretAndTransmissionTokenForIos {
 
   // If

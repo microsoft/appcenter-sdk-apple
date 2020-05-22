@@ -313,7 +313,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertTrue([uuidString isEqualToString:result]);
-#if !TARGET_OS_MACCATALYST
+#if TARGET_OS_IOS
   // When
   test = [NSString stringWithFormat:@"targetIos={transmissionTargetToken};ios=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
@@ -429,7 +429,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
-#if !TARGET_OS_MACCATALYST
+#if TARGET_OS_IOS
   // When
   test = @"targetIos={transmissionTargetToken};ios={app-secret}";
   result = [MSUtility transmissionTargetTokenFrom:test];
