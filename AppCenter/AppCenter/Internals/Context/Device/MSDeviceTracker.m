@@ -57,8 +57,9 @@ static MSDeviceTracker *sharedInstance = nil;
 
     // Restore past sessions from NSUserDefaults.
     NSData *devices = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
+    NSArray *arrayFromData;
     if (devices != nil) {
-      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+      arrayFromData = (NSArray *)[[MSUtility unarchiveKeyedData:devices] mutableCopy];
 
       // If array is not nil, create a mutable version.
       if (arrayFromData)
@@ -130,7 +131,7 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.deviceHistory] forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -145,15 +146,15 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-      
+
     // The CTTelephonyNetworkInfo.serviceSubscriberCellularProviders method crash because of an issue in iOS 12.0
     // It was fixed in iOS 12.1
     if (@available(iOS 12.1, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       carrier = [self firstCarrier:carriers];
     } else if (@available(iOS 12, *)) {
-        NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
-        carrier = [self firstCarrier:carriers];
+      NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
+      carrier = [self firstCarrier:carriers];
     }
 
     // Use the old API as fallback if new one doesn't work.
@@ -170,11 +171,14 @@ static MSDeviceTracker *sharedInstance = nil;
     newDevice.sdkVersion = [MSUtility sdkVersion];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
     newDevice.osName = [self osName];
-    newDevice.osVersion = [self osVersion];
 #else
     newDevice.osName = [self osName:MS_DEVICE];
+#endif
+#if TARGET_OS_OSX
+    newDevice.osVersion = [self osVersion];
+#else
     newDevice.osVersion = [self osVersion:MS_DEVICE];
 #endif
     newDevice.osBuild = [self osBuild];
@@ -264,7 +268,7 @@ static MSDeviceTracker *sharedInstance = nil;
     }
 
     // Clear persistence, but keep the latest information about the device.
-    [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.deviceHistory] forKey:kMSPastDevicesKey];
   }
 }
 
@@ -272,7 +276,7 @@ static MSDeviceTracker *sharedInstance = nil;
 
 - (NSString *)deviceModel {
   size_t size;
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   const char *name = "hw.model";
 #else
   const char *name = "hw.machine";
@@ -288,7 +292,7 @@ static MSDeviceTracker *sharedInstance = nil;
   return model;
 }
 
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
 - (NSString *)osName {
   return @"macOS";
 }
@@ -375,6 +379,11 @@ static MSDeviceTracker *sharedInstance = nil;
   NSScreen *focusScreen = [NSScreen mainScreen];
   CGFloat scale = focusScreen.backingScaleFactor;
   CGSize screenSize = [focusScreen frame].size;
+#elif TARGET_OS_MACCATALYST
+  // This returns scale value based on scale values iOS.
+  // So we need to use base value for macOS.
+  CGFloat scale = 3;
+  CGSize screenSize = [UIScreen mainScreen].bounds.size;
 #else
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
@@ -391,11 +400,11 @@ static MSDeviceTracker *sharedInstance = nil;
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
 }
 
-- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *) carriers {
-    for (NSString *key in carriers) {
-        return carriers[key];
-    }
-    return nil;
+- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
+  for (NSString *key in carriers) {
+    return carriers[key];
+  }
+  return nil;
 }
 #endif
 

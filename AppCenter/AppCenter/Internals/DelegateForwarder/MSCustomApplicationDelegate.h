@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 
 /**
  * Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.

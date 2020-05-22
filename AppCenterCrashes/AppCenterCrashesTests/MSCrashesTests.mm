@@ -1209,7 +1209,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [settings stopMocking];
 }
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 
 - (void)testMemoryWarningObserverNotExtension {
 
@@ -1241,7 +1241,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testMemoryPressureSourceInExtensionAndMacOS {
 
   // If
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
   id bundleMock = OCMClassMock([NSBundle class]);
   OCMStub([bundleMock mainBundle]).andReturn(bundleMock);
   OCMStub([bundleMock executablePath]).andReturn(@"/Application/Executable/Path.appex/42");
@@ -1260,7 +1260,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   XCTAssertNil(self.sut.memoryPressureSource);
 
   // Clear
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
   [bundleMock stopMocking];
 #endif
 }

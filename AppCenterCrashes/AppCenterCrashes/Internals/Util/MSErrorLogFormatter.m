@@ -361,7 +361,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       NSString *processPath = crashReport.processInfo.processPath;
 
 // Remove username from the path
-#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX || TARGET_OS_MACCATALYST
       processPath = [self anonymizedPathFromPath:processPath];
 #endif
       errorLog.applicationPath = processPath;
@@ -590,7 +590,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
         imagePath = imageInfo.imageName;
 #endif
       }
-#if TARGET_OS_SIMULATOR || TARGET_OS_OSX
+#if TARGET_OS_SIMULATOR || TARGET_OS_OSX || TARGET_OS_MACCATALYST
       imagePath = [self anonymizedPathFromPath:imagePath];
 #endif
 
@@ -827,7 +827,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-parameter"
 + (uint64_t)normalizeAddress:(uint64_t)address is64bit:(BOOL)is64bit {
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   return address;
 #else
   return is64bit ? address & 0x0000000fffffffff : address;

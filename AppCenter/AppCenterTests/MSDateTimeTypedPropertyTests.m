@@ -20,8 +20,8 @@
   sut.value = [NSDate dateWithTimeIntervalSince1970:100000];
 
   // When
-  NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  MSDateTimeTypedProperty *actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedProperty];
+  NSData *serializedProperty = [MSUtility archiveKeyedData:sut];
+  MSDateTimeTypedProperty *actual = (MSDateTimeTypedProperty *)[MSUtility unarchiveKeyedData:serializedProperty];
 
   // Then
   XCTAssertNotNil(actual);

@@ -72,8 +72,8 @@
 - (void)testCSLogNSCodingSerializationAndDeserialization {
 
   // When
-  NSData *serializedCSLog = [NSKeyedArchiver archivedDataWithRootObject:self.commonSchemaLog];
-  MSCommonSchemaLog *actualCSLog = [NSKeyedUnarchiver unarchiveObjectWithData:serializedCSLog];
+  NSData *serializedCSLog = [MSUtility archiveKeyedData:self.commonSchemaLog];
+  MSCommonSchemaLog *actualCSLog = (MSCommonSchemaLog *)[MSUtility unarchiveKeyedData:serializedCSLog];
 
   // Then
   XCTAssertNotNil(actualCSLog);

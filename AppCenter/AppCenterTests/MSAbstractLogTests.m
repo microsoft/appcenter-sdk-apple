@@ -13,6 +13,7 @@
 #import "MSSDKExtension.h"
 #import "MSTestFrameworks.h"
 #import "MSUserExtension.h"
+#import "MSUtility.h"
 
 @interface MSAbstractLogTests : XCTestCase
 
@@ -59,8 +60,8 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // When
-  NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+  NSData *serializedLog = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedLog];
 
   // Then
   assertThat(actual, notNilValue());
