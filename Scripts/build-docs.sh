@@ -4,9 +4,9 @@
 # Licensed under the MIT License.
 
 OS_NAME=$1
-BUILD_DIR="${SRCROOT}/../AppCenter-SDK-Apple/${OS_NAME}"
-INSTALL_DIR="${BUILD_DIR}/${PROJECT_NAME}.framework"
-DOCUMENTATION_DIR="${BUILD_DIR}/Documentation/${PROJECT_NAME}"
+PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/${OS_NAME}"
+INSTALL_DIR="${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
+DOCUMENTATION_DIR="${PRODUCTS_DIR}/Documentation/${PROJECT_NAME}"
 
 if [ ! -x "$(command -v jazzy)" ]; then
   echo "Couldn't find jazzy. Install jazzy before building frameworks"

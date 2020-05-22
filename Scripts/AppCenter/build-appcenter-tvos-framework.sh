@@ -8,6 +8,6 @@ source $(dirname "$0")/../build-tvos-framework.sh
 rm -r "${WORK_DIR}"
 
 # Copy license and readme
-cp -f "${SRCROOT}/../LICENSE" "${BUILD_DIR}"
-cp -f "${SRCROOT}/../README.md" "${BUILD_DIR}"
-cp -f "${SRCROOT}/../CHANGELOG.md" "${BUILD_DIR}"
+cp -f "${SRCROOT}/../LICENSE" "${PRODUCTS_DIR}"
+cp -f "${SRCROOT}/../README.md" "${PRODUCTS_DIR}"
+cp -f "${SRCROOT}/../CHANGELOG.md" "${PRODUCTS_DIR}"
