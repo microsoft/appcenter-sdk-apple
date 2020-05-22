@@ -64,14 +64,17 @@ static NSString *kMSTransmissionMacosTargetKey = @"targetMacos=";
           
           // If the whole string does not contain "appsecret", we either use its value
           // search for "ios"/"macos" components.
-          secretString = component;
-#if TARGET_OS_IOS
-          if ([component rangeOfString:kMSAppSecretIosKey].location != NSNotFound) {
-            secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretIosKey withString:@""];
+          if ([component rangeOfString:kMSAppSecretIosKey].location == NSNotFound
+              && [component rangeOfString:kMSAppSecretMacosKey].location == NSNotFound) {
+            secretString = component;
           }
-#elif TARGET_OS_OSX || TARGET_OS_MACCATALYST
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
           if ([component rangeOfString:kMSAppSecretMacosKey].location != NSNotFound) {
             secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretMacosKey withString:@""];
+          }
+#elif TARGET_OS_IOS
+          if ([component rangeOfString:kMSAppSecretIosKey].location != NSNotFound) {
+            secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretIosKey withString:@""];
           }
 #endif
         } else {
@@ -110,16 +113,14 @@ static NSString *kMSTransmissionMacosTargetKey = @"targetMacos=";
         
         if ([string rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) {
           
-          // If the whole string does not contain "target", we either use its value
-          // or search for "targetIos"/"targetMacos" components.
-          transmissionTarget = component;
-#if TARGET_OS_IOS
-          if ([component rangeOfString:kMSTransmissionIosTargetKey].location != NSNotFound) {
-            transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionIosTargetKey withString:@""];
-          }
-#elif TARGET_OS_OSX || TARGET_OS_MACCATALYST
+          // If the whole string does not contain "target", we search for "targetIos"/"targetMacos" components.
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
           if ([component rangeOfString:kMSTransmissionMacosTargetKey].location != NSNotFound) {
             transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionMacosTargetKey withString:@""];
+          }
+#elif TARGET_OS_IOS
+          if ([component rangeOfString:kMSTransmissionIosTargetKey].location != NSNotFound) {
+            transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionIosTargetKey withString:@""];
           }
 #endif
         } else {
