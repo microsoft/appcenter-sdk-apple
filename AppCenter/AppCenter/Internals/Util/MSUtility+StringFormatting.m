@@ -60,10 +60,11 @@ static NSString *kMSTransmissionMacosTargetKey = @"targetMacos=";
       if (transmissionTokenIsNotPresent && (component.length > 0)) {
         NSString *secretString = @"";
         
-        // If "appsecret" is not found, try searching for platform-dependent secrets.
-        if ([component rangeOfString:kMSAppSecretKey].location != NSNotFound) {
-          secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
-        } else {
+        if ([string rangeOfString:kMSAppSecretKey].location == NSNotFound) {
+          
+          // If the whole string does not contain "appsecret", we either use its value
+          // search for "ios"/"macos" components.
+          secretString = component;
 #if TARGET_OS_IOS
           if ([component rangeOfString:kMSAppSecretIosKey].location != NSNotFound) {
             secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretIosKey withString:@""];
@@ -73,6 +74,12 @@ static NSString *kMSTransmissionMacosTargetKey = @"targetMacos=";
             secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretMacosKey withString:@""];
           }
 #endif
+        } else {
+          
+          // If we know the whole string contains "appsecret" somewhere, we start looking for it.
+          if ([component rangeOfString:kMSAppSecretKey].location != NSNotFound) {
+            secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
+          }
         }
 
         // Check for string length to avoid returning empty string.
@@ -100,20 +107,27 @@ static NSString *kMSTransmissionMacosTargetKey = @"targetMacos=";
       // Component is transmission target token, return the component.
       if (transmissionTokenIsPresent && (component.length > 0)) {
         NSString *transmissionTarget = @"";
-              
-        // If "target" is not found, try searching for platform-dependent secrets.
-        if ([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) {
-          transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];;
-        } else {
-      #if TARGET_OS_IOS
+        
+        if ([string rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) {
+          
+          // If the whole string does not contain "target", we either use its value
+          // or search for "targetIos"/"targetMacos" components.
+          transmissionTarget = component;
+#if TARGET_OS_IOS
           if ([component rangeOfString:kMSTransmissionIosTargetKey].location != NSNotFound) {
             transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionIosTargetKey withString:@""];
           }
-      #elif TARGET_OS_OSX || TARGET_OS_MACCATALYST
+#elif TARGET_OS_OSX || TARGET_OS_MACCATALYST
           if ([component rangeOfString:kMSTransmissionMacosTargetKey].location != NSNotFound) {
-            secretString = [component stringByReplacingOccurrencesOfString:kMSTransmissionMacosTargetKey withString:@""];
+            transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionMacosTargetKey withString:@""];
           }
-      #endif
+#endif
+        } else {
+          
+          // If we know the whole string contains "target" somewhere, we start looking for it.
+          if ([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) {
+            transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
+          }
         }
         
         // Check for string length to avoid returning empty string.
