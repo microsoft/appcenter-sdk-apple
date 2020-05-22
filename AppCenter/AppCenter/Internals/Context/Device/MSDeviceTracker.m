@@ -374,21 +374,28 @@ static MSDeviceTracker *sharedInstance = nil;
 }
 
 - (NSString *)screenSize {
-
 #if TARGET_OS_OSX
-  NSScreen *focusScreen = [NSScreen mainScreen];
-  CGFloat scale = focusScreen.backingScaleFactor;
-  CGSize screenSize = [focusScreen frame].size;
+  NSSize screenSize = [NSScreen mainScreen].frame.size;
+  return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
 #elif TARGET_OS_MACCATALYST
-  // This returns scale value based on scale values iOS.
-  // So we need to use base value for macOS.
-  CGFloat scale = 3;
-  CGSize screenSize = [UIScreen mainScreen].bounds.size;
+  id screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
+  if (screen == nil) {
+    CGSize screenSize = [UIScreen mainScreen].nativeBounds.size;
+    return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.width), (int)(screenSize.height)];
+  }
+  NSInvocation *invocation =
+      [NSInvocation invocationWithMethodSignature:[[screen class] instanceMethodSignatureForSelector:NSSelectorFromString(@"frame")]];
+  [invocation setSelector:NSSelectorFromString(@"frame")];
+  [invocation setTarget:screen];
+  [invocation invoke];
+  CGRect frame;
+  [invocation getReturnValue:&frame];
+  return [NSString stringWithFormat:@"%dx%d", (int)frame.size.width, (int)frame.size.height];
 #else
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
-#endif
   return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
+#endif
 }
 
 #if TARGET_OS_IOS
