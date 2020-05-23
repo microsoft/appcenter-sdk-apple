@@ -378,6 +378,8 @@ static MSDeviceTracker *sharedInstance = nil;
   NSSize screenSize = [NSScreen mainScreen].frame.size;
   return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
 #elif TARGET_OS_MACCATALYST
+
+  // This would report screen resolution as shown in display settings ('Looks like' field in scaling tab).
   id screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
   if (screen == nil) {
     CGSize screenSize = [UIScreen mainScreen].nativeBounds.size;
