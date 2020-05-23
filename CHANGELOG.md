@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.3.0 (Under development)
+
+### App Center
+
+* **[Feature]** Add support for Mac Catalyst.
+
+___
+
 ## Version 3.2.0
 
 ### App Center
