@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,10 +39,6 @@
 		80B3CADB211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
 		80B3CADC211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
 		80B3CADD211B2686007C332E /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
-		840F3E0F2476A85700927CB9 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0C2476A83E00927CB9 /* AppCenter.framework */; platformFilter = maccatalyst; };
-		840F3E112476A85700927CB9 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0D2476A83E00927CB9 /* AppCenterAnalytics.framework */; platformFilter = maccatalyst; };
-		840F3E132476A85700927CB9 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0B2476A83E00927CB9 /* AppCenterCrashes.framework */; platformFilter = maccatalyst; };
-		840F3E542476B35800927CB9 /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 840F3E0E2476A83E00927CB9 /* libCrashReporter.a */; platformFilter = maccatalyst; };
 		84226C4B1E88FF4A00798417 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
 		84226C561E88FF4A00798417 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
@@ -63,6 +59,11 @@
 		845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
 		845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
+		849A260B247BE4D50081FF4C /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
+		849A260C247BE4D50081FF4C /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		849A2644247BEF470081FF4C /* AppCenterAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD1AE6247BDE85003B11A7 /* AppCenterAnalytics.xcframework */; };
+		849A2646247BEF480081FF4C /* AppCenterCrashes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD1AE4247BDE85003B11A7 /* AppCenterCrashes.xcframework */; };
+		849A2648247BF24C0081FF4C /* AppCenter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD1AE5247BDE85003B11A7 /* AppCenter.xcframework */; };
 		849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
@@ -285,8 +286,6 @@
 		DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
 		DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */; };
-		DF4D2E5E247691A3004A12DC /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; platformFilter = maccatalyst; };
-		DF4D2E5F247691A3004A12DC /* CrashLibIOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; platformFilter = maccatalyst; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DF4D2E62247693C1004A12DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4D2E61247693C1004A12DC /* AppDelegate.swift */; };
 		DF4D2E6724769451004A12DC /* SasquatchCatalystSwift.plist in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E6624769451004A12DC /* SasquatchCatalystSwift.plist */; };
 		DF4D2E6E2476991D004A12DC /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4D2E63247693DE004A12DC /* AppCenterDelegateSwift.swift */; };
@@ -391,6 +390,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = 84D067F1244864DC000B708B;
 			remoteInfo = CrashLibWatch;
+		};
+		84DD1AED247BDEA0003B11A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8414DF7824599AF800B316C5;
+			remoteInfo = "AppCenter XCFramework";
+		};
+		84DD1AEF247BDEA0003B11A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8414DF7E2459D3C500B316C5;
+			remoteInfo = "AppCenterAnalytics XCFramework";
+		};
+		84DD1AF1247BDEA0003B11A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8414DF842459D41B00B316C5;
+			remoteInfo = "AppCenterCrashes XCFramework";
 		};
 		B20AE3CA2102812300A1A195 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -763,13 +783,6 @@
 			remoteGlobalIDString = D31EF9531E9517C500450162;
 			remoteInfo = SasquatchWatchSwift;
 		};
-		DF4D2DAE24768E40004A12DC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
 		DF4D2DB424768E40004A12DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
@@ -814,6 +827,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849A260D247BE4D50081FF4C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				849A260C247BE4D50081FF4C /* CrashLibIOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		84D0682E24487F5E000B708B /* Embed Frameworks */ = {
@@ -981,16 +1005,6 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DF4D2DEA24768E40004A12DC /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				DF4D2E5F247691A3004A12DC /* CrashLibIOS.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F89D790B1E93DA3B0094521F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1079,6 +1093,9 @@
 		84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCrashesViewController.swift; sourceTree = "<group>"; };
 		84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSAnalyticsViewController.swift; sourceTree = "<group>"; };
 		84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSDistributeViewController.swift; sourceTree = "<group>"; };
+		84DD1AE4247BDE85003B11A7 /* AppCenterCrashes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterCrashes.xcframework; path = "../AppCenter-SDK-Apple/xcframework/Output/AppCenterCrashes.xcframework"; sourceTree = "<group>"; };
+		84DD1AE5247BDE85003B11A7 /* AppCenter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenter.xcframework; path = "../AppCenter-SDK-Apple/xcframework/Output/AppCenter.xcframework"; sourceTree = "<group>"; };
+		84DD1AE6247BDE85003B11A7 /* AppCenterAnalytics.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterAnalytics.xcframework; path = "../AppCenter-SDK-Apple/xcframework/Output/AppCenterAnalytics.xcframework"; sourceTree = "<group>"; };
 		B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAnalyticsChildTransmissionTargetTableViewController.swift; sourceTree = "<group>"; };
 		B20AE3AB21027D6200A1A195 /* SasquatchPuppet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SasquatchPuppet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
@@ -1355,11 +1372,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF4D2E5E247691A3004A12DC /* CrashLibIOS.framework in Frameworks */,
-				840F3E132476A85700927CB9 /* AppCenterCrashes.framework in Frameworks */,
-				840F3E542476B35800927CB9 /* libCrashReporter.a in Frameworks */,
-				840F3E112476A85700927CB9 /* AppCenterAnalytics.framework in Frameworks */,
-				840F3E0F2476A85700927CB9 /* AppCenter.framework in Frameworks */,
+				849A260B247BE4D50081FF4C /* CrashLibIOS.framework in Frameworks */,
+				849A2644247BEF470081FF4C /* AppCenterAnalytics.xcframework in Frameworks */,
+				849A2646247BEF480081FF4C /* AppCenterCrashes.xcframework in Frameworks */,
+				849A2648247BF24C0081FF4C /* AppCenter.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1548,6 +1564,9 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84DD1AE5247BDE85003B11A7 /* AppCenter.xcframework */,
+				84DD1AE6247BDE85003B11A7 /* AppCenterAnalytics.xcframework */,
+				84DD1AE4247BDE85003B11A7 /* AppCenterCrashes.xcframework */,
 				840F3E0C2476A83E00927CB9 /* AppCenter.framework */,
 				840F3E0D2476A83E00927CB9 /* AppCenterAnalytics.framework */,
 				840F3E0B2476A83E00927CB9 /* AppCenterCrashes.framework */,
@@ -2187,12 +2206,14 @@
 				DF4D2DB724768E40004A12DC /* Sources */,
 				DF4D2DD524768E40004A12DC /* Frameworks */,
 				DF4D2DDC24768E40004A12DC /* Resources */,
-				DF4D2DEA24768E40004A12DC /* CopyFiles */,
+				849A260D247BE4D50081FF4C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DF4D2DAD24768E40004A12DC /* PBXTargetDependency */,
+				84DD1AEE247BDEA0003B11A7 /* PBXTargetDependency */,
+				84DD1AF0247BDEA0003B11A7 /* PBXTargetDependency */,
+				84DD1AF2247BDEA0003B11A7 /* PBXTargetDependency */,
 				DF4D2DB324768E40004A12DC /* PBXTargetDependency */,
 			);
 			name = SasquatchCatalystSwift;
@@ -2951,7 +2972,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 		F84923EB2111C2C800E14DBE /* Verify No Build Settings */ = {
@@ -3297,6 +3318,21 @@
 			name = CrashLibWatch;
 			targetProxy = 8439247B244DC09F0039D94B /* PBXContainerItemProxy */;
 		};
+		84DD1AEE247BDEA0003B11A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter XCFramework";
+			targetProxy = 84DD1AED247BDEA0003B11A7 /* PBXContainerItemProxy */;
+		};
+		84DD1AF0247BDEA0003B11A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAnalytics XCFramework";
+			targetProxy = 84DD1AEF247BDEA0003B11A7 /* PBXContainerItemProxy */;
+		};
+		84DD1AF2247BDEA0003B11A7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes XCFramework";
+			targetProxy = 84DD1AF1247BDEA0003B11A7 /* PBXContainerItemProxy */;
+		};
 		B2A888A42102A407001ACFDF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AppCenterDistributeResources;
@@ -3421,11 +3457,6 @@
 			isa = PBXTargetDependency;
 			target = D31EF9531E9517C500450162 /* SasquatchWatchSwift */;
 			targetProxy = D31EF9701E9517C600450162 /* PBXContainerItemProxy */;
-		};
-		DF4D2DAD24768E40004A12DC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = DF4D2DAE24768E40004A12DC /* PBXContainerItemProxy */;
 		};
 		DF4D2DB324768E40004A12DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
