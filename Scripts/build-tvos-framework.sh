@@ -23,7 +23,7 @@ build() {
     echo "=== BUILD TARGET $1 OF PROJECT ${PROJECT_NAME} WITH CONFIGURATION ${CONFIGURATION} ==="
     # OBJROOT must be customized to avoid conflicts with the current process.
     xcodebuild -quiet \
-        SYMROOT="${SYMROOT}" OBJROOT="${BUILT_PRODUCTS_DIR}" PROJECT_TEMP_DIR="${PROJECT_TEMP_DIR}" ONLY_ACTIVE_ARCH=NO \
+        SYMROOT="${SYMROOT}" OBJROOT="${OBJECT_FILE_DIR}" PROJECT_TEMP_DIR="${PROJECT_TEMP_DIR}" ONLY_ACTIVE_ARCH=NO \
         -project "${SRCROOT}/${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "$1" -sdk "$2"
 }
 build "${TARGET_NAME}" appletvos
