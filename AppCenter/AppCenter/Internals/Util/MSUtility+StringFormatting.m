@@ -22,6 +22,7 @@ NSString *MSUtilityStringFormattingCategory;
 
 static NSString *kMSTransmissionTargetKey = @"target=";
 static NSString *kMSAppSecretKey = @"appsecret=";
+static NSString *kMSSecretSeparator = @"=";
 
 #if TARGET_OS_OSX || TARGET_OS_MACCATALYST
 static NSString *kMSAppSecretOSKey = @"macos=";
@@ -61,7 +62,6 @@ static NSString *kMSAppSecretOSKey = @"appsecret=";
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
       if (transmissionTokenIsNotPresent && (component.length > 0)) {
         NSString *secretString = @"";
-
         if ([string rangeOfString:kMSAppSecretOSKey].location != NSNotFound) {
           
           // If we know the whole string contains OSKey somewhere, we start looking for it.
@@ -73,7 +73,7 @@ static NSString *kMSAppSecretOSKey = @"appsecret=";
           // If the whole string does not contain OSKey, we either use its value
           // or search for "appsecret" components.
           if ([component rangeOfString:kMSAppSecretKey].location == NSNotFound &&
-              [component rangeOfString:@"="].location == NSNotFound) {
+              [component rangeOfString:kMSSecretSeparator].location == NSNotFound) {
                 
             // Make sure the string is "clean" and without keys at this point.
             secretString = component;
