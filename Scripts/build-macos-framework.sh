@@ -17,4 +17,4 @@ fi
 mkdir -p "${PRODUCTS_DIR}"
 
 # Copy framework.
-cp -R "${BUILD_DIR}/${CONFIGURATION}-macOS/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
+cp -R "${BUILD_DIR}/${CONFIGURATION}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"

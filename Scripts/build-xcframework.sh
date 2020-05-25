@@ -12,7 +12,9 @@ if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework" ]; then
 fi
 
 # Create a command to build XCFramework.
-for SDK in iphoneos iphonesimulator appletvos appletvsimulator macOS maccatalyst; do
+FRAMEWORK_PATH="${BUILD_DIR}/${CONFIGURATION}/${PRODUCT_NAME}.framework"
+[ -e "${FRAMEWORK_PATH}" ] && XC_FRAMEWORKS=(-framework "${FRAMEWORK_PATH}")
+for SDK in iphoneos iphonesimulator appletvos appletvsimulator maccatalyst; do
   FRAMEWORK_PATH="${BUILD_DIR}/${CONFIGURATION}-${SDK}/${PRODUCT_NAME}.framework"
   [ -e "${FRAMEWORK_PATH}" ] && XC_FRAMEWORKS+=( -framework "${FRAMEWORK_PATH}")
 done
