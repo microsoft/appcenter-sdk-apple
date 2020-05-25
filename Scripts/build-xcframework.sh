@@ -3,27 +3,25 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-# Work dir is directory where all XCFramework artifacts is stored.
-WORK_DIR="${SRCROOT}/../AppCenter-SDK-Apple/xcframework"
+# The directory where all XCFramework artifacts is stored.
+PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/XCFramework"
 
-# Work dir will be the final output to the framework.
-XC_FRAMEWORK_PATH="${WORK_DIR}/Output/${PROJECT_NAME}.xcframework"
+# Cleaning the previous builds.
+if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework" ]; then
+  rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
+fi
 
-# Clean previus XCFramework build.
-rm -rf ${PROJECT_NAME}.xcframework/
+# Create a command to build XCFramework.
+for SDK in iphoneos iphonesimulator appletvos appletvsimulator macOS maccatalyst; do
+  FRAMEWORK_PATH="${BUILD_DIR}/${CONFIGURATION}-${SDK}/${PRODUCT_NAME}.framework"
+  [ -e "${FRAMEWORK_PATH}" ] && XC_FRAMEWORKS+=( -framework "${FRAMEWORK_PATH}")
+done
 
 # Build XCFramework.
-function SetXcBuildCommandFramework() {
-    FRAMEWORK_PATH="$WORK_DIR/Release-$1/${PROJECT_NAME}.framework"
-    [ -e "$FRAMEWORK_PATH" ] && XC_BUILD_COMMAND="$XC_BUILD_COMMAND -framework $FRAMEWORK_PATH";
-}
+xcodebuild -create-xcframework "${XC_FRAMEWORKS[@]}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
 
-# Create a cycle instead next lines
-SetXcBuildCommandFramework "iphoneos"
-SetXcBuildCommandFramework "iphonesimulator"
-SetXcBuildCommandFramework "appletvos"
-SetXcBuildCommandFramework "appletvsimulator"
-SetXcBuildCommandFramework "macos"
+# Copy license and readme.
+cp -f "${SRCROOT}/../LICENSE" "${PRODUCTS_DIR}"
+cp -f "${SRCROOT}/../README.md" "${PRODUCTS_DIR}"
+cp -f "${SRCROOT}/../CHANGELOG.md" "${PRODUCTS_DIR}"
 
-XC_BUILD_COMMAND="xcodebuild -create-xcframework $XC_BUILD_COMMAND -output $XC_FRAMEWORK_PATH"
-eval "$XC_BUILD_COMMAND"

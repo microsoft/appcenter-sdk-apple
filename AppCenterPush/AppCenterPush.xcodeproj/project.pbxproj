@@ -14,6 +14,7 @@
 				0469640F1F2A558F00F9D31F /* Build Universal Framework */,
 			);
 			dependencies = (
+				D5E3B3E8247BF62F00D93E90 /* PBXTargetDependency */,
 			);
 			name = "AppCenterPush macOS Fat Framework";
 			productName = "Fat Framework";
@@ -215,6 +216,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
 			remoteInfo = "Fat Framework";
+		};
+		D5E3B3E7247BF62F00D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D33A94491E5B11BB003966DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91FA3230C00540068070D;
+			remoteInfo = "AppCenterPush macOS Framework";
 		};
 		DFCB80982472D7500058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -892,7 +900,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterPush\"\n./build-appcenterpush-macos-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-macos-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		0469642A1F2A55A600F9D31F /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -959,7 +968,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterPush\"\n./build-appcenterpush-ios-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
 		};
 		D3AD5F2B1E5C9636001627AB /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1067,6 +1076,11 @@
 			isa = PBXTargetDependency;
 			target = D3AD5F221E5C9562001627AB /* AppCenterPush iOS Fat Framework */;
 			targetProxy = D3AD5F3C1E5D6809001627AB /* PBXContainerItemProxy */;
+		};
+		D5E3B3E8247BF62F00D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91FA3230C00540068070D /* AppCenterPush macOS Framework */;
+			targetProxy = D5E3B3E7247BF62F00D93E90 /* PBXContainerItemProxy */;
 		};
 		DFCB80AC2472D76E0058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

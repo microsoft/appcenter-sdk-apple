@@ -84,6 +84,9 @@
          location = "group:build-macos-framework.sh">
       </FileRef>
       <FileRef
+         location = "group:build-maccatalyst-framework.sh">
+      </FileRef>
+      <FileRef
          location = "group:build-tvos-framework.sh">
       </FileRef>
       <FileRef

@@ -5,8 +5,6 @@
 
 source $(dirname "$0")/../build-macos-framework.sh
 
-rm -r "${WORK_DIR}"
-
 # Copy license and readme
 cp -f "${SRCROOT}/../LICENSE" "${PRODUCTS_DIR}"
 cp -f "${SRCROOT}/../README.md" "${PRODUCTS_DIR}"
