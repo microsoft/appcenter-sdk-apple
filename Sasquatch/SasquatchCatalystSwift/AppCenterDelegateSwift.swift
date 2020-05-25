@@ -4,6 +4,21 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
+#if TARGET_OS_IOS
+import AppCenterDistribute
+import AppCenterPush
+
+/**
+ * Selectors for reflection.
+ */
+@objc protocol Selectors {
+  func sharedInstance() -> MSDistribute
+  func checkForUpdate()
+  func showConfirmationAlert(_ releaseDetails: MSReleaseDetails)
+  func showDistributeDisabledAlert()
+  func delegate() -> MSDistributeDelegate
+}
+#endif
 
 /**
  * AppCenterDelegate implementation in Swift.
@@ -124,6 +139,87 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSCrashes.generateTestCrash()
   }
 
+#if TARGET_OS_IOS
+func isDistributeEnabled() -> Bool {
+    return MSDistribute.isEnabled()
+  }
+
+  func isPushEnabled() -> Bool {
+    return MSPush.isEnabled()
+  }
+  
+  func setDistributeEnabled(_ isEnabled: Bool) {
+    MSDistribute.setEnabled(isEnabled)
+  }
+
+  func setPushEnabled(_ isEnabled: Bool) {
+    MSPush.setEnabled(isEnabled)
+  }
+  
+  func checkForUpdate() {
+    MSDistribute.checkForUpdate()
+  }
+    
+  // MSDistribute section.
+  func showConfirmationAlert() {
+    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
+    let confirmationAlertSelector = #selector(Selectors.showConfirmationAlert(_:))
+    let releaseDetails = MSReleaseDetails();
+    releaseDetails.version = "10";
+    releaseDetails.shortVersion = "1.0";
+    if (MSDistribute.responds(to: sharedInstanceSelector)) {
+      let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
+      if (distributeInstance.responds(to: confirmationAlertSelector)) {
+        _ = distributeInstance.perform(confirmationAlertSelector, with: releaseDetails)
+      }
+    }
+  }
+
+  func showDistributeDisabledAlert() {
+    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
+    let disabledAlertSelector = #selector(Selectors.showDistributeDisabledAlert)
+    if (MSDistribute.responds(to: sharedInstanceSelector)) {
+      let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
+      if (distributeInstance.responds(to: disabledAlertSelector)) {
+        _ = distributeInstance.perform(disabledAlertSelector)
+      }
+    }
+  }
+
+  func showCustomConfirmationAlert() {
+    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
+    let delegateSelector = #selector(Selectors.delegate)
+    let releaseDetails = MSReleaseDetails();
+    releaseDetails.version = "10";
+    releaseDetails.shortVersion = "1.0";
+    if (MSDistribute.responds(to: sharedInstanceSelector)) {
+      let distributeInstance = MSDistribute.perform(sharedInstanceSelector).takeUnretainedValue()
+      let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
+      _ = distriuteDelegate.distribute?(distributeInstance as? MSDistribute, releaseAvailableWith: releaseDetails)
+    }
+  }
+#else 
+  // MSDistribute section.
+  func showConfirmationAlert() {}
+  func checkForUpdate() {}
+  func showDistributeDisabledAlert() {}
+  func showCustomConfirmationAlert() {}
+
+  func isDistributeEnabled() -> Bool {
+    return false
+  }
+
+  func isPushEnabled() -> Bool {
+    return false
+  }
+
+  func setDistributeEnabled(_ isEnabled: Bool) {
+  }
+
+  func setPushEnabled(_ isEnabled: Bool){
+  }
+#endif 
+
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String? {
     return MSCrashes.lastSessionCrashReport()?.incidentIdentifier
@@ -211,25 +307,5 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func lastCrashReportDeviceAppNamespace() -> String? {
     return MSCrashes.lastSessionCrashReport()?.device.appNamespace
-  }
-
-  // MSDistribute section.
-  func showConfirmationAlert() {}
-  func checkForUpdate() {}
-  func showDistributeDisabledAlert() {}
-  func showCustomConfirmationAlert() {}
-
-  func isDistributeEnabled() -> Bool {
-    return false
-  }
-
-  func isPushEnabled() -> Bool {
-    return false
-  }
-
-  func setDistributeEnabled(_ isEnabled: Bool) {
-  }
-
-  func setPushEnabled(_ isEnabled: Bool){
   }
 }
