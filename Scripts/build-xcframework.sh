@@ -14,7 +14,7 @@ fi
 # Create a command to build XCFramework.
 for SDK in iphoneos iphonesimulator appletvos appletvsimulator macOS maccatalyst; do
   FRAMEWORK_PATH="${BUILD_DIR}/${CONFIGURATION}-${SDK}/${PRODUCT_NAME}.framework"
-  XC_FRAMEWORKS+=( -framework "${FRAMEWORK_PATH}")
+  [ -e "${FRAMEWORK_PATH}" ] && XC_FRAMEWORKS+=( -framework "${FRAMEWORK_PATH}")
 done
 
 # Build XCFramework.
