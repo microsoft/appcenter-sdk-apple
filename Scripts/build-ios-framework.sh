@@ -21,12 +21,11 @@ echo "Building ${TARGET_NAME}."
 # Install dir will be the final output to the framework.
 # The following line create it in the root folder of the current project.
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/iOS"
-OUTPUT_DIR="${SRCROOT}/../AppCenter-SDK-Apple/output"
 
 # Working dir will be deleted after the framework creation.
 WORK_DIR=build
-OUTPUT_DEVICE_DIR="${OUTPUT_DIR}/${CONFIGURATION}-iphoneos/"
-OUTPUT_SIMULATOR_DIR="${OUTPUT_DIR}/${CONFIGURATION}-iphonesimulator/"
+OUTPUT_DEVICE_DIR="${WORK_DIR}/${CONFIGURATION}-iphoneos/"
+OUTPUT_SIMULATOR_DIR="${WORK_DIR}/${CONFIGURATION}-iphonesimulator/"
 
 # Make sure we're inside $SRCROOT.
 cd "${SRCROOT}"
@@ -35,26 +34,13 @@ cd "${SRCROOT}"
 if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
   rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
 fi
-if [ -d "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" ]; then
-  rm -rf "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework"
-fi
-if [ -d "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework" ]; then
-  rm -rf "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework"
-fi
 
 # Creates and renews the final product folder.
 mkdir -p "${PRODUCTS_DIR}"
 
-# Create temp directories.
-mkdir -p "${OUTPUT_DEVICE_DIR}"
-mkdir -p "${OUTPUT_SIMULATOR_DIR}"
-
-# Clean build.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" clean
-
 # Building both architectures.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk iphoneos CONFIGURATION_BUILD_DIR="${OUTPUT_DEVICE_DIR}"
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk iphonesimulator CONFIGURATION_BUILD_DIR="${OUTPUT_SIMULATOR_DIR}"
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk iphoneos
+xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk iphonesimulator
 
 # Copy framework.
 cp -R "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
@@ -73,9 +59,6 @@ if [ -z "$MS_ARM64E_XCODE_PATH" ] || [ ! -d "$MS_ARM64E_XCODE_PATH" ]; then
   echo "Use current Xcode version and lipo -create the fat binary."
   lipo -create "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
 else
-
-# Grep the output of `lipo -archs` if it contains "arm64e". If it does, don't build for arm64e again.
-DOES_CONTAIN_ARM64E=`env DEVELOPER_DIR="$MS_ARM64E_XCODE_PATH" /usr/bin/lipo -archs "${LIB_IPHONEOS_FINAL}" | grep arm64e`
 
 if [ ! -z "${DOES_CONTAIN_ARM64E}" ]; then
     echo "The binary already contains an arm64e slice."
