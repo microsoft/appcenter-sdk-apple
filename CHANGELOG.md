@@ -1,5 +1,14 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.2.1 (Under development)
+
+### App Center
+
+* **[Feature]** Add support for Mac Catalyst.
+* **[Breaking change]** Dropped Xcode 10 support. Xcode 11 is a minimal supported version now.
+
+___
+
 ## Version 3.2.0
 
 ### App Center
