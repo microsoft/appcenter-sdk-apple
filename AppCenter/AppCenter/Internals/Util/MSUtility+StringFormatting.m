@@ -22,10 +22,11 @@ NSString *MSUtilityStringFormattingCategory;
 
 static NSString *kMSTransmissionTargetKey = @"target=";
 static NSString *kMSAppSecretKey = @"appsecret=";
-#if TARGET_OS_IOS
-static NSString *kMSAppSecretOSKey = @"ios=";
-#elif TARGET_OS_OSX || TARGET_OS_MACCATALYST
+
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
 static NSString *kMSAppSecretOSKey = @"macos=";
+#elif TARGET_OS_IOS
+static NSString *kMSAppSecretOSKey = @"ios=";
 #elif TARGET_OS_TV
 static NSString *kMSAppSecretOSKey = @"appsecret=";
 #endif
@@ -71,11 +72,12 @@ static NSString *kMSAppSecretOSKey = @"appsecret=";
           
           // If the whole string does not contain OSKey, we either use its value
           // or search for "appsecret" components.
-          if ([component rangeOfString:kMSAppSecretKey].location == NSNotFound) {
+          if ([component rangeOfString:kMSAppSecretKey].location == NSNotFound &&
+              [component rangeOfString:@"="].location == NSNotFound) {
+                
+            // Make sure the string is "clean" and without keys at this point.
             secretString = component;
           } else {
-            
-            // Make sure the string is "clean" and without keys at this point.
             secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
           }
         }
