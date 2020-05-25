@@ -3547,6 +3547,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchCatalystSwift/SasquatchCatalystSwift.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 			};
@@ -3556,6 +3557,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchCatalystSwift/SasquatchCatalystSwift.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
 			};
