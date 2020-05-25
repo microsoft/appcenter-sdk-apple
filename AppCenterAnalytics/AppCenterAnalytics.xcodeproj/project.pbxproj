@@ -25,6 +25,7 @@
 				0485AFF01EAAADAC00C10CAF /* Build Universal Framework */,
 			);
 			dependencies = (
+				D5E3B3D2247BF5BB00D93E90 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics macOS Fat Framework";
 			productName = "Fat Framework";
@@ -60,6 +61,8 @@
 				8414DF7F2459D3C500B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
+				D5E3B3DC247BF60A00D93E90 /* PBXTargetDependency */,
+				D5E3B3DA247BF60600D93E90 /* PBXTargetDependency */,
 				D559CA0A2477ECFA00CF60D5 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics XCFramework";
@@ -401,6 +404,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
 			remoteInfo = "AppCenterAnalytics iOS Fat Framework";
+		};
+		D5E3B3D1247BF5BB00D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F36230BFB970068070D;
+			remoteInfo = "AppCenterAnalytics macOS Framework";
+		};
+		D5E3B3D9247BF60600D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
+			remoteInfo = "AppCenterAnalytics macOS Fat Framework";
+		};
+		D5E3B3DB247BF60A00D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0431216D1EE0C213007054C5;
+			remoteInfo = "AppCenterAnalytics tvOS Fat Framework";
 		};
 		DFCB802D2472D5D70058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1320,7 +1344,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAnalytics\"\n./build-appcenteranalytics-tvos-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-tvos-framework.sh\"\n";
 		};
 		0485AFF01EAAADAC00C10CAF /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1334,7 +1358,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAnalytics\"\n./build-appcenteranalytics-macos-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-macos-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		04FD11581EF2F818000C5A5C /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1449,7 +1474,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterAnalytics\"\n./build-appcenteranalytics-ios-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		E85547ED1D2D68CF002DF6E2 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1638,6 +1664,21 @@
 			isa = PBXTargetDependency;
 			target = E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */;
 			targetProxy = D559CA092477ECFA00CF60D5 /* PBXContainerItemProxy */;
+		};
+		D5E3B3D2247BF5BB00D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */;
+			targetProxy = D5E3B3D1247BF5BB00D93E90 /* PBXContainerItemProxy */;
+		};
+		D5E3B3DA247BF60600D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */;
+			targetProxy = D5E3B3D9247BF60600D93E90 /* PBXContainerItemProxy */;
+		};
+		D5E3B3DC247BF60A00D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */;
+			targetProxy = D5E3B3DB247BF60A00D93E90 /* PBXContainerItemProxy */;
 		};
 		DFCB80402472D5E30058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

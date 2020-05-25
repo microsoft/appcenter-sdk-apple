@@ -25,6 +25,7 @@
 				0485AFE71EAA937000C10CAF /* Build Universal Framework */,
 			);
 			dependencies = (
+				D5E3B3A4247BF44E00D93E90 /* PBXTargetDependency */,
 			);
 			name = "AppCenter macOS Fat Framework";
 			productName = "Fat Framework";
@@ -84,6 +85,8 @@
 			);
 			dependencies = (
 				D559CA002477ECEF00CF60D5 /* PBXTargetDependency */,
+				D5E3B3A2247BEAD100D93E90 /* PBXTargetDependency */,
+				D5E3B398247BEACB00D93E90 /* PBXTargetDependency */,
 			);
 			name = "AppCenter XCFramework";
 			productName = "Fat Framework";
@@ -1028,6 +1031,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
 			remoteInfo = "AppCenter iOS Fat Framework";
+		};
+		D5E3B397247BEACB00D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 043121491EE0BFC7007054C5;
+			remoteInfo = "AppCenter tvOS Fat Framework";
+		};
+		D5E3B3A1247BEAD100D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
+			remoteInfo = "AppCenter macOS Fat Framework";
+		};
+		D5E3B3A3247BF44E00D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91FFE230C05D70068070D;
+			remoteInfo = "AppCenter macOS Framework";
 		};
 		DFCB80072472C1BD0058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2786,7 +2810,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenter\"\n./build-appcenter-tvos-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/AppCenter/build-appcenter-tvos-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		0485AFE71EAA937000C10CAF /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2800,7 +2825,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenter\"\n./build-appcenter-macos-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/AppCenter/build-appcenter-macos-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		04FD114F1EF2F5F0000C5A5C /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2845,7 +2871,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		B23355C7210F8EC900999632 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2875,7 +2902,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenter\"\n./build-appcenter-ios-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/AppCenter/build-appcenter-ios-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		C2CB276A230EDE990076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3442,6 +3470,21 @@
 			isa = PBXTargetDependency;
 			target = 6E04017D1D1CAC710051BCFA /* AppCenter iOS Fat Framework */;
 			targetProxy = D559C9FF2477ECEF00CF60D5 /* PBXContainerItemProxy */;
+		};
+		D5E3B398247BEACB00D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 043121491EE0BFC7007054C5 /* AppCenter tvOS Fat Framework */;
+			targetProxy = D5E3B397247BEACB00D93E90 /* PBXContainerItemProxy */;
+		};
+		D5E3B3A2247BEAD100D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFE61EAA937000C10CAF /* AppCenter macOS Fat Framework */;
+			targetProxy = D5E3B3A1247BEAD100D93E90 /* PBXContainerItemProxy */;
+		};
+		D5E3B3A4247BF44E00D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91FFE230C05D70068070D /* AppCenter macOS Framework */;
+			targetProxy = D5E3B3A3247BF44E00D93E90 /* PBXContainerItemProxy */;
 		};
 		DFCB80182472D1960058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

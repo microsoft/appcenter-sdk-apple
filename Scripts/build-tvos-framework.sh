@@ -14,12 +14,8 @@ echo "Building ${TARGET_NAME}."
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/tvOS"
 
 # Working dir will be deleted after the framework creation.
-WORK_DIR=build
-OUTPUT_DEVICE_DIR="${WORK_DIR}/${CONFIGURATION}-appletvos/"
-OUTPUT_SIMULATOR_DIR="${WORK_DIR}/${CONFIGURATION}-appletvsimulator/"
-
-# Make sure we're inside $SRCROOT.
-cd "${SRCROOT}"
+OUTPUT_DEVICE_DIR="${BUILD_DIR}/${CONFIGURATION}-appletvos/"
+OUTPUT_SIMULATOR_DIR="${BUILD_DIR}/${CONFIGURATION}-appletvsimulator/"
 
 # Cleaning the previous build.
 if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
@@ -30,8 +26,16 @@ fi
 mkdir -p "${PRODUCTS_DIR}"
 
 # Building both architectures.
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk appletvos
-xcodebuild -project "${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "${TARGET_NAME}" -sdk appletvsimulator
+build() {
+    # Print only target name and issues. Mimic Xcode output to make prettify tools happy.
+    echo "=== BUILD TARGET $1 OF PROJECT ${PROJECT_NAME} WITH CONFIGURATION ${CONFIGURATION} ==="
+    # OBJROOT must be customized to avoid conflicts with the current process.
+    xcodebuild -quiet \
+        SYMROOT="${SYMROOT}" OBJROOT="${BUILT_PRODUCTS_DIR}" PROJECT_TEMP_DIR="${PROJECT_TEMP_DIR}" ONLY_ACTIVE_ARCH=NO \
+        -project "${SRCROOT}/${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "$1" -sdk "$2"
+}
+build "${TARGET_NAME}" appletvos
+build "${TARGET_NAME}" appletvsimulator
 
 # Copy framework.
 cp -R "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"

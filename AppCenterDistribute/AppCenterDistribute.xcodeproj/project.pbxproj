@@ -1030,7 +1030,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDistribute\"\n./build-appcenterdistribute-ios-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		04FD4A401E4536B0009B4468 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
