@@ -313,7 +313,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertTrue([uuidString isEqualToString:result]);
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
   // When
   test = [NSString stringWithFormat:@"targetIos={transmissionTargetToken};ios=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
@@ -327,6 +327,13 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertTrue([uuidString isEqualToString:result]);
+  
+  // When
+  test = @"ios={app-secret};macos={fake};appsecret=fake";
+  result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
 #endif
 }
 
@@ -429,16 +436,16 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
   // When
-  test = @"targetIos={transmissionTargetToken};ios={app-secret}";
+  test = @"target={transmissionTargetToken};ios={app-secret}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
   XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
   
   // When
-  test = @"targetIos={transmissionTargetToken};targetMacos={fake}";
+  test = @"target={transmissionTargetToken};targetMacos={fake}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
@@ -447,20 +454,18 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 }
 
 #if TARGET_OS_MACCATALYST
-- (void)testTransmissionTokenCatalystFrom {
-  
-  // When
-  NSString *test = @"targetIos={fake};targetMacos={transmissionTargetToken}";
-  NSString *result = [MSUtility transmissionTargetTokenFrom:test];
-
-  // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
-}
 
 - (void)testAppSecretCatalystFrom {
   
   // When
   NSString *test = @"ios={fake};macos={app-secret}";
+  NSString *result = [MSUtility appSecretFrom:test];
+
+  // Then
+  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  
+  // When
+  NSString *test = @"ios={fake};macos={app-secret};appsecret=fake";
   NSString *result = [MSUtility appSecretFrom:test];
 
   // Then

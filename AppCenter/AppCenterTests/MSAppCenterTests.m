@@ -115,7 +115,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMVerify([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:MSStartServiceLog.class] flags:MSFlagsDefault]);
 }
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testStartWithAppSecretAndTransmissionTokenForIos {
 
   // If
@@ -145,7 +145,7 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
 
   // If
   NSString *appSecret = MS_UUID_STRING;
-  NSString *transmissionTargetKey = @"targetMacos=";
+  NSString *transmissionTargetKey = @"target=";
   NSString *appSecretKey = @"macos=";
   NSString *transmissionTargetString = @"transmissionTargetToken";
   NSString *secret = [NSString stringWithFormat:@"%@%@;%@%@", appSecretKey, appSecret, transmissionTargetKey, transmissionTargetString];
