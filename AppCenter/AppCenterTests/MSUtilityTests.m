@@ -220,7 +220,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   NSString *result = [MSUtility appSecretFrom:uuidString];
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   NSString *test = nil;
@@ -234,28 +234,28 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"%@;target={transmissionTargetToken}", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"%@;target={transmissionTargetToken};", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"target={transmissionTargetToken};%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"target={transmissionTargetToken};%@;", uuidString];
@@ -263,7 +263,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = @"target={transmissionTargetToken}";
@@ -284,56 +284,56 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"appsecret=%@;", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"appsecret=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"target={transmissionTargetToken};appsecret=%@;", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 
   // When
   test = [NSString stringWithFormat:@"target={transmissionTargetToken};appsecret=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
 #if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
   // When
   test = [NSString stringWithFormat:@"targetIos={transmissionTargetToken};ios=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
   
   // When
   test = [NSString stringWithFormat:@"macos=fake;ios=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([uuidString isEqualToString:result]);
+  XCTAssertEqualObjects(uuidString, result);
   
   // When
   test = @"ios={app-secret};macos={fake};appsecret=fake";
   result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  XCTAssertEqualObjects(result, @"{app-secret}");
 #endif
 }
 
@@ -365,49 +365,49 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"{app-secret};target={transmissionTargetToken};";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"target={transmissionTargetToken};{app-secret}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"target={transmissionTargetToken};{app-secret};";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"target={transmissionTargetToken}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"target={transmissionTargetToken};";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"appsecret={app-secret};target={transmissionTargetToken};";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"appsecret={app-secret};";
@@ -428,28 +428,28 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 
   // When
   test = @"target={transmissionTargetToken};appsecret={app-secret}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 #if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
   // When
   test = @"target={transmissionTargetToken};ios={app-secret}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
   
   // When
   test = @"target={transmissionTargetToken};targetMacos={fake}";
   result = [MSUtility transmissionTargetTokenFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
 #endif
 }
 
@@ -462,14 +462,14 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   NSString *result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  XCTAssertEqualObjects(result, @"{app-secret}");
   
   // When
-  NSString *test = @"ios={fake};macos={app-secret};appsecret=fake";
-  NSString *result = [MSUtility appSecretFrom:test];
+  test = @"ios={fake};macos={app-secret};appsecret=fake";
+  result = [MSUtility appSecretFrom:test];
 
   // Then
-  XCTAssertTrue([result isEqualToString:@"{app-secret}"]);
+  XCTAssertEqualObjects(result, @"{app-secret}");
 }
 #endif
 
@@ -483,7 +483,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertNil(tokenResult);
-  XCTAssertTrue([guidString isEqualToString:secretResult]);
+  XCTAssertEqualObjects(guidString, secretResult);
 
   // When
   test = @"target=;target=;appsecret=;appsecret=;";
@@ -502,8 +502,8 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertNotNil(secretResult);
-  XCTAssertTrue([guidString isEqualToString:secretResult]);
-  XCTAssertTrue([tokenResult isEqualToString:@"{transmissionTargetToken}"]);
+  XCTAssertEqualObjects(guidString, secretResult);
+  XCTAssertEqualObjects(tokenResult, @"{transmissionTargetToken}");
 }
 
 - (void)testValidatePropertyType {
