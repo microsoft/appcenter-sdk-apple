@@ -2,13 +2,37 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:appcenter-post-clone.sh">
+   </FileRef>
+   <FileRef
+      location = "group:AppCenter.podspec">
+   </FileRef>
+   <FileRef
+      location = "group:CHANGELOG.md">
+   </FileRef>
+   <FileRef
+      location = "group:codecov.yml">
+   </FileRef>
+   <FileRef
+      location = "group:LICENSE">
+   </FileRef>
+   <FileRef
       location = "group:Package.swift">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:ThirdPartyNotices.txt">
    </FileRef>
    <Group
       location = "group:Config"
       name = "Config">
       <FileRef
          location = "group:App.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Framework.xcconfig">
       </FileRef>
       <FileRef
          location = "group:Global Debug.xcconfig">
@@ -24,9 +48,6 @@
       </FileRef>
       <FileRef
          location = "group:macOS.xcconfig">
-      </FileRef>
-      <FileRef
-         location = "group:Target config.xcconfig">
       </FileRef>
       <FileRef
          location = "group:Tests iOS.xcconfig">
@@ -50,27 +71,6 @@
          location = "group:watchOS.xcconfig">
       </FileRef>
    </Group>
-   <FileRef
-      location = "group:AppCenter.podspec">
-   </FileRef>
-   <FileRef
-      location = "group:appcenter-post-clone.sh">
-   </FileRef>
-   <FileRef
-      location = "group:CHANGELOG.md">
-   </FileRef>
-   <FileRef
-      location = "group:codecov.yml">
-   </FileRef>
-   <FileRef
-      location = "group:LICENSE">
-   </FileRef>
-   <FileRef
-      location = "group:README.md">
-   </FileRef>
-   <FileRef
-      location = "group:ThirdPartyNotices.txt">
-   </FileRef>
    <Group
       location = "group:Scripts"
       name = "Scripts">
