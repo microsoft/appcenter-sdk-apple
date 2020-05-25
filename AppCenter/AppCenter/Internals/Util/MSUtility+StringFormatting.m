@@ -60,7 +60,7 @@ static NSString *kMSAppSecretOSKey = @"appsecret=";
       BOOL transmissionTokenIsNotPresent = [component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound;
 
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
-      if (transmissionTokenIsNotPresent && (component.length > 0)) {
+      if (transmissionTokenIsNotPresent && component.length > 0) {
         NSString *secretString = @"";
         if ([string rangeOfString:kMSAppSecretOSKey].location != NSNotFound) {
           
