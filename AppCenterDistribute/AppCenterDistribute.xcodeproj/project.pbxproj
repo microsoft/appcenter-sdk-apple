@@ -1060,7 +1060,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;

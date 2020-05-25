@@ -18,14 +18,6 @@ PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/iOS"
 OUTPUT_DEVICE_DIR="${BUILD_DIR}/${CONFIGURATION}-iphoneos"
 OUTPUT_SIMULATOR_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator"
 
-# Cleaning the previous builds.
-if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
-  rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
-fi
-
-# Creates and renews the final product folder.
-mkdir -p "${PRODUCTS_DIR}"
-
 # Building both architectures.
 build() {
     # Print only target name and issues. Mimic Xcode output to make prettify tools happy.
@@ -38,6 +30,14 @@ build() {
 build "${TARGET_NAME}" iphoneos
 build "${TARGET_NAME}" iphonesimulator
 
+# Cleaning the previous builds.
+if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
+  rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
+fi
+
+# Creates and renews the final product folder.
+mkdir -p "${PRODUCTS_DIR}"
+
 # Copy framework.
 cp -R "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
@@ -47,4 +47,5 @@ if [ -d "${OUTPUT_DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" ]; then
   cp -R "${OUTPUT_DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" "${PRODUCTS_DIR}" || true
 fi
 
+# Uses the Lipo Tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one Universal final product.
 lipo -create "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"

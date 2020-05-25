@@ -81,6 +81,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 8414DF7A24599AF800B316C5 /* Build configuration list for PBXAggregateTarget "AppCenter XCFramework" */;
 			buildPhases = (
+				D5E3B3E9247C04D900D93E90 /* Build Mac Catalyst */,
 				8414DF7924599AF800B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
@@ -2658,7 +2659,6 @@
 				C9A91FB5230C01140068070D /* AppCenter iOS Framework */,
 				6E2395771D22EF4F00E543C8 /* AppCenter iOS Tests */,
 				6E04017D1D1CAC710051BCFA /* AppCenter iOS Fat Framework */,
-				8414DF7824599AF800B316C5 /* AppCenter XCFramework */,
 				C9A91FFE230C05D70068070D /* AppCenter macOS Framework */,
 				6E6BFC311D234FAE00DF7617 /* AppCenter iOS Documentation */,
 				046AEACF1ECA562A00CBE511 /* AppCenter macOS Tests */,
@@ -2668,6 +2668,7 @@
 				0446DEFE1F3B864600C8E338 /* AppCenter tvOS Tests */,
 				043121491EE0BFC7007054C5 /* AppCenter tvOS Fat Framework */,
 				04FD11671EF2FE1D000C5A5C /* AppCenter tvOS Documentation */,
+				8414DF7824599AF800B316C5 /* AppCenter XCFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -2960,6 +2961,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		D5E3B3E9247C04D900D93E90 /* Build Mac Catalyst */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Mac Catalyst";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/build-maccatalyst-framework.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
