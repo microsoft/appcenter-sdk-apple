@@ -1346,6 +1346,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/build-tvos-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		0485AFF01EAAADAC00C10CAF /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1374,7 +1375,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" macOS\n";
 			showEnvVarsInLog = 0;
 		};
 		04FD11731EF2FE43000C5A5C /* Build Documentation */ = {
@@ -1389,7 +1390,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh tvOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" tvOS\n";
 			showEnvVarsInLog = 0;
 		};
 		8414DF7F2459D3C500B316C5 /* Build XCFramework */ = {
@@ -1404,7 +1405,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		C2D73CD7230FC74C00390198 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1509,7 +1511,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" iOS\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

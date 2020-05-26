@@ -4,7 +4,7 @@
    wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
-      parallelizeBuildables = "NO"
+      parallelizeBuildables = "YES"
       buildImplicitDependencies = "NO">
       <BuildActionEntries>
          <BuildActionEntry
@@ -30,37 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterAuth iOS Fat Framework"
-               BlueprintName = "AppCenterAuth iOS Fat Framework"
-               ReferencedContainer = "container:../AppCenterAuth/AppCenterAuth.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
                BuildableName = "AppCenterAnalytics iOS Fat Framework"
                BlueprintName = "AppCenterAnalytics iOS Fat Framework"
                ReferencedContainer = "container:../AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5F221E5C9562001627AB"
-               BuildableName = "AppCenterData iOS Fat Framework"
-               BlueprintName = "AppCenterData iOS Fat Framework"
-               ReferencedContainer = "container:../AppCenterData/AppCenterData.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

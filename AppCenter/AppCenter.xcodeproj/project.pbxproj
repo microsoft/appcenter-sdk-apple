@@ -2659,8 +2659,8 @@
 				C9A91FB5230C01140068070D /* AppCenter iOS Framework */,
 				6E2395771D22EF4F00E543C8 /* AppCenter iOS Tests */,
 				6E04017D1D1CAC710051BCFA /* AppCenter iOS Fat Framework */,
-				C9A91FFE230C05D70068070D /* AppCenter macOS Framework */,
 				6E6BFC311D234FAE00DF7617 /* AppCenter iOS Documentation */,
+				C9A91FFE230C05D70068070D /* AppCenter macOS Framework */,
 				046AEACF1ECA562A00CBE511 /* AppCenter macOS Tests */,
 				0485AFE61EAA937000C10CAF /* AppCenter macOS Fat Framework */,
 				04FD114C1EF2F5F0000C5A5C /* AppCenter macOS Documentation */,
@@ -2811,7 +2811,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/AppCenter/build-appcenter-tvos-framework.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-tvos-framework.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		0485AFE71EAA937000C10CAF /* Build Universal Framework */ = {
@@ -2826,7 +2826,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/AppCenter/build-appcenter-macos-framework.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-macos-framework.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		04FD114F1EF2F5F0000C5A5C /* Build Documentation */ = {
@@ -2841,7 +2841,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" macOS\n";
 			showEnvVarsInLog = 0;
 		};
 		04FD116A1EF2FE1D000C5A5C /* Build Documentation */ = {
@@ -2856,7 +2856,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh tvOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" tvOS\n";
 			showEnvVarsInLog = 0;
 		};
 		8414DF7924599AF800B316C5 /* Build XCFramework */ = {
@@ -2887,7 +2887,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" iOS\n";
 			showEnvVarsInLog = 0;
 		};
 		B2DA6594210F7FA2003541A3 /* Build Universal Framework */ = {
@@ -2903,7 +2903,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/AppCenter/build-appcenter-ios-framework.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C2CB276A230EDE990076A4E0 /* Verify No Build Settings */ = {
