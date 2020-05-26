@@ -95,62 +95,6 @@
       <FileRef
          location = "group:VerifyNoBuildSettings.swift">
       </FileRef>
-      <Group
-         location = "group:AppCenter"
-         name = "AppCenter">
-         <FileRef
-            location = "group:build-appcenter-ios-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenter-macos-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenter-tvos-framework.sh">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:AppCenterAnalytics"
-         name = "AppCenterAnalytics">
-         <FileRef
-            location = "group:build-appcenteranalytics-ios-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenteranalytics-macos-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenteranalytics-tvos-framework.sh">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:AppCenterCrashes"
-         name = "AppCenterCrashes">
-         <FileRef
-            location = "group:build-appcentercrashes-ios-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcentercrashes-macos-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcentercrashes-tvos-framework.sh">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:AppCenterDistribute"
-         name = "AppCenterDistribute">
-         <FileRef
-            location = "group:build-appcenterdistribute-ios-framework.sh">
-         </FileRef>
-      </Group>
-      <Group
-         location = "group:AppCenterPush"
-         name = "AppCenterPush">
-         <FileRef
-            location = "group:build-appcenterpush-ios-framework.sh">
-         </FileRef>
-         <FileRef
-            location = "group:build-appcenterpush-macos-framework.sh">
-         </FileRef>
-      </Group>
    </Group>
    <Group
       location = "group:vsts"
