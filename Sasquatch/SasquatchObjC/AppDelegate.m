@@ -332,11 +332,14 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                      }];
     }
   }
+#else
+  // TODO
 #endif
   return attachments;
 }
 
 #pragma mark - MSDistributeDelegate
+
 #if !TARGET_OS_MACCATALYST
 
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details {

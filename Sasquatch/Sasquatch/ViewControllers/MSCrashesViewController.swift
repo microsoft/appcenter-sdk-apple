@@ -115,6 +115,8 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
               cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
             })
           }
+#else
+          // TODO
 #endif
         }
       } else if (indexPath.row == 3) {
@@ -172,6 +174,8 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
             self.present(picker, animated: true)
           }
         })
+#else
+        // TODO
 #endif
       } else if indexPath.row == 3 {
         let alertController = UIAlertController(title: "Clear crash user confirmation?",

@@ -4,7 +4,7 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-#if TARGET_OS_IOS
+#if !targetEnvironment(macCatalyst)
 import AppCenterDistribute
 import AppCenterPush
 
@@ -43,7 +43,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func appSecret() -> String {
-    return kMSSwiftAppSecret
+    return kMSSwiftAppSecret // TODO: ios=...;macos=...
   }
 
   func setLogUrl(_ logUrl: String?) {
@@ -79,12 +79,40 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSCrashes.isEnabled()
   }
 
+  func isDistributeEnabled() -> Bool {
+#if !targetEnvironment(macCatalyst)
+    return MSDistribute.isEnabled()
+#else
+    return false
+#endif
+  }
+
+  func isPushEnabled() -> Bool {
+#if !targetEnvironment(macCatalyst)
+    return MSPush.isEnabled()
+#else
+    return false
+#endif
+  }
+
   func setAnalyticsEnabled(_ isEnabled: Bool) {
     MSAnalytics.setEnabled(isEnabled)
   }
 
   func setCrashesEnabled(_ isEnabled: Bool) {
     MSCrashes.setEnabled(isEnabled)
+  }
+
+  func setDistributeEnabled(_ isEnabled: Bool) {
+#if !targetEnvironment(macCatalyst)
+    MSDistribute.setEnabled(isEnabled)
+#endif
+  }
+
+  func setPushEnabled(_ isEnabled: Bool) {
+#if !targetEnvironment(macCatalyst)
+    MSPush.setEnabled(isEnabled)
+#endif
   }
 
   // MSAnalytics section.
@@ -139,29 +167,16 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSCrashes.generateTestCrash()
   }
 
-#if TARGET_OS_IOS
-func isDistributeEnabled() -> Bool {
-    return MSDistribute.isEnabled()
-  }
-
-  func isPushEnabled() -> Bool {
-    return MSPush.isEnabled()
-  }
-  
-  func setDistributeEnabled(_ isEnabled: Bool) {
-    MSDistribute.setEnabled(isEnabled)
-  }
-
-  func setPushEnabled(_ isEnabled: Bool) {
-    MSPush.setEnabled(isEnabled)
-  }
-  
-  func checkForUpdate() {
-    MSDistribute.checkForUpdate()
-  }
-    
   // MSDistribute section.
+
+  func checkForUpdate() {
+#if !targetEnvironment(macCatalyst)
+    MSDistribute.checkForUpdate()
+#endif
+  }
+
   func showConfirmationAlert() {
+#if !targetEnvironment(macCatalyst)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let confirmationAlertSelector = #selector(Selectors.showConfirmationAlert(_:))
     let releaseDetails = MSReleaseDetails();
@@ -173,9 +188,11 @@ func isDistributeEnabled() -> Bool {
         _ = distributeInstance.perform(confirmationAlertSelector, with: releaseDetails)
       }
     }
+#endif
   }
 
   func showDistributeDisabledAlert() {
+#if !targetEnvironment(macCatalyst)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let disabledAlertSelector = #selector(Selectors.showDistributeDisabledAlert)
     if (MSDistribute.responds(to: sharedInstanceSelector)) {
@@ -184,9 +201,11 @@ func isDistributeEnabled() -> Bool {
         _ = distributeInstance.perform(disabledAlertSelector)
       }
     }
+#endif
   }
 
   func showCustomConfirmationAlert() {
+#if !targetEnvironment(macCatalyst)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let delegateSelector = #selector(Selectors.delegate)
     let releaseDetails = MSReleaseDetails();
@@ -197,28 +216,8 @@ func isDistributeEnabled() -> Bool {
       let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
       _ = distriuteDelegate.distribute?(distributeInstance as? MSDistribute, releaseAvailableWith: releaseDetails)
     }
+#endif
   }
-#else 
-  // MSDistribute section.
-  func showConfirmationAlert() {}
-  func checkForUpdate() {}
-  func showDistributeDisabledAlert() {}
-  func showCustomConfirmationAlert() {}
-
-  func isDistributeEnabled() -> Bool {
-    return false
-  }
-
-  func isPushEnabled() -> Bool {
-    return false
-  }
-
-  func setDistributeEnabled(_ isEnabled: Bool) {
-  }
-
-  func setPushEnabled(_ isEnabled: Bool){
-  }
-#endif 
 
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String? {

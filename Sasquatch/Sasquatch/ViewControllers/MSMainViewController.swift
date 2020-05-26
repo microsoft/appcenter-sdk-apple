@@ -97,12 +97,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
         return open(fileSystemPath!, O_EVTONLY)
       }
-#if TARGET_OS_IOS
+#if !targetEnvironment(macCatalyst)
       self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
       self.dbFileSource!.setEventHandler {
         self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
       }
       self.dbFileSource!.resume()
+#else
+      // TODO
 #endif
       self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
     }
@@ -150,7 +152,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
-#if TARGET_OS_IOS
+#if !targetEnvironment(macCatalyst)
     appCenter.setPushEnabled(sender.isOn)
 #else
     showAlert(message: "AppCenter Push is not supported by Mac Catalyst")

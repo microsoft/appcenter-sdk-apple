@@ -96,25 +96,39 @@
 }
 
 - (BOOL)isDistributeEnabled {
-  return false;
+#if !TARGET_OS_MACCATALYST
+  return [MSDistribute isEnabled];
+#else
+  return NO;
+#endif
 }
 
 - (BOOL)isPushEnabled {
-  return false;
+#if !TARGET_OS_MACCATALYST
+  return [MSPush isEnabled];
+#else
+  return NO;
+#endif
 }
 
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
-  return [MSAnalytics setEnabled:isEnabled];
+  [MSAnalytics setEnabled:isEnabled];
 }
 
 - (void)setCrashesEnabled:(BOOL)isEnabled {
-  return [MSCrashes setEnabled:isEnabled];
+  [MSCrashes setEnabled:isEnabled];
 }
 
 - (void)setDistributeEnabled:(BOOL)isEnabled {
+#if !TARGET_OS_MACCATALYST
+  [MSDistribute setEnabled:isEnabled];
+#endif
 }
 
 - (void)setPushEnabled:(BOOL)isEnabled {
+#if !TARGET_OS_MACCATALYST
+  [MSPush setEnabled:isEnabled];
+#endif
 }
 
 #pragma mark - MSAnalytics section.
@@ -174,10 +188,10 @@
 }
 
 #pragma mark - MSDistribute section.
+- (void)showConfirmationAlert {
 #if !TARGET_OS_MACCATALYST
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-- (void)showConfirmationAlert {
   MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
   releaseDetails.version = @"10";
   releaseDetails.shortVersion = @"1.0";
@@ -187,19 +201,23 @@
       [distributeInstance performSelector:@selector(showConfirmationAlert:) withObject:releaseDetails];
     }
   }
-}
 #pragma clang diagnostic pop
+#endif
+}
 
 - (void)showDistributeDisabledAlert {
+#if !TARGET_OS_MACCATALYST
   if ([MSDistribute respondsToSelector:@selector(sharedInstance)]) {
     id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
     if ([distributeInstance respondsToSelector:@selector(showDistributeDisabledAlert)]) {
       [distributeInstance performSelector:@selector(showDistributeDisabledAlert)];
     }
   }
+#endif
 }
 
 - (void)showCustomConfirmationAlert {
+#if !TARGET_OS_MACCATALYST
   MSReleaseDetails *releaseDetails = [MSReleaseDetails new];
   releaseDetails.version = @"10";
   releaseDetails.shortVersion = @"1.0";
@@ -207,12 +225,14 @@
     id distributeInstance = [MSDistribute performSelector:@selector(sharedInstance)];
     [[distributeInstance delegate] distribute:distributeInstance releaseAvailableWithDetails:releaseDetails];
   }
+#endif
 }
 
 - (void)checkForUpdate {
+#if !TARGET_OS_MACCATALYST
   [MSDistribute checkForUpdate];
-}
 #endif
+}
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {
