@@ -6,6 +6,7 @@
 
 * **[Feature]** Add support for Mac Catalyst.
 * **[Breaking change]** Dropped Xcode 10 support. Xcode 11 is a minimal supported version now.
+* **[Fix]** Fix screen resolution detection macOS.
 
 ___
 

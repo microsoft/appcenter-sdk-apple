@@ -374,21 +374,33 @@ static MSDeviceTracker *sharedInstance = nil;
 }
 
 - (NSString *)screenSize {
-
 #if TARGET_OS_OSX
-  NSScreen *focusScreen = [NSScreen mainScreen];
-  CGFloat scale = focusScreen.backingScaleFactor;
-  CGSize screenSize = [focusScreen frame].size;
+
+  // Report screen resolution as shown in display settings ('Looks like' field in scaling tab).
+  NSSize screenSize = [NSScreen mainScreen].frame.size;
+  return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
 #elif TARGET_OS_MACCATALYST
-  // This returns scale value based on scale values iOS.
-  // So we need to use base value for macOS.
-  CGFloat scale = 3;
-  CGSize screenSize = [UIScreen mainScreen].bounds.size;
+
+  // macOS API is not directly avaliable on Mac Catalyst.
+  id screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
+  if (screen == nil) {
+    CGSize screenSize = [UIScreen mainScreen].nativeBounds.size;
+    return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
+  }
+  SEL selector = NSSelectorFromString(@"frame");
+  NSInvocation *invocation =
+      [NSInvocation invocationWithMethodSignature:[[screen class] instanceMethodSignatureForSelector:selector]];
+  [invocation setSelector:selector];
+  [invocation setTarget:screen];
+  [invocation invoke];
+  CGRect frame;
+  [invocation getReturnValue:&frame];
+  return [NSString stringWithFormat:@"%dx%d", (int)frame.size.width, (int)frame.size.height];
 #else
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
-#endif
   return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
+#endif
 }
 
 #if TARGET_OS_IOS
