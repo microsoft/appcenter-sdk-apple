@@ -6,7 +6,6 @@ set -e
 
 # Sets the target folders and the final framework product.
 TARGET_NAME="${PROJECT_NAME} iOS Framework"
-RESOURCE_BUNDLE="${PROJECT_NAME}Resources"
 
 # The directory for final output of the framework.
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/iOS"
@@ -39,9 +38,10 @@ mkdir -p "${PRODUCTS_DIR}"
 cp -R "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
 # Copy the resource bundle for App Center Distribute.
-if [ -d "${OUTPUT_DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" ]; then
+BUNDLE_PATH="${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}Resources.bundle"
+if [ -d "${BUNDLE_PATH}" ]; then
   echo "Copying resource bundle."
-  cp -R "${OUTPUT_DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" "${PRODUCTS_DIR}" || true
+  cp -R "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
 fi
 
 # Uses the Lipo Tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one Universal final product.

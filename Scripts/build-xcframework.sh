@@ -14,6 +14,13 @@ fi
 # Creates the final product folder.
 mkdir -p "${PRODUCTS_DIR}"
 
+# Copy the resource bundle for App Center Distribute.
+BUNDLE_PATH="${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}Resources.bundle"
+if [ -d "${BUNDLE_PATH}" ]; then
+  echo "Copying resource bundle."
+  cp -R "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
+fi
+
 # Create a command to build XCFramework.
 FRAMEWORK_PATH="${BUILD_DIR}/${CONFIGURATION}/${PRODUCT_NAME}.framework"
 [ -e "${FRAMEWORK_PATH}" ] && XC_FRAMEWORKS=(-framework "${FRAMEWORK_PATH}")
