@@ -375,11 +375,13 @@ static MSDeviceTracker *sharedInstance = nil;
 
 - (NSString *)screenSize {
 #if TARGET_OS_OSX
+
+  // Report screen resolution as shown in display settings ('Looks like' field in scaling tab).
   NSSize screenSize = [NSScreen mainScreen].frame.size;
   return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
 #elif TARGET_OS_MACCATALYST
 
-  // This would report screen resolution as shown in display settings ('Looks like' field in scaling tab).
+  // macOS API is not directly avaliable on Mac Catalyst.
   id screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
   if (screen == nil) {
     CGSize screenSize = [UIScreen mainScreen].nativeBounds.size;
