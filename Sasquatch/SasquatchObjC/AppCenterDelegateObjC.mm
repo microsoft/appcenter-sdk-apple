@@ -5,9 +5,10 @@
 #import "AppCenter.h"
 #import "AppCenterAnalytics.h"
 #import "AppCenterCrashes.h"
+#if !TARGET_OS_MACCATALYST
 #import "AppCenterDistribute.h"
 #import "AppCenterPush.h"
-
+#endif
 // Internal
 #import "MSAnalyticsInternal.h"
 #import "MSAppCenterInternal.h"
@@ -95,11 +96,11 @@
 }
 
 - (BOOL)isDistributeEnabled {
-  return [MSDistribute isEnabled];
+  return false;
 }
 
 - (BOOL)isPushEnabled {
-  return [MSPush isEnabled];
+  return false;
 }
 
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
@@ -111,11 +112,9 @@
 }
 
 - (void)setDistributeEnabled:(BOOL)isEnabled {
-  return [MSDistribute setEnabled:isEnabled];
 }
 
 - (void)setPushEnabled:(BOOL)isEnabled {
-  return [MSPush setEnabled:isEnabled];
 }
 
 #pragma mark - MSAnalytics section.
@@ -175,7 +174,7 @@
 }
 
 #pragma mark - MSDistribute section.
-
+#if !TARGET_OS_MACCATALYST
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 - (void)showConfirmationAlert {
@@ -213,7 +212,7 @@
 - (void)checkForUpdate {
   [MSDistribute checkForUpdate];
 }
-
+#endif
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {
