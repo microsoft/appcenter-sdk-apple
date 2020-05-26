@@ -8,13 +8,10 @@ set -e
 TARGET_NAME="${PROJECT_NAME} iOS Framework"
 RESOURCE_BUNDLE="${PROJECT_NAME}Resources"
 
-echo "Building ${TARGET_NAME}."
-
-# Install dir will be the final output to the framework.
-# The following line create it in the root folder of the current project.
+# The directory for final output of the framework.
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/iOS"
 
-## Working dir will be deleted after the framework creation.
+# Build result paths.
 OUTPUT_DEVICE_DIR="${BUILD_DIR}/${CONFIGURATION}-iphoneos"
 OUTPUT_SIMULATOR_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator"
 
@@ -35,7 +32,7 @@ if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
   rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
 fi
 
-# Creates and renews the final product folder.
+# Creates the final product folder.
 mkdir -p "${PRODUCTS_DIR}"
 
 # Copy framework.
@@ -48,4 +45,7 @@ if [ -d "${OUTPUT_DEVICE_DIR}/${RESOURCE_BUNDLE}.bundle" ]; then
 fi
 
 # Uses the Lipo Tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one Universal final product.
-lipo -create "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
+lipo -create \
+  "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" \
+  "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" \
+  -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"

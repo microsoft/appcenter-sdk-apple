@@ -3,13 +3,16 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-# The directory where all XCFramework artifacts is stored.
+# The directory for final output of the framework.
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/XCFramework"
 
 # Cleaning the previous builds.
 if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework" ]; then
   rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
 fi
+
+# Creates the final product folder.
+mkdir -p "${PRODUCTS_DIR}"
 
 # Create a command to build XCFramework.
 FRAMEWORK_PATH="${BUILD_DIR}/${CONFIGURATION}/${PRODUCT_NAME}.framework"
@@ -21,9 +24,3 @@ done
 
 # Build XCFramework.
 xcodebuild -create-xcframework "${XC_FRAMEWORKS[@]}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
-
-# Copy license and readme.
-cp -f "${SRCROOT}/../LICENSE" "${PRODUCTS_DIR}"
-cp -f "${SRCROOT}/../README.md" "${PRODUCTS_DIR}"
-cp -f "${SRCROOT}/../CHANGELOG.md" "${PRODUCTS_DIR}"
-

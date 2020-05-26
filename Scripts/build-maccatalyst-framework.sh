@@ -4,8 +4,8 @@
 # Licensed under the MIT License.
 set -e
 
-# Build and move mac catalyst framework
-MACCATALYST_BUILD_DIR="${BUILD_DIR}/${CONFIGURATION}-maccatalyst"
+# Build Mac Catalyst framework.
 xcodebuild -quiet \
   SYMROOT="${SYMROOT}" OBJROOT="${OBJECT_FILE_DIR}" PROJECT_TEMP_DIR="${PROJECT_TEMP_DIR}" ONLY_ACTIVE_ARCH=NO \
-  -project "${SRCROOT}/${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -scheme "${PROJECT_NAME} iOS Framework" -destination 'platform=macOS,variant=Mac Catalyst'
+  -project "${SRCROOT}/${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" \
+  -scheme "${PROJECT_NAME} iOS Framework" -destination 'platform=macOS,variant=Mac Catalyst'
