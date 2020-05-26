@@ -97,11 +97,13 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
         return open(fileSystemPath!, O_EVTONLY)
       }
+#if TARGET_OS_IOS
       self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
       self.dbFileSource!.setEventHandler {
         self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
       }
       self.dbFileSource!.resume()
+#endif
       self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
     }
 
@@ -148,7 +150,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
+#if TARGET_OS_IOS
     appCenter.setPushEnabled(sender.isOn)
+#else
+    showAlert(message: "AppCenter Push is not supported by Mac Catalyst")
+#endif
     updateViewState()
   }
     
@@ -294,6 +300,15 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? AppCenterProtocol {
       destination.appCenter = appCenter
+    }
+  }
+  
+  func showAlert(message : String) {
+    let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    self.present(alert, animated: true)
+    let duration: Double = 2
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+        alert.dismiss(animated: true)
     }
   }
 }

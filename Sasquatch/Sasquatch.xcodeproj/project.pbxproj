@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -59,6 +59,10 @@
 		845178ED1E8A8B0D004A0A6F /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
 		845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		845964AD1E8A7E9700BABA51 /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
+		849A260B247BE4D50081FF4C /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
+		849A260C247BE4D50081FF4C /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		849A2764247D068E0081FF4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226C821E8908CA00798417 /* AppDelegate.swift */; };
+		849A2765247D06910081FF4C /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3E1E8939B700798417 /* AppCenterDelegateSwift.swift */; };
 		849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		849A3E731E8A9922008711CB /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		84A0FF661E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
@@ -91,7 +95,7 @@
 		B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B20AE38F21027D6200A1A195 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
-		B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
+		B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; platformFilter = ios; };
 		B20AE39321027D6200A1A195 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
 		B20AE39C21027D6200A1A195 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		B20AE39F21027D6200A1A195 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
@@ -199,8 +203,8 @@
 		C261445D230FE88A00D65EBF /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261440A230FE86400D65EBF /* AppCenter.framework */; };
 		C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */; };
 		C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
-		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; };
-		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; };
+		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; platformFilter = ios; };
+		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; platformFilter = ios; };
 		C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
 		C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
@@ -246,6 +250,45 @@
 		D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF96B1E9517C600450162 /* NotificationController.swift */; };
 		D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF96D1E9517C600450162 /* Assets.xcassets */; };
 		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
+		DF4D2DB824768E40004A12DC /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
+		DF4D2DB924768E40004A12DC /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
+		DF4D2DBA24768E40004A12DC /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
+		DF4D2DBB24768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F322164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift */; };
+		DF4D2DBC24768E40004A12DC /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
+		DF4D2DBD24768E40004A12DC /* MSTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAA1F92143229300A8BED2 /* MSTableViewCellExtension.swift */; };
+		DF4D2DBE24768E40004A12DC /* MSAnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */; };
+		DF4D2DBF24768E40004A12DC /* MSSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807DB551212164E000F35E03 /* MSSignInViewController.swift */; };
+		DF4D2DC024768E40004A12DC /* MSTransmissionTargetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */; };
+		DF4D2DC124768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
+		DF4D2DC224768E40004A12DC /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84226D3A1E8937FF00798417 /* AppCenterDelegate.swift */; };
+		DF4D2DC324768E40004A12DC /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
+		DF4D2DC424768E40004A12DC /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */; };
+		DF4D2DC524768E40004A12DC /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
+		DF4D2DC624768E40004A12DC /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
+		DF4D2DC724768E40004A12DC /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
+		DF4D2DC824768E40004A12DC /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
+		DF4D2DC924768E40004A12DC /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
+		DF4D2DCA24768E40004A12DC /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
+		DF4D2DCB24768E40004A12DC /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
+		DF4D2DCD24768E40004A12DC /* TargetPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F920F8001A00F3DDE6 /* TargetPropertiesTableSection.swift */; };
+		DF4D2DCE24768E40004A12DC /* MSAuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */; };
+		DF4D2DCF24768E40004A12DC /* MSAnalyticsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */; };
+		DF4D2DD124768E40004A12DC /* MSDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F3C2164FD1C009104E3 /* MSDatePicker.swift */; };
+		DF4D2DD224768E40004A12DC /* MSEnumPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8A502252149339100872B3B /* MSEnumPicker.swift */; };
+		DF4D2DD424768E40004A12DC /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
+		DF4D2DDE24768E40004A12DC /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
+		DF4D2DDF24768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
+		DF4D2DE024768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
+		DF4D2DE124768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8AA9F052164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib */; };
+		DF4D2DE224768E40004A12DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
+		DF4D2DE324768E40004A12DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
+		DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
+		DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
+		DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */; };
+		DFC734AA247C1CA500DC782B /* AppCenterDistribute.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */; platformFilter = ios; };
+		DFC734AC247C1CA500DC782B /* AppCenterAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */; };
+		DFC734AE247C1CA500DC782B /* AppCenter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC734A8247C1CA500DC782B /* AppCenter.xcframework */; };
+		DFC734B0247C1CA500DC782B /* AppCenterCrashes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC734A9247C1CA500DC782B /* AppCenterCrashes.xcframework */; };
 		F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F809D5051FC6DD80005E0F83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
 		F83587C8242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
@@ -280,7 +323,7 @@
 		F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA9F4821650C04009104E3 /* SimplePropertiesTableSection.swift */; };
 		F8EE93542331212D0023C682 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
 		F8EE9355233121480023C682 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */; };
-		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; };
+		F8FE7330210730EE005C6A74 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */; platformFilter = ios; };
 		F8FE73312107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
 		F8FE73322107568A005C6A74 /* DistributeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */; };
 		F8FE73332107568A005C6A74 /* AppCenterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A888EA2102B2C5001ACFDF /* AppCenterUITests.swift */; };
@@ -453,90 +496,6 @@
 			remoteGlobalIDString = B20AE37C21027D6200A1A195;
 			remoteInfo = SasquatchPuppet;
 		};
-		C23A134A247D57130025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
-		};
-		C23A134C247D57130025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
-			remoteInfo = "AppCenterAnalytics iOS Fat Framework";
-		};
-		C23A134E247D57130025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
-			remoteInfo = "AppCenterCrashes iOS Fat Framework";
-		};
-		C23A1350247D57130025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD4A281E451E90009B4468;
-			remoteInfo = "AppCenterDistribute iOS Fat Framework";
-		};
-		C23A1352247D57130025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
-			remoteInfo = "AppCenterPush iOS Fat Framework";
-		};
-		C23A1385247D58500025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
-		};
-		C23A1387247D58500025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
-			remoteInfo = "AppCenterCrashes iOS Fat Framework";
-		};
-		C23A1389247D58800025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
-		};
-		C23A138B247D58800025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
-			remoteInfo = "AppCenterAnalytics iOS Fat Framework";
-		};
-		C23A138D247D58800025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
-			remoteInfo = "AppCenterCrashes iOS Fat Framework";
-		};
-		C23A138F247D58800025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD4A281E451E90009B4468;
-			remoteInfo = "AppCenterDistribute iOS Fat Framework";
-		};
-		C23A1391247D58800025DA31 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
-			remoteInfo = "AppCenterPush iOS Fat Framework";
-		};
 		C2614409230FE86400D65EBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
@@ -691,6 +650,13 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
+		C2F156CF2338C2DA00798480 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
 		C2F156D32338C2FC00798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
@@ -768,6 +734,13 @@
 			remoteGlobalIDString = D31EF9531E9517C500450162;
 			remoteInfo = SasquatchWatchSwift;
 		};
+		DF4D2DB424768E40004A12DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
+			remoteInfo = CrashLibIOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -805,6 +778,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		849A260D247BE4D50081FF4C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				849A260C247BE4D50081FF4C /* CrashLibIOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		84D0682E24487F5E000B708B /* Embed Frameworks */ = {
@@ -1119,6 +1103,12 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF4D2DF024768E40004A12DC /* SasquatchSwift-Preview XCFrameworks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-Preview XCFrameworks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Catalyst.xcconfig"; sourceTree = "<group>"; };
+		DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterDistribute.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterDistribute.xcframework"; sourceTree = "<group>"; };
+		DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterAnalytics.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterAnalytics.xcframework"; sourceTree = "<group>"; };
+		DFC734A8247C1CA500DC782B /* AppCenter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenter.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenter.xcframework"; sourceTree = "<group>"; };
+		DFC734A9247C1CA500DC782B /* AppCenterCrashes.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterCrashes.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterCrashes.xcframework"; sourceTree = "<group>"; };
 		E8BABE9E224416FC0001B7E0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F809D5031FC6DA2B005E0F83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSAAnalyticsAuthenticationProvider.swift; sourceTree = "<group>"; };
@@ -1275,6 +1265,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DF4D2DD524768E40004A12DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				849A260B247BE4D50081FF4C /* CrashLibIOS.framework in Frameworks */,
+				DFC734AA247C1CA500DC782B /* AppCenterDistribute.xcframework in Frameworks */,
+				DFC734AE247C1CA500DC782B /* AppCenter.xcframework in Frameworks */,
+				DFC734AC247C1CA500DC782B /* AppCenterAnalytics.xcframework in Frameworks */,
+				DFC734B0247C1CA500DC782B /* AppCenterCrashes.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1324,21 +1326,21 @@
 		84226C091E88FEFC00798417 = {
 			isa = PBXGroup;
 			children = (
+				C2F156A12338C22C00798480 /* CrashLib */,
 				B20AE3F12102816B00A1A195 /* AppCenter */,
 				F849241D2111C48A00E14DBE /* Config */,
-				C2F156A12338C22C00798480 /* CrashLib */,
 				84226C141E88FEFC00798417 /* Sasquatch */,
 				84226C481E88FF4A00798417 /* SasquatchObjC */,
-				B2C97B5A21064A5300042A03 /* SasquatchPuppet */,
 				84226C811E8908CA00798417 /* SasquatchSwift */,
-				C9E7E4E7231E9A5E007D96DC /* SasquatchSwift-Extension */,
-				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
 				D31EF92A1E9517B600450162 /* SasquatchWatchObjC */,
 				D31EF9391E9517B600450162 /* SasquatchWatchObjC Extension */,
 				D31EF9551E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF9641E9517C600450162 /* SasquatchWatchSwift Extension */,
-				F8FE732D21073042005C6A74 /* Vendor */,
+				B2C97B5A21064A5300042A03 /* SasquatchPuppet */,
+				5CD700E61EA4B74600FC5D12 /* SasquatchUITests */,
+				C9E7E4E7231E9A5E007D96DC /* SasquatchSwift-Extension */,
 				84226C131E88FEFC00798417 /* Products */,
+				F8FE732D21073042005C6A74 /* Vendor */,
 				84226D0F1E8921DE00798417 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -1360,6 +1362,7 @@
 				B2A4CFB6210A6E6900199B4F /* SasquatchSwift-Preview.app */,
 				C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */,
 				C9E7E4E5231E9A5D007D96DC /* SasquatchSwift Extension.appex */,
+				DF4D2DF024768E40004A12DC /* SasquatchSwift-Preview XCFrameworks.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1458,6 +1461,10 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFC734A8247C1CA500DC782B /* AppCenter.xcframework */,
+				DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */,
+				DFC734A9247C1CA500DC782B /* AppCenterCrashes.xcframework */,
+				DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */,
 				C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */,
 				84226D2E1E89301A00798417 /* AppCenter.framework */,
 				84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */,
@@ -1683,6 +1690,7 @@
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
 				C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */,
+				DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
 				F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */,
@@ -1752,11 +1760,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C23A134B247D57130025DA31 /* PBXTargetDependency */,
-				C23A134D247D57130025DA31 /* PBXTargetDependency */,
-				C23A134F247D57130025DA31 /* PBXTargetDependency */,
-				C23A1351247D57130025DA31 /* PBXTargetDependency */,
-				C23A1353247D57130025DA31 /* PBXTargetDependency */,
 				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 				C2F156F82338C34500798480 /* PBXTargetDependency */,
 			);
@@ -1782,11 +1785,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C23A138A247D58800025DA31 /* PBXTargetDependency */,
-				C23A138C247D58800025DA31 /* PBXTargetDependency */,
-				C23A138E247D58800025DA31 /* PBXTargetDependency */,
-				C23A1390247D58800025DA31 /* PBXTargetDependency */,
-				C23A1392247D58800025DA31 /* PBXTargetDependency */,
 				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 				C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */,
 				C2F156E42338C31E00798480 /* PBXTargetDependency */,
@@ -1810,6 +1808,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C2F156D02338C2DA00798480 /* PBXTargetDependency */,
 				C2F156942338C1F000798480 /* PBXTargetDependency */,
 				C2F156962338C1F000798480 /* PBXTargetDependency */,
 				C2F156982338C1F000798480 /* PBXTargetDependency */,
@@ -1910,7 +1909,6 @@
 			buildConfigurationList = C9E7E533231E9A5E007D96DC /* Build configuration list for PBXNativeTarget "SasquatchSwift Extension" */;
 			buildPhases = (
 				C9FA996423200BC4007E276C /* Verify No Build Settings */,
-				C23A1393247D588B0025DA31 /* Remove the wrong framework */,
 				C9E7E4E1231E9A5D007D96DC /* Sources */,
 				C9E7E4E2231E9A5D007D96DC /* Frameworks */,
 				C9E7E4E3231E9A5D007D96DC /* Resources */,
@@ -1919,8 +1917,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C23A1386247D58500025DA31 /* PBXTargetDependency */,
-				C23A1388247D58500025DA31 /* PBXTargetDependency */,
 				C2F156CA2338C2C800798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchSwift Extension";
@@ -2008,6 +2004,25 @@
 			productReference = D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
 		};
+		DF4D2DAC24768E40004A12DC /* SasquatchSwift-Preview XCFrameworks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DF4D2DED24768E40004A12DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview XCFrameworks" */;
+			buildPhases = (
+				DF4D2DB724768E40004A12DC /* Sources */,
+				DF4D2DD524768E40004A12DC /* Frameworks */,
+				DF4D2DDC24768E40004A12DC /* Resources */,
+				849A260D247BE4D50081FF4C /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DF4D2DB324768E40004A12DC /* PBXTargetDependency */,
+			);
+			name = "SasquatchSwift-Preview XCFrameworks";
+			productName = SasquatchSwift;
+			productReference = DF4D2DF024768E40004A12DC /* SasquatchSwift-Preview XCFrameworks.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2057,7 +2072,6 @@
 						};
 					};
 					B20AE37C21027D6200A1A195 = {
-						DevelopmentTeam = UBF8T346G9;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -2186,6 +2200,7 @@
 				B2A4CF85210A6E6900199B4F /* SasquatchSwift-Preview */,
 				C9E7E481231E99E9007D96DC /* SasquatchSwift-Preview Extension */,
 				84226C7F1E8908C900798417 /* SasquatchSwift */,
+				DF4D2DAC24768E40004A12DC /* SasquatchSwift-Preview XCFrameworks */,
 				C9E7E4E4231E9A5D007D96DC /* SasquatchSwift Extension */,
 				D31EF9531E9517C500450162 /* SasquatchWatchSwift */,
 				D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */,
@@ -2557,6 +2572,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DF4D2DDC24768E40004A12DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF4D2DDE24768E40004A12DC /* Sasquatch.strings in Resources */,
+				DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */,
+				DF4D2DDF24768E40004A12DC /* Assets.xcassets in Resources */,
+				DF4D2DE024768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
+				DF4D2DE124768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
+				DF4D2DE224768E40004A12DC /* LaunchScreen.storyboard in Resources */,
+				DF4D2DE324768E40004A12DC /* Main.storyboard in Resources */,
+				DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */,
+				DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -2588,25 +2619,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
-			showEnvVarsInLog = 0;
-		};
-		C23A1393247D588B0025DA31 /* Remove the wrong framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove the wrong framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
 			showEnvVarsInLog = 0;
 		};
 		C9FA992323200B9E007E276C /* Verify No Build Settings */ = {
@@ -2697,7 +2709,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			shellScript = "#\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 		F84923E72111C28C00E14DBE /* Verify No Build Settings */ = {
@@ -2742,7 +2754,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
 		F84923EB2111C2C800E14DBE /* Verify No Build Settings */ = {
@@ -3020,6 +3032,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DF4D2DB724768E40004A12DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DF4D2DB824768E40004A12DC /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
+				DF4D2DB924768E40004A12DC /* AppCenterProtocol.swift in Sources */,
+				DF4D2DBA24768E40004A12DC /* MSCrashesViewController.swift in Sources */,
+				DF4D2DBB24768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
+				DF4D2DBC24768E40004A12DC /* EventPropertiesTableSection.swift in Sources */,
+				DF4D2DBD24768E40004A12DC /* MSTableViewCellExtension.swift in Sources */,
+				DF4D2DBE24768E40004A12DC /* MSAnalyticsViewController.swift in Sources */,
+				DF4D2DBF24768E40004A12DC /* MSSignInViewController.swift in Sources */,
+				DF4D2DC024768E40004A12DC /* MSTransmissionTargetsViewController.swift in Sources */,
+				DF4D2DC124768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
+				DF4D2DC224768E40004A12DC /* AppCenterDelegate.swift in Sources */,
+				DF4D2DC324768E40004A12DC /* MSCustomPropertyTableViewCell.swift in Sources */,
+				DF4D2DC424768E40004A12DC /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
+				DF4D2DC524768E40004A12DC /* CommonSchemaPropertiesTableSection.swift in Sources */,
+				DF4D2DC624768E40004A12DC /* MSCustomPropertiesViewController.swift in Sources */,
+				DF4D2DC724768E40004A12DC /* MSTransmissionTargets.swift in Sources */,
+				DF4D2DC824768E40004A12DC /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
+				DF4D2DC924768E40004A12DC /* MSAnalyticsResultViewController.swift in Sources */,
+				DF4D2DCA24768E40004A12DC /* MSMainViewController.swift in Sources */,
+				DF4D2DCB24768E40004A12DC /* PropertiesTableSection.swift in Sources */,
+				DF4D2DCD24768E40004A12DC /* TargetPropertiesTableSection.swift in Sources */,
+				DF4D2DCE24768E40004A12DC /* MSAuthenticationViewController.swift in Sources */,
+				DF4D2DCF24768E40004A12DC /* MSAnalyticsResult.swift in Sources */,
+				DF4D2DD124768E40004A12DC /* MSDatePicker.swift in Sources */,
+				DF4D2DD224768E40004A12DC /* MSEnumPicker.swift in Sources */,
+				DF4D2DD424768E40004A12DC /* SimplePropertiesTableSection.swift in Sources */,
+				849A2764247D068E0081FF4C /* AppDelegate.swift in Sources */,
+				849A2765247D06910081FF4C /* AppCenterDelegateSwift.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3056,72 +3103,13 @@
 		B2A888A42102A407001ACFDF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AppCenterDistributeResources;
+			platformFilter = ios;
 			targetProxy = B2A888A32102A407001ACFDF /* PBXContainerItemProxy */;
 		};
 		B2A888BB2102B1E7001ACFDF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
 			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
-		};
-		C23A134B247D57130025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter iOS Fat Framework";
-			targetProxy = C23A134A247D57130025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A134D247D57130025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics iOS Fat Framework";
-			targetProxy = C23A134C247D57130025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A134F247D57130025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes iOS Fat Framework";
-			targetProxy = C23A134E247D57130025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A1351247D57130025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterDistribute iOS Fat Framework";
-			targetProxy = C23A1350247D57130025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A1353247D57130025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterPush iOS Fat Framework";
-			targetProxy = C23A1352247D57130025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A1386247D58500025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter iOS Fat Framework";
-			targetProxy = C23A1385247D58500025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A1388247D58500025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes iOS Fat Framework";
-			targetProxy = C23A1387247D58500025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A138A247D58800025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter iOS Fat Framework";
-			targetProxy = C23A1389247D58800025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A138C247D58800025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics iOS Fat Framework";
-			targetProxy = C23A138B247D58800025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A138E247D58800025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes iOS Fat Framework";
-			targetProxy = C23A138D247D58800025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A1390247D58800025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterDistribute iOS Fat Framework";
-			targetProxy = C23A138F247D58800025DA31 /* PBXContainerItemProxy */;
-		};
-		C23A1392247D58800025DA31 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterPush iOS Fat Framework";
-			targetProxy = C23A1391247D58800025DA31 /* PBXContainerItemProxy */;
 		};
 		C2F156942338C1F000798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3141,11 +3129,13 @@
 		C2F1569C2338C1F000798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenterDistribute iOS Framework";
+			platformFilter = ios;
 			targetProxy = C2F1569B2338C1F000798480 /* PBXContainerItemProxy */;
 		};
 		C2F156A02338C1F000798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenterPush iOS Framework";
+			platformFilter = ios;
 			targetProxy = C2F1569F2338C1F000798480 /* PBXContainerItemProxy */;
 		};
 		C2F156C62338C2B900798480 /* PBXTargetDependency */ = {
@@ -3157,6 +3147,11 @@
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
 			targetProxy = C2F156C92338C2C800798480 /* PBXContainerItemProxy */;
+		};
+		C2F156D02338C2DA00798480 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = C2F156CF2338C2DA00798480 /* PBXContainerItemProxy */;
 		};
 		C2F156D42338C2FC00798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3212,6 +3207,11 @@
 			isa = PBXTargetDependency;
 			target = D31EF9531E9517C500450162 /* SasquatchWatchSwift */;
 			targetProxy = D31EF9701E9517C600450162 /* PBXContainerItemProxy */;
+		};
+		DF4D2DB324768E40004A12DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrashLibIOS;
+			targetProxy = DF4D2DB424768E40004A12DC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3324,6 +3324,26 @@
 			};
 			name = Release;
 		};
+		840F3DD82476A14100927CB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
+			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
+			};
+			name = Debug;
+		};
+		840F3DD92476A14100927CB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
+			buildSettings = {
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				INFOPLIST_FILE = SasquatchSwift/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
+			};
+			name = Release;
+		};
 		84226C381E88FEFC00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */;
@@ -3403,6 +3423,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.puppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
@@ -3417,6 +3438,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.puppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
@@ -3794,6 +3816,15 @@
 			buildConfigurations = (
 				D31EF9781E9517C600450162 /* Debug */,
 				D31EF9791E9517C600450162 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DF4D2DED24768E40004A12DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview XCFrameworks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				840F3DD82476A14100927CB9 /* Debug */,
+				840F3DD92476A14100927CB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

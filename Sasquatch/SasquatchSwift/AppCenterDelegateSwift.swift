@@ -4,6 +4,7 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
+#if TARGET_OS_IOS
 import AppCenterDistribute
 import AppCenterPush
 
@@ -17,6 +18,7 @@ import AppCenterPush
   func showDistributeDisabledAlert()
   func delegate() -> MSDistributeDelegate
 }
+#endif
 
 /**
  * AppCenterDelegate implementation in Swift.
@@ -77,28 +79,12 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     return MSCrashes.isEnabled()
   }
 
-  func isDistributeEnabled() -> Bool {
-    return MSDistribute.isEnabled()
-  }
-
-  func isPushEnabled() -> Bool {
-    return MSPush.isEnabled()
-  }
-
   func setAnalyticsEnabled(_ isEnabled: Bool) {
     MSAnalytics.setEnabled(isEnabled)
   }
 
   func setCrashesEnabled(_ isEnabled: Bool) {
     MSCrashes.setEnabled(isEnabled)
-  }
-
-  func setDistributeEnabled(_ isEnabled: Bool) {
-    MSDistribute.setEnabled(isEnabled)
-  }
-
-  func setPushEnabled(_ isEnabled: Bool) {
-    MSPush.setEnabled(isEnabled)
   }
 
   // MSAnalytics section.
@@ -153,6 +139,23 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSCrashes.generateTestCrash()
   }
 
+#if TARGET_OS_IOS
+func isDistributeEnabled() -> Bool {
+    return MSDistribute.isEnabled()
+  }
+
+  func isPushEnabled() -> Bool {
+    return MSPush.isEnabled()
+  }
+  
+  func setDistributeEnabled(_ isEnabled: Bool) {
+    MSDistribute.setEnabled(isEnabled)
+  }
+
+  func setPushEnabled(_ isEnabled: Bool) {
+    MSPush.setEnabled(isEnabled)
+  }
+  
   func checkForUpdate() {
     MSDistribute.checkForUpdate()
   }
@@ -195,6 +198,27 @@ class AppCenterDelegateSwift: AppCenterDelegate {
       _ = distriuteDelegate.distribute?(distributeInstance as? MSDistribute, releaseAvailableWith: releaseDetails)
     }
   }
+#else 
+  // MSDistribute section.
+  func showConfirmationAlert() {}
+  func checkForUpdate() {}
+  func showDistributeDisabledAlert() {}
+  func showCustomConfirmationAlert() {}
+
+  func isDistributeEnabled() -> Bool {
+    return false
+  }
+
+  func isPushEnabled() -> Bool {
+    return false
+  }
+
+  func setDistributeEnabled(_ isEnabled: Bool) {
+  }
+
+  func setPushEnabled(_ isEnabled: Bool){
+  }
+#endif 
 
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String? {
