@@ -3579,7 +3579,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.puppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Debug;
 		};
@@ -3594,7 +3593,6 @@
 				INFOPLIST_FILE = "$(SRCROOT)/SasquatchPuppet/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.puppet;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTS_MACCATALYST = YES;
 			};
 			name = Release;
 		};
