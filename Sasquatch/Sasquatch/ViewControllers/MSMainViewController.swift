@@ -153,7 +153,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 #if TARGET_OS_IOS
     appCenter.setPushEnabled(sender.isOn)
 #else
-    showToast(message: "AppCenter Push is not supported by Mac Catalyst")
+    showAlert(message: "AppCenter Push is not supported by Mac Catalyst")
 #endif
     updateViewState()
   }
@@ -303,19 +303,12 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     }
   }
   
-  func showToast(message : String) {
-    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 250, y: self.view.frame.size.height + 100, width: 500, height: 35))
-    toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-    toastLabel.textColor = UIColor.white
-    toastLabel.textAlignment = .center;
-    toastLabel.text = message
-    toastLabel.layer.cornerRadius = 10;
-    toastLabel.clipsToBounds  =  true
-    self.view.addSubview(toastLabel)
-    UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
-         toastLabel.alpha = 0.0
-    }, completion: {(isCompleted) in
-        toastLabel.removeFromSuperview()
-    })
+  func showAlert(message : String) {
+    let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    self.present(alert, animated: true)
+    let duration: Double = 2
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+        alert.dismiss(animated: true)
+    }
   }
 }
