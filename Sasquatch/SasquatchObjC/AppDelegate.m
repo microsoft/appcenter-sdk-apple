@@ -254,8 +254,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 - (void)setAppCenterDelegate {
   AppCenterDelegateObjC *appCenterDel = [[AppCenterDelegateObjC alloc] init];
   for (UIViewController *controller in [(UITabBarController *)self.window.rootViewController viewControllers]) {
-    id<AppCenterProtocol> sasquatchController = (id<AppCenterProtocol>)controller;
-    sasquatchController.appCenter = appCenterDel;
+    if ([controller conformsToProtocol:@protocol(AppCenterProtocol)]) {
+      id<AppCenterProtocol> sasquatchController = (id<AppCenterProtocol>)controller;
+      sasquatchController.appCenter = appCenterDel;
+    }
   }
 }
 
