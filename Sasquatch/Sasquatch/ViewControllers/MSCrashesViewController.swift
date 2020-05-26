@@ -108,12 +108,16 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Read async to display size instead of url.
         if referenceUrl != nil {
+#if TARGET_OS_IOS
           let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
           if asset != nil {
             PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
               cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
             })
           }
+#else
+          // TODO
+#endif
         }
       } else if (indexPath.row == 3) {
         cell.textLabel?.text = "Clear crash user confirmation"
@@ -162,6 +166,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Binary attachment.
       } else if indexPath.row == 2 {
+#if TARGET_OS_IOS
         PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in ()
           if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
             let picker = UIImagePickerController()
@@ -169,6 +174,9 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
             self.present(picker, animated: true)
           }
         })
+#else
+        // TODO
+#endif
       } else if indexPath.row == 3 {
         let alertController = UIAlertController(title: "Clear crash user confirmation?",
                                                 message: nil,

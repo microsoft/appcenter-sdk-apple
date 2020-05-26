@@ -11,23 +11,23 @@ TARGET_NAME="${PROJECT_NAME} iOS Framework"
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/iOS"
 
 # Build result paths.
-OUTPUT_DEVICE_DIR="${BUILD_DIR}/${CONFIGURATION}-iphoneos"
-OUTPUT_SIMULATOR_DIR="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator"
+SCRIPT_BUILD_DIR="${SRCROOT}/build"
+OUTPUT_DEVICE_DIR="${SCRIPT_BUILD_DIR}/${CONFIGURATION}-iphoneos"
+OUTPUT_SIMULATOR_DIR="${SCRIPT_BUILD_DIR}/${CONFIGURATION}-iphonesimulator"
 
 # Building both architectures.
 build() {
-    # Print only target name and issues. Mimic Xcode output to make prettify tools happy.
-    echo "=== BUILD TARGET $1 OF PROJECT ${PROJECT_NAME} WITH CONFIGURATION ${CONFIGURATION} ==="
-    # OBJROOT must be customized to avoid conflicts with the current process.
-    xcodebuild -quiet \
-        SYMROOT="${SYMROOT}" OBJROOT="${OBJECT_FILE_DIR}" PROJECT_TEMP_DIR="${PROJECT_TEMP_DIR}" ONLY_ACTIVE_ARCH=NO \
-        -project "${SRCROOT}/${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "$1" -sdk "$2"
+  # Print only target name and issues. Mimic Xcode output to make prettify tools happy.
+  echo "=== BUILD TARGET $1 OF PROJECT ${PROJECT_NAME} WITH CONFIGURATION ${CONFIGURATION} ==="
+  # OBJROOT must be customized to avoid conflicts with the current process.
+  xcodebuild OBJROOT="${CONFIGURATION_TEMP_DIR}" PROJECT_TEMP_DIR="${PROJECT_TEMP_DIR}" ONLY_ACTIVE_ARCH=NO \
+    -project "${SRCROOT}/${PROJECT_NAME}.xcodeproj" -configuration "${CONFIGURATION}" -target "$1" -sdk "$2"
 }
 build "${TARGET_NAME}" iphoneos
 build "${TARGET_NAME}" iphonesimulator
 
 # Cleaning the previous builds.
-if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
+if [ -e "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
   rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
 fi
 
@@ -35,11 +35,11 @@ fi
 mkdir -p "${PRODUCTS_DIR}"
 
 # Copy framework.
-cp -R "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
+cp -RH "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
 # Copy the resource bundle for App Center Distribute.
 BUNDLE_PATH="${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}Resources.bundle"
-if [ -d "${BUNDLE_PATH}" ]; then
+if [ -e "${BUNDLE_PATH}" ]; then
   echo "Copying resource bundle."
   cp -R "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
 fi
