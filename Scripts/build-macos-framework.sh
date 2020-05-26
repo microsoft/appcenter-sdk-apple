@@ -8,7 +8,7 @@ set -e
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/macOS"
 
 # Cleaning the previous builds.
-if [ -d "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
+if [ -e "${PRODUCTS_DIR}/${PROJECT_NAME}.framework" ]; then
   rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
 fi
 
@@ -16,4 +16,4 @@ fi
 mkdir -p "${PRODUCTS_DIR}"
 
 # Copy framework.
-cp -R "${BUILD_DIR}/${CONFIGURATION}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
+cp -RH "${BUILD_DIR}/${CONFIGURATION}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
