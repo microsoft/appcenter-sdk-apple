@@ -97,15 +97,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
       self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
         return open(fileSystemPath!, O_EVTONLY)
       }
-#if !targetEnvironment(macCatalyst)
       self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
       self.dbFileSource!.setEventHandler {
         self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
       }
       self.dbFileSource!.resume()
-#else
-      // TODO
-#endif
       self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
     }
 

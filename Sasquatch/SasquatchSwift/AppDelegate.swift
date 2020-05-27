@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
 #else
     let services = [MSAnalytics.self, MSCrashes.self]
 #endif
-    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
+    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftCombinedAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     let latencyTimeValue = UserDefaults.standard.integer(forKey: kMSTransmissionIterval);
     MSAnalytics.setTransmissionInterval(UInt(latencyTimeValue));
@@ -269,7 +269,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
         })
       }
 #else
-      // TODO
+      do {
+        let data = try Data(contentsOf: referenceUrl!)
+        let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, referenceUrl!.pathExtension as NSString, nil)?.takeRetainedValue()
+        let mime = UTTypeCopyPreferredTagWithClass(uti!, kUTTagClassMIMEType)?.takeRetainedValue() as NSString?
+        let binaryAttachment = MSErrorAttachmentLog.attachment(withBinary: data, filename: referenceUrl?.lastPathComponent, contentType: mime! as String)!
+        attachments.append(binaryAttachment)
+        print("Add binary attachment with \(data.count) bytes")
+      } catch {
+        print(error)
+      }
 #endif
     }
     return attachments

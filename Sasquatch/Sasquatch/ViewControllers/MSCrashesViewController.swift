@@ -4,7 +4,7 @@
 import Photos
 import UIKit
 
-class MSCrashesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AppCenterProtocol {
+class MSCrashesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIDocumentPickerDelegate, AppCenterProtocol {
   
   var categories = [String: [MSCrash]]()
   var appCenter: AppCenterDelegate!
@@ -109,14 +109,14 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         // Read async to display size instead of url.
         if referenceUrl != nil {
 #if TARGET_OS_IOS
-          let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
-          if asset != nil {
-            PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
-              cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
-            })
-          }
+        let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
+        if asset != nil {
+          PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
+          cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
+          })
+        }
 #else
-          // TODO
+        cell.detailTextLabel?.text = self.fileAttachmentDescription(url: referenceUrl)
 #endif
         }
       } else if (indexPath.row == 3) {
@@ -131,6 +131,22 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       cell.textLabel?.text = crash.title;
     }
     return cell;
+  }
+  
+  private func fileAttachmentDescription(url: URL?) -> String {
+    if url != nil {
+      var desc = "File: \(url!.lastPathComponent)"
+      do {
+        let attr = try FileManager.default.attributesOfItem(atPath: url!.path)
+        let fileSize = ByteCountFormatter.string(fromByteCount: Int64(attr[FileAttributeKey.size] as! UInt64), countStyle: .binary)
+        desc += " Size: \(fileSize)"
+      } catch {
+        print(error)
+      }
+      return desc
+    } else {
+      return "Empty"
+    }
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> Void {
@@ -175,7 +191,9 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
           }
         })
 #else
-        // TODO
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.image"], in: .import)
+        documentPicker.delegate = self
+        self.present(documentPicker, animated: true, completion: nil)
 #endif
       } else if indexPath.row == 3 {
         let alertController = UIAlertController(title: "Clear crash user confirmation?",
@@ -211,6 +229,12 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       
       present(alert, animated: true)
     }
+  }
+  
+  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+    UserDefaults.standard.set(url, forKey: "fileAttachment")
+    tableView.reloadData()
+    controller.dismiss(animated: true, completion: nil)
   }
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

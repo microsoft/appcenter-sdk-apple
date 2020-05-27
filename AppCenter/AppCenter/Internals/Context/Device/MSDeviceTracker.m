@@ -382,7 +382,7 @@ static MSDeviceTracker *sharedInstance = nil;
 #elif TARGET_OS_MACCATALYST
 
   // macOS API is not directly avaliable on Mac Catalyst.
-  id screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
+  NSObject *screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
   if (screen == nil) {
     CGSize screenSize = [UIScreen mainScreen].nativeBounds.size;
     return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
