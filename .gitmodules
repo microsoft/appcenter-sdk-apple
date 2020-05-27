@@ -10,4 +10,3 @@
 [submodule "Vendor/PLCrashReporter"]
 	path = Vendor/PLCrashReporter
 	url = https://github.com/microsoft/plcrashreporter
-	branch = v-ruurme/enable-bitcode-for-targets 
