@@ -231,9 +231,13 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     }
   }
   
-  func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-    UserDefaults.standard.set(url, forKey: "fileAttachment")
-    tableView.reloadData()
+  func documentPicker(_ controller: UIDocumentPickerViewController,
+                      didPickDocumentsAt urls: [URL]) {
+    if (urls.count > 0) {
+      let firstUrl = urls[0]
+      UserDefaults.standard.set(firstUrl, forKey: "fileAttachment")
+      tableView.reloadData()
+    }
     controller.dismiss(animated: true, completion: nil)
   }
   
