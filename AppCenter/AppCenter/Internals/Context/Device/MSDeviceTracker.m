@@ -412,7 +412,6 @@ static MSDeviceTracker *sharedInstance = nil;
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
  }
            
-
 - (Boolean) isValidCarrierName:(NSString *) carrier {
   return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame;
 }

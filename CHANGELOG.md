@@ -9,6 +9,7 @@ Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Als
 * **[Feature]** Add support for Mac Catalyst.
 * **[Fix]** Fix `Undefined symbol: ___llvm_profile_runtime` when the SDK was built from source by Carthage.
 * **[Fix]** Fix screen resolution detection on macOS.
+* **[Fix]** When carrier name retrieved incorrectly by iOS, show `nil` as expected instead "carrier" string.
 
 ### App Center Analytics
 
