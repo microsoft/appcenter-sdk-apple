@@ -75,8 +75,3 @@ fi
 if [ "$BUILD_SOURCEBRANCHNAME" != "master" ]; then
   sed -i '' 's/\(VERSION_STRING[[:space:]]*=[[:space:]]*\).*/\1'$publish_version'/g' $VERSION_FILENAME
 fi
-
-# Update swift package manager config file
-swift_package_file='Package.swift'
-sed -i '' 's/\(define("APP_CENTER_C_VERSION",[[:space:]]*to:*\).*/\1''"\\"'$publish_version'\\""),''/g' $swift_package_file
-sed -i '' 's/\(define("APP_CENTER_C_BUILD",[[:space:]]*to:*\).*/\1''"\\"'$latest_build_number'\\""),''/g' $swift_package_file
