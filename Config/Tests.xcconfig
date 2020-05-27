@@ -8,7 +8,7 @@ INFOPLIST_FILE = $(PROJECT_NAME)Tests/Info.plist
 // OCMock assumes the use of 'unqualified id'
 WARNING_CFLAGS = -Wno-objc-messaging-id
 
-OTHER_CFLAGS = $(inherited) -iframework "$(SRCROOT)/../Vendor/$(APPCENTER_BUILD_PLATFORM)/OHHTTPStubs" -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+OTHER_CFLAGS = $(inherited) -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks"
 
 OTHER_LDFLAGS = $(inherited) -ObjC -lz
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework Foundation

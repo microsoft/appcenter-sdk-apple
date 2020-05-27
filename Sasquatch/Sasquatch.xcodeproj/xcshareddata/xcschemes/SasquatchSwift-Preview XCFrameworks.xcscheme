@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1150"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B20AE37C21027D6200A1A195"
-               BuildableName = "SasquatchPuppet.app"
-               BlueprintName = "SasquatchPuppet"
+               BlueprintIdentifier = "DF4D2DAC24768E40004A12DC"
+               BuildableName = "SasquatchSwift-Preview XCFrameworks.app"
+               BlueprintName = "SasquatchSwift-Preview XCFrameworks"
                ReferencedContainer = "container:Sasquatch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,28 +28,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B2A888B42102B1E7001ACFDF"
-               BuildableName = "SasquatchPuppetUITests.xctest"
-               BlueprintName = "SasquatchPuppetUITests"
-               ReferencedContainer = "container:Sasquatch.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B20AE37C21027D6200A1A195"
-            BuildableName = "SasquatchPuppet.app"
-            BlueprintName = "SasquatchPuppet"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -65,17 +44,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B20AE37C21027D6200A1A195"
-            BuildableName = "SasquatchPuppet.app"
-            BlueprintName = "SasquatchPuppet"
+            BlueprintIdentifier = "DF4D2DAC24768E40004A12DC"
+            BuildableName = "SasquatchSwift-Preview XCFrameworks.app"
+            BlueprintName = "SasquatchSwift-Preview XCFrameworks"
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -84,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B20AE37C21027D6200A1A195"
-            BuildableName = "SasquatchPuppet.app"
-            BlueprintName = "SasquatchPuppet"
+            BlueprintIdentifier = "DF4D2DAC24768E40004A12DC"
+            BuildableName = "SasquatchSwift-Preview XCFrameworks.app"
+            BlueprintName = "SasquatchSwift-Preview XCFrameworks"
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -115,6 +115,56 @@ static NSString *const kMSNullifiedInstallIdString = @"00000000-0000-0000-0000-0
   OCMVerify([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:MSStartServiceLog.class] flags:MSFlagsDefault]);
 }
 
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
+- (void)testStartWithAppSecretAndTransmissionTokenForIos {
+
+  // If
+  NSString *appSecret = MS_UUID_STRING;
+  NSString *transmissionTargetKey = @"target=";
+  NSString *appSecretKey = @"ios=";
+  NSString *transmissionTargetString = @"transmissionTargetToken";
+  NSString *secret = [NSString stringWithFormat:@"%@%@;%@%@", appSecretKey, appSecret, transmissionTargetKey, transmissionTargetString];
+
+  // When
+  [MSAppCenter start:secret withServices:@[ MSMockService.class ]];
+  [MSAppCenter startService:MSMockSecondService.class];
+
+  // Then
+  XCTAssertTrue([[[MSAppCenter sharedInstance] appSecret] isEqualToString:appSecret]);
+  XCTAssertTrue([[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertTrue([[[MSMockService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+  XCTAssertTrue([[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  OCMVerify([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:MSStartServiceLog.class] flags:MSFlagsDefault]);
+}
+#endif
+
+#if TARGET_OS_MACCATALYST
+- (void)testStartWithAppSecretAndTransmissionTokenForMacCatalyst {
+
+  // If
+  NSString *appSecret = MS_UUID_STRING;
+  NSString *transmissionTargetKey = @"target=";
+  NSString *appSecretKey = @"macos=";
+  NSString *transmissionTargetString = @"transmissionTargetToken";
+  NSString *secret = [NSString stringWithFormat:@"%@%@;%@%@", appSecretKey, appSecret, transmissionTargetKey, transmissionTargetString];
+
+  // When
+  [MSAppCenter start:secret withServices:@[ MSMockService.class ]];
+  [MSAppCenter startService:MSMockSecondService.class];
+
+  // Then
+  XCTAssertTrue([[[MSAppCenter sharedInstance] appSecret] isEqualToString:appSecret]);
+  XCTAssertTrue([[[MSAppCenter sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([MSMockService sharedInstance].started);
+  XCTAssertTrue([[[MSMockService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  XCTAssertTrue([MSMockSecondService sharedInstance].started);
+  XCTAssertTrue([[[MSMockSecondService sharedInstance] defaultTransmissionTargetToken] isEqualToString:transmissionTargetString]);
+  OCMVerify([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:MSStartServiceLog.class] flags:MSFlagsDefault]);
+}
+#endif
+
 - (void)testStartWithAppSecretAndTransmissionToken {
 
   // If

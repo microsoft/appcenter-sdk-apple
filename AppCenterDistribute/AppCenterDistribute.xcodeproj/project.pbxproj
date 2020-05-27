@@ -38,6 +38,7 @@
 				845017DF245ADB360026E0DB /* Build XCFramework */,
 			);
 			dependencies = (
+				D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute XCFramework";
 			productName = "Fat Framework";
@@ -206,6 +207,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = F0B950F01B0080BE00942C38;
 			remoteInfo = "OCMock iOS";
+		};
+		D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A281E451E90009B4468;
+			remoteInfo = "AppCenterDistribute iOS Fat Framework";
 		};
 		DFCB80772472D71C0058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1022,7 +1030,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDistribute\"\n./build-appcenterdistribute-ios-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		04FD4A401E4536B0009B4468 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1036,7 +1045,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" iOS\n";
 			showEnvVarsInLog = 0;
 		};
 		845017DF245ADB360026E0DB /* Build XCFramework */ = {
@@ -1051,7 +1060,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1161,6 +1171,11 @@
 			isa = PBXTargetDependency;
 			name = "OCMock iOS";
 			targetProxy = C2392F7124642DC100425640 /* PBXContainerItemProxy */;
+		};
+		D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
+			targetProxy = D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */;
 		};
 		DFCB808C2472D7280058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

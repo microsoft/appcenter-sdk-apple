@@ -14,6 +14,7 @@
 				0485AFFA1EAAB27E00C10CAF /* Build Universal Framework */,
 			);
 			dependencies = (
+				D5E3B3D4247BF5CD00D93E90 /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes macOS Fat Framework";
 			productName = "Fat Framework";
@@ -80,9 +81,13 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 8414DF862459D41B00B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterCrashes XCFramework" */;
 			buildPhases = (
+				D5E3B3EB247C052500D93E90 /* Build Mac Catalyst */,
 				8414DF852459D41B00B316C5 /* Build XCFramework */,
 			);
 			dependencies = (
+				D5E3B3D8247BF5F200D93E90 /* PBXTargetDependency */,
+				D5E3B3D6247BF5E800D93E90 /* PBXTargetDependency */,
+				D559CA142477ED0500CF60D5 /* PBXTargetDependency */,
 			);
 			name = "AppCenterCrashes XCFramework";
 			productName = "Fat Framework";
@@ -225,9 +230,9 @@
 		C2392F6A24642D8900425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5A24642CEA00425640 /* OCMock.framework */; };
 		C2392F6D24642D9B00425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5224642CEA00425640 /* OCMock.framework */; };
 		C2392F7024642DAD00425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F5C24642CEA00425640 /* OCMock.framework */; };
-		C24C9D1D2472B49E0072C35D /* libCrashReporter-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CF32472B3C30072C35D /* libCrashReporter-iphoneos.a */; };
-		C24C9D1E2472B4AA0072C35D /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CEF2472B3C30072C35D /* libCrashReporter-MacOSX-Static.a */; };
-		C24C9D1F2472B4B20072C35D /* libCrashReporter-appletvos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CF92472B3C30072C35D /* libCrashReporter-appletvos.a */; };
+		C24C9D1D2472B49E0072C35D /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CF32472B3C30072C35D /* libCrashReporter.a */; };
+		C24C9D1E2472B4AA0072C35D /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CEF2472B3C30072C35D /* libCrashReporter.a */; };
+		C24C9D1F2472B4B20072C35D /* libCrashReporter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C24C9CF92472B3C30072C35D /* libCrashReporter.a */; };
 		C291A048237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
 		C291A049237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
 		C291A04A237955AA0051A846 /* MSApplicationForwarderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C291A047237955AA0051A846 /* MSApplicationForwarderTests.m */; };
@@ -664,6 +669,34 @@
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
 		};
+		D559CA132477ED0500CF60D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
+			remoteInfo = "AppCenterCrashes iOS Fat Framework";
+		};
+		D5E3B3D3247BF5CD00D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
+			remoteInfo = "AppCenterCrashes macOS Framework";
+		};
+		D5E3B3D5247BF5E800D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
+			remoteInfo = "AppCenterCrashes macOS Fat Framework";
+		};
+		D5E3B3D7247BF5F200D93E90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04EBBEE91F01C0E10006B8AE;
+			remoteInfo = "AppCenterCrashes tvOS Fat Framework";
+		};
 		DFCB80522472D6770058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */;
@@ -936,7 +969,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */,
-				C24C9D1D2472B49E0072C35D /* libCrashReporter-iphoneos.a in Frameworks */,
+				C24C9D1D2472B49E0072C35D /* libCrashReporter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -945,7 +978,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
-				C24C9D1F2472B4B20072C35D /* libCrashReporter-appletvos.a in Frameworks */,
+				C24C9D1F2472B4B20072C35D /* libCrashReporter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -954,14 +987,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */,
-				C24C9D1E2472B4AA0072C35D /* libCrashReporter-MacOSX-Static.a in Frameworks */,
+				C24C9D1E2472B4AA0072C35D /* libCrashReporter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-	
 		04A140B31ECE8249001CEE94 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1257,15 +1289,15 @@
 				C24C9CED2472B3C30072C35D /* CrashReporter.framework */,
 				C24C9CF12472B3C30072C35D /* CrashReporter.framework */,
 				C24C9CF72472B3C30072C35D /* CrashReporter.framework */,
-				C24C9CEF2472B3C30072C35D /* libCrashReporter-MacOSX-Static.a */,
-				C24C9CF32472B3C30072C35D /* libCrashReporter-iphoneos.a */,
-				C24C9CF92472B3C30072C35D /* libCrashReporter-appletvos.a */,
-				C24C9CFF2472B3C30072C35D /* Tests-MacOSX.xctest */,
-				C24C9D032472B3C30072C35D /* Tests-iOS-Device.xctest */,
-				C24C9D072472B3C30072C35D /* Tests-tvOS-Device.xctest */,
-				C24C9D092472B3C30072C35D /* DemoCrash.app */,
-				C24C9D0B2472B3C30072C35D /* DemoCrash-iOS-Device.app */,
-				C24C9D0F2472B3C30072C35D /* DemoCrash-tvOS-Device.app */,
+				C24C9CEF2472B3C30072C35D /* libCrashReporter.a */,
+				C24C9CF32472B3C30072C35D /* libCrashReporter.a */,
+				C24C9CF92472B3C30072C35D /* libCrashReporter.a */,
+				C24C9CFF2472B3C30072C35D /* Tests macOS.xctest */,
+				C24C9D032472B3C30072C35D /* Tests iOS.xctest */,
+				C24C9D072472B3C30072C35D /* Tests tvOS.xctest */,
+				C24C9D092472B3C30072C35D /* DemoCrash macOS.app */,
+				C24C9D0B2472B3C30072C35D /* DemoCrash iOS.app */,
+				C24C9D0F2472B3C30072C35D /* DemoCrash tvOS.app */,
 				C24C9CFD2472B3C30072C35D /* plcrashutil */,
 				C24C9D132472B3C30072C35D /* Fuzz Testing */,
 			);
@@ -1623,12 +1655,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DFCB80492472D6770058D292 /* Products */;
-					ProjectRef = DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */;
-				},
-				{
 					ProductGroup = C24C9CD22472B3C30072C35D /* Products */;
 					ProjectRef = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+				},
+				{
+					ProductGroup = DFCB80492472D6770058D292 /* Products */;
+					ProjectRef = DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */;
 				},
 				{
 					ProductGroup = C2392F4824642CEA00425640 /* Products */;
@@ -1704,6 +1736,104 @@
 			remoteRef = C2392F5D24642CEA00425640 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C24C9CED2472B3C30072C35D /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = C24C9CEC2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CEF2472B3C30072C35D /* libCrashReporter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCrashReporter.a;
+			remoteRef = C24C9CEE2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF12472B3C30072C35D /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = C24C9CF02472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF32472B3C30072C35D /* libCrashReporter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCrashReporter.a;
+			remoteRef = C24C9CF22472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF72472B3C30072C35D /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = C24C9CF62472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CF92472B3C30072C35D /* libCrashReporter.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCrashReporter.a;
+			remoteRef = C24C9CF82472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CFD2472B3C30072C35D /* plcrashutil */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = plcrashutil;
+			remoteRef = C24C9CFC2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9CFF2472B3C30072C35D /* Tests macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests macOS.xctest";
+			remoteRef = C24C9CFE2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D032472B3C30072C35D /* Tests iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests iOS.xctest";
+			remoteRef = C24C9D022472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D072472B3C30072C35D /* Tests tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests tvOS.xctest";
+			remoteRef = C24C9D062472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D092472B3C30072C35D /* DemoCrash macOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DemoCrash macOS.app";
+			remoteRef = C24C9D082472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D0B2472B3C30072C35D /* DemoCrash iOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DemoCrash iOS.app";
+			remoteRef = C24C9D0A2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D0F2472B3C30072C35D /* DemoCrash tvOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DemoCrash tvOS.app";
+			remoteRef = C24C9D0E2472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C24C9D132472B3C30072C35D /* Fuzz Testing */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Fuzz Testing";
+			remoteRef = C24C9D122472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		DFCB80532472D6770058D292 /* OCHamcrest.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1751,104 +1881,6 @@
 			fileType = wrapper.framework;
 			path = OCHamcrest.framework;
 			remoteRef = DFCB805E2472D6770058D292 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CED2472B3C30072C35D /* CrashReporter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CrashReporter.framework;
-			remoteRef = C24C9CEC2472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CEF2472B3C30072C35D /* libCrashReporter-MacOSX-Static.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libCrashReporter-MacOSX-Static.a";
-			remoteRef = C24C9CEE2472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CF12472B3C30072C35D /* CrashReporter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CrashReporter.framework;
-			remoteRef = C24C9CF02472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CF32472B3C30072C35D /* libCrashReporter-iphoneos.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libCrashReporter-iphoneos.a";
-			remoteRef = C24C9CF22472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CF72472B3C30072C35D /* CrashReporter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CrashReporter.framework;
-			remoteRef = C24C9CF62472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CF92472B3C30072C35D /* libCrashReporter-appletvos.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libCrashReporter-appletvos.a";
-			remoteRef = C24C9CF82472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CFD2472B3C30072C35D /* plcrashutil */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = plcrashutil;
-			remoteRef = C24C9CFC2472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9CFF2472B3C30072C35D /* Tests-MacOSX.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Tests-MacOSX.xctest";
-			remoteRef = C24C9CFE2472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9D032472B3C30072C35D /* Tests-iOS-Device.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Tests-iOS-Device.xctest";
-			remoteRef = C24C9D022472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9D072472B3C30072C35D /* Tests-tvOS-Device.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Tests-tvOS-Device.xctest";
-			remoteRef = C24C9D062472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9D092472B3C30072C35D /* DemoCrash.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = DemoCrash.app;
-			remoteRef = C24C9D082472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9D0B2472B3C30072C35D /* DemoCrash-iOS-Device.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "DemoCrash-iOS-Device.app";
-			remoteRef = C24C9D0A2472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9D0F2472B3C30072C35D /* DemoCrash-tvOS-Device.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "DemoCrash-tvOS-Device.app";
-			remoteRef = C24C9D0E2472B3C30072C35D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C24C9D132472B3C30072C35D /* Fuzz Testing */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = "Fuzz Testing";
-			remoteRef = C24C9D122472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1986,7 +2018,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterCrashes\"\n./build-appcentercrashes-macos-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-macos-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		04EBBEEA1F01C0E10006B8AE /* Build Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2000,7 +2033,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterCrashes\"\n./build-appcentercrashes-tvos-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-tvos-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		04EBBEF41F01C7100006B8AE /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2014,7 +2048,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh tvOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" tvOS\n";
 			showEnvVarsInLog = 0;
 		};
 		04FD11611EF2FA04000C5A5C /* Build Documentation */ = {
@@ -2029,7 +2063,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh macOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" macOS\n";
 			showEnvVarsInLog = 0;
 		};
 		6E37297B1D1DE85000F1E4AE /* Build Universal Framework */ = {
@@ -2044,7 +2078,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterCrashes\"\n./build-appcentercrashes-ios-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		6E6BFC3A1D23505600DF7617 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2058,7 +2093,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" iOS\n";
 			showEnvVarsInLog = 0;
 		};
 		8414DF852459D41B00B316C5 /* Build XCFramework */ = {
@@ -2073,7 +2108,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		C2B25A21230F03A200511D49 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2130,6 +2166,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		D5E3B3EB247C052500D93E90 /* Build Mac Catalyst */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Mac Catalyst";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/build-maccatalyst-framework.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2357,6 +2412,26 @@
 			isa = PBXTargetDependency;
 			target = C9A91F5D230BFDB70068070D /* AppCenterCrashes macOS Framework */;
 			targetProxy = C2B25A2E230F07AB00511D49 /* PBXContainerItemProxy */;
+		};
+		D559CA142477ED0500CF60D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E3729771D1DE83200F1E4AE /* AppCenterCrashes iOS Fat Framework */;
+			targetProxy = D559CA132477ED0500CF60D5 /* PBXContainerItemProxy */;
+		};
+		D5E3B3D4247BF5CD00D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91F5D230BFDB70068070D /* AppCenterCrashes macOS Framework */;
+			targetProxy = D5E3B3D3247BF5CD00D93E90 /* PBXContainerItemProxy */;
+		};
+		D5E3B3D6247BF5E800D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0485AFF91EAAB27E00C10CAF /* AppCenterCrashes macOS Fat Framework */;
+			targetProxy = D5E3B3D5247BF5E800D93E90 /* PBXContainerItemProxy */;
+		};
+		D5E3B3D8247BF5F200D93E90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04EBBEE91F01C0E10006B8AE /* AppCenterCrashes tvOS Fat Framework */;
+			targetProxy = D5E3B3D7247BF5F200D93E90 /* PBXContainerItemProxy */;
 		};
 		DFCB80652472D6880058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
