@@ -108,7 +108,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Read async to display size instead of url.
         if referenceUrl != nil {
-#if TARGET_OS_IOS
+#if !targetEnvironment(macCatalyst)
         let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
         if asset != nil {
           PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
