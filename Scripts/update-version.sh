@@ -39,11 +39,11 @@ $(dirname "$0")/framework-version.sh $new_version
 
 # Update documentation version
 for file in `find $DOCUMENT_DIR -name '.jazzy.yaml' -type f`; do
-  sed -i '' 's/\(module_version:[[:space:]]\).*/\1'$new_version'/g' $file
+  sed -i '' 's/\(module_version: \).*/\1'$new_version'/g' $file
 done
 
 # Update CocoaPods version
-sed -i '' "s/\(s\.version[[:space:]]*=[[:space:]]\)\'.*\'$/\1'$new_version'/1" $PODSPEC_FILE
+sed -i '' "s/\(\.version[[:space:]]*= \)\'.*\'$/\1'$new_version'/1" $PODSPEC_FILE
 
 # Update SwiftPM version
 sed -i '' 's/\(define("APP_CENTER_C_VERSION",[[:space:]]*to:*\).*/\1''"\\"'$new_version'\\""),''/g' $SWIFTPM_FILE
