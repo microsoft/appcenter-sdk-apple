@@ -43,7 +43,11 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func appSecret() -> String {
-    return kMSSwiftAppSecret // TODO: ios=...;macos=...
+#if !targetEnvironment(macCatalyst)
+    return kMSSwiftAppSecret
+#else
+    return kMSSwiftCatalystAppSecret
+#endif
   }
 
   func setLogUrl(_ logUrl: String?) {

@@ -8,6 +8,7 @@ let kMSDefaultDatabaseSize = 10 * 1024 * 1024
 let acProdLogUrl = "https://in.appcenter.ms"
 let ocProdLogUrl = "https://mobile.events.data.microsoft.com"
 let kMSARefreshTokenKey = "MSARefreshToken"
+let kMSAppCenterBundleIdentifier = "com.microsoft.appcenter"
 let kMSATokenKey = "MSAToken"
 
 class MSMainViewController: UITableViewController, AppCenterProtocol {
@@ -89,23 +90,24 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.storageMaxSizeField.text = "\(storageMaxSize / 1024)"
     self.storageMaxSizeField.addTarget(self, action: #selector(storageMaxSizeUpdated(_:)), for: .editingChanged)
     self.storageMaxSizeField.inputAccessoryView = self.toolBarForKeyboard()
+    
     if let supportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-      let dbFile = supportDirectory.appendingPathComponent("com.microsoft.appcenter").appendingPathComponent("Logs.sqlite")
+#if !targetEnvironment(macCatalyst)
+      let dbFile = supportDirectory.appendingPathComponent(kMSAppCenterBundleIdentifier).appendingPathComponent("Logs.sqlite")
+#else
+      let dbFile = supportDirectory.appendingPathComponent(Bundle.main.bundleIdentifier!).appendingPathComponent(kMSAppCenterBundleIdentifier).appendingPathComponent("Logs.sqlite")
+#endif
       func getFileSize(_ file: URL) -> Int {
         return (try? file.resourceValues(forKeys:[.fileSizeKey]))?.fileSize ?? 0
       }
       self.dbFileDescriptor = dbFile.withUnsafeFileSystemRepresentation { fileSystemPath -> CInt in
         return open(fileSystemPath!, O_EVTONLY)
       }
-#if !targetEnvironment(macCatalyst)
       self.dbFileSource = DispatchSource.makeFileSystemObjectSource(fileDescriptor: self.dbFileDescriptor, eventMask: [.write], queue: DispatchQueue.main)
       self.dbFileSource!.setEventHandler {
         self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
       }
       self.dbFileSource!.resume()
-#else
-      // TODO
-#endif
       self.storageFileSizeLabel.text = "\(getFileSize(dbFile) / 1024) KiB"
     }
 

@@ -310,9 +310,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
 
   // Binary attachment.
-#if !TARGET_OS_MACCATALYST
   NSURL *referenceUrl = [[NSUserDefaults standardUserDefaults] URLForKey:@"fileAttachment"];
   if (referenceUrl) {
+#if !TARGET_OS_MACCATALYST
     PHAsset *asset = [[PHAsset fetchAssetsWithALAssetURLs:@[ referenceUrl ] options:nil] lastObject];
     if (asset) {
       PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
@@ -333,10 +333,24 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                        NSLog(@"Add binary attachment with %tu bytes", [imageData length]);
                      }];
     }
-  }
 #else
-  // TODO
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:referenceUrl options:0 error:&error];
+    if (data && !error) {
+      CFStringRef UTI =
+          UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[referenceUrl pathExtension], nil);
+      NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
+      CFRelease(UTI);
+      MSErrorAttachmentLog *binaryAttachment = [MSErrorAttachmentLog attachmentWithBinary:data
+                                                                                 filename:referenceUrl.lastPathComponent
+                                                                              contentType:MIMEType];
+      [attachments addObject:binaryAttachment];
+      NSLog(@"Add binary attachment with %tu bytes", [data length]);
+    } else {
+      NSLog(@"Couldn't read attachment file with error: %@", error.localizedDescription);
+    }
 #endif
+  }
   return attachments;
 }
 
