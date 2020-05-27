@@ -3,11 +3,16 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+# Generates the documentation for the project.
+# Usage: build-docs.sh <os-name>
+# Note: it must be run from Xcode.
+
 OS_NAME=$1
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/${OS_NAME}"
 INSTALL_DIR="${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
 DOCUMENTATION_DIR="${PRODUCTS_DIR}/Documentation/${PROJECT_NAME}"
 
+# Check if jazzy installed.
 if [ ! -x "$(command -v jazzy)" ]; then
   echo "Couldn't find jazzy. Install jazzy before building frameworks"
   exit 1

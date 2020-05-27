@@ -4,7 +4,7 @@
 import Photos
 import UIKit
 
-class MSCrashesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AppCenterProtocol {
+class MSCrashesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIDocumentPickerDelegate, AppCenterProtocol {
   
   var categories = [String: [MSCrash]]()
   var appCenter: AppCenterDelegate!
@@ -108,12 +108,16 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Read async to display size instead of url.
         if referenceUrl != nil {
-          let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
-          if asset != nil {
-            PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
-              cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
-            })
-          }
+#if !targetEnvironment(macCatalyst)
+        let asset = PHAsset.fetchAssets(withALAssetURLs: [referenceUrl!], options: nil).lastObject
+        if asset != nil {
+          PHImageManager.default().requestImageData(for: asset!, options: nil, resultHandler: {(imageData, dataUTI, orientation, info) -> Void in
+          cell.detailTextLabel?.text = ByteCountFormatter.string(fromByteCount: Int64(imageData?.count ?? 0), countStyle: .binary)
+          })
+        }
+#else
+        cell.detailTextLabel?.text = self.fileAttachmentDescription(url: referenceUrl)
+#endif
         }
       } else if (indexPath.row == 3) {
         cell.textLabel?.text = "Clear crash user confirmation"
@@ -127,6 +131,22 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       cell.textLabel?.text = crash.title;
     }
     return cell;
+  }
+  
+  private func fileAttachmentDescription(url: URL?) -> String {
+    if url != nil {
+      var desc = "File: \(url!.lastPathComponent)"
+      do {
+        let attr = try FileManager.default.attributesOfItem(atPath: url!.path)
+        let fileSize = ByteCountFormatter.string(fromByteCount: Int64(attr[FileAttributeKey.size] as! UInt64), countStyle: .binary)
+        desc += " Size: \(fileSize)"
+      } catch {
+        print(error)
+      }
+      return desc
+    } else {
+      return "Empty"
+    }
   }
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> Void {
@@ -162,6 +182,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         
         // Binary attachment.
       } else if indexPath.row == 2 {
+#if TARGET_OS_IOS
         PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in ()
           if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
             let picker = UIImagePickerController()
@@ -169,6 +190,11 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
             self.present(picker, animated: true)
           }
         })
+#else
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.image"], in: .import)
+        documentPicker.delegate = self
+        self.present(documentPicker, animated: true, completion: nil)
+#endif
       } else if indexPath.row == 3 {
         let alertController = UIAlertController(title: "Clear crash user confirmation?",
                                                 message: nil,
@@ -203,6 +229,16 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       
       present(alert, animated: true)
     }
+  }
+  
+  func documentPicker(_ controller: UIDocumentPickerViewController,
+                      didPickDocumentsAt urls: [URL]) {
+    if (urls.count > 0) {
+      let firstUrl = urls[0]
+      UserDefaults.standard.set(firstUrl, forKey: "fileAttachment")
+      tableView.reloadData()
+    }
+    controller.dismiss(animated: true, completion: nil)
   }
   
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

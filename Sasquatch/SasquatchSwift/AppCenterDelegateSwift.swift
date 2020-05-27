@@ -4,6 +4,7 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
+#if !targetEnvironment(macCatalyst)
 import AppCenterDistribute
 import AppCenterPush
 
@@ -17,6 +18,7 @@ import AppCenterPush
   func showDistributeDisabledAlert()
   func delegate() -> MSDistributeDelegate
 }
+#endif
 
 /**
  * AppCenterDelegate implementation in Swift.
@@ -41,7 +43,11 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func appSecret() -> String {
+#if !targetEnvironment(macCatalyst)
     return kMSSwiftAppSecret
+#else
+    return kMSSwiftCatalystAppSecret
+#endif
   }
 
   func setLogUrl(_ logUrl: String?) {
@@ -78,11 +84,19 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func isDistributeEnabled() -> Bool {
+#if !targetEnvironment(macCatalyst)
     return MSDistribute.isEnabled()
+#else
+    return false
+#endif
   }
 
   func isPushEnabled() -> Bool {
+#if !targetEnvironment(macCatalyst)
     return MSPush.isEnabled()
+#else
+    return false
+#endif
   }
 
   func setAnalyticsEnabled(_ isEnabled: Bool) {
@@ -94,11 +108,15 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func setDistributeEnabled(_ isEnabled: Bool) {
+#if !targetEnvironment(macCatalyst)
     MSDistribute.setEnabled(isEnabled)
+#endif
   }
 
   func setPushEnabled(_ isEnabled: Bool) {
+#if !targetEnvironment(macCatalyst)
     MSPush.setEnabled(isEnabled)
+#endif
   }
 
   // MSAnalytics section.
@@ -153,12 +171,16 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     MSCrashes.generateTestCrash()
   }
 
-  func checkForUpdate() {
-    MSDistribute.checkForUpdate()
-  }
-    
   // MSDistribute section.
+
+  func checkForUpdate() {
+#if !targetEnvironment(macCatalyst)
+    MSDistribute.checkForUpdate()
+#endif
+  }
+
   func showConfirmationAlert() {
+#if !targetEnvironment(macCatalyst)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let confirmationAlertSelector = #selector(Selectors.showConfirmationAlert(_:))
     let releaseDetails = MSReleaseDetails();
@@ -170,9 +192,11 @@ class AppCenterDelegateSwift: AppCenterDelegate {
         _ = distributeInstance.perform(confirmationAlertSelector, with: releaseDetails)
       }
     }
+#endif
   }
 
   func showDistributeDisabledAlert() {
+#if !targetEnvironment(macCatalyst)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let disabledAlertSelector = #selector(Selectors.showDistributeDisabledAlert)
     if (MSDistribute.responds(to: sharedInstanceSelector)) {
@@ -181,9 +205,11 @@ class AppCenterDelegateSwift: AppCenterDelegate {
         _ = distributeInstance.perform(disabledAlertSelector)
       }
     }
+#endif
   }
 
   func showCustomConfirmationAlert() {
+#if !targetEnvironment(macCatalyst)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let delegateSelector = #selector(Selectors.delegate)
     let releaseDetails = MSReleaseDetails();
@@ -194,6 +220,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
       let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
       _ = distriuteDelegate.distribute?(distributeInstance as? MSDistribute, releaseAvailableWith: releaseDetails)
     }
+#endif
   }
 
   // Last crash report section.

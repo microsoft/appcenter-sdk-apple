@@ -872,10 +872,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
         // Deserialize the log.
         @try {
-          #pragma clang diagnostic push
-          #pragma clang diagnostic ignored "-Wold-style-cast"
-            item = (id<MSLog>)[MSUtility unarchiveKeyedData:serializedLog];
-          #pragma clang diagnostic pop
+            item = static_cast<id<MSLog>>([MSUtility unarchiveKeyedData:serializedLog]);
         } @catch (NSException *e) {
           exception = e;
         }
