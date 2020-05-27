@@ -6,7 +6,7 @@
 
 * **[Feature]** Add support for Mac Catalyst.
 * **[Breaking change]** Dropped Xcode 10 support. Xcode 11 is a minimal supported version now.
-* **[Fix]** Disable Code Coverage to avoid 'undefined symbols' issue.
+* **[Fix]** Fix `Undefined symbol: ___llvm_profile_runtime` when the SDK was built from source by Carthage.
 
 ___
 
