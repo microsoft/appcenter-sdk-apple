@@ -32,8 +32,8 @@ xcodebuild -create-xcframework "${XC_FRAMEWORKS[@]}" -output "${PRODUCTS_DIR}/${
 BUNDLE_NAME="${PROJECT_NAME}Resources.bundle"
 BUNDLE_PATH="${SCRIPT_BUILD_DIR}/${CONFIGURATION}-iphoneos/${BUNDLE_NAME}"
 if [ -e "${BUNDLE_PATH}" ]; then
-  echo "Copying resource bundle."
-  cp -Rv "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
+  rm -rf "${PRODUCTS_DIR}/${BUNDLE_NAME}"
+  cp -Rv "${BUNDLE_PATH}" "${PRODUCTS_DIR}"
 fi
 echo "Cleanup resource bundles inside frameworks"
 rm -rfv "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/*/${PRODUCT_NAME}.framework/${BUNDLE_NAME}"

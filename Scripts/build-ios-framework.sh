@@ -44,3 +44,11 @@ lipo -create \
   "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" \
   -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
 lipo -info "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
+
+# Move the resource bundle outside of framework.
+BUNDLE_NAME="${PROJECT_NAME}Resources.bundle"
+BUNDLE_PATH="${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${BUNDLE_NAME}"
+if [ -e "${BUNDLE_PATH}" ]; then
+  rm -rf "${PRODUCTS_DIR}/${BUNDLE_NAME}"
+  mv -v "${BUNDLE_PATH}" "${PRODUCTS_DIR}"
+fi

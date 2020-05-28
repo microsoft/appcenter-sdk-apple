@@ -47,12 +47,12 @@ fi
 # Get current version.
 VERSION="$($(dirname "$0")/framework-version.sh)"
 
-# Archive fat frameworks for Carthage.
-archive "$PRODUCT_NAME-${VERSION}.carthage.framework.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
-
 # Archive fat frameworks for CocoaPods.
-mv "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle" "$PRODUCTS_DIR/iOS/"
 archive "$PRODUCT_NAME-${VERSION}.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
+
+# Archive fat frameworks for Carthage.
+mv "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework"
+archive "$PRODUCT_NAME-${VERSION}.carthage.framework.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
 
 # Archive XCFrameworks.
 archive "$PRODUCT_NAME-XCFramework-${VERSION}.zip" $(ls -d "$PRODUCT_NAME/XCFramework"/*)
