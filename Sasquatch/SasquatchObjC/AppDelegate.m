@@ -257,6 +257,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     if ([controller conformsToProtocol:@protocol(AppCenterProtocol)]) {
       id<AppCenterProtocol> sasquatchController = (id<AppCenterProtocol>)controller;
       sasquatchController.appCenter = appCenterDel;
+    } else {
+      [controller removeFromParentViewController];
     }
   }
 }
