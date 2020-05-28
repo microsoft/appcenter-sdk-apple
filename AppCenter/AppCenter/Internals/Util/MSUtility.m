@@ -51,7 +51,12 @@ __attribute__((used)) static void importCategories() {
   } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    @try {
+      return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+    @catch(id) {
+      return nil;
+    }
 #pragma clang diagnostic pop
   }
 }
