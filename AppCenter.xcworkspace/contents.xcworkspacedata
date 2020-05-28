@@ -96,31 +96,6 @@
          location = "group:VerifyNoBuildSettings.swift">
       </FileRef>
    </Group>
-   <Group
-      location = "group:vsts"
-      name = "vsts">
-      <FileRef
-         location = "group:appcenter-build.sh">
-      </FileRef>
-      <FileRef
-         location = "group:zip.sh">
-      </FileRef>
-      <FileRef
-         location = "group:publish-podspec.sh">
-      </FileRef>
-      <FileRef
-         location = "group:commit-validation.sh">
-      </FileRef>
-      <FileRef
-         location = "group:post-release-version-bump.sh">
-      </FileRef>
-      <FileRef
-         location = "group:publish.sh">
-      </FileRef>
-      <FileRef
-         location = "group:internal-version-increment.sh">
-      </FileRef>
-   </Group>
    <FileRef
       location = "group:AppCenter/AppCenter.xcodeproj">
    </FileRef>
