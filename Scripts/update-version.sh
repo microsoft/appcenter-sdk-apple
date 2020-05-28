@@ -4,7 +4,7 @@
 # Licensed under the MIT License.
 
 # Updates SDK version.
-# Usage: update-version.sh -t <new-version>
+# Usage: update-version.sh -v <new-version>
 
 help() {
   echo "Usage: $0 -v <new-version>"

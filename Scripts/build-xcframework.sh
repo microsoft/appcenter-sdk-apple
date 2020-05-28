@@ -10,19 +10,10 @@ PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/XCFramework"
 SCRIPT_BUILD_DIR="${SRCROOT}/build"
 
 # Cleaning the previous builds.
-if [ -e "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework" ]; then
-  rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
-fi
+rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
 
 # Creates the final product folder.
 mkdir -p "${PRODUCTS_DIR}"
-
-# Copy the resource bundle for App Center Distribute.
-BUNDLE_PATH="${SCRIPT_BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}Resources.bundle"
-if [ -e "${BUNDLE_PATH}" ]; then
-  echo "Copying resource bundle."
-  cp -R "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
-fi
 
 # Create a command to build XCFramework.
 function add_framework() {
@@ -36,3 +27,13 @@ done
 
 # Build XCFramework.
 xcodebuild -create-xcframework "${XC_FRAMEWORKS[@]}" -output "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
+
+# Copy the resource bundle.
+BUNDLE_NAME="${PROJECT_NAME}Resources.bundle"
+BUNDLE_PATH="${SCRIPT_BUILD_DIR}/${CONFIGURATION}-iphoneos/${BUNDLE_NAME}"
+if [ -e "${BUNDLE_PATH}" ]; then
+  rm -rf "${PRODUCTS_DIR}/${BUNDLE_NAME}"
+  cp -Rv "${BUNDLE_PATH}" "${PRODUCTS_DIR}"
+fi
+echo "Cleanup resource bundles inside frameworks"
+rm -rfv "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/*/${PRODUCT_NAME}.framework/${BUNDLE_NAME}"
