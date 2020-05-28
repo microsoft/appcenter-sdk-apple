@@ -10,9 +10,7 @@ PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/XCFramework"
 SCRIPT_BUILD_DIR="${SRCROOT}/build"
 
 # Cleaning the previous builds.
-if [ -e "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework" ]; then
-  rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
-fi
+rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
 
 # Creates the final product folder.
 mkdir -p "${PRODUCTS_DIR}"
@@ -35,8 +33,7 @@ BUNDLE_NAME="${PROJECT_NAME}Resources.bundle"
 BUNDLE_PATH="${SCRIPT_BUILD_DIR}/${CONFIGURATION}-iphoneos/${BUNDLE_NAME}"
 if [ -e "${BUNDLE_PATH}" ]; then
   echo "Copying resource bundle."
-  cp -R "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
+  cp -Rv "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
 fi
-
-# Cleanup resource bundles inside frameworks.
-rm -rf "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/**/${BUNDLE_NAME}"
+echo "Cleanup resource bundles inside frameworks"
+rm -rfv "${PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/*/${PRODUCT_NAME}.framework/${BUNDLE_NAME}"
