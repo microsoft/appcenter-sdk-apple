@@ -40,22 +40,19 @@ function archive() {
 
 # Check if the frameworks are already built.
 if [ ! -d "$PRODUCTS_DIR/iOS" ] || [ ! -d "$PRODUCTS_DIR/macOS" ] || [ ! -d "$PRODUCTS_DIR/macOS" ] || [ ! -d "$PRODUCTS_DIR/XCFramework" ]; then
-  echo "Cannot find frameworks to archive"
+  echo "Cannot find frameworks to archive, please run build first"
   exit 1
 fi
 
 # Get current version.
 VERSION="$($(dirname "$0")/framework-version.sh)"
 
-# Archive fat frameworks for CocoaPods.
-archive "$PRODUCT_NAME-${VERSION}.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
-
-# Move Distribute resources.
-mv "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" \
-    "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle"
-
 # Archive fat frameworks for Carthage.
 archive "$PRODUCT_NAME-${VERSION}.carthage.framework.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
+
+# Archive fat frameworks for CocoaPods.
+mv "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle" "$PRODUCTS_DIR/iOS/"
+archive "$PRODUCT_NAME-${VERSION}.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
 
 # Archive XCFrameworks.
 archive "$PRODUCT_NAME-XCFramework-${VERSION}.zip" $(ls -d "$PRODUCT_NAME/XCFramework"/*)

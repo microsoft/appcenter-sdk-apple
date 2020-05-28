@@ -37,13 +37,6 @@ mkdir -p "${PRODUCTS_DIR}"
 # Copy framework.
 cp -RH "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
-# Copy the resource bundle for App Center Distribute.
-BUNDLE_PATH="${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}Resources.bundle"
-if [ -e "${BUNDLE_PATH}" ]; then
-  echo "Copying resource bundle."
-  cp -R "${BUNDLE_PATH}" "${PRODUCTS_DIR}" || true
-fi
-
 # Uses the Lipo Tool to merge both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one Universal final product.
 lipo -create \
   "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" \

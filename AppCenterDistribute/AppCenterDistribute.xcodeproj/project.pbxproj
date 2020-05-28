@@ -75,6 +75,7 @@
 		C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */; };
 		C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200612230FDF7000848D5B /* AppCenter.framework */; };
 		C2392F7324642DC600425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F4224642CB600425640 /* OCMock.framework */; };
+		C24D1C79247F34770025261B /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; };
@@ -126,7 +127,6 @@
 		DFE9550D244D8B570061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954FA244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.h */; };
 		DFE9550E244D8B570061E3FA /* HTTPStubs.h in Headers */ = {isa = PBXBuildFile; fileRef = DFE954FB244D8B410061E3FA /* HTTPStubs.h */; };
 		F82E4C83217F217F00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C82217F217F00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		F8A27E472476714F002DDDAA /* iOS Distribute.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */; };
 		F8BEA3CF1FBB0BE400D4DE37 /* MSHttpTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */; };
 /* End PBXBuildFile section */
 
@@ -1011,7 +1011,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8A27E472476714F002DDDAA /* iOS Distribute.xcconfig in Resources */,
+				C24D1C79247F34770025261B /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
