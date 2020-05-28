@@ -44,7 +44,7 @@
  *
  * @param data The data for archiving.
  *
- * @return The unarchived data as an NSData.
+ * @return The archived data as an NSData.
  */
 + (NSData *)archiveKeyedData:(id)data;
 
