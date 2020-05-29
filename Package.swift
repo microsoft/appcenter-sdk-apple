@@ -23,7 +23,7 @@ let package = Package(
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .revision("748087386cfc517936315c107f722b146b0ad1ab")),
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .revision("f2133e6f3c369ba8a82801b08305147652a01ad5")),
     ],
     targets: [
         .target(
