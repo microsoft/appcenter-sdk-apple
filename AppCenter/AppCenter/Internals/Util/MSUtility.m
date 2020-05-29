@@ -17,8 +17,13 @@ typedef struct {
 } ms_info_t;
 
 // SDK versioning.
+#if TARGET_OS_MACCATALYST
+static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
+    .info_version = 1, .ms_name = APP_CENTER_C_NAME_CATALYST, .ms_version = APP_CENTER_C_VERSION, .ms_build = APP_CENTER_C_BUILD};
+#else
 static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
     .info_version = 1, .ms_name = APP_CENTER_C_NAME, .ms_version = APP_CENTER_C_VERSION, .ms_build = APP_CENTER_C_BUILD};
+#endif
 
 @implementation MSUtility
 
