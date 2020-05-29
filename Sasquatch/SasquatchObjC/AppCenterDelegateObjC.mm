@@ -233,6 +233,7 @@
   [MSDistribute checkForUpdate];
 #endif
 }
+
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {

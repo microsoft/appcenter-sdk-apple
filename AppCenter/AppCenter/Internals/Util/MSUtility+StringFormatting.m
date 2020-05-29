@@ -12,13 +12,13 @@
  */
 NSString *MSUtilityStringFormattingCategory;
 
-// We support the following formats:
-// target=<..>
-// appsecret=<..>
-// target=<..>;appsecret=<..>
-// ios=<..>;macos=<..>
-// targetIos=<..>;targetMacos=<..>
-// ios=<..>;macos=<..>;targetIos=<..>;targetMacos=<..>
+/*
+* We support the following formats:
+* target=<..>
+* appsecret=<..>
+* target=<..>;appsecret=<..>
+* ios=<..>;macos=<..>
+*/
 
 static NSString *kMSTransmissionTargetKey = @"target=";
 static NSString *kMSAppSecretKey = @"appsecret=";
