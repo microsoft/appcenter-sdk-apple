@@ -31,9 +31,6 @@ let package = Package(
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
             cSettings: [
-                .define("APP_CENTER_C_NAME", to: "\"appcenter.ios\"", .when(platforms: [.iOS])),
-                .define("APP_CENTER_C_NAME", to: "\"appcenter.macos\"", .when(platforms: [.macOS])),
-                .define("APP_CENTER_C_NAME", to: "\"appcenter.tvos\"", .when(platforms: [.tvOS])),
                 .define("APP_CENTER_C_VERSION", to:"\"3.2.0\""),
                 .define("APP_CENTER_C_BUILD", to:"\"1\""),
                 .headerSearchPath("**"),
