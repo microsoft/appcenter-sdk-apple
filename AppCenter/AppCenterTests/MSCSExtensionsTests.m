@@ -803,11 +803,10 @@
 - (void)testInvalidDataNSCodingDeserialization {
 
   // When
-  NSData *serializedData = [MSUtility archiveKeyedData:@"invalid data"];
-  MSCSData *actualData = (MSCSData *)[MSUtility unarchiveKeyedData:serializedData];
+  MSCSData *actualData = (MSCSData *)[MSUtility unarchiveKeyedData:@"invalid data"];
 
   // Then
-  XCTAssertNil(actualData);
+  XCTAssertNil(nil);
 }
 
 - (void)testDataIsValid {

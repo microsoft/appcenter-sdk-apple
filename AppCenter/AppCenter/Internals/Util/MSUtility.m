@@ -44,20 +44,22 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (NSObject *)unarchiveKeyedData:(NSData *)data {
-  if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
-    unarchiver.requiresSecureCoding = NO;
-    return [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:nil];
-  } else {
+  @try {
+    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
+      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
+      unarchiver.requiresSecureCoding = NO;
+      return [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:nil];
+    } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    @try {
       return [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    }
-    @catch(id) {
-      return nil;
-    }
 #pragma clang diagnostic pop
+    }
+  }
+  @catch(id) {
+    
+    // Return nil if unarchiving fails
+    return nil;
   }
 }
 
