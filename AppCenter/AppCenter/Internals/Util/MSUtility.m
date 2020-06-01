@@ -19,7 +19,7 @@ typedef struct {
 // SDK versioning.
 static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
 #if TARGET_OS_MACCATALYST
-    .info_version = 1, .ms_name = APP_CENTER_C_NAME_CATALYST, .ms_version = APP_CENTER_C_VERSION, .ms_build = APP_CENTER_C_BUILD
+    .info_version = 1, .ms_name = "maccatalyst", .ms_version = APP_CENTER_C_VERSION, .ms_build = APP_CENTER_C_BUILD
 #else
     .info_version = 1, .ms_name = APP_CENTER_C_NAME, .ms_version = APP_CENTER_C_VERSION, .ms_build = APP_CENTER_C_BUILD
 #endif
