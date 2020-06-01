@@ -108,13 +108,8 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
   NSData *data = [MSUtility loadDataForPathComponent:pathComponent];
   MSWrapperException *wrapperException = nil;
-  NSException *exception = nil;
-  @try {
-    wrapperException = (MSWrapperException *)[MSUtility unarchiveKeyedData:data];
-  } @catch (NSException *e) {
-    exception = e;
-  }
-  if (!wrapperException || exception) {
+  wrapperException = (MSWrapperException *)[MSUtility unarchiveKeyedData:data];
+  if (!wrapperException) {
     MSLogError([MSCrashes logTag], @"Could not read exception data stored on disk with file name %@", baseFilename);
     [self deleteWrapperExceptionWithBaseFilename:baseFilename];
   }
