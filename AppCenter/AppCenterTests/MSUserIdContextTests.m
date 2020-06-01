@@ -5,6 +5,7 @@
 #import "MSTestFrameworks.h"
 #import "MSUserIdContextDelegate.h"
 #import "MSUserIdContextPrivate.h"
+#import "MSUtility.h"
 
 @interface MSUserIdContextTests : XCTestCase
 
@@ -43,7 +44,8 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"UserIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqualObjects([[NSKeyedUnarchiver unarchiveObjectWithData:data][0] userId], expectedUserId);
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+  XCTAssertEqualObjects([savedData[0] userId], expectedUserId);
 }
 
 - (void)testClearUserIdHistory {
@@ -56,7 +58,9 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"UserIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+
+  XCTAssertEqual([savedData count], 2);
 
   // When
   [[MSUserIdContext sharedInstance] clearUserIdHistory];
@@ -66,7 +70,8 @@
   XCTAssertNotNil(data);
 
   // Should keep the current userId.
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 1);
+  savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+  XCTAssertEqual([savedData count], 1);
 }
 
 - (void)testUserId {

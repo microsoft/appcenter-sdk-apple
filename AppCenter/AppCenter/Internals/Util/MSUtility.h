@@ -5,6 +5,16 @@
 
 #import "MSAppCenterUserDefaults.h"
 
+#if TARGET_OS_MACCATALYST
+#define APP_CENTER_C_NAME "appcenter.maccatalyst"
+#elif TARGET_OS_IOS
+#define APP_CENTER_C_NAME "appcenter.ios"
+#elif TARGET_OS_OSX
+#define APP_CENTER_C_NAME "appcenter.macos"
+#elif TARGET_OS_TV
+#define APP_CENTER_C_NAME "appcenter.tvos"
+#endif
+
 #define MS_APP_CENTER_USER_DEFAULTS [MSAppCenterUserDefaults shared]
 #define MS_NOTIFICATION_CENTER [NSNotificationCenter defaultCenter]
 #define MS_UUID_STRING [[NSUUID UUID] UUIDString]
@@ -29,5 +39,23 @@
  * Get the current version of AppCenter SDK.
  */
 + (NSString *)sdkVersion;
+
+/**
+ * Unarchive data.
+ * 
+ * @param data The data for unarchiving in NSData type.
+ *
+ * @return The unarchived data as an NSObject.
+ */
++ (NSObject *)unarchiveKeyedData:(NSData *)data;
+
+/**
+ * Archive data.
+ *
+ * @param data The data for archiving.
+ *
+ * @return The archived data as an NSData.
+ */
++ (NSData *)archiveKeyedData:(id)data;
 
 @end

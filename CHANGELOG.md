@@ -2,6 +2,22 @@
 
 ## Version 3.2.1 (Under development)
 
+Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Also, this version has a breaking change - it drops Xcode 10 support, Xcode 11 is a minimal supported version now.
+
+### App Center
+
+* **[Feature]** Add support for Mac Catalyst.
+* **[Fix]** Fix `Undefined symbol: ___llvm_profile_runtime` when the SDK was built from source by Carthage.
+* **[Fix]** Fix screen resolution detection on macOS.
+
+### App Center Analytics
+
+* **[Feature]** Add support for Mac Catalyst.
+
+### App Center Crashes
+
+* **[Feature]** Add support for Mac Catalyst.
+
 ___
 
 ## Version 3.2.0

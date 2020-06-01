@@ -20,6 +20,7 @@
 #import "MSUserExtension.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+Date.h"
+#import "MSUtility.h"
 
 @interface MSEventLogTests : XCTestCase
 
@@ -94,8 +95,8 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());

@@ -18,7 +18,11 @@ typedef struct {
 
 // SDK versioning.
 static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
-    .info_version = 1, .ms_name = APP_CENTER_C_NAME, .ms_version = APP_CENTER_C_VERSION, .ms_build = APP_CENTER_C_BUILD};
+  .info_version = 1,
+  .ms_name = APP_CENTER_C_NAME,
+  .ms_version = APP_CENTER_C_VERSION,
+  .ms_build = APP_CENTER_C_BUILD
+};
 
 @implementation MSUtility
 
@@ -37,6 +41,30 @@ __attribute__((used)) static void importCategories() {
 
 + (NSString *)sdkVersion {
   return [NSString stringWithUTF8String:appcenter_library_info.ms_version];
+}
+
++ (NSObject *)unarchiveKeyedData:(NSData *)data {
+  if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
+    unarchiver.requiresSecureCoding = NO;
+    return [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:nil];
+  } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+#pragma clang diagnostic pop
+  }
+}
+
++ (NSData *)archiveKeyedData:(id)data {
+  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, *)) {
+    return [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:nil];
+  } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    return [NSKeyedArchiver archivedDataWithRootObject:data];
+#pragma clang diagnostic pop
+  }
 }
 
 @end

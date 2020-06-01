@@ -3,6 +3,7 @@
 
 #import "MSBooleanTypedProperty.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSTypedPropertyTests : XCTestCase
 
@@ -20,8 +21,8 @@
   sut.name = propertyName;
 
   // When
-  NSData *serializedProperty = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  MSTypedProperty *actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedProperty];
+  NSData *serializedProperty = [MSUtility archiveKeyedData:sut];
+  MSTypedProperty *actual = (MSTypedProperty *)[MSUtility unarchiveKeyedData:serializedProperty];
 
   // Then
   XCTAssertNotNil(actual);

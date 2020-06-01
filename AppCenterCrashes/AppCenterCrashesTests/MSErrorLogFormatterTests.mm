@@ -456,7 +456,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   // If
   NSError *error = nil;
-  MSPLCrashReport *report = [[MSPLCrashReport alloc] initWithData:crashData error:&error];
+  PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
   MSDevice *device = self.deviceMock;
   device.wrapperSdkVersion = @"10.11.12";
   device.wrapperSdkName = @"Wrapper SDK for iOS";
@@ -555,7 +555,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 }
 #endif
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testNormalize64BitAddress {
 
   // If
@@ -571,7 +571,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 }
 #endif
 
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testNormalize32BitAddressOnMacOs {
 
   // If
@@ -586,7 +586,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 }
 #endif
 
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testNormalize64BitAddressMacOs {
 
   // If
@@ -601,7 +601,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 }
 #endif
 
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testBinaryImageCountFromReportIsCorrect {
 
   // If
@@ -618,7 +618,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 }
 #endif
 
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testCrashReportsParametersFromMacOSReport {
   for (unsigned long i = 0; i < kMacOSCrashReportsParameters.count; i++) {
 

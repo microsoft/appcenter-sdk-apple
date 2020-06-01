@@ -6,6 +6,7 @@
 #import "MSMockUserDefaults.h"
 #import "MSSessionContextPrivate.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSSessionContextTests : XCTestCase
 
@@ -45,7 +46,8 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqualObjects([[NSKeyedUnarchiver unarchiveObjectWithData:data][0] sessionId], expectedSessionId);
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+  XCTAssertEqualObjects([savedData[0] sessionId], expectedSessionId);
 }
 
 - (void)testClearSessionHistory {
@@ -59,7 +61,8 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+  XCTAssertEqual([savedData count], 2);
 
   // When
   [self.sut clearSessionHistoryAndKeepCurrentSession:NO];
@@ -69,7 +72,8 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 0);
+  savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+  XCTAssertEqual([savedData count], 0);
 }
 
 - (void)testClearSessionHistoryExceptCurrentOne {
@@ -83,7 +87,8 @@
   // Then
   NSData *data = [self.settingsMock objectForKey:@"SessionIdHistory"];
   XCTAssertNotNil(data);
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 2);
+  NSMutableArray *savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+  XCTAssertEqual([savedData count], 2);
 
   // When
   [self.sut clearSessionHistoryAndKeepCurrentSession:YES];
@@ -93,7 +98,8 @@
   XCTAssertNotNil(data);
 
   // Should keep the current session.
-  XCTAssertEqual([[NSKeyedUnarchiver unarchiveObjectWithData:data] count], 1);
+  savedData = (NSMutableArray *)[[MSUtility unarchiveKeyedData:data] mutableCopy];
+  XCTAssertEqual([savedData count], 1);
 }
 
 - (void)testSessionId {

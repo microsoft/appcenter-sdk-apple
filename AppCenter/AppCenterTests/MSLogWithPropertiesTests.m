@@ -4,6 +4,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSLogWithProperties.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSLogWithPropertiesTests : XCTestCase
 
@@ -47,8 +48,8 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());
@@ -65,8 +66,8 @@
   self.sut.properties = properties;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedEvent];
   MSLogWithProperties *actualLogWithProperties = actual;
 
   // then

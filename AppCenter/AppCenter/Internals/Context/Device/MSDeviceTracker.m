@@ -58,11 +58,12 @@ static MSDeviceTracker *sharedInstance = nil;
     // Restore past sessions from NSUserDefaults.
     NSData *devices = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
     if (devices != nil) {
-      NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+      NSArray *arrayFromData = (NSArray *)[[MSUtility unarchiveKeyedData:devices] mutableCopy];
 
       // If array is not nil, create a mutable version.
-      if (arrayFromData)
+      if (arrayFromData != nil) {
         _deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
+      }
     }
 
     // Create new array and create device info in case we don't have any from disk.
@@ -130,7 +131,7 @@ static MSDeviceTracker *sharedInstance = nil;
       }
 
       // Persist the device history in NSData format.
-      [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+      [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.deviceHistory] forKey:kMSPastDevicesKey];
     }
     return _device;
   }
@@ -145,15 +146,15 @@ static MSDeviceTracker *sharedInstance = nil;
 #if TARGET_OS_IOS
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
-      
+
     // The CTTelephonyNetworkInfo.serviceSubscriberCellularProviders method crash because of an issue in iOS 12.0
     // It was fixed in iOS 12.1
     if (@available(iOS 12.1, *)) {
       NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo serviceSubscriberCellularProviders];
       carrier = [self firstCarrier:carriers];
     } else if (@available(iOS 12, *)) {
-        NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
-        carrier = [self firstCarrier:carriers];
+      NSDictionary<NSString *, CTCarrier *> *carriers = [telephonyNetworkInfo valueForKey:@"serviceSubscriberCellularProvider"];
+      carrier = [self firstCarrier:carriers];
     }
 
     // Use the old API as fallback if new one doesn't work.
@@ -170,11 +171,14 @@ static MSDeviceTracker *sharedInstance = nil;
     newDevice.sdkVersion = [MSUtility sdkVersion];
     newDevice.model = [self deviceModel];
     newDevice.oemName = kMSDeviceManufacturer;
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
     newDevice.osName = [self osName];
-    newDevice.osVersion = [self osVersion];
 #else
     newDevice.osName = [self osName:MS_DEVICE];
+#endif
+#if TARGET_OS_OSX
+    newDevice.osVersion = [self osVersion];
+#else
     newDevice.osVersion = [self osVersion:MS_DEVICE];
 #endif
     newDevice.osBuild = [self osBuild];
@@ -264,7 +268,7 @@ static MSDeviceTracker *sharedInstance = nil;
     }
 
     // Clear persistence, but keep the latest information about the device.
-    [MS_APP_CENTER_USER_DEFAULTS setObject:[NSKeyedArchiver archivedDataWithRootObject:self.deviceHistory] forKey:kMSPastDevicesKey];
+    [MS_APP_CENTER_USER_DEFAULTS setObject:[MSUtility archiveKeyedData:self.deviceHistory] forKey:kMSPastDevicesKey];
   }
 }
 
@@ -272,7 +276,7 @@ static MSDeviceTracker *sharedInstance = nil;
 
 - (NSString *)deviceModel {
   size_t size;
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   const char *name = "hw.model";
 #else
   const char *name = "hw.machine";
@@ -288,7 +292,7 @@ static MSDeviceTracker *sharedInstance = nil;
   return model;
 }
 
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
 - (NSString *)osName {
   return @"macOS";
 }
@@ -370,16 +374,33 @@ static MSDeviceTracker *sharedInstance = nil;
 }
 
 - (NSString *)screenSize {
-
 #if TARGET_OS_OSX
-  NSScreen *focusScreen = [NSScreen mainScreen];
-  CGFloat scale = focusScreen.backingScaleFactor;
-  CGSize screenSize = [focusScreen frame].size;
+
+  // Report screen resolution as shown in display settings ('Looks like' field in scaling tab).
+  NSSize screenSize = [NSScreen mainScreen].frame.size;
+  return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
+#elif TARGET_OS_MACCATALYST
+
+  // macOS API is not directly avaliable on Mac Catalyst.
+  NSObject *screen = [NSClassFromString(@"NSScreen") valueForKey:@"mainScreen"];
+  if (screen == nil) {
+    CGSize screenSize = [UIScreen mainScreen].nativeBounds.size;
+    return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
+  }
+  SEL selector = NSSelectorFromString(@"frame");
+  NSInvocation *invocation =
+      [NSInvocation invocationWithMethodSignature:[[screen class] instanceMethodSignatureForSelector:selector]];
+  [invocation setSelector:selector];
+  [invocation setTarget:screen];
+  [invocation invoke];
+  CGRect frame;
+  [invocation getReturnValue:&frame];
+  return [NSString stringWithFormat:@"%dx%d", (int)frame.size.width, (int)frame.size.height];
 #else
   CGFloat scale = [UIScreen mainScreen].scale;
   CGSize screenSize = [UIScreen mainScreen].bounds.size;
-#endif
   return [NSString stringWithFormat:@"%dx%d", (int)(screenSize.height * scale), (int)(screenSize.width * scale)];
+#endif
 }
 
 #if TARGET_OS_IOS
@@ -391,11 +412,11 @@ static MSDeviceTracker *sharedInstance = nil;
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
 }
 
-- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *) carriers {
-    for (NSString *key in carriers) {
-        return carriers[key];
-    }
-    return nil;
+- (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
+  for (NSString *key in carriers) {
+    return carriers[key];
+  }
+  return nil;
 }
 #endif
 
