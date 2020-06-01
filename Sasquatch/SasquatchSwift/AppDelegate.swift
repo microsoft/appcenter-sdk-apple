@@ -9,8 +9,10 @@ import UIKit
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
 import AppCenterDistribute
+#endif
+#if canImport(AppCenterPush)
 import AppCenterPush
 #endif
 import UserNotifications
@@ -38,8 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
       UNUserNotificationCenter.current().delegate = self
     }
     MSCrashes.setDelegate(self)
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     MSDistribute.setDelegate(self)
+#endif
+#if canImport(AppCenterPush)
     MSPush.setDelegate(self)
 #endif
     MSAppCenter.setLogLevel(MSLogLevel.verbose)
@@ -72,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
     if logUrl != nil {
       MSAppCenter.setLogUrl(logUrl)
     }
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     if let updateTrackValue = UserDefaults.standard.value(forKey: kMSUpdateTrackKey) as? Int,
        let updateTrack = MSUpdateTrack(rawValue: updateTrackValue) {
         MSDistribute.updateTrack = updateTrack
@@ -83,10 +87,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
 #endif
 
     // Start App Center SDK.
-#if !targetEnvironment(macCatalyst)
-    let services = [MSAnalytics.self, MSCrashes.self, MSDistribute.self, MSPush.self]
-#else
-    let services = [MSAnalytics.self, MSCrashes.self]
+    var services = [MSAnalytics.self, MSCrashes.self]
+#if canImport(AppCenterDistribute)
+    services.append(MSDistribute.self)
+#endif
+#if canImport(AppCenterPush)
+    services.append(MSPush.self)
 #endif
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftCombinedAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
@@ -164,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
     }
   }
 
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
 
   /**
    * (iOS 9+) Asks the delegate to open a resource specified by a URL, and provides a dictionary of launch options.
@@ -182,6 +188,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
     // Forward the URL.
     return MSDistribute.open(url);
   }
+
+#endif
+#if canImport(AppCenterPush)
 
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
@@ -312,11 +321,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
 
 }
 
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
 
-extension AppDelegate: MSDistributeDelegate, MSPushDelegate {
+extension AppDelegate: MSDistributeDelegate {
+  func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
+    if UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey) {
 
-  // AppCenter Push Delegate
+      // Show a dialog to the user where they can choose if they want to update.
+      let alertController = UIAlertController(title: NSLocalizedString("distribute_alert_title", tableName: "Sasquatch", comment: ""),
+              message: NSLocalizedString("distribute_alert_message", tableName: "Sasquatch", comment: ""),
+              preferredStyle: .alert)
+
+      // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUserAction.update
+      alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), style: .cancel) { _ in
+        MSDistribute.notify(.update)
+      })
+
+      // Add a "No"-Button and call the notifyUpdateAction-callback with MSUserAction.postpone
+      alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_no", tableName: "Sasquatch", comment: ""), style: .default) { _ in
+        MSDistribute.notify(.postpone)
+      })
+
+      // Show the alert controller.
+      self.window?.rootViewController?.present(alertController, animated: true)
+      return true
+    }
+    return false
+  }
+}
+
+#endif
+#if canImport(AppCenterPush)
+
+extension AppDelegate: MSPushDelegate {
   func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
 
     // Alert in foreground if requested from custom data.
@@ -366,32 +403,6 @@ extension AppDelegate: MSDistributeDelegate, MSPushDelegate {
         notificationPresentationCompletionHandler = nil
       }
     }
-  }
-  
-  // Distribute Delegate
-  func distribute(_ distribute: MSDistribute!, releaseAvailableWith details: MSReleaseDetails!) -> Bool {
-    if UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey) {
-
-      // Show a dialog to the user where they can choose if they want to update.
-      let alertController = UIAlertController(title: NSLocalizedString("distribute_alert_title", tableName: "Sasquatch", comment: ""),
-              message: NSLocalizedString("distribute_alert_message", tableName: "Sasquatch", comment: ""),
-              preferredStyle: .alert)
-
-      // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUserAction.update
-      alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), style: .cancel) { _ in
-        MSDistribute.notify(.update)
-      })
-
-      // Add a "No"-Button and call the notifyUpdateAction-callback with MSUserAction.postpone
-      alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_no", tableName: "Sasquatch", comment: ""), style: .default) { _ in
-        MSDistribute.notify(.postpone)
-      })
-
-      // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true)
-      return true
-    }
-    return false
   }
 
   // Native push delegates
