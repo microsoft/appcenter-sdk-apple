@@ -36,10 +36,17 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
 #pragma mark - MSUtility.h
 
+#if TARGET_OS_MACCATALYST
+- (void)testSdkName {
+  NSString *name = [NSString stringWithUTF8String:@"maccatalyst"];
+  XCTAssertTrue([[MSUtility sdkName] isEqualToString:name]);
+}
+#else
 - (void)testSdkName {
   NSString *name = [NSString stringWithUTF8String:APP_CENTER_C_NAME];
   XCTAssertTrue([[MSUtility sdkName] isEqualToString:name]);
 }
+#endif
 
 - (void)testSdkVersion {
   NSString *version = [NSString stringWithUTF8String:APP_CENTER_C_VERSION];
