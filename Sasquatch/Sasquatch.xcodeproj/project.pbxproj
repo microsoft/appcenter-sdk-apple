@@ -284,7 +284,7 @@
 		DF4D2DE324768E40004A12DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
-		DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */; };
+		DF4D2E2424768EDB004A12DC /* Sasquatch XCFrameworks.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */; };
 		DFC734AA247C1CA500DC782B /* AppCenterDistribute.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */; platformFilter = ios; };
 		DFC734AC247C1CA500DC782B /* AppCenterAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */; };
 		DFC734AE247C1CA500DC782B /* AppCenter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC734A8247C1CA500DC782B /* AppCenter.xcframework */; };
@@ -1188,7 +1188,7 @@
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF4D2DF024768E40004A12DC /* SasquatchSwift-Preview XCFrameworks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-Preview XCFrameworks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Catalyst.xcconfig"; sourceTree = "<group>"; };
+		DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch XCFrameworks.xcconfig"; sourceTree = "<group>"; };
 		DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterDistribute.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterDistribute.xcframework"; sourceTree = "<group>"; };
 		DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterAnalytics.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterAnalytics.xcframework"; sourceTree = "<group>"; };
 		DFC734A8247C1CA500DC782B /* AppCenter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenter.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenter.xcframework"; sourceTree = "<group>"; };
@@ -1774,7 +1774,7 @@
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
 				C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */,
-				DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */,
+				DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
 				F849248A2112FA3400E14DBE /* Watch Extension.xcconfig */,
@@ -2104,6 +2104,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DF4D2DED24768E40004A12DC /* Build configuration list for PBXNativeTarget "SasquatchSwift-Preview XCFrameworks" */;
 			buildPhases = (
+				C2439BC42484F74100C18BC9 /* Verify No Build Settings */,
 				DF4D2DB724768E40004A12DC /* Sources */,
 				DF4D2DD524768E40004A12DC /* Frameworks */,
 				DF4D2DDC24768E40004A12DC /* Resources */,
@@ -2673,7 +2674,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF4D2DDE24768E40004A12DC /* Sasquatch.strings in Resources */,
-				DF4D2E2424768EDB004A12DC /* Sasquatch Catalyst.xcconfig in Resources */,
+				DF4D2E2424768EDB004A12DC /* Sasquatch XCFrameworks.xcconfig in Resources */,
 				DF4D2DDF24768E40004A12DC /* Assets.xcassets in Resources */,
 				DF4D2DE024768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				DF4D2DE124768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
@@ -2710,6 +2711,25 @@
 			inputPaths = (
 			);
 			name = "Verify No Build Settings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+			showEnvVarsInLog = 0;
+		};
+		C2439BC42484F74100C18BC9 /* Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Verify No Build Settings";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3482,7 +3502,7 @@
 		};
 		840F3DD82476A14100927CB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
+			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
@@ -3492,7 +3512,7 @@
 		};
 		840F3DD92476A14100927CB9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch Catalyst.xcconfig */;
+			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;

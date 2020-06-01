@@ -4,9 +4,8 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
 import AppCenterDistribute
-import AppCenterPush
 
 /**
  * Selectors for reflection.
@@ -18,6 +17,9 @@ import AppCenterPush
   func showDistributeDisabledAlert()
   func delegate() -> MSDistributeDelegate
 }
+#endif
+#if canImport(AppCenterPush)
+import AppCenterPush
 #endif
 
 /**
@@ -84,7 +86,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func isDistributeEnabled() -> Bool {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     return MSDistribute.isEnabled()
 #else
     return false
@@ -92,7 +94,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func isPushEnabled() -> Bool {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterPush)
     return MSPush.isEnabled()
 #else
     return false
@@ -108,13 +110,13 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func setDistributeEnabled(_ isEnabled: Bool) {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     MSDistribute.setEnabled(isEnabled)
 #endif
   }
 
   func setPushEnabled(_ isEnabled: Bool) {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterPush)
     MSPush.setEnabled(isEnabled)
 #endif
   }
@@ -174,13 +176,13 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   // MSDistribute section.
 
   func checkForUpdate() {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     MSDistribute.checkForUpdate()
 #endif
   }
 
   func showConfirmationAlert() {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let confirmationAlertSelector = #selector(Selectors.showConfirmationAlert(_:))
     let releaseDetails = MSReleaseDetails();
@@ -196,7 +198,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func showDistributeDisabledAlert() {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let disabledAlertSelector = #selector(Selectors.showDistributeDisabledAlert)
     if (MSDistribute.responds(to: sharedInstanceSelector)) {
@@ -209,7 +211,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func showCustomConfirmationAlert() {
-#if !targetEnvironment(macCatalyst)
+#if canImport(AppCenterDistribute)
     let sharedInstanceSelector = #selector(Selectors.sharedInstance)
     let delegateSelector = #selector(Selectors.delegate)
     let releaseDetails = MSReleaseDetails();
