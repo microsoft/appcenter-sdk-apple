@@ -57,13 +57,13 @@ static MSDeviceTracker *sharedInstance = nil;
 
     // Restore past sessions from NSUserDefaults.
     NSData *devices = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSPastDevicesKey];
-    NSArray *arrayFromData;
     if (devices != nil) {
-      arrayFromData = (NSArray *)[[MSUtility unarchiveKeyedData:devices] mutableCopy];
+      NSArray *arrayFromData = (NSArray *)[[MSUtility unarchiveKeyedData:devices] mutableCopy];
 
       // If array is not nil, create a mutable version.
-      if (arrayFromData)
+      if (arrayFromData != nil) {
         _deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
+      }
     }
 
     // Create new array and create device info in case we don't have any from disk.

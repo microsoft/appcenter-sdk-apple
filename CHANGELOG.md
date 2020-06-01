@@ -8,7 +8,7 @@ Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Als
 
 * **[Feature]** Add support for Mac Catalyst.
 * **[Fix]** Fix `Undefined symbol: ___llvm_profile_runtime` when the SDK was built from source by Carthage.
-* **[Fix]** Fix screen resolution detection macOS.
+* **[Fix]** Fix screen resolution detection on macOS.
 
 ### App Center Analytics
 
@@ -17,6 +17,7 @@ Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Als
 ### App Center Crashes
 
 * **[Feature]** Add support for Mac Catalyst.
+
 ___
 
 ## Version 3.2.0
