@@ -56,9 +56,10 @@ __attribute__((used)) static void importCategories() {
 #pragma clang diagnostic pop
     }
   }
-  @catch(id) {
+  @catch(NSException *ex) {
     
     // Return nil if unarchiving fails
+    NSLog(@"Unarchiving NSData object %@ fails with this error: %@", data, ex.reason);
     return nil;
   }
 }
