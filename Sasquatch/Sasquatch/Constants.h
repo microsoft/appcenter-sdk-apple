@@ -34,7 +34,7 @@ static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290c
 #endif
 
 static NSString *const kMSPuppetAppSecret = @"ios=65dc3680-7325-4000-a0e7-dbd2276eafd1;"
-                                            @"macos=57e2a6eb-8695-4191-a16c-44b745aea34b";
+                                            @"macos=5aa84728-2b28-468d-81bc-0aefafcf2f67";
 static NSString *const kMSObjcAppSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
 static NSString *const kMSSwiftCombinedAppSecret = @"ios=0dbca56b-b9ae-4d53-856a-7c2856137d85;"
                                                    @"macos=2d34dd5c-38c1-4791-b271-f2444c12292b";
