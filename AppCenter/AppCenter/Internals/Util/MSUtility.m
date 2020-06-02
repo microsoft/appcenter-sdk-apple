@@ -51,9 +51,9 @@ __attribute__((used)) static void importCategories() {
   NSException *exception;
   @try {
     if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:error];
+      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
       unarchiver.requiresSecureCoding = NO;
-      unarchivedData = [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:error];
+      unarchivedData = [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:&error];
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -74,14 +74,29 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (NSData *)archiveKeyedData:(id)data {
-  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, *)) {
-    return [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:nil];
-  } else {
+  NSError *error;
+  NSData *archivedData;
+  NSException *exception;
+  @try {
+    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
+      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:&error];
+    } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    return [NSKeyedArchiver archivedDataWithRootObject:data];
+      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data];
 #pragma clang diagnostic pop
+    }
   }
+  @catch(NSException *ex) {
+    exception = ex;
+  }
+  if (!archivedData || exception) {
+    
+    //Unarchiving process failed
+    MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
+               exception ? exception.reason : error.localizedDescription);
+  }
+  return archivedData;
 }
 
 @end
