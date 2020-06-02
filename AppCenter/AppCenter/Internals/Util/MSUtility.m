@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSAppCenterInternal.h"
+#import "MSLoggerInternal.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
