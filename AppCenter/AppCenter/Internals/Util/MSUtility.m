@@ -58,8 +58,8 @@ __attribute__((used)) static void importCategories() {
   }
   @catch(NSException *ex) {
     
-    // Return nil if unarchiving fails
-    NSLog(@"Unarchiving NSData object %@ fails with this error: %@", data, ex.reason);
+    // Return nil if unarchiving fails.
+    MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@", ex.reason);
     return nil;
   }
 }
