@@ -46,24 +46,31 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (NSObject *)unarchiveKeyedData:(NSData *)data {
+  NSError *error;
+  NSObject *unarchivedData;
+  NSException *exception;
   @try {
     if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
+      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:error];
       unarchiver.requiresSecureCoding = NO;
-      return [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:nil];
+      unarchivedData = [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:error];
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-      return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+      unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 #pragma clang diagnostic pop
     }
   }
   @catch(NSException *ex) {
-    
-    // Return nil if unarchiving fails.
-    MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@", ex.reason);
-    return nil;
+    exception = ex;
   }
+  if (!unarchivedData || exception) {
+    
+    //Unarchiving process failed
+    MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
+               exception ? exception.reason : error.localizedDescription);
+  }
+  return unarchivedData;
 }
 
 + (NSData *)archiveKeyedData:(id)data {
