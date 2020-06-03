@@ -388,8 +388,7 @@ static MSDeviceTracker *sharedInstance = nil;
     return [NSString stringWithFormat:@"%dx%d", (int)screenSize.width, (int)screenSize.height];
   }
   SEL selector = NSSelectorFromString(@"frame");
-  NSInvocation *invocation =
-      [NSInvocation invocationWithMethodSignature:[[screen class] instanceMethodSignatureForSelector:selector]];
+  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[screen class] instanceMethodSignatureForSelector:selector]];
   [invocation setSelector:selector];
   [invocation setTarget:screen];
   [invocation invoke];
@@ -405,14 +404,14 @@ static MSDeviceTracker *sharedInstance = nil;
 
 #if TARGET_OS_IOS
 - (NSString *)carrierName:(CTCarrier *)carrier {
-  return [self isValidCarrierName: carrier.carrierName] ? carrier.carrierName : nil;
+  return [self isValidCarrierName:carrier.carrierName] ? carrier.carrierName : nil;
 }
 
 - (NSString *)carrierCountry:(CTCarrier *)carrier {
   return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
- }
-           
-- (BOOL) isValidCarrierName:(NSString *) carrier {
+}
+
+- (BOOL)isValidCarrierName:(NSString *)carrier {
   return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame;
 }
 
