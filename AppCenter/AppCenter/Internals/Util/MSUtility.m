@@ -66,7 +66,7 @@ __attribute__((used)) static void importCategories() {
   }
   if (!unarchivedData || exception) {
     
-    //Unarchiving process failed
+    // Unarchiving process failed.
     MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
                exception ? exception.reason : error.localizedDescription);
   }
@@ -92,7 +92,7 @@ __attribute__((used)) static void importCategories() {
   }
   if (!archivedData || exception) {
     
-    //Unarchiving process failed
+    // Unarchiving process failed.
     MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
                exception ? exception.reason : error.localizedDescription);
   }
