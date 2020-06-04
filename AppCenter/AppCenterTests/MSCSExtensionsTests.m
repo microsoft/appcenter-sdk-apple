@@ -800,6 +800,15 @@
   XCTAssertEqualObjects(actualData.properties, self.orderedDummyValues);
 }
 
+- (void)testInvalidDataNSCodingDeserialization {
+
+  // When
+  MSCSData *actualData = (MSCSData *)[MSUtility unarchiveKeyedData:@"invalid data"];
+
+  // Then
+  XCTAssertNil(nil);
+}
+
 - (void)testDataIsValid {
 
   // If

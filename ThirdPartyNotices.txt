@@ -11,6 +11,7 @@ Visual Studio App Center SDK for Apple platforms incorporates third party materi
 5.	Protobuf 2.0.3  (https://github.com/protocolbuffers/protobuf)
 6.	Protobuf-c (https://github.com/protobuf-c/protobuf-c)
 7.	Reachability  (https://developer.apple.com/library/content/samplecode/Reachability/Introduction/Intro.html#//apple_ref/doc/uid/DTS40007324-Intro-DontLinkElementID_2)
+8.	SQLite (https://github.com/sqlite/sqlite)
 
 
 %% Jazzy  NOTICES AND INFORMATION BEGIN HERE
@@ -654,3 +655,14 @@ STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 =========================================
 END OF Reachability  NOTICES AND INFORMATION
+
+%% SQLite  NOTICES AND INFORMATION BEGIN HERE
+=========================================
+The author disclaims copyright to this source code.  In place of
+a legal notice, here is a blessing:
+
+  *   May you do good and not evil.
+  *   May you find forgiveness for yourself and forgive others.
+  *   May you share freely, never taking more than you give.
+=========================================
+END OF SQLite  NOTICES AND INFORMATION
