@@ -21,4 +21,11 @@
  */
 - (BOOL)distribute:(MSDistribute *)distribute releaseAvailableWithDetails:(MSReleaseDetails *)details;
 
+/**
+ * Optionally add any clean up operations that need to be done before MSDistribute terminates application for update.
+ *
+ * @param distribute The instance of MSDistribute.
+ */
+- (void)distributeWillClose:(MSDistribute *)distribute;
+
 @end

@@ -1097,6 +1097,11 @@ static dispatch_once_t onceToken;
 }
 
 - (void)closeApp __attribute__((noreturn)) {
+  id<MSDistributeDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(distributeWillClose:)])
+  {
+    [delegate distributeWillClose:self];
+  }
   exit(0);
 }
 
