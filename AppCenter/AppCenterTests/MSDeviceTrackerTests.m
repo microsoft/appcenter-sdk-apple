@@ -247,6 +247,22 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 #endif
 
 #if TARGET_OS_IOS
+- (void)testNonValidCarrierName {
+
+  // If
+  id carrierMock = OCMClassMock([CTCarrier class]);
+  OCMStub([carrierMock carrierName]).andReturn(@"Carrier");
+
+  // When
+  NSString *carrierName = [self.sut carrierName:carrierMock];
+
+  // Then
+  assertThat(carrierName, nilValue());
+  [carrierMock stopMocking];
+}
+#endif
+
+#if TARGET_OS_IOS
 - (void)testCarrierCountry {
 
   // If
