@@ -35,6 +35,14 @@ NS_SWIFT_NAME(DistributeDelegate)
  */
 - (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute;
 
+/**
+ * Callback method that will be called before the app is permanently closed for update.
+ * It is the right place to add any required clean ups.
+ *
+ * @param distribute The instance of MSACDistribute.
+ */
+- (void)distributeWillClose:(MSACDistribute *)distribute;
+
 @end
 
 NS_ASSUME_NONNULL_END
