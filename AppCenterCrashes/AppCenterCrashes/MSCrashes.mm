@@ -871,12 +871,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         NSException *exception;
 
         // Deserialize the log.
-        @try {
-            item = static_cast<id<MSLog>>([MSUtility unarchiveKeyedData:serializedLog]);
-        } @catch (NSException *e) {
-          exception = e;
-        }
-        if (!item || exception) {
+        item = static_cast<id<MSLog>>([MSUtility unarchiveKeyedData:serializedLog]);
+        if (!item) {
 
           // The archived log is not valid.
           MSLogError([MSAppCenter logTag], @"Deserialization failed for log: %@",

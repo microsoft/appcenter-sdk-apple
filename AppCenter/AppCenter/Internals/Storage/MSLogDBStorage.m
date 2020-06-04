@@ -290,19 +290,13 @@ static const NSUInteger kMSSchemaVersion = 5;
     NSData *logData = [[NSData alloc] initWithBase64EncodedString:row[self.logColumnIndex]
                                                           options:NSDataBase64DecodingIgnoreUnknownCharacters];
     id<MSLog> log;
-    NSException *exception;
 
     // Deserialize the log.
-    @try {
-      log = (id<MSLog>)[MSUtility unarchiveKeyedData:logData];
-    } @catch (NSException *e) {
-      exception = e;
-    }
-    if (!log || exception) {
+    log = (id<MSLog>)[MSUtility unarchiveKeyedData:logData];
+    if (!log) {
 
       // The archived log is not valid.
-      MSLogError([MSAppCenter logTag], @"Deserialization failed for log with Id %@: %@", dbId,
-                 exception ? exception.reason : @"The log deserialized to NULL.");
+      MSLogError([MSAppCenter logTag], @"Deserialization failed for log with Id %@", dbId);
       [self deleteLogFromDBWithId:dbId];
       continue;
     }

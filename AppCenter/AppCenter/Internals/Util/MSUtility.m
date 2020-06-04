@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSAppCenterInternal.h"
+#import "MSLoggerInternal.h"
 #import "MSUtility+Application.h"
 #import "MSUtility+Date.h"
 #import "MSUtility+Environment.h"
@@ -44,27 +46,57 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (NSObject *)unarchiveKeyedData:(NSData *)data {
-  if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil];
-    unarchiver.requiresSecureCoding = NO;
-    return [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:nil];
-  } else {
+  NSError *error;
+  NSObject *unarchivedData;
+  NSException *exception;
+  @try {
+    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
+      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
+      unarchiver.requiresSecureCoding = NO;
+      unarchivedData = [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:&error];
+    } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+      unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 #pragma clang diagnostic pop
+    }
   }
+  @catch(NSException *ex) {
+    exception = ex;
+  }
+  if (!unarchivedData || exception) {
+    
+    // Unarchiving process failed.
+    MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
+               exception ? exception.reason : error.localizedDescription);
+  }
+  return unarchivedData;
 }
 
 + (NSData *)archiveKeyedData:(id)data {
-  if (@available(macOS 10.13, iOS 11.0, watchOS 4.0, *)) {
-    return [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:nil];
-  } else {
+  NSError *error;
+  NSData *archivedData;
+  NSException *exception;
+  @try {
+    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
+      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:&error];
+    } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-    return [NSKeyedArchiver archivedDataWithRootObject:data];
+      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data];
 #pragma clang diagnostic pop
+    }
   }
+  @catch(NSException *ex) {
+    exception = ex;
+  }
+  if (!archivedData || exception) {
+    
+    // Unarchiving process failed.
+    MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
+               exception ? exception.reason : error.localizedDescription);
+  }
+  return archivedData;
 }
 
 @end
