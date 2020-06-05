@@ -37,27 +37,13 @@ GCC_NO_COMMON_BLOCKS = YES
 // :Mark: Preprocessing
 ENABLE_STRICT_OBJC_MSGSEND = YES
 
-// This flag adds -fembed-bitcode-marker in the release configuration
-// but we require the full bitcode flag -fembed-bitcode in this case.
-ENABLE_BITCODE = NO;
-
 // :Mark: OTHER_CFLAGS
 OTHER_CFLAGS = -Wshorten-64-to-32 -Wall -fstack-protector-strong -fpie
-
-// Use empty bitcode marker in simulators and debug configurations for real devices.
-OTHER_CFLAGS[sdk=iphonesimulator*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
-OTHER_CFLAGS[sdk=appletvsimulator*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
-OTHER_CFLAGS[config=Debug][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
-OTHER_CFLAGS[config=Debug][sdk=appletvos*] = $(OTHER_CFLAGS) -fembed-bitcode-marker
-
-// Activate full bitcode on release configuration for real devices.
-OTHER_CFLAGS[config=Release][sdk=iphoneos*] = $(OTHER_CFLAGS) -fembed-bitcode
-OTHER_CFLAGS[config=Release][sdk=appletvos*] = $(OTHER_CFLAGS) -fembed-bitcode
 
 // :Mark: Extension API Only
 // Make sure we don't use API that are not available in extensions.
 // See https://pewpewthespells.com/blog/buildsettings.html for info about the flag.
-APPLICATION_EXTENSION_API_ONLY = YES;
+APPLICATION_EXTENSION_API_ONLY = YES
 
 // :Mark: GCC_PREPROCESSOR_DEFINITIONS
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) APP_CENTER_C_VERSION="\""$(VERSION_STRING)"\"" APP_CENTER_C_BUILD="\""$(BUILD_NUMBER)"\""
