@@ -38,7 +38,8 @@ GCC_NO_COMMON_BLOCKS = YES
 ENABLE_STRICT_OBJC_MSGSEND = YES
 
 // :Mark: OTHER_CFLAGS
-OTHER_CFLAGS = -Wshorten-64-to-32 -Wall -fstack-protector-strong -fpie
+GLOBAL_CFLAGS = -Wshorten-64-to-32 -Wall -fstack-protector-strong -fpie
+OTHER_CFLAGS = $(GLOBAL_CFLAGS)
 
 // :Mark: Extension API Only
 // Make sure we don't use API that are not available in extensions.
