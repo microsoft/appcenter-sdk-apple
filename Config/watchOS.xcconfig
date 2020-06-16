@@ -2,4 +2,4 @@ SDKROOT = watchos
 SKIP_INSTALL = YES
 TARGETED_DEVICE_FAMILY = 4
 ARCHS = $(ARCHS_STANDARD)
-OTHER_CFLAGS = $(OTHER_CFLAGS) -fgnu-inline-asm
+OTHER_CFLAGS = $(inherited) -fgnu-inline-asm
