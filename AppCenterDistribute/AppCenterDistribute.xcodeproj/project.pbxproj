@@ -1273,14 +1273,12 @@
 		};
 		845017E1245ADB360026E0DB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		845017E2245ADB360026E0DB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
