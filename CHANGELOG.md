@@ -20,6 +20,7 @@ Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Als
 ### App Center Crashes
 
 * **[Feature]** Add support for Mac Catalyst.
+* **[Improvement]** Update PLCrashReporter to 1.7.0.
 
 ___
 
