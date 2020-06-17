@@ -10,7 +10,7 @@ Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Als
 * **[Fix]** Fix `Undefined symbol: ___llvm_profile_runtime` when the SDK was built from source by Carthage.
 * **[Fix]** Fix building tvOS frameworks from source by Carthage.
 * **[Fix]** Fix screen resolution detection on macOS.
-* **[Fix]** Fix crash when local binary data (where unsended logs or unprocessed crashed are stored) is corrupted.
+* **[Fix]** Fix crash when local binary data (where unsent logs or unprocessed crashed are stored) is corrupted.
 * **[Fix]** When carrier name is retrieved incorrectly by iOS, show `nil` as expected instead of "carrier" string.
 
 ### App Center Analytics
