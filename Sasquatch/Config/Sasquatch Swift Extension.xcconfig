@@ -1,0 +1,3 @@
+#include "Sasquatch Extension.xcconfig"
+
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
