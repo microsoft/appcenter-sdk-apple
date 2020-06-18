@@ -205,8 +205,6 @@
 		C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; platformFilter = ios; };
 		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; platformFilter = ios; };
-		C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
-		C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156E02338C31500798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
@@ -284,7 +282,6 @@
 		DF4D2DE324768E40004A12DC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
-		DF4D2E2424768EDB004A12DC /* Sasquatch XCFrameworks.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */; };
 		DFC734AA247C1CA500DC782B /* AppCenterDistribute.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */; platformFilter = ios; };
 		DFC734AC247C1CA500DC782B /* AppCenterAnalytics.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */; };
 		DFC734AE247C1CA500DC782B /* AppCenter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFC734A8247C1CA500DC782B /* AppCenter.xcframework */; };
@@ -1187,6 +1184,7 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D58553F4249A2943005C6813 /* Sasquatch Swift.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Swift.xcconfig"; sourceTree = "<group>"; };
 		DF4D2DF024768E40004A12DC /* SasquatchSwift-Preview XCFrameworks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-Preview XCFrameworks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch XCFrameworks.xcconfig"; sourceTree = "<group>"; };
 		DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterDistribute.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterDistribute.xcframework"; sourceTree = "<group>"; };
@@ -1774,6 +1772,7 @@
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
 				C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */,
+				D58553F4249A2943005C6813 /* Sasquatch Swift.xcconfig */,
 				DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
@@ -2539,7 +2538,6 @@
 				84226C561E88FF4A00798417 /* Assets.xcassets in Resources */,
 				F809D5041FC6DA2B005E0F83 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F382164F9A6009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
-				C27AD55E234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */,
 				B2E011F321091EF2003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				B2E011F421091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
@@ -2589,7 +2587,6 @@
 				B27D54C6210A5E7E004E82C9 /* LaunchScreen.storyboard in Resources */,
 				F8AA9F062164F91B009104E3 /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
 				B27D54C7210A5E7E004E82C9 /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
-				C27AD55D234C961C00A2576F /* Sasquatch ObjC.xcconfig in Resources */,
 				B27D54C8210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				B27D54C9210A5E7E004E82C9 /* Main.storyboard in Resources */,
 				B27D54CA210A5E7E004E82C9 /* Assets.xcassets in Resources */,
@@ -2674,7 +2671,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF4D2DDE24768E40004A12DC /* Sasquatch.strings in Resources */,
-				DF4D2E2424768EDB004A12DC /* Sasquatch XCFrameworks.xcconfig in Resources */,
 				DF4D2DDF24768E40004A12DC /* Assets.xcassets in Resources */,
 				DF4D2DE024768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */,
 				DF4D2DE124768E40004A12DC /* MSAnalyticsTypedPropertyTableViewCell.xib in Resources */,
@@ -3564,6 +3560,7 @@
 		};
 		84226CA61E8908CA00798417 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -3577,6 +3574,7 @@
 		};
 		84226CA71E8908CA00798417 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -3646,6 +3644,7 @@
 		};
 		B2A4CFB4210A6E6900199B4F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -3660,6 +3659,7 @@
 		};
 		B2A4CFB5210A6E6900199B4F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchSwift/SasquatchSwift.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -3709,6 +3709,7 @@
 		};
 		C9E7E490231E99E9007D96DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -3734,6 +3735,7 @@
 		};
 		C9E7E4F2231E9A5E007D96DC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
