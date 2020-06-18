@@ -1,4 +1,3 @@
-APPCENTER_SDK_NAME = appcenter.tvos
 SDKROOT = appletvos
 ARCHS = arm64
 ARCHS[sdk=appletvsimulator*] = $(MS_SIM_ARCHS)
@@ -6,5 +5,8 @@ VALID_ARCHS = $(ARCHS)
 VALID_ARCHS[sdk=appletvsimulator*] = $(MS_SIM_ARCHS)
 SKIP_INSTALL = YES
 TARGETED_DEVICE_FAMILY = 3
+
+OTHER_CFLAGS = $(inherited) -fembed-bitcode-marker
+OTHER_CFLAGS[config=Release][sdk=appletvos*] = $(GLOBAL_CFLAGS) -fembed-bitcode
 
 APPCENTER_BUILD_PLATFORM = tvOS

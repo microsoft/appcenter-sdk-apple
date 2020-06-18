@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'AppCenter'
-  s.version           = '3.2.0'
+  s.version           = '3.3.0'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
   s.documentation_url = "https://docs.microsoft.com/en-us/appcenter/sdk"
   s.social_media_url = 'https://twitter.com/vsappcenter'
 
-  s.license           = { :type => 'MIT', :file => 'AppCenter-SDK-Apple/iOS/LICENSE' }
+  s.license           = { :type => 'MIT', :file => 'AppCenter-SDK-Apple/LICENSE' }
   s.author            = { 'Microsoft' => 'appcentersdk@microsoft.com' }
 
   s.ios.deployment_target = '9.0'
@@ -35,9 +35,7 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '11.0'
   s.source = { :http => "https://github.com/microsoft/appcenter-sdk-apple/releases/download/#{s.version}/AppCenter-SDK-Apple-#{s.version}.zip" }
 
-  s.ios.preserve_path = 'AppCenter-SDK-Apple/iOS/README.md'
-  s.osx.preserve_path = 'AppCenter-SDK-Apple/macOS/README.md'
-  s.tvos.preserve_path = 'AppCenter-SDK-Apple/tvOS/README.md'
+  s.preserve_path = 'AppCenter-SDK-Apple/README.md'
 
   s.default_subspecs = 'Analytics', 'Crashes'
 

@@ -7,7 +7,7 @@ OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SafariServices
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework UIKit
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework WebKit
 
-LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks "$(SRCROOT)/../Vendor/iOS/OCMock" "$(SRCROOT)/../Vendor/iOS/OCHamcrest" "$(SRCROOT)/../Vendor/iOS/OHHTTPStubs"
+LD_RUNPATH_SEARCH_PATHS = @executable_path/Frameworks @loader_path/Frameworks
 
 // OCMock and OCHamcrest have a bunch of warnings so we just disable this only for testing.
 GCC_TREAT_WARNINGS_AS_ERRORS = NO

@@ -12,8 +12,25 @@
  */
 NSString *MSUtilityStringFormattingCategory;
 
+/*
+* We support the following formats:
+* target=<..>
+* appsecret=<..>
+* target=<..>;appsecret=<..>
+* ios=<..>;macos=<..>
+*/
+
 static NSString *kMSTransmissionTargetKey = @"target=";
 static NSString *kMSAppSecretKey = @"appsecret=";
+static NSString *kMSSecretSeparator = @"=";
+
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
+static NSString *kMSAppSecretOSKey = @"macos=";
+#elif TARGET_OS_IOS
+static NSString *kMSAppSecretOSKey = @"ios=";
+#elif TARGET_OS_TV
+static NSString *kMSAppSecretOSKey = @"appsecret=";
+#endif
 
 @implementation NSObject (MSUtility_StringFormatting)
 
@@ -40,10 +57,30 @@ static NSString *kMSAppSecretKey = @"appsecret=";
     return nil;
   } else {
     for (NSString *component in components) {
+      BOOL transmissionTokenIsNotPresent = [component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound;
 
       // Component is app secret, return the component. Check for length > 0 as "foo;" will be parsed as 2 components.
-      if (([component rangeOfString:kMSTransmissionTargetKey].location == NSNotFound) && (component.length > 0)) {
-        NSString *secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
+      if (transmissionTokenIsNotPresent && component.length > 0) {
+        NSString *secretString = @"";
+        if ([string rangeOfString:kMSAppSecretOSKey].location != NSNotFound) {
+          
+          // If we know the whole string contains OSKey somewhere, we start looking for it.
+          if ([component rangeOfString:kMSAppSecretOSKey].location != NSNotFound) {
+            secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretOSKey withString:@""];
+          }
+        } else {
+          
+          // If the whole string does not contain OSKey, we either use its value
+          // or search for "appsecret" components.
+          if ([component rangeOfString:kMSAppSecretKey].location == NSNotFound &&
+              [component rangeOfString:kMSSecretSeparator].location == NSNotFound) {
+                
+            // Make sure the string is "clean" and without keys at this point.
+            secretString = component;
+          } else {
+            secretString = [component stringByReplacingOccurrencesOfString:kMSAppSecretKey withString:@""];
+          }
+        }
 
         // Check for string length to avoid returning empty string.
         if ((secretString != nil) && (secretString.length > 0)) {
@@ -63,13 +100,13 @@ static NSString *kMSAppSecretKey = @"appsecret=";
     return nil;
   } else {
     for (NSString *component in components) {
-
-      // Component is transmission target token, return the component.
-      if (([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
-        NSString *transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
-
-        // Check for string length to avoid returning empty string.
-        if (transmissionTarget.length > 0) {
+      
+    // Component is transmission target token, return the component.
+    if (([component rangeOfString:kMSTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
+      NSString *transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSTransmissionTargetKey withString:@""];
+      
+      // Check for string length to avoid returning empty string.
+      if (transmissionTarget.length > 0) {
           return transmissionTarget;
         }
       }

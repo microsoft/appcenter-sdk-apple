@@ -1,4 +1,4 @@
 #include "../../../Config/tvOS.xcconfig"
-#include "../../../Config/Target config.xcconfig"
+#include "../../../Config/Framework.xcconfig"
 
 OTHER_LDFLAGS=$(inherited) -framework UIKit

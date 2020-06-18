@@ -78,7 +78,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 - (void)testDeviceOSName {
 
 // If
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   NSString *expected = @"macOS";
 #else
   NSString *expected = @"iMock OS";
@@ -87,7 +87,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 #endif
 
 // When
-#if TARGET_OS_OSX
+#if TARGET_OS_OSX || TARGET_OS_MACCATALYST
   NSString *osName = [self.sut osName];
 #else
   NSString *osName = [self.sut osName:deviceMock];
@@ -137,7 +137,7 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // Then
   assertThat(osVersion, is(expected));
 
-#if TARGET_OS_OSX && __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
+#if (TARGET_OS_OSX || TARGET_OS_MACCATALYST) && __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
   [processInfoMock stopMocking];
 #endif
 }
@@ -236,6 +236,22 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
   // If
   id carrierMock = OCMClassMock([CTCarrier class]);
   OCMStub([carrierMock carrierName]).andReturn(nil);
+
+  // When
+  NSString *carrierName = [self.sut carrierName:carrierMock];
+
+  // Then
+  assertThat(carrierName, nilValue());
+  [carrierMock stopMocking];
+}
+#endif
+
+#if TARGET_OS_IOS
+- (void)testNonValidCarrierName {
+
+  // If
+  id carrierMock = OCMClassMock([CTCarrier class]);
+  OCMStub([carrierMock carrierName]).andReturn(@"Carrier");
 
   // When
   NSString *carrierName = [self.sut carrierName:carrierMock];
@@ -468,21 +484,21 @@ static NSString *const kMSDeviceManufacturerTest = @"Apple";
 }
 
 - (void)testNSUserDefaultsDeviceHistory {
-    MSMockUserDefaults *defaults = [MSMockUserDefaults new];
+  MSMockUserDefaults *defaults = [MSMockUserDefaults new];
 
-    // When
-    [self.sut clearDevices];
+  // When
+  [self.sut clearDevices];
 
-    // Restore past devices from NSUserDefaults.
-    NSData *devices = [defaults objectForKey:kMSPastDevicesKey];
-    NSArray *arrayFromData = [NSKeyedUnarchiver unarchiveObjectWithData:devices];
+  // Restore past devices from NSUserDefaults.
+  NSData *devices = [defaults objectForKey:kMSPastDevicesKey];
+  NSArray *arrayFromData = (NSArray *)[[MSUtility unarchiveKeyedData:devices] mutableCopy];
 
-    NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
+  NSMutableArray<MSDeviceHistoryInfo *> *deviceHistory = [NSMutableArray arrayWithArray:arrayFromData];
 
-    // Then
-    XCTAssertTrue([deviceHistory count] == 1);
+  // Then
+  XCTAssertTrue([deviceHistory count] == 1);
 
-    [defaults stopMocking];
+  [defaults stopMocking];
 }
 
 - (void)testClearingDeviceHistoryWorks {

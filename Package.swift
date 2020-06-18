@@ -23,7 +23,7 @@ let package = Package(
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.6.0")),
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.7.0")),
     ],
     targets: [
         .target(
@@ -31,10 +31,7 @@ let package = Package(
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
             cSettings: [
-                .define("APP_CENTER_C_NAME", to: "\"appcenter.ios\"", .when(platforms: [.iOS])),
-                .define("APP_CENTER_C_NAME", to: "\"appcenter.macos\"", .when(platforms: [.macOS])),
-                .define("APP_CENTER_C_NAME", to: "\"appcenter.tvos\"", .when(platforms: [.tvOS])),
-                .define("APP_CENTER_C_VERSION", to:"\"3.2.0\""),
+                .define("APP_CENTER_C_VERSION", to:"\"3.3.0\""),
                 .define("APP_CENTER_C_BUILD", to:"\"1\""),
                 .headerSearchPath("**"),
             ],
@@ -45,7 +42,7 @@ let package = Package(
                 .linkedFramework("SystemConfiguration"),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
-                .linkedFramework("CoreTelephony", .when(platforms: [.iOS])),
+                .linkedFramework("CoreTelephony", .when(platforms: [.iOS, .macOS])),
             ]
         ),
         .target(

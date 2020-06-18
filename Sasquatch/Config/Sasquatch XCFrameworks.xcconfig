@@ -1,0 +1,3 @@
+SUPPORTS_MACCATALYST = YES
+FRAMEWORK_SEARCH_PATHS = $(PROJECT_DIR)/../AppCenter-SDK-Apple/XCFramework
+OTHER_LDFLAGS = $(OTHER_LDFLAGS) -fprofile-instr-generate

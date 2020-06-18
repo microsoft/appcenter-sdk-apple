@@ -27,6 +27,7 @@
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
+#import "MSLoggerInternal.h"
 #import "MSHandledErrorLog.h"
 #import "MSSessionContext.h"
 #import "MSUserIdContext.h"
@@ -354,7 +355,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 #endif
 
     // Set up memory warning handler.
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
     if (MS_IS_APP_EXTENSION) {
 #endif
       self.memoryPressureSource =
@@ -366,7 +367,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
         [strongSelf didReceiveMemoryWarning:nil];
       });
       dispatch_resume(self.memoryPressureSource);
-#if !TARGET_OS_OSX
+#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
     } else {
       [MS_NOTIFICATION_CENTER addObserver:self
                                  selector:@selector(didReceiveMemoryWarning:)
@@ -526,7 +527,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
 
   // The callback can be called from any thread, making sure we make this thread-safe.
   @synchronized(self) {
-    NSData *serializedLog = [NSKeyedArchiver archivedDataWithRootObject:log];
+    NSData *serializedLog = [MSUtility archiveKeyedData:log];
     if (serializedLog && (serializedLog.length > 0)) {
 
       // Serialize target token.
@@ -866,7 +867,19 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
     if ([[fileURL pathExtension] isEqualToString:kMSLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
       if (serializedLog && serializedLog.length && serializedLog.length > 0) {
-        id<MSLog> item = [NSKeyedUnarchiver unarchiveObjectWithData:serializedLog];
+        id<MSLog> item;
+        NSException *exception;
+
+        // Deserialize the log.
+        item = static_cast<id<MSLog>>([MSUtility unarchiveKeyedData:serializedLog]);
+        if (!item) {
+
+          // The archived log is not valid.
+          MSLogError([MSAppCenter logTag], @"Deserialization failed for log: %@",
+                     exception ? exception.reason : @"The log deserialized to NULL.");
+          
+          continue;
+        }
         if (item) {
 
           // Try to set target token.

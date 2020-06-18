@@ -38,6 +38,7 @@
 				845017DF245ADB360026E0DB /* Build XCFramework */,
 			);
 			dependencies = (
+				D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute XCFramework";
 			productName = "Fat Framework";
@@ -59,7 +60,6 @@
 		389638A41E79F59D007C3809 /* MSDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSDistributeTestUtil.m */; };
 		38A683641E774DCE00A63BC8 /* MSSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683621E774DCE00A63BC8 /* MSSemVerTests.m */; };
 		38A683651E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683631E774DCE00A63BC8 /* MSSemVerPreReleaseIdTest.m */; };
-		38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 380304421E7B007E006A55FB /* OCHamcrestIOS.framework */; };
 		58603D3986EEE50CBFAFD4BC /* MSDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSDistributeInfoTrackerTests.m */; };
 		78B7D8B723D581B900E08D9B /* MSAlertControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B623D581B900E08D9B /* MSAlertControllerTests.m */; };
 		78B7D8BA23D5849600E08D9B /* MSAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B823D5849600E08D9B /* MSAlertController.m */; };
@@ -75,6 +75,7 @@
 		C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */; };
 		C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200612230FDF7000848D5B /* AppCenter.framework */; };
 		C2392F7324642DC600425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F4224642CB600425640 /* OCMock.framework */; };
+		C24D1C79247F34770025261B /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
 		C9EBAA2B230D37ED00A20F0F /* MSService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2C230D37ED00A20F0F /* MSServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2D230D37ED00A20F0F /* MSIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSIngestionProtocol.h */; };
@@ -110,6 +111,7 @@
 		C9EBAAEF230D3A9B00A20F0F /* MSDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSDistributeInfoTracker.m */; };
 		C9EBAAF0230D3A9B00A20F0F /* MSReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */; };
 		C9EBAB37230D73A800A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB36230D73A800A20F0F /* AppCenter.framework */; };
+		DFCB808D2472D7310058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80802472D71C0058D292 /* OCHamcrest.framework */; };
 		DFE95501244D8B4D0061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F2244D8B410061E3FA /* HTTPStubs.m */; };
 		DFE95502244D8B4D0061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */; };
 		DFE95503244D8B4D0061E3FA /* HTTPStubsResponse+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954FC244D8B410061E3FA /* HTTPStubsResponse+JSON.m */; };
@@ -206,6 +208,69 @@
 			remoteGlobalIDString = F0B950F01B0080BE00942C38;
 			remoteInfo = "OCMock iOS";
 		};
+		D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A281E451E90009B4468;
+			remoteInfo = "AppCenterDistribute iOS Fat Framework";
+		};
+		DFCB80772472D71C0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 087601E213440806001B439B;
+			remoteInfo = OCHamcrest;
+		};
+		DFCB80792472D71C0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 087601F713440807001B439B;
+			remoteInfo = OCHamcrestTests;
+		};
+		DFCB807B2472D71C0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 081BEE621345979F003F846A;
+			remoteInfo = libochamcrest;
+		};
+		DFCB807D2472D71C0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 081BEE6C1345979F003F846A;
+			remoteInfo = libochamcrestTests;
+		};
+		DFCB807F2472D71C0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 24C5BFE91C1777D900C2BAFD;
+			remoteInfo = "OCHamcrest-iOS";
+		};
+		DFCB80812472D71C0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 24C5BFF61C17781400C2BAFD;
+			remoteInfo = "OCHamcrest-tvOS";
+		};
+		DFCB80832472D71C0058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 24C5C0031C17782500C2BAFD;
+			remoteInfo = "OCHamcrest-watchOS";
+		};
+		DFCB808B2472D7280058D292 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 24C5BFE81C1777D900C2BAFD;
+			remoteInfo = "OCHamcrest-iOS";
+		};
 		F8DD7524230D7E7A00B095B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
@@ -263,7 +328,6 @@
 		24E6AC9423A18AC900B8D33A /* MSTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSTestUtil.m; sourceTree = "<group>"; };
 		24E6AC9623A18BA800B8D33A /* MSMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSMockLog.m; path = ../../../AppCenter/AppCenterTests/Util/MSMockLog.m; sourceTree = "<group>"; };
 		24E6AC9723A18BA800B8D33A /* MSMockLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockLog.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockLog.h; sourceTree = "<group>"; };
-		380304421E7B007E006A55FB /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
 		383A2FE31EBA308700817742 /* MSDistributeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSDistributeAppDelegate.h; sourceTree = "<group>"; };
 		383A2FE51EBA30B300817742 /* MSDistributeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSDistributeAppDelegate.m; sourceTree = "<group>"; };
 		387CC62F210A9D9C002BA068 /* MSMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSMockKeychainUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSMockKeychainUtil.h; sourceTree = "<group>"; };
@@ -310,6 +374,7 @@
 		C2392F2F24642CB500425640 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../Vendor/OCMock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterDistribute.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB36230D73A800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
 		DFE954F2244D8B410061E3FA /* HTTPStubs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
 		DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
 		DFE954F4244D8B410061E3FA /* HTTPStubsMethodSwizzling.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPStubsMethodSwizzling.h; sourceTree = "<group>"; };
@@ -326,6 +391,7 @@
 		DFE95500244D8B410061E3FA /* HTTPStubs+NSURLSessionConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "HTTPStubs+NSURLSessionConfiguration.m"; sourceTree = "<group>"; };
 		F82E4C82217F217F00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F8646E651F349C6D006080AC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
+		F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "iOS Distribute.xcconfig"; sourceTree = "<group>"; };
 		F8B8EAE621106436004BCECB /* Resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Resources.xcconfig; sourceTree = "<group>"; };
 		F8BEA3CB1FBB0BDE00D4DE37 /* MSHttpTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSHttpTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.m; sourceTree = "<group>"; };
 		F8BEA3CC1FBB0BDE00D4DE37 /* MSHttpTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSHttpTestUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSHttpTestUtil.h; sourceTree = "<group>"; };
@@ -339,7 +405,7 @@
 			files = (
 				C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */,
 				C2200611230FDF6D00848D5B /* AppCenterDistribute.framework in Frameworks */,
-				38D25E391E7B0AAC00033FC4 /* OCHamcrestIOS.framework in Frameworks */,
+				DFCB808D2472D7310058D292 /* OCHamcrest.framework in Frameworks */,
 				C2392F7324642DC600425640 /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,6 +456,7 @@
 		0471B5F31E45466F0022F951 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */,
 				F8D6848E230D7DE9000A7CED /* Info.plist */,
 				04545DCC227B606600A49E06 /* AppCenterDistribute.xcconfig */,
 				0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */,
@@ -440,14 +507,6 @@
 				041CFFA31ECD0E0E00B4654B /* Tests iOS.xcconfig */,
 			);
 			name = Support;
-			sourceTree = "<group>";
-		};
-		04BED71D1ECB659700E20975 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				380304421E7B007E006A55FB /* OCHamcrestIOS.framework */,
-			);
-			name = iOS;
 			sourceTree = "<group>";
 		};
 		04FD4A131E451E12009B4468 = {
@@ -515,7 +574,7 @@
 		04FD4A491E453930009B4468 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				380304401E7B007E006A55FB /* OCHamcrest */,
+				DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */,
 				C2392F2F24642CB500425640 /* OCMock.xcodeproj */,
 				DFE954F1244D8B410061E3FA /* OHHTTPStubs */,
 				F82E4C82217F217F00EDAB34 /* sqlite3.c */,
@@ -530,15 +589,6 @@
 				048BB2FD1E60A40D009D92C2 /* MSReleaseDetails.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		380304401E7B007E006A55FB /* OCHamcrest */ = {
-			isa = PBXGroup;
-			children = (
-				04BED71D1ECB659700E20975 /* iOS */,
-			);
-			name = OCHamcrest;
-			path = ../../Vendor/iOS/OCHamcrest;
 			sourceTree = "<group>";
 		};
 		389638A21E79F557007C3809 /* Util */ = {
@@ -632,6 +682,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DFCB806E2472D71C0058D292 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DFCB80782472D71C0058D292 /* OCHamcrest.framework */,
+				DFCB807A2472D71C0058D292 /* OCHamcrestTests.xctest */,
+				DFCB807C2472D71C0058D292 /* libochamcrest.a */,
+				DFCB807E2472D71C0058D292 /* libochamcrestTests.xctest */,
+				DFCB80802472D71C0058D292 /* OCHamcrest.framework */,
+				DFCB80822472D71C0058D292 /* OCHamcrest.framework */,
+				DFCB80842472D71C0058D292 /* OCHamcrest.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DFE954F1244D8B410061E3FA /* OHHTTPStubs */ = {
 			isa = PBXGroup;
 			children = (
@@ -716,6 +780,7 @@
 			);
 			dependencies = (
 				C2200610230FDF6800848D5B /* PBXTargetDependency */,
+				DFCB808C2472D7280058D292 /* PBXTargetDependency */,
 				C2392F7224642DC100425640 /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute iOS Tests";
@@ -802,6 +867,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = DFCB806E2472D71C0058D292 /* Products */;
+					ProjectRef = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
+				},
+				{
 					ProductGroup = C2392F3024642CB500425640 /* Products */;
 					ProjectRef = C2392F2F24642CB500425640 /* OCMock.xcodeproj */;
 				},
@@ -868,6 +937,55 @@
 			remoteRef = C2392F4524642CB600425640 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		DFCB80782472D71C0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB80772472D71C0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB807A2472D71C0058D292 /* OCHamcrestTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCHamcrestTests.xctest;
+			remoteRef = DFCB80792472D71C0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB807C2472D71C0058D292 /* libochamcrest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libochamcrest.a;
+			remoteRef = DFCB807B2472D71C0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB807E2472D71C0058D292 /* libochamcrestTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = libochamcrestTests.xctest;
+			remoteRef = DFCB807D2472D71C0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80802472D71C0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB807F2472D71C0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80822472D71C0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB80812472D71C0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DFCB80842472D71C0058D292 /* OCHamcrest.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCHamcrest.framework;
+			remoteRef = DFCB80832472D71C0058D292 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -893,6 +1011,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C24D1C79247F34770025261B /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -911,7 +1030,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts/AppCenterDistribute\"\n./build-appcenterdistribute-ios-framework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		04FD4A401E4536B0009B4468 /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -925,7 +1045,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-docs.sh iOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" iOS\n";
 			showEnvVarsInLog = 0;
 		};
 		845017DF245ADB360026E0DB /* Build XCFramework */ = {
@@ -940,7 +1060,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}/../Scripts\"\n./build-xcframework.sh\n";
+			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1051,6 +1172,16 @@
 			name = "OCMock iOS";
 			targetProxy = C2392F7124642DC100425640 /* PBXContainerItemProxy */;
 		};
+		D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
+			targetProxy = D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */;
+		};
+		DFCB808C2472D7280058D292 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OCHamcrest-iOS";
+			targetProxy = DFCB808B2472D7280058D292 /* PBXContainerItemProxy */;
+		};
 		F8DD7525230D7E7A00B095B6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */;
@@ -1142,14 +1273,12 @@
 		};
 		845017E1245ADB360026E0DB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		845017E2245ADB360026E0DB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1170,7 +1299,7 @@
 		};
 		C9A91F91230BFFFF0068070D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
 			};
@@ -1178,7 +1307,7 @@
 		};
 		C9A91F92230BFFFF0068070D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
 			};

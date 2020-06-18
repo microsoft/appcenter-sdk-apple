@@ -6,7 +6,7 @@
                 "git": {
                     "name": "PLCrashReporter",
                     "repositoryUrl": "https://github.com/microsoft/plcrashreporter.git",
-                    "commitHash": "aa212fe0532fbae741e98ddf985012c71da95e07"
+                    "commitHash": "78fa8a55f21bae7a798dd0cca83a15899962fd2f"
                 }
             }
         },        
@@ -16,7 +16,7 @@
                 "git": {
                     "name": "OCHamcrest",
                     "repositoryUrl": "https://github.com/hamcrest/OCHamcrest.git",
-                    "commitHash": "edbded0a97d5c5e26f43c125ffc4522300970d98"
+                    "commitHash": "5f77cf33732dfa02e0b9f15e43d05a9110cc2ff0"
                 }
             }
         },
@@ -46,7 +46,7 @@
                 "git": {
                     "name": "Official Git mirror of the SQLite source tree",
                     "repositoryUrl": "https://github.com/sqlite/sqlite.git",
-                    "commitHash": "653b4f6078ecc34055f2ce47fbd80f74501ca4b8"
+                    "commitHash": "562fd18b9dc27216191c0a6477bba9b175f7f0d2"
                 }
             }
         },

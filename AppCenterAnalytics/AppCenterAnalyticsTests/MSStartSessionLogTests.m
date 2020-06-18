@@ -3,6 +3,7 @@
 
 #import "MSStartSessionLog.h"
 #import "MSTestFrameworks.h"
+#import "MSUtility.h"
 
 @interface MSStartSessionLogTests : XCTestCase
 
@@ -60,8 +61,8 @@
   self.sut.sid = sessionId;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.sut];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = [MSUtility archiveKeyedData:self.sut];
+  id actual = [MSUtility unarchiveKeyedData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());

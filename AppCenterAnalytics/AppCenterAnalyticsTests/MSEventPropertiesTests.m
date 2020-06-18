@@ -10,6 +10,7 @@
 #import "MSStringTypedProperty.h"
 #import "MSTestFrameworks.h"
 #import "MSUtility+Date.h"
+#import "MSUtility.h"
 
 @interface MSEventPropertiesTests : XCTestCase
 
@@ -173,8 +174,8 @@
   [sut setDate:[NSDate new] forKey:@"dateKey"];
 
   // When
-  NSData *serializedSut = [NSKeyedArchiver archivedDataWithRootObject:sut];
-  MSEventProperties *deserializedSut = [NSKeyedUnarchiver unarchiveObjectWithData:serializedSut];
+  NSData *serializedSut = [MSUtility archiveKeyedData:sut];
+  MSEventProperties *deserializedSut = (MSEventProperties *)[MSUtility unarchiveKeyedData:serializedSut];
 
   // Then
   XCTAssertNotNil(deserializedSut);
