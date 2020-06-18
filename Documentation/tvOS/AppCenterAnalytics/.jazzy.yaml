@@ -5,7 +5,7 @@ sdk: appletvsimulator
 theme: ../../Themes/apple
 
 module: AppCenterAnalytics
-module_version: 3.2.1
+module_version: 3.3.0
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
