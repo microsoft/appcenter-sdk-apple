@@ -152,7 +152,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
     break;
   case BOTH:
-    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
+    [MSAppCenter start:[NSString stringWithFormat:@"%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
     break;
   case NONE:
     [MSAppCenter startWithServices:services];

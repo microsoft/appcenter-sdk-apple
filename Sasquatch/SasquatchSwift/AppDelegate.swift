@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MSCrashesDelegate, UNUser
       MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
       break
     case .BOTH:
-      MSAppCenter.start("appsecret=\(appSecret);target=\(kMSSwiftTargetToken)", withServices: services)
+      MSAppCenter.start("\(appSecret);target=\(kMSSwiftTargetToken)", withServices: services)
       break
     case .NONE:
       MSAppCenter.start(withServices: services)
