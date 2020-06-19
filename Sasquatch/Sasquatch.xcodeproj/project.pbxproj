@@ -1180,7 +1180,6 @@
 		D31EF96B1E9517C600450162 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D31EF96D1E9517C600450162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31EF96F1E9517C600450162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D58553F4249A2943005C6813 /* Sasquatch Swift Extension.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Sasquatch Swift Extension.xcconfig"; sourceTree = "<group>"; };
 		DF4D2DF024768E40004A12DC /* SasquatchSwift-Preview XCFrameworks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchSwift-Preview XCFrameworks.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch XCFrameworks.xcconfig"; sourceTree = "<group>"; };
 		DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AppCenterDistribute.xcframework; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterDistribute.xcframework"; sourceTree = "<group>"; };
@@ -1768,7 +1767,6 @@
 				F8B224862113163D0052350E /* Sasquatch Debug.xcconfig */,
 				C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */,
 				C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */,
-				D58553F4249A2943005C6813 /* Sasquatch Swift Extension.xcconfig */,
 				DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */,
 				F8B8EB15211070BE004BCECB /* Sasquatch.xcconfig */,
 				F84BA102211342620020F13B /* UITests.xcconfig */,
@@ -3688,7 +3686,7 @@
 		};
 		C9E7E48F231E99E9007D96DC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift Extension.xcconfig */;
+			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -3701,7 +3699,7 @@
 		};
 		C9E7E490231E99E9007D96DC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift Extension.xcconfig */;
+			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -3714,7 +3712,7 @@
 		};
 		C9E7E4F1231E9A5E007D96DC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift Extension.xcconfig */;
+			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -3727,7 +3725,7 @@
 		};
 		C9E7E4F2231E9A5E007D96DC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D58553F4249A2943005C6813 /* Sasquatch Swift Extension.xcconfig */;
+			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
