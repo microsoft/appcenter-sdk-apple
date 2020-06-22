@@ -57,15 +57,6 @@
 + (PLCrashReportThreadInfo *)findCrashedThreadInReport:(PLCrashReport *)report;
 
 /**
- * Normalize an address.
- *
- * @param address The address to normalize.
- *
- * @return The normalized address.
- */
-+ (uint64_t)normalizeAddress:(uint64_t)address;
-
-/**
  * Extract binary images from a crash report. This only extracts the binary images that we "care" about, meaning those that are contained
  * in the crash's stack frames.
  *

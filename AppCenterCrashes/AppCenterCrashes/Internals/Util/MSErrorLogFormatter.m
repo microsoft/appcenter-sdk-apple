@@ -450,13 +450,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   uint64_t pcOffset = 0x0;
   NSString *symbolString = nil;
 
-  uint64_t instructionPointer = frameInfo.instructionPointer;
-  uint64_t normalizedPointer = [MSErrorLogFormatter normalizeAddress:instructionPointer];
-
-  PLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:normalizedPointer];
+  PLCrashReportBinaryImageInfo *imageInfo = [report imageForAddress:frameInfo.instructionPointer];
   if (imageInfo != nil) {
     baseAddress = imageInfo.imageBaseAddress;
     pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
+  } else {
+    MSLogWarning([MSCrashes logTag], @"Cannot find image for 0x%" PRIx64, frameInfo.instructionPointer);
   }
 
   /*
@@ -742,28 +741,16 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSMutableArray *addresses = [NSMutableArray new];
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil && [report.exceptionInfo.stackFrames count] > 0) {
     PLCrashReportExceptionInfo *exception = report.exceptionInfo;
-
     for (PLCrashReportStackFrameInfo *frameInfo in exception.stackFrames) {
-
-      // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
-      uint64_t normalizedAddress = [self normalizeAddress:frameInfo.instructionPointer];
-      [addresses addObject:@(normalizedAddress)];
+      [addresses addObject:@(frameInfo.instructionPointer)];
     }
   }
-
   for (PLCrashReportThreadInfo *plCrashReporterThread in report.threads) {
     for (PLCrashReportStackFrameInfo *frameInfo in plCrashReporterThread.stackFrames) {
-
-      // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
-      uint64_t normalizedAddress = [self normalizeAddress:frameInfo.instructionPointer];
-      [addresses addObject:@(normalizedAddress)];
+      [addresses addObject:@(frameInfo.instructionPointer)];
     }
-
     for (PLCrashReportRegisterInfo *registerInfo in plCrashReporterThread.registers) {
-
-      // When on an ARM64 architecture, normalize the address to remove possible pointer signatures
-      uint64_t normalizedAddress = [self normalizeAddress:registerInfo.registerValue];
-      [addresses addObject:@(normalizedAddress)];
+      [addresses addObject:@(registerInfo.registerValue)];
     }
   }
 
@@ -778,17 +765,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return (__bridge_transfer NSString *)uuidStringRef;
 }
 
-+ (uint64_t)normalizeAddress:(uint64_t)address {
-#if defined(__arm64__)
-  return address & 0x0000000fffffffff;
-#else
-  return address;
-#endif
-}
-
 + (NSString *)formatAddress:(uint64_t)address is64bit:(BOOL)is64bit {
-  uint64_t normalizedAddress = [MSErrorLogFormatter normalizeAddress:address];
-  return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << is64bit, normalizedAddress];
+  return [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << is64bit, address];
 }
 
 @end
