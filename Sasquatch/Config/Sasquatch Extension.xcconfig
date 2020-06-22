@@ -1,1 +1,2 @@
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../../Frameworks
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO

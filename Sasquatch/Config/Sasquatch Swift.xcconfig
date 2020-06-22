@@ -1,3 +1,0 @@
-// In Xcode 11 with enabled bitcode flag, archiving the swift application fails with error 'IPA processing failed'.
-// Disable bitcode as a workaround.
-ENABLE_BITCODE = NO
