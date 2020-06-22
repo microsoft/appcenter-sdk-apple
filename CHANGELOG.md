@@ -1,5 +1,9 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.3.1
+
+___
+
 ## Version 3.3.0
 
 Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Also, this version has a breaking change - it drops Xcode 10 support, Xcode 11 is a minimal supported version now.
