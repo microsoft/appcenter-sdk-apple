@@ -104,8 +104,11 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
  */
 + (MSWrapperException *)loadWrapperExceptionWithBaseFilename:(NSString *)baseFilename {
 
-  // For some reason, unarchiving directly from a file fails in some cases, so load data from a file and unarchive it after
+  // For some reason, unarchiving directly from a file fails in some cases, so load data from a file and unarchive it after.
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSCrashesUtil wrapperExceptionsDir], baseFilename];
+  if (![MSUtility fileExistsForPathComponent:pathComponent]) {
+    return nil;
+  }
   NSData *data = [MSUtility loadDataForPathComponent:pathComponent];
   MSWrapperException *wrapperException = nil;
   wrapperException = (MSWrapperException *)[MSUtility unarchiveKeyedData:data];

@@ -46,6 +46,9 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (NSObject *)unarchiveKeyedData:(NSData *)data {
+  if (!data) {
+    return nil;
+  }
   NSError *error;
   NSObject *unarchivedData;
   NSException *exception;
@@ -74,6 +77,9 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (NSData *)archiveKeyedData:(id)data {
+  if (!data) {
+    return nil;
+  }
   NSError *error;
   NSData *archivedData;
   NSException *exception;

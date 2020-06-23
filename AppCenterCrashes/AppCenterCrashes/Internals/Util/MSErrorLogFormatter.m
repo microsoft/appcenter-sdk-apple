@@ -454,7 +454,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (imageInfo != nil) {
     baseAddress = imageInfo.imageBaseAddress;
     pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
-  } else {
+  } else if (frameInfo.instructionPointer) {
     MSLogWarning([MSCrashes logTag], @"Cannot find image for 0x%" PRIx64, frameInfo.instructionPointer);
   }
 

@@ -27,8 +27,8 @@
 #import "MSErrorAttachmentLogInternal.h"
 #import "MSErrorLogFormatter.h"
 #import "MSErrorReportPrivate.h"
-#import "MSLoggerInternal.h"
 #import "MSHandledErrorLog.h"
+#import "MSLoggerInternal.h"
 #import "MSSessionContext.h"
 #import "MSUserIdContext.h"
 #import "MSUtility+File.h"
@@ -877,7 +877,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSCra
           // The archived log is not valid.
           MSLogError([MSAppCenter logTag], @"Deserialization failed for log: %@",
                      exception ? exception.reason : @"The log deserialized to NULL.");
-          
+
           continue;
         }
         if (item) {
