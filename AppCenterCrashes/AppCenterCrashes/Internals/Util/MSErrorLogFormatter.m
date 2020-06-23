@@ -466,13 +466,19 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   if (frameInfo.symbolInfo != nil && imageType == MSBinaryImageTypeOther) {
     NSString *symbolName = frameInfo.symbolInfo.symbolName;
 
-    // Apple strips the _ symbol prefix in their reports. Only OS X makes use of
-    // an underscore symbol prefix by default.
+    // Apple strips the _ symbol prefix in their reports.
     if ([symbolName rangeOfString:@"_"].location == 0 && [symbolName length] > 1) {
-      if (report.systemInfo.operatingSystem == PLCrashReportOperatingSystemiPhoneSimulator) {
+      switch (report.systemInfo.operatingSystem) {
+      case PLCrashReportOperatingSystemMacOSX:
+      case PLCrashReportOperatingSystemiPhoneOS:
+      case PLCrashReportOperatingSystemAppleTVOS:
+      case PLCrashReportOperatingSystemiPhoneSimulator:
         symbolName = [symbolName substringFromIndex:1];
-      } else {
-        MSLogWarning([MSCrashes logTag], @"Symbol prefix rules are unknown for this OS!");
+        break;
+
+      case PLCrashReportOperatingSystemUnknown:
+        MSLogWarning([MSCrashes logTag], @"Symbol \"%@\" prefix rules are unknown for this OS!", symbolName);
+        break;
       }
     }
 
