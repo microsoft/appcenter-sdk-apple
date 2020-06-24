@@ -501,8 +501,12 @@ static NSArray *kMacOSCrashReportsParameters = @[
   NSArray *images = crashReport.images;
   for (PLCrashReportBinaryImageInfo *image in images) {
     if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
-      assertThat(errorLog.primaryArchitectureId, equalTo(@(image.codeType.type)));
-      assertThat(errorLog.architectureVariantId, equalTo(@(image.codeType.subtype)));
+      XCTAssertEqual(errorLog.primaryArchitectureId.unsignedLongLongValue, image.codeType.type,
+                     @"Report: %@, Image: %@", filename, [image.imageName lastPathComponent]);
+      // It might be not equal valid architectures is wider than actual compile targets.
+      // For example arm64 binary runs on arm64e device.
+      // XCTAssertEqual(errorLog.architectureVariantId.unsignedLongLongValue, image.codeType.subtype,
+      //                @"Report: %@, Image: %@", filename, [image.imageName lastPathComponent]);
     }
   }
 
@@ -540,83 +544,46 @@ static NSArray *kMacOSCrashReportsParameters = @[
   assertThat(errorLog.registers, hasCountOf([crashedThread.registers count]));
 }
 
-#if !TARGET_OS_OSX
-- (void)testNormalize32BitAddress {
+- (void)testFormat32BitAddress {
 
   // If
   uint64_t address32Bit = 0x123456789;
 
   // When
   NSString *actual = [MSErrorLogFormatter formatAddress:address32Bit is64bit:NO];
-  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << NO, address32Bit];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8, address32Bit];
 
   // Then
   XCTAssertEqualObjects(expected, actual);
 }
-#endif
 
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
-- (void)testNormalize64BitAddress {
-
-  // If
-  uint64_t address64Bit = 0x1234567890abcdef;
-  uint64_t normalizedAddress = 0x0000000890abcdef;
-
-  // When
-  NSString *actual = [MSErrorLogFormatter formatAddress:address64Bit is64bit:YES];
-  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << YES, normalizedAddress];
-
-  // Then
-  XCTAssertEqualObjects(expected, actual);
-}
-#endif
-
-#if TARGET_OS_OSX && !TARGET_OS_MACCATALYST
-- (void)testNormalize32BitAddressOnMacOs {
-
-  // If
-  uint64_t address32Bit = 0x123456789;
-
-  // When
-  NSString *actual = [MSErrorLogFormatter formatAddress:address32Bit is64bit:NO];
-  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << NO, address32Bit];
-
-  // Then
-  XCTAssertEqualObjects(expected, actual);
-}
-#endif
-
-#if TARGET_OS_OSX && !TARGET_OS_MACCATALYST
-- (void)testNormalize64BitAddressMacOs {
+- (void)testFormat64BitAddress {
 
   // If
   uint64_t address64Bit = 0x1234567890abcdef;
 
   // When
   NSString *actual = [MSErrorLogFormatter formatAddress:address64Bit is64bit:YES];
-  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 8 << YES, address64Bit];
+  NSString *expected = [NSString stringWithFormat:@"0x%0*" PRIx64, 16, address64Bit];
 
   // Then
   XCTAssertEqualObjects(expected, actual);
 }
-#endif
 
-#if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testBinaryImageCountFromReportIsCorrect {
 
   // If
   NSData *crashData = [MSCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_arm64e"];
   NSError *error = nil;
   PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
-  NSUInteger expectedCount = 14;
+  NSUInteger expectedCount = 16;
 
   // When
-  NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport codeType:@(CPU_TYPE_ARM64) is64bit:YES];
+  NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport];
 
   // Then
   XCTAssertEqual(expectedCount, binaryImages.count);
 }
-#endif
 
 #if TARGET_OS_OSX && !TARGET_OS_MACCATALYST
 - (void)testCrashReportsParametersFromMacOSReport {
