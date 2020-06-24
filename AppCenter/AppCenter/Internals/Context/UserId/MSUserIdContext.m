@@ -79,7 +79,7 @@ static dispatch_once_t onceToken;
 - (void)setUserId:(nullable NSString *)userId {
   NSArray *synchronizedDelegates;
   @synchronized(self) {
-    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId];
+    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || (userId && [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]);
     if (sameUserId) {
       return;
     }

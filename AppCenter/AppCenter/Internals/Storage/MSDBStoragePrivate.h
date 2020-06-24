@@ -30,7 +30,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
 /**
  * Schema for the table.
  */
-@property(nonatomic, readonly) MSDBSchema *schema;
+@property(nonatomic, readonly, nullable) MSDBSchema *schema;
 
 /**
  * Called after the database is created. Override to customize the database.
@@ -72,7 +72,7 @@ static const long kMSDefaultDatabaseSizeInBytes = 10 * 1024 * 1024;
  *
  * @return result `SQLITE_OK` or an error code.
  */
-+ (int)createTablesWithSchema:(MSDBSchema *)schema inOpenedDatabase:(void *)db;
++ (int)createTablesWithSchema:(nullable MSDBSchema *)schema inOpenedDatabase:(void *)db;
 
 /**
  * Query the number of pages (i.e.: SQLite "page_count") of the database.

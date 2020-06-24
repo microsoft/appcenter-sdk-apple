@@ -235,7 +235,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSetup
  * @param releaseHash The release hash of the current version.
  */
 - (void)checkLatestRelease:(nullable NSString *)updateToken
-       distributionGroupId:(NSString *)distributionGroupId
+       distributionGroupId:(nullable NSString *)distributionGroupId
                releaseHash:(NSString *)releaseHash;
 
 /**
@@ -285,7 +285,7 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSetup
  */
 - (nullable NSMutableDictionary *)getReportingParametersForUpdatedRelease:(BOOL)isPublic
                                               currentInstalledReleaseHash:(NSString *)currentInstalledReleaseHash
-                                                      distributionGroupId:(NSString *)distributionGroupId;
+                                                      distributionGroupId:(nullable NSString *)distributionGroupId;
 
 /**
  * After an app is updated and restarted, check if an updated release has different group ID and update current group ID if needed. Group ID

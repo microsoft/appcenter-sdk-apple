@@ -43,7 +43,7 @@ static NSString *const kMSAppDidReceiveMemoryWarningKey = @"AppDidReceiveMemoryW
  * @param errorAttachments An array of error attachments that should be sent.
  * @param incidentIdentifier The identifier of the error report that the attachments will be associated with.
  */
-- (void)sendErrorAttachments:(NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier;
+- (void)sendErrorAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)errorAttachments withIncidentIdentifier:(NSString *)incidentIdentifier;
 
 /**
  * Configure PLCrashreporter.
@@ -71,7 +71,7 @@ static NSString *const kMSAppDidReceiveMemoryWarningKey = @"AppDidReceiveMemoryW
  *
  * @return handled error ID.
  */
-- (NSString *)trackModelException:(MSException *)exception
+- (nullable NSString *)trackModelException:(MSException *)exception
                    withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
                   withAttachments:(nullable NSArray<MSErrorAttachmentLog *> *)attachments;
 

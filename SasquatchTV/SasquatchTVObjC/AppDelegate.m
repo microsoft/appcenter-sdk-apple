@@ -57,27 +57,27 @@
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
 
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
-               UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sorry about that!"
-                                                                                        message:@"Do you want to send an anonymous crash "
-                                                                                                @"report so we can fix the issue?"
+               UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Sorry about that!", nil)
+                                                                                        message:NSLocalizedString(@"Do you want to send an anonymous crash "
+                                                                                                @"report so we can fix the issue?", nil)
                                                                                  preferredStyle:UIAlertControllerStyleAlert];
 
                // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend.
-               [alertController addAction:[UIAlertAction actionWithTitle:@"Don't Send"
+               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Don't Send", nil)
                                                                    style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction *action) {
                                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
                                                                  }]];
 
                // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend.
-               [alertController addAction:[UIAlertAction actionWithTitle:@"Send"
+               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil)
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction *action) {
                                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
                                                                  }]];
 
                // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways.
-               [alertController addAction:[UIAlertAction actionWithTitle:@"Always Send"
+               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Always Send", nil)
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction *action) {
                                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
