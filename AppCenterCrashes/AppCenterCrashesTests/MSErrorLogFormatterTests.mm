@@ -595,7 +595,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
     PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
 
     // When
-    NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport codeType:@(CPU_TYPE_ARM64) is64bit:YES];
+    NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport];
     PLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
 
     // Then

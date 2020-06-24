@@ -197,7 +197,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 + (MSAppleErrorLog *)errorLogFromCrashReport:(PLCrashReport *)report {
   MSAppleErrorLog *errorLog = [MSAppleErrorLog new];
 
-  // errorId – Used for de-duplication in case we sent the same crashreport stwice.
+  // errorId – Used for de-duplication in case we sent the same crashreport twice.
   errorLog.errorId = [self errorIdForCrashReport:report];
 
   // Set applicationpath and process info.
