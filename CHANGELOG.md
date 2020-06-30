@@ -5,6 +5,7 @@
 ### App Center Crashes
 
 * **[Fix]** Update PLCrashReporter to 1.7.1 that fixes a crash on old operating systems (macOS <=10.11.x and iOS 9.x).
+* **[Fix]** Fix reporting stacktraces on iOS and tvOS simulators.
 
 ___
 
