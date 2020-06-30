@@ -320,14 +320,14 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertEqualObjects(uuidString, result);
-  
+
   // When
   test = [NSString stringWithFormat:@"macos=fake;ios=%@", uuidString];
   result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertEqualObjects(uuidString, result);
-  
+
   // When
   test = @"ios={app-secret};macos={fake};appsecret=fake";
   result = [MSUtility appSecretFrom:test];
@@ -443,7 +443,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 
   // Then
   XCTAssertEqualObjects(result, @"{transmissionTargetToken}");
-  
+
   // When
   test = @"target={transmissionTargetToken};targetMacos={fake}";
   result = [MSUtility transmissionTargetTokenFrom:test];
@@ -456,14 +456,14 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 #if TARGET_OS_MACCATALYST
 
 - (void)testAppSecretCatalystFrom {
-  
+
   // When
   NSString *test = @"ios={fake};macos={app-secret}";
   NSString *result = [MSUtility appSecretFrom:test];
 
   // Then
   XCTAssertEqualObjects(result, @"{app-secret}");
-  
+
   // When
   test = @"ios={fake};macos={app-secret};appsecret=fake";
   result = [MSUtility appSecretFrom:test];
@@ -714,7 +714,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
 #else
 #if TARGET_OS_OSX || TARGET_OS_MACCATALYST
-  expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/anotherfile.test" ];
+  expectedFile = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/testing/anotherfile.test"];
 #else
   expectedFile = @"/Library/Application%20Support/com.microsoft.appcenter/testing/anotherfile.test";
 #endif
@@ -968,11 +968,11 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 }
 
 - (void)testDispatchObjectMacroWithNil {
-  
+
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"Dispatch selector executed."];
   typedef void (^block)(NSString *, NSString *);
-    
+
   // When
   MS_DISPATCH_SELECTOR((void (*)(id, SEL, NSString *, NSString *, block)), self, methodWithArgs:secondArg:completionHandler:, nil, @"test",
                        ^(NSString *firstArg, NSString *secondArg) {
@@ -980,7 +980,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
                          XCTAssertEqual(secondArg, @"test");
                          [expectation fulfill];
                        });
-    
+
   // Then
   [self waitForExpectationsWithTimeout:kMSTestTimeout
                                handler:^(NSError *error) {
@@ -1040,6 +1040,34 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
                                }];
 }
 
+- (void)testArchivingData {
+
+  // If
+  id value = @[ @{@"key" : @42}, @[ @1, @2, @3 ], @"value", [NSNull null] ];
+
+  // When
+  NSData *data = [MSUtility archiveKeyedData:value];
+
+  // Then
+  XCTAssertNotNil(data);
+
+  // When
+  id result = [MSUtility unarchiveKeyedData:data];
+
+  // Then
+  XCTAssertEqualObjects(value, result);
+}
+
+- (void)testArchivingNilData {
+  XCTAssertNil([MSUtility archiveKeyedData:nil]);
+  XCTAssertNil([MSUtility unarchiveKeyedData:nil]);
+}
+
+- (void)testArchivingInvalidData {
+  XCTAssertNil([MSUtility archiveKeyedData:self]);
+  XCTAssertNil([MSUtility unarchiveKeyedData:[@"invalid" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
 - (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
 }
@@ -1051,14 +1079,14 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
 // Before SDK 12.2 (bundled with Xcode 10.*) when running in a unit test bundle the bundle identifier is null.
 // 12.2 and after the above bundle identifier is com.apple.dt.xctest.tool.
 - (NSString *)getPathWithBundleIdentifier:(NSString *)path {
-    NSString* bundleId;
-#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120200) || \
-    (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 101404))
-    bundleId = @"com.apple.dt.xctest.tool";
+  NSString *bundleId;
+#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120200) ||                                            \
+     (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 101404))
+  bundleId = @"com.apple.dt.xctest.tool";
 #else
-    bundleId = @"(null)";
+  bundleId = @"(null)";
 #endif
-    return [NSString stringWithFormat:path, bundleId];
+  return [NSString stringWithFormat:path, bundleId];
 }
 
 @end

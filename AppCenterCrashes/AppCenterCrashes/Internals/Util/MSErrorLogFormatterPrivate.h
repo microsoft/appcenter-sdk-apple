@@ -57,26 +57,15 @@
 + (PLCrashReportThreadInfo *)findCrashedThreadInReport:(PLCrashReport *)report;
 
 /**
- * Normalize an address.
- *
- * @param address The address to normalize.
- * @param is64bit A flag that indicates if this is a 64bit architecture.
- *
- * @return The normalized address.
- */
-+ (uint64_t)normalizeAddress:(uint64_t)address is64bit:(BOOL)is64bit;
-
-/**
  * Extract binary images from a crash report. This only extracts the binary images that we "care" about, meaning those that are contained
  * in the crash's stack frames.
  *
  * @param report The crash report.
- * @param codeType The code type, meaning the architecture CPU code type.
  * @param is64bit A flag that indicates if this is a 64bit architecture.
  *
  * @return An array of binary images.
  */
-+ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(PLCrashReport *)report codeType:(NSNumber *)codeType is64bit:(BOOL)is64bit;
++ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(PLCrashReport *)report is64bit:(BOOL)is64bit;
 
 /**
  * Format a memory address into a string. This normalizes arm64 addresses.
