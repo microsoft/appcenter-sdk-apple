@@ -226,9 +226,19 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     errorLog.timestamp = [NSDate dateWithTimeIntervalSince1970:(timestampInSeconds + 0.999)];
   }
 
-  // CPU Type and Subtype for the crash.
-  errorLog.primaryArchitectureId = @(report.machineInfo.processorInfo.type);
-  errorLog.architectureVariantId = @(report.machineInfo.processorInfo.subtype);
+  // CPU Type and Subtype for the crash. We need to query the binary images for that.
+  uint64_t type = report.machineInfo.processorInfo.type;
+  uint64_t subtype = report.machineInfo.processorInfo.subtype;
+  for (PLCrashReportBinaryImageInfo *image in report.images) {
+    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
+      type = image.codeType.type;
+      subtype = image.codeType.subtype;
+      break;
+    }
+  }
+  BOOL is64bit = [self isCodeType64bit:type];
+  errorLog.primaryArchitectureId = @(type);
+  errorLog.architectureVariantId = @(subtype);
 
   /*
    * errorLog.architecture is an optional. The Android SDK will set it while for
@@ -253,12 +263,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // The registers of the crashed thread might contain the last method call,
   // this can be very helpful.
-  errorLog.selectorRegisterValue = [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread];
+  errorLog.selectorRegisterValue = [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread codeType:type];
 
   // Extract all threads and registers.
-  errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread];
-  errorLog.registers = [self extractRegistersFromReport:report crashedThread:crashedThread];
-  errorLog.binaries = [self extractBinaryImagesFromReport:report];
+  errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
+  errorLog.registers = [self extractRegistersFromCrashedThread:crashedThread is64bit:is64bit];
+  errorLog.binaries = [self extractBinaryImagesFromReport:report is64bit:is64bit];
 
   /*
    * Set the device here to make sure we don't use the current device
@@ -373,8 +383,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return report.systemInfo.timestamp;
 }
 
-+ (NSArray<MSThread *> *)extractThreadsFromReport:(PLCrashReport *)report crashedThread:(PLCrashReportThreadInfo *)crashedThread {
-  BOOL is64bit = [self isCodeType64bit:report.machineInfo.processorInfo.type];
++ (NSArray<MSThread *> *)extractThreadsFromReport:(PLCrashReport *)report
+                                    crashedThread:(PLCrashReportThreadInfo *)crashedThread
+                                          is64bit:(BOOL)is64bit {
   NSMutableArray<MSThread *> *formattedThreads = [NSMutableArray array];
   MSException *lastException = nil;
 
@@ -496,9 +507,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return symbolString;
 }
 
-+ (NSDictionary<NSString *, NSString *> *)extractRegistersFromReport:(PLCrashReport *)report
-                                                       crashedThread:(PLCrashReportThreadInfo *)crashedThread {
-  BOOL is64bit = [self isCodeType64bit:report.machineInfo.processorInfo.type];
++ (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(PLCrashReportThreadInfo *)crashedThread
+                                                                    is64bit:(BOOL)is64bit {
   NSMutableDictionary<NSString *, NSString *> *registers = [NSMutableDictionary new];
 
   for (PLCrashReportRegisterInfo *registerInfo in crashedThread.registers) {
@@ -522,7 +532,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return exceptionReason;
 }
 
-+ (NSString *)selectorRegisterValueFromReport:(PLCrashReport *)report ofCrashedThread:(PLCrashReportThreadInfo *)crashedThread {
++ (NSString *)selectorRegisterValueFromReport:(PLCrashReport *)report
+                              ofCrashedThread:(PLCrashReportThreadInfo *)crashedThread
+                                     codeType:(uint64_t)codeType {
 
   /*
    * Try to find the selector in case this was a crash in obj_msgSend.
@@ -532,7 +544,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *foundSelector = nil;
 
   // Search the registers value for the current architecture.
-  switch (report.machineInfo.processorInfo.type) {
+  switch (codeType) {
   case CPU_TYPE_ARM:
     foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashedThread report:report];
     if (foundSelector == NULL) {
@@ -558,8 +570,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return foundSelector;
 }
 
-+ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(PLCrashReport *)report {
-  BOOL is64bit = [self isCodeType64bit:report.machineInfo.processorInfo.type];
++ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(PLCrashReport *)report is64bit:(BOOL)is64bit {
 
   // Gather all addresses for which we need to preserve the binary images.
   NSArray *addresses = [self addressesFromReport:report];

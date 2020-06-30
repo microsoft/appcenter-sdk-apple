@@ -61,10 +61,11 @@
  * in the crash's stack frames.
  *
  * @param report The crash report.
+ * @param is64bit A flag that indicates if this is a 64bit architecture. 
  *
  * @return An array of binary images.
  */
-+ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(PLCrashReport *)report;
++ (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(PLCrashReport *)report is64bit:(BOOL)is64bit;
 
 /**
  * Format a memory address into a string. This normalizes arm64 addresses.

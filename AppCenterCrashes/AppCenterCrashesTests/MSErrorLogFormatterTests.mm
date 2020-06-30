@@ -503,10 +503,8 @@ static NSArray *kMacOSCrashReportsParameters = @[
     if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
       XCTAssertEqual(errorLog.primaryArchitectureId.unsignedLongLongValue, image.codeType.type,
                      @"Report: %@, Image: %@", filename, [image.imageName lastPathComponent]);
-      // It might be not equal valid architectures is wider than actual compile targets.
-      // For example arm64 binary runs on arm64e device.
-      // XCTAssertEqual(errorLog.architectureVariantId.unsignedLongLongValue, image.codeType.subtype,
-      //                @"Report: %@, Image: %@", filename, [image.imageName lastPathComponent]);
+      XCTAssertEqual(errorLog.architectureVariantId.unsignedLongLongValue, image.codeType.subtype,
+                     @"Report: %@, Image: %@", filename, [image.imageName lastPathComponent]);
     }
   }
 
@@ -579,7 +577,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   NSUInteger expectedCount = 16;
 
   // When
-  NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport];
+  NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport is64bit:YES];
 
   // Then
   XCTAssertEqual(expectedCount, binaryImages.count);
@@ -595,7 +593,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
     PLCrashReport *crashReport = [[PLCrashReport alloc] initWithData:crashData error:&error];
 
     // When
-    NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport];
+    NSArray *binaryImages = [MSErrorLogFormatter extractBinaryImagesFromReport:crashReport is64bit:YES];
     PLCrashReportThreadInfo *crashedThread = [MSErrorLogFormatter findCrashedThreadInReport:crashReport];
 
     // Then
