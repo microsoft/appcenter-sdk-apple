@@ -63,12 +63,11 @@ __attribute__((used)) static void importCategories() {
       unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 #pragma clang diagnostic pop
     }
-  }
-  @catch(NSException *ex) {
+  } @catch (NSException *ex) {
     exception = ex;
   }
   if (!unarchivedData || exception) {
-    
+
     // Unarchiving process failed.
     MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
                exception ? exception.reason : error.localizedDescription);
@@ -92,12 +91,11 @@ __attribute__((used)) static void importCategories() {
       archivedData = [NSKeyedArchiver archivedDataWithRootObject:data];
 #pragma clang diagnostic pop
     }
-  }
-  @catch(NSException *ex) {
+  } @catch (NSException *ex) {
     exception = ex;
   }
   if (!archivedData || exception) {
-    
+
     // Unarchiving process failed.
     MSLogError([MSAppCenter logTag], @"Unarchiving NSData failed with error: %@",
                exception ? exception.reason : error.localizedDescription);

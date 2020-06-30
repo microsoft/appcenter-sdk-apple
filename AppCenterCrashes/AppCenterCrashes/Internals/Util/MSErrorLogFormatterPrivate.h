@@ -61,7 +61,7 @@
  * in the crash's stack frames.
  *
  * @param report The crash report.
- * @param is64bit A flag that indicates if this is a 64bit architecture. 
+ * @param is64bit A flag that indicates if this is a 64bit architecture.
  *
  * @return An array of binary images.
  */

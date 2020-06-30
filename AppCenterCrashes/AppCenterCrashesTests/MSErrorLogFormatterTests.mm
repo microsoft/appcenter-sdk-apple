@@ -501,10 +501,10 @@ static NSArray *kMacOSCrashReportsParameters = @[
   NSArray *images = crashReport.images;
   for (PLCrashReportBinaryImageInfo *image in images) {
     if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
-      XCTAssertEqual(errorLog.primaryArchitectureId.unsignedLongLongValue, image.codeType.type,
-                     @"Report: %@, Image: %@", filename, [image.imageName lastPathComponent]);
-      XCTAssertEqual(errorLog.architectureVariantId.unsignedLongLongValue, image.codeType.subtype,
-                     @"Report: %@, Image: %@", filename, [image.imageName lastPathComponent]);
+      XCTAssertEqual(errorLog.primaryArchitectureId.unsignedLongLongValue, image.codeType.type, @"Report: %@, Image: %@", filename,
+                     [image.imageName lastPathComponent]);
+      XCTAssertEqual(errorLog.architectureVariantId.unsignedLongLongValue, image.codeType.subtype, @"Report: %@, Image: %@", filename,
+                     [image.imageName lastPathComponent]);
     }
   }
 

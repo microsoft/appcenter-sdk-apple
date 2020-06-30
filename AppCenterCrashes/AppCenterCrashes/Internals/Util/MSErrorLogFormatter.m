@@ -507,8 +507,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return symbolString;
 }
 
-+ (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(PLCrashReportThreadInfo *)crashedThread
-                                                                    is64bit:(BOOL)is64bit {
++ (NSDictionary<NSString *, NSString *> *)extractRegistersFromCrashedThread:(PLCrashReportThreadInfo *)crashedThread is64bit:(BOOL)is64bit {
   NSMutableDictionary<NSString *, NSString *> *registers = [NSMutableDictionary new];
 
   for (PLCrashReportRegisterInfo *registerInfo in crashedThread.registers) {
