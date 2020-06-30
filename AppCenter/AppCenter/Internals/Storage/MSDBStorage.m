@@ -53,7 +53,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 - (instancetype)initWithVersion:(NSUInteger)version filename:(NSString *)filename {
-  return (self = [self initWithSchema:nil version:version filename:filename]);
+  return [self initWithSchema:nil version:version filename:filename];
 }
 
 - (int)configureDatabaseWithSchema:(MSDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
