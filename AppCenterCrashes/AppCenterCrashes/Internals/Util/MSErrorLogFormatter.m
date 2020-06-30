@@ -629,9 +629,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  *  @return An anonymized string where the real username is replaced by "USER"
  */
 + (NSString *)anonymizedPathFromPath:(NSString *)path {
-
   NSString *anonymizedProcessPath = [NSString string];
-
   if (([path length] > 0) && [path hasPrefix:@"/Users/"]) {
     NSError *error = nil;
     NSString *regexPattern = @"(/Users/[^/]+/)";
@@ -662,7 +660,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
  */
 + (NSString *)selectorForRegisterWithName:(NSString *)regName ofThread:(PLCrashReportThreadInfo *)thread report:(PLCrashReport *)report {
 
-  // get the address for the register
+  // Get the address for the register.
   uint64_t regAddress = 0;
   for (PLCrashReportRegisterInfo *reg in thread.registers) {
     if ([reg.registerName isEqualToString:regName]) {
@@ -676,7 +674,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     return nil;
   }
 
-  // get the selector
+  // Get the selector.
   PLCrashReportBinaryImageInfo *imageForRegAddress = [report imageForAddress:regAddress];
   if (imageForRegAddress) {
     const char *foundSelector = findSEL([imageForRegAddress.imageName UTF8String], imageForRegAddress.imageUUID,
