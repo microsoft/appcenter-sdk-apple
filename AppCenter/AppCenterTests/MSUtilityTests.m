@@ -1040,6 +1040,34 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
                                }];
 }
 
+- (void)testArchivingData {
+
+  // If
+  id value = @[ @{@"key" : @42}, @[ @1, @2, @3 ], @"value", [NSNull null] ];
+
+  // When
+  NSData *data = [MSUtility archiveKeyedData:value];
+
+  // Then
+  XCTAssertNotNil(data);
+
+  // When
+  id result = [MSUtility unarchiveKeyedData:data];
+
+  // Then
+  XCTAssertEqualObjects(value, result);
+}
+
+- (void)testArchivingNilData {
+  XCTAssertNil([MSUtility archiveKeyedData:nil]);
+  XCTAssertNil([MSUtility unarchiveKeyedData:nil]);
+}
+
+- (void)testArchivingInvalidData {
+  XCTAssertNil([MSUtility archiveKeyedData:self]);
+  XCTAssertNil([MSUtility unarchiveKeyedData:[@"invalid" dataUsingEncoding:NSUTF8StringEncoding]]);
+}
+
 - (void)methodToCall:(NSString *)str completionHandler:(void (^)(NSString *string))completion {
   completion(str);
 }
