@@ -52,7 +52,7 @@ typedef NS_OPTIONS(NSUInteger, MSCompletionExecutor) {
  *
  * @discussion This method is abstract and needs to be overwritten by subclasses.
  */
-+ (instancetype)sharedInstance;
++ (nullable instancetype)sharedInstance;
 
 /**
  * Register swizzling for the given original application delegate.

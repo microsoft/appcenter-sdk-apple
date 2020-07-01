@@ -1,5 +1,14 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.3.1
+
+### App Center Crashes
+
+* **[Fix]** Update PLCrashReporter to 1.7.1 that fixes a crash on old operating systems (macOS <=10.11.x and iOS 9.x).
+* **[Fix]** Fix reporting stacktraces on iOS and tvOS simulators.
+
+___
+
 ## Version 3.3.0
 
 Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Also, this version has a breaking change - it drops Xcode 10 support, Xcode 11 is a minimal supported version now.
@@ -21,6 +30,10 @@ Add support for Mac Catalyst to App Center Analytics and App Center Crashes. Als
 
 * **[Feature]** Add support for Mac Catalyst.
 * **[Improvement]** Update PLCrashReporter to 1.7.0.
+
+## Known issues
+
+* Crashes module doesn't work on old operating systems: macOS <=10.11.x and iOS 9.x
 
 ___
 

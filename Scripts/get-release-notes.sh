@@ -16,7 +16,7 @@ while IFS='' read -r line || -n "$line" ]]; do
 if $change_log_found; then
 
   # If it reads end of change log for the version
-  if [[ "$line" =~ "___" ]]; then
+  if [[ "$line" == "___" ]]; then
     break
 
   # Append the line

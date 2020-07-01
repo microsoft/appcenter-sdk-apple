@@ -41,7 +41,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
-  if (storageMaxSize) {
+  if (storageMaxSize != nil) {
     [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
                  completionHandler:^(BOOL success) {
                    dispatch_async(dispatch_get_main_queue(), ^{
@@ -93,9 +93,9 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
     [self.locationManager startUpdatingLocation];
   } else {
     NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = @"Location service is disabled";
-    alert.informativeText = @"Please enable location service on your Mac.";
-    [alert addButtonWithTitle:@"OK"];
+    alert.messageText = NSLocalizedString(@"Location service is disabled", nil);
+    alert.informativeText = NSLocalizedString(@"Please enable location service on your Mac.", nil);
+    [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
     [alert runModal];
   }
 }
@@ -126,12 +126,12 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
                NSAlert *alert = [[NSAlert alloc] init];
-               [alert setMessageText:@"Sorry about that!"];
-               [alert setInformativeText:@"Do you want to send an anonymous crash "
-                                         @"report so we can fix the issue?"];
-               [alert addButtonWithTitle:@"Always send"];
-               [alert addButtonWithTitle:@"Send"];
-               [alert addButtonWithTitle:@"Don't send"];
+               [alert setMessageText:NSLocalizedString(@"Sorry about that!", nil)];
+               [alert setInformativeText:NSLocalizedString(@"Do you want to send an anonymous crash "
+                                         @"report so we can fix the issue?", nil)];
+               [alert addButtonWithTitle:NSLocalizedString(@"Always send", nil)];
+               [alert addButtonWithTitle:NSLocalizedString(@"Send", nil)];
+               [alert addButtonWithTitle:NSLocalizedString(@"Don't send", nil)];
                [alert setAlertStyle:NSWarningAlertStyle];
 
                switch ([alert runModal]) {
@@ -252,7 +252,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   NSAlert *alert = [[NSAlert alloc] init];
   [alert setMessageText:title];
   [alert setInformativeText:message];
-  [alert addButtonWithTitle:@"OK"];
+  [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
   [alert runModal];
 }
 

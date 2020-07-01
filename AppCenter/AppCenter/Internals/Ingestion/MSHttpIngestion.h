@@ -45,7 +45,7 @@ static NSString *const kMSETagRequestHeader = @"If-None-Match";
  * @param data The request data.
  * @param eTag The ETag.
  */
-- (NSDictionary *)getHeadersWithData:(nullable NSObject *)data eTag:(nullable NSString *)eTag;
+- (nullable NSDictionary *)getHeadersWithData:(nullable NSObject *)data eTag:(nullable NSString *)eTag;
 
 /**
  * Retrieve data payload as http request body.

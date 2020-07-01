@@ -34,7 +34,7 @@ extern NSString *MSUtilityStringFormattingCategory;
  *
  * @returns The app secret or nil if none was found.
  */
-+ (NSString *)appSecretFrom:(NSString *)string;
++ (NSString *)appSecretFrom:(nullable NSString *)string;
 
 /**
  * Extract transmission target token from a string.
@@ -43,7 +43,7 @@ extern NSString *MSUtilityStringFormattingCategory;
  *
  * @returns The tenant id or nil if none was found.
  */
-+ (NSString *)transmissionTargetTokenFrom:(NSString *)string;
++ (NSString *)transmissionTargetTokenFrom:(nullable NSString *)string;
 
 /**
  * Extract iKey from a transmission target token string.

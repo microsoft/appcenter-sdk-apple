@@ -75,7 +75,7 @@ static dispatch_queue_t alertsQueue;
 - (void)addPreferredActionWithTitle:(NSString *)title handler:(void (^)(UIAlertAction *))handler {
 
   // Use default style to allow button to be on right side (bolded with setPreferredAction).
-  UIAlertAction *preferredAction = preferredAction = [MSAlertAction defaultActionWithTitle:title handler:handler];
+  UIAlertAction *preferredAction = [MSAlertAction defaultActionWithTitle:title handler:handler];
   [self addAction:preferredAction];
   [self performSelector:@selector(setPreferredAction:) withObject:preferredAction];
 }

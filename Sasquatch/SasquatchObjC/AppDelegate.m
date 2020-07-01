@@ -90,7 +90,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #endif
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
-  if (storageMaxSize) {
+  if (storageMaxSize != nil) {
     [MSAppCenter setMaxStorageSize:storageMaxSize.integerValue
                  completionHandler:^(BOOL success) {
                    dispatch_async(dispatch_get_main_queue(), ^{
@@ -104,11 +104,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
 
                        // Show alert.
-                       UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Warning!"
-                                                                                                message:@"The maximum size of the internal "
-                                                                                                        @"storage could not be set."
+                       UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Warning!", nil)
+                                                                                                message:NSLocalizedString(@"The maximum size of the internal "
+                                                                                                        @"storage could not be set.", nil)
                                                                                          preferredStyle:UIAlertControllerStyleAlert];
-                       [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+                       [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
                        [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
                      }
                    });
@@ -152,7 +152,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
     break;
   case BOTH:
-    [MSAppCenter start:[NSString stringWithFormat:@"appsecret=%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
+    [MSAppCenter start:[NSString stringWithFormat:@"%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
     break;
   case NONE:
     [MSAppCenter startWithServices:services];
@@ -218,27 +218,27 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [MSCrashes setDelegate:self];
   [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
-               UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Sorry about that!"
-                                                                                        message:@"Do you want to send an anonymous crash "
-                                                                                                @"report so we can fix the issue?"
+               UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Sorry about that!", nil)
+                                                                                        message:NSLocalizedString(@"Do you want to send an anonymous crash "
+                                                                                                @"report so we can fix the issue?", nil)
                                                                                  preferredStyle:UIAlertControllerStyleAlert];
 
                // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend
-               [alertController addAction:[UIAlertAction actionWithTitle:@"Don't send"
+               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Don't send", nil)
                                                                    style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction *action) {
                                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
                                                                  }]];
 
                // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend
-               [alertController addAction:[UIAlertAction actionWithTitle:@"Send"
+               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil)
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction *action) {
                                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
                                                                  }]];
 
                // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways
-               [alertController addAction:[UIAlertAction actionWithTitle:@"Always send"
+               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Always send", nil)
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction *action) {
                                                                    [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
@@ -443,7 +443,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
                                                                              message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
     [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
   }
 
