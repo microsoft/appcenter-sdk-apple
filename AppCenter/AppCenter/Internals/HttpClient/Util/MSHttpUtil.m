@@ -38,4 +38,10 @@
   return [secret stringByReplacingCharactersInRange:NSMakeRange(0, appSecretHiddenPart.length) withString:appSecretHiddenPart];
 }
 
++ (NSString *)hideSecretInString:(NSString *)string
+                          secret:(NSString *)secret {
+    NSString *encodeSecret = [self hideSecret:secret];
+    return [string stringByReplacingOccurrencesOfString:secret withString:encodeSecret];
+}
+
 @end
