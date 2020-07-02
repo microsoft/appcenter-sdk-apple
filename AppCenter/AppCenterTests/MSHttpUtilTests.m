@@ -128,6 +128,21 @@
   XCTAssertFalse([MSHttpUtil isSSLConnectionError:error]);
 }
 
+- (void)testHideSecretInString {
+    
+    // If
+    NSString *secret = @"12345678-1234-1234-1234-123456789012";
+    NSString *string = [NSString stringWithFormat:@"this-%@-should-be-encode", secret];
+    NSString *expectedEncodeString = @"this-****************************56789012-should-be-encode";
+
+    // When
+    NSString *encodeString = [MSHttpUtil hideSecretInString:string
+                                           secret:secret];
+    
+    // Then
+    XCTAssertEqualObjects(encodeString, expectedEncodeString);
+}
+
 - (void)testIsRecoverableError {
   for (int i = 0; i < 530; i++) {
 
