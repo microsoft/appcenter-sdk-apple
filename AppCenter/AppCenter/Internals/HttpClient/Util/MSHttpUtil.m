@@ -40,8 +40,8 @@
 
 + (NSString *)hideSecretInString:(NSString *)string
                           secret:(NSString *)secret {
-    NSString *encodeSecret = [self hideSecret:secret];
-    return [string stringByReplacingOccurrencesOfString:secret withString:encodeSecret];
+    NSString *encodedSecret = [self hideSecret:secret];
+    return [string stringByReplacingOccurrencesOfString:secret withString:encodedSecret];
 }
 
 @end

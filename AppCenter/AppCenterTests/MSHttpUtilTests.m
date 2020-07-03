@@ -132,8 +132,8 @@
     
     // If
     NSString *secret = @"12345678-1234-1234-1234-123456789012";
-    NSString *string = [NSString stringWithFormat:@"this-%@-should-be-encode", secret];
-    NSString *expectedEncodeString = @"this-****************************56789012-should-be-encode";
+    NSString *string = [NSString stringWithFormat:@"this-%@-should-be-encoded", secret];
+    NSString *expectedEncodeString = @"this-****************************56789012-should-be-encoded";
 
     // When
     NSString *encodeString = [MSHttpUtil hideSecretInString:string
