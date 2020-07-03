@@ -67,6 +67,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
 
     self.priorityPicker = MSEnumPicker<Priority>(
       textField: self.priorityField,
+      viewController: self,
       allValues: Priority.allValues,
       onChange: {(index) in self.priority = Priority.allValues[index] })
     self.priorityField.delegate = self.priorityPicker

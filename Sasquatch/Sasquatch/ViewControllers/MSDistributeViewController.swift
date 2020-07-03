@@ -51,6 +51,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   private func preparePickers() {
     self.updatePicker = MSEnumPicker<UpdateTrack>(
         textField: self.updateTrackField,
+        viewController: self,
         allValues: UpdateTrack.allCases,
         onChange: { index in
             let pickedValue = UpdateTrack.allCases[index]

@@ -61,6 +61,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     let startupMode = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
     self.startupModePicker = MSEnumPicker<StartupMode> (
       textField: self.startupModeField,
+      viewController: self,
       allValues: StartupMode.allValues,
       onChange: { index in
         UserDefaults.standard.set(index, forKey: kMSStartTargetKey)
