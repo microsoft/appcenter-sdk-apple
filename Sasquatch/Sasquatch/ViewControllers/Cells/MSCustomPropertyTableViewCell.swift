@@ -23,8 +23,6 @@ import UIKit
   @IBOutlet var valueBottomConstraint: NSLayoutConstraint!
   private var typePickerView: MSEnumPicker<CustomPropertyType>?
   private var datePickerView: MSDatePicker?
-  
-  public var viewController: UIViewController?
 
   public var key: String {
     get { return self.keyTextField.text! }
@@ -82,7 +80,6 @@ import UIKit
     super.awakeFromNib()
     self.typePickerView = MSEnumPicker<CustomPropertyType>(
       textField: self.typeTextField,
-      viewController: self.viewController,
       allValues: CustomPropertyType.allValues,
       onChange: { index in
         self.type = CustomPropertyType.allValues[index]

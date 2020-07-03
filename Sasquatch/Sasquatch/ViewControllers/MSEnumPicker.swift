@@ -8,22 +8,20 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   private let textField: UITextField!
   private let allValues: [E]
   private let onChange: (Int) -> Void
-  private let viewController: UIViewController?
   
-  init(textField: UITextField!, viewController: UIViewController? = nil, allValues: [E], onChange: @escaping (Int) -> Void) {
+  init(textField: UITextField!, allValues: [E], onChange: @escaping (Int) -> Void) {
     self.textField = textField
     self.allValues = allValues
     self.onChange = onChange
-    self.viewController = viewController
     super.init()
   }
   
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-    #if TARGET_OS_IPHONE && !TARGET_OS_MACCATALYST
+#if TARGET_OS_IPHONE && !TARGET_OS_MACCATALYST
     showEnumPicker()
-    #else
+#else
     showActionSheetPicker()
-    #endif
+#endif
     return true
   }
   
@@ -62,7 +60,8 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
     }
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
     optionMenu.addAction(cancelAction)
-    self.viewController?.present(optionMenu, animated: true, completion: nil)
+    let viewController: UIViewController? = UIApplication.shared.windows.first?.rootViewController
+    viewController?.present(optionMenu, animated: true, completion: nil)
   }
   
   func showEnumPicker() {
