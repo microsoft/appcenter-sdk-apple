@@ -17,7 +17,7 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   }
   
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-#if TARGET_OS_IPHONE && !TARGET_OS_MACCATALYST
+#if !targetEnvironment(macCatalyst)
     showEnumPicker()
 #else
     showActionSheetPicker()
