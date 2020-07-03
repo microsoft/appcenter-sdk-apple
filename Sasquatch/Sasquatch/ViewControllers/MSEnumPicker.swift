@@ -9,11 +9,20 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   private let allValues: [E]
   private let onChange: (Int) -> Void
   
+  // In some cases, we may want to override the controller that
+  // shows alert for mac catalyst (when the controller is not the root one).
+  // Example: MSCustomPropertiesViewController.
+  private var viewController: UIViewController?
+  
   init(textField: UITextField!, allValues: [E], onChange: @escaping (Int) -> Void) {
     self.textField = textField
     self.allValues = allValues
     self.onChange = onChange
     super.init()
+  }
+  
+  public func overrideViewController(with viewController: UIViewController?) {
+    self.viewController = viewController
   }
   
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -65,8 +74,8 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
       optionMenu.addAction(action)
     }
     optionMenu.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-    let viewController: UIViewController? = UIApplication.shared.windows.first?.rootViewController
-    viewController?.present(optionMenu, animated: true, completion: nil)
+    let rootViewController: UIViewController? = self.viewController ?? UIApplication.shared.windows.first?.rootViewController
+    rootViewController?.present(optionMenu, animated: true, completion: nil)
   }
   
   func showEnumPicker() {
