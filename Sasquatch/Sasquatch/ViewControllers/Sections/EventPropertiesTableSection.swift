@@ -18,7 +18,6 @@ class EventPropertiesTableSection : PropertiesTableSection {
       let cellRow = self.tableView.indexPath(for: cell)!.row;
       self.typedProperties[cellRow - self.propertyCellOffset] = state
     }
-    //
     return cell
   }
 
