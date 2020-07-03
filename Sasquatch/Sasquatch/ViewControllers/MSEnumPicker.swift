@@ -47,19 +47,24 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   }
   
   func showActionSheetPicker() {
-    let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+    let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .alert)
     let pickedValue = E(rawValue: self.textField.text!)!
-    let action = UIAlertAction(title: pickedValue.rawValue, style: .destructive)
-    optionMenu.addAction(action)
     for value in self.allValues {
-      if (value.rawValue == pickedValue.rawValue) {
-        continue
-      }
-      let action = UIAlertAction(title: value.rawValue, style: .default)
+      
+      // Red style for picked option.
+      let style: UIAlertAction.Style = value.rawValue == pickedValue.rawValue ? .destructive : .default
+      let action = UIAlertAction(title: value.rawValue, style: style, handler: {
+        (_ action : UIAlertAction) -> Void in
+        self.textField.text! = action.title!
+        let pickedValue = self.allValues.first { value -> Bool in
+          return value.rawValue == action.title!
+        }
+        let index = self.allValues.index(of: pickedValue!)
+        self.onChange(index!)
+      })
       optionMenu.addAction(action)
     }
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-    optionMenu.addAction(cancelAction)
+    optionMenu.addAction(UIAlertAction(title: "Cancel", style: .cancel))
     let viewController: UIViewController? = UIApplication.shared.windows.first?.rootViewController
     viewController?.present(optionMenu, animated: true, completion: nil)
   }
