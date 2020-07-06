@@ -129,18 +129,19 @@
 }
 
 - (void)testHideSecretInString {
-    
-    // If
-    NSString *secret = @"12345678-1234-1234-1234-123456789012";
-    NSString *string = [NSString stringWithFormat:@"this-%@-should-be-encoded", secret];
-    NSString *expectedEncodeString = @"this-****************************56789012-should-be-encoded";
 
-    // When
-    NSString *encodeString = [MSHttpUtil hideSecretInString:string
-                                           secret:secret];
-    
-    // Then
-    XCTAssertEqualObjects(encodeString, expectedEncodeString);
+  // If
+  NSString *secret = @"12345678-1234-1234-1234-123456789012";
+  NSString *string = [NSString stringWithFormat:@"this-%@-should-be-encoded", secret];
+  NSString *expectedEncodeString = [NSString stringWithFormat:@"this-%@56789012-should-be-encoded", [@"" stringByPaddingToLength:28
+                                                                                                                      withString:@"*"
+                                                                                                                 startingAtIndex:0]];
+
+  // When
+  NSString *encodeString = [MSHttpUtil hideSecretInString:string secret:secret];
+
+  // Then
+  XCTAssertEqualObjects(encodeString, expectedEncodeString);
 }
 
 - (void)testIsRecoverableError {

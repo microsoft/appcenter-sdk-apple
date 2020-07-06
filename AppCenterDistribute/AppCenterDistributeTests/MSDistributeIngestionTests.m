@@ -151,8 +151,7 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
-  OCMVerify([mockHttpUtil hideSecretInString:OCMOCK_ANY
-                                      secret:appSecret]);
+  OCMVerify([mockHttpUtil hideSecretInString:OCMOCK_ANY secret:appSecret]);
 
   [mockLogger stopMocking];
   [mockHttpUtil stopMocking];

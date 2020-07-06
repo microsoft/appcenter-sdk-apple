@@ -62,7 +62,6 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  *
  * @return string with the hiding secret.
  */
-+ (NSString *)hideSecretInString:(NSString *)string
-                          secret:(NSString *)secret;
++ (NSString *)hideSecretInString:(NSString *)string secret:(NSString *)secret;
 
 @end
