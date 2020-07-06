@@ -24,7 +24,9 @@ import UIKit
   private var typePickerView: MSEnumPicker<CustomPropertyType>?
   private var datePickerView: MSDatePicker?
 
+#if targetEnvironment(macCatalyst)
   public var viewController: UIViewController?
+#endif
   
   public var key: String {
     get { return self.keyTextField.text! }
