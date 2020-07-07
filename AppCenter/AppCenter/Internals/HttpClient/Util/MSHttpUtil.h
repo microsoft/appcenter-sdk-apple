@@ -54,4 +54,14 @@ static NSString *const kMSHidingStringForAppSecret = @"*";
  */
 + (NSString *)hideSecret:(NSString *)secret;
 
+/**
+ * Hide a secret in the string.
+ *
+ * @param string the string with secret part.
+ * @param secret the secret string.
+ *
+ * @return string with the hiding secret.
+ */
++ (NSString *)hideSecretInString:(NSString *)string secret:(NSString *)secret;
+
 @end

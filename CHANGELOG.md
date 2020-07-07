@@ -2,6 +2,10 @@
 
 ## Version 3.3.2 (Under development)
 
+### App Center Distribute
+
+* **[Fix]** Obfuscate app secret value that appears as URI part in verbose logs when getting release updates info.
+
 ___
 
 ## Version 3.3.1
