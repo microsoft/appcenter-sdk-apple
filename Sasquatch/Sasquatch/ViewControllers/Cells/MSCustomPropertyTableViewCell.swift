@@ -23,7 +23,8 @@ import UIKit
   @IBOutlet var valueBottomConstraint: NSLayoutConstraint!
   private var typePickerView: MSEnumPicker<CustomPropertyType>?
   private var datePickerView: MSDatePicker?
-
+  public var viewController: UIViewController?
+  
   public var key: String {
     get { return self.keyTextField.text! }
     set(key) { self.keyTextField.text = key }
@@ -90,6 +91,16 @@ import UIKit
     self.typeTextField.tintColor = UIColor.clear
     self.datePickerView = MSDatePicker(textField: self.valueTextField)
     prepareForReuse()
+  }
+  
+  override func didTransition(to state: UITableViewCell.StateMask) {
+    
+    // We need to pass the parent view controller to the picker
+    // to be able to show the alert on mac catalyst.
+    // We need to do it here, where we know the viewController is already set.
+    if (state == .showingEditControl) {
+      self.typePickerView?.overrideViewController(with: self.viewController)
+    }
   }
   
   override func prepareForReuse() {

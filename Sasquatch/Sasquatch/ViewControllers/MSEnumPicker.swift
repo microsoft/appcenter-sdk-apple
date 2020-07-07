@@ -9,6 +9,11 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   private let allValues: [E]
   private let onChange: (Int) -> Void
   
+  // In some cases, we may want to override the controller that
+  // shows alert for mac catalyst (when the controller is not the root one).
+  // Example: MSCustomPropertiesViewController.
+  private var viewController: UIViewController?
+  
   init(textField: UITextField!, allValues: [E], onChange: @escaping (Int) -> Void) {
     self.textField = textField
     self.allValues = allValues
@@ -16,8 +21,16 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
     super.init()
   }
   
+  public func overrideViewController(with viewController: UIViewController?) {
+    self.viewController = viewController
+  }
+  
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+#if !targetEnvironment(macCatalyst)
     showEnumPicker()
+#else
+    showActionSheetPicker()
+#endif
     return true
   }
   
@@ -40,6 +53,29 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     self.textField.text = self.allValues[row].rawValue
     self.onChange(row)
+  }
+  
+  func showActionSheetPicker() {
+    let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .alert)
+    let pickedValue = E(rawValue: self.textField.text!)!
+    for value in self.allValues {
+      
+      // Red style for picked option.
+      let style: UIAlertAction.Style = value.rawValue == pickedValue.rawValue ? .destructive : .default
+      let action = UIAlertAction(title: value.rawValue, style: style, handler: {
+        (_ action : UIAlertAction) -> Void in
+        self.textField.text! = action.title!
+        let pickedValue = self.allValues.first { value -> Bool in
+          return value.rawValue == action.title!
+        }
+        let index = self.allValues.index(of: pickedValue!)
+        self.onChange(index!)
+      })
+      optionMenu.addAction(action)
+    }
+    optionMenu.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+    let rootViewController: UIViewController? = self.viewController ?? UIApplication.shared.windows.first?.rootViewController
+    rootViewController?.present(optionMenu, animated: true, completion: nil)
   }
   
   func showEnumPicker() {
