@@ -23,10 +23,7 @@ import UIKit
   @IBOutlet var valueBottomConstraint: NSLayoutConstraint!
   private var typePickerView: MSEnumPicker<CustomPropertyType>?
   private var datePickerView: MSDatePicker?
-
-#if targetEnvironment(macCatalyst)
   public var viewController: UIViewController?
-#endif
   
   public var key: String {
     get { return self.keyTextField.text! }
@@ -101,11 +98,9 @@ import UIKit
     // We need to pass the parent view controller to the picker
     // to be able to show the alert on mac catalyst.
     // We need to do it here, where we know the viewController is already set.
-#if targetEnvironment(macCatalyst)
     if (state == .showingEditControl) {
       self.typePickerView?.overrideViewController(with: self.viewController)
     }
-#endif
   }
   
   override func prepareForReuse() {
