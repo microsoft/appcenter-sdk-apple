@@ -146,20 +146,13 @@ static NSString *const kMSTestAppSecret = @"TestAppSecret";
   __block int count = 0;
   NSDictionary<NSString *, NSString *> *headers = @{kMSHeaderUpdateApiToken : appSecret};
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kMSDefaultApiUrl, kMSTestAppSecret]];
-  OCMStub(ClassMethod([mockHttpUtil hideSecret:OCMOCK_ANY]))
-      .andDo(^(NSInvocation *__unused invocation) {
-        count++;
-      })
-      .andReturn(@"");
 
   // When
   [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
 
   // Then
-  OCMVerify([mockHttpUtil hideSecret:appSecret]);
+  OCMVerify([mockHttpUtil hideSecretInString:OCMOCK_ANY secret:appSecret]);
 
-  // TODO: This is called only once because current Distribute doesn't obfuscate URL which is a bug.
-  XCTAssertEqual(count, 1);
   [mockLogger stopMocking];
   [mockHttpUtil stopMocking];
 }

@@ -123,6 +123,48 @@
 			remoteGlobalIDString = 84D067F1244864DC000B708B;
 			remoteInfo = CrashLibWatch;
 		};
+		C29DB69F24AA1C3800931C65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
+			remoteInfo = "AppCenter macOS Fat Framework";
+		};
+		C29DB6A124AA1C3800931C65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
+			remoteInfo = "AppCenterAnalytics macOS Fat Framework";
+		};
+		C29DB6A324AA1C3800931C65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
+			remoteInfo = "AppCenterCrashes macOS Fat Framework";
+		};
+		C29DB6A524AA1C3800931C65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0469640E1F2A558F00F9D31F;
+			remoteInfo = "AppCenterPush macOS Fat Framework";
+		};
+		C29DB6D524AA1CA600931C65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
+			remoteInfo = "AppCenter macOS Fat Framework";
+		};
+		C29DB6D724AA1CA600931C65 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
+			remoteInfo = "AppCenterCrashes macOS Fat Framework";
+		};
 		C2AFD27A247D630F007E6EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
@@ -895,6 +937,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				C29DB6A024AA1C3800931C65 /* PBXTargetDependency */,
+				C29DB6A224AA1C3800931C65 /* PBXTargetDependency */,
+				C29DB6A424AA1C3800931C65 /* PBXTargetDependency */,
+				C29DB6A624AA1C3800931C65 /* PBXTargetDependency */,
 				F8EE646A231E6F8E0007A52E /* PBXTargetDependency */,
 				C2F1576E2338E6AD00798480 /* PBXTargetDependency */,
 			);
@@ -916,6 +962,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				C29DB6D624AA1CA600931C65 /* PBXTargetDependency */,
+				C29DB6D824AA1CA600931C65 /* PBXTargetDependency */,
 				C2F157592338E5D300798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacSwift-Extension";
@@ -1476,6 +1524,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C29DB6A024AA1C3800931C65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter macOS Fat Framework";
+			targetProxy = C29DB69F24AA1C3800931C65 /* PBXContainerItemProxy */;
+		};
+		C29DB6A224AA1C3800931C65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAnalytics macOS Fat Framework";
+			targetProxy = C29DB6A124AA1C3800931C65 /* PBXContainerItemProxy */;
+		};
+		C29DB6A424AA1C3800931C65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes macOS Fat Framework";
+			targetProxy = C29DB6A324AA1C3800931C65 /* PBXContainerItemProxy */;
+		};
+		C29DB6A624AA1C3800931C65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterPush macOS Fat Framework";
+			targetProxy = C29DB6A524AA1C3800931C65 /* PBXContainerItemProxy */;
+		};
+		C29DB6D624AA1CA600931C65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter macOS Fat Framework";
+			targetProxy = C29DB6D524AA1CA600931C65 /* PBXContainerItemProxy */;
+		};
+		C29DB6D824AA1CA600931C65 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes macOS Fat Framework";
+			targetProxy = C29DB6D724AA1CA600931C65 /* PBXContainerItemProxy */;
+		};
 		C2AFD2D2247D6326007E6EE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenter macOS Fat Framework";

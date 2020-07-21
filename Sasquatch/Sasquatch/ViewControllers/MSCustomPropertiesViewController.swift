@@ -146,6 +146,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
       UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
     if let customPropertyCell = cell as? MSCustomPropertyTableViewCell {
       customPropertyCell.state = properties[indexPath.row - 1]
+      customPropertyCell.viewController = self
       customPropertyCell.onChange = { state in
         self.properties[indexPath.row - 1] = state
       }
