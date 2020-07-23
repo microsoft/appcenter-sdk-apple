@@ -86,6 +86,8 @@ class MSAAnalyticsAuthenticationProvider: NSObject, MSAnalyticsAuthenticationPro
     }
     
     func close() {
+      DispatchQueue.main.async {
         self.viewController?.dismiss(animated: true, completion: nil)
+      }
     }
 }
