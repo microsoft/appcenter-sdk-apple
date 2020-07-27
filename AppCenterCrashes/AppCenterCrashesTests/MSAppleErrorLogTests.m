@@ -42,7 +42,6 @@
   appleLog.osExceptionAddress = @"0x124342345";
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
-  appleLog.selectorRegisterValue = @"release()";
   appleLog.threads = @[ [MSThread new] ];
   appleLog.binaries = @[ [MSBinary new] ];
   appleLog.exception = [MSCrashesTestUtil exception];
@@ -78,7 +77,6 @@
   assertThat(actual[@"osExceptionAddress"], equalTo(self.sut.osExceptionAddress));
   assertThat(actual[@"exceptionType"], equalTo(self.sut.exceptionType));
   assertThat(actual[@"exceptionReason"], equalTo(self.sut.exceptionReason));
-  assertThat(actual[@"selectorRegisterValue"], equalTo(self.sut.selectorRegisterValue));
   assertThat(actual[@"id"], equalTo(self.sut.errorId));
   assertThat(actual[@"processId"], equalTo(self.sut.processId));
   assertThat(actual[@"processName"], equalTo(self.sut.processName));
@@ -122,7 +120,6 @@
   assertThat(actualLog.osExceptionAddress, equalTo(self.sut.osExceptionAddress));
   assertThat(actualLog.exceptionType, equalTo(self.sut.exceptionType));
   assertThat(actualLog.exceptionReason, equalTo(self.sut.exceptionReason));
-  assertThat(actualLog.selectorRegisterValue, equalTo(self.sut.selectorRegisterValue));
 
   // The exception field.
   MSException *actualException = actualLog.exception;

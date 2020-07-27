@@ -71,11 +71,6 @@
 @property(nonatomic, copy) NSString *exceptionReason;
 
 /**
- * Content of register that might contain last method call [optional].
- */
-@property(nonatomic, copy) NSString *selectorRegisterValue;
-
-/**
  * Thread stack frames associated to the error [optional].
  */
 @property(nonatomic) NSArray<MSThread *> *threads;

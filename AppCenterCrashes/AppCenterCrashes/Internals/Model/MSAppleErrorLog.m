@@ -15,7 +15,6 @@ static NSString *const kMSOsExceptionCode = @"osExceptionCode";
 static NSString *const kMSOsExceptionAddress = @"osExceptionAddress";
 static NSString *const kMSExceptionType = @"exceptionType";
 static NSString *const kMSExceptionReason = @"exceptionReason";
-static NSString *const kMSSelectorRegisterValue = @"selectorRegisterValue";
 static NSString *const kMSThreads = @"threads";
 static NSString *const kMSBinaries = @"binaries";
 static NSString *const kMSRegisters = @"registers";
@@ -56,9 +55,6 @@ static NSString *const kMSException = @"exception";
   }
   if (self.exceptionReason) {
     dict[kMSExceptionReason] = self.exceptionReason;
-  }
-  if (self.selectorRegisterValue) {
-    dict[kMSSelectorRegisterValue] = self.selectorRegisterValue;
   }
   if (self.threads) {
     NSMutableArray *threadsArray = [NSMutableArray array];
@@ -105,8 +101,6 @@ static NSString *const kMSException = @"exception";
           [self.osExceptionAddress isEqualToString:errorLog.osExceptionAddress]) &&
          ((!self.exceptionType && !errorLog.exceptionType) || [self.exceptionType isEqualToString:errorLog.exceptionType]) &&
          ((!self.exceptionReason && !errorLog.exceptionReason) || [self.exceptionReason isEqualToString:errorLog.exceptionReason]) &&
-         ((!self.selectorRegisterValue && !errorLog.selectorRegisterValue) ||
-          ([self.selectorRegisterValue isEqualToString:errorLog.selectorRegisterValue])) &&
          ((!self.threads && !errorLog.threads) || [self.threads isEqualToArray:errorLog.threads]) &&
          ((!self.binaries && !errorLog.binaries) || [self.binaries isEqualToArray:errorLog.binaries]) &&
          ((!self.registers && !errorLog.registers) || [self.registers isEqualToDictionary:errorLog.registers]) &&
@@ -126,7 +120,6 @@ static NSString *const kMSException = @"exception";
     _osExceptionAddress = [coder decodeObjectForKey:kMSOsExceptionAddress];
     _exceptionType = [coder decodeObjectForKey:kMSExceptionType];
     _exceptionReason = [coder decodeObjectForKey:kMSExceptionReason];
-    _selectorRegisterValue = [coder decodeObjectForKey:kMSSelectorRegisterValue];
     _threads = [coder decodeObjectForKey:kMSThreads];
     _binaries = [coder decodeObjectForKey:kMSBinaries];
     _registers = [coder decodeObjectForKey:kMSRegisters];
@@ -145,7 +138,6 @@ static NSString *const kMSException = @"exception";
   [coder encodeObject:self.osExceptionAddress forKey:kMSOsExceptionAddress];
   [coder encodeObject:self.exceptionType forKey:kMSExceptionType];
   [coder encodeObject:self.exceptionReason forKey:kMSExceptionReason];
-  [coder encodeObject:self.selectorRegisterValue forKey:kMSSelectorRegisterValue];
   [coder encodeObject:self.threads forKey:kMSThreads];
   [coder encodeObject:self.binaries forKey:kMSBinaries];
   [coder encodeObject:self.registers forKey:kMSRegisters];

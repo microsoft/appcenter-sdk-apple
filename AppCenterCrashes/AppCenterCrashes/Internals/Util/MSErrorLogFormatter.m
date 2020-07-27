@@ -37,15 +37,7 @@
  */
 
 #import <mach-o/dyld.h>
-#import <mach-o/getsect.h>
 #import <mach-o/ldsyms.h>
-
-#if defined(__OBJC2__)
-#define SEL_NAME_SECT "__objc_methname"
-#else
-#define SEL_NAME_SECT "__cstring"
-#endif
-
 #import "MSAppCenterInternal.h"
 #import "MSAppleErrorLog.h"
 #import "MSBinary.h"
@@ -75,113 +67,6 @@ static NSInteger bit_binaryImageSort(id binary1, id binary2, void *__unused cont
     return NSOrderedDescending;
   else
     return NSOrderedSame;
-}
-
-/**
- * Validates that the given @a string terminates prior to @a limit.
- */
-static const char *safer_string_read(const char *string, const char *limit) {
-  const char *p = string;
-  do {
-    if (p >= limit || p + 1 >= limit) {
-      return NULL;
-    }
-    p++;
-  } while (*p != '\0');
-
-  return string;
-}
-
-/**
- * The relativeAddress should be `<ecx/rsi/r1/x1 ...> - <image base>`, extracted
- * from the crash report's thread
- * and binary image list.
- *
- * For the (architecture-specific) registers to attempt, see:
- *  http://sealiesoftware.com/blog/archive/2008/09/22/objc_explain_So_you_crashed_in_objc_msgSend.html
- */
-static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t relativeAddress) {
-  unsigned int images_count = _dyld_image_count();
-  for (unsigned int i = 0; i < images_count; ++i) {
-    intptr_t slide = _dyld_get_image_vmaddr_slide(i);
-    const struct mach_header *header = _dyld_get_image_header(i);
-    const struct mach_header_64 *header64 = (const struct mach_header_64 *)header;
-    const char *name = _dyld_get_image_name(i);
-
-    // Image disappeared?.
-    if (name == NULL || header == NULL)
-      continue;
-
-    // Check if this is the correct image. If we were being even more careful,
-    // we'd check the LC_UUID.
-    if (strcmp(name, imageName) != 0)
-      continue;
-
-    // Determine whether this is a 64-bit or 32-bit Mach-O file.
-    BOOL m64 = NO;
-    if (header->magic == MH_MAGIC_64)
-      m64 = YES;
-
-    NSString *uuidString = nil;
-    const uint8_t *command;
-    uint32_t ncmds;
-
-    if (m64) {
-      command = (const uint8_t *)(header64 + 1);
-      ncmds = header64->ncmds;
-    } else {
-      command = (const uint8_t *)(header + 1);
-      ncmds = header->ncmds;
-    }
-    for (uint32_t idx = 0; idx < ncmds; ++idx) {
-      const struct load_command *load_command = (const struct load_command *)command;
-      if (load_command->cmd == LC_UUID) {
-        const struct uuid_command *uuid_command = (const struct uuid_command *)command;
-        const uint8_t *uuid = uuid_command->uuid;
-        uuidString = [[NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%"
-                                                 @"02X%02X%02X%02X%02X",
-                                                 uuid[0], uuid[1], uuid[2], uuid[3], uuid[4], uuid[5], uuid[6], uuid[7], uuid[8], uuid[9],
-                                                 uuid[10], uuid[11], uuid[12], uuid[13], uuid[14], uuid[15]] lowercaseString];
-        break;
-      } else {
-        command += load_command->cmdsize;
-      }
-    }
-
-    // Check if this is the correct image by comparing the UUIDs.
-    if (!uuidString || ![uuidString isEqualToString:imageUUID])
-      continue;
-
-    // Fetch the __objc_methname section.
-    const char *methname_sect;
-    uint64_t methname_sect_size;
-    if (m64) {
-      methname_sect = getsectdatafromheader_64(header64, SEG_TEXT, SEL_NAME_SECT, &methname_sect_size);
-    } else {
-      uint32_t meth_size_32;
-      methname_sect = getsectdatafromheader(header, SEG_TEXT, SEL_NAME_SECT, &meth_size_32);
-      methname_sect_size = meth_size_32;
-    }
-
-    // Apply the slide, as per getsectdatafromheader(3)
-    methname_sect += slide;
-    if (methname_sect == NULL) {
-      return NULL;
-    }
-
-    // Calculate the target address within this image, and verify that it is
-    // within __objc_methname.
-    const char *target = ((const char *)header) + relativeAddress;
-    const char *limit = methname_sect + methname_sect_size;
-    if (target < methname_sect || target >= limit) {
-      return NULL;
-    }
-
-    // Read the actual method name.
-    return safer_string_read(target, limit);
-  }
-
-  return NULL;
 }
 
 @implementation MSErrorLogFormatter
@@ -260,10 +145,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // exceptionReason, threads and registers.
   errorLog.exceptionReason = [self extractExceptionReasonFromReport:report];
   errorLog.exceptionType = report.hasExceptionInfo ? report.exceptionInfo.exceptionName : nil;
-
-  // The registers of the crashed thread might contain the last method call,
-  // this can be very helpful.
-  errorLog.selectorRegisterValue = [self selectorRegisterValueFromReport:report ofCrashedThread:crashedThread codeType:type];
 
   // Extract all threads and registers.
   errorLog.threads = [self extractThreadsFromReport:report crashedThread:crashedThread is64bit:is64bit];
@@ -531,44 +412,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return exceptionReason;
 }
 
-+ (NSString *)selectorRegisterValueFromReport:(PLCrashReport *)report
-                              ofCrashedThread:(PLCrashReportThreadInfo *)crashedThread
-                                     codeType:(uint64_t)codeType {
-
-  /*
-   * Try to find the selector in case this was a crash in obj_msgSend.
-   * We search this whether the crash happened in objc_msgSend or not since we
-   * don't have the symbol!
-   */
-  NSString *foundSelector = nil;
-
-  // Search the registers value for the current architecture.
-  switch (codeType) {
-  case CPU_TYPE_ARM:
-    foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashedThread report:report];
-    if (foundSelector == NULL) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashedThread report:report];
-    }
-    break;
-
-  case CPU_TYPE_ARM64:
-    foundSelector = [[self class] selectorForRegisterWithName:@"x1" ofThread:crashedThread report:report];
-    break;
-
-  case CPU_TYPE_X86:
-    foundSelector = [[self class] selectorForRegisterWithName:@"ecx" ofThread:crashedThread report:report];
-    break;
-
-  case CPU_TYPE_X86_64:
-    foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashedThread report:report];
-    if (foundSelector == NULL) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"rdx" ofThread:crashedThread report:report];
-    }
-    break;
-  }
-  return foundSelector;
-}
-
 + (NSArray<MSBinary *> *)extractBinaryImagesFromReport:(PLCrashReport *)report is64bit:(BOOL)is64bit {
 
   // Gather all addresses for which we need to preserve the binary images.
@@ -657,44 +500,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     return path;
   }
   return anonymizedProcessPath;
-}
-
-/**
- * Return the selector string of a given register name
- *
- * @param regName The name of the register to use for getting the address
- * @param thread  The crashed thread
- * @param report  The crash report created by PLCrashReporter.
- *
- * @return The selector as a C string or NULL if no selector was found
- */
-+ (NSString *)selectorForRegisterWithName:(NSString *)regName ofThread:(PLCrashReportThreadInfo *)thread report:(PLCrashReport *)report {
-
-  // Get the address for the register.
-  uint64_t regAddress = 0;
-  for (PLCrashReportRegisterInfo *reg in thread.registers) {
-    if ([reg.registerName isEqualToString:regName]) {
-      regAddress = reg.registerValue;
-      break;
-    }
-  }
-
-  // Return nil if we couldn't find an address.
-  if (regAddress == 0) {
-    return nil;
-  }
-
-  // Get the selector.
-  PLCrashReportBinaryImageInfo *imageForRegAddress = [report imageForAddress:regAddress];
-  if (imageForRegAddress) {
-    const char *foundSelector = findSEL([imageForRegAddress.imageName UTF8String], imageForRegAddress.imageUUID,
-                                        regAddress - (uint64_t)imageForRegAddress.imageBaseAddress);
-    if (foundSelector != NULL) {
-      return [NSString stringWithUTF8String:foundSelector];
-    }
-  }
-
-  return nil;
 }
 
 // Determine if in binary image is the app executable or app specific framework.
