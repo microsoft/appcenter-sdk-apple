@@ -1,8 +1,4 @@
 SDKROOT = appletvos
-ARCHS = arm64
-ARCHS[sdk=appletvsimulator*] = $(MS_SIM_ARCHS)
-VALID_ARCHS = $(ARCHS)
-VALID_ARCHS[sdk=appletvsimulator*] = $(MS_SIM_ARCHS)
 SKIP_INSTALL = YES
 TARGETED_DEVICE_FAMILY = 3
 
