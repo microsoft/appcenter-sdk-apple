@@ -213,7 +213,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target,
   SCNetworkReachabilityFlags flags;
 
   if (SCNetworkReachabilityGetFlags(self.reachabilityRef, &flags)) {
-    return (flags & kSCNetworkReachabilityFlagsConnectionRequired);
+    return (flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0;
   }
 
   return NO;
