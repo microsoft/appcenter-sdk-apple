@@ -20,81 +20,81 @@ regexStartHiddenScheme="<key>[a-zA-z -^#.]*<\/key>[${aliasNewLine}][[:space:]]*<
 regexEndHiddenScheme="<key>orderHint<\/key>[${aliasNewLine}][[:space:]]*<integer>[0-9]*<\/integer>[${aliasNewLine}][[:space:]]*<\/dict>"
 
 # Scheme counter.
-currentSchemeNumber=0;
+currentSchemeNumber=0
 
-replace_number_or_hide_scheme() {
+function replace_number_or_hide_scheme() {
 
-    # Get params.
-    projectName=$1
-    isHidden=$2
+  # Get parameters.
+  local projectName=$1
+  local isHidden=$2
+  local isNotEnd=true
 
-    # Build path to file of scheme.
-    fileName="${projectName}/xcuserdata/$USER.xcuserdatad/xcschemes/xcschememanagement.plist"
+  # Build path to file of scheme.
+  local fileName="${projectName}/xcuserdata/$USER.xcuserdatad/xcschemes/xcschememanagement.plist"
 
-    # Prepare the backup file.
-    backupFile="${fileName}.bak"
-    
-    # Set the start of regex based on isHidden value.
-    if $isHidden ; then
-        lastRegex=$regexStartHiddenScheme
-    else
-        lastRegex=$regexStartPlaceNumber
-    fi
-    isNotEnd=true
+  # Prepare the backup file.
+  local backupFile="${fileName}.bak"
 
-    # Check that the scheme file exists.
-    if [ -f "$fileName" ] ; then
-        while ($isNotEnd) ; do
-            if $isHidden ; then
+  # Set the start of regex based on isHidden value.
+  if $isHidden; then
+    lastRegex=$regexStartHiddenScheme
+  else
+    lastRegex=$regexStartPlaceNumber
+  fi
 
-                # Regex for search the place for hide the scheme.
-                pattern="(${lastRegex})(${regexEndHiddenScheme})"
+  # Check that the scheme file exists.
+  if [ -f "$fileName" ]; then
+    while $isNotEnd; do
+      if $isHidden; then
 
-                # Regex for hidden scheme.
-                replacePattern="\1$regexHiddenScheme\2"
-            else
+          # Regex for search the place for hide the scheme.
+          pattern="(${lastRegex})(${regexEndHiddenScheme})"
 
-                # Regex for search the number of scheme.
-                pattern="(${lastRegex})\d+(${regexEndPlaceNumber})"
+          # Regex for hidden scheme.
+          replacePattern="\1$regexHiddenScheme\2"
+      else
 
-                # Regex for replacing the number of scheme.
-                replacePattern="\1${aliasNumber}${currentSchemeNumber}\2"
-            fi
+          # Regex for search the number of scheme.
+          pattern="(${lastRegex})\d+(${regexEndPlaceNumber})"
 
-            # Replace new line to alias.
-            tr '\n' "${aliasNewLine}" < ${fileName} > ${backupFile}
-            
-            # Replace number of scheme.
-            perl -i -pe "s/${pattern}/${replacePattern}/" ${backupFile}
+          # Regex for replacing the number of scheme.
+          replacePattern="\1${aliasNumber}${currentSchemeNumber}\2"
+      fi
 
-            # This is a fix to avoid problems with inserting number value via perl.
-            perl -i -pe "s/${aliasNumber}//" ${backupFile}
-            
-            # Replace new line alias to new line symbol.
-            tr ${aliasNewLine} '\n' < ${backupFile} > ${fileName}
+      # Replace new line to alias.
+      tr '\n' "${aliasNewLine}" < "${fileName}" > "${backupFile}"
+        
+      # Replace number or hide the scheme.
+      perl -i -pe "s/${pattern}/${replacePattern}/" "${backupFile}"
 
-            # Build regex the for next scheme place.
-            if $isHidden ; then
-                lastRegex="${lastRegex}${regexHiddenScheme}${regexEndHiddenScheme}${aliasNewLine}[[:space:]]*${regexStartHiddenScheme}"
-            else
-                lastRegex="${lastRegex}[0-9]*${regexEndPlaceNumber}${aliasNewLine}[[:space:]]*${regexStartPlaceNumber}"
-            fi
+      # This is a fix to avoid problems with inserting number value via perl.
+      perl -i -pe "s/${aliasNumber}//" "${backupFile}"
+        
+      # Replace new line alias to new line symbol.
+      tr ${aliasNewLine} '\n' < "${backupFile}" > "${fileName}"
 
-            # Check that the file still has matches for the given regex.
-            countMatches=$(cat ${backupFile} | grep -o "$lastRegex" | wc -l)
-            if (( $countMatches < 1 )) ; then
-                isNotEnd=false
-            fi
+      # Build regex the for next scheme place.
+      if $isHidden; then
+        lastRegex="${lastRegex}${regexHiddenScheme}${regexEndHiddenScheme}${aliasNewLine}[[:space:]]*${regexStartHiddenScheme}"
+      else
+        lastRegex="${lastRegex}[0-9]*${regexEndPlaceNumber}${aliasNewLine}[[:space:]]*${regexStartPlaceNumber}"
+      fi
 
-            # Increase schemes number 
-            currentSchemeNumber=$((currentSchemeNumber+1))
+      # Check that the file still has matches for the given regex.
+      local countMatches=$(cat "${backupFile}" | grep -o "$lastRegex" | wc -l)
+      if (( $countMatches < 1 )); then
+        isNotEnd=false
+      fi
 
-            # Remove backup file.
-            rm ${backupFile}
-        done
-    else
-        echo "The schemes configuration does not exist for the project ${projectName}."
-    fi
+      # Increase schemes number 
+      currentSchemeNumber=$((currentSchemeNumber+1))
+
+      # Remove backup file.
+      rm "${backupFile}"
+    done
+  else
+    echo "The schemes configuration does not exist for the project ${projectName}."
+  fi
 }
 
 # Sort scheme in the AppCenter.xcworkspace project.
