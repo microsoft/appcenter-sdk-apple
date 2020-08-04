@@ -1,0 +1,7 @@
+variables:
+  XCODE_PATH: '/Applications/Xcode_11.5.app/Contents/Developer'
+
+jobs:
+- template: analyze-and-test-ios.yml
+  parameters:
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute, AppCenterPush ]
