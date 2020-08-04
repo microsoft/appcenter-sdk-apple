@@ -47,18 +47,18 @@ function replace_number_or_hide_scheme() {
     while $isNotEnd; do
       if $isHidden; then
 
-          # Regex for search the place for hide the scheme.
-          pattern="(${lastRegex})(${regexEndHiddenScheme})"
+        # Regex for search the place for hide the scheme.
+        pattern="(${lastRegex})(${regexEndHiddenScheme})"
 
-          # Regex for hidden scheme.
-          replacePattern="\1$regexHiddenScheme\2"
+        # Regex for hidden scheme.
+        replacePattern="\1$regexHiddenScheme\2"
       else
 
-          # Regex for search the number of scheme.
-          pattern="(${lastRegex})\d+(${regexEndPlaceNumber})"
+        # Regex for search the number of scheme.
+        pattern="(${lastRegex})\d+(${regexEndPlaceNumber})"
 
-          # Regex for replacing the number of scheme.
-          replacePattern="\1${aliasNumber}${currentSchemeNumber}\2"
+        # Regex for replacing the number of scheme.
+        replacePattern="\1${aliasNumber}${currentSchemeNumber}\2"
       fi
 
       # Replace new line to alias.
