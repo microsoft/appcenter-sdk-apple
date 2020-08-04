@@ -95,7 +95,7 @@ function archive() {
   cp "$PROJECT_DIR/LICENSE" "$temp_dir/$PRODUCT_NAME"
   cp "$PROJECT_DIR/README.md" "$temp_dir/$PRODUCT_NAME"
   cp "$PROJECT_DIR/CHANGELOG.md" "$temp_dir/$PRODUCT_NAME"
-  cp -R "${@:2}" "$temp_dir/$PRODUCT_NAME"
+  (cd "$PROJECT_DIR" && cp -R "${@:2}" "$temp_dir/$PRODUCT_NAME")
 
   # Remmove old archive if exists.
   if [ -f "$PRODUCTS_DIR/$1" ]; then
@@ -122,7 +122,7 @@ archive "$PRODUCT_NAME-$VERSION.carthage.framework.zip" "$PRODUCT_NAME/iOS" "$PR
 mv "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle" "$PRODUCTS_DIR/iOS"
 
 # Archive XCFrameworks.
-archive "$PRODUCT_NAME-XCFramework-$VERSION.zip" $(ls -d "$PRODUCT_NAME/XCFramework"/*)
+archive "$PRODUCT_NAME-XCFramework-$VERSION.zip" $(cd "$PROJECT_DIR" && ls -d "$PRODUCT_NAME/XCFramework"/*)
 
 # Verify result archives.
 function verify_symlinks() {
