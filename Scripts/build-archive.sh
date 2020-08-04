@@ -10,6 +10,9 @@ PROJECT_DIR="$(dirname "$0")/.."
 PRODUCT_NAME="AppCenter-SDK-Apple"
 PRODUCTS_DIR="$PROJECT_DIR/$PRODUCT_NAME"
 
+# Enable extended globbing.
+shopt -s extglob nullglob
+
 # Check if the frameworks are already built.
 if [ ! -d "$PRODUCTS_DIR/iOS" ] || [ ! -d "$PRODUCTS_DIR/macOS" ] || \
     [ ! -d "$PRODUCTS_DIR/tvOS" ] || [ ! -d "$PRODUCTS_DIR/XCFramework" ]; then
@@ -26,7 +29,7 @@ fi
 
 # Verify bitcode.
 function verify_bitcode() {
-  name=${1##*/}
+  local name=${1##*/}
   name=${name%.*}
   otool -l "$1/$name" | grep __LLVM > /dev/null
 }
@@ -51,6 +54,33 @@ if [ ${#invalid_bitcode[@]} -ne 0 ]; then
   echo "There are macOS binaries with bitcode (it should not be there): ${invalid_bitcode[@]}"
   exit 1
 fi
+
+# Verify architectures.
+function verify_framework_architectures() {
+  local name=${1##*/}
+  name=${name%.*}
+  local archs=($(lipo -archs "$1/$name"))
+  archs=($(printf '%s\n' "${archs[@]}" | sort))
+  required=($(printf '%s\n' "${@:2}" | sort))
+  if [[ "${archs[@]}" != "${required[@]}" ]]; then
+    echo "${1#$PRODUCTS_DIR/} doesn't contain required architectures. It has '${archs[@]}' but '${required[@]}' are required."
+    return 1
+  fi
+}
+function verify_architectures() {
+  for framework in $PRODUCTS_DIR/$1; do
+    verify_framework_architectures "$framework" ${@:2} || return $?
+  done
+}
+verify_architectures "iOS/*.framework" armv7 armv7s arm64 arm64e i386 x86_64 || exit $?
+verify_architectures "macOS/*.framework" x86_64 || exit $?
+verify_architectures "tvOS/*.framework" arm64 i386 x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/ios-!(*-*)/*.framework" armv7 armv7s arm64 arm64e || exit $?
+verify_architectures "XCFramework/*.xcframework/ios-*-maccatalyst/*.framework" x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/ios-*-simulator/*.framework" i386 x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/macos-*/*.framework" x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/tvos-!(*-*)/*.framework" arm64 || exit $?
+verify_architectures "XCFramework/*.xcframework/tvos-*-simulator/*.framework" i386 x86_64 || exit $?
 
 # Creates zip archive.
 # Usage: archive <result-name> <list-of-content>
