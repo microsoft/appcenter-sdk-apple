@@ -2,6 +2,10 @@
 
 ## Version 3.3.3 (Under development)
 
+### App Center
+
+* **[Fix]** Fix compatibility with Xcode 12 beta when integrating SDK from sources.
+
 ___
 
 ## Version 3.3.2
