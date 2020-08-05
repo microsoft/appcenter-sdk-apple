@@ -4,18 +4,22 @@ variables:
   XCODE_PATH: '/Applications/Xcode_11.5.app/Contents/Developer'
 
 jobs:
-- template: analyze-and-test-ios.yml
+- template: analyze-and-test-template.yml
   parameters:
+    platform: iOS
     modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute, AppCenterPush ]
 
-- template: analyze-and-test-macos.yml
+- template: analyze-and-test-template.yml
   parameters:
+    platform: macOS
     modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterPush ]
 
-- template: analyze-and-test-tvos.yml
+- template: analyze-and-test-template.yml
   parameters:
+    platform: tvOS
     modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
 
-- template: analyze-and-test-catalyst.yml
+- template: analyze-and-test-template.yml
   parameters:
+    platform: MacCatalyst
     modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
