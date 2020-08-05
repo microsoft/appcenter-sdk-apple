@@ -1,0 +1,80 @@
+pool:
+  vmImage: internal-macos-10.15
+
+variables:
+  Configuration: Release
+  SDK:
+
+  # Xcode 11.3.1 version is the last one that has compatible bitcode with Xcode 11.0 (minimal supported).
+  XCODE_PATH: '/Applications/Xcode_11.3.1.app/Contents/Developer'
+
+jobs:
+- job:
+  displayName: Build SDK for All Platforms
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - bash: |
+      version="$(Scripts/framework-version.sh)+$(git rev-parse --short $BUILD_SOURCEVERSION)"
+      echo "Change version to $version"
+      Scripts/framework-version.sh "$version"
+    displayName: 'Update Version'
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+
+  - bash: 'sudo gem install jazzy --no-document'
+    displayName: 'Install Jazzy'
+
+  - task: Xcode@5
+    displayName: Build
+    inputs:
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: 'All Frameworks+Documentation'
+      xcodeVersion: specifyPath
+      xcodeDeveloperDir: '$(XCODE_PATH)'
+    timeoutInMinutes: 15
+
+  - task: Bash@3
+    displayName: Archive
+    inputs:
+      targetType: filePath
+      filePath: './Scripts/build-archive.sh'
+
+  - task: CopyFiles@2
+    displayName: 'Copy Archives to Staging Directory'
+    inputs:
+      SourceFolder: './AppCenter-SDK-Apple'
+      Contents: '**/AppCenter-SDK-Apple*.zip'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifacts'
+    inputs:
+      ArtifactName: Release
+
+- job:
+  displayName: Version Information
+  steps:
+  - bash: |
+      swift --version
+      swift package describe
+    displayName: 'Print Swift Package Information'
+
+  - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+    displayName: 'Component Detection'
+    inputs:
+      failOnAlert: true
+
+  - bash: |
+      VERSION=$(Scripts/framework-version.sh)
+      mkdir -p $(Build.ArtifactStagingDirectory)/Info
+      echo $VERSION > $(Build.ArtifactStagingDirectory)/Info/VERSION
+      echo $BUILD_SOURCEVERSION > $(Build.ArtifactStagingDirectory)/Info/COMMIT
+      Scripts/get-release-notes.sh $VERSION > $(Build.ArtifactStagingDirectory)/Info/RELEASE.md
+    displayName: 'Collect Version Information'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Version Information'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/Info'
+      ArtifactName: Info
