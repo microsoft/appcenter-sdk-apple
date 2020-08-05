@@ -5,6 +5,8 @@ jobs:
       pool:
         vmImage: internal-macos-10.15
       steps:
+      - checkout: self
+        submodules: recursive
       - task: Xcode@5
         displayName: Analyze
         inputs:
