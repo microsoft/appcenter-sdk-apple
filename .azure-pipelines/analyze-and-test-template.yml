@@ -20,8 +20,6 @@ jobs:
       inputs:
         actions: analyze
         xcWorkspacePath: AppCenter.xcworkspace
-        xcodeVersion: specifyPath
-        xcodeDeveloperDir: '$(XCODE_PATH)'
         ${{ if eq(parameters.platform, 'MacCatalyst') }}:
           scheme: '${{ module }} iOS Framework'
           destinationPlatformOption: macOS
@@ -38,8 +36,6 @@ jobs:
       inputs:
         actions: test
         xcWorkspacePath: AppCenter.xcworkspace
-        xcodeVersion: specifyPath
-        xcodeDeveloperDir: '$(XCODE_PATH)'
         ${{ if eq(parameters.platform, 'MacCatalyst') }}:
           scheme: '${{ module }} iOS Framework'
           destinationPlatformOption: macOS

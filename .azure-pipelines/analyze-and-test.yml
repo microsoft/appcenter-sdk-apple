@@ -1,7 +1,6 @@
 variables:
   Configuration: Debug
   SDK:
-  XCODE_PATH: '/Applications/Xcode_11.5.app/Contents/Developer'
 
 jobs:
 - template: analyze-and-test-template.yml
