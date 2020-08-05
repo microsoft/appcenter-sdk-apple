@@ -9,6 +9,8 @@ jobs:
         displayName: Analyze
         inputs:
           actions: analyze
+          configuration: Debug
+          sdk: iphonesimulator
           xcWorkspacePath: AppCenter.xcworkspace
           scheme: '${{ module }} iOS Framework'
           xcodeVersion: specifyPath
@@ -20,6 +22,8 @@ jobs:
         displayName: Test
         inputs:
           actions: test
+          configuration: Debug
+          sdk: iphonesimulator
           xcWorkspacePath: AppCenter.xcworkspace
           scheme: '${{ module }} iOS Framework'
           xcodeVersion: specifyPath
