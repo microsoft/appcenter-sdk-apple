@@ -1,7 +1,21 @@
 variables:
+  Configuration: Debug
+  SDK:
   XCODE_PATH: '/Applications/Xcode_11.5.app/Contents/Developer'
 
 jobs:
 - template: analyze-and-test-ios.yml
   parameters:
     modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute, AppCenterPush ]
+
+- template: analyze-and-test-macos.yml
+  parameters:
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterPush ]
+
+- template: analyze-and-test-tvos.yml
+  parameters:
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
+
+- template: analyze-and-test-catalyst.yml
+  parameters:
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]

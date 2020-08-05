@@ -1,34 +1,32 @@
 jobs:
   - ${{ each module in parameters.modules }}:
     - job:
-      displayName: ${{ format('iOS {0}', module) }}
+      displayName: ${{ format('macOS {0}', module) }}
       pool:
         vmImage: internal-macos-10.15
       steps:
       - checkout: self
         submodules: recursive
-        
+
       - task: Xcode@5
         displayName: Analyze
         inputs:
           actions: analyze
           xcWorkspacePath: AppCenter.xcworkspace
-          scheme: '${{ module }} iOS Framework'
+          scheme: '${{ module }} macOS Framework'
           xcodeVersion: specifyPath
           xcodeDeveloperDir: '$(XCODE_PATH)'
-          destinationPlatformOption: iOS
-          destinationSimulators: 'iPhone 11'
+          destinationPlatformOption: macOS
 
       - task: Xcode@5
         displayName: Test
         inputs:
           actions: test
           xcWorkspacePath: AppCenter.xcworkspace
-          scheme: '${{ module }} iOS Framework'
+          scheme: '${{ module }} macOS Framework'
           xcodeVersion: specifyPath
           xcodeDeveloperDir: '$(XCODE_PATH)'
-          destinationPlatformOption: iOS
-          destinationSimulators: 'iPhone 11'
+          destinationPlatformOption: macOS
           publishJUnitResults: true
         timeoutInMinutes: 10
 
@@ -39,5 +37,5 @@ jobs:
           ArtifactName: 'Test Diagnostic Reports'
         condition: failed()
 
-      - bash: 'bash <(curl -s https://codecov.io/bash) -X gcov -cF iOS'
+      - bash: 'bash <(curl -s https://codecov.io/bash) -X gcov -cF macOS'
         displayName: 'Upload Coverage Report to Codecov'
