@@ -1,3 +1,12 @@
+trigger:
+- master
+- develop
+
+pr:
+- master
+- develop
+- feature/*
+
 pool:
   vmImage: internal-macos-10.15
 
