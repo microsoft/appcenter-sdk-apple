@@ -220,7 +220,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 #if !TARGET_OS_OSX
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillTerminate:(__unused UIApplication *)application {
 
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{
