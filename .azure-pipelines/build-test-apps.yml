@@ -1,0 +1,99 @@
+pr:
+- master
+- develop
+- feature/*
+
+pool:
+  vmImage: internal-macos-10.15
+
+variables:
+  Configuration: Release
+  SDK:
+
+jobs:
+- job:
+  displayName: Puppet iOS
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - task: Xcode@5
+    displayName: 'Sasquatch iOS Puppet Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchPuppet
+
+- job:
+  displayName: Puppet Mac Catalyst
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - task: Xcode@5
+    displayName: 'Sasquatch Mac Catalyst Puppet Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchPuppet
+      destinationPlatformOption: macOS
+
+- job:
+  displayName: Sasquatch iOS
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - task: Xcode@5
+    displayName: 'Sasquatch iOS Objective-C Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchObjC
+
+  - task: Xcode@5
+    displayName: 'Sasquatch iOS Swift Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchSwift
+
+- job:
+  displayName: Sasquatch macOS
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - task: Xcode@5
+    displayName: 'Sasquatch macOS Objective-C Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchMacObjC
+
+  - task: Xcode@5
+    displayName: 'Sasquatch macOS Swift Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchMacSwift
+
+- job:
+  displayName: Sasquatch tvOS
+  steps:
+  - checkout: self
+    submodules: recursive
+
+  - task: Xcode@5
+    displayName: 'Sasquatch tvOS Objective-C Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchTVObjC
+
+  - task: Xcode@5
+    displayName: 'Sasquatch tvOS Swift Archive'
+    inputs:
+      actions: archive
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: SasquatchTVSwift
