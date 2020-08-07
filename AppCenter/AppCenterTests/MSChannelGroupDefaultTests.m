@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#if !TARGET_OS_OSX
-#import <UIKit/UIKit.h>
-#endif
-
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterIngestion.h"
 #import "MSChannelDelegate.h"
@@ -65,7 +61,7 @@
   [super tearDown];
 }
 
-#if !TARGET_OS_OSX
+#if TARGET_OS_IPHONE
 - (void)testAppIsKilled {
 
   // If
