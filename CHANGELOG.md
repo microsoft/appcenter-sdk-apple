@@ -6,6 +6,10 @@
 
 * **[Fix]** Fix compatibility with Xcode 12 beta when integrating SDK from sources.
 
+### App Center Analytics
+
+* **[Fix]** Fix sending logs from `applicationWillTerminate`.
+
 ___
 
 ## Version 3.3.2

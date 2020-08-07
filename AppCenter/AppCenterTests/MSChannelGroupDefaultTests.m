@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "TargetConditionals.h"
+#if !TARGET_OS_OSX
+#import <UIKit/UIKit.h>
+#endif
+
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenterIngestion.h"
 #import "MSChannelDelegate.h"
@@ -60,6 +65,34 @@
   [self.ingestionMock stopMocking];
   [super tearDown];
 }
+
+#if !TARGET_OS_OSX
+- (void)testAppIsKilled {
+
+  // If
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:YES];
+  id sut = OCMPartialMock(self.sut);
+
+  // When
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
+
+  // Then
+  OCMVerify([sut applicationWillTerminate:OCMOCK_ANY]);
+  XCTAssertNotNil(self.sut.logsDispatchQueue);
+  
+  // If
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:YES];
+  OCMReject([sut applicationWillTerminate:OCMOCK_ANY]);
+  
+  // When
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
+  
+  // Then
+  self.sut.logsDispatchQueue = nil;
+  OCMVerifyAll(sut);
+  [sut stopMocking];
+}
+#endif
 
 #pragma mark - Tests
 
