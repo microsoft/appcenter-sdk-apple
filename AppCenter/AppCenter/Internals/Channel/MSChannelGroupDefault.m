@@ -183,14 +183,14 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 #if !TARGET_OS_OSX
   if (isEnabled) {
     [MS_NOTIFICATION_CENTER addObserver:self
-    selector:@selector(applicationWillTerminate:)
-        name:UIApplicationWillTerminateNotification
-      object:nil];
+                               selector:@selector(applicationWillTerminate:)
+                                   name:UIApplicationWillTerminateNotification
+                                 object:nil];
   } else {
     [MS_NOTIFICATION_CENTER removeObserver:self];
   }
 #endif
-  
+
   // Propagate to ingestion.
   [self.ingestion setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 
@@ -214,12 +214,12 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
-  
+
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{
     dispatch_semaphore_signal(self.delayedProcessingSemaphore);
   });
+  dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
 }
 
 #pragma mark - Pause / Resume
