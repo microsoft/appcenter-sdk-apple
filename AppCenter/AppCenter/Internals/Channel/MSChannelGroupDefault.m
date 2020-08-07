@@ -214,8 +214,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  
-  dispatch_semaphore_wait(self.delayedProcessingSemaphore, 2);
+  dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
   
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{
