@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property dispatch_semaphore_t delayedProcessingSemaphore;
 
+/**
+ * Called when applciation is terminating.
+ */
+- (void)applicationWillTerminate:(__unused UIApplication *)application;
+
 #endif
 
 @end

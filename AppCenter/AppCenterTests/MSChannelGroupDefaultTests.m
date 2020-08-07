@@ -61,6 +61,26 @@
   [super tearDown];
 }
 
+#if !TARGET_OS_OSX
+- (void)testAppIsKilled {
+
+  // If
+  [self.sut setEnabled:YES andDeleteDataOnDisabled:YES];
+  id sut = OCMPartialMock(self.sut);
+
+  // When
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
+
+  // Then
+  OCMVerify([sut applicationWillTerminate:OCMOCK_ANY]);
+  XCTAssertNotNil(self.sut.logsDispatchQueue);
+  [self.sut setEnabled:NO andDeleteDataOnDisabled:YES];
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
+  OCMReject([sut applicationWillTerminate:OCMOCK_ANY]);
+  self.sut.logsDispatchQueue = nil;
+}
+#endif
+
 #pragma mark - Tests
 
 - (void)testNewInstanceWasInitialisedCorrectly {
