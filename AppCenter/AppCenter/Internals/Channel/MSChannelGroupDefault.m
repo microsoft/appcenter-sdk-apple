@@ -13,7 +13,11 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
+#if !TARGET_OS_OSX
+
 @synthesize delayedProcessingSemaphore = _delayedProcessingSemaphore;
+
+#endif
 
 #pragma mark - Initialization
 
@@ -34,7 +38,9 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     if (ingestion) {
       _ingestion = ingestion;
     }
+#if !TARGET_OS_OSX
     _delayedProcessingSemaphore = dispatch_semaphore_create(0);
+#endif
   }
   return self;
 }
@@ -213,6 +219,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
    */
 }
 
+#if !TARGET_OS_OSX
 - (void)applicationWillTerminate:(UIApplication *)application {
 
   // Block logs queue so that it isn't killed before app termination.
@@ -221,6 +228,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
   });
   dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
 }
+#endif
 
 #pragma mark - Pause / Resume
 
