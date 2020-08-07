@@ -18,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion;
 
+/**
+* Semaphore for exclusion with "startDelayedCrashProcessing" method.
+*/
+@property dispatch_semaphore_t delayedProcessingSemaphore;
+
 @end
 
 NS_ASSUME_NONNULL_END

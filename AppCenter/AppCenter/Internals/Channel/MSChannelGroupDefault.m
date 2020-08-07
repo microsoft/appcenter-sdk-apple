@@ -13,6 +13,8 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
+@synthesize delayedProcessingSemaphore = _delayedProcessingSemaphore;
+
 #pragma mark - Initialization
 
 - (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
@@ -32,6 +34,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     if (ingestion) {
       _ingestion = ingestion;
     }
+    _delayedProcessingSemaphore = dispatch_semaphore_create(0);
   }
   return self;
 }
@@ -177,6 +180,17 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
 
+#if !TARGET_OS_OSX
+  if (isEnabled) {
+    [MS_NOTIFICATION_CENTER addObserver:self
+    selector:@selector(applicationWillTerminate:)
+        name:UIApplicationWillTerminateNotification
+      object:nil];
+  } else {
+    [MS_NOTIFICATION_CENTER removeObserver:self];
+  }
+#endif
+  
   // Propagate to ingestion.
   [self.ingestion setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 
@@ -197,6 +211,16 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
    *
    * Note that this is an unlikely scenario. Solving this issue is more of a proactive measure.
    */
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+  
+  dispatch_semaphore_wait(self.delayedProcessingSemaphore, 2);
+  
+  // Block logs queue so that it isn't killed before app termination.
+  dispatch_async(self.logsDispatchQueue, ^{
+    dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+  });
 }
 
 #pragma mark - Pause / Resume
