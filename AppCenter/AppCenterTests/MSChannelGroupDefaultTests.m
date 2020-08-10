@@ -89,6 +89,7 @@
   
   // Then
   self.sut.logsDispatchQueue = nil;
+  OCMVerifyAll(sut);
   [sut stopMocking];
 }
 #endif
