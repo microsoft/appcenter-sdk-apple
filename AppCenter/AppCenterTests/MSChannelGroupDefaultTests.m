@@ -79,10 +79,17 @@
   // Then
   OCMVerify([sut applicationWillTerminate:OCMOCK_ANY]);
   XCTAssertNotNil(self.sut.logsDispatchQueue);
+  
+  // If
   [self.sut setEnabled:NO andDeleteDataOnDisabled:YES];
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
   OCMReject([sut applicationWillTerminate:OCMOCK_ANY]);
+  
+  // When
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
+  
+  // Then
   self.sut.logsDispatchQueue = nil;
+  [sut stopMocking];
 }
 #endif
 
