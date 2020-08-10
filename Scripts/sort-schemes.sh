@@ -10,11 +10,11 @@
 aliasNewLine='@'
 aliasNumber='%numberAlias%'
 
-# Regex constans for change number.
+# Regex constants for position number.
 regexStartPlaceNumber="<key>[a-zA-z -^#.]*<\/key>[${aliasNewLine}][[:space:]]*<dict>[${aliasNewLine}][[:space:]]*<key>orderHint<\/key>[${aliasNewLine}][[:space:]]*<integer>"
 regexEndPlaceNumber="<\/integer>[${aliasNewLine}][[:space:]]*<\/dict>"
 
-# Regex constans for hidden schemes.
+# Regex constants for hidden schemes.
 regexHiddenScheme="<key>isShown<\/key><false\/>"
 regexStartHiddenScheme="<key>[a-zA-z -^#.]*<\/key>[${aliasNewLine}][[:space:]]*<dict>[${aliasNewLine}][[:space:]]*"
 regexEndHiddenScheme="<key>orderHint<\/key>[${aliasNewLine}][[:space:]]*<integer>[0-9]*<\/integer>[${aliasNewLine}][[:space:]]*<\/dict>"
