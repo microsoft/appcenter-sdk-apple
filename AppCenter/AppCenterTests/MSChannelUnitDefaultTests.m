@@ -7,6 +7,7 @@
 #import "MSAbstractLogInternal.h"
 #import "MSAppCenter.h"
 #import "MSChannelDelegate.h"
+#import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
 #import "MSChannelUnitDefaultPrivate.h"
@@ -37,6 +38,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @property(nonatomic) id storageMock;
 @property(nonatomic) id ingestionMock;
+@property(nonatomic) id channelGroupMock;
 
 /**
  * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue at the end of the test
@@ -62,6 +64,8 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
   self.settingsMock = [MSMockUserDefaults new];
+  self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
+  OCMStub(ClassMethod([self.channelGroupMock hasEnteredApplicationWillTerminate])).andReturn(NO);
 }
 
 - (void)tearDown {
@@ -70,6 +74,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.storageMock stopMocking];
   [self.ingestionMock stopMocking];
   [self.settingsMock stopMocking];
+  [self.channelGroupMock stopMocking];
 
   /*
    * Make sure that dispatch queue has been deallocated.
@@ -1292,7 +1297,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   id mockLog = [self getValidMockLog];
-
+  
   // When
   [channel addDelegate:delegateMock];
   [channel setEnabled:NO andDeleteDataOnDisabled:YES];
