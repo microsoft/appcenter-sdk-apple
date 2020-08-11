@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <libkern/OSAtomic.h>
+
 #import "MSChannelGroupDefault.h"
 #import "AppCenter+Internal.h"
 #import "MSAppCenterIngestion.h"
@@ -13,7 +15,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
-static BOOL _hasEnteredApplicationWillTerminate = NO;
+static volatile uint32_t _hasEnteredApplicationWillTerminate;
 
 #if !TARGET_OS_OSX
 
@@ -32,7 +34,7 @@ static BOOL _hasEnteredApplicationWillTerminate = NO;
 
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion {
   if ((self = [self init])) {
-    _hasEnteredApplicationWillTerminate = NO;
+    OSAtomicOr32Barrier(0, & _hasEnteredApplicationWillTerminate);
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSLogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
@@ -49,7 +51,7 @@ static BOOL _hasEnteredApplicationWillTerminate = NO;
 }
 
 + (BOOL)hasEnteredApplicationWillTerminate {
-  return _hasEnteredApplicationWillTerminate;
+  return _hasEnteredApplicationWillTerminate != 0;
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
@@ -228,9 +230,7 @@ static BOOL _hasEnteredApplicationWillTerminate = NO;
 
 #if !TARGET_OS_OSX
 - (void)applicationWillTerminate:(__unused UIApplication *)application {
-  @synchronized(self) {
-    _hasEnteredApplicationWillTerminate = YES;
-  }
+  OSAtomicOr32Barrier(1, & _hasEnteredApplicationWillTerminate);
 
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{

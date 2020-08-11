@@ -168,11 +168,7 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     }
   };
 
-  BOOL hasEnteredApplicationWillTerminate;
-  @synchronized(self) {
-    hasEnteredApplicationWillTerminate = [MSChannelGroupDefault hasEnteredApplicationWillTerminate];
-  }
-  if (hasEnteredApplicationWillTerminate) {
+  if ([MSChannelGroupDefault hasEnteredApplicationWillTerminate]) {
 
     // Process synchronously in case applicationWillTerminate was hit.
     dispatch_sync(self.logsDispatchQueue, storeLogs);
