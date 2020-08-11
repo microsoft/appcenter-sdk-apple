@@ -10,9 +10,10 @@
 #import "MSLogDBStorage.h"
 
 static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
-static BOOL _hasEnteredApplicationWillTerminate = NO;
 
 @implementation MSChannelGroupDefault
+
+static BOOL _hasEnteredApplicationWillTerminate = NO;
 
 #if !TARGET_OS_OSX
 
@@ -227,8 +228,10 @@ static BOOL _hasEnteredApplicationWillTerminate = NO;
 
 #if !TARGET_OS_OSX
 - (void)applicationWillTerminate:(__unused UIApplication *)application {
+  @synchronized(self) {
+    _hasEnteredApplicationWillTerminate = YES;
+  }
 
-  _hasEnteredApplicationWillTerminate = YES;
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{
     dispatch_semaphore_signal(self.delayedProcessingSemaphore);
