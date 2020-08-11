@@ -6,6 +6,7 @@
 #import "MSAppCenterErrors.h"
 #import "MSAppCenterIngestion.h"
 #import "MSAppCenterInternal.h"
+#import "MSChannelGroupDefault.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefaultPrivate.h"
 #import "MSDeviceTracker.h"
@@ -16,7 +17,6 @@
  * Key for the start timestamp.
  */
 static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
-static NSString *const kMSApplicationWillTerminateEnteredKey = @"ApplicationWillTerminateEntered";
 
 @implementation MSChannelUnitDefault
 
@@ -168,11 +168,9 @@ static NSString *const kMSApplicationWillTerminateEnteredKey = @"ApplicationWill
     }
   };
 
-  NSNumber *hasEnteredApplicationWillTerminate = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSApplicationWillTerminateEnteredKey];
-  if ([hasEnteredApplicationWillTerminate boolValue]) {
+  if ([MSChannelGroupDefault hasEnteredApplicationWillTerminate]) {
 
     // Process synchronously in case applicationWillTerminate was hit.
-    [MS_APP_CENTER_USER_DEFAULTS setObject:@NO forKey:kMSApplicationWillTerminateEnteredKey];
     dispatch_sync(self.logsDispatchQueue, storeLogs);
   } else {
 
