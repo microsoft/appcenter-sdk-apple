@@ -79,14 +79,16 @@
   // Then
   OCMVerify([sut applicationWillTerminate:OCMOCK_ANY]);
   XCTAssertNotNil(self.sut.logsDispatchQueue);
-  
+  NSNumber *hasEnteredApplicationWillTerminate = [[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterApplicationWillTerminateEntered"];
+  XCTAssertTrue([hasEnteredApplicationWillTerminate boolValue]);
+
   // If
   [self.sut setEnabled:NO andDeleteDataOnDisabled:YES];
   OCMReject([sut applicationWillTerminate:OCMOCK_ANY]);
-  
+
   // When
   [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
-  
+
   // Then
   self.sut.logsDispatchQueue = nil;
   OCMVerifyAll(sut);

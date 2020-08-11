@@ -16,6 +16,7 @@
  * Key for the start timestamp.
  */
 static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
+static NSString *const kMSApplicationWillTerminateEnteredKey = @"ApplicationWillTerminateEntered";
 
 @implementation MSChannelUnitDefault
 
@@ -109,8 +110,7 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
                               }];
   }
 
-  // Return fast in case our item is empty or we are discarding logs right now.
-  dispatch_async(self.logsDispatchQueue, ^{
+  void (^storeLogs)(void) = ^{
     // Use separate autorelease pool for enqueuing logs.
     @autoreleasepool {
 
@@ -166,7 +166,19 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
         [self checkPendingLogs];
       }
     }
-  });
+  };
+
+  NSNumber *hasEnteredApplicationWillTerminate = [MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSApplicationWillTerminateEnteredKey];
+  if ([hasEnteredApplicationWillTerminate boolValue]) {
+
+    // Process synchronously in case applicationWillTerminate was hit.
+    [MS_APP_CENTER_USER_DEFAULTS setObject:@NO forKey:kMSApplicationWillTerminateEnteredKey];
+    dispatch_sync(self.logsDispatchQueue, storeLogs);
+  } else {
+
+    // Return fast in case our item is empty or we are discarding logs right now.
+    dispatch_async(self.logsDispatchQueue, storeLogs);
+  }
 }
 
 - (void)sendLogContainer:(MSLogContainer *__nonnull)container {
