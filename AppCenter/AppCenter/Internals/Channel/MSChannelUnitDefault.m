@@ -179,19 +179,19 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     }
   };
 #if !TARGET_OS_OSX
- 
+
   // Process synchronously in case applicationWillTerminate was hit.
   (self.applicationWillTerminateEntered ? dispatch_sync : dispatch_async)
 #else
   dispatch_async
 #endif
-    (self.logsDispatchQueue, storeLogs);
+      (self.logsDispatchQueue, storeLogs);
 }
 
 #if !TARGET_OS_OSX
 - (void)applicationWillTerminate:(__unused UIApplication *)application {
   self.applicationWillTerminateEntered = YES;
-  
+
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{
     dispatch_semaphore_signal(self.delayedProcessingSemaphore);
@@ -449,16 +449,16 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
 #pragma mark - Life cycle
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
-  #if !TARGET_OS_OSX
-    if (isEnabled) {
-      [MS_NOTIFICATION_CENTER addObserver:self
-                                 selector:@selector(applicationWillTerminate:)
-                                     name:UIApplicationWillTerminateNotification
-                                   object:nil];
-    } else {
-      [MS_NOTIFICATION_CENTER removeObserver:self];
-    }
-  #endif
+#if !TARGET_OS_OSX
+  if (isEnabled) {
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationWillTerminate:)
+                                   name:UIApplicationWillTerminateNotification
+                                 object:nil];
+  } else {
+    [MS_NOTIFICATION_CENTER removeObserver:self];
+  }
+#endif
   dispatch_async(self.logsDispatchQueue, ^{
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;

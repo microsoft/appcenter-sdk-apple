@@ -88,7 +88,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 #if !TARGET_OS_OSX
 - (void)testAppIsKilled {
-  
   MSChannelUnitDefault *channel = [self createChannelUnitDefault];
 
   // Configure channel with custom interval.
@@ -1321,7 +1320,7 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSChannelDelegate));
   id mockLog = [self getValidMockLog];
-  
+
   // When
   [channel addDelegate:delegateMock];
   [channel setEnabled:NO andDeleteDataOnDisabled:YES];

@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property dispatch_semaphore_t delayedProcessingSemaphore;
 
-@property BOOL applicationWillTerminateEntered;
+@property(atomic) BOOL applicationWillTerminateEntered;
 
 /**
  * Called when applciation is terminating.
