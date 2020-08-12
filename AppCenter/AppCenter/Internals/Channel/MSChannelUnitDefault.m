@@ -34,7 +34,10 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
 
 - (instancetype)init {
   if ((self = [super init])) {
+#if !TARGET_OS_OSX
     _applicationWillTerminateEntered = NO;
+    _delayedProcessingSemaphore = dispatch_semaphore_create(0);
+#endif
     _itemsCount = 0;
     _pendingBatchIds = [NSMutableArray new];
     _pendingBatchQueueFull = NO;
@@ -45,9 +48,6 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     _delegates = [NSHashTable weakObjectsHashTable];
     _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
     _pausedTargetKeys = [NSMutableSet new];
-#if !TARGET_OS_OSX
-    _delayedProcessingSemaphore = dispatch_semaphore_create(0);
-#endif
   }
   return self;
 }
@@ -179,6 +179,7 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     }
   };
 
+#if !TARGET_OS_OSX
   if (self.applicationWillTerminateEntered) {
 
     // Process synchronously in case applicationWillTerminate was hit.
@@ -188,6 +189,10 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     // Return fast in case our item is empty or we are discarding logs right now.
     dispatch_async(self.logsDispatchQueue, storeLogs);
   }
+#else
+  dispatch_async(self.logsDispatchQueue, storeLogs);
+#endif
+  
 }
 
 #if !TARGET_OS_OSX
