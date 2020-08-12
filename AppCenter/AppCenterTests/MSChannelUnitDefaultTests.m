@@ -64,8 +64,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   self.ingestionMock = OCMProtocolMock(@protocol(MSIngestionProtocol));
   OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
   self.settingsMock = [MSMockUserDefaults new];
-  self.channelGroupMock = OCMClassMock([MSChannelGroupDefault class]);
-  OCMStub(ClassMethod([self.channelGroupMock hasEnteredApplicationWillTerminate])).andReturn(NO);
 }
 
 - (void)tearDown {
@@ -87,6 +85,43 @@ static NSString *const kMSTestGroupId = @"GroupId";
 }
 
 #pragma mark - Tests
+
+#if !TARGET_OS_OSX
+- (void)testAppIsKilled {
+  
+  MSChannelUnitDefault *channel = [self createChannelUnitDefault];
+
+  // Configure channel with custom interval.
+  channel.configuration = [[MSChannelUnitConfiguration alloc] initWithGroupId:kMSTestGroupId
+                                                                     priority:MSPriorityDefault
+                                                                flushInterval:60
+                                                               batchSizeLimit:50
+                                                          pendingBatchesLimit:3];
+
+  // If
+  [channel setEnabled:YES andDeleteDataOnDisabled:YES];
+  id sut = OCMPartialMock(channel);
+
+  // When
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
+
+  // Then
+  OCMVerify([sut applicationWillTerminate:OCMOCK_ANY]);
+  XCTAssertNotNil(channel.logsDispatchQueue);
+
+  // If
+  [channel setEnabled:NO andDeleteDataOnDisabled:YES];
+  OCMReject([sut applicationWillTerminate:OCMOCK_ANY]);
+
+  // When
+  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
+
+  // Then
+  channel.logsDispatchQueue = nil;
+  OCMVerifyAll(sut);
+  [sut stopMocking];
+}
+#endif
 
 - (void)testPendingLogsStoresStartTimeWhenPaused {
 

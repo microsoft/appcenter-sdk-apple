@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSChannelUnitDefault.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
