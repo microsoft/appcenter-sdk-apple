@@ -15,7 +15,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
-static volatile uint32_t _hasEnteredApplicationWillTerminate;
+static BOOL _applicationWillTerminate = NO;
 
 #if !TARGET_OS_OSX
 
@@ -34,7 +34,7 @@ static volatile uint32_t _hasEnteredApplicationWillTerminate;
 
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion {
   if ((self = [self init])) {
-    OSAtomicOr32Barrier(0, & _hasEnteredApplicationWillTerminate);
+    _applicationWillTerminate = NO;
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSLogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
@@ -51,7 +51,7 @@ static volatile uint32_t _hasEnteredApplicationWillTerminate;
 }
 
 + (BOOL)hasEnteredApplicationWillTerminate {
-  return _hasEnteredApplicationWillTerminate != 0;
+  return _applicationWillTerminate;
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
@@ -230,10 +230,10 @@ static volatile uint32_t _hasEnteredApplicationWillTerminate;
 
 #if !TARGET_OS_OSX
 - (void)applicationWillTerminate:(__unused UIApplication *)application {
-  OSAtomicOr32Barrier(1, & _hasEnteredApplicationWillTerminate);
-
+  
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{
+    _applicationWillTerminate = YES;
     dispatch_semaphore_signal(self.delayedProcessingSemaphore);
   });
   dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
