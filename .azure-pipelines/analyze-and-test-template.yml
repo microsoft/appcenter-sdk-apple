@@ -1,0 +1,61 @@
+parameters:
+- name: platform
+  type: string
+
+- name: modules
+  type: object
+
+jobs:
+- ${{ each module in parameters.modules }}:
+  - job:
+    displayName: ${{ format('{0} {1}', parameters.platform, module) }}
+    pool:
+      vmImage: internal-macos-10.15
+    steps:
+    - checkout: self
+      submodules: recursive
+
+    - task: Xcode@5
+      displayName: Analyze
+      inputs:
+        actions: analyze
+        xcWorkspacePath: AppCenter.xcworkspace
+        ${{ if eq(parameters.platform, 'MacCatalyst') }}:
+          scheme: '${{ module }} iOS Framework'
+          destinationPlatformOption: macOS
+        ${{ if ne(parameters.platform, 'MacCatalyst') }}:
+          scheme: '${{ module }} ${{ parameters.platform }} Framework'
+          destinationPlatformOption: ${{ parameters.platform }}
+        ${{ if eq(parameters.platform, 'iOS') }}:
+          destinationSimulators: 'iPhone 11'
+        ${{ if eq(parameters.platform, 'tvOS') }}:
+          destinationSimulators: 'Apple TV'
+
+    - task: Xcode@5
+      displayName: Test
+      inputs:
+        actions: test
+        xcWorkspacePath: AppCenter.xcworkspace
+        ${{ if eq(parameters.platform, 'MacCatalyst') }}:
+          scheme: '${{ module }} iOS Framework'
+          destinationPlatformOption: macOS
+        ${{ if ne(parameters.platform, 'MacCatalyst') }}:
+          scheme: '${{ module }} ${{ parameters.platform }} Framework'
+          destinationPlatformOption: ${{ parameters.platform }}
+        ${{ if eq(parameters.platform, 'iOS') }}:
+          destinationSimulators: 'iPhone 11'
+        ${{ if eq(parameters.platform, 'tvOS') }}:
+          destinationSimulators: 'Apple TV'
+        publishJUnitResults: true
+      timeoutInMinutes: 10
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Diagnostic Reports'
+      inputs:
+        PathtoPublish: /Users/runner/Library/Logs/DiagnosticReports
+        ArtifactName: 'Test Diagnostic Reports'
+      condition: failed()
+
+    - bash: 'bash <(curl -s https://codecov.io/bash) -X gcov -cF ${{ parameters.platform }}'
+      displayName: 'Upload Coverage Report to Codecov'
+

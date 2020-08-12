@@ -1,0 +1,29 @@
+pr:
+- master
+- develop
+- feature/*
+
+variables:
+  Configuration: Debug
+  SDK:
+
+jobs:
+- template: analyze-and-test-template.yml
+  parameters:
+    platform: iOS
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute, AppCenterPush ]
+
+- template: analyze-and-test-template.yml
+  parameters:
+    platform: macOS
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterPush ]
+
+- template: analyze-and-test-template.yml
+  parameters:
+    platform: tvOS
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
+
+- template: analyze-and-test-template.yml
+  parameters:
+    platform: MacCatalyst
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
