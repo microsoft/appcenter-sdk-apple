@@ -108,17 +108,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   // Then
   OCMVerify([sut applicationWillTerminate:OCMOCK_ANY]);
   XCTAssertNotNil(channel.logsDispatchQueue);
-
-  // If
-  [channel setEnabled:NO andDeleteDataOnDisabled:YES];
-  OCMReject([sut applicationWillTerminate:OCMOCK_ANY]);
-
-  // When
-  [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillTerminateNotification object:sut];
-
-  // Then
-  channel.logsDispatchQueue = nil;
-  OCMVerifyAll(sut);
   [sut stopMocking];
 }
 #endif
