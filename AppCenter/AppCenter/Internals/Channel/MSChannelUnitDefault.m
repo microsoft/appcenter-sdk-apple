@@ -178,27 +178,20 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
       }
     }
   };
-
 #if !TARGET_OS_OSX
-  if (self.applicationWillTerminateEntered) {
-
-    // Process synchronously in case applicationWillTerminate was hit.
-    dispatch_sync(self.logsDispatchQueue, storeLogs);
-  } else {
-
-    // Return fast in case our item is empty or we are discarding logs right now.
-    dispatch_async(self.logsDispatchQueue, storeLogs);
-  }
+ 
+  // Process synchronously in case applicationWillTerminate was hit.
+  (self.applicationWillTerminateEntered ? dispatch_sync : dispatch_async)
 #else
-  dispatch_async(self.logsDispatchQueue, storeLogs);
+  dispatch_async
 #endif
-  
+    (self.logsDispatchQueue, storeLogs);
 }
 
 #if !TARGET_OS_OSX
 - (void)applicationWillTerminate:(__unused UIApplication *)application {
-
   self.applicationWillTerminateEntered = YES;
+  
   // Block logs queue so that it isn't killed before app termination.
   dispatch_async(self.logsDispatchQueue, ^{
     dispatch_semaphore_signal(self.delayedProcessingSemaphore);

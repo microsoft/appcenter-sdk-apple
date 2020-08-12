@@ -3,12 +3,9 @@
 
 #import "MSChannelUnitDefault.h"
 
-#import "TargetConditionals.h"
-#if !TARGET_OS_OSX
-#import <UIKit/UIKit.h>
-#endif
-
 NS_ASSUME_NONNULL_BEGIN
+
+@class UIApplication;
 
 @interface MSChannelUnitDefault ()
 
@@ -27,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Called when applciation is terminating.
  */
-- (void)applicationWillTerminate:(__unused UIApplication *)application;
+- (void)applicationWillTerminate:(UIApplication *)application;
 
 #endif
 
