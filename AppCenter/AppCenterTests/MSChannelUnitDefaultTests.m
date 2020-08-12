@@ -38,7 +38,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
 
 @property(nonatomic) id storageMock;
 @property(nonatomic) id ingestionMock;
-@property(nonatomic) id channelGroupMock;
 
 /**
  * Most of the channel APIs are asynchronous, this expectation is meant to be enqueued to the data dispatch queue at the end of the test
@@ -72,7 +71,6 @@ static NSString *const kMSTestGroupId = @"GroupId";
   [self.storageMock stopMocking];
   [self.ingestionMock stopMocking];
   [self.settingsMock stopMocking];
-  [self.channelGroupMock stopMocking];
 
   /*
    * Make sure that dispatch queue has been deallocated.
