@@ -18,19 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion;
 
-#if !TARGET_OS_OSX
-/**
- * Semaphore for blocking logs queue on applicationWillTerminate.
- */
-@property dispatch_semaphore_t delayedProcessingSemaphore;
-
-/**
- * Called when applciation is terminating.
- */
-- (void)applicationWillTerminate:(__unused UIApplication *)application;
-
-#endif
-
 @end
 
 NS_ASSUME_NONNULL_END

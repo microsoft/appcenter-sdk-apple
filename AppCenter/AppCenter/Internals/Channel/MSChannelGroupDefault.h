@@ -33,11 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl;
 
 /**
- * Flag that indicates whether the app has hit applicationWillTerminate state.
- */
-+ (BOOL)hasEnteredApplicationWillTerminate;
-
-/**
  * Collection of channel delegates.
  */
 @property(nonatomic) NSHashTable<id<MSChannelDelegate>> *delegates;

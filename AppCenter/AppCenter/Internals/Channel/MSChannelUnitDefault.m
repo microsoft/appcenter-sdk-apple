@@ -20,6 +20,13 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
 
 @implementation MSChannelUnitDefault
 
+#if !TARGET_OS_OSX
+
+@synthesize delayedProcessingSemaphore = _delayedProcessingSemaphore;
+@synthesize applicationWillTerminateEntered = _applicationWillTerminateEntered;
+
+#endif
+
 @synthesize configuration = _configuration;
 @synthesize logsDispatchQueue = _logsDispatchQueue;
 
@@ -27,6 +34,7 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
 
 - (instancetype)init {
   if ((self = [super init])) {
+    _applicationWillTerminateEntered = NO;
     _itemsCount = 0;
     _pendingBatchIds = [NSMutableArray new];
     _pendingBatchQueueFull = NO;
@@ -37,6 +45,9 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     _delegates = [NSHashTable weakObjectsHashTable];
     _pausedIdentifyingObjects = [NSHashTable weakObjectsHashTable];
     _pausedTargetKeys = [NSMutableSet new];
+#if !TARGET_OS_OSX
+    _delayedProcessingSemaphore = dispatch_semaphore_create(0);
+#endif
   }
   return self;
 }
@@ -168,7 +179,7 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     }
   };
 
-  if ([MSChannelGroupDefault hasEnteredApplicationWillTerminate]) {
+  if (self.applicationWillTerminateEntered) {
 
     // Process synchronously in case applicationWillTerminate was hit.
     dispatch_sync(self.logsDispatchQueue, storeLogs);
@@ -178,6 +189,18 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
     dispatch_async(self.logsDispatchQueue, storeLogs);
   }
 }
+
+#if !TARGET_OS_OSX
+- (void)applicationWillTerminate:(__unused UIApplication *)application {
+
+  self.applicationWillTerminateEntered = YES;
+  // Block logs queue so that it isn't killed before app termination.
+  dispatch_async(self.logsDispatchQueue, ^{
+    dispatch_semaphore_signal(self.delayedProcessingSemaphore);
+  });
+  dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
+}
+#endif
 
 - (void)sendLogContainer:(MSLogContainer *__nonnull)container {
 
@@ -428,6 +451,16 @@ static NSString *const kMSStartTimestampPrefix = @"ChannelStartTimer";
 #pragma mark - Life cycle
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
+  #if !TARGET_OS_OSX
+    if (isEnabled) {
+      [MS_NOTIFICATION_CENTER addObserver:self
+                                 selector:@selector(applicationWillTerminate:)
+                                     name:UIApplicationWillTerminateNotification
+                                   object:nil];
+    } else {
+      [MS_NOTIFICATION_CENTER removeObserver:self];
+    }
+  #endif
   dispatch_async(self.logsDispatchQueue, ^{
     if (self.enabled != isEnabled) {
       self.enabled = isEnabled;

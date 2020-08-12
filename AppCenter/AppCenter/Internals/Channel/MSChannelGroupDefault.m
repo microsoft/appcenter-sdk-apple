@@ -15,14 +15,6 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 @implementation MSChannelGroupDefault
 
-static BOOL _applicationWillTerminate = NO;
-
-#if !TARGET_OS_OSX
-
-@synthesize delayedProcessingSemaphore = _delayedProcessingSemaphore;
-
-#endif
-
 #pragma mark - Initialization
 
 - (instancetype)initWithHttpClient:(id<MSHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
@@ -34,7 +26,6 @@ static BOOL _applicationWillTerminate = NO;
 
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion {
   if ((self = [self init])) {
-    _applicationWillTerminate = NO;
     dispatch_queue_t serialQueue = dispatch_queue_create(kMSLogsDispatchQueue, DISPATCH_QUEUE_SERIAL);
     _logsDispatchQueue = serialQueue;
     _channels = [NSMutableArray<id<MSChannelUnitProtocol>> new];
@@ -43,15 +34,8 @@ static BOOL _applicationWillTerminate = NO;
     if (ingestion) {
       _ingestion = ingestion;
     }
-#if !TARGET_OS_OSX
-    _delayedProcessingSemaphore = dispatch_semaphore_create(0);
-#endif
   }
   return self;
-}
-
-+ (BOOL)hasEnteredApplicationWillTerminate {
-  return _applicationWillTerminate;
 }
 
 - (id<MSChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSChannelUnitConfiguration *)configuration {
@@ -195,17 +179,6 @@ static BOOL _applicationWillTerminate = NO;
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
 
-#if !TARGET_OS_OSX
-  if (isEnabled) {
-    [MS_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillTerminate:)
-                                   name:UIApplicationWillTerminateNotification
-                                 object:nil];
-  } else {
-    [MS_NOTIFICATION_CENTER removeObserver:self];
-  }
-#endif
-
   // Propagate to ingestion.
   [self.ingestion setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 
@@ -227,18 +200,6 @@ static BOOL _applicationWillTerminate = NO;
    * Note that this is an unlikely scenario. Solving this issue is more of a proactive measure.
    */
 }
-
-#if !TARGET_OS_OSX
-- (void)applicationWillTerminate:(__unused UIApplication *)application {
-  
-  // Block logs queue so that it isn't killed before app termination.
-  dispatch_async(self.logsDispatchQueue, ^{
-    _applicationWillTerminate = YES;
-    dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-  });
-  dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
-}
-#endif
 
 #pragma mark - Pause / Resume
 
