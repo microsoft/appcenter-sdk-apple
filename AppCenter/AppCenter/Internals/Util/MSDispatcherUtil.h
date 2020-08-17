@@ -14,4 +14,6 @@
 
 + (void)performBlockOnMainThread:(void (^)(void))block;
 
++ (void)blockQueue:(dispatch_queue_t)dispatchQueue;
+
 @end

@@ -7,17 +7,12 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSDispatcherUtil.h"
 #import "MSLogDBStorage.h"
 
 static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
 @implementation MSChannelGroupDefault
-
-#if !TARGET_OS_OSX
-
-@synthesize delayedProcessingSemaphore = _delayedProcessingSemaphore;
-
-#endif
 
 #pragma mark - Initialization
 
@@ -38,9 +33,6 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
     if (ingestion) {
       _ingestion = ingestion;
     }
-#if !TARGET_OS_OSX
-    _delayedProcessingSemaphore = dispatch_semaphore_create(0);
-#endif
   }
   return self;
 }
@@ -223,10 +215,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 - (void)applicationWillTerminate:(__unused UIApplication *)application {
 
   // Block logs queue so that it isn't killed before app termination.
-  dispatch_async(self.logsDispatchQueue, ^{
-    dispatch_semaphore_signal(self.delayedProcessingSemaphore);
-  });
-  dispatch_semaphore_wait(self.delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
+  [MSDispatcherUtil blockQueue:self.logsDispatchQueue];
 }
 #endif
 
