@@ -215,7 +215,7 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 - (void)applicationWillTerminate:(__unused UIApplication *)application {
 
   // Block logs queue so that it isn't killed before app termination.
-  [MSDispatcherUtil blockQueue:self.logsDispatchQueue];
+  [MSDispatcherUtil dispatchAsyncWithTimeout:1 onQueue:self.logsDispatchQueue];
 }
 #endif
 

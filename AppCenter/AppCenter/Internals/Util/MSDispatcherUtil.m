@@ -23,11 +23,11 @@
   block();
 }
 
-+ (void)blockQueue:(dispatch_queue_t)dispatchQueue {
++ (void)dispatchAsyncWithTimeout:(int)timeout onQueue:(dispatch_queue_t)dispatchQueue {
   dispatch_semaphore_t delayedProcessingSemaphore = dispatch_semaphore_create(0);
   dispatch_async(dispatchQueue, ^{
     dispatch_semaphore_signal(delayedProcessingSemaphore);
   });
-  dispatch_semaphore_wait(delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC));
+  dispatch_semaphore_wait(delayedProcessingSemaphore, dispatch_time(DISPATCH_TIME_NOW, timeout * NSEC_PER_SEC));
 }
 @end
