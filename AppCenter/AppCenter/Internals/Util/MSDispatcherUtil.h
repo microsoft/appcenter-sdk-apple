@@ -18,7 +18,8 @@
  * Adds a dispatch_async block to the provided queue and waits for its execution.
  * @param timeout timeout for waiting in seconds.
  * @param dispatchQueue the queue to perform block on.
+ * @param block the block to be executed.
  */
-+ (void)dispatchAsyncWithTimeout:(int)timeout onQueue:(dispatch_queue_t)dispatchQueue;
++ (void)dispatchSyncWithTimeout:(int)timeout onQueue:(dispatch_queue_t)dispatchQueue withBlock:(dispatch_block_t)block;
 
 @end
