@@ -8,7 +8,7 @@
 
 ### App Center Analytics
 
-* **[Fix]** Fix sending logs from `applicationWillTerminate`.
+* **[Fix]** Fix processing logs (e.g., events) emitted from the `applicationWillTerminate` application delegate method.
 
 ___
 
