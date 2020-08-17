@@ -20,6 +20,6 @@
  * @param dispatchQueue the queue to perform block on.
  * @param block the block to be executed.
  */
-+ (void)dispatchSyncWithTimeout:(float)timeout onQueue:(dispatch_queue_t)dispatchQueue withBlock:(dispatch_block_t)block;
++ (void)dispatchSyncWithTimeout:(NSTimeInterval)timeout onQueue:(dispatch_queue_t)dispatchQueue withBlock:(dispatch_block_t)block;
 
 @end
