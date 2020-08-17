@@ -1014,6 +1014,53 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
                                }];
 }
 
+- (void)testDispatchSyncWithTimeoutDoesNotWait {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"block not called."];
+  [expectation setInverted:YES];
+  dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
+
+  // When
+  [MSDispatcherUtil dispatchSyncWithTimeout:1
+                                    onQueue:serialQueue
+                                  withBlock:^{
+                                    [NSThread sleepForTimeInterval:4.000];
+                                    [expectation fulfill];
+                                  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDispatchSyncWithTimeoutWaitsForBlock {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"block called."];
+  dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
+
+  // When
+  [MSDispatcherUtil dispatchSyncWithTimeout:3
+                                    onQueue:serialQueue
+                                  withBlock:^{
+                                    [NSThread sleepForTimeInterval:2.000];
+                                    [expectation fulfill];
+                                  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSTestTimeout
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testPerformBlockOnMainThreadFromBackground {
 
   // If
