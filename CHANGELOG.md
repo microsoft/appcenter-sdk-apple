@@ -6,6 +6,10 @@
 
 * **[Fix]** Fix compatibility with Xcode 12 beta when integrating SDK from sources.
 
+### App Center Analytics
+
+* **[Fix]** Fix processing logs (e.g., events) emitted from the `applicationWillTerminate` application delegate method.
+
 ___
 
 ## Version 3.3.2

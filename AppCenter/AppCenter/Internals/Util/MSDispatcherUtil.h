@@ -14,4 +14,12 @@
 
 + (void)performBlockOnMainThread:(void (^)(void))block;
 
+/**
+ * Adds a dispatch_async block to the provided queue and waits for its execution.
+ * @param timeout Timeout for waiting in seconds.
+ * @param dispatchQueue The queue to perform a block on.
+ * @param block The block to be executed.
+ */
++ (void)dispatchSyncWithTimeout:(NSTimeInterval)timeout onQueue:(dispatch_queue_t)dispatchQueue withBlock:(dispatch_block_t)block;
+
 @end
