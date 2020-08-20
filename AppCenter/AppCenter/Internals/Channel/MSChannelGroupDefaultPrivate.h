@@ -6,6 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class MSAppCenterIngestion;
+@class UIApplication;
 
 @interface MSChannelGroupDefault () <MSChannelDelegate>
 
@@ -17,6 +18,15 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A new `MSChannelGroupDefault` instance.
  */
 - (instancetype)initWithIngestion:(nullable MSAppCenterIngestion *)ingestion;
+
+#if !TARGET_OS_OSX
+
+/**
+ * Called when applciation is terminating.
+ */
+- (void)applicationWillTerminate:(UIApplication *)application;
+
+#endif
 
 @end
 

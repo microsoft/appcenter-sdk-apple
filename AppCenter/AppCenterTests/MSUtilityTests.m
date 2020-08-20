@@ -1014,6 +1014,55 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
                                }];
 }
 
+- (void)testDispatchSyncWithTimeoutDoesNotWait {
+
+  // If
+  NSTimeInterval blockTimeout = 0.1;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"block not called."];
+  [expectation setInverted:YES];
+  dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
+
+  // When
+  [MSDispatcherUtil dispatchSyncWithTimeout:blockTimeout
+                                    onQueue:serialQueue
+                                  withBlock:^{
+                                    [NSThread sleepForTimeInterval:blockTimeout * 2];
+                                    [expectation fulfill];
+                                  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:0
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDispatchSyncWithTimeoutWaitsForBlock {
+
+  // If
+  NSTimeInterval blockTimeout = 0.5;
+  XCTestExpectation *expectation = [self expectationWithDescription:@"block called."];
+  dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
+
+  // When
+  [MSDispatcherUtil dispatchSyncWithTimeout:blockTimeout
+                                    onQueue:serialQueue
+                                  withBlock:^{
+                                    [NSThread sleepForTimeInterval:blockTimeout / 2];
+                                    [expectation fulfill];
+                                  }];
+
+  // Then
+  [self waitForExpectationsWithTimeout:0
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testPerformBlockOnMainThreadFromBackground {
 
   // If

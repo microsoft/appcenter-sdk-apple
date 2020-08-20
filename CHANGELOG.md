@@ -1,5 +1,21 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.3.3
+
+### App Center
+
+* **[Fix]** Fix compatibility with Xcode 12 beta when integrating SDK from sources.
+
+### App Center Analytics
+
+* **[Fix]** Fix processing logs (e.g., events) emitted from the `applicationWillTerminate` application delegate method.
+
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.7.2.
+
+___
+
 ## Version 3.3.2
 
 ### App Center Distribute

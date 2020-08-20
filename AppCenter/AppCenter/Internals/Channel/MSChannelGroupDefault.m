@@ -7,6 +7,7 @@
 #import "MSChannelGroupDefaultPrivate.h"
 #import "MSChannelUnitConfiguration.h"
 #import "MSChannelUnitDefault.h"
+#import "MSDispatcherUtil.h"
 #import "MSLogDBStorage.h"
 
 static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
@@ -177,6 +178,17 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
 
+#if !TARGET_OS_OSX
+  if (isEnabled) {
+    [MS_NOTIFICATION_CENTER addObserver:self
+                               selector:@selector(applicationWillTerminate:)
+                                   name:UIApplicationWillTerminateNotification
+                                 object:nil];
+  } else {
+    [MS_NOTIFICATION_CENTER removeObserver:self];
+  }
+#endif
+
   // Propagate to ingestion.
   [self.ingestion setEnabled:isEnabled andDeleteDataOnDisabled:deleteData];
 
@@ -198,6 +210,17 @@ static char *const kMSLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQ
    * Note that this is an unlikely scenario. Solving this issue is more of a proactive measure.
    */
 }
+
+#if !TARGET_OS_OSX
+- (void)applicationWillTerminate:(__unused UIApplication *)application {
+
+  // Block logs queue so that it isn't killed before app termination.
+  [MSDispatcherUtil dispatchSyncWithTimeout:1
+                                    onQueue:self.logsDispatchQueue
+                                  withBlock:^{
+                                  }];
+}
+#endif
 
 #pragma mark - Pause / Resume
 
