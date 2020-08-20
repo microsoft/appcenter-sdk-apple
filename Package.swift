@@ -23,8 +23,7 @@ let package = Package(
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
-        // TODO replace commit hash to released version before release.
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .revision("ec31c6c3017854c57736bac2b0d174eecef920cb")),
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.7.2")),
     ],
     targets: [
         .target(

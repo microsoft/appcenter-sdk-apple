@@ -10,6 +10,10 @@
 
 * **[Fix]** Fix processing logs (e.g., events) emitted from the `applicationWillTerminate` application delegate method.
 
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.7.2.
+
 ___
 
 ## Version 3.3.2
