@@ -3494,9 +3494,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch1.swift;
 			};
 			name = Debug;
 		};
@@ -3504,9 +3505,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DF4D2E2324768EC8004A12DC /* Sasquatch XCFrameworks.xcconfig */;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = UBF8T346G9;
 				INFOPLIST_FILE = SasquatchSwift/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch1.swift;
 			};
 			name = Release;
 		};

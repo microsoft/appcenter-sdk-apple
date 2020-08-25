@@ -43,17 +43,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D31EF9531E9517C500450162"
-            BuildableName = "SasquatchWatchSwift.app"
-            BlueprintName = "SasquatchWatchSwift"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -78,17 +67,6 @@
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D31EF9531E9517C500450162"
-            BuildableName = "SasquatchWatchSwift.app"
-            BlueprintName = "SasquatchWatchSwift"
-            ReferencedContainer = "container:Sasquatch.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
