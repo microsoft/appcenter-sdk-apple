@@ -64,7 +64,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
   OCMStub([distributeMock isEnabled]).andReturn(NO);
   [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
-  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+  OCMReject([distributeMock startUpdate]);
 
   // When
   [MSDistribute checkForUpdate];
@@ -83,7 +83,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock canBeUsed]).andReturn(NO);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
   [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
-  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+  OCMReject([distributeMock startUpdate]);
 
   // When
   [MSDistribute checkForUpdate];
@@ -102,7 +102,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
   [self.settingsMock setObject:@"testToken" forKey:kMSUpdateTokenRequestIdKey];
-  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+  OCMReject([distributeMock startUpdate]);
 
   // When
   [MSDistribute checkForUpdate];
@@ -173,7 +173,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  // Then
-                                 OCMVerify([distributeMock startUpdateOnStart:NO]);
+                                 OCMVerify([distributeMock startUpdate]);
                                  OCMVerify([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -219,7 +219,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  // Then
-                                 OCMVerify([distributeMock startUpdateOnStart:NO]);
+                                 OCMVerify([distributeMock startUpdate]);
                                  OCMVerify([distributeMock checkLatestRelease:OCMOCK_ANY
                                                           distributionGroupId:OCMOCK_ANY
                                                                   releaseHash:OCMOCK_ANY]);

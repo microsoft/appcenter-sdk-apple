@@ -1643,7 +1643,7 @@ static NSURL *sfURL;
 
   // When
   [self.sut applyEnabledState:YES];
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
@@ -2078,7 +2078,7 @@ static NSURL *sfURL;
   MSDistribute *distribute = [MSDistribute new];
   id distributeMock = OCMPartialMock(distribute);
   __block int startUpdateCounter = 0;
-  OCMStub([distributeMock startUpdateOnStart:OCMOCK_ANY]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
+  OCMStub([distributeMock startUpdate]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
     startUpdateCounter++;
   });
 
@@ -2576,7 +2576,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2603,7 +2603,7 @@ static NSURL *sfURL;
   OCMReject([distributeMock checkLatestRelease:OCMOCK_ANY distributionGroupId:OCMOCK_ANY releaseHash:OCMOCK_ANY]);
 
   // When
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
 
   // Then
   XCTAssertFalse(self.sut.updateFlowInProgress);
@@ -2629,7 +2629,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
 
   // Then
   XCTAssertTrue(checkLatestReleaseCalled);
@@ -2651,7 +2651,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDownloadedDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2675,7 +2675,7 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSTestDistributionGroupId forKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2699,7 +2699,7 @@ static NSURL *sfURL;
   [self.settingsMock removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2722,7 +2722,7 @@ static NSURL *sfURL;
   [self.settingsMock removeObjectForKey:kMSDownloadedDistributionGroupIdKey];
 
   // When
-  [self.sut startUpdateOnStart:NO];
+  [self.sut startUpdate];
 
   // Then
   OCMVerify([distributeMock changeDistributionGroupIdAfterAppUpdateIfNeeded:kMSTestReleaseHash]);
@@ -2805,7 +2805,7 @@ static NSURL *sfURL;
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
   MSDistribute *distribute = [MSDistribute new];
   id distributeMock = OCMPartialMock(distribute);
-  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+  OCMReject([distributeMock startUpdate]);
 
   // When
   [distribute setEnabled:YES];
