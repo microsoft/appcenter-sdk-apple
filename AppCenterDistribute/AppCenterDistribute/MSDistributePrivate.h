@@ -340,10 +340,8 @@ static NSString *const kMSTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSetup
 
 /**
  * Start update workflow.
- *
- * @param onStart A flag that indicates whether it is called when Distribute is started or not.
  */
-- (void)startUpdateOnStart:(BOOL)onStart;
+- (void)startUpdate;
 
 /**
  * Start download for the given details.
