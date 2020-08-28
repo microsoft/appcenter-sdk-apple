@@ -234,6 +234,48 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [ingestionMock stopMocking];
 }
 
+- (void)testCheckForUpdateBeforeApplicationDidBecomeActive {
+
+  // If
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
+  
+  // Notification center mock.
+  id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
+  OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+
+  // Re-initialize to use notification center mock.
+  [MSDistribute resetSharedInstance];
+  self.sut = [MSDistribute sharedInstance];
+
+  // Distribute mock.
+  __block id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  OCMStub([distributeMock isEnabled]).andReturn(YES);
+  [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
+
+  // Ingestion mock.
+  __block id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
+  [distributeMock setValue:ingestionMock forKey:@"ingestion"];
+
+  // When
+  [MSDistribute disableAutomaticCheckForUpdate];
+  MSDistribute.updateTrack = MSUpdateTrackPublic;
+  [MSDistribute checkForUpdate];
+
+  // Notify that an application did become active.
+  [notificationCenterMock postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
+  // Then
+  XCTAssertTrue(self.sut.updateFlowInProgress);
+
+  // Cleanup
+  [distributeMock stopMocking];
+  [ingestionMock stopMocking];
+  [notificationCenterMock stopMocking];
+}
+
 - (void)testDoesNotCheckUpdateOnStartWhenAutomaticCheckIsDisabled {
 
   // If
