@@ -2,6 +2,10 @@
 
 ## Version 3.3.4 (Under development)
 
+### App Center Distribute
+
+* **[Fix]** Fix manually checking for updates before `applicationDidBecomeActive` event.
+
 ___
 
 ## Version 3.3.3
