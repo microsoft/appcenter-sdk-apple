@@ -1027,7 +1027,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   [MSDispatcherUtil dispatchSyncWithTimeout:blockTimeout
                                     onQueue:serialQueue
                                   withBlock:^{
-                                    dispatch_semaphore_wait(delayedSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10000 * NSEC_PER_SEC)));
+                                    dispatch_semaphore_wait(delayedSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)));
                                     [expectation fulfill];
                                   }];
 
