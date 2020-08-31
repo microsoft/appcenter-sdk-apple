@@ -1026,7 +1026,7 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   [MSDispatcherUtil dispatchSyncWithTimeout:blockTimeout
                                     onQueue:serialQueue
                                   withBlock:^{
-                                    [NSThread sleepForTimeInterval:blockTimeout * 2];
+                                    [NSThread sleepForTimeInterval:blockTimeout * 4];
                                     [expectation fulfill];
                                   }];
 
