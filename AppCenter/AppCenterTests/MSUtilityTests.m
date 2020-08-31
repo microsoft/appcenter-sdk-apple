@@ -1021,21 +1021,20 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   XCTestExpectation *expectation = [self expectationWithDescription:@"block not called."];
   [expectation setInverted:YES];
   dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
-
   __block dispatch_semaphore_t delayedSemaphore = dispatch_semaphore_create(0);
     
   // When
   [MSDispatcherUtil dispatchSyncWithTimeout:blockTimeout
                                     onQueue:serialQueue
                                   withBlock:^{
-                                    dispatch_semaphore_wait(delayedSemaphore, DISPATCH_TIME_FOREVER);
+                                    dispatch_semaphore_wait(delayedSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10000 * NSEC_PER_SEC)));
                                     [expectation fulfill];
                                   }];
 
   // Then
   [self waitForExpectationsWithTimeout:0
                                handler:^(NSError *error) {
-                                dispatch_semaphore_signal(delayedSemaphore);
+                                 dispatch_semaphore_signal(delayedSemaphore);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
