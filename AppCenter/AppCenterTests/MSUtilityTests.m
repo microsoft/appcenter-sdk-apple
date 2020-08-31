@@ -1022,17 +1022,20 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   [expectation setInverted:YES];
   dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
 
+  __block dispatch_semaphore_t delayedSemaphore = dispatch_semaphore_create(0);
+    
   // When
   [MSDispatcherUtil dispatchSyncWithTimeout:blockTimeout
                                     onQueue:serialQueue
                                   withBlock:^{
-                                    [NSThread sleepForTimeInterval:blockTimeout * 4];
+                                    dispatch_semaphore_wait(delayedSemaphore, DISPATCH_TIME_FOREVER);
                                     [expectation fulfill];
                                   }];
 
   // Then
   [self waitForExpectationsWithTimeout:0
                                handler:^(NSError *error) {
+                                dispatch_semaphore_signal(delayedSemaphore);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
