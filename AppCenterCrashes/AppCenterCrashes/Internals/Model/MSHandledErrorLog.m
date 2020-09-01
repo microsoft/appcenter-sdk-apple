@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSException.h"
 #import "MSHandledErrorLog.h"
+#import "MSException.h"
 
 static NSString *const kMSTypeError = @"handledError";
 static NSString *const kMSId = @"id";
@@ -30,7 +30,7 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.exception;
+  return [super isValid] && MSLOG_VALIDATE_NOT_NIL(errorId) && MSLOG_VALIDATE_NOT_NIL(exception);
 }
 
 - (BOOL)isEqual:(id)object {

@@ -82,7 +82,8 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.attachmentId && self.data && self.contentType;
+  return [super isValid] && MSLOG_VALIDATE_NOT_NIL(errorId) && MSLOG_VALIDATE_NOT_NIL(attachmentId) && MSLOG_VALIDATE_NOT_NIL(data) &&
+         MSLOG_VALIDATE_NOT_NIL(contentType);
 }
 
 #pragma mark - NSCoding

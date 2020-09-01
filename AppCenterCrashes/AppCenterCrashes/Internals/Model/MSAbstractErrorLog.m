@@ -63,7 +63,7 @@ static NSString *const kMSArchitecture = @"architecture";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.errorId && self.processId && self.processName;
+  return [super isValid] && MSLOG_VALIDATE_NOT_NIL(errorId) && MSLOG_VALIDATE_NOT_NIL(processId) && MSLOG_VALIDATE_NOT_NIL(processName);
 }
 
 - (BOOL)isEqual:(id)object {

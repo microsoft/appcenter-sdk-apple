@@ -48,7 +48,7 @@ static NSString *const kMSWrapperSDKName = @"wrapperSdkName";
 }
 
 - (BOOL)isValid {
-  return self.type && [self.frames count] > 0;
+  return MSLOG_VALIDATE_NOT_NIL(type) && MSLOG_VALIDATE(frames, [self.frames count] > 0);
 }
 
 - (BOOL)isEqual:(id)object {

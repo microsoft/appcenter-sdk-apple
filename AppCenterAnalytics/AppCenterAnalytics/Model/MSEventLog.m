@@ -48,7 +48,7 @@ static NSString *const kMSTypedProperties = @"typedProperties";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.eventId;
+  return [super isValid] && MSLOG_VALIDATE_NOT_NIL(eventId);
 }
 
 - (BOOL)isEqual:(id)object {

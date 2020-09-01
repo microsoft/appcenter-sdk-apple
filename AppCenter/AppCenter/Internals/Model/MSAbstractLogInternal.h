@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSAbstractLog.h"
+#import "MSAppCenterInternal.h"
 #import "MSCommonSchemaLog.h"
 #import "MSConstants.h"
 #import "MSLog.h"
@@ -30,3 +31,14 @@
 - (MSCommonSchemaLog *)toCommonSchemaLogForTargetToken:(NSString *)token flags:(MSFlags)flags;
 
 @end
+
+#define MSLOG_VALIDATE(fieldName, rule)                                                                                                    \
+  ({                                                                                                                                       \
+    BOOL isValid = rule;                                                                                                                   \
+    if (!isValid) {                                                                                                                        \
+      MSLogVerbose([MSAppCenter logTag], @"%@: \"%@\" is not valid.", NSStringFromClass([self class]), @ #fieldName);                      \
+    }                                                                                                                                      \
+    isValid;                                                                                                                               \
+  })
+
+#define MSLOG_VALIDATE_NOT_NIL(fieldName) MSLOG_VALIDATE(fieldName, self.fieldName != nil)

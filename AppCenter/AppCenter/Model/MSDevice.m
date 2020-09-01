@@ -62,8 +62,9 @@
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.sdkName && self.sdkVersion && self.osName && self.osVersion && self.locale && self.timeZoneOffset &&
-         self.appVersion && self.appBuild;
+  return [super isValid] && MSLOG_VALIDATE_NOT_NIL(sdkName) && MSLOG_VALIDATE_NOT_NIL(sdkVersion) && MSLOG_VALIDATE_NOT_NIL(osName) &&
+         MSLOG_VALIDATE_NOT_NIL(osVersion) && MSLOG_VALIDATE_NOT_NIL(locale) && MSLOG_VALIDATE_NOT_NIL(timeZoneOffset) &&
+         MSLOG_VALIDATE_NOT_NIL(appVersion) && MSLOG_VALIDATE_NOT_NIL(appBuild);
 }
 
 - (BOOL)isEqual:(id)object {

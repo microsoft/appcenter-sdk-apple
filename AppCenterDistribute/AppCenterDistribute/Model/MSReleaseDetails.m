@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSAbstractLogInternal.h"
 #import "MSDistributionGroup.h"
 #import "MSReleaseDetailsPrivate.h"
 #import "MSUtility+Date.h"
@@ -70,14 +71,14 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       self.fingerprint = dictionary[kMSFingerprint];
     }
     if (dictionary[kMSUploadedAt]) {
-      NSString *_Nonnull uploadedAt = (NSString * _Nonnull)dictionary[kMSUploadedAt];
+      NSString *_Nonnull uploadedAt = (NSString * _Nonnull) dictionary[kMSUploadedAt];
       self.uploadedAt = [MSUtility dateFromISO8601:uploadedAt];
     }
     if (dictionary[kMSDownloadUrl]) {
       if ([(NSObject *)dictionary[kMSDownloadUrl] isKindOfClass:[NSNull class]]) {
         self.downloadUrl = nil;
       } else {
-        NSString *_Nonnull downloadUrl = (NSString * _Nonnull)dictionary[kMSDownloadUrl];
+        NSString *_Nonnull downloadUrl = (NSString * _Nonnull) dictionary[kMSDownloadUrl];
         self.downloadUrl = [NSURL URLWithString:downloadUrl];
       }
     }
@@ -85,7 +86,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       if ([(NSObject *)dictionary[kMSAppIconUrl] isKindOfClass:[NSNull class]]) {
         self.appIconUrl = nil;
       } else {
-        NSString *_Nonnull appIconUrl = (NSString * _Nonnull)dictionary[kMSAppIconUrl];
+        NSString *_Nonnull appIconUrl = (NSString * _Nonnull) dictionary[kMSAppIconUrl];
         self.appIconUrl = [NSURL URLWithString:appIconUrl];
       }
     }
@@ -93,7 +94,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       if ([(NSObject *)dictionary[kMSInstallUrl] isKindOfClass:[NSNull class]]) {
         self.installUrl = nil;
       } else {
-        NSString *_Nonnull installUrl = (NSString * _Nonnull)dictionary[kMSInstallUrl];
+        NSString *_Nonnull installUrl = (NSString * _Nonnull) dictionary[kMSInstallUrl];
         self.installUrl = [NSURL URLWithString:installUrl];
       }
     }
@@ -101,7 +102,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
       if ([(NSObject *)dictionary[kMSReleaseNotesUrl] isKindOfClass:[NSNull class]]) {
         self.releaseNotesUrl = nil;
       } else {
-        NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull)dictionary[kMSReleaseNotesUrl];
+        NSString *_Nonnull releaseNotesUrl = (NSString * _Nonnull) dictionary[kMSReleaseNotesUrl];
         self.releaseNotesUrl = [NSURL URLWithString:releaseNotesUrl];
       }
     }
@@ -155,7 +156,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
     dictionary[kMSFingerprint] = self.fingerprint;
   }
   if (self.uploadedAt) {
-    dictionary[kMSUploadedAt] = [MSUtility dateToISO8601:(NSDate * _Nonnull)self.uploadedAt];
+    dictionary[kMSUploadedAt] = [MSUtility dateToISO8601:(NSDate * _Nonnull) self.uploadedAt];
   }
   if (self.downloadUrl) {
     dictionary[kMSDownloadUrl] = [self.downloadUrl absoluteString];
@@ -183,7 +184,7 @@ static NSString *const kMSPackageHashes = @"package_hashes";
 }
 
 - (BOOL)isValid {
-  return (self.id && self.downloadUrl);
+  return MSLOG_VALIDATE_NOT_NIL(id) && MSLOG_VALIDATE_NOT_NIL(downloadUrl);
 }
 
 - (BOOL)isEqual:(id)object {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "AppCenter+Internal.h"
 #import "MSLogWithNameAndProperties.h"
+#import "AppCenter+Internal.h"
 
 static NSString *const kMSName = @"name";
 
@@ -18,7 +18,7 @@ static NSString *const kMSName = @"name";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.name;
+  return [super isValid] && MSLOG_VALIDATE_NOT_NIL(name);
 }
 
 - (BOOL)isEqual:(id)object {

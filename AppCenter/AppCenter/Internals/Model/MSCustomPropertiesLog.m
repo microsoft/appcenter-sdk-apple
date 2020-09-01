@@ -37,7 +37,7 @@ static NSString *const kMSPropertyTypeString = @"string";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.properties && self.properties.count > 0;
+  return [super isValid] && MSLOG_VALIDATE(properties, self.properties && self.properties.count > 0);
 }
 
 #pragma mark - MSSerializableObject
