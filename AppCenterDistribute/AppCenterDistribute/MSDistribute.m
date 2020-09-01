@@ -191,7 +191,14 @@ static dispatch_once_t onceToken;
       MSLogDebug([MSDistribute logTag], @"Successfully retrieved distribution group Id setting it in distributeInfoTracker.");
       [self.distributeInfoTracker updateDistributionGroupId:distributionGroupId];
     }
-    [self startUpdateOnStart:YES];
+
+    // Do not start update flow on start if automatic check is disabled.
+    if (self.automaticCheckForUpdateDisabled) {
+      MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
+      self.updateFlowInProgress = NO;
+    } else {
+      [self startUpdate];
+    }
   } else {
     [self dismissEmbeddedSafari];
     [self.channelGroup removeDelegate:self.distributeInfoTracker];
@@ -326,15 +333,7 @@ static dispatch_once_t onceToken;
   [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
 }
 
-- (void)startUpdateOnStart:(BOOL)onStart {
-
-  // Do not start update flow on start if automatic check is disabled.
-  if (onStart && self.automaticCheckForUpdateDisabled) {
-    MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
-    self.updateFlowInProgress = NO;
-    return;
-  }
-
+- (void)startUpdate {
   NSString *releaseHash = MSPackageHash();
   if (releaseHash) {
     [self changeDistributionGroupIdAfterAppUpdateIfNeeded:releaseHash];
@@ -1176,7 +1175,14 @@ static dispatch_once_t onceToken;
     if (queryTesterAppUpdateSetupFailed) {
       MSLogDebug([MSDistribute logTag], @"In-app updates setup from tester app failure detected.");
       [MS_APP_CENTER_USER_DEFAULTS setObject:queryTesterAppUpdateSetupFailed forKey:kMSTesterAppUpdateSetupFailedKey];
-      [self startUpdateOnStart:YES];
+
+      // Do not start update flow on start if automatic check is disabled.
+      if (self.automaticCheckForUpdateDisabled) {
+        MSLogInfo([MSDistribute logTag], @"Automatic checkForUpdate is disabled.");
+        self.updateFlowInProgress = NO;
+      } else {
+         [self startUpdate];
+      }
       return YES;
     }
 
@@ -1231,9 +1237,16 @@ static dispatch_once_t onceToken;
 }
 
 - (void)applicationDidBecomeActive {
-  if (self.canBeUsed && self.isEnabled && ![MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
-    [self startUpdateOnStart:YES];
+  if (!self.canBeUsed || !self.isEnabled) {
+    return;
   }
+  if ([MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+    return;
+  }
+  if (self.automaticCheckForUpdateDisabled) {
+    return;
+  }
+  [self startUpdate];
 }
 
 - (void)disableAutomaticCheckForUpdate {
@@ -1247,9 +1260,14 @@ static dispatch_once_t onceToken;
 }
 
 - (void)checkForUpdate {
-  if (self.canBeUsed && self.isEnabled && ![MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
-    [self startUpdateOnStart:NO];
+  if (!self.canBeUsed || !self.isEnabled) {
+    return;
   }
+  if ([MS_APP_CENTER_USER_DEFAULTS objectForKey:kMSUpdateTokenRequestIdKey]) {
+    return;
+  }
+  MSLogVerbose([MSDistribute logTag], @"Manually checking for updates.");
+  [self startUpdate];
 }
 
 - (void)dealloc {
