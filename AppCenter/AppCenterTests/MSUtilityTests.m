@@ -1019,6 +1019,8 @@ static NSTimeInterval const kMSTestTimeout = 1.0;
   // If
   NSTimeInterval blockTimeout = 0.1;
   XCTestExpectation *expectation = [self expectationWithDescription:@"block not called."];
+    
+  // Should be pass if `[expectation fulfill]` will be called later than `waitForExpectationsWithTimeout`.
   [expectation setInverted:YES];
   dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
   __block dispatch_semaphore_t delayedSemaphore = dispatch_semaphore_create(0);
