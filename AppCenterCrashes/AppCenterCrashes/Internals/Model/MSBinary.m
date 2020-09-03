@@ -46,7 +46,8 @@ static NSString *const kMSArchitectureVariantId = @"architectureVariantId";
 }
 
 - (BOOL)isValid {
-  return self.binaryId && self.startAddress && self.endAddress && self.name && self.path;
+  return MSLOG_VALIDATE_NOT_NIL(binaryId) && MSLOG_VALIDATE_NOT_NIL(startAddress) && MSLOG_VALIDATE_NOT_NIL(endAddress) &&
+         MSLOG_VALIDATE_NOT_NIL(name) && MSLOG_VALIDATE_NOT_NIL(path);
 }
 
 - (BOOL)isEqual:(id)object {

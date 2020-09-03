@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSThread.h"
 #import "MSException.h"
 #import "MSStackFrame.h"
-#import "MSThread.h"
 
 static NSString *const kMSThreadId = @"id";
 static NSString *const kMSName = @"name";
@@ -46,7 +46,7 @@ static NSString *const kMSException = @"exception";
 }
 
 - (BOOL)isValid {
-  return self.threadId && [self.frames count] > 0;
+  return MSLOG_VALIDATE_NOT_NIL(threadId) && MSLOG_VALIDATE(frames, [self.frames count] > 0);
 }
 
 - (BOOL)isEqual:(id)object {

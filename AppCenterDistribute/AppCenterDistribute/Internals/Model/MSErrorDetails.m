@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSErrorDetails.h"
+#import "MSAbstractLogInternal.h"
 
 static NSString *const kMSCode = @"code";
 static NSString *const kMSMessage = @"message";
@@ -21,7 +22,7 @@ static NSString *const kMSMessage = @"message";
 }
 
 - (BOOL)isValid {
-  return (self.code && self.message);
+  return MSLOG_VALIDATE_NOT_NIL(code) && MSLOG_VALIDATE_NOT_NIL(message);
 }
 
 @end

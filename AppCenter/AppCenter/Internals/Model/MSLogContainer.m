@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSLogContainer.h"
 #import "MSAppCenterInternal.h"
 #import "MSLogger.h"
-#import "MSLogContainer.h"
 #import "MSSerializableObject.h"
 
 static NSString *const kMSLogs = @"logs";
@@ -56,11 +56,13 @@ static NSString *const kMSLogs = @"logs";
 - (BOOL)isValid {
 
   // Check for empty container
-  if ([self.logs count] == 0)
+  if ([self.logs count] == 0) {
+    MSLogVerbose([MSAppCenter logTag], @"%@: there are no logs in container.", NSStringFromClass([self class]));
     return NO;
+  }
 
   __block BOOL isValid = YES;
-  [self.logs enumerateObjectsUsingBlock:^(id<MSLog> _Nonnull obj, __attribute__((unused)) NSUInteger idx, BOOL *_Nonnull stop) {
+  [self.logs enumerateObjectsUsingBlock:^(id<MSLog> _Nonnull obj, __unused NSUInteger idx, BOOL *_Nonnull stop) {
     if (![obj isValid]) {
       *stop = YES;
       isValid = NO;

@@ -284,12 +284,12 @@ static MSDeviceTracker *sharedInstance = nil;
   sysctlbyname(name, NULL, &size, NULL, 0);
   char *answer = (char *)malloc(size);
   if (answer == NULL) {
-    return nil;
+    return @"Unknown";
   }
   sysctlbyname(name, answer, &size, NULL, 0);
   NSString *model = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
-  return model;
+  return model ? model : @"Unknown";
 }
 
 #if TARGET_OS_OSX || TARGET_OS_MACCATALYST
@@ -335,12 +335,12 @@ static MSDeviceTracker *sharedInstance = nil;
   sysctlbyname("kern.osversion", NULL, &size, NULL, 0);
   char *answer = (char *)malloc(size);
   if (answer == NULL) {
-    return nil;
+    return @"Unknown";
   }
   sysctlbyname("kern.osversion", answer, &size, NULL, 0);
   NSString *osBuild = [NSString stringWithCString:answer encoding:NSUTF8StringEncoding];
   free(answer);
-  return osBuild;
+  return osBuild ? osBuild : @"Unknown";
 }
 
 - (NSString *)locale:(NSLocale *)currentLocale {
