@@ -66,7 +66,8 @@ static NSString *const kMSAppNamespacePrefix = @"I";
 }
 
 - (BOOL)isValid {
-  return self.type && self.timestamp && self.device && [self.device isValid];
+  return MSLOG_VALIDATE_NOT_NIL(type) && MSLOG_VALIDATE_NOT_NIL(timestamp) &&
+         MSLOG_VALIDATE(device, self.device != nil && [self.device isValid]);
 }
 
 - (BOOL)isEqual:(id)object {

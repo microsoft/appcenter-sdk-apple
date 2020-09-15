@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSCSExtensions.h"
+#import "MSAbstractLogInternal.h"
 #import "MSAppExtension.h"
 #import "MSDeviceExtension.h"
 #import "MSLocExtension.h"
@@ -51,10 +52,11 @@
 #pragma mark - MSModel
 
 - (BOOL)isValid {
-  return (!self.metadataExt || [self.metadataExt isValid]) && (!self.protocolExt || [self.protocolExt isValid]) &&
-         (!self.userExt || [self.userExt isValid]) && (!self.deviceExt || [self.deviceExt isValid]) &&
-         (!self.osExt || [self.osExt isValid]) && (!self.appExt || [self.appExt isValid]) && (!self.netExt || [self.netExt isValid]) &&
-         (!self.sdkExt || [self.sdkExt isValid]) && (!self.locExt || [self.locExt isValid]);
+#define MSLOG_VALIDATE_OPTIONAL_OBJECT(fieldName) MSLOG_VALIDATE(fieldName, self.fieldName == nil || [self.fieldName isValid])
+  return MSLOG_VALIDATE_OPTIONAL_OBJECT(metadataExt) && MSLOG_VALIDATE_OPTIONAL_OBJECT(protocolExt) &&
+         MSLOG_VALIDATE_OPTIONAL_OBJECT(userExt) && MSLOG_VALIDATE_OPTIONAL_OBJECT(deviceExt) && MSLOG_VALIDATE_OPTIONAL_OBJECT(osExt) &&
+         MSLOG_VALIDATE_OPTIONAL_OBJECT(appExt) && MSLOG_VALIDATE_OPTIONAL_OBJECT(netExt) && MSLOG_VALIDATE_OPTIONAL_OBJECT(sdkExt) &&
+         MSLOG_VALIDATE_OPTIONAL_OBJECT(locExt);
 }
 
 #pragma mark - NSObject

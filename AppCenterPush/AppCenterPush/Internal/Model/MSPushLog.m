@@ -27,7 +27,7 @@ static NSString *const kMSPushToken = @"pushToken";
 }
 
 - (BOOL)isValid {
-  return [super isValid] && self.pushToken;
+  return [super isValid] && MSLOG_VALIDATE_NOT_NIL(pushToken);
 }
 
 - (BOOL)isEqual:(id)object {

@@ -50,7 +50,7 @@
 - (BOOL)isValid {
 
   // Do not call [super isValid] here as CS logs don't require the same validation as AC logs except for timestamp.
-  return super.timestamp && self.ver && self.name;
+  return MSLOG_VALIDATE_NOT_NIL(timestamp) && MSLOG_VALIDATE_NOT_NIL(ver) && MSLOG_VALIDATE_NOT_NIL(name);
 }
 
 #pragma mark - NSObject

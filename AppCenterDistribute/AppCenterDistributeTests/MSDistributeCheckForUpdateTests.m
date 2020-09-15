@@ -64,7 +64,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
   OCMStub([distributeMock isEnabled]).andReturn(NO);
   [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
-  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+  OCMReject([distributeMock startUpdate]);
 
   // When
   [MSDistribute checkForUpdate];
@@ -83,7 +83,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock canBeUsed]).andReturn(NO);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
   [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
-  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+  OCMReject([distributeMock startUpdate]);
 
   // When
   [MSDistribute checkForUpdate];
@@ -102,7 +102,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   OCMStub([distributeMock canBeUsed]).andReturn(YES);
   OCMStub([distributeMock isEnabled]).andReturn(YES);
   [self.settingsMock setObject:@"testToken" forKey:kMSUpdateTokenRequestIdKey];
-  OCMReject([distributeMock startUpdateOnStart:OCMOCK_ANY]);
+  OCMReject([distributeMock startUpdate]);
 
   // When
   [MSDistribute checkForUpdate];
@@ -173,7 +173,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  // Then
-                                 OCMVerify([distributeMock startUpdateOnStart:NO]);
+                                 OCMVerify([distributeMock startUpdate]);
                                  OCMVerify([distributeMock openUrlInAuthenticationSessionOrSafari:OCMOCK_ANY]);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
@@ -219,7 +219,7 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  // Then
-                                 OCMVerify([distributeMock startUpdateOnStart:NO]);
+                                 OCMVerify([distributeMock startUpdate]);
                                  OCMVerify([distributeMock checkLatestRelease:OCMOCK_ANY
                                                           distributionGroupId:OCMOCK_ANY
                                                                   releaseHash:OCMOCK_ANY]);
@@ -232,6 +232,48 @@ static NSString *const kMSTestAppSecret = @"IAMSECRET";
   // Cleanup
   [distributeMock stopMocking];
   [ingestionMock stopMocking];
+}
+
+- (void)testCheckForUpdateBeforeApplicationDidBecomeActive {
+
+  // If
+  NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
+  OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
+  
+  // Notification center mock.
+  id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
+  OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);
+
+  // Re-initialize to use notification center mock.
+  [MSDistribute resetSharedInstance];
+  self.sut = [MSDistribute sharedInstance];
+
+  // Distribute mock.
+  __block id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock canBeUsed]).andReturn(YES);
+  OCMStub([distributeMock isEnabled]).andReturn(YES);
+  [self.settingsMock removeObjectForKey:kMSUpdateTokenRequestIdKey];
+  OCMStub([distributeMock checkForUpdatesAllowed]).andReturn(YES);
+
+  // Ingestion mock.
+  __block id ingestionMock = OCMClassMock([MSDistributeIngestion class]);
+  [distributeMock setValue:ingestionMock forKey:@"ingestion"];
+
+  // When
+  [MSDistribute disableAutomaticCheckForUpdate];
+  MSDistribute.updateTrack = MSUpdateTrackPublic;
+  [MSDistribute checkForUpdate];
+
+  // Notify that an application did become active.
+  [notificationCenterMock postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+
+  // Then
+  XCTAssertTrue(self.sut.updateFlowInProgress);
+
+  // Cleanup
+  [distributeMock stopMocking];
+  [ingestionMock stopMocking];
+  [notificationCenterMock stopMocking];
 }
 
 - (void)testDoesNotCheckUpdateOnStartWhenAutomaticCheckIsDisabled {

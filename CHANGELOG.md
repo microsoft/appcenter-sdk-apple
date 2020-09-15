@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 3.3.4
+
+### App Center Distribute
+
+* **[Fix]** Fix manually checking for updates before `applicationDidBecomeActive` event.
+
+___
+
 ## Version 3.3.3
 
 ### App Center

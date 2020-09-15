@@ -13,7 +13,7 @@
 @property(nonatomic, copy) NSString *batchId;
 
 /**
- * The list of logs
+ * The list of logs.
  */
 @property(nonatomic) NSArray<id<MSLog>> *logs;
 
