@@ -2,6 +2,10 @@
 
 ## Version 3.3.5 (Under development)
 
+### App Center
+
+* **[Fix]** Fix `NSInvalidArgumentException` when using `__NSCFBoolean` as a key in `NSUserDefaults`.
+
 ___
 
 ## Version 3.3.4
