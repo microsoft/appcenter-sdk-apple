@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Fix]** Fix `NSInvalidArgumentException` when using `__NSCFBoolean` as a key in `NSUserDefaults`.
+* **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
 
 ___
 
