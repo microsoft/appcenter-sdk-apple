@@ -4,9 +4,9 @@
 #import "MSAppCenterUserDefaults.h"
 #import "MSAppCenterUserDefaultsPrivate.h"
 #import "MSLoggerInternal.h"
+#import "MSTestFrameworks.h"
 #import "MSUtility.h"
 #import "MSWrapperLogger.h"
-#import <XCTest/XCTest.h>
 
 @interface MSUserDefaultsTests : XCTestCase
 
