@@ -121,4 +121,17 @@ static NSString *const kMSAppCenterUserDefaultsMigratedKey = @"MSAppCenter310App
   }
 }
 
+- (void)testUnexpectedKeyTypeInMigrateUserDefaultSettings {
+
+  // If
+  NSDictionary *keys = @{@"MSAppCenterKeyTest1" : @"okeyTest1"};
+  MSAppCenterUserDefaults *userDefaults = [MSAppCenterUserDefaults shared];
+
+  // When
+  [[NSUserDefaults standardUserDefaults] setObject:@"Test 1" forKey:kCFBooleanTrue];
+
+  // Then
+  XCTAssertNoThrow([userDefaults migrateKeys:keys forService:@"AppCenter"]);
+}
+
 @end

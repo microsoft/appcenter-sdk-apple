@@ -47,7 +47,7 @@ static dispatch_once_t onceToken;
       NSString *oldKeyPrefix = ((MSUserDefaultsPrefixKey *)oldKey).keyPrefix;
       NSArray *userDefaultsDictionary = [[[NSUserDefaults standardUserDefaults] dictionaryRepresentation] allKeys];
       for (NSString *userDefaultsKey in userDefaultsDictionary) {
-        if ([userDefaultsKey hasPrefix:oldKeyPrefix]) {
+        if ([userDefaultsKey isKindOfClass:[NSString class]] && [userDefaultsKey hasPrefix:oldKeyPrefix]) {
           NSString *suffix = [userDefaultsKey substringFromIndex:[oldKeyPrefix length]];
           NSString *newKeyWithSuffix = [newKeyString stringByAppendingString:suffix];
           id value = [[NSUserDefaults standardUserDefaults] objectForKey:userDefaultsKey];
