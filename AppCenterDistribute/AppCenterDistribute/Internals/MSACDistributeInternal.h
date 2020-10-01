@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The keychain key for update token.
  */
-static NSString *const kMSACUpdateTokenKey = @"MSACUpdateToken";
+static NSString *const kMSACUpdateTokenKey = @"MSUpdateToken";
 
 @interface MSACDistribute () <MSACServiceInternal>
 

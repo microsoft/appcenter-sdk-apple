@@ -172,7 +172,7 @@ static NSURL *sfURL;
   XCTestExpectation *openURLCalledExpectation = [self expectationWithDescription:@"openURL Called."];
   NSArray *bundleArray = @[ @{kMSACCFBundleURLSchemes : @[ [NSString stringWithFormat:@"appcenter-%@", kMSACTestAppSecret] ]} ];
   OCMStub([self.bundleMock objectForInfoDictionaryKey:kMSACCFBundleURLTypes]).andReturn(bundleArray);
-  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSACAppName"]).andReturn(@"Something");
+  OCMStub([self.bundleMock objectForInfoDictionaryKey:@"MSAppName"]).andReturn(@"Something");
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock openURLInSafariViewControllerWith:OCMOCK_ANY fromClass:OCMOCK_ANY]).andDo(nil);
 
@@ -481,7 +481,7 @@ static NSURL *sfURL;
   details.mandatoryUpdate = false;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
-  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailableOptionalUpdateMessage"),
+  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
@@ -501,10 +501,10 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
-                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeAskMeInADay")
+                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock
-                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                }];
@@ -515,7 +515,7 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                                         handler:OCMOCK_ANY]);
   MSACReleaseDetails *details = [MSACReleaseDetails new];
   details.shortVersion = @"2.5";
@@ -523,7 +523,7 @@ static NSURL *sfURL;
   details.mandatoryUpdate = false;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
-  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailableOptionalUpdateMessage"),
+  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
@@ -543,7 +543,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
-                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeAskMeInADay")
+                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
@@ -555,7 +555,7 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeAskMeInADay")
+  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
   MSACReleaseDetails *details = [MSACReleaseDetails new];
   details.shortVersion = @"2.5";
@@ -565,7 +565,7 @@ static NSURL *sfURL;
   details.mandatoryUpdate = true;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
-  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage"),
+  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
@@ -585,7 +585,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
-                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
@@ -597,9 +597,9 @@ static NSURL *sfURL;
   // If
   NSString *appName = @"Test App";
   OCMStub([self.bundleMock objectForInfoDictionaryKey:@"CFBundleDisplayName"]).andReturn(appName);
-  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeAskMeInADay")
+  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
-  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                                         handler:OCMOCK_ANY]);
   MSACReleaseDetails *details = [MSACReleaseDetails new];
   details.shortVersion = @"2.5";
@@ -607,7 +607,7 @@ static NSURL *sfURL;
   details.mandatoryUpdate = true;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
-  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage"),
+  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
 
@@ -639,7 +639,7 @@ static NSURL *sfURL;
   XCTestExpectation *expectation = [self expectationWithDescription:@"Confirmation alert for private distribution has been displayed"];
 
   // Mock alert.
-  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeAskMeInADay")
+  OCMReject([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                                         handler:OCMOCK_ANY]);
 
   // Mock Bundle.
@@ -660,7 +660,7 @@ static NSURL *sfURL;
   details.status = @"available";
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wformat-nonliteral"
-  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage"),
+  NSString *message = [NSString stringWithFormat:MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage"),
                                                  appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
   id appCenterMock = OCMClassMock([MSACAppCenter class]);
@@ -692,7 +692,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
-                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
@@ -715,7 +715,7 @@ static NSURL *sfURL;
                                  // Then
                                  OCMVerify([self.alertControllerMock alertControllerWithTitle:OCMOCK_ANY message:message]);
                                  OCMVerify([self.alertControllerMock
-                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+                                     addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                                        handler:OCMOCK_ANY]);
                                  OCMVerify([self.alertControllerMock addPreferredActionWithTitle:OCMOCK_ANY handler:OCMOCK_ANY]);
                                  OCMVerifyAll(self.alertControllerMock);
@@ -2797,7 +2797,7 @@ static NSURL *sfURL;
 }
 
 - (void)testStartUpdateWhenEnabledButDidNotStart {
-  NSString *isEnabledKey = @"MSACAppCenterIsEnabled";
+  NSString *isEnabledKey = @"MSAppCenterIsEnabled";
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:@YES forKey:isEnabledKey];
 
   // If
@@ -3137,7 +3137,7 @@ static NSURL *sfURL;
   self.sut.updateFlowInProgress = YES;
 
   typedef void (^MSACHandler)(UIAlertAction *action);
-  OCMStub([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+  OCMStub([self.alertControllerMock addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                                       handler:OCMOCK_ANY])
       .andDo(^(NSInvocation *invocation) {
         MSACHandler handler;

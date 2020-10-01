@@ -70,38 +70,38 @@ static dispatch_once_t onceToken;
 - (instancetype)init {
 
   [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
-    @"MSACAppCenterDistributeIsEnabled" : @"kMSACDistributeIsEnabledKey", // [MSACDistribute isEnabled]
-    @"MSACAppCenterPostponedTimestamp" : @"MSACPostponedTimestamp",
-    // [MSACDistribute notifyUpdateAction],
-    // [MSACDistribute handleUpdate],
-    // [MSACDistribute checkLatestRelease]
-    @"MSACAppCenterSDKHasLaunchedWithDistribute" : @"MSACSDKHasLaunchedWithDistribute",
-    // [MSACDistribute init],
-    // [MSACDistribute checkLatestRelease]
-    @"MSACAppCenterMandatoryRelease" : @"MSACMandatoryRelease",
-    // [MSACDistribute checkLatestRelease],
-    // [MSACDistribute handleUpdate]
-    @"MSACAppCenterDistributionGroupId" : @"MSACDistributionGroupId",
-    // [MSACDistribute startUpdateOnStart],
-    // [MSACDistribute processDistributionGroupId],
-    // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
-    @"MSACAppCenterUpdateSetupFailedPackageHash" : @"MSACUpdateSetupFailedPackageHash",
-    // [MSACDistribute showUpdateSetupFailedAlert],
-    // [MSACDistribute requestInstallInformationWith]
-    @"MSACAppCenterDownloadedReleaseHash" : @"MSACDownloadedReleaseHash",
-    // [MSACDistribute storeDownloadedReleaseDetails],
-    // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
-    @"MSACAppCenterDownloadedReleaseId" : @"MSACDownloadedReleaseId",
-    // [MSACDistribute getReportingParametersForUpdatedRelease],
-    // [MSACDistribute storeDownloadedReleaseDetails],
-    // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
-    @"MSACAppCenterDownloadedDistributionGroupId" : @"MSACDownloadedDistributionGroupId",
-    // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
-    // [MSACDistribute storeDownloadedReleaseDetails]
-    @"MSACAppCenterTesterAppUpdateSetupFailed" : @"MSACTesterAppUpdateSetupFailed"
-    // [MSACDistribute showUpdateSetupFailedAlert],
-    // [MSACDistribute openUrl],
-    // [MSACDistribute requestInstallInformationWith]
+    @"MSAppCenterDistributeIsEnabled" : @"kMSDistributeIsEnabledKey", // [MSDistribute isEnabled]
+    @"MSAppCenterPostponedTimestamp" : @"MSPostponedTimestamp",
+    // [MSDistribute notifyUpdateAction],
+    // [MSDistribute handleUpdate],
+    // [MSDistribute checkLatestRelease]
+    @"MSAppCenterSDKHasLaunchedWithDistribute" : @"MSSDKHasLaunchedWithDistribute",
+    // [MSDistribute init],
+    // [MSDistribute checkLatestRelease]
+    @"MSAppCenterMandatoryRelease" : @"MSMandatoryRelease",
+    // [MSDistribute checkLatestRelease],
+    // [MSDistribute handleUpdate]
+    @"MSAppCenterDistributionGroupId" : @"MSDistributionGroupId",
+    // [MSDistribute startUpdateOnStart],
+    // [MSDistribute processDistributionGroupId],
+    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
+    @"MSAppCenterUpdateSetupFailedPackageHash" : @"MSUpdateSetupFailedPackageHash",
+    // [MSDistribute showUpdateSetupFailedAlert],
+    // [MSDistribute requestInstallInformationWith]
+    @"MSAppCenterDownloadedReleaseHash" : @"MSDownloadedReleaseHash",
+    // [MSDistribute storeDownloadedReleaseDetails],
+    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    @"MSAppCenterDownloadedReleaseId" : @"MSDownloadedReleaseId",
+    // [MSDistribute getReportingParametersForUpdatedRelease],
+    // [MSDistribute storeDownloadedReleaseDetails],
+    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    @"MSAppCenterDownloadedDistributionGroupId" : @"MSDownloadedDistributionGroupId",
+    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
+    // [MSDistribute storeDownloadedReleaseDetails]
+    @"MSAppCenterTesterAppUpdateSetupFailed" : @"MSTesterAppUpdateSetupFailed"
+    // [MSDistribute showUpdateSetupFailedAlert],
+    // [MSDistribute openUrl],
+    // [MSDistribute requestInstallInformationWith]
   }
                                 forService:kMSACServiceName];
   if ((self = [super init])) {
@@ -944,8 +944,8 @@ static dispatch_once_t onceToken;
   // Displaying alert dialog. Running on main thread.
   dispatch_async(dispatch_get_main_queue(), ^{
     // Init the alert controller.
-    NSString *messageFormat = details.mandatoryUpdate ? MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage")
-                                                      : MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailableOptionalUpdateMessage");
+    NSString *messageFormat = details.mandatoryUpdate ? MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage")
+                                                      : MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage");
     NSString *appName = [MSAC_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleDisplayName"];
     if (!appName) {
       appName = [MSAC_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleName"];
@@ -957,12 +957,12 @@ static dispatch_once_t onceToken;
     NSString *message = [NSString stringWithFormat:messageFormat, appName, details.shortVersion, details.version];
 #pragma clang diagnostic pop
     MSACAlertController *alertController =
-        [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSACDistributeAppUpdateAvailable") message:message];
+        [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailable") message:message];
 
     if (!details.mandatoryUpdate) {
 
       // Add a "Ask me in a day"-Button.
-      [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeAskMeInADay")
+      [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeAskMeInADay")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            [self notifyUpdateAction:MSACUpdateActionPostpone];
                                          }];
@@ -971,7 +971,7 @@ static dispatch_once_t onceToken;
     if ([details.releaseNotes length] > 0 && details.releaseNotesUrl) {
 
       // Add a "View release notes"-Button.
-      [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeViewReleaseNotes")
+      [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            MSACLogDebug([MSACDistribute logTag],
                                                       @"'View release notes' is selected. Open a browser and show release notes.");
@@ -987,7 +987,7 @@ static dispatch_once_t onceToken;
     }
 
     // Add a "Update now"-Button.
-    [alertController addPreferredActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeUpdateNow")
+    [alertController addPreferredActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeUpdateNow")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            [self notifyUpdateAction:MSACUpdateActionUpdate];
                                          }];
@@ -1005,8 +1005,8 @@ static dispatch_once_t onceToken;
 - (void)showDistributeDisabledAlert {
   dispatch_async(dispatch_get_main_queue(), ^{
     MSACAlertController *alertController =
-        [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSACDistributeInAppUpdatesAreDisabled") message:nil];
-    [alertController addCancelActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeClose") handler:nil];
+        [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled") message:nil];
+    [alertController addCancelActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeClose") handler:nil];
     [alertController show];
   });
 }
@@ -1017,18 +1017,18 @@ static dispatch_once_t onceToken;
   (void)errorMessage;
   dispatch_async(dispatch_get_main_queue(), ^{
     MSACAlertController *alertController =
-        [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSACDistributeInAppUpdatesAreDisabled")
-                                            message:MSACDistributeLocalizedString(@"MSACDistributeInstallFailedMessage")];
+        [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
+                                            message:MSACDistributeLocalizedString(@"MSDistributeInstallFailedMessage")];
 
     // Add "Ignore" button to the dialog
-    [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeIgnore")
+    [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeIgnore")
                                        handler:^(__attribute__((unused)) UIAlertAction *action) {
                                          [MSAC_APP_CENTER_USER_DEFAULTS setObject:MSACPackageHash() forKey:kMSACUpdateSetupFailedPackageHashKey];
                                        }];
 
     // Add "Reinstall" button to the dialog
     [alertController
-        addPreferredActionWithTitle:MSACDistributeLocalizedString(@"MSACDistributeReinstall")
+        addPreferredActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeReinstall")
                             handler:^(__attribute__((unused)) UIAlertAction *action) {
                               NSURL *installUrl = [NSURL URLWithString:[self installUrl]];
 
