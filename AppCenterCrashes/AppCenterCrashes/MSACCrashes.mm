@@ -54,7 +54,7 @@ static NSString *const kMSACBufferGroupId = @"CrashesBuffer";
  * Name for the AnalyzerInProgress file. Some background info here: writing the file to signal that we are processing crashes proved to be
  * faster and more reliable as e.g. storing a flag in the NSUserDefaults.
  */
-static NSString *const kMSACAnalyzerFilename = @"MSACCrashes.analyzer";
+static NSString *const kMSACAnalyzerFilename = @"MSCrashes.analyzer";
 
 /**
  * File extension for buffer files. Files will have a GUID as the file name and a .mscrasheslogbuffer as file extension.
@@ -275,9 +275,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 - (instancetype)init {
   [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
-    @"MSACAppCenterCrashesIsEnabled" : @"kMSACCrashesIsEnabledKey",                 // [MSACCrashes isEnabled]
-    @"MSACAppCenterAppDidReceiveMemoryWarning" : @"MSACAppDidReceiveMemoryWarning", // [MSACCrashes processMemoryWarningInLastSession]
-    @"MSACAppCenterCrashesUserConfirmation" : @"MSACUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
+    @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSACCrashes isEnabled]
+    @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSACCrashes processMemoryWarningInLastSession]
+    @"MSAppCenterCrashesUserConfirmation" : @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
   }
                                 forService:kMSACServiceName];
   if ((self = [super init])) {
