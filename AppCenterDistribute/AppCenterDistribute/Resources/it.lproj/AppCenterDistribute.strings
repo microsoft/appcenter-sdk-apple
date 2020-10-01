@@ -1,18 +1,18 @@
 /*
  * Update dialog buttons
  */
-"MSDistributeUpdateNow" = "Aggiorna adesso";
-"MSDistributeAskMeInADay" = "Visualizza richiesta tra un giorno";
-"MSDistributeViewReleaseNotes" = "Visualizza note sulla versione";
-"MSDistributeClose" = "Chiudi";
-"MSDistributeIgnore" = "Ignorare";
-"MSDistributeReinstall" = "Reinstallare app";
+"MSACDistributeUpdateNow" = "Aggiorna adesso";
+"MSACDistributeAskMeInADay" = "Visualizza richiesta tra un giorno";
+"MSACDistributeViewReleaseNotes" = "Visualizza note sulla versione";
+"MSACDistributeClose" = "Chiudi";
+"MSACDistributeIgnore" = "Ignorare";
+"MSACDistributeReinstall" = "Reinstallare app";
 
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "Aggiornamento app disponibile";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Gli sviluppatori di questa app richiedono che venga eseguito l'aggiornamento a %@ %@ (%@).";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) è disponibile per il download e l'installazione.";
-"MSDistributeInAppUpdatesAreDisabled" = "Gli aggiornamenti in-app sono disabilitati.";
-"MSDistributeInstallFailedMessage" = "Questa versione è stata caricata a lato o scaricata utilizzando un browser in modalità privata.";
+"MSACDistributeAppUpdateAvailable" = "Aggiornamento app disponibile";
+"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Gli sviluppatori di questa app richiedono che venga eseguito l'aggiornamento a %@ %@ (%@).";
+"MSACDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) è disponibile per il download e l'installazione.";
+"MSACDistributeInAppUpdatesAreDisabled" = "Gli aggiornamenti in-app sono disabilitati.";
+"MSACDistributeInstallFailedMessage" = "Questa versione è stata caricata a lato o scaricata utilizzando un browser in modalità privata.";

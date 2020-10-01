@@ -1,18 +1,18 @@
 /*
  * Update dialog buttons
  */
-"MSDistributeUpdateNow" = "Mettre à jour maintenant";
-"MSDistributeAskMeInADay" = "Me le demander dans un jour";
-"MSDistributeViewReleaseNotes" = "Afficher les notes de publication";
-"MSDistributeClose" = "Fermer";
-"MSDistributeIgnore" = "Ignorer";
-"MSDistributeReinstall" = "Réinstaller App";
+"MSACDistributeUpdateNow" = "Mettre à jour maintenant";
+"MSACDistributeAskMeInADay" = "Me le demander dans un jour";
+"MSACDistributeViewReleaseNotes" = "Afficher les notes de publication";
+"MSACDistributeClose" = "Fermer";
+"MSACDistributeIgnore" = "Ignorer";
+"MSACDistributeReinstall" = "Réinstaller App";
 
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "Mise à jour d'application disponible";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Les développeurs de cette application vous demandent d'effectuer une mise à jour vers %@ %@ (%@).";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) est prêt à être téléchargé et installé.";
-"MSDistributeInAppUpdatesAreDisabled" = "Les mises à jour ont été désactivées";
-"MSDistributeInstallFailedMessage" = "Cette version était soit à chargement latéral, soit téléchargée à l'aide d'un navigateur en mode privé.";
+"MSACDistributeAppUpdateAvailable" = "Mise à jour d'application disponible";
+"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Les développeurs de cette application vous demandent d'effectuer une mise à jour vers %@ %@ (%@).";
+"MSACDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) est prêt à être téléchargé et installé.";
+"MSACDistributeInAppUpdatesAreDisabled" = "Les mises à jour ont été désactivées";
+"MSACDistributeInstallFailedMessage" = "Cette version était soit à chargement latéral, soit téléchargée à l'aide d'un navigateur en mode privé.";

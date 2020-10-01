@@ -1,18 +1,18 @@
 /*
  * Update dialog buttons
  */
-"MSDistributeUpdateNow" = "立即更新";
-"MSDistributeAskMeInADay" = "一天内询问我";
-"MSDistributeViewReleaseNotes" = "查看发布说明";
-"MSDistributeClose" = "关闭";
-"MSDistributeIgnore" = "忽略";
-"MSDistributeReinstall" = "重新安装应用程序";
+"MSACDistributeUpdateNow" = "立即更新";
+"MSACDistributeAskMeInADay" = "一天内询问我";
+"MSACDistributeViewReleaseNotes" = "查看发布说明";
+"MSACDistributeClose" = "关闭";
+"MSACDistributeIgnore" = "忽略";
+"MSACDistributeReinstall" = "重新安装应用程序";
 
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "可用的应用更新";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "应用被要求更新为 %@ %@ (%@)。";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) 可供下载和安装。";
-"MSDistributeInAppUpdatesAreDisabled" = "已禁用应用内更新。";
-"MSDistributeInstallFailedMessage" = "此版本是侧载或者在浏览器的隐私模式中下载的。";
+"MSACDistributeAppUpdateAvailable" = "可用的应用更新";
+"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage" = "应用被要求更新为 %@ %@ (%@)。";
+"MSACDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) 可供下载和安装。";
+"MSACDistributeInAppUpdatesAreDisabled" = "已禁用应用内更新。";
+"MSACDistributeInstallFailedMessage" = "此版本是侧载或者在浏览器的隐私模式中下载的。";

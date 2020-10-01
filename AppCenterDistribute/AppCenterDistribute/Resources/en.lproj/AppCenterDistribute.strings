@@ -1,18 +1,18 @@
 /*
  * Update dialog buttons
  */
-"MSDistributeUpdateNow" = "Update now";
-"MSDistributeAskMeInADay" = "Ask me in a day";
-"MSDistributeViewReleaseNotes" = "View release notes";
-"MSDistributeClose" = "Close";
-"MSDistributeIgnore" = "Ignore";
-"MSDistributeReinstall" = "Reinstall app";
+"MSACDistributeUpdateNow" = "Update now";
+"MSACDistributeAskMeInADay" = "Ask me in a day";
+"MSACDistributeViewReleaseNotes" = "View release notes";
+"MSACDistributeClose" = "Close";
+"MSACDistributeIgnore" = "Ignore";
+"MSACDistributeReinstall" = "Reinstall app";
 
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "App update available";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "The developers of this app require you to update to %@ %@ (%@).";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) is available to download and install.";
-"MSDistributeInAppUpdatesAreDisabled" = "In-app updates disabled";
-"MSDistributeInstallFailedMessage" = "This release was either side-loaded or downloaded using a browser in private mode.";
+"MSACDistributeAppUpdateAvailable" = "App update available";
+"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage" = "The developers of this app require you to update to %@ %@ (%@).";
+"MSACDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) is available to download and install.";
+"MSACDistributeInAppUpdatesAreDisabled" = "In-app updates disabled";
+"MSACDistributeInstallFailedMessage" = "This release was either side-loaded or downloaded using a browser in private mode.";

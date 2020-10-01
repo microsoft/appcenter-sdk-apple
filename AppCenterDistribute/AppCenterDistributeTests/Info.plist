@@ -33,7 +33,7 @@
       </array>
     </dict>
   </array>
-  <key>MSAppName</key>
+  <key>MSACAppName</key>
   <string>puppet-ios</string>
 </dict>
 </plist>

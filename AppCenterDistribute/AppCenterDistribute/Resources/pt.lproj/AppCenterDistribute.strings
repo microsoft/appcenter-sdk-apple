@@ -1,17 +1,17 @@
 /*
  * Update dialog buttons
  */
-"MSDistributeUpdateNow" = "Atualizar agora";
-"MSDistributeAskMeInADay" = "Pergunte-me em um dia";
-"MSDistributeViewReleaseNotes" = "Exibir notas de versão";
-"MSDistributeClose" = "Fechar";
-"MSDistributeIgnore" = "Ignorar";
-"MSDistributeReinstall" = "Reinstale o app";
+"MSACDistributeUpdateNow" = "Atualizar agora";
+"MSACDistributeAskMeInADay" = "Pergunte-me em um dia";
+"MSACDistributeViewReleaseNotes" = "Exibir notas de versão";
+"MSACDistributeClose" = "Fechar";
+"MSACDistributeIgnore" = "Ignorar";
+"MSACDistributeReinstall" = "Reinstale o app";
 
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "Atualização do aplicativo disponível";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Os desenvolvedores desse aplicativo exigem a atualização para %@ %@ (%@).";
-"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) está disponível para download e instalação.";
-"MSDistributeInAppUpdatesAreDisabled" = "Atualizações no aplicativo desabilitadas";
+"MSACDistributeAppUpdateAvailable" = "Atualização do aplicativo disponível";
+"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Os desenvolvedores desse aplicativo exigem a atualização para %@ %@ (%@).";
+"MSACDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) está disponível para download e instalação.";
+"MSACDistributeInAppUpdatesAreDisabled" = "Atualizações no aplicativo desabilitadas";
