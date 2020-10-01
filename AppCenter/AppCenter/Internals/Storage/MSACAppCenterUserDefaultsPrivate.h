@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *const kMSACUserDefaultsPrefix = @"MSACAppCenter";
+static NSString *const kMSACUserDefaultsPrefix = @"MSAppCenter";
 
 @interface MSACAppCenterUserDefaults ()
 

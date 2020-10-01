@@ -16,8 +16,8 @@ static NSString *const kMSACEncryptionCipherMode = @"CBC";
 static NSTimeInterval const kMSACEncryptionKeyLifetimeInSeconds = 365 * 24 * 60 * 60;
 static int const kMSACEncryptionKeySize = kCCKeySizeAES256;
 static NSString *const kMSACEncryptionKeyMetadataKey = @"EncryptionKeyMetadata";
-static NSString *const kMSACEncryptionKeyTagAlternate = @"kMSACEncryptionKeyTagAlternate";
-static NSString *const kMSACEncryptionKeyTagOriginal = @"kMSACEncryptionKeyTag";
+static NSString *const kMSACEncryptionKeyTagAlternate = @"kMSEncryptionKeyTagAlternate";
+static NSString *const kMSACEncryptionKeyTagOriginal = @"kMSEncryptionKeyTag";
 
 // This separator is used for key metadata, as well as between metadata that is prepended to the cipher text.
 static NSString *const kMSACEncryptionMetadataInternalSeparator = @"/";
