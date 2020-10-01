@@ -12,7 +12,7 @@
 
 @end
 
-static NSString *const kMSACAppCenterUserDefaultsMigratedKey = @"MSACAppCenter310AppCenterUserDefaultsMigratedKey";
+static NSString *const kMSACAppCenterUserDefaultsMigratedKey = @"MSAppCenter310AppCenterUserDefaultsMigratedKey";
 
 @implementation MSACUserDefaultsTests
 
@@ -34,7 +34,7 @@ static NSString *const kMSACAppCenterUserDefaultsMigratedKey = @"MSACAppCenter31
   [MSACAppCenterUserDefaults shared];
 
   // Then
-  XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSACAppCenterPastDevices"]);
+  XCTAssertNil([[NSUserDefaults standardUserDefaults] objectForKey:@"MSAppCenterPastDevices"]);
 }
 
 - (void)testPrefixIsAppendedOnSetAndGet {
@@ -62,14 +62,14 @@ static NSString *const kMSACAppCenterUserDefaultsMigratedKey = @"MSACAppCenter31
 - (void)testMigrateUserDefaultSettings {
   NSArray *suffixes = @[ @"-suffix1", @"/suffix2", @"suffix3" ];
   NSString *wildcard = @"okeyTestWildcard";
-  NSString *expectedWildcard = @"MSACAppCenterOkeyTestWildcard";
+  NSString *expectedWildcard = @"MSAppCenterOkeyTestWildcard";
 
   // If
   NSDictionary *keys = @{
-    @"MSACAppCenterKeyTest1" : @"okeyTest1",
-    @"MSACAppCenterKeyTest2" : @"okeyTest2",
-    @"MSACAppCenterKeyTest3" : @"okeyTest3",
-    @"MSACAppCenterKeyTest4" : @"okeyTest4",
+    @"MSAppCenterKeyTest1" : @"okeyTest1",
+    @"MSAppCenterKeyTest2" : @"okeyTest2",
+    @"MSAppCenterKeyTest3" : @"okeyTest3",
+    @"MSAppCenterKeyTest4" : @"okeyTest4",
     expectedWildcard : MSACPrefixKeyFrom(wildcard)
   };
   MSACAppCenterUserDefaults *userDefaults = [MSACAppCenterUserDefaults shared];
@@ -124,11 +124,11 @@ static NSString *const kMSACAppCenterUserDefaultsMigratedKey = @"MSACAppCenter31
 - (void)testUnexpectedKeyTypeInMigrateUserDefaultSettings {
 
   // If
-  NSDictionary *keys = @{@"MSACAppCenterKeyTest1" : @"okeyTest1"};
+  NSDictionary *keys = @{@"MSAppCenterKeyTest1" : @"okeyTest1"};
   MSACAppCenterUserDefaults *userDefaults = [MSACAppCenterUserDefaults shared];
 
   // When
-  [[NSUserDefaults standardUserDefaults] setObject:@"Test 1" forKey:kCFBooleanTrue];
+  [[NSUserDefaults standardUserDefaults] setObject:@"Test 1" forKey:@"YES"];
 
   // Then
   XCTAssertNoThrow([userDefaults migrateKeys:keys forService:@"AppCenter"]);

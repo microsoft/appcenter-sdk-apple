@@ -735,7 +735,7 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   // Then
   assertThatInteger(logsProcessed, equalToInteger(1));
   XCTAssertNotNil(log);
-  NSArray *expected = @[ @"MSACMockService", @"MSACMockSecondService" ];
+  NSArray *expected = @[ @"MSMockService", @"MSMockSecondService" ];
   XCTAssertTrue([log.services isEqual:expected]);
 }
 
