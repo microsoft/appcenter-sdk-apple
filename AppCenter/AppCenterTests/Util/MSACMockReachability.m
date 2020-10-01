@@ -4,7 +4,7 @@
 #import "MSACMockReachability.h"
 #import "MSACTestFrameworks.h"
 
-static NSString *const kMSACNetworkReachabilityChangedNotificationName = @"kMSACNetworkReachabilityChangedNotification";
+static NSString *const kMSACNetworkReachabilityChangedNotificationName = @"kMSNetworkReachabilityChangedNotification";
 
 @implementation MSACMockReachability
 

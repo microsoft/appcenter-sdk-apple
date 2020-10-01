@@ -5,8 +5,8 @@
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACMockService.h"
 
-static NSString *const kMSACServiceName = @"MSACMockService";
-static NSString *const kMSACGroupId = @"MSACMock";
+static NSString *const kMSACServiceName = @"MSMockService";
+static NSString *const kMSACGroupId = @"MSMock";
 static MSACMockService *sharedInstance = nil;
 
 @implementation MSACMockService

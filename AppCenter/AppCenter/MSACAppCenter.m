@@ -242,27 +242,27 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     _services = [NSMutableArray new];
     _enabledStateUpdating = NO;
     NSDictionary *changedKeys = @{
-      @"MSACAppCenterChannelStartTimer" : MSACPrefixKeyFrom(@"MSACChannelStartTimer"),
-      // [MSACChannelUnitDefault oldestPendingLogTimestampKey]
-      @"MSACAppCenterPastDevices" : @"pastDevicesKey",
-      // [MSACDeviceTracker init],
-      // [MSACDeviceTracker device],
-      // [MSACDeviceTracker clearDevices]
-      @"MSACAppCenterInstallId" : @"MSACInstallId",
-      // [MSACAppCenter installId]
-      @"MSACAppCenterAppCenterIsEnabled" : @"MSACAppCenterIsEnabled",
-      // [MSACAppCenter isEnabled]
-      @"MSACAppCenterEncryptionKeyMetadata" : @"MSACEncryptionKeyMetadata",
-      // [MSACEncrypter getCurrentKeyTag],
-      // [MSACEncrypter rotateToNewKeyTag]
-      @"MSACAppCenterSessionIdHistory" : @"SessionIdHistory",
-      // [MSACSessionContext init],
-      // [MSACSessionContext setSessionId],
-      // [MSACSessionContext clearSessionHistoryAndKeepCurrentSession]
-      @"MSACAppCenterUserIdHistory" : @"UserIdHistory"
-      // [MSACUserIdContext init],
-      // [MSACUserIdContext setUserId],
-      // [MSACUserIdContext clearUserIdHistory]
+      @"MSAppCenterChannelStartTimer" : MSACPrefixKeyFrom(@"MSChannelStartTimer"),
+      // [MSChannelUnitDefault oldestPendingLogTimestampKey]
+      @"MSAppCenterPastDevices" : @"pastDevicesKey",
+      // [MSDeviceTracker init],
+      // [MSDeviceTracker device],
+      // [MSDeviceTracker clearDevices]
+      @"MSAppCenterInstallId" : @"MSInstallId",
+      // [MSAppCenter installId]
+      @"MSAppCenterAppCenterIsEnabled" : @"MSAppCenterIsEnabled",
+      // [MSAppCenter isEnabled]
+      @"MSAppCenterEncryptionKeyMetadata" : @"MSEncryptionKeyMetadata",
+      // [MSEncrypter getCurrentKeyTag],
+      // [MSEncrypter rotateToNewKeyTag]
+      @"MSAppCenterSessionIdHistory" : @"SessionIdHistory",
+      // [MSSessionContext init],
+      // [MSSessionContext setSessionId],
+      // [MSSessionContext clearSessionHistoryAndKeepCurrentSession]
+      @"MSAppCenterUserIdHistory" : @"UserIdHistory"
+      // [MSUserIdContext init],
+      // [MSUserIdContext setUserId],
+      // [MSUserIdContext clearUserIdHistory]
     };
     [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:changedKeys forService:kMSACServiceName];
   }
