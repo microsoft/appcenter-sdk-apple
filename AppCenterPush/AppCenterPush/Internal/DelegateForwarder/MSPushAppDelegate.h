@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSAppDelegateForwarder.h"
+#import "MSACAppDelegateForwarder.h"
 #import "MSCustomPushApplicationDelegate.h"
 
 @interface MSPushAppDelegate : NSObject <MSCustomPushApplicationDelegate>
@@ -12,6 +12,6 @@
 
 #pragma mark - Forwarding
 
-@interface MSAppDelegateForwarder (MSPush) <MSCustomPushApplicationDelegate>
+@interface MSACAppDelegateForwarder (MSPush) <MSCustomPushApplicationDelegate>
 
 @end

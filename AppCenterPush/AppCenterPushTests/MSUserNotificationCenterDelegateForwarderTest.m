@@ -5,10 +5,10 @@
 #if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>
 #endif
-#import "MSDelegateForwarderPrivate.h"
-#import "MSDelegateForwarderTestUtil.h"
+#import "MSACDelegateForwarderPrivate.h"
+#import "MSACDelegateForwarderTestUtil.h"
 #import "MSPush.h"
-#import "MSTestFrameworks.h"
+#import "MSACTestFrameworks.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 
 #define MS_RETURN_IF_USER_NOTIFICATION_CENTER_NOT_SUPPORTED                                                                                \
@@ -198,7 +198,7 @@
         assertThatShort(pushCallCounter, equalToShort(0));
         handler(UNNotificationPresentationOptionAlert);
       };
-  [MSDelegateForwarderTestUtil addSelector:willPresentNotificationSel
+  [MSACDelegateForwarderTestUtil addSelector:willPresentNotificationSel
                             implementation:originalWillPresentNotificationImp
                                 toInstance:originalUserNotificationCenterDelegate];
 
@@ -252,7 +252,7 @@
         assertThatShort(pushCallCounter, equalToShort(0));
         handler();
       };
-  [MSDelegateForwarderTestUtil addSelector:didReceiveNotificationResponseSel
+  [MSACDelegateForwarderTestUtil addSelector:didReceiveNotificationResponseSel
                             implementation:originalDidReceiveNotificationResponseImp
                                 toInstance:originalUserNotificationCenterDelegate];
 
@@ -281,7 +281,7 @@
 }
 
 - (id<UNUserNotificationCenterDelegate>)createOriginalUserNotificationCenterDelegateInstance {
-  return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(UNUserNotificationCenterDelegate)];
+  return [MSACDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(UNUserNotificationCenterDelegate)];
 }
 
 @end

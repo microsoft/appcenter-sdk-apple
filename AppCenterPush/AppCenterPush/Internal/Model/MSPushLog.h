@@ -5,7 +5,7 @@
 
 #import "AppCenter+Internal.h"
 
-@interface MSPushLog : MSAbstractLog
+@interface MSPushLog : MSACAbstractLog
 
 /**
  * Push token for push service
