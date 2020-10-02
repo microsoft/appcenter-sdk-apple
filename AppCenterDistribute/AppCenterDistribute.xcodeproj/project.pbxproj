@@ -59,7 +59,7 @@
 		387CC631210A9D9C002BA068 /* MSACMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CC630210A9D9C002BA068 /* MSACMockKeychainUtil.m */; };
 		389638A41E79F59D007C3809 /* MSACDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSACDistributeTestUtil.m */; };
 		38A683641E774DCE00A63BC8 /* MSACSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683621E774DCE00A63BC8 /* MSACSemVerTests.m */; };
-		38A683651E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683631E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTest.m */; };
+		38A683651E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683631E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTests.m */; };
 		58603D3986EEE50CBFAFD4BC /* MSACDistributeInfoTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 586030B2AAEEE6A568D37CE9 /* MSACDistributeInfoTrackerTests.m */; };
 		78B7D8B723D581B900E08D9B /* MSACAlertControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B623D581B900E08D9B /* MSACAlertControllerTests.m */; };
 		78B7D8BA23D5849600E08D9B /* MSACAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78B7D8B823D5849600E08D9B /* MSACAlertController.m */; };
@@ -67,7 +67,7 @@
 		7FB7054E222E59A000D93258 /* MSACMockReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB70539222E574200D93258 /* MSACMockReachability.m */; };
 		80324E301F4DC81F005F4E11 /* MSACDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSACDistributeAppDelegateTests.m */; };
 		848860451E6EC32B003A9B96 /* MSACBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSACBasicMachOParserTests.m */; };
-		9E8E3A39203E68B4001A23FD /* MSACDistributionStartSessionLogTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTest.m */; };
+		9E8E3A39203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m */; };
 		B20DE7B71E5F97330023075C /* MSACDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSACDistributeUtilTests.m */; };
 		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
 		B2C070C01E5E69AD0076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
@@ -343,7 +343,7 @@
 		38A6835C1E774D9F00A63BC8 /* MSACSemVer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACSemVer.m; sourceTree = "<group>"; };
 		38A6835D1E774D9F00A63BC8 /* MSACSemVer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACSemVer.h; sourceTree = "<group>"; };
 		38A683621E774DCE00A63BC8 /* MSACSemVerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACSemVerTests.m; sourceTree = "<group>"; };
-		38A683631E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACSemVerPreReleaseIdTest.m; sourceTree = "<group>"; };
+		38A683631E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACSemVerPreReleaseIdTests.m; sourceTree = "<group>"; };
 		38C9C56B1E565BF600B0FA0D /* MSACDistributePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACDistributePrivate.h; path = ../MSACDistributePrivate.h; sourceTree = "<group>"; };
 		586030B2AAEEE6A568D37CE9 /* MSACDistributeInfoTrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeInfoTrackerTests.m; sourceTree = "<group>"; };
 		5860311B1C15B2BE9ED430A1 /* MSACDistributeInfoTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACDistributeInfoTracker.h; sourceTree = "<group>"; };
@@ -358,7 +358,7 @@
 		848860441E6EC32B003A9B96 /* MSACBasicMachOParserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACBasicMachOParserTests.m; sourceTree = "<group>"; };
 		9E4ADB15203D37FB00172256 /* MSACDistributionStartSessionLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDistributionStartSessionLog.m; sourceTree = "<group>"; };
 		9E4ADB17203D383D00172256 /* MSACDistributionStartSessionLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDistributionStartSessionLog.h; sourceTree = "<group>"; };
-		9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDistributionStartSessionLogTest.m; sourceTree = "<group>"; };
+		9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDistributionStartSessionLogTests.m; sourceTree = "<group>"; };
 		B20DE7B61E5F97330023075C /* MSACDistributeUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSACDistributeInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDistributeInternal.h; sourceTree = "<group>"; };
 		B29CE3481E5E5F9A00CEB04D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = AppCenterDistribute/Resources/en.lproj/AppCenterDistribute.strings; sourceTree = SOURCE_ROOT; };
@@ -556,10 +556,10 @@
 				04980B632413003B00F384A5 /* MSACDistributeCheckForUpdateTests.m */,
 				586030B2AAEEE6A568D37CE9 /* MSACDistributeInfoTrackerTests.m */,
 				040AF0291E52748D005C1174 /* MSACDistributeIngestionTests.m */,
-				9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTest.m */,
+				9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m */,
 				04FD4A331E453531009B4468 /* MSACDistributeTests.m */,
 				B20DE7B61E5F97330023075C /* MSACDistributeUtilTests.m */,
-				38A683631E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTest.m */,
+				38A683631E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTests.m */,
 				38A683621E774DCE00A63BC8 /* MSACSemVerTests.m */,
 				04FD4A351E453531009B4468 /* Info.plist */,
 				040AF0101E523AC2005C1174 /* Fixtures */,
@@ -1095,7 +1095,7 @@
 				DFE95505244D8B4D0061E3FA /* HTTPStubsResponse.m in Sources */,
 				B20DE7B71E5F97330023075C /* MSACDistributeUtilTests.m in Sources */,
 				DFE95504244D8B4D0061E3FA /* HTTPStubsMethodSwizzling.m in Sources */,
-				9E8E3A39203E68B4001A23FD /* MSACDistributionStartSessionLogTest.m in Sources */,
+				9E8E3A39203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m in Sources */,
 				387CC631210A9D9C002BA068 /* MSACMockKeychainUtil.m in Sources */,
 				040AF02A1E52748D005C1174 /* MSACDistributeIngestionTests.m in Sources */,
 				7FB7054E222E59A000D93258 /* MSACMockReachability.m in Sources */,
@@ -1104,7 +1104,7 @@
 				04DC2ECB1E78A3E3003F23B5 /* MSACErrorDetailsTests.m in Sources */,
 				04FD4A341E453531009B4468 /* MSACDistributeTests.m in Sources */,
 				04A140C91ECE89BD001CEE94 /* MSACMockUserDefaults.m in Sources */,
-				38A683651E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTest.m in Sources */,
+				38A683651E774DCE00A63BC8 /* MSACSemVerPreReleaseIdTests.m in Sources */,
 				80324E301F4DC81F005F4E11 /* MSACDistributeAppDelegateTests.m in Sources */,
 				78B7D8B723D581B900E08D9B /* MSACAlertControllerTests.m in Sources */,
 				04980B642413003C00F384A5 /* MSACDistributeCheckForUpdateTests.m in Sources */,
