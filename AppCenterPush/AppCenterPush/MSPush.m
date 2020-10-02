@@ -10,15 +10,15 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-#import "MSAppCenterInternal.h"
-#import "MSAppDelegateForwarder.h"
-#import "MSChannelUnitConfiguration.h"
-#import "MSChannelUnitProtocol.h"
+#import "MSACAppCenterInternal.h"
+#import "MSACAppDelegateForwarder.h"
+#import "MSACChannelUnitConfiguration.h"
+#import "MSACChannelUnitProtocol.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
-#import "MSUserIdContext.h"
+#import "MSACUserIdContext.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 
 /**
@@ -60,14 +60,14 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 - (instancetype)init {
 
-  [MS_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+  [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
     @"MSAppCenterPushIsEnabled" : @"kMSPushIsEnabledKey",       // [MSPush isEnabled]
     @"MSAppCenterPushServiceStorage" : @"pushServiceStorageKey" // [MSPush didRegisterForRemoteNotificationsWithDeviceToken]
   }
                                 forService:kMSServiceName];
   if ((self = [super init])) {
     // Init channel configuration.
-    _channelUnitConfiguration = [[MSChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
+    _channelUnitConfiguration = [[MSACChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
     _appDelegate = [MSPushAppDelegate new];
 
     // This call is used to force load the MSUserNotificationCenterDelegateForwarder class to register the swizzling.
@@ -121,9 +121,9 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
 #endif
 
-#pragma mark - MSUserIdContextDelegate
+#pragma mark - MSACUserIdContextDelegate
 
-- (void)userIdContext:(MSUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)userId {
+- (void)userIdContext:(MSACUserIdContext *)__unused userIdContext didUpdateUserId:(NSString *)userId {
   NSString *pushTokenCopy = self.pushToken;
   if (pushTokenCopy) {
     [self sendPushToken:pushTokenCopy userId:userId];
@@ -141,12 +141,12 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   return sharedInstance;
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+- (void)startWithChannelGroup:(id<MSACChannelGroupProtocol>)channelGroup
                     appSecret:(nullable NSString *)appSecret
       transmissionTargetToken:(nullable NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  MSLogVerbose([MSPush logTag], @"Started push service.");
+  MSACLogVerbose([MSPush logTag], @"Started push service.");
 }
 
 + (NSString *)serviceName {
@@ -190,19 +190,19 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                                    name:NSApplicationDidFinishLaunchingNotification
                                  object:nil];
 #endif
-    [[MSAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
-    [[MSUserIdContext sharedInstance] addDelegate:self];
+    [[MSACAppDelegateForwarder sharedInstance] addDelegate:self.appDelegate];
+    [[MSACUserIdContext sharedInstance] addDelegate:self];
     if (!self.pushToken) {
       [self registerForRemoteNotifications];
     }
-    MSLogInfo([MSPush logTag], @"Push service has been enabled.");
+    MSACLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
 #if TARGET_OS_OSX
     [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
-    [[MSAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
-    [[MSUserIdContext sharedInstance] removeDelegate:self];
-    MSLogInfo([MSPush logTag], @"Push service has been disabled.");
+    [[MSACAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
+    [[MSACUserIdContext sharedInstance] removeDelegate:self];
+    MSACLogInfo([MSPush logTag], @"Push service has been disabled.");
   }
 }
 
@@ -216,7 +216,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 }
 
 - (void)registerForRemoteNotifications {
-  MSLogVerbose([MSPush logTag], @"Registering for push notifications");
+  MSACLogVerbose([MSPush logTag], @"Registering for push notifications");
 
 #if TARGET_OS_OSX
   [NSApp registerForRemoteNotificationTypes:(NSRemoteNotificationTypeSound | NSRemoteNotificationTypeBadge)];
@@ -228,12 +228,12 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     [center requestAuthorizationWithOptions:authOptions
                           completionHandler:^(BOOL granted, NSError *_Nullable error) {
                             if (granted) {
-                              MSLogVerbose([MSPush logTag], @"Push notifications authorization was granted.");
+                              MSACLogVerbose([MSPush logTag], @"Push notifications authorization was granted.");
                             } else {
-                              MSLogVerbose([MSPush logTag], @"Push notifications authorization was denied.");
+                              MSACLogVerbose([MSPush logTag], @"Push notifications authorization was denied.");
                             }
                             if (error) {
-                              MSLogWarning([MSPush logTag], @"Push notifications authorization request has been finished with error: %@",
+                              MSACLogWarning([MSPush logTag], @"Push notifications authorization request has been finished with error: %@",
                                            error.localizedDescription);
                             }
                           }];
@@ -263,24 +263,24 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   MSPushLog *log = [MSPushLog new];
   log.pushToken = token;
   log.userId = userId;
-  [self.channelUnit enqueueItem:log flags:MSFlagsDefault];
+  [self.channelUnit enqueueItem:log flags:MSACFlagsDefault];
 }
 
 #pragma mark - Register callbacks
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  MSLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
+  MSACLogVerbose([MSPush logTag], @"Registering for push notifications has been finished successfully");
   NSString *pushToken = [self convertTokenToString:deviceToken];
   if ([pushToken isEqualToString:self.pushToken]) {
     return;
   }
   self.pushToken = pushToken;
-  [MS_APP_CENTER_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
-  [self sendPushToken:pushToken userId:[[MSUserIdContext sharedInstance] userId]];
+  [MSAC_APP_CENTER_USER_DEFAULTS setObject:pushToken forKey:kMSPushServiceStorageKey];
+  [self sendPushToken:pushToken userId:[[MSACUserIdContext sharedInstance] userId]];
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-  MSLogWarning([MSPush logTag], @"Registering for push notifications has been finished with error: %@", error.localizedDescription);
+  MSACLogWarning([MSPush logTag], @"Registering for push notifications has been finished with error: %@", error.localizedDescription);
 }
 
 #if TARGET_OS_OSX
@@ -324,7 +324,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 #if !TARGET_OS_OSX
   (void)userNotification;
 #endif
-  MSLogVerbose([MSPush logTag], @"User info for notification was forwarded to Push: %@", [userInfo description]);
+  MSACLogVerbose([MSPush logTag], @"User info for notification was forwarded to Push: %@", [userInfo description]);
   NSObject *title, *message, *customData, *alert;
   NSDictionary *aps = userInfo[kMSPushNotificationApsKey];
 
@@ -335,7 +335,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
 
     // If Push is disabled, discard the notification.
     if (![[self class] isEnabled]) {
-      MSLogVerbose([MSPush logTag], @"Notification received while Push was ]enabled but it is disabled now, discard the notification.");
+      MSACLogVerbose([MSPush logTag], @"Notification received while Push was ]enabled but it is disabled now, discard the notification.");
       return YES;
     }
     alert = aps[kMSPushNotificationAlertKey];
@@ -364,7 +364,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     // Clean values, sometimes we get NSNull from the info dictionary as object type on optional fields.
     title = ([title isKindOfClass:[NSString class]]) ? title : nil;
     message = ([message isKindOfClass:[NSString class]]) ? message : nil;
-    MSLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
+    MSACLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
                [customData description]);
 
 #if TARGET_OS_OSX

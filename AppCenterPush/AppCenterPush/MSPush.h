@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSServiceAbstract.h"
+#import "MSACServiceAbstract.h"
 #import "MSPushDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -9,7 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * App Center push service.
  */
-@interface MSPush : MSServiceAbstract
+@interface MSPush : MSACServiceAbstract
 
 /**
  * Callback for successful registration with push token.

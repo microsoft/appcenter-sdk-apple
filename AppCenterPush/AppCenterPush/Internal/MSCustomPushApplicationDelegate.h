@@ -3,11 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSCustomApplicationDelegate.h"
+#import "MSACCustomApplicationDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MSCustomPushApplicationDelegate <MSCustomApplicationDelegate>
+@protocol MSCustomPushApplicationDelegate <MSACCustomApplicationDelegate>
 
 @optional
 
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * that is the form that the provider needs to submit to the APNS servers when it sends a notification to a device. The APNS servers require
  * a binary format for performance reasons. The size of a device token is 32 bytes.
  */
-- (void)application:(MSApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
+- (void)application:(MSACApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
 
 /**
  * Sent to the delegate when Apple Push Service cannot successfully complete the registration process.
@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param error An NSError object that encapsulates information why registration did not succeed. The application can display this
  * information to the user.
  */
-- (void)application:(MSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
+- (void)application:(MSACApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 
 /**
  * Tells the app that a remote notification arrived that indicates there is data to be fetched. Used for macOS and as a workaround for iOS
@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
  * as a JSON-defined dictionary that iOS converts to an @see NSDictionary object; the dictionary may contain only property-list objects plus
  * @see NSNull.
  */
-- (void)application:(MSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
+- (void)application:(MSACApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
 
 #if !TARGET_OS_OSX
 
