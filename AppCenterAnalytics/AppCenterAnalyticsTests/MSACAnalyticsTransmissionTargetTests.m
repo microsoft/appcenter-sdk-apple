@@ -52,9 +52,9 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   self.channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
   [MSACAppCenter sharedInstance].sdkConfigured = YES;
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:@"appsecret"
-                              transmissionTargetToken:@"token"
-                                      fromApplication:YES];
+                                              appSecret:@"appsecret"
+                                transmissionTargetToken:@"token"
+                                        fromApplication:YES];
 }
 
 - (void)tearDown {
@@ -73,8 +73,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // When
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
 
   // Then
   XCTAssertNotNil(sut);
@@ -87,8 +87,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
 
   // When
@@ -103,8 +103,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
   NSDictionary *properties = @{@"prop1" : @"val1", @"prop2" : @"val2"};
   MSACEventProperties *expectedProperties = [MSACEventProperties new];
@@ -127,8 +127,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
   OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
@@ -144,8 +144,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // If
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
   OCMStub([self.analyticsClassMock canBeUsed]).andReturn(YES);
 
@@ -177,14 +177,14 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
         actualFlags = flags;
       });
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *appSecret = MSAC_UUID_STRING;
   [MSACAppCenter configureWithAppSecret:appSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:appSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:appSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [sut trackEvent:expectedName withProperties:nil flags:MSACFlagsNormal];
@@ -215,14 +215,14 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
         actualFlags = flags;
       });
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *appSecret = MSAC_UUID_STRING;
   [MSACAppCenter configureWithAppSecret:appSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:appSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:appSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [sut trackEvent:expectedName withProperties:nil flags:MSACFlagsCritical];
@@ -253,14 +253,14 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
         actualFlags = flags;
       });
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *appSecret = MSAC_UUID_STRING;
   [MSACAppCenter configureWithAppSecret:appSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:appSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:appSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [sut trackEvent:expectedName withProperties:nil flags:42];
@@ -291,14 +291,14 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
         actualFlags = flags;
       });
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *appSecret = MSAC_UUID_STRING;
   [MSACAppCenter configureWithAppSecret:appSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:appSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:appSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [sut trackEvent:expectedName withTypedProperties:nil flags:MSACFlagsNormal];
@@ -329,14 +329,14 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
         actualFlags = flags;
       });
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *appSecret = MSAC_UUID_STRING;
   [MSACAppCenter configureWithAppSecret:appSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:appSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:appSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [sut trackEvent:expectedName withTypedProperties:nil flags:MSACFlagsCritical];
@@ -367,14 +367,14 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
         actualFlags = flags;
       });
   MSACAnalyticsTransmissionTarget *sut = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                 parentTarget:nil
-                                                                                                 channelGroup:self.channelGroupMock];
+                                                                                                     parentTarget:nil
+                                                                                                     channelGroup:self.channelGroupMock];
   NSString *appSecret = MSAC_UUID_STRING;
   [MSACAppCenter configureWithAppSecret:appSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:appSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:appSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [sut trackEvent:expectedName withTypedProperties:nil flags:42];
@@ -394,12 +394,13 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:@"appsecret"
-                              transmissionTargetToken:@"token"
-                                      fromApplication:YES];
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:MSACFlagsDefault]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&log atIndex:2];
-  });
+                                              appSecret:@"appsecret"
+                                transmissionTargetToken:@"token"
+                                        fromApplication:YES];
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:MSACFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&log atIndex:2];
+      });
 
   // When
   [MSACAnalytics trackEvent:@"Some event"];
@@ -418,13 +419,14 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:@"appsecret"
-                              transmissionTargetToken:@"defaultToken"
-                                      fromApplication:YES];
+                                              appSecret:@"appsecret"
+                                transmissionTargetToken:@"defaultToken"
+                                        fromApplication:YES];
   MSACAnalyticsTransmissionTarget *target = [MSACAnalytics transmissionTargetForToken:@"anotherToken"];
-  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:MSACFlagsDefault]).andDo(^(NSInvocation *invocation) {
-    [invocation getArgument:&log atIndex:2];
-  });
+  OCMStub([channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:MSACFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation getArgument:&log atIndex:2];
+      });
 
   // When
   [MSACAnalytics trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:target flags:MSACFlagsDefault];
@@ -445,8 +447,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 
   MSACAnalyticsTransmissionTarget *parentTransmissionTarget =
       [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+                                                                  parentTarget:nil
+                                                                  channelGroup:self.channelGroupMock];
   MSACAnalyticsTransmissionTarget *childTransmissionTarget;
 
   // When
@@ -458,7 +460,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqualObjects(childTransmissionTarget, parentTransmissionTarget.childTransmissionTargets[kMSACTestTransmissionToken2]);
 
   // When
-  MSACAnalyticsTransmissionTarget *childTransmissionTarget2 = [parentTransmissionTarget transmissionTargetForToken:kMSACTestTransmissionToken2];
+  MSACAnalyticsTransmissionTarget *childTransmissionTarget2 =
+      [parentTransmissionTarget transmissionTargetForToken:kMSACTestTransmissionToken2];
   [childTransmissionTarget2 trackEvent:event2 withProperties:properties];
 
   // Then
@@ -466,7 +469,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   XCTAssertEqualObjects(childTransmissionTarget2, parentTransmissionTarget.childTransmissionTargets[kMSACTestTransmissionToken2]);
 
   // When
-  MSACAnalyticsTransmissionTarget *childTransmissionTarget3 = [parentTransmissionTarget transmissionTargetForToken:kMSACTestTransmissionToken];
+  MSACAnalyticsTransmissionTarget *childTransmissionTarget3 =
+      [parentTransmissionTarget transmissionTargetForToken:kMSACTestTransmissionToken];
   [childTransmissionTarget3 trackEvent:event3 withProperties:properties];
 
   // Then
@@ -515,8 +519,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 
   // Target enabled by default.
   transmissionTarget = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                 parentTarget:nil
-                                                                                 channelGroup:self.channelGroupMock];
+                                                                                   parentTarget:nil
+                                                                                   channelGroup:self.channelGroupMock];
   [transmissionTarget setEnabled:YES];
 
   // Then
@@ -537,8 +541,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   // Allocating a new object with the same token should return the enabled state
   // for this token.
   transmissionTarget2 = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                  parentTarget:nil
-                                                                                  channelGroup:self.channelGroupMock];
+                                                                                    parentTarget:nil
+                                                                                    channelGroup:self.channelGroupMock];
   [transmissionTarget2 trackEvent:event3 withProperties:properties];
 
   // Then
@@ -565,9 +569,10 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testTransmissionTargetNestedEnabledState {
 
   // If
-  MSACAnalyticsTransmissionTarget *target = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                    parentTarget:nil
-                                                                                                    channelGroup:self.channelGroupMock];
+  MSACAnalyticsTransmissionTarget *target =
+      [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
+                                                                  parentTarget:nil
+                                                                  channelGroup:self.channelGroupMock];
 
   // When
 
@@ -641,8 +646,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   NSMutableArray<MSACAnalyticsTransmissionTarget *> *childrenTargets;
   MSACAnalyticsTransmissionTarget *parentTarget =
       [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+                                                                  parentTarget:nil
+                                                                  channelGroup:self.channelGroupMock];
   for (short i = 1; i <= maxChildren; i++) {
     [childrenTargets addObject:[parentTarget transmissionTargetForToken:[NSString stringWithFormat:@"Child%d-guid", i]]];
   }
@@ -666,8 +671,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   NSMutableArray<MSACAnalyticsTransmissionTarget *> *childrenTargets;
   MSACAnalyticsTransmissionTarget *parentTarget =
       [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                parentTarget:nil
-                                                                channelGroup:self.channelGroupMock];
+                                                                  parentTarget:nil
+                                                                  channelGroup:self.channelGroupMock];
   MSACAnalyticsTransmissionTarget *currentChildren = [parentTarget transmissionTargetForToken:@"Child1-guid"];
   [childrenTargets addObject:currentChildren];
   for (short i = 2; i <= maxSubChildren; i++) {
@@ -692,9 +697,10 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
 
   // Common properties only.
-  MSACAnalyticsTransmissionTarget *target = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                    parentTarget:nil
-                                                                                                    channelGroup:self.channelGroupMock];
+  MSACAnalyticsTransmissionTarget *target =
+      [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
+                                                                  parentTarget:nil
+                                                                  channelGroup:self.channelGroupMock];
   NSString *eventName = @"event";
   NSString *propCommonKey = @"propCommonKey";
   NSString *propCommonValue = @"propCommonValue";
@@ -724,9 +730,10 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testMergingEventPropertiesWithCommonAndTrackEventProperties {
 
   // If
-  MSACAnalyticsTransmissionTarget *target = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                    parentTarget:nil
-                                                                                                    channelGroup:self.channelGroupMock];
+  MSACAnalyticsTransmissionTarget *target =
+      [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
+                                                                  parentTarget:nil
+                                                                  channelGroup:self.channelGroupMock];
 
   // Common properties.
   NSString *eventName = @"event";
@@ -765,9 +772,10 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
 - (void)testMergingEventPropertiesWithCommonAndTrackEventTypedProperties {
 
   // If
-  MSACAnalyticsTransmissionTarget *target = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
-                                                                                                    parentTarget:nil
-                                                                                                    channelGroup:self.channelGroupMock];
+  MSACAnalyticsTransmissionTarget *target =
+      [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:kMSACTestTransmissionToken
+                                                                  parentTarget:nil
+                                                                  channelGroup:self.channelGroupMock];
 
   // Common properties.
   NSString *eventName = @"event";
@@ -814,9 +822,9 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [MSACAppCenter sharedInstance].sdkConfigured = YES;
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:@"appsecret"
-                              transmissionTargetToken:@"token"
-                                      fromApplication:YES];
+                                              appSecret:@"appsecret"
+                                transmissionTargetToken:@"token"
+                                        fromApplication:YES];
 
   // Prepare target instances.
   MSACAnalyticsTransmissionTarget *grandParent = [MSACAnalytics transmissionTargetForToken:@"grand-parent"];
@@ -882,9 +890,9 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   OCMStub([self.channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY]).andReturn(channelUnitMock);
   [MSACAppCenter sharedInstance].sdkConfigured = YES;
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:@"appsecret"
-                              transmissionTargetToken:@"token"
-                                      fromApplication:YES];
+                                              appSecret:@"appsecret"
+                                transmissionTargetToken:@"token"
+                                        fromApplication:YES];
 
   // Prepare target instances.
   MSACAnalyticsTransmissionTarget *grandParent = [MSACAnalytics transmissionTargetForToken:@"grand-parent"];
@@ -1358,8 +1366,8 @@ static NSString *const kMSACTestTransmissionToken2 = @"TestTransmissionToken2";
   // If
   MSACAnalyticsAuthenticationProvider *provider2 =
       [[MSACAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSACAnalyticsAuthenticationTypeMsaDelegate
-                                                                  ticketKey:@"ticketKey2"
-                                                                   delegate:OCMOCK_ANY];
+                                                                    ticketKey:@"ticketKey2"
+                                                                     delegate:OCMOCK_ANY];
 
   // When
   dispatch_async(dispatch_get_main_queue(), ^{

@@ -159,18 +159,16 @@ static const char deviceIdPrefix = 'i';
   NSString *baseIdentifier;
 #if TARGET_OS_OSX
 
-  io_service_t platformExpert = IOServiceGetMatchingService(
-    kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));
+  io_service_t platformExpert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"));
   CFStringRef platformUUIDAsCFString = NULL;
   if (platformExpert) {
-    platformUUIDAsCFString = (CFStringRef)IORegistryEntryCreateCFProperty(
-      platformExpert, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
+    platformUUIDAsCFString =
+        (CFStringRef)IORegistryEntryCreateCFProperty(platformExpert, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
     IOObjectRelease(platformExpert);
   }
   NSString *platformUUIDAsNSString = nil;
   if (platformUUIDAsCFString) {
-    platformUUIDAsNSString =
-    [NSString stringWithString:(__bridge NSString *)platformUUIDAsCFString];
+    platformUUIDAsNSString = [NSString stringWithString:(__bridge NSString *)platformUUIDAsCFString];
     CFRelease(platformUUIDAsCFString);
   }
   baseIdentifier = platformUUIDAsNSString;

@@ -33,11 +33,11 @@
   id channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
   self.targetToken = @"123";
   self.parentTarget = OCMPartialMock([[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:@"456"
-                                                                                               parentTarget:nil
-                                                                                               channelGroup:channelGroupMock]);
+                                                                                                 parentTarget:nil
+                                                                                                 channelGroup:channelGroupMock]);
   self.transmissionTarget = OCMPartialMock([[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:self.targetToken
-                                                                                                     parentTarget:self.parentTarget
-                                                                                                     channelGroup:channelGroupMock]);
+                                                                                                       parentTarget:self.parentTarget
+                                                                                                       channelGroup:channelGroupMock]);
   OCMStub([self.transmissionTarget isEnabled]).andReturn(YES);
   self.sut = [[MSACPropertyConfigurator alloc] initWithTransmissionTarget:self.transmissionTarget];
   OCMStub(self.transmissionTarget.propertyConfigurator).andReturn(self.sut);

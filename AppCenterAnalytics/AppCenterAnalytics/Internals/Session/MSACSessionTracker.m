@@ -69,21 +69,21 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 
     // Hookup to application events.
     [MSAC_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
+                                 selector:@selector(applicationDidEnterBackground)
 #if TARGET_OS_OSX
-                                   name:NSApplicationDidResignActiveNotification
+                                     name:NSApplicationDidResignActiveNotification
 #else
-                                   name:UIApplicationDidEnterBackgroundNotification
+                                     name:UIApplicationDidEnterBackgroundNotification
 #endif
-                                 object:nil];
+                                   object:nil];
     [MSAC_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
+                                 selector:@selector(applicationWillEnterForeground)
 #if TARGET_OS_OSX
-                                   name:NSApplicationWillBecomeActiveNotification
+                                     name:NSApplicationWillBecomeActiveNotification
 #else
-                                   name:UIApplicationWillEnterForegroundNotification
+                                     name:UIApplicationWillEnterForegroundNotification
 #endif
-                                 object:nil];
+                                   object:nil];
   }
 }
 

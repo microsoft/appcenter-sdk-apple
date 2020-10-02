@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "AppCenter+Internal.h"
 #import "MSACPageLog.h"
+#import "AppCenter+Internal.h"
 
 static NSString *const kMSACTypePage = @"page";
 

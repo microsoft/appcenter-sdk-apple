@@ -54,9 +54,10 @@ NSString *MSACAnalyticsValidationCategory;
     return nil;
   }
   if ([eventName length] > kMSACMaxEventNameLength) {
-    MSACLogWarning([MSACAnalytics logTag], @"%@ '%@' : name length cannot be longer than %d characters. "
-                                       @"Name will be truncated.",
-                 logType, eventName, kMSACMaxEventNameLength);
+    MSACLogWarning([MSACAnalytics logTag],
+                   @"%@ '%@' : name length cannot be longer than %d characters. "
+                   @"Name will be truncated.",
+                   logType, eventName, kMSACMaxEventNameLength);
     eventName = [eventName substringToIndex:kMSACMaxEventNameLength];
   }
   return eventName;
@@ -74,7 +75,8 @@ NSString *MSACAnalyticsValidationCategory;
   MSACEventProperties *validCopy = [MSACEventProperties new];
   for (NSString *propertyKey in eventProperties.properties) {
     if ([validCopy.properties count] == kMSACMaxPropertiesPerLog) {
-      MSACLogWarning([MSACAnalytics logTag], @"Typed properties cannot contain more than %d items. Skipping other properties.", kMSACMaxPropertiesPerLog);
+      MSACLogWarning([MSACAnalytics logTag], @"Typed properties cannot contain more than %d items. Skipping other properties.",
+                     kMSACMaxPropertiesPerLog);
       break;
     }
     MSACTypedProperty *property = eventProperties.properties[propertyKey];
@@ -95,16 +97,16 @@ NSString *MSACAnalyticsValidationCategory;
     validProperty = validStringProperty;
   } else if ([typedProperty isKindOfClass:[MSACBooleanTypedProperty class]]) {
     validProperty = [MSACBooleanTypedProperty new];
-    ((MSACBooleanTypedProperty *)validProperty).value =  ((MSACBooleanTypedProperty *)typedProperty).value;
+    ((MSACBooleanTypedProperty *)validProperty).value = ((MSACBooleanTypedProperty *)typedProperty).value;
   } else if ([typedProperty isKindOfClass:[MSACLongTypedProperty class]]) {
     validProperty = [MSACLongTypedProperty new];
-    ((MSACLongTypedProperty *)validProperty).value =  ((MSACLongTypedProperty *)typedProperty).value;
+    ((MSACLongTypedProperty *)validProperty).value = ((MSACLongTypedProperty *)typedProperty).value;
   } else if ([typedProperty isKindOfClass:[MSACDoubleTypedProperty class]]) {
     validProperty = [MSACDoubleTypedProperty new];
-    ((MSACDoubleTypedProperty *)validProperty).value =  ((MSACDoubleTypedProperty *)typedProperty).value;
+    ((MSACDoubleTypedProperty *)validProperty).value = ((MSACDoubleTypedProperty *)typedProperty).value;
   } else if ([typedProperty isKindOfClass:[MSACDateTimeTypedProperty class]]) {
     validProperty = [MSACDateTimeTypedProperty new];
-    ((MSACDateTimeTypedProperty *)validProperty).value =  ((MSACDateTimeTypedProperty *)typedProperty).value;
+    ((MSACDateTimeTypedProperty *)validProperty).value = ((MSACDateTimeTypedProperty *)typedProperty).value;
   }
   validProperty.name = [self validateAppCenterPropertyName:typedProperty.name];
   return validProperty;
@@ -112,8 +114,9 @@ NSString *MSACAnalyticsValidationCategory;
 
 - (NSString *)validateAppCenterPropertyName:(NSString *)propertyKey {
   if ([propertyKey length] > kMSACMaxPropertyKeyLength) {
-    MSACLogWarning([MSACAnalytics logTag], @"Typed property '%@': key length cannot exceed %d characters. Property value will be truncated.", propertyKey,
-                 kMSACMaxPropertyKeyLength);
+    MSACLogWarning([MSACAnalytics logTag],
+                   @"Typed property '%@': key length cannot exceed %d characters. Property value will be truncated.", propertyKey,
+                   kMSACMaxPropertyKeyLength);
     return [propertyKey substringToIndex:(kMSACMaxPropertyKeyLength - 1)];
   }
   return propertyKey;
@@ -122,7 +125,7 @@ NSString *MSACAnalyticsValidationCategory;
 - (NSString *)validateAppCenterStringTypedPropertyValue:(NSString *)value {
   if ([value length] > kMSACMaxPropertyValueLength) {
     MSACLogWarning([MSACAnalytics logTag], @"Typed property value length cannot exceed %d characters. Property value will be truncated.",
-                 kMSACMaxPropertyValueLength);
+                   kMSACMaxPropertyValueLength);
     return [value substringToIndex:(kMSACMaxPropertyValueLength - 1)];
   }
   return value;

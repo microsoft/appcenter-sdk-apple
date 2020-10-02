@@ -30,8 +30,8 @@
   OCMStub([mockDelegate authenticationProvider:OCMOCK_ANY
              acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token, self.today, nil])]);
   self.sut = [[MSACAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSACAnalyticsAuthenticationTypeMsaDelegate
-                                                                         ticketKey:self.ticketKey
-                                                                          delegate:mockDelegate];
+                                                                           ticketKey:self.ticketKey
+                                                                            delegate:mockDelegate];
   self.sut = [self createAuthenticationProviderWithTicketKey:self.ticketKey delegate:mockDelegate];
 }
 
@@ -43,11 +43,12 @@
 }
 
 - (MSACAnalyticsAuthenticationProvider *)createAuthenticationProviderWithTicketKey:(NSString *)ticketKey
-                                                                        delegate:(id<MSACAnalyticsAuthenticationProviderDelegate>)delegate {
+                                                                          delegate:
+                                                                              (id<MSACAnalyticsAuthenticationProviderDelegate>)delegate {
 
   return [[MSACAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSACAnalyticsAuthenticationTypeMsaCompact
-                                                                     ticketKey:ticketKey
-                                                                      delegate:delegate];
+                                                                       ticketKey:ticketKey
+                                                                        delegate:delegate];
 }
 
 - (void)testInitialization {
@@ -129,8 +130,8 @@
   OCMStub([mockDelegate authenticationProvider:OCMOCK_ANY
              acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token, self.today, nil])]);
   self.sut = [[MSACAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSACAnalyticsAuthenticationTypeMsaCompact
-                                                                         ticketKey:self.ticketKey
-                                                                          delegate:mockDelegate];
+                                                                           ticketKey:self.ticketKey
+                                                                            delegate:mockDelegate];
 
   // When
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler is called"];
@@ -159,8 +160,8 @@
   OCMStub([mockDelegate authenticationProvider:OCMOCK_ANY
              acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token, self.today, nil])]);
   self.sut = [[MSACAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSACAnalyticsAuthenticationTypeMsaDelegate
-                                                                         ticketKey:self.ticketKey
-                                                                          delegate:mockDelegate];
+                                                                           ticketKey:self.ticketKey
+                                                                            delegate:mockDelegate];
 
   // When
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler is called"];
@@ -189,8 +190,8 @@
   OCMStub([mockDelegate authenticationProvider:OCMOCK_ANY
              acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], self.today, nil])]);
   self.sut = [[MSACAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSACAnalyticsAuthenticationTypeMsaDelegate
-                                                                         ticketKey:self.ticketKey
-                                                                          delegate:mockDelegate];
+                                                                           ticketKey:self.ticketKey
+                                                                            delegate:mockDelegate];
 
   // When
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler is called"];
@@ -218,8 +219,8 @@
   OCMStub([mockDelegate authenticationProvider:OCMOCK_ANY
              acquireTokenWithCompletionHandler:([OCMArg invokeBlockWithArgs:self.token, [NSNull null], nil])]);
   self.sut = [[MSACAnalyticsAuthenticationProvider alloc] initWithAuthenticationType:MSACAnalyticsAuthenticationTypeMsaDelegate
-                                                                         ticketKey:self.ticketKey
-                                                                          delegate:mockDelegate];
+                                                                           ticketKey:self.ticketKey
+                                                                            delegate:mockDelegate];
 
   // When
   XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler is called"];

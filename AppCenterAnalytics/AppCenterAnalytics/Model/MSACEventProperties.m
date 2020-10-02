@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSACEventProperties.h"
 #import "MSACAnalyticsInternal.h"
 #import "MSACBooleanTypedProperty.h"
 #import "MSACDateTimeTypedProperty.h"
 #import "MSACDoubleTypedProperty.h"
-#import "MSACEventProperties.h"
 #import "MSACEventPropertiesInternal.h"
 #import "MSACLogger.h"
 #import "MSACLongTypedProperty.h"

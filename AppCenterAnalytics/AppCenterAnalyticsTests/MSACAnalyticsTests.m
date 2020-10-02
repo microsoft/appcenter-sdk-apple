@@ -138,9 +138,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
 - (void)testApplyEnabledStateWorks {
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   MSACServiceAbstract *service = [MSACAnalytics sharedInstance];
 
@@ -165,9 +165,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   // When
   [MSACAnalytics setTransmissionInterval:testInterval];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // Then
   OCMVerify(
@@ -186,9 +186,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   // When
   [MSACAnalytics setTransmissionInterval:testInterval];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // Then
   OCMVerify([self.channelGroupMock addChannelUnitWithConfiguration:allOf(hasProperty(@"flushInterval", equalToUnsignedInteger(3)),
@@ -206,9 +206,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   // When
   [MSACAnalytics setTransmissionInterval:testInterval];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // Then
   OCMVerify([self.channelGroupMock addChannelUnitWithConfiguration:allOf(hasProperty(@"flushInterval", equalToUnsignedInteger(3)),
@@ -226,9 +226,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
   // When
   [[MSACAnalytics sharedInstance] startWithChannelGroup:channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // Make sure that interval is not set after service start.
   [MSACAnalytics setTransmissionInterval:testInterval];
@@ -241,9 +241,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
 - (void)testDisablingAnalyticsClearsSessionHistory {
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   MSACServiceAbstract *service = [MSACAnalytics sharedInstance];
 
@@ -266,9 +266,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
   // When
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
   [[MSACAnalytics sharedInstance].sessionTracker stop];
@@ -384,9 +384,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName];
@@ -403,9 +403,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([analyticsMock isEnabled]).andReturn(NO);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -422,9 +422,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([analyticsMock isEnabled]).andReturn(NO);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -439,9 +439,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   // If
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -462,9 +462,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   __block NSUInteger propertiesCount = 0;
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
   OCMStub([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:MSACFlagsDefault])
       .andDo(^(NSInvocation *invocation) {
         MSACEventLog *log;
@@ -490,9 +490,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   __block NSObject *tag;
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
   OCMStub([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:MSACFlagsDefault])
       .andDo(^(NSInvocation *invocation) {
         MSACEventLog *log;
@@ -515,9 +515,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   [MSACAppCenter setUserId:@"c:test"];
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
   OCMStub([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:MSACFlagsDefault])
       .andDo(^(NSInvocation *invocation) {
         [invocation getArgument:&log atIndex:2];
@@ -536,9 +536,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   // If
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -560,9 +560,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSACAnalytics sharedInstance]);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMExpect([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -584,9 +584,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSACAnalytics sharedInstance]);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMExpect([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -619,9 +619,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withProperties:expectedProperties];
@@ -660,9 +660,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withTypedProperties:expectedProperties];
@@ -719,9 +719,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withProperties:nil flags:MSACFlagsNormal];
@@ -752,9 +752,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withProperties:nil flags:MSACFlagsCritical];
@@ -788,9 +788,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withProperties:nil flags:42];
@@ -808,9 +808,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   NSString *expectedEvent = @"Washing a cup after having a coffee";
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   OCMExpect([self.channelUnitCriticalMock enqueueItem:OCMOCK_ANY flags:MSACFlagsPersistenceCritical]);
@@ -818,10 +818,13 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
   // When
   [[MSACAnalytics sharedInstance] trackEvent:expectedCriticalEvent
-                       withTypedProperties:nil
-                     forTransmissionTarget:nil
-                                     flags:MSACFlagsPersistenceCritical];
-  [[MSACAnalytics sharedInstance] trackEvent:expectedEvent withTypedProperties:nil forTransmissionTarget:nil flags:MSACFlagsPersistenceNormal];
+                         withTypedProperties:nil
+                       forTransmissionTarget:nil
+                                       flags:MSACFlagsPersistenceCritical];
+  [[MSACAnalytics sharedInstance] trackEvent:expectedEvent
+                         withTypedProperties:nil
+                       forTransmissionTarget:nil
+                                       flags:MSACFlagsPersistenceNormal];
 #pragma clang diagnostic pop
 
   // Then
@@ -848,9 +851,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withTypedProperties:nil flags:MSACFlagsNormal];
@@ -881,9 +884,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMReject([[self.channelUnitMock ignoringNonObjectArgs] enqueueItem:[OCMArg isKindOfClass:[MSACEventLog class]] flags:(MSACFlags)0]);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withTypedProperties:nil flags:MSACFlagsCritical];
@@ -917,9 +920,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:expectedName withTypedProperties:nil flags:42];
@@ -945,9 +948,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackPage:expectedName];
@@ -975,9 +978,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
       });
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackPage:expectedName withProperties:expectedProperties];
@@ -995,9 +998,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([analyticsMock isEnabled]).andReturn(NO);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -1014,9 +1017,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSACAnalytics sharedInstance]);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMExpect([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
@@ -1068,9 +1071,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([analyticsMock isAvailable]).andReturn(YES);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
 // When
 #if TARGET_OS_OSX
@@ -1099,9 +1102,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([analyticsMock isAvailable]).andReturn(NO);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
 // When
 #if TARGET_OS_OSX
@@ -1128,9 +1131,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   id analyticsMock = OCMPartialMock([MSACAnalytics sharedInstance]);
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   OCMExpect([analyticsMock isAutoPageTrackingEnabled]).andReturn(YES);
@@ -1166,9 +1169,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
         [invocation getArgument:&log atIndex:2];
       });
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:kMSACTestTransmissionToken
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:kMSACTestTransmissionToken
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:@"eventName"];
@@ -1192,9 +1195,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
         [invocation getArgument:&log atIndex:2];
       });
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:nil
-                              transmissionTargetToken:kMSACTestTransmissionToken
-                                      fromApplication:YES];
+                                              appSecret:nil
+                                transmissionTargetToken:kMSACTestTransmissionToken
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics trackEvent:@"eventName"];
@@ -1221,9 +1224,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
   // If
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:nil
-                              transmissionTargetToken:kMSACTestTransmissionToken
-                                      fromApplication:NO];
+                                              appSecret:nil
+                                transmissionTargetToken:kMSACTestTransmissionToken
+                                        fromApplication:NO];
 
   // When
   MSACAnalyticsTransmissionTarget *transmissionTarget = [MSACAnalytics transmissionTargetForToken:kMSACTestTransmissionToken];
@@ -1242,9 +1245,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
   // When
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:kMSACTestTransmissionToken
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:kMSACTestTransmissionToken
+                                        fromApplication:YES];
 
   // Then
   XCTAssertNotNil([MSACAnalytics sharedInstance].defaultTransmissionTarget);
@@ -1271,9 +1274,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   // If
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:NO];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:NO];
   MSACServiceAbstract *analytics = [MSACAnalytics sharedInstance];
   [analytics setEnabled:NO];
 
@@ -1359,9 +1362,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
   // When
   [[MSACAnalytics sharedInstance] startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:NO];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:NO];
 
   // Then
   XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in applyEnabledState to be dispatched"];
@@ -1548,9 +1551,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
   OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics pause];
@@ -1567,9 +1570,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([appCenterMock sharedInstance]).andReturn(appCenterMock);
   OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
 
   // When
   [MSACAnalytics resume];
@@ -1587,9 +1590,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   OCMStub([appCenterMock isSdkConfigured]).andReturn(YES);
   OCMStub(ClassMethod([appCenterMock isEnabled])).andReturn(YES);
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
-                                            appSecret:kMSACTestAppSecret
-                              transmissionTargetToken:nil
-                                      fromApplication:YES];
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
   [MSACAnalytics setEnabled:NO];
 
   // Reset ChannelUnitMock since it's already called at startup and we want to

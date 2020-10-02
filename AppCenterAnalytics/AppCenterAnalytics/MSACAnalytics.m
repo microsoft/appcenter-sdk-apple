@@ -49,9 +49,9 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
   [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
     @"MSACAppCenterAnalyticsIsEnabled" : MSACPrefixKeyFrom(@"kMSACAnalyticsIsEnabledKey"), // [MSACAnalytics isEnabled]
-    @"MSACAppCenterPastSessions" : @"pastSessionsKey"                                  // [MSACSessionTracker init]
+    @"MSACAppCenterPastSessions" : @"pastSessionsKey"                                      // [MSACSessionTracker init]
   }
-                                forService:kMSACServiceName];
+                                  forService:kMSACServiceName];
   if ((self = [super init])) {
     // Set defaults.
     _autoPageTrackingEnabled = NO;
@@ -89,7 +89,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
   // Init channel configuration.
   self.channelUnitConfiguration = [[MSACChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]
-                                                                                            flushInterval:self.flushInterval];
+                                                                                              flushInterval:self.flushInterval];
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
   if (token) {
 
@@ -403,9 +403,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   if (interval > kMSACFlushIntervalMaximum || interval < kMSACFlushIntervalMinimum) {
-    MSACLogError(
-        [MSACAnalytics logTag], @"The transmission interval is not valid, it should be between %u second(s) and %u second(s) (%u day).",
-        (unsigned int)kMSACFlushIntervalMinimum, (unsigned int)kMSACFlushIntervalMaximum, (unsigned int)(kMSACFlushIntervalMaximum / 86400));
+    MSACLogError([MSACAnalytics logTag],
+                 @"The transmission interval is not valid, it should be between %u second(s) and %u second(s) (%u day).",
+                 (unsigned int)kMSACFlushIntervalMinimum, (unsigned int)kMSACFlushIntervalMaximum,
+                 (unsigned int)(kMSACFlushIntervalMaximum / 86400));
     return;
   }
   self.flushInterval = interval;
@@ -416,7 +417,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   MSACAnalyticsTransmissionTarget *transmissionTarget = self.transmissionTargets[transmissionTargetToken];
   if (transmissionTarget) {
     MSACLogDebug([MSACAnalytics logTag], @"Returning transmission target found with id %@.",
-               [MSACUtility targetKeyFromTargetToken:transmissionTargetToken]);
+                 [MSACUtility targetKeyFromTargetToken:transmissionTargetToken]);
     return transmissionTarget;
   }
   transmissionTarget = [self createTransmissionTargetForToken:transmissionTargetToken];
@@ -430,10 +431,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 - (MSACAnalyticsTransmissionTarget *)createTransmissionTargetForToken:(NSString *)transmissionTargetToken {
   MSACAnalyticsTransmissionTarget *target = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:transmissionTargetToken
-                                                                                                    parentTarget:nil
-                                                                                                    channelGroup:self.channelGroup];
+                                                                                                        parentTarget:nil
+                                                                                                        channelGroup:self.channelGroup];
   MSACLogDebug([MSACAnalytics logTag], @"Created transmission target with target key %@.",
-             [MSACUtility targetKeyFromTargetToken:transmissionTargetToken]);
+               [MSACUtility targetKeyFromTargetToken:transmissionTargetToken]);
   return target;
 }
 
@@ -509,11 +510,12 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     return;
   }
   NSObject *logObject = (NSObject *)log;
-  if ([logObject isKindOfClass:[MSACEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:didSucceedSendingEventLog:)]) {
+  if ([logObject isKindOfClass:[MSACEventLog class]] && [self.delegate respondsToSelector:@selector(analytics:
+                                                                                              didSucceedSendingEventLog:)]) {
     MSACEventLog *eventLog = (MSACEventLog *)log;
     [self.delegate analytics:self didSucceedSendingEventLog:eventLog];
   } else if ([logObject isKindOfClass:[MSACPageLog class]] && [self.delegate respondsToSelector:@selector(analytics:
-                                                                                                  didSucceedSendingPageLog:)]) {
+                                                                                                    didSucceedSendingPageLog:)]) {
     MSACPageLog *pageLog = (MSACPageLog *)log;
     [self.delegate analytics:self didSucceedSendingPageLog:pageLog];
   }
@@ -527,11 +529,11 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   NSObject *logObject = (NSObject *)log;
   id<MSACAnalyticsDelegate> delegate = self.delegate;
   if ([logObject isKindOfClass:[MSACEventLog class]] && [delegate respondsToSelector:@selector(analytics:
-                                                                                       didFailSendingEventLog:withError:)]) {
+                                                                                         didFailSendingEventLog:withError:)]) {
     MSACEventLog *eventLog = (MSACEventLog *)log;
     [delegate analytics:self didFailSendingEventLog:eventLog withError:error];
   } else if ([logObject isKindOfClass:[MSACPageLog class]] && [delegate respondsToSelector:@selector(analytics:
-                                                                                             didFailSendingPageLog:withError:)]) {
+                                                                                               didFailSendingPageLog:withError:)]) {
     MSACPageLog *pageLog = (MSACPageLog *)log;
     [delegate analytics:self didFailSendingPageLog:pageLog withError:error];
   }

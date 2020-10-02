@@ -109,7 +109,9 @@ static MSACAnalyticsAuthenticationProvider *_authenticationProvider;
   // Look up for the token in the dictionary, create a new transmission target if doesn't exist.
   MSACAnalyticsTransmissionTarget *target = self.childTransmissionTargets[token];
   if (!target) {
-    target = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:token parentTarget:self channelGroup:self.channelGroup];
+    target = [[MSACAnalyticsTransmissionTarget alloc] initWithTransmissionTargetToken:token
+                                                                         parentTarget:self
+                                                                         channelGroup:self.channelGroup];
     self.childTransmissionTargets[token] = target;
   }
   return target;
@@ -133,8 +135,8 @@ static MSACAnalyticsAuthenticationProvider *_authenticationProvider;
       // Don't enable if the immediate parent is disabled.
       if (isEnabled && ![self isImmediateParent]) {
         MSACLogWarning([MSACAnalytics logTag], @"Can't enable; parent transmission "
-                                           @"target and/or Analytics service "
-                                           @"is disabled.");
+                                               @"target and/or Analytics service "
+                                               @"is disabled.");
         return;
       }
 

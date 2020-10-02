@@ -34,7 +34,7 @@
   NSString *pageName = @"pageName";
   MSACDevice *device = [MSACDevice new];
   NSString *sessionId = @"1234567890";
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key" : @"Value"};
   NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
 
   self.sut.name = pageName;
@@ -65,7 +65,7 @@
   MSACDevice *device = [MSACDevice new];
   NSString *sessionId = @"1234567890";
   NSDate *timestamp = [NSDate dateWithTimeIntervalSince1970:42];
-  NSDictionary *properties = @{ @"Key" : @"Value" };
+  NSDictionary *properties = @{@"Key" : @"Value"};
 
   self.sut.name = pageName;
   self.sut.device = device;
