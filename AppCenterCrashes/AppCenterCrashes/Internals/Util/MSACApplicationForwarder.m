@@ -27,7 +27,7 @@ static BOOL isCrashOnExceptionsEnabled() {
 
   // We use NSUserDefaults here instead of MSACAppCenterUserDefaults, because
   // we should use system user defaults for system keys.
-  // MSACAppCenterUserDefaults prepends all the keys with "MSACAppCenter" prefix.
+  // MSACAppCenterUserDefaults prepends all the keys with "MSAppCenter" prefix.
   NSNumber *crashOnExceptions = [[NSUserDefaults standardUserDefaults] objectForKey:kMSACCrashOnExceptionsKey];
   return [crashOnExceptions boolValue];
 }
