@@ -1,18 +1,18 @@
 /*
  * Update dialog buttons
  */
-"MSACDistributeUpdateNow" = "Actualizar ahora";
-"MSACDistributeAskMeInADay" = "Preguntarme dentro de un día";
-"MSACDistributeViewReleaseNotes" = "Ver notas de la versión";
-"MSACDistributeClose" = "Cerrar";
-"MSACDistributeIgnore" = "Ignorar";
-"MSACDistributeReinstall" = "Volver a instalar la aplicación";
+"MSDistributeUpdateNow" = "Actualizar ahora";
+"MSDistributeAskMeInADay" = "Preguntarme dentro de un día";
+"MSDistributeViewReleaseNotes" = "Ver notas de la versión";
+"MSDistributeClose" = "Cerrar";
+"MSDistributeIgnore" = "Ignorar";
+"MSDistributeReinstall" = "Volver a instalar la aplicación";
 
 /*
  * Update dialog titles/messages
  */
-"MSACDistributeAppUpdateAvailable" = "Actualización de aplicación disponible";
-"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Los desarrolladores de esta aplicación indican que debe actualizar a %@ %@ (%@).";
-"MSACDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) está disponible para descargarlo e instalarlo.";
-"MSACDistributeInAppUpdatesAreDisabled" = "Las actualizaciones en la aplicación están deshabilitadas.";
-"MSACDistributeInstallFailedMessage" = "Esta versión se cargó a un lado o se descargó usando un navegador en modo privado.";
+"MSDistributeAppUpdateAvailable" = "Actualización de aplicación disponible";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Los desarrolladores de esta aplicación indican que debe actualizar a %@ %@ (%@).";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) está disponible para descargarlo e instalarlo.";
+"MSDistributeInAppUpdatesAreDisabled" = "Las actualizaciones en la aplicación están deshabilitadas.";
+"MSDistributeInstallFailedMessage" = "Esta versión se cargó a un lado o se descargó usando un navegador en modo privado.";

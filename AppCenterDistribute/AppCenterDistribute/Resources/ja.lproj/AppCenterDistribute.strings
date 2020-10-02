@@ -1,18 +1,18 @@
 /*
  * Update dialog buttons
  */
-"MSACDistributeUpdateNow" = "今すぐ更新";
-"MSACDistributeAskMeInADay" = "明日また知らせる";
-"MSACDistributeViewReleaseNotes" = "リリース ノートの表示";
-"MSACDistributeClose" = "閉じる";
-"MSACDistributeIgnore" = "無視";
-"MSACDistributeReinstall" = "アプリの再インストール";
+"MSDistributeUpdateNow" = "今すぐ更新";
+"MSDistributeAskMeInADay" = "明日また知らせる";
+"MSDistributeViewReleaseNotes" = "リリース ノートの表示";
+"MSDistributeClose" = "閉じる";
+"MSDistributeIgnore" = "無視";
+"MSDistributeReinstall" = "アプリの再インストール";
 
 /*
  * Update dialog titles/messages
  */
-"MSACDistributeAppUpdateAvailable" = "アプリの更新プログラムが利用可能です";
-"MSACDistributeAppUpdateAvailableMandatoryUpdateMessage" = "このアプリの開発者から、%@ %@ (%@) に更新するよう求められています。";
-"MSACDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) をダウンロードしてインストールできます。";
-"MSACDistributeInAppUpdatesAreDisabled" = "アプリ内更新は無効です。";
-"MSACDistributeInstallFailedMessage" = "このリリースは、プライベートモードでブラウザを使用してサイドローディングまたはダウンロードされました。";
+"MSDistributeAppUpdateAvailable" = "アプリの更新プログラムが利用可能です";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "このアプリの開発者から、%@ %@ (%@) に更新するよう求められています。";
+"MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@) をダウンロードしてインストールできます。";
+"MSDistributeInAppUpdatesAreDisabled" = "アプリ内更新は無効です。";
+"MSDistributeInstallFailedMessage" = "このリリースは、プライベートモードでブラウザを使用してサイドローディングまたはダウンロードされました。";
