@@ -65,7 +65,7 @@
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheslogbuffer";
 #else
 #if TARGET_OS_OSX || TARGET_OS_MACCATALYST
-  expectedDir =  [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/crasheslogbuffer"];
+  expectedDir = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/crasheslogbuffer"];
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheslogbuffer";
 #endif
@@ -90,7 +90,7 @@
   expectedDir = @"/Library/Caches/com.microsoft.appcenter/crasheswrapperexceptions";
 #else
 #if TARGET_OS_OSX || TARGET_OS_MACCATALYST
-  expectedDir =  [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/crasheswrapperexceptions"];
+  expectedDir = [self getPathWithBundleIdentifier:@"/Library/Application%%20Support/%@/com.microsoft.appcenter/crasheswrapperexceptions"];
 #else
   expectedDir = @"/Library/Application%20Support/com.microsoft.appcenter/crasheswrapperexceptions";
 #endif
@@ -110,14 +110,14 @@
 // Before SDK 12.2 (bundled with Xcode 10.*) when running in a unit test bundle the bundle identifier is null.
 // 12.2 and after the above bundle identifier is com.apple.dt.xctest.tool.
 - (NSString *)getPathWithBundleIdentifier:(NSString *)path {
-    NSString* bundleId;
-#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120200) || \
-    (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 101404))
-    bundleId = @"com.apple.dt.xctest.tool";
+  NSString *bundleId;
+#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 120200) ||                                            \
+     (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= 101404))
+  bundleId = @"com.apple.dt.xctest.tool";
 #else
-    bundleId = @"(null)";
+  bundleId = @"(null)";
 #endif
-    return [NSString stringWithFormat:path, bundleId];
+  return [NSString stringWithFormat:path, bundleId];
 }
 
 @end

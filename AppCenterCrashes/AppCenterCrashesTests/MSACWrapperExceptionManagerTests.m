@@ -72,7 +72,8 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 
   // When
   [MSACWrapperExceptionManager saveWrapperException:wrapperException];
-  MSACWrapperException *loadedException = [MSACWrapperExceptionManager loadWrapperExceptionWithBaseFilename:kMSACLastWrapperExceptionFileName];
+  MSACWrapperException *loadedException =
+      [MSACWrapperExceptionManager loadWrapperExceptionWithBaseFilename:kMSACLastWrapperExceptionFileName];
 
   // Then
   XCTAssertNotNil(loadedException);

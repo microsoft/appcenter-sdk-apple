@@ -5,7 +5,8 @@
 #import "MSACWrapperException.h"
 
 /**
- * MSACWrapperException must be serializable, but only internally (so that MSACSerializableObject does not need to be bound for wrapper SDKs)
+ * MSACWrapperException must be serializable, but only internally (so that MSACSerializableObject does not need to be bound for wrapper
+ * SDKs)
  */
 @interface MSACWrapperException () <MSACSerializableObject>
 @end

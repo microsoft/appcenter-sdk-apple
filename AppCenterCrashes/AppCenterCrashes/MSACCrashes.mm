@@ -277,9 +277,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
     @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSACCrashes isEnabled]
     @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSACCrashes processMemoryWarningInLastSession]
-    @"MSAppCenterCrashesUserConfirmation" : @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
+    @"MSAppCenterCrashesUserConfirmation" :
+        @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
   }
-                                forService:kMSACServiceName];
+                                  forService:kMSACServiceName];
   if ((self = [super init])) {
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
@@ -295,10 +296,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     _enableMachExceptionHandler = YES;
 #endif
     _channelUnitConfiguration = [[MSACChannelUnitConfiguration alloc] initWithGroupId:[self groupId]
-                                                                           priority:MSACPriorityHigh
-                                                                      flushInterval:1.0
-                                                                     batchSizeLimit:1
-                                                                pendingBatchesLimit:3];
+                                                                             priority:MSACPriorityHigh
+                                                                        flushInterval:1.0
+                                                                       batchSizeLimit:1
+                                                                  pendingBatchesLimit:3];
     _targetTokenEncrypter = [MSACEncrypter new];
 
     /*
@@ -349,9 +350,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     // Set up lifecycle event handler.
 #if !TARGET_OS_OSX
     [MSAC_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name:UIApplicationWillEnterForegroundNotification
-                                 object:nil];
+                                 selector:@selector(applicationWillEnterForeground)
+                                     name:UIApplicationWillEnterForegroundNotification
+                                   object:nil];
 #endif
 
     // Set up memory warning handler.
@@ -370,9 +371,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 #if !TARGET_OS_OSX && !TARGET_OS_MACCATALYST
     } else {
       [MSAC_NOTIFICATION_CENTER addObserver:self
-                                 selector:@selector(didReceiveMemoryWarning:)
-                                     name:UIApplicationDidReceiveMemoryWarningNotification
-                                   object:nil];
+                                   selector:@selector(didReceiveMemoryWarning:)
+                                       name:UIApplicationDidReceiveMemoryWarningNotification
+                                     object:nil];
     }
 #endif
 
@@ -407,7 +408,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     // More details on log if a debugger is attached.
     if ([MSACAppCenter isDebuggerAttached]) {
       MSACLogInfo([MSACCrashes logTag], @"Crashes service has been enabled but the service cannot detect crashes due to running the "
-                                    @"application with a debugger attached.");
+                                        @"application with a debugger attached.");
     } else {
       MSACLogInfo([MSACCrashes logTag], @"Crashes service has been enabled.");
     }
@@ -604,7 +605,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
           unlink(it->bufferPath.c_str());
           MSACLogVerbose([MSACCrashes logTag], @"Deleted a log from Crashes Buffer (sid: %@, type: %@)", log.sid, log.type);
           MSACLogVerbose([MSACCrashes logTag], @"Deleted crash buffer file: %@.",
-                       [NSString stringWithCString:it->bufferPath.c_str() encoding:[NSString defaultCStringEncoding]]);
+                         [NSString stringWithCString:it->bufferPath.c_str() encoding:[NSString defaultCStringEncoding]]);
         }
       }
     }
@@ -707,7 +708,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       MSACLogDebug([MSACCrashes logTag], @"Exception handler successfully initialized.");
     } else if (currentHandler && !enableUncaughtExceptionHandler) {
       self.exceptionHandler = currentHandler;
-      MSACLogDebug([MSACCrashes logTag], @"Exception handler successfully initialized but it has not been registered due to the wrapper SDK.");
+      MSACLogDebug([MSACCrashes logTag],
+                   @"Exception handler successfully initialized but it has not been registered due to the wrapper SDK.");
     } else {
       MSACLogError([MSACCrashes logTag], @"Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
@@ -772,10 +774,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
      */
     if (self.exceptionHandler != currentHandler) {
       MSACLogWarning([MSACCrashes logTag], @"Another exception handler was added. If "
-                                       @"this invokes any kind of exit() after processing the "
-                                       @"exception, which causes any subsequent error handler "
-                                       @"not to be invoked, these crashes will NOT be reported "
-                                       @"to App Center!");
+                                           @"this invokes any kind of exit() after processing the "
+                                           @"exception, which causes any subsequent error handler "
+                                           @"not to be invoked, these crashes will NOT be reported "
+                                           @"to App Center!");
     }
   }
   [self processCrashReports];
@@ -807,7 +809,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
         foundErrorReports[fileURL] = [MSACErrorLogFormatter errorReportFromCrashReport:report];
       } else {
         MSACLogWarning([MSACCrashes logTag], @"Crash report found but couldn't parse it, discard the crash report: %@",
-                     error.localizedDescription);
+                       error.localizedDescription);
       }
     }
   }
@@ -824,10 +826,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     if (!self.automaticProcessingEnabled || [self shouldProcessErrorReport:errorReport]) {
       if (!self.automaticProcessingEnabled) {
         MSACLogDebug([MSACCrashes logTag], @"Automatic crash processing is disabled, storing the crash report for later processing: %@",
-                   report.debugDescription);
+                     report.debugDescription);
       } else {
         MSACLogDebug([MSACCrashes logTag], @"shouldProcessErrorReport is not implemented or returned YES, processing the crash report: %@",
-                   report.debugDescription);
+                     report.debugDescription);
       }
 
       // Put the log to temporary space for next callbacks.
@@ -855,14 +857,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   // Initialize a dedicated channel for log buffer.
   self.bufferChannelUnit =
       [self.channelGroup addChannelUnitWithConfiguration:[[MSACChannelUnitConfiguration alloc] initWithGroupId:kMSACBufferGroupId
-                                                                                                    priority:MSACPriorityHigh
-                                                                                               flushInterval:1.0
-                                                                                              batchSizeLimit:50
-                                                                                         pendingBatchesLimit:1]];
+                                                                                                      priority:MSACPriorityHigh
+                                                                                                 flushInterval:1.0
+                                                                                                batchSizeLimit:50
+                                                                                           pendingBatchesLimit:1]];
 
   // Iterate over each file in it with the kMSACLogBufferFileExtension and send the log if a log can be deserialized.
   NSArray<NSURL *> *files = [MSACUtility contentsOfDirectory:[NSString stringWithFormat:@"%@", self.logBufferPathComponent]
-                                         propertiesForKeys:nil];
+                                           propertiesForKeys:nil];
   for (NSURL *fileURL in files) {
     if ([[fileURL pathExtension] isEqualToString:kMSACLogBufferFileExtension]) {
       NSData *serializedLog = [NSData dataWithContentsOfURL:fileURL];
@@ -876,7 +878,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
           // The archived log is not valid.
           MSACLogError([MSACAppCenter logTag], @"Deserialization failed for log: %@",
-                     exception ? exception.reason : @"The log deserialized to NULL.");
+                       exception ? exception.reason : @"The log deserialized to NULL.");
 
           continue;
         }
@@ -994,7 +996,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     }
     if ([attachment data].length > kMaxAttachmentSize) {
       MSACLogError([MSACCrashes logTag], @"Discarding attachment with size above %u bytes: size=%tu, fileName=%@.", kMaxAttachmentSize,
-                 [attachment data].length, [attachment filename]);
+                   [attachment data].length, [attachment filename]);
       continue;
     }
     [self.channelUnit enqueueItem:attachment flags:MSACFlagsDefault];
@@ -1051,7 +1053,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 - (NSMutableArray *)persistedCrashReports {
   NSMutableArray *persistedCrashReports = [NSMutableArray new];
   NSArray *files = [MSACUtility contentsOfDirectory:self.crashesPathComponent
-                                propertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]];
+                                  propertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]];
   if (!files) {
     MSACLogError([MSACCrashes logTag], @"No persisted crashes found.");
     return persistedCrashReports;
@@ -1078,9 +1080,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 - (void)createAnalyzerFile {
   NSURL *analyzerURL = [MSACUtility createFileAtPathComponent:self.analyzerInProgressFilePathComponent
-                                                   withData:nil
-                                                 atomically:NO
-                                             forceOverwrite:NO];
+                                                     withData:nil
+                                                   atomically:NO
+                                               forceOverwrite:NO];
   if (!analyzerURL) {
     MSACLogError([MSACCrashes logTag], @"Couldn't create crash analyzer file.");
   }
@@ -1101,7 +1103,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
       // Files are named N.mscrasheslogbuffer where N is between 0 and ms_crashes_log_buffer_size.
       NSString *logId = @(i).stringValue;
-      NSString *filePathComponent = [NSString stringWithFormat:@"%@/%@.%@", self.logBufferPathComponent, logId, kMSACLogBufferFileExtension];
+      NSString *filePathComponent =
+          [NSString stringWithFormat:@"%@/%@.%@", self.logBufferPathComponent, logId, kMSACLogBufferFileExtension];
       [files addObject:[MSACUtility fullURLForPathComponent:filePathComponent]];
 
       // Create files asynchronously. We don't really care as they are only ever used in the post-crash callback.
@@ -1230,8 +1233,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
   // Check if there is no handler set and unprocessedReports are not initialized as NSMutableArray (Init occurs in correct call sequence).
   if (!self.userConfirmationHandler && !self.unprocessedReports) {
-    MSACLogError(MSACCrashes.logTag, @"Incorrect usage of notifyWithUserConfirmation: it should only be called from userConfirmationHandler. "
-                                 @"For more information refer to the documentation.");
+    MSACLogError(MSACCrashes.logTag,
+                 @"Incorrect usage of notifyWithUserConfirmation: it should only be called from userConfirmationHandler. "
+                 @"For more information refer to the documentation.");
     return;
   }
   [self handleUserConfirmation:userConfirmation];
@@ -1342,8 +1346,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
       // Send only valid properties.
       log.properties = [MSACUtility validateProperties:nonNullProperties
-                                          forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
-                                                type:log.type];
+                                            forLogName:[NSString stringWithFormat:@"ErrorLog: %@", log.errorId]
+                                                  type:log.type];
     }
 
     // Enqueue log.
@@ -1362,14 +1366,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 - (MSACErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID {
   return [[MSACErrorReport alloc] initWithErrorId:errorID
-                                    reporterKey:nil
-                                         signal:nil
-                                  exceptionName:nil
-                                exceptionReason:nil
-                                   appStartTime:self.appStartTime
-                                   appErrorTime:[NSDate date]
-                                         device:[[MSACDeviceTracker sharedInstance] device]
-                           appProcessIdentifier:0];
+                                      reporterKey:nil
+                                           signal:nil
+                                    exceptionName:nil
+                                  exceptionReason:nil
+                                     appStartTime:self.appStartTime
+                                     appErrorTime:[NSDate date]
+                                           device:[[MSACDeviceTracker sharedInstance] device]
+                             appProcessIdentifier:0];
 }
 
 @end

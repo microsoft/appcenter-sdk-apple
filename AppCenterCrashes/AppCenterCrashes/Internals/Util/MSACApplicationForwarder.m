@@ -189,10 +189,10 @@ static void swizzleSendEvent() {
 + (void)registerForwarding {
   if (isApplicationForwarderEnabled()) {
     MSACLogDebug([MSACCrashes logTag], @"Application forwarder for info.plist key '%@' enabled. It may use swizzling.",
-               kMSACAppCenterApplicationForwarderEnabledKey);
+                 kMSACAppCenterApplicationForwarderEnabledKey);
   } else {
     MSACLogDebug([MSACCrashes logTag], @"Application forwarder for info.plist key '%@' disabled. It won't use swizzling.",
-               kMSACAppCenterApplicationForwarderEnabledKey);
+                 kMSACAppCenterApplicationForwarderEnabledKey);
     return;
   }
 #if TARGET_OS_OSX
@@ -218,9 +218,9 @@ static void swizzleSendEvent() {
     swizzleSendEvent();
   } else {
     MSACLogInfo([MSACCrashes logTag],
-              @"Catching uncaught exceptions thrown on the main thread disabled. "
-              @"Set `%@` flag before SDK initialization, to allow crash on uncaught exceptions and the SDK can report them.",
-              kMSACCrashOnExceptionsKey);
+                @"Catching uncaught exceptions thrown on the main thread disabled. "
+                @"Set `%@` flag before SDK initialization, to allow crash on uncaught exceptions and the SDK can report them.",
+                kMSACCrashOnExceptionsKey);
   }
 #endif
 }

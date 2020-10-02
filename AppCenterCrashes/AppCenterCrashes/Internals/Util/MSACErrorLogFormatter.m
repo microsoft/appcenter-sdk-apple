@@ -320,14 +320,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // Finally create the MSACErrorReport instance.
   errorReport = [[MSACErrorReport alloc] initWithErrorId:errorId
-                                           reporterKey:reporterKey
-                                                signal:signal
-                                         exceptionName:exceptionName
-                                       exceptionReason:exceptionReason
-                                          appStartTime:appStartTime
-                                          appErrorTime:appErrorTime
-                                                device:device
-                                  appProcessIdentifier:processId];
+                                             reporterKey:reporterKey
+                                                  signal:signal
+                                           exceptionName:exceptionName
+                                         exceptionReason:exceptionReason
+                                            appStartTime:appStartTime
+                                            appErrorTime:appErrorTime
+                                                  device:device
+                                    appProcessIdentifier:processId];
 
   return errorReport;
 }
@@ -384,8 +384,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 }
 
 + (NSArray<MSACThread *> *)extractThreadsFromReport:(PLCrashReport *)report
-                                    crashedThread:(PLCrashReportThreadInfo *)crashedThread
-                                          is64bit:(BOOL)is64bit {
+                                      crashedThread:(PLCrashReportThreadInfo *)crashedThread
+                                            is64bit:(BOOL)is64bit {
   NSMutableArray<MSACThread *> *formattedThreads = [NSMutableArray array];
   MSACException *lastException = nil;
 
@@ -646,7 +646,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexPattern options:0 error:&error];
     if (!regex) {
       MSACLogError([MSACCrashes logTag], @"Couldn't create regular expression with pattern\"%@\": %@", regexPattern,
-                 error.localizedDescription);
+                   error.localizedDescription);
       return anonymizedProcessPath;
     }
     anonymizedProcessPath = [regex stringByReplacingMatchesInString:path

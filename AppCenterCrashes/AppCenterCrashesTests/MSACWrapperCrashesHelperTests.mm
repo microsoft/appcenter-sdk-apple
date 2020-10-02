@@ -91,9 +91,9 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [MSACAppCenter setUserId:expectedUserId];
   [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
-                                          appSecret:kMSACTestAppSecret
-                            transmissionTargetToken:nil
-                                    fromApplication:YES];
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // When
   MSACException *expectedException = [MSACException new];
@@ -141,9 +141,9 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [MSACAppCenter setUserId:expectedUserId];
   [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
-                                          appSecret:kMSACTestAppSecret
-                            transmissionTargetToken:nil
-                                    fromApplication:YES];
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
 
   // When
   MSACException *expectedException = [MSACException new];
@@ -152,8 +152,8 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
   NSString *actualErrorId = [MSACWrapperCrashesHelper trackModelException:expectedException
-                                                         withProperties:expectedProperties
-                                                        withAttachments:nil];
+                                                           withProperties:expectedProperties
+                                                          withAttachments:nil];
 
   // Then
   assertThat(type, is(kMSACTypeHandledError));
@@ -200,16 +200,16 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [MSACAppCenter setUserId:expectedUserId];
   [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
-                                          appSecret:kMSACTestAppSecret
-                            transmissionTargetToken:nil
-                                    fromApplication:YES];
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
   NSData *expectedData = [@"<file><request>Please attach me</request><reason>I am a nice "
                           @"data.</reason></file>" dataUsingEncoding:NSUTF8StringEncoding];
   MSACErrorAttachmentLog *errorAttachmentLog1 = [[MSACErrorAttachmentLog alloc] initWithFilename:@"text.txt"
-                                                                              attachmentText:@"Please attach me, I am a nice text."];
+                                                                                  attachmentText:@"Please attach me, I am a nice text."];
   MSACErrorAttachmentLog *errorAttachmentLog2 = [[MSACErrorAttachmentLog alloc] initWithFilename:@"binary.xml"
-                                                                            attachmentBinary:expectedData
-                                                                                 contentType:@"text/xml"];
+                                                                                attachmentBinary:expectedData
+                                                                                     contentType:@"text/xml"];
   NSArray<MSACErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
 
   // When
@@ -268,16 +268,16 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   [MSACAppCenter setUserId:expectedUserId];
   [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
-                                          appSecret:kMSACTestAppSecret
-                            transmissionTargetToken:nil
-                                    fromApplication:YES];
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
   NSData *expectedData = [@"<file><request>Please attach me</request><reason>I am a nice "
                           @"data.</reason></file>" dataUsingEncoding:NSUTF8StringEncoding];
   MSACErrorAttachmentLog *errorAttachmentLog1 = [[MSACErrorAttachmentLog alloc] initWithFilename:@"text.txt"
-                                                                              attachmentText:@"Please attach me, I am a nice text."];
+                                                                                  attachmentText:@"Please attach me, I am a nice text."];
   MSACErrorAttachmentLog *errorAttachmentLog2 = [[MSACErrorAttachmentLog alloc] initWithFilename:@"binary.xml"
-                                                                            attachmentBinary:expectedData
-                                                                                 contentType:@"text/xml"];
+                                                                                attachmentBinary:expectedData
+                                                                                     contentType:@"text/xml"];
   NSArray<MSACErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
 
   // When
@@ -287,8 +287,8 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
   NSString *actualErrorId = [MSACWrapperCrashesHelper trackModelException:expectedException
-                                                         withProperties:expectedProperties
-                                                        withAttachments:attachments];
+                                                           withProperties:expectedProperties
+                                                          withAttachments:attachments];
 
   // Then
   XCTAssertEqual(type, kMSACTypeHandledError);

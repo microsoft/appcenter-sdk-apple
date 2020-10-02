@@ -189,7 +189,8 @@ static void info_handler(const MSACCrashesUncaughtCXXExceptionInfo *__nonnull in
   };
 
   // When
-  MSACCrashesCXXExceptionWrapperException *wrapperException = [[MSACCrashesCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:&info];
+  MSACCrashesCXXExceptionWrapperException *wrapperException =
+      [[MSACCrashesCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:&info];
 
   // Then
   XCTAssertNotNil(wrapperException);

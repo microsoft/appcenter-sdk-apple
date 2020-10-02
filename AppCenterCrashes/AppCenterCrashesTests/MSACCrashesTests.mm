@@ -362,9 +362,10 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   assertThatLong([MSACUtility contentsOfDirectory:self.sut.crashesPathComponent propertiesForKeys:nil].count, equalToLong(1));
 
   // When
-  MSACUserConfirmationHandler userConfirmationHandlerYES = ^BOOL(__attribute__((unused)) NSArray<MSACErrorReport *> *_Nonnull errorReports) {
-    return YES;
-  };
+  MSACUserConfirmationHandler userConfirmationHandlerYES =
+      ^BOOL(__attribute__((unused)) NSArray<MSACErrorReport *> *_Nonnull errorReports) {
+        return YES;
+      };
 
   self.sut.userConfirmationHandler = userConfirmationHandlerYES;
   [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
@@ -559,7 +560,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 
   // Then
   NSArray<NSURL *> *first = [MSACUtility contentsOfDirectory:self.sut.logBufferPathComponent
-                                         propertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]];
+                                           propertiesForKeys:@[ NSURLNameKey, NSURLFileSizeKey, NSURLIsRegularFileKey ]];
   XCTAssertTrue(first.count == ms_crashes_log_buffer_size);
   for (NSURL *path in first) {
     unsigned long long fileSize =
@@ -1301,8 +1302,8 @@ static unsigned int kAttachmentsPerCrashReport = 3;
  * Start Crashes (self.sut) with zero or one crash files on disk.
  */
 - (NSMutableArray<MSACErrorReport *> *)startCrashes:(MSACCrashes *)crashes
-                                      withReports:(BOOL)startWithReports
-                                 withChannelGroup:(id<MSACChannelGroupProtocol>)channelGroup {
+                                        withReports:(BOOL)startWithReports
+                                   withChannelGroup:(id<MSACChannelGroupProtocol>)channelGroup {
   NSMutableArray<MSACErrorReport *> *reports = [NSMutableArray<MSACErrorReport *> new];
   if (startWithReports) {
     for (NSString *fileName in @[ @"live_report_exception" ]) {
@@ -1361,8 +1362,8 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 }
 
 - (MSACErrorAttachmentLog *)attachmentWithAttachmentId:(NSString *)attachmentId
-                                      attachmentData:(NSData *)attachmentData
-                                         contentType:(NSString *)contentType {
+                                        attachmentData:(NSData *)attachmentData
+                                           contentType:(NSString *)contentType {
   MSACErrorAttachmentLog *log = [MSACErrorAttachmentLog alloc];
   log.attachmentId = attachmentId;
   log.data = attachmentData;

@@ -14,8 +14,8 @@ NSString *MSACMSACErrorLogAttachmentLogUtilityCategory;
 }
 
 + (nonnull MSACErrorAttachmentLog *)attachmentWithBinary:(nonnull NSData *)data
-                                              filename:(nullable NSString *)filename
-                                           contentType:(nonnull NSString *)contentType {
+                                                filename:(nullable NSString *)filename
+                                             contentType:(nonnull NSString *)contentType {
   return [[MSACErrorAttachmentLog alloc] initWithFilename:filename attachmentBinary:data contentType:contentType];
 }
 

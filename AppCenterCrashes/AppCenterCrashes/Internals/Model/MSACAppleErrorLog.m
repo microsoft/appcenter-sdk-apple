@@ -86,7 +86,8 @@ static NSString *const kMSACException = @"exception";
 
 - (BOOL)isValid {
   return [super isValid] && MSACLOG_VALIDATE_NOT_NIL(primaryArchitectureId) && MSACLOG_VALIDATE_NOT_NIL(applicationPath) &&
-         MSACLOG_VALIDATE_NOT_NIL(osExceptionType) && MSACLOG_VALIDATE_NOT_NIL(osExceptionCode) && MSACLOG_VALIDATE_NOT_NIL(osExceptionAddress);
+         MSACLOG_VALIDATE_NOT_NIL(osExceptionType) && MSACLOG_VALIDATE_NOT_NIL(osExceptionCode) &&
+         MSACLOG_VALIDATE_NOT_NIL(osExceptionAddress);
 }
 
 - (BOOL)isEqual:(id)object {

@@ -43,8 +43,8 @@
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
   appleLog.selectorRegisterValue = @"release()";
-  appleLog.threads = @[ [MSACThread new] ];
-  appleLog.binaries = @[ [MSACBinary new] ];
+  appleLog.threads = @ [[MSACThread new]];
+  appleLog.binaries = @ [[MSACBinary new]];
   appleLog.exception = [MSACCrashesTestUtil exception];
   appleLog.errorId = @"123";
   appleLog.processId = @123;

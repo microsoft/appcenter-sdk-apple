@@ -8,7 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSACApplicationForwarder : NSObject
 
 /**
- * Register forwarding on `NSApplication` via swizzling. 
+ * Register forwarding on `NSApplication` via swizzling.
  */
 + (void)registerForwarding;
 

@@ -65,7 +65,8 @@ extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, st
    * Invariant: If the terminate handler is installed, the TSD key must also be initialized.
    */
   if (_MSACCrashesIsOurTerminateHandlerInstalled) {
-    MSACCrashesCXXExceptionTSInfo *info = static_cast<MSACCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSACCrashesCXXExceptionInfoTSDKey));
+    MSACCrashesCXXExceptionTSInfo *info =
+        static_cast<MSACCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSACCrashesCXXExceptionInfoTSDKey));
 
     if (!info) {
       info = reinterpret_cast<MSACCrashesCXXExceptionTSInfo *>(calloc(1, sizeof(MSACCrashesCXXExceptionTSInfo)));

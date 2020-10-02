@@ -65,14 +65,14 @@
 
   // When
   MSACErrorReport *sut = [[MSACErrorReport alloc] initWithErrorId:errorId
-                                                  reporterKey:reporterKey
-                                                       signal:signal
-                                                exceptionName:exceptionName
-                                              exceptionReason:exceptionReason
-                                                 appStartTime:appStartTime
-                                                 appErrorTime:appErrorTime
-                                                       device:device
-                                         appProcessIdentifier:processIdentifier];
+                                                      reporterKey:reporterKey
+                                                           signal:signal
+                                                    exceptionName:exceptionName
+                                                  exceptionReason:exceptionReason
+                                                     appStartTime:appStartTime
+                                                     appErrorTime:appErrorTime
+                                                           device:device
+                                             appProcessIdentifier:processIdentifier];
 
   // Then
   assertThat(sut, notNilValue());
@@ -97,28 +97,28 @@
 
   // When
   sut = [[MSACErrorReport alloc] initWithErrorId:nil
-                                   reporterKey:nil
-                                        signal:@"SIGSEGV"
-                                 exceptionName:nil
-                               exceptionReason:nil
-                                  appStartTime:nil
-                                  appErrorTime:nil
-                                        device:nil
-                          appProcessIdentifier:0];
+                                     reporterKey:nil
+                                          signal:@"SIGSEGV"
+                                   exceptionName:nil
+                                 exceptionReason:nil
+                                    appStartTime:nil
+                                    appErrorTime:nil
+                                          device:nil
+                            appProcessIdentifier:0];
 
   // Then
   XCTAssertFalse([sut isAppKill]);
 
   // When
   sut = [[MSACErrorReport alloc] initWithErrorId:nil
-                                   reporterKey:nil
-                                        signal:@"SIGKILL"
-                                 exceptionName:nil
-                               exceptionReason:nil
-                                  appStartTime:nil
-                                  appErrorTime:nil
-                                        device:nil
-                          appProcessIdentifier:0];
+                                     reporterKey:nil
+                                          signal:@"SIGKILL"
+                                   exceptionName:nil
+                                 exceptionReason:nil
+                                    appStartTime:nil
+                                    appErrorTime:nil
+                                          device:nil
+                            appProcessIdentifier:0];
 
   // Then
   XCTAssertTrue([sut isAppKill]);

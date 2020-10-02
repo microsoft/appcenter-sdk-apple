@@ -81,7 +81,8 @@
   NSString *text = @"Please attach me, I am a nice text.";
   NSString *filename = @"niceFile.txt";
   self.sut = [MSACErrorAttachmentLog attachmentWithText:text filename:filename];
-  MSACErrorAttachmentLog *other1 = [MSACErrorAttachmentLog attachmentWithText:@"Please attach me, I am a nice text." filename:@"niceFile.txt"];
+  MSACErrorAttachmentLog *other1 = [MSACErrorAttachmentLog attachmentWithText:@"Please attach me, I am a nice text."
+                                                                     filename:@"niceFile.txt"];
   other1.attachmentId = self.sut.attachmentId;
 
   // Then
@@ -95,10 +96,10 @@
   self.sut = [MSACErrorAttachmentLog attachmentWithBinary:data filename:filename contentType:mimeType];
   MSACErrorAttachmentLog *other2 =
       [MSACErrorAttachmentLog attachmentWithBinary:[@"<file><request>Please attach "
-                                                  @"me</request><reason>I am a nice "
-                                                  @"data.</reason></file>" dataUsingEncoding:NSUTF8StringEncoding]
-                                        filename:@"niceFile.xml"
-                                     contentType:@"text/xml"];
+                                                    @"me</request><reason>I am a nice "
+                                                    @"data.</reason></file>" dataUsingEncoding:NSUTF8StringEncoding]
+                                          filename:@"niceFile.xml"
+                                       contentType:@"text/xml"];
   other2.attachmentId = self.sut.attachmentId;
 
   // Then
