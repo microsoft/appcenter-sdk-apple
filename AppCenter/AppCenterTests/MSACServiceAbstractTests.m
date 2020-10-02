@@ -52,7 +52,7 @@
 }
 
 + (NSString *)logTag {
-  return @"MSACServiceAbstractTest";
+  return @"MSServiceAbstractTest";
 }
 
 - (NSString *)groupId {

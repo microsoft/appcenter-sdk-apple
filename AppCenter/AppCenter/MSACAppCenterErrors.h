@@ -34,7 +34,7 @@ static NSString const *kMSACACConnectionHttpErrorDesc = @"An HTTP error occured.
 static NSString const *kMSACACConnectionPausedErrorDesc = @"Canceled, connection paused with log deletion.";
 
 // Error user info keys.
-static NSString const *kMSACACConnectionHttpCodeErrorKey = @"MSACACConnectionHttpCode";
+static NSString const *kMSACACConnectionHttpCodeErrorKey = @"MSConnectionHttpCode";
 
 NS_ASSUME_NONNULL_END
 

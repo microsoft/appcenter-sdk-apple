@@ -243,26 +243,26 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     _enabledStateUpdating = NO;
     NSDictionary *changedKeys = @{
       @"MSAppCenterChannelStartTimer" : MSACPrefixKeyFrom(@"MSChannelStartTimer"),
-      // [MSChannelUnitDefault oldestPendingLogTimestampKey]
+      // [MSACChannelUnitDefault oldestPendingLogTimestampKey]
       @"MSAppCenterPastDevices" : @"pastDevicesKey",
-      // [MSDeviceTracker init],
-      // [MSDeviceTracker device],
-      // [MSDeviceTracker clearDevices]
+      // [MSACDeviceTracker init],
+      // [MSACDeviceTracker device],
+      // [MSACDeviceTracker clearDevices]
       @"MSAppCenterInstallId" : @"MSInstallId",
-      // [MSAppCenter installId]
+      // [MSACAppCenter installId]
       @"MSAppCenterAppCenterIsEnabled" : @"MSAppCenterIsEnabled",
-      // [MSAppCenter isEnabled]
+      // [MSACAppCenter isEnabled]
       @"MSAppCenterEncryptionKeyMetadata" : @"MSEncryptionKeyMetadata",
-      // [MSEncrypter getCurrentKeyTag],
-      // [MSEncrypter rotateToNewKeyTag]
+      // [MSACEncrypter getCurrentKeyTag],
+      // [MSACEncrypter rotateToNewKeyTag]
       @"MSAppCenterSessionIdHistory" : @"SessionIdHistory",
-      // [MSSessionContext init],
-      // [MSSessionContext setSessionId],
-      // [MSSessionContext clearSessionHistoryAndKeepCurrentSession]
+      // [MSACSessionContext init],
+      // [MSACSessionContext setSessionId],
+      // [MSACSessionContext clearSessionHistoryAndKeepCurrentSession]
       @"MSAppCenterUserIdHistory" : @"UserIdHistory"
-      // [MSUserIdContext init],
-      // [MSUserIdContext setUserId],
-      // [MSUserIdContext clearUserIdHistory]
+      // [MSACUserIdContext init],
+      // [MSACUserIdContext setUserId],
+      // [MSACUserIdContext clearUserIdHistory]
     };
     [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:changedKeys forService:kMSACServiceName];
   }
