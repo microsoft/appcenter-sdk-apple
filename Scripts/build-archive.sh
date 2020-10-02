@@ -27,6 +27,30 @@ if [ ! -d "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" ] || \
   exit 1
 fi
 
+# Verify prefix.
+verify_prefix() {
+
+  # Get values.
+  frameworkPath=$1
+
+  # Get result from command.
+  result=$(nm -gU $frameworkPath | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_MSAC" && return 1 || return 0)
+
+  # Check result value.
+  if ! [ -z $result ]; then
+    echo "The next files should have a prefix MSAC."
+    echo $result
+    exit 1
+  fi
+}
+
+# Verify prefix for frameworks.
+for platform in "iOS" "macOS" "tvOS"; do
+  for framework in "AppCenter" "AppCenterAnalytics" "AppCenterCrashes" "AppCenterDistribute"; do
+    verify_prefix "$PRODUCTS_DIR/$platform/"$framework".framework/"$framework""
+  done
+done
+
 # Verify bitcode.
 function verify_bitcode() {
   local name=${1##*/}
