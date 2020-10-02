@@ -3,6 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACDistribute.h"
-#import "MSACDistributeDelegate.h"
-#import "MSACReleaseDetails.h"
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MSACGuidedAccessUtil : NSObject
+
++ (BOOL)isGuidedAccessEnabled;
+
+@end
+
+NS_ASSUME_NONNULL_END

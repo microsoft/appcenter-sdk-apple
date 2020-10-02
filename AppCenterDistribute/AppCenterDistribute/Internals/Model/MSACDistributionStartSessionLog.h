@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACDistribute.h"
-#import "MSACDistributeDelegate.h"
-#import "MSACReleaseDetails.h"
+#import "AppCenter+Internal.h"
+
+@interface MSACDistributionStartSessionLog : MSACAbstractLog
+
+@end

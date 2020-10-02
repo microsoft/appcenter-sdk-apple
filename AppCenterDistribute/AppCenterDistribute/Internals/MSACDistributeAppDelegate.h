@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACDistribute.h"
-#import "MSACDistributeDelegate.h"
-#import "MSACReleaseDetails.h"
+#import "MSACCustomApplicationDelegate.h"
+
+@interface MSACDistributeAppDelegate : NSObject <MSACCustomApplicationDelegate>
+@end
