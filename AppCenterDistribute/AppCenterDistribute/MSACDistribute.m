@@ -72,36 +72,36 @@ static dispatch_once_t onceToken;
   [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
     @"MSAppCenterDistributeIsEnabled" : @"kMSDistributeIsEnabledKey", // [MSDistribute isEnabled]
     @"MSAppCenterPostponedTimestamp" : @"MSPostponedTimestamp",
-    // [MSDistribute notifyUpdateAction],
-    // [MSDistribute handleUpdate],
-    // [MSDistribute checkLatestRelease]
+    // [MSACDistribute notifyUpdateAction],
+    // [MSACDistribute handleUpdate],
+    // [MSACDistribute checkLatestRelease]
     @"MSAppCenterSDKHasLaunchedWithDistribute" : @"MSSDKHasLaunchedWithDistribute",
-    // [MSDistribute init],
-    // [MSDistribute checkLatestRelease]
+    // [MSACDistribute init],
+    // [MSACDistribute checkLatestRelease]
     @"MSAppCenterMandatoryRelease" : @"MSMandatoryRelease",
-    // [MSDistribute checkLatestRelease],
-    // [MSDistribute handleUpdate]
+    // [MSACDistribute checkLatestRelease],
+    // [MSACDistribute handleUpdate]
     @"MSAppCenterDistributionGroupId" : @"MSDistributionGroupId",
-    // [MSDistribute startUpdateOnStart],
-    // [MSDistribute processDistributionGroupId],
-    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
+    // [MSACDistribute startUpdateOnStart],
+    // [MSACDistribute processDistributionGroupId],
+    // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
     @"MSAppCenterUpdateSetupFailedPackageHash" : @"MSUpdateSetupFailedPackageHash",
-    // [MSDistribute showUpdateSetupFailedAlert],
-    // [MSDistribute requestInstallInformationWith]
+    // [MSACDistribute showUpdateSetupFailedAlert],
+    // [MSACDistribute requestInstallInformationWith]
     @"MSAppCenterDownloadedReleaseHash" : @"MSDownloadedReleaseHash",
-    // [MSDistribute storeDownloadedReleaseDetails],
-    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    // [MSACDistribute storeDownloadedReleaseDetails],
+    // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
     @"MSAppCenterDownloadedReleaseId" : @"MSDownloadedReleaseId",
-    // [MSDistribute getReportingParametersForUpdatedRelease],
-    // [MSDistribute storeDownloadedReleaseDetails],
-    // [MSDistribute removeDownloadedReleaseDetailsIfUpdated]
+    // [MSACDistribute getReportingParametersForUpdatedRelease],
+    // [MSACDistribute storeDownloadedReleaseDetails],
+    // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
     @"MSAppCenterDownloadedDistributionGroupId" : @"MSDownloadedDistributionGroupId",
-    // [MSDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
-    // [MSDistribute storeDownloadedReleaseDetails]
+    // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
+    // [MSACDistribute storeDownloadedReleaseDetails]
     @"MSAppCenterTesterAppUpdateSetupFailed" : @"MSTesterAppUpdateSetupFailed"
-    // [MSDistribute showUpdateSetupFailedAlert],
-    // [MSDistribute openUrl],
-    // [MSDistribute requestInstallInformationWith]
+    // [MSACDistribute showUpdateSetupFailedAlert],
+    // [MSACDistribute openUrl],
+    // [MSACDistribute requestInstallInformationWith]
   }
                                 forService:kMSACServiceName];
   if ((self = [super init])) {
