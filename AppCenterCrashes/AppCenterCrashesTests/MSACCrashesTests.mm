@@ -120,7 +120,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   assertThat(self.sut, notNilValue());
   assertThat(self.sut.crashFiles, isEmpty());
   assertThat(self.sut.analyzerInProgressFilePathComponent, notNilValue());
-  XCTAssertTrue(msCrashesLogBuffer.size() == ms_crashes_log_buffer_size);
+  XCTAssertTrue(msACCrashesLogBuffer.size() == ms_crashes_log_buffer_size);
 
   // Wait for creation of buffers.
   dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
@@ -632,12 +632,12 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   timestampFormatter.numberStyle = NSNumberFormatterDecimalStyle;
   int indexOfLatestObject = 0;
   NSTimeInterval oldestTimestamp = DBL_MAX;
-  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+  for (auto it = msACCrashesLogBuffer.begin(), end = msACCrashesLogBuffer.end(); it != end; ++it) {
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
     if (oldestTimestamp > it->timestamp) {
       oldestTimestamp = it->timestamp;
-      indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
+      indexOfLatestObject = static_cast<int>(it - msACCrashesLogBuffer.begin());
     }
   }
   // Then
@@ -654,12 +654,12 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 
   indexOfLatestObject = 0;
   oldestTimestamp = DBL_MAX;
-  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+  for (auto it = msACCrashesLogBuffer.begin(), end = msACCrashesLogBuffer.end(); it != end; ++it) {
 
     // Remember the timestamp if the log is older than the previous one or the initial one.
     if (oldestTimestamp > it->timestamp) {
       oldestTimestamp = it->timestamp;
-      indexOfLatestObject = static_cast<int>(it - msCrashesLogBuffer.begin());
+      indexOfLatestObject = static_cast<int>(it - msACCrashesLogBuffer.begin());
     }
   }
 
@@ -1353,7 +1353,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 
 - (NSInteger)crashesLogBufferCount {
   NSInteger bufferCount = 0;
-  for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+  for (auto it = msACCrashesLogBuffer.begin(), end = msACCrashesLogBuffer.end(); it != end; ++it) {
     if (!it->internalId.empty()) {
       bufferCount++;
     }

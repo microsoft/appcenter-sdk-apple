@@ -70,7 +70,7 @@ static unsigned int kMaxAttachmentSize = 7 * 1024 * 1024;
  */
 static int64_t kMSACCrashProcessingDelay = 1 * NSEC_PER_SEC;
 
-std::array<MSACCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
+std::array<MSACCrashesBufferedLog, ms_crashes_log_buffer_size> msACCrashesLogBuffer;
 
 /**
  * Singleton.
@@ -105,9 +105,9 @@ void ms_save_log_buffer() {
   for (int i = 0; i < ms_crashes_log_buffer_size; i++) {
 
     // Make sure not to allocate any memory (e.g. copy).
-    ms_save_log_buffer(msCrashesLogBuffer[i].buffer, msCrashesLogBuffer[i].bufferPath);
-    if (!msCrashesLogBuffer[i].targetToken.empty()) {
-      ms_save_log_buffer(msCrashesLogBuffer[i].targetToken, msCrashesLogBuffer[i].targetTokenPath);
+    ms_save_log_buffer(msACCrashesLogBuffer[i].buffer, msACCrashesLogBuffer[i].bufferPath);
+    if (!msACCrashesLogBuffer[i].targetToken.empty()) {
+      ms_save_log_buffer(msACCrashesLogBuffer[i].targetToken, msACCrashesLogBuffer[i].targetTokenPath);
     }
   }
 }
@@ -539,7 +539,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       NSTimeInterval oldestTimestamp = DBL_MAX;
       long indexToDelete = 0;
       MSACLogVerbose([MSACCrashes logTag], @"Storing a log to Crashes Buffer: (sid: %@, type: %@)", log.sid, log.type);
-      for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+      for (auto it = msACCrashesLogBuffer.begin(), end = msACCrashesLogBuffer.end(); it != end; ++it) {
 
         // We've found an empty element, buffer our log.
         if (it->buffer.empty()) {
@@ -560,7 +560,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
           // Remember the timestamp if the log is older than the previous one or the initial one.
           if (oldestTimestamp > it->timestamp) {
             oldestTimestamp = it->timestamp;
-            indexToDelete = it - msCrashesLogBuffer.begin();
+            indexToDelete = it - msACCrashesLogBuffer.begin();
             MSACLogVerbose([MSACCrashes logTag], @"Remembering index %ld for oldest timestamp %f.", indexToDelete, oldestTimestamp);
           }
         }
@@ -575,10 +575,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       MSACLogVerbose([MSACCrashes logTag], @"Reached end of buffer. Next step is overwriting the oldest one.");
 
       // Overwrite the oldest buffered log.
-      msCrashesLogBuffer[indexToDelete].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
+      msACCrashesLogBuffer[indexToDelete].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
                                                              &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
-      msCrashesLogBuffer[indexToDelete].internalId = internalId.UTF8String;
-      msCrashesLogBuffer[indexToDelete].timestamp = [[NSDate date] timeIntervalSince1970];
+      msACCrashesLogBuffer[indexToDelete].internalId = internalId.UTF8String;
+      msACCrashesLogBuffer[indexToDelete].timestamp = [[NSDate date] timeIntervalSince1970];
       MSACLogVerbose([MSACCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);
 
       // We're done, no need to iterate any more. But no need to `return;` as we're at the end of the buffer.
@@ -588,7 +588,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 - (void)channel:(id<MSACChannelProtocol>)__unused channel didCompleteEnqueueingLog:(id<MSACLog>)log internalId:(NSString *)internalId {
   @synchronized(self) {
-    for (auto it = msCrashesLogBuffer.begin(), end = msCrashesLogBuffer.end(); it != end; ++it) {
+    for (auto it = msACCrashesLogBuffer.begin(), end = msACCrashesLogBuffer.end(); it != end; ++it) {
       NSString *bufferId = [NSString stringWithCString:it->internalId.c_str() encoding:NSUTF8StringEncoding];
       if (bufferId && bufferId.length > 0 && [bufferId isEqualToString:internalId]) {
         MSACLogVerbose([MSACCrashes logTag], @"Deleting a log from buffer with id %@", internalId);
@@ -1090,7 +1090,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 - (void)setupLogBuffer {
 
-  // We need to make this @synchronized here as we're setting up msCrashesLogBuffer.
+  // We need to make this @synchronized here as we're setting up msACCrashesLogBuffer.
   @synchronized(self) {
 
     // Setup asynchronously.
@@ -1122,12 +1122,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
        * just `NULL`, it becomes `buffer(nullptr, nullptr)`, which is a no-op because the initializer code loops as `while(begin != end)`,
        * so the `nil` pointer is never dereferenced."
        */
-      msCrashesLogBuffer[i] = MSACCrashesBufferedLog(path, nil);
+      msACCrashesLogBuffer[i] = MSACCrashesBufferedLog(path, nil);
 
       // Save target token path as well to avoid memory allocation when saving.
       NSString *targetTokenPath = [path stringByReplacingOccurrencesOfString:kMSACLogBufferFileExtension
                                                                   withString:kMSACTargetTokenFileExtension];
-      msCrashesLogBuffer[i].targetTokenPath = targetTokenPath.UTF8String;
+      msACCrashesLogBuffer[i].targetTokenPath = targetTokenPath.UTF8String;
     }
   }
 }

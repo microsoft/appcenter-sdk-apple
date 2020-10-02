@@ -40,7 +40,7 @@ const int ms_crashes_log_buffer_size = 60;
  * The log buffer object where we keep out BUFFERED_LOGs which will be written
  * to disk in case of a crash.
  */
-extern std::array<MSACCrashesBufferedLog, ms_crashes_log_buffer_size> msCrashesLogBuffer;
+extern std::array<MSACCrashesBufferedLog, ms_crashes_log_buffer_size> msACCrashesLogBuffer;
 
 /**
  * Save the log buffer to files.
