@@ -201,7 +201,8 @@ static NSString *const kMSACTestAppSecret = @"IAMSACECRET";
   // Ingestion mock.
   __block id ingestionMock = OCMClassMock([MSACDistributeIngestion class]);
   OCMStub([ingestionMock checkForPublicUpdateWithQueryStrings:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
-    __unsafe_unretained  void (^handler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data, NSError *_Nullable error);
+    __unsafe_unretained void (^handler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data,
+                                        NSError *_Nullable error);
     [invocation getArgument:&handler atIndex:3];
 
     // Passing nil response would consider the ingestion call as failure but we don't care in this unit test.
@@ -239,7 +240,7 @@ static NSString *const kMSACTestAppSecret = @"IAMSACECRET";
   // If
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
-  
+
   // Notification center mock.
   id notificationCenterMock = OCMPartialMock([NSNotificationCenter new]);
   OCMStub([notificationCenterMock defaultCenter]).andReturn(notificationCenterMock);

@@ -103,7 +103,7 @@ static dispatch_once_t onceToken;
     // [MSACDistribute openUrl],
     // [MSACDistribute requestInstallInformationWith]
   }
-                                forService:kMSACServiceName];
+                                  forService:kMSACServiceName];
   if ((self = [super init])) {
 
     // Init.
@@ -134,9 +134,9 @@ static dispatch_once_t onceToken;
      * focus before making any network calls.
      */
     [MSAC_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidBecomeActive)
-                                   name:UIApplicationDidBecomeActiveNotification
-                                 object:nil];
+                                 selector:@selector(applicationDidBecomeActive)
+                                     name:UIApplicationDidBecomeActiveNotification
+                                   object:nil];
 
     // Init the distribute info tracker.
     _distributeInfoTracker = [[MSACDistributeInfoTracker alloc] init];
@@ -272,8 +272,8 @@ static dispatch_once_t onceToken;
 
     // Start Ingestion.
     self.ingestion = [[MSACDistributeIngestion alloc] initWithHttpClient:httpClient
-                                                               baseUrl:self.apiUrl
-                                                             appSecret:(NSString * _Nonnull) appSecret];
+                                                                 baseUrl:self.apiUrl
+                                                               appSecret:(NSString * _Nonnull) appSecret];
 
     // Channel group should be started after Ingestion is ready.
     [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
@@ -369,7 +369,7 @@ static dispatch_once_t onceToken;
     // Check if the device has internet connection to get update token.
     if ([MSAC_Reachability reachabilityForInternetConnection].currentReachabilityStatus == NotReachable) {
       MSACLogWarning([MSACDistribute logTag],
-                   @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
+                     @"The device lost its internet connection. The SDK will retry to get an update token in the next launch.");
       return;
     }
 
@@ -422,13 +422,14 @@ static dispatch_once_t onceToken;
   } else {
 
     // Log a message to notify the user why the SDK didn't check for updates.
-    MSACLogDebug([MSACDistribute logTag], @"Distribute won't try to obtain an update token because of one of the following reasons: "
-                                      @"1. A debugger is attached. "
-                                      @"2. You are running the debug configuration. "
-                                      @"3. The app is running in a non-adhoc environment. "
-                                      @"4. The device is in guided access mode which prevents opening update URLs. "
-                                      @"Detach the debugger and restart the app and/or run the app with the release configuration and/or "
-                                      @"deactivate guided access mode to enable the feature.");
+    MSACLogDebug([MSACDistribute logTag],
+                 @"Distribute won't try to obtain an update token because of one of the following reasons: "
+                 @"1. A debugger is attached. "
+                 @"2. You are running the debug configuration. "
+                 @"3. The app is running in a non-adhoc environment. "
+                 @"4. The device is in guided access mode which prevents opening update URLs. "
+                 @"Detach the debugger and restart the app and/or run the app with the release configuration and/or "
+                 @"deactivate guided access mode to enable the feature.");
   }
 }
 
@@ -562,11 +563,11 @@ static dispatch_once_t onceToken;
 
     // Log a message to notify the user why the SDK didn't check for updates.
     MSACLogDebug([MSACDistribute logTag], @"Distribute won't check if a new release is available because of one of the following reasons: "
-                                      @"1. A debugger is attached. "
-                                      @"2. You are running the debug configuration. "
-                                      @"3. The app is running in a non-adhoc environment. "
-                                      @"Detach the debugger and restart the app and/or run the app with the release configuration "
-                                      @"to enable the feature.");
+                                          @"1. A debugger is attached. "
+                                          @"2. You are running the debug configuration. "
+                                          @"3. The app is running in a non-adhoc environment. "
+                                          @"Detach the debugger and restart the app and/or run the app with the release configuration "
+                                          @"to enable the feature.");
     self.updateFlowInProgress = NO;
   }
 }
@@ -707,9 +708,9 @@ static dispatch_once_t onceToken;
    * then switching to another application will kill the current session. This line fixes this problem.
    */
   backgroundAuthSessionTask = [[MSACUtility sharedApp] beginBackgroundTaskWithName:@"Safari authentication"
-                                                               expirationHandler:^{
-                                                                 [[MSACUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
-                                                               }];
+                                                                 expirationHandler:^{
+                                                                   [[MSACUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
+                                                                 }];
   if ([session start]) {
     MSACLogDebug([MSACDistribute logTag], @"Authentication session started, showing confirmation dialog.");
   } else {
@@ -776,8 +777,9 @@ static dispatch_once_t onceToken;
     long long duration = (long long)[MSACUtility nowInMilliseconds] - [postponedTimestamp longLongValue];
     if (duration >= 0 && duration < kMSACDayInMillisecond) {
       if (details.mandatoryUpdate) {
-        MSACLogDebug([MSACDistribute logTag], @"The update was postponed within a day ago but the update is a mandatory update. The SDK will "
-                                          @"proceed update for the release.");
+        MSACLogDebug([MSACDistribute logTag],
+                     @"The update was postponed within a day ago but the update is a mandatory update. The SDK will "
+                     @"proceed update for the release.");
       } else {
         MSACLogDebug([MSACDistribute logTag], @"The update was postponed within a day ago, skip update.");
         return NO;
@@ -861,7 +863,8 @@ static dispatch_once_t onceToken;
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:groupId forKey:kMSACDownloadedDistributionGroupIdKey];
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:releaseId forKey:kMSACDownloadedReleaseIdKey];
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:releaseHashes forKey:kMSACDownloadedReleaseHashKey];
-  MSACLogDebug([MSACDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.", releaseHashes, releaseId);
+  MSACLogDebug([MSACDistribute logTag], @"Stored downloaded release hash(es) (%@) and id (%@) for later reporting.", releaseHashes,
+               releaseId);
 }
 
 - (void)removeDownloadedReleaseDetailsIfUpdated:(NSString *)currentInstalledReleaseHash {
@@ -871,15 +874,15 @@ static dispatch_once_t onceToken;
   }
   if ([lastDownloadedReleaseHashes rangeOfString:currentInstalledReleaseHash].location == NSNotFound) {
     MSACLogDebug([MSACDistribute logTag],
-               @"Stored release hash(es) (%@) doesn't match current installation hash (%@), "
-               @"probably downloaded but not installed yet, keep in store.",
-               lastDownloadedReleaseHashes, currentInstalledReleaseHash);
+                 @"Stored release hash(es) (%@) doesn't match current installation hash (%@), "
+                 @"probably downloaded but not installed yet, keep in store.",
+                 lastDownloadedReleaseHashes, currentInstalledReleaseHash);
     return;
   }
 
   // Successfully reported, remove downloaded release details.
   MSACLogDebug([MSACDistribute logTag], @"Successfully reported app update for downloaded release hash (%@), removing from store.",
-             currentInstalledReleaseHash);
+               currentInstalledReleaseHash);
   [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACDownloadedReleaseIdKey];
   [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACDownloadedReleaseHashKey];
 }
@@ -931,7 +934,7 @@ static dispatch_once_t onceToken;
 
     // Set group ID from downloaded release details if an updated release was downloaded from another distribution group.
     MSACLogDebug([MSACDistribute logTag], @"Stored group ID doesn't match the group ID of the updated release, updating group id: %@",
-               updatedReleaseDistributionGroupId);
+                 updatedReleaseDistributionGroupId);
     [MSAC_APP_CENTER_USER_DEFAULTS setObject:updatedReleaseDistributionGroupId forKey:kMSACDistributionGroupIdKey];
   }
 
@@ -944,8 +947,9 @@ static dispatch_once_t onceToken;
   // Displaying alert dialog. Running on main thread.
   dispatch_async(dispatch_get_main_queue(), ^{
     // Init the alert controller.
-    NSString *messageFormat = details.mandatoryUpdate ? MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage")
-                                                      : MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage");
+    NSString *messageFormat = details.mandatoryUpdate
+                                  ? MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableMandatoryUpdateMessage")
+                                  : MSACDistributeLocalizedString(@"MSDistributeAppUpdateAvailableOptionalUpdateMessage");
     NSString *appName = [MSAC_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleDisplayName"];
     if (!appName) {
       appName = [MSAC_APP_MAIN_BUNDLE objectForInfoDictionaryKey:@"CFBundleName"];
@@ -974,7 +978,7 @@ static dispatch_once_t onceToken;
       [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeViewReleaseNotes")
                                          handler:^(__attribute__((unused)) UIAlertAction *action) {
                                            MSACLogDebug([MSACDistribute logTag],
-                                                      @"'View release notes' is selected. Open a browser and show release notes.");
+                                                        @"'View release notes' is selected. Open a browser and show release notes.");
                                            [MSACUtility sharedAppOpenUrl:details.releaseNotesUrl options:@{} completionHandler:nil];
 
                                            /*
@@ -1018,12 +1022,13 @@ static dispatch_once_t onceToken;
   dispatch_async(dispatch_get_main_queue(), ^{
     MSACAlertController *alertController =
         [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
-                                            message:MSACDistributeLocalizedString(@"MSDistributeInstallFailedMessage")];
+                                              message:MSACDistributeLocalizedString(@"MSDistributeInstallFailedMessage")];
 
     // Add "Ignore" button to the dialog
     [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeIgnore")
                                        handler:^(__attribute__((unused)) UIAlertAction *action) {
-                                         [MSAC_APP_CENTER_USER_DEFAULTS setObject:MSACPackageHash() forKey:kMSACUpdateSetupFailedPackageHashKey];
+                                         [MSAC_APP_CENTER_USER_DEFAULTS setObject:MSACPackageHash()
+                                                                           forKey:kMSACUpdateSetupFailedPackageHashKey];
                                        }];
 
     // Add "Reinstall" button to the dialog
@@ -1181,7 +1186,7 @@ static dispatch_once_t onceToken;
         MSACLogInfo([MSACDistribute logTag], @"Automatic checkForUpdate is disabled.");
         self.updateFlowInProgress = NO;
       } else {
-         [self startUpdate];
+        [self startUpdate];
       }
       return YES;
     }

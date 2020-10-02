@@ -21,7 +21,7 @@ NSBundle *MSACDistributeBundle(void) {
     // Log to console in case the bundle is nil.
     if (!bundle) {
       MSACLogError([MSACDistribute logTag], @"The AppCenterDistributeResources.bundle file could not be found in your app. "
-                                        @"Please add it to your project as described in our readme.");
+                                            @"Please add it to your project as described in our readme.");
     }
   });
   return bundle;

@@ -38,8 +38,8 @@ static NSString *const kMSACLatestPublicReleaseApiPathFormat = @"/public/sdk/app
 
 - (NSString *)obfuscateResponsePayload:(NSString *)payload {
   return [MSACUtility obfuscateString:payload
-                searchingForPattern:kMSACRedirectUriPattern
-              toReplaceWithTemplate:kMSACRedirectUriObfuscatedTemplate];
+                  searchingForPattern:kMSACRedirectUriPattern
+                toReplaceWithTemplate:kMSACRedirectUriObfuscatedTemplate];
 }
 
 #pragma mark - MSACHttpClientDelegate

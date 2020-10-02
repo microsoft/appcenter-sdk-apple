@@ -106,7 +106,7 @@
 - (void)testNullReleaseNotes {
 
   // If
-  NSDictionary *dictionary = @{ @"release_notes" : [NSNull new] };
+  NSDictionary *dictionary = @{@"release_notes" : [NSNull new]};
 
   // When
   MSACReleaseDetails *details = [[MSACReleaseDetails alloc] initWithDictionary:[[NSMutableDictionary alloc] initWithDictionary:dictionary]];

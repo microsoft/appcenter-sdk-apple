@@ -16,8 +16,9 @@
   NSString *filename = [[NSBundle bundleForClass:[self class]] pathForResource:@"error_details" ofType:@"json"];
   NSData *data = [NSData dataWithContentsOfFile:filename];
   MSACErrorDetails *details = [[MSACErrorDetails alloc]
-      initWithDictionary:(NSMutableDictionary *
-                          _Nonnull)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:NULL]];
+      initWithDictionary:(NSMutableDictionary * _Nonnull)[NSJSONSerialization JSONObjectWithData:data
+                                                                                         options:NSJSONReadingMutableContainers
+                                                                                           error:NULL]];
   assertThat(details.code, equalTo(@"no_releases_for_app"));
   assertThat(details.message, equalTo(@"Couldn't get a release because there are no releases for this app."));
 }

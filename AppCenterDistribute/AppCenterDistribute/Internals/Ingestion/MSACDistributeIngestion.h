@@ -38,7 +38,8 @@ static NSString *const kMSACHeaderUpdateApiToken = @"x-api-token";
  * @param queryStrings An array of query strings.
  * @param completionHandler The completion handler block to be called after checking a new release.
  */
-- (void)checkForPublicUpdateWithQueryStrings:(NSDictionary *)queryStrings completionHandler:(MSACSendAsyncCompletionHandler)completionHandler;
+- (void)checkForPublicUpdateWithQueryStrings:(NSDictionary *)queryStrings
+                           completionHandler:(MSACSendAsyncCompletionHandler)completionHandler;
 
 /**
  * Check a new release from private update track.

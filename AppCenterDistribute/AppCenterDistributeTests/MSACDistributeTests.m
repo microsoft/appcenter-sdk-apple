@@ -287,7 +287,9 @@ static NSURL *sfURL;
 
   // When
   NSString *installURL = [self.sut installUrl];
-  NSURL *tokenRequestURL = [self.sut buildTokenRequestURLWithAppSecret:kMSACTestAppSecret releaseHash:kMSACTestReleaseHash isTesterApp:false];
+  NSURL *tokenRequestURL = [self.sut buildTokenRequestURLWithAppSecret:kMSACTestAppSecret
+                                                           releaseHash:kMSACTestReleaseHash
+                                                           isTesterApp:false];
 
   // Then
   XCTAssertNotNil(installURL);
@@ -445,7 +447,7 @@ static NSURL *sfURL;
   // If
   details.mandatoryUpdate = false;
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSACUtility nowInMilliseconds] + kMSACDayInMillisecond * 2)
-                                  forKey:kMSACPostponedTimestampKey];
+                                    forKey:kMSACPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];
@@ -456,7 +458,7 @@ static NSURL *sfURL;
   // If
   details.mandatoryUpdate = true;
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:@((long long)[MSACUtility nowInMilliseconds] + kMSACDayInMillisecond * 2)
-                                  forKey:kMSACPostponedTimestampKey];
+                                    forKey:kMSACPostponedTimestampKey];
 
   // When
   [self.sut handleUpdate:details];
@@ -1843,8 +1845,9 @@ static NSURL *sfURL;
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:@"FIRST-REQUEST" forKey:kMSACUpdateTokenRequestIdKey];
   NSDictionary<NSString *, id> *plist = @{@"CFBundleShortVersionString" : @"1.0", @"CFBundleVersion" : @"1"};
   OCMStub([self.bundleMock infoDictionary]).andReturn(plist);
-  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
-                                                               [NSString stringWithFormat:kMSACDefaultCustomSchemeFormat, kMSACTestAppSecret]]];
+  NSURL *url =
+      [NSURL URLWithString:[NSString stringWithFormat:@"%@://?request_id=FIRST-REQUEST&update_token=token",
+                                                      [NSString stringWithFormat:kMSACDefaultCustomSchemeFormat, kMSACTestAppSecret]]];
   XCTestExpectation *safariDismissedExpectation = [self expectationWithDescription:@"Safari dismissed processed"];
   id viewControllerMock = OCMClassMock([UIViewController class]);
   self.sut.safariHostingViewController = viewControllerMock;
@@ -2399,9 +2402,10 @@ static NSURL *sfURL;
   [self.settingsMock removeObjectForKey:kMSACDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
-                                                                                    currentInstalledReleaseHash:kMSACTestReleaseHash
-                                                                                            distributionGroupId:kMSACTestDistributionGroupId];
+  NSMutableDictionary *reportingParametersForUpdatedRelease =
+      [self.sut getReportingParametersForUpdatedRelease:NO
+                            currentInstalledReleaseHash:kMSACTestReleaseHash
+                                    distributionGroupId:kMSACTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease, nilValue());
@@ -2413,9 +2417,10 @@ static NSURL *sfURL;
   [self.settingsMock setObject:@"ReleaseHash2" forKey:kMSACDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
-                                                                                    currentInstalledReleaseHash:kMSACTestReleaseHash
-                                                                                            distributionGroupId:kMSACTestDistributionGroupId];
+  NSMutableDictionary *reportingParametersForUpdatedRelease =
+      [self.sut getReportingParametersForUpdatedRelease:NO
+                            currentInstalledReleaseHash:kMSACTestReleaseHash
+                                    distributionGroupId:kMSACTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease, nilValue());
@@ -2428,9 +2433,10 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSACTestReleaseHash forKey:kMSACDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:NO
-                                                                                    currentInstalledReleaseHash:kMSACTestReleaseHash
-                                                                                            distributionGroupId:kMSACTestDistributionGroupId];
+  NSMutableDictionary *reportingParametersForUpdatedRelease =
+      [self.sut getReportingParametersForUpdatedRelease:NO
+                            currentInstalledReleaseHash:kMSACTestReleaseHash
+                                    distributionGroupId:kMSACTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease[kMSACURLQueryDistributionGroupIdKey], equalTo(kMSACTestDistributionGroupId));
@@ -2446,9 +2452,10 @@ static NSURL *sfURL;
   [self.settingsMock setObject:kMSACTestReleaseHash forKey:kMSACDownloadedReleaseHashKey];
 
   // When
-  NSMutableDictionary *reportingParametersForUpdatedRelease = [self.sut getReportingParametersForUpdatedRelease:YES
-                                                                                    currentInstalledReleaseHash:kMSACTestReleaseHash
-                                                                                            distributionGroupId:kMSACTestDistributionGroupId];
+  NSMutableDictionary *reportingParametersForUpdatedRelease =
+      [self.sut getReportingParametersForUpdatedRelease:YES
+                            currentInstalledReleaseHash:kMSACTestReleaseHash
+                                    distributionGroupId:kMSACTestDistributionGroupId];
 
   // Then
   assertThat(reportingParametersForUpdatedRelease[kMSACURLQueryDistributionGroupIdKey], equalTo(kMSACTestDistributionGroupId));
@@ -2497,7 +2504,8 @@ static NSURL *sfURL;
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  OCMVerify([self.distributeInfoTrackerMock updateDistributionGroupId:distributionGroupId]);
-                                 NSString *actualDistributionGroupId = [MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACDistributionGroupIdKey];
+                                 NSString *actualDistributionGroupId =
+                                     [MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACDistributionGroupIdKey];
                                  XCTAssertEqualObjects(actualDistributionGroupId, distributionGroupId);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);

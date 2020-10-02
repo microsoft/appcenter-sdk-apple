@@ -25,7 +25,7 @@ static NSString *const kMSACMetaDataSeparator = @"+";
   if ((self = [super init])) {
     NSRange preReleaseSepRange = [version rangeOfString:kMSACPreReleaseSeparator];
     NSRange metadataSepRange = [version rangeOfString:kMSACMetaDataSeparator];
-    _base = (NSString * _Nonnull)version;
+    _base = (NSString * _Nonnull) version;
     if (metadataSepRange.length > 0) {
       _base = (NSString * _Nonnull)[version substringToIndex:metadataSepRange.location];
       _metadata = [version substringFromIndex:metadataSepRange.location + 1];
@@ -49,7 +49,7 @@ static NSString *const kMSACMetaDataSeparator = @"+";
     NSString *preReleaseB = version.preRelease;
 
     // No/same pre-release.
-    if ((!preReleaseA && !preReleaseB) || [preReleaseA isEqualToString:(NSString * _Nonnull)preReleaseB]) {
+    if ((!preReleaseA && !preReleaseB) || [preReleaseA isEqualToString:(NSString * _Nonnull) preReleaseB]) {
       return NSOrderedSame;
     }
 
