@@ -185,7 +185,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
 #if TARGET_OS_OSX
-    [MS_NOTIFICATION_CENTER addObserver:self
+    [MSAC_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidFinishLaunching:)
                                    name:NSApplicationDidFinishLaunchingNotification
                                  object:nil];
@@ -198,7 +198,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     MSACLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
 #if TARGET_OS_OSX
-    [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
+    [MSAC_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
     [[MSACAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     [[MSACUserIdContext sharedInstance] removeDelegate:self];
