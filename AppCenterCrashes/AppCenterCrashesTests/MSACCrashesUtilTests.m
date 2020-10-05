@@ -111,7 +111,7 @@
 // 12.2 and after the above bundle identifier is com.apple.dt.xctest.tool.
 - (NSString *)getPathWithBundleIdentifier:(NSString *)path {
   NSString *bundleId;
-#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_12_2) ||                                            \
+#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_12_2) ||                                     \
      (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_14_4))
   bundleId = @"com.apple.dt.xctest.tool";
 #else

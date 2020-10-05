@@ -8,7 +8,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void (^MSACHttpRequestCompletionHandler)(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response,
-                                               NSError *_Nullable error);
+                                                 NSError *_Nullable error);
 
 @protocol MSACHttpClientProtocol
 

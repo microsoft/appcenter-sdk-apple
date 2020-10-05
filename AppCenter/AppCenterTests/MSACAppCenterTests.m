@@ -524,7 +524,8 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   XCTAssertTrue([MSACMockSecondService sharedInstance].started);
 
   // If
-  NSString *disableList = [NSString stringWithFormat:@"%@,SomeService,%@", [MSACMockService serviceName], [MSACMockSecondService serviceName]];
+  NSString *disableList =
+      [NSString stringWithFormat:@"%@,SomeService,%@", [MSACMockService serviceName], [MSACMockSecondService serviceName]];
   setenv(disableVariableCstr, [disableList UTF8String], 1);
   [[MSACMockService sharedInstance] setStarted:NO];
   [[MSACMockSecondService sharedInstance] setStarted:NO];
@@ -822,10 +823,10 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
 
   // When
   [MSACAppCenter setMaxStorageSize:dbSize
-               completionHandler:^(BOOL success) {
-                 // Then
-                 XCTAssertFalse(success);
-               }];
+                 completionHandler:^(BOOL success) {
+                   // Then
+                   XCTAssertFalse(success);
+                 }];
 }
 
 - (void)testSetStorageHandlerCanOnlyBeCalledOnce {
@@ -835,11 +836,11 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
 
   // When
   [MSACAppCenter setMaxStorageSize:dbSize
-               completionHandler:^(__unused BOOL success){
-               }];
+                 completionHandler:^(__unused BOOL success){
+                 }];
   [MSACAppCenter setMaxStorageSize:dbSize + 1
-               completionHandler:^(__unused BOOL success){
-               }];
+                 completionHandler:^(__unused BOOL success){
+                 }];
 
   // Then
   XCTAssertEqual(dbSize, [[MSACAppCenter sharedInstance].requestedMaxStorageSizeInBytes longValue]);
@@ -852,11 +853,11 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
 
   // When
   [MSACAppCenter setMaxStorageSize:10
-               completionHandler:^(BOOL success) {
-                 // Then
-                 XCTAssertFalse(success);
-                 [expectation fulfill];
-               }];
+                 completionHandler:^(BOOL success) {
+                   // Then
+                   XCTAssertFalse(success);
+                   [expectation fulfill];
+                 }];
 
   // Then
   [self waitForExpectationsWithTimeout:1

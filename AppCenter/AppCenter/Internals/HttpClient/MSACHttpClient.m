@@ -40,7 +40,10 @@
     _delegate = nil;
 
     // Add listener to reachability.
-    [MSAC_NOTIFICATION_CENTER addObserver:self selector:@selector(networkStateChanged:) name:kMSACReachabilityChangedNotification object:nil];
+    [MSAC_NOTIFICATION_CENTER addObserver:self
+                                 selector:@selector(networkStateChanged:)
+                                     name:kMSACReachabilityChangedNotification
+                                   object:nil];
     [self.reachability startNotifier];
   }
   return self;
@@ -76,12 +79,12 @@
       return;
     }
     MSACHttpCall *call = [[MSACHttpCall alloc] initWithUrl:url
-                                                method:method
-                                               headers:headers
-                                                  data:data
-                                        retryIntervals:retryIntervals
-                                    compressionEnabled:compressionEnabled
-                                     completionHandler:completionHandler];
+                                                    method:method
+                                                   headers:headers
+                                                      data:data
+                                            retryIntervals:retryIntervals
+                                        compressionEnabled:compressionEnabled
+                                         completionHandler:completionHandler];
     [self sendCallAsync:call];
   }
 }
@@ -120,7 +123,10 @@
   }
 }
 
-- (void)requestCompletedWithHttpCall:(MSACHttpCall *)httpCall data:(NSData *)data response:(NSURLResponse *)response error:(NSError *)error {
+- (void)requestCompletedWithHttpCall:(MSACHttpCall *)httpCall
+                                data:(NSData *)data
+                            response:(NSURLResponse *)response
+                               error:(NSError *)error {
   NSHTTPURLResponse *httpResponse;
   @synchronized(self) {
     httpCall.inProgress = NO;
@@ -144,7 +150,7 @@
         return;
       } else {
         MSACLogError([MSACAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code, error.domain,
-                   error.localizedDescription);
+                     error.localizedDescription);
       }
     }
 

@@ -42,7 +42,7 @@
 
 /**
  * Unarchive data.
- * 
+ *
  * @param data The data for unarchiving in NSData type.
  *
  * @return The unarchived data as an NSObject.

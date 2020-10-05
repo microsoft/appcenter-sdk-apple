@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The added `MSACChannelUnitProtocol`. Use this object to enqueue logs.
  */
 - (id<MSACChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSACChannelUnitConfiguration *)configuration
-                                               withIngestion:(nullable id<MSACIngestionProtocol>)ingestion;
+                                                 withIngestion:(nullable id<MSACIngestionProtocol>)ingestion;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.

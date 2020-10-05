@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACChannelUnitConfiguration.h"
 #import "MSACMockSecondService.h"
+#import "MSACChannelUnitConfiguration.h"
 
 static NSString *const kMSACServiceName = @"MSMockSecondService";
 static NSString *const kMSACGroupId = @"MSSecondMock";

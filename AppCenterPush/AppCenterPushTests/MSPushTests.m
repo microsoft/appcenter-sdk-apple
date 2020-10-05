@@ -13,6 +13,8 @@
 #import "MSACAppCenterUserDefaultsPrivate.h"
 #import "MSACChannelGroupProtocol.h"
 #import "MSACChannelUnitProtocol.h"
+#import "MSACTestFrameworks.h"
+#import "MSACUserIdContextPrivate.h"
 #import "MSMockPushDelegate.h"
 #import "MSMockUserDefaults.h"
 #import "MSPush.h"
@@ -21,8 +23,6 @@
 #import "MSPushNotification.h"
 #import "MSPushPrivate.h"
 #import "MSPushTestUtil.h"
-#import "MSACTestFrameworks.h"
-#import "MSACUserIdContextPrivate.h"
 
 static NSString *const kMSTestAppSecret = @"TestAppSecret";
 static NSString *const kMSTestPushToken = @"TestPushToken";

@@ -14,7 +14,8 @@
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (void)application:(__attribute__((unused))MSACApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+- (void)application:(__attribute__((unused))MSACApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
@@ -49,13 +50,13 @@
 
   // Register selectors to swizzle for Push.
   [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
-                                                                            didRegisterForRemoteNotificationsWithDeviceToken:)];
+                                                                              didRegisterForRemoteNotificationsWithDeviceToken:)];
   [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
-                                                                            didFailToRegisterForRemoteNotificationsWithError:)];
+                                                                              didFailToRegisterForRemoteNotificationsWithError:)];
   [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
 #if !TARGET_OS_OSX
   [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
-                                                                            didReceiveRemoteNotification:fetchCompletionHandler:)];
+                                                                              didReceiveRemoteNotification:fetchCompletionHandler:)];
 #endif
 }
 
@@ -177,8 +178,8 @@
 
     // Forward to custom delegates.
     [[MSACAppDelegateForwarder sharedInstance] application:application
-                            didReceiveRemoteNotification:userInfo
-                                  fetchCompletionHandler:customCompletionHandler];
+                              didReceiveRemoteNotification:userInfo
+                                    fetchCompletionHandler:customCompletionHandler];
   }
 }
 

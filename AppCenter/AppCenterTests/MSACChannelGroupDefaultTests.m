@@ -37,10 +37,10 @@
   NSUInteger pendingBatchesLimit = 3;
   self.ingestionMock = OCMClassMock([MSACAppCenterIngestion class]);
   self.validConfiguration = [[MSACChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                                       priority:priority
-                                                                  flushInterval:flushInterval
-                                                                 batchSizeLimit:batchSizeLimit
-                                                            pendingBatchesLimit:pendingBatchesLimit];
+                                                                         priority:priority
+                                                                    flushInterval:flushInterval
+                                                                   batchSizeLimit:batchSizeLimit
+                                                              pendingBatchesLimit:pendingBatchesLimit];
   self.sut = [[MSACChannelGroupDefault alloc] initWithIngestion:self.ingestionMock];
 
   /*
@@ -142,8 +142,8 @@
   MSACAppCenterIngestion *newIngestion = [MSACAppCenterIngestion new];
 
   // When
-  MSACChannelUnitDefault *channelUnit = (MSACChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSACChannelUnitConfiguration new]
-                                                                                          withIngestion:newIngestion];
+  MSACChannelUnitDefault *channelUnit =
+      (MSACChannelUnitDefault *)[self.sut addChannelUnitWithConfiguration:[MSACChannelUnitConfiguration new] withIngestion:newIngestion];
 
   // This test will use a real channel unit object which runs `checkPendingLogs` in the log dispatch queue.
   // We should make sure the test method is not finished before `checkPendingLogs` method call is finished to avoid object retain issue.

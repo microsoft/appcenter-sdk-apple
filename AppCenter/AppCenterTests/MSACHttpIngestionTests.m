@@ -22,11 +22,11 @@
 
   // sut: System under test
   self.sut = [[MSACHttpIngestion alloc] initWithHttpClient:self.httpClientMock
-                                                 baseUrl:@"https://www.contoso.com"
-                                                 apiPath:@"/test-path"
-                                                 headers:nil
-                                            queryStrings:queryStrings
-                                          retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+                                                   baseUrl:@"https://www.contoso.com"
+                                                   apiPath:@"/test-path"
+                                                   headers:nil
+                                              queryStrings:queryStrings
+                                            retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
 }
 
 - (void)tearDown {

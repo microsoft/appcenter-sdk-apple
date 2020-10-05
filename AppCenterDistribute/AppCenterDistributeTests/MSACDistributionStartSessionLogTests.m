@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACDistributionStartSessionLog.h"
 #import "MSACAbstractLogInternal.h"
 #import "MSACDevice.h"
+#import "MSACDistributionStartSessionLog.h"
 #import "MSACTestFrameworks.h"
 
 @interface MSACDistributionStartSessionLogTests : XCTestCase

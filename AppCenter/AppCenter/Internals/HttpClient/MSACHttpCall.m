@@ -62,7 +62,7 @@
     self.timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
     uint32_t millisecondsDelta = retryAfter ? [retryAfter unsignedIntValue] : [self delayForRetryCount:self.retryCount];
     MSACLogWarning([MSACAppCenter logTag], @"Call attempt #%d failed with status code: %tu, it will be retried in %d ms.", self.retryCount,
-                 statusCode, millisecondsDelta);
+                   statusCode, millisecondsDelta);
     uint64_t nanosecondsDelta = NSEC_PER_MSEC * millisecondsDelta;
     self.retryCount++;
     dispatch_source_set_timer(self.timerSource, dispatch_walltime(NULL, nanosecondsDelta), DISPATCH_TIME_FOREVER, 1ull * NSEC_PER_SEC);

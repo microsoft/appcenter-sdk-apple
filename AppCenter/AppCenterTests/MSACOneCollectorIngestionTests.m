@@ -174,8 +174,9 @@ static NSString *const kMSACBaseUrl = @"https://test.com";
 
   // Then
   XCTAssertNotNil(payload);
-  NSString *containerString = [NSString stringWithFormat:@"%@%@%@%@", [log1 serializeLogWithPrettyPrinting:NO], kMSACOneCollectorLogSeparator,
-                                                         [log2 serializeLogWithPrettyPrinting:NO], kMSACOneCollectorLogSeparator];
+  NSString *containerString =
+      [NSString stringWithFormat:@"%@%@%@%@", [log1 serializeLogWithPrettyPrinting:NO], kMSACOneCollectorLogSeparator,
+                                 [log2 serializeLogWithPrettyPrinting:NO], kMSACOneCollectorLogSeparator];
   NSData *httpBodyData = [containerString dataUsingEncoding:NSUTF8StringEncoding];
   XCTAssertEqualObjects(httpBodyData, payload);
 }

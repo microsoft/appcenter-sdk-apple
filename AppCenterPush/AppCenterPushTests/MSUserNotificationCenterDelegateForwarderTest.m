@@ -7,8 +7,8 @@
 #endif
 #import "MSACDelegateForwarderPrivate.h"
 #import "MSACDelegateForwarderTestUtil.h"
-#import "MSPush.h"
 #import "MSACTestFrameworks.h"
+#import "MSPush.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 
 #define MS_RETURN_IF_USER_NOTIFICATION_CENTER_NOT_SUPPORTED                                                                                \
@@ -199,8 +199,8 @@
         handler(UNNotificationPresentationOptionAlert);
       };
   [MSACDelegateForwarderTestUtil addSelector:willPresentNotificationSel
-                            implementation:originalWillPresentNotificationImp
-                                toInstance:originalUserNotificationCenterDelegate];
+                              implementation:originalWillPresentNotificationImp
+                                  toInstance:originalUserNotificationCenterDelegate];
 
   // Swizzle.
   [[self.sut class] load];
@@ -253,8 +253,8 @@
         handler();
       };
   [MSACDelegateForwarderTestUtil addSelector:didReceiveNotificationResponseSel
-                            implementation:originalDidReceiveNotificationResponseImp
-                                toInstance:originalUserNotificationCenterDelegate];
+                              implementation:originalDidReceiveNotificationResponseImp
+                                  toInstance:originalUserNotificationCenterDelegate];
 
   // Swizzle.
   [[self.sut class] load];

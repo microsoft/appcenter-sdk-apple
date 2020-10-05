@@ -4,8 +4,8 @@
 #import "MSACDevice.h"
 #import "MSACDeviceInternal.h"
 #import "MSACTestFrameworks.h"
-#import "MSACWrapperSdkInternal.h"
 #import "MSACUtility.h"
+#import "MSACWrapperSdkInternal.h"
 
 @interface MSACDeviceLogTests : XCTestCase
 

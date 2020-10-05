@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "NSURLRequest+HTTPBodyTesting.h"
 #import "HTTPStubs.h"
+#import "NSURLRequest+HTTPBodyTesting.h"
 
 #import "AppCenter+Internal.h"
 #import "MSACAppCenterErrors.h"
@@ -773,14 +773,14 @@ static NSTimeInterval const kMSACTestTimeout = 5.0;
   NSArray *intervals = @[ @(UINT_MAX), @(UINT_MAX) ];
   MSACHttpCall *httpCall =
       [[MSACHttpCall alloc] initWithUrl:[[NSURL alloc] initWithString:@""]
-                               method:@"GET"
-                              headers:nil
-                                 data:nil
-                       retryIntervals:intervals
-                   compressionEnabled:YES
-                    completionHandler:^(NSData *_Nullable responseBody __unused, NSHTTPURLResponse *_Nullable response __unused,
-                                        NSError *_Nullable error __unused){
-                    }];
+                                 method:@"GET"
+                                headers:nil
+                                   data:nil
+                         retryIntervals:intervals
+                     compressionEnabled:YES
+                      completionHandler:^(NSData *_Nullable responseBody __unused, NSHTTPURLResponse *_Nullable response __unused,
+                                          NSError *_Nullable error __unused){
+                      }];
 
   // A non-zero number that should be reset by the end.
   httpCall.retryCount = 1;

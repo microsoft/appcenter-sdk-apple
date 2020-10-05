@@ -41,8 +41,8 @@ static NSString *const kMSACPastDevicesKey = @"PastDevices";
 + (void)resetSharedInstance;
 
 /**
- * Sets a flag that will cause MSACDeviceTracker to update it's device info the next time the device property is accessed. Mostly intended for
- * Unit Testing.
+ * Sets a flag that will cause MSACDeviceTracker to update it's device info the next time the device property is accessed. Mostly intended
+ * for Unit Testing.
  */
 + (void)refreshDeviceNextTime;
 

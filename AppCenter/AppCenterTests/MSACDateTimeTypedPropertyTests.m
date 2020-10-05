@@ -35,7 +35,7 @@
 
   // If
   MSACDateTimeTypedProperty *sut = [MSACDateTimeTypedProperty new];
-  sut.name =  @"propertyName";
+  sut.name = @"propertyName";
   sut.value = [NSDate dateWithTimeIntervalSince1970:100000];
 
   // When
@@ -48,13 +48,13 @@
   XCTAssertEqualObjects(dictionary[@"value"], [MSACUtility dateToISO8601:sut.value]);
 }
 
-- (void) testPropertyTypeIsCorrectWhenPropertyIsInitialized {
+- (void)testPropertyTypeIsCorrectWhenPropertyIsInitialized {
 
-    // If
-    MSACDateTimeTypedProperty *sut = [MSACDateTimeTypedProperty new];
+  // If
+  MSACDateTimeTypedProperty *sut = [MSACDateTimeTypedProperty new];
 
-    // Then
-    XCTAssertEqualObjects(sut.type, @"dateTime");
-  }
+  // Then
+  XCTAssertEqualObjects(sut.type, @"dateTime");
+}
 
 @end

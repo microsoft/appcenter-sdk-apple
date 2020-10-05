@@ -63,7 +63,7 @@ static dispatch_once_t onceToken;
     [self.sessionHistory addObject:self.currentSessionInfo];
     [MSAC_APP_CENTER_USER_DEFAULTS setObject:[MSACUtility archiveKeyedData:self.sessionHistory] forKey:kMSACSessionIdHistoryKey];
     MSACLogVerbose([MSACAppCenter logTag], @"Stored new session with id:%@ and timestamp: %@.", self.currentSessionInfo.sessionId,
-                 self.currentSessionInfo.timestamp);
+                   self.currentSessionInfo.timestamp);
   }
 }
 

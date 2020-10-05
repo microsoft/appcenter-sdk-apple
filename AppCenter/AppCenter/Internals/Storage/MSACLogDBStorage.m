@@ -27,8 +27,9 @@ static const NSUInteger kMSACSchemaVersion = 5;
     kMSACLogTableName : @[
       @{kMSACIdColumnName : @[ kMSACSQLiteTypeInteger, kMSACSQLiteConstraintPrimaryKey, kMSACSQLiteConstraintAutoincrement ]},
       @{kMSACGroupIdColumnName : @[ kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull ]},
-      @{kMSACLogColumnName : @[ kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull ]}, @{kMSACTargetTokenColumnName : @[ kMSACSQLiteTypeText ]},
-      @{kMSACTargetKeyColumnName : @[ kMSACSQLiteTypeText ]}, @{kMSACPriorityColumnName : @[ kMSACSQLiteTypeInteger ]}
+      @{kMSACLogColumnName : @[ kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull ]},
+      @{kMSACTargetTokenColumnName : @[ kMSACSQLiteTypeText ]}, @{kMSACTargetKeyColumnName : @[ kMSACSQLiteTypeText ]},
+      @{kMSACPriorityColumnName : @[ kMSACSQLiteTypeInteger ]}
     ]
   };
   self = [self initWithSchema:schema version:kMSACSchemaVersion filename:kMSACDBFileName];
@@ -83,8 +84,8 @@ static const NSUInteger kMSACSchemaVersion = 5;
            NSUInteger maxSize = [MSACDBStorage getMaxPageCountInOpenedDatabase:db] * self.pageSize;
            if (base64Data.length >= maxSize) {
              MSACLogError([MSACAppCenter logTag],
-                        @"Log is too large (%tu bytes) to store in database. Current maximum database size is %tu bytes.",
-                        base64Data.length, maxSize);
+                          @"Log is too large (%tu bytes) to store in database. Current maximum database size is %tu bytes.",
+                          base64Data.length, maxSize);
              return SQLITE_ERROR;
            }
 
@@ -94,9 +95,9 @@ static const NSUInteger kMSACSchemaVersion = 5;
            if (result == SQLITE_FULL) {
 
              // Selecting logs with equal or lower priority and ordering by priority then age.
-             NSString *query =
-                 [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" <= ? ORDER BY \"%@\" ASC, \"%@\" ASC", kMSACIdColumnName,
-                                            kMSACLogTableName, kMSACPriorityColumnName, kMSACPriorityColumnName, kMSACIdColumnName];
+             NSString *query = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" <= ? ORDER BY \"%@\" ASC, \"%@\" ASC",
+                                                          kMSACIdColumnName, kMSACLogTableName, kMSACPriorityColumnName,
+                                                          kMSACPriorityColumnName, kMSACIdColumnName];
              MSACStorageBindableArray *values = [MSACStorageBindableArray new];
              [values addNumber:@(flags)];
              NSArray<NSArray *> *entries = [MSACDBStorage executeSelectionQuery:query inOpenedDatabase:db withValues:values];
@@ -111,8 +112,8 @@ static const NSUInteger kMSACSchemaVersion = 5;
            NSUInteger index = 0;
            while (result == SQLITE_FULL && index < [logsCanBeDeleted count]) {
              result = [MSACLogDBStorage deleteLogsFromDBWithColumnValues:@[ logsCanBeDeleted[index] ]
-                                                            columnName:kMSACIdColumnName
-                                                      inOpenedDatabase:db];
+                                                              columnName:kMSACIdColumnName
+                                                        inOpenedDatabase:db];
              if (result != SQLITE_OK) {
                break;
              }
@@ -123,7 +124,7 @@ static const NSUInteger kMSACSchemaVersion = 5;
            }
            if (countOfLogsDeleted > 0) {
              MSACLogDebug([MSACAppCenter logTag], @"Log storage was over capacity, %ld oldest log(s) with equal or lower priority deleted.",
-                        (long)countOfLogsDeleted);
+                          (long)countOfLogsDeleted);
            }
            if (result == SQLITE_OK) {
              MSACLogVerbose([MSACAppCenter logTag], @"Log is stored with id: '%ld'", (long)sqlite3_last_insert_rowid(db));
