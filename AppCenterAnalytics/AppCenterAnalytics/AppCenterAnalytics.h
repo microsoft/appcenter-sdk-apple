@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACAbstractLogog.h"
+#import "MSACAbstractLog.h"
 #import "MSACAnalytics.h"
 #import "MSACAnalyticsAuthenticationProvider.h"
 #import "MSACAnalyticsAuthenticationProviderDelegate.h"
