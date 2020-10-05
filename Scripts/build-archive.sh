@@ -40,7 +40,6 @@ verify_prefix() {
 
 # Verify prefix for frameworks.
 for platform in "iOS" "macOS" "tvOS"; do
-  echo $platform
   for framework in $PRODUCTS_DIR/$platform/*.framework; do
     frameworkName=${framework##*/}
     if ! verify_prefix $framework/${frameworkName%.*}; then
