@@ -4,7 +4,7 @@
 import Foundation
 import UIKit
 
-class MSAAnalyticsAuthenticationProvider: NSObject, MSAnalyticsAuthenticationProviderDelegate {
+class MSAAnalyticsAuthenticationProvider: NSObject, MSACAnalyticsAuthenticationProviderDelegate {
     
     private static var _instance: MSAAnalyticsAuthenticationProvider?
     private var refreshToken: String
@@ -31,8 +31,8 @@ class MSAAnalyticsAuthenticationProvider: NSObject, MSAnalyticsAuthenticationPro
         return _instance!
     }
     
-    // Implement required method of MSanalyticsAuthenticationProviderDelegate protocol.
-    func authenticationProvider(_ authenticationProvider: MSAnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSAnalyticsAuthenticationProviderCompletionBlock!) {
+    // Implement required method of MSACAnalyticsAuthenticationProviderDelegate protocol.
+    func authenticationProvider(_ authenticationProvider: MSACAnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSACAnalyticsAuthenticationProviderCompletionBlock!) {
         if let refreshUrl = URL(string: kMSABaseUrl + kMSATokenEndpoint) {
             let config = URLSessionConfiguration.default
             let session = URLSession(configuration: config)

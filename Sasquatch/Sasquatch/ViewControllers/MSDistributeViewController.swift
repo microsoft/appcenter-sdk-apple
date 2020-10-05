@@ -16,14 +16,14 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     case Public = "Public"
     case Private = "Private"
 
-    var state: MSUpdateTrack {
+    var state: MSACUpdateTrack {
        switch self {
        case .Public: return .public
        case .Private: return .private
        }
     }
 
-    static func getSelf(by track: MSUpdateTrack) -> UpdateTrack {
+    static func getSelf(by track: MSACUpdateTrack) -> UpdateTrack {
        switch track {
        case .public: return .Public
        case .private: return .Private
@@ -45,7 +45,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     self.customized.isOn = UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey)
     self.autoCheckForUpdate.isOn = UserDefaults.standard.bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
     preparePickers()
-    self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
+    self.updateTrack = UpdateTrack.getSelf(by: MSACDistribute.updateTrack)
   }
 
   private func preparePickers() {

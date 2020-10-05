@@ -5,14 +5,14 @@
 #import "AppCenterAnalytics.h"
 
 // Internal
-#import "MSAnalyticsInternal.h"
+#import "MSACAnalyticsInternal.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Event filtering service.
  */
-@interface MSEventFilter : MSServiceAbstract <MSChannelDelegate>
+@interface MSEventFilter : MSACServiceAbstract <MSACChannelDelegate>
 
 /**
  * Get the unique instance.

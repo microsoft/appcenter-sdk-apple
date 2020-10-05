@@ -80,8 +80,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     
     if let msaUserId = UserDefaults.standard.string(forKey: kMSATokenKey),
         let refreshToken = UserDefaults.standard.string(forKey: kMSARefreshTokenKey) {
-        let provider = MSAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: msaUserId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
-        MSAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
+        let provider = MSACAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: msaUserId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
+        MSACAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
     }
 
     // Storage size section.
@@ -170,7 +170,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     if !eventFilterStarted {
-      MSAppCenter.startService(MSEventFilter.self)
+      MSACAppCenter.startService(MSEventFilter.self)
       eventFilterStarted = true
     }
     MSEventFilter.setEnabled(sender.isOn)

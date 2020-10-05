@@ -50,7 +50,7 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
   }
   
   @IBAction func send(_ sender: Any) {
-    let customProperties = MSCustomProperties()
+    let customProperties = MSACCustomProperties()
     for property in properties {
       let key = property.key
       guard let type = CustomPropertyType(rawValue: property.type) else {
