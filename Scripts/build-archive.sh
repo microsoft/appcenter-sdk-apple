@@ -33,13 +33,9 @@ verify_prefix() {
   # Get values.
   frameworkPath=$1
 
-  # Get result from command.
-  result=$(nm -gU $frameworkPath | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_MSAC" && return 1 || return 0)
-
-  # Check result value.
-  if ! [ -z $result ]; then
-    echo "The next files should have a prefix MSAC."
-    echo $result
+  # Get result from command and check result value.
+  if nm -gU $frameworkPath | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_MSAC"; then
+    echo "These files should have a prefix MSAC."
     exit 1
   fi
 }
