@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACSerializableObject.h"
 #import "MSACTypedProperty.h"
+#import "MSACSerializableObject.h"
 
 static NSString *const kMSACTypedPropertyType = @"type";
 static NSString *const kMSACTypedPropertyName = @"name";

@@ -576,7 +576,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
       // Overwrite the oldest buffered log.
       msACCrashesLogBuffer[indexToDelete].buffer = std::string(&reinterpret_cast<const char *>(serializedLog.bytes)[0],
-                                                             &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
+                                                               &reinterpret_cast<const char *>(serializedLog.bytes)[serializedLog.length]);
       msACCrashesLogBuffer[indexToDelete].internalId = internalId.UTF8String;
       msACCrashesLogBuffer[indexToDelete].timestamp = [[NSDate date] timeIntervalSince1970];
       MSACLogVerbose([MSACCrashes logTag], @"Overwrote buffered log at index %ld.", indexToDelete);

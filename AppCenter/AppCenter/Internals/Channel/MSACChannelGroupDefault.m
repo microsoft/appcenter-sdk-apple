@@ -18,8 +18,8 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 
 - (instancetype)initWithHttpClient:(id<MSACHttpClientProtocol>)httpClient installId:(NSUUID *)installId logUrl:(NSString *)logUrl {
   self = [self initWithIngestion:[[MSACAppCenterIngestion alloc] initWithHttpClient:httpClient
-                                                                          baseUrl:logUrl
-                                                                        installId:[installId UUIDString]]];
+                                                                            baseUrl:logUrl
+                                                                          installId:[installId UUIDString]]];
   return self;
 }
 
@@ -42,13 +42,13 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 }
 
 - (id<MSACChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSACChannelUnitConfiguration *)configuration
-                                               withIngestion:(nullable id<MSACIngestionProtocol>)ingestion {
+                                                 withIngestion:(nullable id<MSACIngestionProtocol>)ingestion {
   MSACChannelUnitDefault *channel;
   if (configuration) {
     channel = [[MSACChannelUnitDefault alloc] initWithIngestion:(ingestion ? ingestion : self.ingestion)
-                                                      storage:self.storage
-                                                configuration:configuration
-                                            logsDispatchQueue:self.logsDispatchQueue];
+                                                        storage:self.storage
+                                                  configuration:configuration
+                                              logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
     dispatch_async(self.logsDispatchQueue, ^{
       // Schedule sending any pending log.
@@ -181,9 +181,9 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 #if !TARGET_OS_OSX
   if (isEnabled) {
     [MSAC_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillTerminate:)
-                                   name:UIApplicationWillTerminateNotification
-                                 object:nil];
+                                 selector:@selector(applicationWillTerminate:)
+                                     name:UIApplicationWillTerminateNotification
+                                   object:nil];
   } else {
     [MSAC_NOTIFICATION_CENTER removeObserver:self];
   }
@@ -216,9 +216,9 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 
   // Block logs queue so that it isn't killed before app termination.
   [MSACDispatcherUtil dispatchSyncWithTimeout:1
-                                    onQueue:self.logsDispatchQueue
-                                  withBlock:^{
-                                  }];
+                                      onQueue:self.logsDispatchQueue
+                                    withBlock:^{
+                                    }];
 }
 #endif
 

@@ -20,11 +20,7 @@ typedef struct {
 
 // SDK versioning.
 static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,regular,no_dead_strip"))) = {
-  .info_version = 1,
-  .ms_name = APP_CENTER_C_NAME,
-  .ms_version = APP_CENTER_C_VERSION,
-  .ms_build = APP_CENTER_C_BUILD
-};
+    .info_version = 1, .ms_name = APP_CENTER_C_NAME, .ms_version = APP_CENTER_C_VERSION, .ms_build = APP_CENTER_C_BUILD};
 
 @implementation MSACUtility
 
@@ -70,7 +66,7 @@ __attribute__((used)) static void importCategories() {
 
     // Unarchiving process failed.
     MSACLogError([MSACAppCenter logTag], @"Unarchiving NSData failed with error: %@",
-               exception ? exception.reason : error.localizedDescription);
+                 exception ? exception.reason : error.localizedDescription);
   }
   return unarchivedData;
 }
@@ -98,7 +94,7 @@ __attribute__((used)) static void importCategories() {
 
     // Unarchiving process failed.
     MSACLogError([MSACAppCenter logTag], @"Unarchiving NSData failed with error: %@",
-               exception ? exception.reason : error.localizedDescription);
+                 exception ? exception.reason : error.localizedDescription);
   }
   return archivedData;
 }

@@ -35,7 +35,7 @@
 
   // If
   MSACDoubleTypedProperty *sut = [MSACDoubleTypedProperty new];
-  sut.name =  @"propertyName";
+  sut.name = @"propertyName";
   sut.value = 0.123;
 
   // When

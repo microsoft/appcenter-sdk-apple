@@ -62,7 +62,8 @@
 }
 
 - (BOOL)isEqualToDictionary:(NSDictionary *)otherDictionary {
-  if (![(NSObject *)otherDictionary isKindOfClass:[MSACOrderedDictionary class]] || ![self.dictionary isEqualToDictionary:otherDictionary]) {
+  if (![(NSObject *)otherDictionary isKindOfClass:[MSACOrderedDictionary class]] || !
+                                                                                    [self.dictionary isEqualToDictionary:otherDictionary]) {
     return NO;
   }
   return [self.order isEqualToArray:((MSACOrderedDictionary *)otherDictionary).order];

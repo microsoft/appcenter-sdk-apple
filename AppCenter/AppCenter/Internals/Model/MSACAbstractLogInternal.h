@@ -32,11 +32,11 @@
 
 @end
 
-#define MSACLOG_VALIDATE(fieldName, rule)                                                                                                    \
+#define MSACLOG_VALIDATE(fieldName, rule)                                                                                                  \
   ({                                                                                                                                       \
     BOOL isValid = rule;                                                                                                                   \
     if (!isValid) {                                                                                                                        \
-      MSACLogVerbose([MSACAppCenter logTag], @"%@: \"%@\" is not valid.", NSStringFromClass([self class]), @ #fieldName);                      \
+      MSACLogVerbose([MSACAppCenter logTag], @"%@: \"%@\" is not valid.", NSStringFromClass([self class]), @ #fieldName);                  \
     }                                                                                                                                      \
     isValid;                                                                                                                               \
   })

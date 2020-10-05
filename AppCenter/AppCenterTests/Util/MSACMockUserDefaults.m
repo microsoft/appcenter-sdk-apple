@@ -28,7 +28,7 @@
 }
 
 - (void)migrateKeys:(__unused NSDictionary *)migratedKeys forService:(nonnull NSString *)service {
-    [self setObject:@YES forKey:[NSString stringWithFormat:kMSACMockMigrationKey, service]];
+  [self setObject:@YES forKey:[NSString stringWithFormat:kMSACMockMigrationKey, service]];
 }
 
 - (void)setObject:(id)anObject forKey:(NSString *)aKey {

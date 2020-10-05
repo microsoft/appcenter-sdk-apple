@@ -36,8 +36,8 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
     MSACLogVerbose([MSACAppCenter logTag], @"Stored a string with key='%@', service='%@' to keychain.", key, serviceName);
     return YES;
   }
-  MSACLogWarning([MSACAppCenter logTag], @"Failed to store item with key='%@', service='%@' to keychain. OS Status code %i", key, serviceName,
-               (int)status);
+  MSACLogWarning([MSACAppCenter logTag], @"Failed to store item with key='%@', service='%@' to keychain. OS Status code %i", key,
+                 serviceName, (int)status);
   return NO;
 }
 
@@ -55,7 +55,7 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
       return string;
     }
     MSACLogWarning([MSACAppCenter logTag], @"Failed to delete item with key='%@', service='%@' from keychain. OS Status code %i", key,
-                 serviceName, (int)status);
+                   serviceName, (int)status);
   }
   return nil;
 }
@@ -70,7 +70,8 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
   query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
   CFTypeRef result = nil;
 
-  // Create placeholder to use in case given status code pointer is NULL. Can't put it inside the if statement or it can get deallocated too early.
+  // Create placeholder to use in case given status code pointer is NULL. Can't put it inside the if statement or it can get deallocated too
+  // early.
   OSStatus statusPlaceholder;
   if (!statusCode) {
     statusCode = &statusPlaceholder;
@@ -81,7 +82,7 @@ static NSString *AppCenterKeychainServiceName(NSString *suffix) {
     return [[NSString alloc] initWithData:(__bridge_transfer NSData *)result encoding:NSUTF8StringEncoding];
   }
   MSACLogWarning([MSACAppCenter logTag], @"Failed to retrieve item with key='%@', service='%@' from keychain. OS Status code %i", key,
-               serviceName, (int)*statusCode);
+                 serviceName, (int)*statusCode);
   return nil;
 }
 

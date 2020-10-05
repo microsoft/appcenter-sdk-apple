@@ -25,10 +25,10 @@
 
   // When
   MSACChannelUnitConfiguration *sut = [[MSACChannelUnitConfiguration alloc] initWithGroupId:groupId
-                                                                               priority:priority
-                                                                          flushInterval:flushInterval
-                                                                         batchSizeLimit:batchSizeLimit
-                                                                    pendingBatchesLimit:pendingBatchesLimit];
+                                                                                   priority:priority
+                                                                              flushInterval:flushInterval
+                                                                             batchSizeLimit:batchSizeLimit
+                                                                        pendingBatchesLimit:pendingBatchesLimit];
 
   // Then
   assertThat(sut, notNilValue());

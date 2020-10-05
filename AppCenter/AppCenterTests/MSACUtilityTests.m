@@ -166,11 +166,11 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
 
   // When
   [MSACUtility sharedAppOpenUrl:[NSURL URLWithString:@""]
-                      options:@{}
-            completionHandler:^(MSACOpenURLState status) {
-              handlerHasBeenCalled = YES;
-              XCTAssertEqual(status, MSACOpenURLStateFailed);
-            }];
+                        options:@{}
+              completionHandler:^(MSACOpenURLState status) {
+                handlerHasBeenCalled = YES;
+                XCTAssertEqual(status, MSACOpenURLStateFailed);
+              }];
   dispatch_async(dispatch_get_main_queue(), ^{
     [openURLCalledExpectation fulfill];
   });
@@ -580,7 +580,9 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   NSDictionary *tooLongKeysAndValuesInProperties = @{longStringValue : longStringValue};
 
   // When
-  validatedProperties = [MSACUtility validateProperties:tooLongKeysAndValuesInProperties forLogName:testLogTypeString type:testLogTypeString];
+  validatedProperties = [MSACUtility validateProperties:tooLongKeysAndValuesInProperties
+                                             forLogName:testLogTypeString
+                                                   type:testLogTypeString];
 
   // Then
   NSString *truncatedKey = (NSString *)[[validatedProperties allKeys] firstObject];
@@ -780,10 +782,10 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   NSUInteger fileCount;
   for (fileCount = 0; fileCount < 3; fileCount++) {
     [MSACUtility createFileAtPathComponent:[NSString stringWithFormat:@"%@%lu", pathComponent, (unsigned long)fileCount]
-                                withData:[[NSString stringWithFormat:@"%@%lu", expectedString, (unsigned long)fileCount]
-                                             dataUsingEncoding:NSUTF8StringEncoding]
-                              atomically:atomical
-                          forceOverwrite:forceOverwrite];
+                                  withData:[[NSString stringWithFormat:@"%@%lu", expectedString, (unsigned long)fileCount]
+                                               dataUsingEncoding:NSUTF8StringEncoding]
+                                atomically:atomical
+                            forceOverwrite:forceOverwrite];
   }
 
   // When
@@ -927,7 +929,9 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   // Then
   XCTAssertNil([MSACUtility obfuscateString:nil searchingForPattern:pattern toReplaceWithTemplate:template]);
   XCTAssertEqualObjects([MSACUtility obfuscateString:@"" searchingForPattern:pattern toReplaceWithTemplate:template], @"");
-  XCTAssertEqualObjects([MSACUtility obfuscateString:@"{\"something\":\"else\"}" searchingForPattern:pattern toReplaceWithTemplate:template],
+  XCTAssertEqualObjects([MSACUtility obfuscateString:@"{\"something\":\"else\"}"
+                                 searchingForPattern:pattern
+                               toReplaceWithTemplate:template],
                         @"{\"something\":\"else\"}");
 
   // If
@@ -946,8 +950,8 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
 
   // When
   NSString *obfuscatedString = [MSACUtility obfuscateString:payload
-                                      searchingForPattern:kMSACRedirectUriPattern
-                                    toReplaceWithTemplate:kMSACRedirectUriObfuscatedTemplate];
+                                        searchingForPattern:kMSACRedirectUriPattern
+                                      toReplaceWithTemplate:kMSACRedirectUriObfuscatedTemplate];
 
   // Then
   XCTAssertTrue([obfuscatedString rangeOfString:@"abc"].location == NSNotFound);
@@ -974,12 +978,12 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   typedef void (^block)(NSString *, NSString *);
 
   // When
-  MSAC_DISPATCH_SELECTOR((void (*)(id, SEL, NSString *, NSString *, block)), self, methodWithArgs:secondArg:completionHandler:, nil, @"test",
-                       ^(NSString *firstArg, NSString *secondArg) {
-                         XCTAssertNil(firstArg);
-                         XCTAssertEqual(secondArg, @"test");
-                         [expectation fulfill];
-                       });
+  MSAC_DISPATCH_SELECTOR((void (*)(id, SEL, NSString *, NSString *, block)), self, methodWithArgs:secondArg:completionHandler:, nil,
+                         @"test", ^(NSString *firstArg, NSString *secondArg) {
+                           XCTAssertNil(firstArg);
+                           XCTAssertEqual(secondArg, @"test");
+                           [expectation fulfill];
+                         });
 
   // Then
   [self waitForExpectationsWithTimeout:kMSACTestTimeout
@@ -1019,19 +1023,20 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   // If
   NSTimeInterval blockTimeout = 0.1;
   XCTestExpectation *expectation = [self expectationWithDescription:@"block not called."];
-    
+
   // Should be pass if `[expectation fulfill]` will be called later than `waitForExpectationsWithTimeout`.
   [expectation setInverted:YES];
   dispatch_queue_t serialQueue = dispatch_queue_create("test", DISPATCH_QUEUE_SERIAL);
   __block dispatch_semaphore_t delayedSemaphore = dispatch_semaphore_create(0);
-    
+
   // When
-  [MSACDispatcherUtil dispatchSyncWithTimeout:blockTimeout
-                                    onQueue:serialQueue
-                                  withBlock:^{
-                                    dispatch_semaphore_wait(delayedSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)));
-                                    [expectation fulfill];
-                                  }];
+  [MSACDispatcherUtil
+      dispatchSyncWithTimeout:blockTimeout
+                      onQueue:serialQueue
+                    withBlock:^{
+                      dispatch_semaphore_wait(delayedSemaphore, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)));
+                      [expectation fulfill];
+                    }];
 
   // Then
   [self waitForExpectationsWithTimeout:0
@@ -1052,11 +1057,11 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
 
   // When
   [MSACDispatcherUtil dispatchSyncWithTimeout:blockTimeout
-                                    onQueue:serialQueue
-                                  withBlock:^{
-                                    [NSThread sleepForTimeInterval:blockTimeout / 2];
-                                    [expectation fulfill];
-                                  }];
+                                      onQueue:serialQueue
+                                    withBlock:^{
+                                      [NSThread sleepForTimeInterval:blockTimeout / 2];
+                                      [expectation fulfill];
+                                    }];
 
   // Then
   [self waitForExpectationsWithTimeout:0
@@ -1133,7 +1138,7 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
 // 12.2 and after the above bundle identifier is com.apple.dt.xctest.tool.
 - (NSString *)getPathWithBundleIdentifier:(NSString *)path {
   NSString *bundleId;
-#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_12_2) ||                                            \
+#if ((defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_12_2) ||                                     \
      (defined(__MAC_OS_X_VERSION_MAX_ALLOWED) && __MAC_OS_X_VERSION_MAX_ALLOWED >= __MAC_10_14_4))
   bundleId = @"com.apple.dt.xctest.tool";
 #else

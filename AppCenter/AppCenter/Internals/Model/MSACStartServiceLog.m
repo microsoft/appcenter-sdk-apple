@@ -18,13 +18,11 @@ static NSString *const kMSACServices = @"services";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSACStartServiceLog class]] ||
-      ![super isEqual:object]) {
+  if (![(NSObject *)object isKindOfClass:[MSACStartServiceLog class]] || ![super isEqual:object]) {
     return NO;
   }
   MSACStartServiceLog *log = (MSACStartServiceLog *)object;
-  return ((!self.services && !log.services) ||
-          [self.services isEqualToArray:log.services]);
+  return ((!self.services && !log.services) || [self.services isEqualToArray:log.services]);
 }
 
 #pragma mark - MSACSerializableObject

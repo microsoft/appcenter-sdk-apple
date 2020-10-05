@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACAbstractLogInternal.h"
 #import "MSACLogWithProperties.h"
+#import "MSACAbstractLogInternal.h"
 
 static NSString *const kMSACProperties = @"properties";
 

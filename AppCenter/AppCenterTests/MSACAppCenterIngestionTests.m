@@ -55,11 +55,11 @@ static NSString *const kMSACTestAppSecret = @"TestAppSecret";
 
   // sut: System under test
   self.sut = [[MSACAppCenterIngestion alloc] initWithHttpClient:self.httpClientMock
-                                                      baseUrl:kMSACBaseUrl
-                                                      apiPath:@"/test-path"
-                                                      headers:headers
-                                                 queryStrings:queryStrings
-                                               retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
+                                                        baseUrl:kMSACBaseUrl
+                                                        apiPath:@"/test-path"
+                                                        headers:headers
+                                                   queryStrings:queryStrings
+                                                 retryIntervals:@[ @(0.5), @(1), @(1.5) ]];
   [self.sut setAppSecret:kMSACTestAppSecret];
 }
 

@@ -30,7 +30,7 @@
 - (void)testSerializingDeviceToDictionaryWorks {
 
   // If
-  NSDictionary *properties = @{ @"key1" : @"value1", @"key2" : @"value" };
+  NSDictionary *properties = @{@"key1" : @"value1", @"key2" : @"value"};
   self.sut.properties = properties;
 
   // When
@@ -44,7 +44,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  NSDictionary *properties = @{ @"key1" : @"value1", @"key2" : @"value" };
+  NSDictionary *properties = @{@"key1" : @"value1", @"key2" : @"value"};
   self.sut.properties = properties;
 
   // When
@@ -62,7 +62,7 @@
 - (void)testIsEqual {
 
   // If
-  NSDictionary *properties = @{ @"key1" : @"value1", @"key2" : @"value" };
+  NSDictionary *properties = @{@"key1" : @"value1", @"key2" : @"value"};
   self.sut.properties = properties;
 
   // When

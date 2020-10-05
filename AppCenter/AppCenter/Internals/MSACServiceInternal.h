@@ -5,9 +5,9 @@
 #import "MSACServiceCommon.h"
 
 /**
- * Protocol declaring all the logic of a service. This is what concrete services needs to conform to. The difference is that MSACServiceCommon
- * is public, while MSACServiceInternal is private. Some properties are present in both, which is counter-intuitive but the way we implemented
- * this to achieve abstraction and not have empty implementations in MSACServiceAbstract.
+ * Protocol declaring all the logic of a service. This is what concrete services needs to conform to. The difference is that
+ * MSACServiceCommon is public, while MSACServiceInternal is private. Some properties are present in both, which is counter-intuitive but
+ * the way we implemented this to achieve abstraction and not have empty implementations in MSACServiceAbstract.
  */
 @protocol MSACServiceInternal <MSACService, MSACServiceCommon>
 

@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, MSACLogLevel) {
 
 typedef NSString * (^MSACLogMessageProvider)(void);
 typedef void (^MSACLogHandler)(MSACLogMessageProvider messageProvider, MSACLogLevel logLevel, NSString *tag, const char *file,
-                             const char *function, uint line);
+                               const char *function, uint line);
 
 /**
  * Channel priorities, check the kMSACPriorityCount if you add a new value.

@@ -96,9 +96,9 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     return;
   }
   [[MSACAppCenter sharedInstance] startServices:@[ service ]
-                                withAppSecret:[[MSACAppCenter sharedInstance] appSecret]
-                      transmissionTargetToken:[[MSACAppCenter sharedInstance] defaultTransmissionTargetToken]
-                              fromApplication:YES];
+                                  withAppSecret:[[MSACAppCenter sharedInstance] appSecret]
+                        transmissionTargetToken:[[MSACAppCenter sharedInstance] defaultTransmissionTargetToken]
+                                fromApplication:YES];
 }
 
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services {
@@ -340,7 +340,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   }
   NSArray *sortedServices = [self sortServices:services];
   MSACLogVerbose([MSACAppCenter logTag], @"Start services %@ from %@", [sortedServices componentsJoinedByString:@", "],
-               (fromApplication ? @"an application" : @"a library"));
+                 (fromApplication ? @"an application" : @"a library"));
   NSMutableArray<NSString *> *servicesNames = [NSMutableArray arrayWithCapacity:sortedServices.count];
   for (Class service in sortedServices) {
     if ([self startService:service
@@ -416,8 +416,8 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     if (service.isAppSecretRequired && ![appSecret length]) {
 
       // Service requires an app secret but none is provided.
-      MSACLogError([MSACAppCenter logTag], @"Cannot start service %@. App Center was started without app secret, but the service requires it.",
-                 clazz);
+      MSACLogError([MSACAppCenter logTag],
+                   @"Cannot start service %@. App Center was started without app secret, but the service requires it.", clazz);
       return NO;
     }
 
@@ -481,7 +481,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
       completionHandler(NO);
     }
     MSACLogWarning([MSACAppCenter logTag], @"Cannot set storage size to %ld bytes, minimum value is %ld bytes", sizeInBytes,
-                 kMSACMinUpperSizeLimitInBytes);
+                   kMSACMinUpperSizeLimitInBytes);
     return;
   }
 
@@ -586,13 +586,13 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   if (isEnabled) {
 #if !TARGET_OS_OSX
     [MSAC_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationDidEnterBackground)
-                                   name:UIApplicationDidEnterBackgroundNotification
-                                 object:nil];
+                                 selector:@selector(applicationDidEnterBackground)
+                                     name:UIApplicationDidEnterBackgroundNotification
+                                   object:nil];
     [MSAC_NOTIFICATION_CENTER addObserver:self
-                               selector:@selector(applicationWillEnterForeground)
-                                   name:UIApplicationWillEnterForegroundNotification
-                                 object:nil];
+                                 selector:@selector(applicationWillEnterForeground)
+                                     name:UIApplicationWillEnterForegroundNotification
+                                   object:nil];
 #endif
   } else {
 
@@ -621,8 +621,8 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     // Construct channel group.
     if (!self.oneCollectorChannelDelegate) {
       self.oneCollectorChannelDelegate = [[MSACOneCollectorChannelDelegate alloc] initWithHttpClient:[MSACHttpClient new]
-                                                                                         installId:self.installId
-                                                                                           baseUrl:self.appSecret ? nil : self.logUrl];
+                                                                                           installId:self.installId
+                                                                                             baseUrl:self.appSecret ? nil : self.logUrl];
     }
     if (!self.channelGroup) {
       id<MSACHttpClientProtocol> httpClient = [MSACDependencyConfiguration httpClient];
@@ -630,8 +630,8 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
         httpClient = [MSACHttpClient new];
       }
       self.channelGroup = [[MSACChannelGroupDefault alloc] initWithHttpClient:httpClient
-                                                                  installId:self.installId
-                                                                     logUrl:self.logUrl ?: kMSACAppCenterBaseUrl];
+                                                                    installId:self.installId
+                                                                       logUrl:self.logUrl ?: kMSACAppCenterBaseUrl];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
       if (self.requestedMaxStorageSizeInBytes) {
         long storageSize = [self.requestedMaxStorageSizeInBytes longValue];
@@ -678,7 +678,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   BOOL canBeUsed = self.sdkConfigured;
   if (!canBeUsed) {
     MSACLogError([MSACAppCenter logTag], @"App Center SDK hasn't been configured. You need to call [MSACAppCenter start:YOUR_APP_SECRET "
-                                     @"withServices:LIST_OF_SERVICES] first.");
+                                         @"withServices:LIST_OF_SERVICES] first.");
   }
   return canBeUsed;
 }

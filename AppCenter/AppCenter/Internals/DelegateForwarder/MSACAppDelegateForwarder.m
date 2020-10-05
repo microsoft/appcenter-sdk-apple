@@ -97,10 +97,10 @@ static dispatch_once_t swizzlingOnceToken;
 
   // Forward to custom delegates.
   return [[MSACAppDelegateForwarder sharedInstance] application:application
-                                                      openURL:url
-                                            sourceApplication:sourceApplication
-                                                   annotation:annotation
-                                                returnedValue:result];
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                                     annotation:annotation
+                                                  returnedValue:result];
 }
 
 - (BOOL)custom_application:(UIApplication *)application

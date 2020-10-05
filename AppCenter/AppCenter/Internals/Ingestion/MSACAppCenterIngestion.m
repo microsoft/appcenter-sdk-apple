@@ -61,7 +61,7 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
 
 - (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data eTag:(nullable NSString *__unused)eTag {
   NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];
-  [httpHeaders setValue: self.appSecret forKey:kMSACHeaderAppSecretKey];
+  [httpHeaders setValue:self.appSecret forKey:kMSACHeaderAppSecretKey];
   return httpHeaders;
 }
 

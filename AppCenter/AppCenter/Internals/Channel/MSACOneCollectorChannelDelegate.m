@@ -40,9 +40,9 @@ static NSString *const kMSACBaseErrorMsg = @"Log validation failed.";
     NSString *oneCollectorGroupId = [NSString stringWithFormat:@"%@%@", channel.configuration.groupId, kMSACOneCollectorGroupIdSuffix];
     MSACChannelUnitConfiguration *channelUnitConfiguration =
         [[MSACChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:oneCollectorGroupId
-                                                                  flushInterval:channel.configuration.flushInterval];
+                                                                    flushInterval:channel.configuration.flushInterval];
     id<MSACChannelUnitProtocol> channelUnit = [channelGroup addChannelUnitWithConfiguration:channelUnitConfiguration
-                                                                            withIngestion:self.oneCollectorIngestion];
+                                                                              withIngestion:self.oneCollectorIngestion];
     self.oneCollectorChannels[groupId] = channelUnit;
   }
 }

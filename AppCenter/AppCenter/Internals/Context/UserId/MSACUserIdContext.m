@@ -79,7 +79,8 @@ static dispatch_once_t onceToken;
 - (void)setUserId:(nullable NSString *)userId {
   NSArray *synchronizedDelegates;
   @synchronized(self) {
-    BOOL sameUserId = (!userId && !self.currentUserIdInfo.userId) || (userId && [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]);
+    BOOL sameUserId =
+        (!userId && !self.currentUserIdInfo.userId) || (userId && [self.currentUserIdInfo.userId isEqualToString:(NSString *)userId]);
     if (sameUserId) {
       return;
     }
@@ -95,7 +96,7 @@ static dispatch_once_t onceToken;
     [self.userIdHistory addObject:self.currentUserIdInfo];
     [MSAC_APP_CENTER_USER_DEFAULTS setObject:[MSACUtility archiveKeyedData:self.userIdHistory] forKey:kMSACUserIdHistoryKey];
     MSACLogVerbose([MSACAppCenter logTag], @"Stored new userId:%@ and timestamp: %@.", self.currentUserIdInfo.userId,
-                 self.currentUserIdInfo.timestamp);
+                   self.currentUserIdInfo.timestamp);
     synchronizedDelegates = [self.delegates allObjects];
   }
   for (id<MSACUserIdContextDelegate> delegate in synchronizedDelegates) {

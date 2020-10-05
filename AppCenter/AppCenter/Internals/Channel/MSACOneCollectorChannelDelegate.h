@@ -23,7 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return A `MSACOneCollectorChannelDelegate` instance.
  */
-- (instancetype)initWithHttpClient:(id<MSACHttpClientProtocol>)httpClient installId:(NSUUID *)installId baseUrl:(nullable NSString *)baseUrl;
+- (instancetype)initWithHttpClient:(id<MSACHttpClientProtocol>)httpClient
+                         installId:(NSUUID *)installId
+                           baseUrl:(nullable NSString *)baseUrl;
 
 /**
  * Change the base URL (schema + authority + port only) that is used to communicate with the backend.

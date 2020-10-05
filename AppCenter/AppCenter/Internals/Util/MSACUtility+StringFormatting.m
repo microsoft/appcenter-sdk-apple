@@ -13,12 +13,12 @@
 NSString *MSACUtilityStringFormattingCategory;
 
 /*
-* We support the following formats:
-* target=<..>
-* appsecret=<..>
-* target=<..>;appsecret=<..>
-* ios=<..>;macos=<..>
-*/
+ * We support the following formats:
+ * target=<..>
+ * appsecret=<..>
+ * target=<..>;appsecret=<..>
+ * ios=<..>;macos=<..>
+ */
 
 static NSString *kMSACTransmissionTargetKey = @"target=";
 static NSString *kMSACAppSecretKey = @"appsecret=";
@@ -63,18 +63,18 @@ static NSString *kMSACAppSecretOSKey = @"appsecret=";
       if (transmissionTokenIsNotPresent && component.length > 0) {
         NSString *secretString = @"";
         if ([string rangeOfString:kMSACAppSecretOSKey].location != NSNotFound) {
-          
+
           // If we know the whole string contains OSKey somewhere, we start looking for it.
           if ([component rangeOfString:kMSACAppSecretOSKey].location != NSNotFound) {
             secretString = [component stringByReplacingOccurrencesOfString:kMSACAppSecretOSKey withString:@""];
           }
         } else {
-          
+
           // If the whole string does not contain OSKey, we either use its value
           // or search for "appsecret" components.
           if ([component rangeOfString:kMSACAppSecretKey].location == NSNotFound &&
               [component rangeOfString:kMSACSecretSeparator].location == NSNotFound) {
-                
+
             // Make sure the string is "clean" and without keys at this point.
             secretString = component;
           } else {
@@ -100,13 +100,13 @@ static NSString *kMSACAppSecretOSKey = @"appsecret=";
     return nil;
   } else {
     for (NSString *component in components) {
-      
-    // Component is transmission target token, return the component.
-    if (([component rangeOfString:kMSACTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
-      NSString *transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSACTransmissionTargetKey withString:@""];
-      
-      // Check for string length to avoid returning empty string.
-      if (transmissionTarget.length > 0) {
+
+      // Component is transmission target token, return the component.
+      if (([component rangeOfString:kMSACTransmissionTargetKey].location != NSNotFound) && (component.length > 0)) {
+        NSString *transmissionTarget = [component stringByReplacingOccurrencesOfString:kMSACTransmissionTargetKey withString:@""];
+
+        // Check for string length to avoid returning empty string.
+        if (transmissionTarget.length > 0) {
           return transmissionTarget;
         }
       }
@@ -162,7 +162,8 @@ static NSString *kMSACAppSecretOSKey = @"appsecret=";
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
     if (!regex) {
-      MSACLogError([MSACAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", pattern, error.localizedDescription);
+      MSACLogError([MSACAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", pattern,
+                   error.localizedDescription);
       return nil;
     }
     obfuscatedString = [regex stringByReplacingMatchesInString:unObfuscatedString

@@ -35,7 +35,7 @@
 
   // If
   MSACLongTypedProperty *sut = [MSACLongTypedProperty new];
-  sut.name =  @"propertyName";
+  sut.name = @"propertyName";
   sut.value = 12;
 
   // When

@@ -105,8 +105,8 @@
 
 - (NSString *)obfuscateResponsePayload:(NSString *)payload {
   return [MSACUtility obfuscateString:payload
-                searchingForPattern:kMSACTokenKeyValuePattern
-              toReplaceWithTemplate:kMSACTokenKeyValueObfuscatedTemplate];
+                  searchingForPattern:kMSACTokenKeyValuePattern
+                toReplaceWithTemplate:kMSACTokenKeyValueObfuscatedTemplate];
 }
 
 - (NSString *)obfuscateTargetTokens:(NSString *)tokenString {

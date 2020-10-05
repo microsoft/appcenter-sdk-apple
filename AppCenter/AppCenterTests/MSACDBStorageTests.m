@@ -37,7 +37,8 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   self.schema = @{
     kMSACTestTableName : @[
       @{kMSACTestPositionColName : @[ kMSACSQLiteTypeInteger, kMSACSQLiteConstraintPrimaryKey, kMSACSQLiteConstraintAutoincrement ]},
-      @{kMSACTestPersonColName : @[ kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull ]}, @{kMSACTestHungrinessColName : @[ kMSACSQLiteTypeInteger ]},
+      @{kMSACTestPersonColName : @[ kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull ]},
+      @{kMSACTestHungrinessColName : @[ kMSACSQLiteTypeInteger ]},
       @{kMSACTestMealColName : @[ kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull ]}
     ]
   };
@@ -57,8 +58,8 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *testTableName = @"test_table", *testColumnName = @"test_column", *testColumn2Name = @"test_column2";
   NSString *expectedResult =
       [NSString stringWithFormat:@"CREATE TABLE \"%@\" (\"%@\" %@ %@ %@, \"%@\" %@ %@)", testTableName, testColumnName,
-                                 kMSACSQLiteTypeInteger, kMSACSQLiteConstraintPrimaryKey, kMSACSQLiteConstraintAutoincrement, testColumn2Name,
-                                 kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull];
+                                 kMSACSQLiteTypeInteger, kMSACSQLiteConstraintPrimaryKey, kMSACSQLiteConstraintAutoincrement,
+                                 testColumn2Name, kMSACSQLiteTypeText, kMSACSQLiteConstraintNotNull];
   MSACDBSchema *testSchema = @{
     testTableName : @[
       @{testColumnName : @[ kMSACSQLiteTypeInteger, kMSACSQLiteConstraintPrimaryKey, kMSACSQLiteConstraintAutoincrement ]},
@@ -369,9 +370,10 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *expectedPerson = @"Hungry Guy";
   NSNumber *expectedHungriness = @(99);
   NSString *expectedMeal = @"Big burger";
-  NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
-                                               @"VALUES (?, ?, ?)",
-                                               kMSACTestTableName, kMSACTestPersonColName, kMSACTestHungrinessColName, kMSACTestMealColName];
+  NSString *query =
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                 @"VALUES (?, ?, ?)",
+                                 kMSACTestTableName, kMSACTestPersonColName, kMSACTestHungrinessColName, kMSACTestMealColName];
   MSACStorageBindableArray *array = [MSACStorageBindableArray new];
   [array addString:expectedPerson];
   [array addString:expectedHungriness.stringValue];
@@ -396,8 +398,8 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
   // If
   expectedMeal = @"Gigantic burger";
-  query = [NSString
-      stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = ? WHERE \"%@\" = ?", kMSACTestTableName, kMSACTestMealColName, kMSACTestPositionColName];
+  query = [NSString stringWithFormat:@"UPDATE \"%@\" SET \"%@\" = ? WHERE \"%@\" = ?", kMSACTestTableName, kMSACTestMealColName,
+                                     kMSACTestPositionColName];
 
   // When
   array = [MSACStorageBindableArray new];
@@ -465,9 +467,10 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   NSString *expectedPerson = @"Hungry Guy";
   NSNumber *expectedHungriness = @(99);
   NSString *expectedMeal = @"Big burger";
-  NSString *query = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
-                                               @"VALUES (?, ?, ?)",
-                                               kMSACTestTableName, kMSACTestPersonColName, kMSACTestHungrinessColName, kMSACTestMealColName];
+  NSString *query =
+      [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") "
+                                 @"VALUES (?, ?, ?)",
+                                 kMSACTestTableName, kMSACTestPersonColName, kMSACTestHungrinessColName, kMSACTestMealColName];
   MSACStorageBindableArray *array = [MSACStorageBindableArray new];
   [array addString:expectedPerson];
   [array addString:expectedHungriness.stringValue];
@@ -711,9 +714,9 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   // If
   id mockMSACDBStorage = OCMClassMock([MSACDBStorage class]);
   OCMStub([mockMSACDBStorage executeSelectionQuery:containsSubstring(@"PRAGMA max_page_count =")
-                                inOpenedDatabase:[OCMArg anyPointer]
-                                          result:[OCMArg setToValue:OCMOCK_VALUE((int){SQLITE_CORRUPT})]
-                                      withValues:OCMOCK_ANY])
+                                  inOpenedDatabase:[OCMArg anyPointer]
+                                            result:[OCMArg setToValue:OCMOCK_VALUE((int){SQLITE_CORRUPT})]
+                                        withValues:OCMOCK_ANY])
       .andReturn(@[]);
 
   // When

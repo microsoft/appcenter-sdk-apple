@@ -52,9 +52,10 @@
 - (BOOL)canBeUsed {
   BOOL canBeUsed = [MSACAppCenter sharedInstance].sdkConfigured && self.started;
   if (!canBeUsed) {
-    MSACLogError([MSACAppCenter logTag],
-               @"%@ service hasn't been started. You need to call [MSACAppCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
-               MSAC_CLASS_NAME_WITHOUT_PREFIX);
+    MSACLogError(
+        [MSACAppCenter logTag],
+        @"%@ service hasn't been started. You need to call [MSACAppCenter start:YOUR_APP_SECRET withServices:LIST_OF_SERVICES] first.",
+        MSAC_CLASS_NAME_WITHOUT_PREFIX);
   }
   return canBeUsed;
 }
@@ -121,8 +122,9 @@
   @synchronized([self sharedInstance]) {
     if ([[self sharedInstance] canBeUsed]) {
       if (![MSACAppCenter isEnabled] && ![MSACAppCenter sharedInstance].enabledStateUpdating) {
-        MSACLogError([MSACAppCenter logTag], @"The SDK is disabled. Re-enable the whole SDK from AppCenter first before enabling %@ service.",
-                   MSAC_CLASS_NAME_WITHOUT_PREFIX);
+        MSACLogError([MSACAppCenter logTag],
+                     @"The SDK is disabled. Re-enable the whole SDK from AppCenter first before enabling %@ service.",
+                     MSAC_CLASS_NAME_WITHOUT_PREFIX);
       } else {
         [[self sharedInstance] setEnabled:isEnabled];
       }

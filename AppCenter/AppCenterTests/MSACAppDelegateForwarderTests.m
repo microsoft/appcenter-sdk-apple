@@ -165,7 +165,7 @@
   id originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
   [MSACDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalBaseAppDelegate];
   originalAppDelegate = [MSACDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class]
-                                                          andConformItToProtocol:nil];
+                                                            andConformItToProtocol:nil];
   wasCalled = NO;
   [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
@@ -188,7 +188,7 @@
   originalBaseAppDelegate = [self createOriginalAppDelegateInstance];
   [MSACDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:baseSelectorImp toInstance:originalBaseAppDelegate];
   originalAppDelegate = [MSACDelegateForwarderTestUtil createInstanceWithBaseClass:[originalBaseAppDelegate class]
-                                                          andConformItToProtocol:nil];
+                                                            andConformItToProtocol:nil];
   [MSACDelegateForwarderTestUtil addSelector:selectorToSwizzle implementation:selectorImp toInstance:originalAppDelegate];
   [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
@@ -212,8 +212,8 @@
 
   // Adding a class method to a class requires its meta class.
   [MSACDelegateForwarderTestUtil addSelector:instancesRespondToSelector
-                            implementation:instancesRespondToSelectorImp
-                                   toClass:object_getClass([originalAppDelegate class])];
+                              implementation:instancesRespondToSelectorImp
+                                     toClass:object_getClass([originalAppDelegate class])];
   [self.sut addDelegateSelectorToSwizzle:selectorToSwizzle];
 
   // When
@@ -297,8 +297,8 @@
         [originalCalledExpectation fulfill];
       };
   [MSACDelegateForwarderTestUtil addSelector:originalDidRegisterForRemoteNotificationsWithDeviceTokenSel
-                            implementation:originalDidRegisterForRemoteNotificationsWithDeviceTokenImp
-                                toInstance:originalAppDelegate];
+                              implementation:originalDidRegisterForRemoteNotificationsWithDeviceTokenImp
+                                  toInstance:originalAppDelegate];
 
   // When
   [originalAppDelegate application:self.appMock didRegisterForRemoteNotificationsWithDeviceToken:expectedToken];
@@ -332,15 +332,16 @@
   [MSACDelegateForwarderTestUtil addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
   id<MSACCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id customOpenURLiOS90Imp = ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
-    // Then
-    assertThat(application, is(appMock));
-    assertThat(url, is(expectedURL));
-    assertThat(options, is(expectedOptions));
-    assertThatBool(returnedValue, is(@(expectedReturnedValue)));
-    [customCalledExpectation fulfill];
-    return expectedReturnedValue;
-  };
+  id customOpenURLiOS90Imp =
+      ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
+        // Then
+        assertThat(application, is(appMock));
+        assertThat(url, is(expectedURL));
+        assertThat(options, is(expectedOptions));
+        assertThatBool(returnedValue, is(@(expectedReturnedValue)));
+        [customCalledExpectation fulfill];
+        return expectedReturnedValue;
+      };
   [MSACDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];
@@ -379,26 +380,28 @@
   [MSACDelegateForwarderTestUtil addSelector:originalOpenURLiOS90Sel implementation:originalOpenURLiOS90Imp toInstance:originalAppDelegate];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
   id<MSACCustomApplicationDelegate> customAppDelegate1 = [self createCustomAppDelegateInstance];
-  id customOpenURLiOS90Imp1 = ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
-    // Then
-    assertThat(application, is(appMock));
-    assertThat(url, is(expectedURL));
-    assertThat(options, is(expectedOptions));
-    assertThatBool(returnedValue, is(@(expectedReturnedValue)));
-    [customCalledExpectation1 fulfill];
-    return expectedReturnedValue;
-  };
+  id customOpenURLiOS90Imp1 =
+      ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
+        // Then
+        assertThat(application, is(appMock));
+        assertThat(url, is(expectedURL));
+        assertThat(options, is(expectedOptions));
+        assertThatBool(returnedValue, is(@(expectedReturnedValue)));
+        [customCalledExpectation1 fulfill];
+        return expectedReturnedValue;
+      };
   [MSACDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp1 toInstance:customAppDelegate1];
   id<MSACCustomApplicationDelegate> customAppDelegate2 = [self createCustomAppDelegateInstance];
-  id customOpenURLiOS90Imp2 = ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
-    // Then
-    assertThat(application, is(appMock));
-    assertThat(url, is(expectedURL));
-    assertThat(options, is(expectedOptions));
-    assertThatBool(returnedValue, is(@(expectedReturnedValue)));
-    [customCalledExpectation2 fulfill];
-    return expectedReturnedValue;
-  };
+  id customOpenURLiOS90Imp2 =
+      ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
+        // Then
+        assertThat(application, is(appMock));
+        assertThat(url, is(expectedURL));
+        assertThat(options, is(expectedOptions));
+        assertThatBool(returnedValue, is(@(expectedReturnedValue)));
+        [customCalledExpectation2 fulfill];
+        return expectedReturnedValue;
+      };
   [MSACDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp2 toInstance:customAppDelegate2];
   [self.sut addDelegate:customAppDelegate1];
   [self.sut addDelegate:customAppDelegate2];
@@ -594,15 +597,16 @@
   id<MSACApplicationDelegate> originalAppDelegate = [self createOriginalAppDelegateInstance];
   SEL customOpenURLiOS90Sel = @selector(application:openURL:options:returnedValue:);
   id<MSACCustomApplicationDelegate> customAppDelegate = [self createCustomAppDelegateInstance];
-  id customOpenURLiOS90Imp = ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
-    // Then
-    assertThat(application, is(appMock));
-    assertThat(url, is(expectedURL));
-    assertThat(options, is(expectedOptions));
-    assertThatBool(returnedValue, is(@(NO)));
-    [customCalledExpectation fulfill];
-    return expectedReturnedValue;
-  };
+  id customOpenURLiOS90Imp =
+      ^(__attribute__((unused)) id itSelf, MSACApplication *application, NSURL *url, id options, BOOL returnedValue) {
+        // Then
+        assertThat(application, is(appMock));
+        assertThat(url, is(expectedURL));
+        assertThat(options, is(expectedOptions));
+        assertThatBool(returnedValue, is(@(NO)));
+        [customCalledExpectation fulfill];
+        return expectedReturnedValue;
+      };
   [MSACDelegateForwarderTestUtil addSelector:customOpenURLiOS90Sel implementation:customOpenURLiOS90Imp toInstance:customAppDelegate];
   [self.sut addDelegate:customAppDelegate];
   [self.sut swizzleOriginalDelegate:originalAppDelegate];

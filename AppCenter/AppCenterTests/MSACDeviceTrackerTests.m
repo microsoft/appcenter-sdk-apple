@@ -376,11 +376,11 @@ static NSString *const kMSACDeviceManufacturerTest = @"Apple";
 
   // If
   MSACWrapperSdk *wrapperSdk = [[MSACWrapperSdk alloc] initWithWrapperSdkVersion:@"10.11.12"
-                                                              wrapperSdkName:@"Wrapper SDK for iOS"
-                                                       wrapperRuntimeVersion:@"13.14"
-                                                      liveUpdateReleaseLabel:@"Release Label"
-                                                     liveUpdateDeploymentKey:@"Deployment Key"
-                                                       liveUpdatePackageHash:@"Package Hash"];
+                                                                  wrapperSdkName:@"Wrapper SDK for iOS"
+                                                           wrapperRuntimeVersion:@"13.14"
+                                                          liveUpdateReleaseLabel:@"Release Label"
+                                                         liveUpdateDeploymentKey:@"Deployment Key"
+                                                           liveUpdatePackageHash:@"Package Hash"];
 
   // When
   [self.sut setWrapperSdk:wrapperSdk];
