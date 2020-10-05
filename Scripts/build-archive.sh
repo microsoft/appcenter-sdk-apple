@@ -30,20 +30,20 @@ fi
 # Verify prefix.
 verify_prefix() {
 
-  # Get values.
-  frameworkPath=$1
-
   # Get result from command and check result value.
-  if nm -gU $frameworkPath | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_MSAC"; then
-    echo "These files should have a prefix MSAC."
-    exit 1
+  echo "Verifying that all classes in $1 has the prefix MSAC."
+  if nm -gU $1 | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_MSAC"; then
+    echo "These classes should have a prefix MSAC."
+    return 1
   fi
 }
 
 # Verify prefix for frameworks.
 for platform in "iOS" "macOS" "tvOS"; do
-  for framework in "AppCenter" "AppCenterAnalytics" "AppCenterCrashes" "AppCenterDistribute"; do
-    verify_prefix "$PRODUCTS_DIR/$platform/"$framework".framework/"$framework""
+  echo $platform
+  for framework in $PRODUCTS_DIR/$platform/*.framework; do
+    frameworkName=${framework##*/}
+    verify_prefix $framework/${frameworkName%.*}
   done
 done
 
