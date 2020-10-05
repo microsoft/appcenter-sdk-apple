@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Breaking change]** Now all the modules start with "MSAC" prefix.
+* **[Breaking change]** In order to avoid a naming conflict with Apple classes, all the modules now start with "MSAC" prefix. Please follow the [migration guide](replace-with-link) for adopting the new naming.
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
 
 ___
