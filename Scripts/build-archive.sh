@@ -31,9 +31,9 @@ fi
 verify_prefix() {
 
   # Get result from command and check result value.
-  echo "Verifying that all classes in $1 has the prefix MSAC."
+  echo "Verifying that all classes in $1 has the prefix MSAC..."
   if nm -gU $1 | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_MSAC"; then
-    echo "These classes should have a prefix MSAC."
+    echo "Found classes without required prefix."
     return 1
   fi
 }
@@ -43,7 +43,9 @@ for platform in "iOS" "macOS" "tvOS"; do
   echo $platform
   for framework in $PRODUCTS_DIR/$platform/*.framework; do
     frameworkName=${framework##*/}
-    verify_prefix $framework/${frameworkName%.*}
+    if ! verify_prefix $framework/${frameworkName%.*}; then
+      exit 1
+    fi
   done
 done
 
