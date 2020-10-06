@@ -8,7 +8,7 @@
 @import AppCenterPush;
 
 @interface AppDelegate
-    : NSObject <NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
+    : NSObject <NSApplicationDelegate, MSACCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
 
 - (void) overrideCountryCode;
 

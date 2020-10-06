@@ -13,178 +13,178 @@
  */
 @implementation AppCenterDelegateObjC
 
-#pragma mark - MSAppCenter section.
+#pragma mark - MSACAppCenter section.
 
 - (BOOL)isAppCenterEnabled {
-  return [MSAppCenter isEnabled];
+  return [MSACAppCenter isEnabled];
 }
 
 - (void)setAppCenterEnabled:(BOOL)isEnabled {
-  return [MSAppCenter setEnabled:isEnabled];
+  return [MSACAppCenter setEnabled:isEnabled];
 }
 
 - (NSString *)installId {
-  return [[MSAppCenter installId] UUIDString];
+  return [[MSACAppCenter installId] UUIDString];
 }
 
 - (NSString *)appSecret {
 
   // TODO: Uncomment when appSecret is moved from internal to public.
-  // return [[MSAppCenter sharedInstance] appSecret];
+  // return [[MSACAppCenter sharedInstance] appSecret];
   return @"Internal";
 }
 
 - (NSString *)logUrl {
 
   // TODO: Uncomment when logUrl is moved from internal to public.
-  // return [[MSAppCenter sharedInstance] logUrl];
+  // return [[MSACAppCenter sharedInstance] logUrl];
   return @"Internal";
 }
 
 - (BOOL)isDebuggerAttached {
-  return [MSAppCenter isDebuggerAttached];
+  return [MSACAppCenter isDebuggerAttached];
 }
 
 #pragma mark - Modules section.
 
 - (BOOL)isAnalyticsEnabled {
-  return [MSAnalytics isEnabled];
+  return [MSACAnalytics isEnabled];
 }
 
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
-  [MSAnalytics setEnabled:isEnabled];
+  [MSACAnalytics setEnabled:isEnabled];
 }
 
 - (BOOL)isCrashesEnabled {
-  return [MSCrashes isEnabled];
+  return [MSACCrashes isEnabled];
 }
 
 - (void)setCrashesEnabled:(BOOL)isEnabled {
 
   // TODO: Uncomment when Crashes will allowed for tvOS.
-  [MSCrashes setEnabled:isEnabled];
+  [MSACCrashes setEnabled:isEnabled];
 }
 
-#pragma mark - MSAnalytics section.
+#pragma mark - MSACAnalytics section.
 
 - (void)trackEvent:(NSString *)eventName {
-  [MSAnalytics trackEvent:eventName];
+  [MSACAnalytics trackEvent:eventName];
 }
 
 - (void)trackEvent:(NSString *)eventName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
-  [MSAnalytics trackEvent:eventName withProperties:properties];
+  [MSACAnalytics trackEvent:eventName withProperties:properties];
 }
 
 - (void)trackPage:(NSString *)pageName {
 
   // TODO: Uncomment when trackPage is moved from internal to public module.
-  // [MSAnalytics trackPage:pageName];
+  // [MSACAnalytics trackPage:pageName];
 }
 
 - (void)trackPage:(NSString *)pageName withProperties:(NSDictionary<NSString *, NSString *> *)properties {
 
   // TODO: Uncomment when trackPage is moved from internal to public module.
-  // [MSAnalytics trackPage:pageName withProperties:properties];
+  // [MSACAnalytics trackPage:pageName withProperties:properties];
 }
 
-#pragma mark - MSCrashes section.
+#pragma mark - MSACCrashes section.
 
 - (BOOL)hasCrashedInLastSession {
-  return [MSCrashes hasCrashedInLastSession];
+  return [MSACCrashes hasCrashedInLastSession];
 }
 
 - (void)generateTestCrash {
-  return [MSCrashes generateTestCrash];
+  return [MSACCrashes generateTestCrash];
 }
 
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {
-  return [[MSCrashes lastSessionCrashReport] incidentIdentifier];
+  return [[MSACCrashes lastSessionCrashReport] incidentIdentifier];
 }
 
 - (NSString *)lastCrashReportReporterKey {
-  return [[MSCrashes lastSessionCrashReport] reporterKey];
+  return [[MSACCrashes lastSessionCrashReport] reporterKey];
 }
 
 - (NSString *)lastCrashReportSignal {
-  return [[MSCrashes lastSessionCrashReport] signal];
+  return [[MSACCrashes lastSessionCrashReport] signal];
 }
 
 - (NSString *)lastCrashReportExceptionName {
-  return [[MSCrashes lastSessionCrashReport] exceptionName];
+  return [[MSACCrashes lastSessionCrashReport] exceptionName];
 }
 
 - (NSString *)lastCrashReportExceptionReason {
-  return [[MSCrashes lastSessionCrashReport] exceptionReason];
+  return [[MSACCrashes lastSessionCrashReport] exceptionReason];
 }
 
 - (NSString *)lastCrashReportAppStartTimeDescription {
-  return [[[MSCrashes lastSessionCrashReport] appStartTime] description];
+  return [[[MSACCrashes lastSessionCrashReport] appStartTime] description];
 }
 
 - (NSString *)lastCrashReportAppErrorTimeDescription {
-  return [[[MSCrashes lastSessionCrashReport] appErrorTime] description];
+  return [[[MSACCrashes lastSessionCrashReport] appErrorTime] description];
 }
 
 - (NSUInteger)lastCrashReportAppProcessIdentifier {
-  return [[MSCrashes lastSessionCrashReport] appProcessIdentifier];
+  return [[MSACCrashes lastSessionCrashReport] appProcessIdentifier];
 }
 
 - (BOOL)lastCrashReportIsAppKill {
-  return [[MSCrashes lastSessionCrashReport] isAppKill];
+  return [[MSACCrashes lastSessionCrashReport] isAppKill];
 }
 
 - (NSString *)lastCrashReportDeviceModel {
-  return [[[MSCrashes lastSessionCrashReport] device] model];
+  return [[[MSACCrashes lastSessionCrashReport] device] model];
 }
 
 - (NSString *)lastCrashReportDeviceOemName {
-  return [[[MSCrashes lastSessionCrashReport] device] oemName];
+  return [[[MSACCrashes lastSessionCrashReport] device] oemName];
 }
 
 - (NSString *)lastCrashReportDeviceOsName {
-  return [[[MSCrashes lastSessionCrashReport] device] osName];
+  return [[[MSACCrashes lastSessionCrashReport] device] osName];
 }
 
 - (NSString *)lastCrashReportDeviceOsVersion {
-  return [[[MSCrashes lastSessionCrashReport] device] osVersion];
+  return [[[MSACCrashes lastSessionCrashReport] device] osVersion];
 }
 
 - (NSString *)lastCrashReportDeviceOsBuild {
-  return [[[MSCrashes lastSessionCrashReport] device] osBuild];
+  return [[[MSACCrashes lastSessionCrashReport] device] osBuild];
 }
 
 - (NSString *)lastCrashReportDeviceLocale {
-  return [[[MSCrashes lastSessionCrashReport] device] locale];
+  return [[[MSACCrashes lastSessionCrashReport] device] locale];
 }
 
 - (NSNumber *)lastCrashReportDeviceTimeZoneOffset {
-  return [[[MSCrashes lastSessionCrashReport] device] timeZoneOffset];
+  return [[[MSACCrashes lastSessionCrashReport] device] timeZoneOffset];
 }
 
 - (NSString *)lastCrashReportDeviceScreenSize {
-  return [[[MSCrashes lastSessionCrashReport] device] screenSize];
+  return [[[MSACCrashes lastSessionCrashReport] device] screenSize];
 }
 
 - (NSString *)lastCrashReportDeviceAppVersion {
-  return [[[MSCrashes lastSessionCrashReport] device] appVersion];
+  return [[[MSACCrashes lastSessionCrashReport] device] appVersion];
 }
 
 - (NSString *)lastCrashReportDeviceAppBuild {
-  return [[[MSCrashes lastSessionCrashReport] device] appBuild];
+  return [[[MSACCrashes lastSessionCrashReport] device] appBuild];
 }
 
 - (NSString *)lastCrashReportDeviceAppNamespace {
-  return [[[MSCrashes lastSessionCrashReport] device] appNamespace];
+  return [[[MSACCrashes lastSessionCrashReport] device] appNamespace];
 }
 
 - (NSString *)lastCrashReportDeviceCarrierName {
-  return [[[MSCrashes lastSessionCrashReport] device] carrierName];
+  return [[[MSACCrashes lastSessionCrashReport] device] carrierName];
 }
 
 - (NSString *)lastCrashReportDeviceCarrierCountry {
-  return [[[MSCrashes lastSessionCrashReport] device] carrierCountry];
+  return [[[MSACCrashes lastSessionCrashReport] device] carrierCountry];
 }
 
 #pragma mark - MSEventFilter section.
@@ -198,7 +198,7 @@
 }
 
 - (void)startEventFilterService {
-  [MSAppCenter startService:[MSEventFilter class]];
+  [MSACAppCenter startService:[MSEventFilter class]];
 }
 
 @end

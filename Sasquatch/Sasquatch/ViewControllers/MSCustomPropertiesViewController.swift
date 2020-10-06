@@ -24,7 +24,7 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   }
   
   @IBAction func send() {
-    let customProperties = MSCustomProperties()
+    let customProperties = MSACCustomProperties()
     for property in properties {
       switch property.type {
       case .Clear:
