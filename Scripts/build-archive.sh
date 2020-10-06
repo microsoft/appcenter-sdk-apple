@@ -44,9 +44,7 @@ hasInvalidPrefix=false
 for platform in "iOS" "macOS" "tvOS"; do
   for framework in $PRODUCTS_DIR/$platform/*.framework; do
     frameworkName=${framework##*/}
-    if ! verify_prefix $framework/${frameworkName%.*}; then
-      hasInvalidPrefix=true
-    fi
+    verify_prefix $framework/${frameworkName%.*} || hasInvalidPrefix=true
   done
 done
 if $hasInvalidPrefix; then
