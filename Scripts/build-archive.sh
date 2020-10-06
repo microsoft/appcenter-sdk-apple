@@ -27,34 +27,30 @@ if [ ! -d "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" ] || \
   exit 1
 fi
 
-# Verify prefix.
-verify_prefix() {
-  local prefixMSPL="MSPL"
-  local prefixMSAC="MSAC"
-
-  # Get framework name.
-  frameworkName=$(echo "$1" | sed  's/.*\(\/[a-zA-Z]*\/[a-zA-Z]*.framework\).*/\1/g')
-
-  # Get result from command and check result value.
-  echo "Verifying that all classes in $frameworkName has the prefix $prefixMSAC..."
-  if nm -gU $1 | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_$prefixMSPL" | grep -v "_OBJC_CLASS_\$_$prefixMSAC" ; then
-    echo "Found classes without required prefix."
-    return 1
-  fi
+# Verify prefix for framework classes.
+framework_classes() {
+  nm -gjoUC "$1" | awk '{print $2}' | grep "_OBJC_CLASS_" | cut -d_ -f5-
 }
-
-# Verify prefix for frameworks.
-hasInvalidPrefix=false
-for platform in "iOS" "macOS" "tvOS"; do
-  for framework in $PRODUCTS_DIR/$platform/*.framework; do
-    frameworkName=${framework##*/}
-    verify_prefix $framework/${frameworkName%.*} || hasInvalidPrefix=true
+verify_framework_prefixes() {
+  local name=${1##*/}
+  name=${name%.*}
+  local classes=$(framework_classes "$1/$name")
+  for prefix in ${@:2}; do
+    classes=$(echo "$classes" | grep -v $prefix)
   done
+  echo "$classes"
+  [ -z "$classes" ]
+}
+for framework in $PRODUCTS_DIR/**/*.framework; do
+  invalid_prefix_classes+=($(verify_framework_prefixes "$framework" "MSAC" "MSPL")) || invalid_prefix_framework+=(${framework#"$PRODUCTS_DIR"/})
 done
-# TODO uncomment before release.
-# if $hasInvalidPrefix; then
-#   exit 1
-# fi
+if [ ${#invalid_prefix_framework[@]} -ne 0 ]; then
+  echo "There are frameworks that contain classes without required prefix: ${invalid_prefix_framework[@]}"
+  echo "Please fix the prefix for the following classes:"
+  printf '%s\n' "${invalid_prefix_classes[@]}" | sort | uniq
+  # TODO uncomment before release.
+  # exit 1
+fi
 
 # Verify bitcode.
 function verify_bitcode() {
