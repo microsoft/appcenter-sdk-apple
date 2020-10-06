@@ -29,24 +29,29 @@ fi
 
 # Verify prefix.
 verify_prefix() {
+  local prefix="MSAC"
 
   # Get result from command and check result value.
-  echo "Verifying that all classes in $1 has the prefix MSAC..."
-  if nm -gU $1 | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_MSAC"; then
+  echo "Verifying that all classes in $1 has the prefix $prefix..."
+  if nm -gU $1 | awk '{ print $3 }' | grep "_OBJC_CLASS_" | grep -v "_OBJC_CLASS_\$_$prefix"; then
     echo "Found classes without required prefix."
     return 1
   fi
 }
 
 # Verify prefix for frameworks.
+hasInvalidPrefix=false
 for platform in "iOS" "macOS" "tvOS"; do
   for framework in $PRODUCTS_DIR/$platform/*.framework; do
     frameworkName=${framework##*/}
     if ! verify_prefix $framework/${frameworkName%.*}; then
-      exit 1
+      hasInvalidPrefix=true
     fi
   done
 done
+if $hasInvalidPrefix; then
+  exit 1
+fi
 
 # Verify bitcode.
 function verify_bitcode() {
