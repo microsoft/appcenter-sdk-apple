@@ -24,7 +24,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 - (instancetype)initWithSchema:(MSACDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   _schema = schema;
-  
+
   // Log SQLite configuration result only once at init time because log level won't be set at load time.
   dispatch_once(&sqliteConfigurationResultOnceToken, ^{
     if (sqliteConfigurationResult == SQLITE_OK) {
@@ -37,7 +37,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
         errorString = @(sqliteConfigurationResult).stringValue;
       }
       MSACLogError([MSACAppCenter logTag], @"Failed to update SQLite global configuration. Error: %@.", errorString);
-    } 
+    }
   });
   if ((self = [super init])) {
     int result = [self configureDatabaseWithSchema:schema version:version filename:filename];
@@ -86,7 +86,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     [self customizeDatabase:db];
   } else if (databaseVersion < version) {
     MSACLogInfo([MSACAppCenter logTag], @"Migrating \"%@\" database from version %lu to %lu.", filename, (unsigned long)databaseVersion,
-              (unsigned long)version);
+                (unsigned long)version);
     [self migrateDatabase:db fromVersion:databaseVersion];
   }
   [MSACDBStorage enableAutoVacuumInOpenedDatabase:db];
@@ -132,27 +132,25 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 - (BOOL)dropTable:(NSString *)tableName {
   return [self executeQueryUsingBlock:^int(void *db) {
-    if ([MSACDBStorage tableExists:tableName inOpenedDatabase:db]) {
-      NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
-      int result = [MSACDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
-      if (result == SQLITE_OK) {
-        MSACLogVerbose([MSACAppCenter logTag], @"Table %@ has been deleted", tableName);
-      } else {
-        MSACLogError([MSACAppCenter logTag], @"Failed to delete table %@", tableName);
-      }
-      return result;
-    }
-    return SQLITE_OK;
-  }] == SQLITE_OK;
+           if ([MSACDBStorage tableExists:tableName inOpenedDatabase:db]) {
+             NSString *deleteQuery = [NSString stringWithFormat:@"DROP TABLE \"%@\";", tableName];
+             int result = [MSACDBStorage executeNonSelectionQuery:deleteQuery inOpenedDatabase:db];
+             if (result == SQLITE_OK) {
+               MSACLogVerbose([MSACAppCenter logTag], @"Table %@ has been deleted", tableName);
+             } else {
+               MSACLogError([MSACAppCenter logTag], @"Failed to delete table %@", tableName);
+             }
+             return result;
+           }
+           return SQLITE_OK;
+         }] == SQLITE_OK;
 }
 
-- (BOOL)createTable:(NSString *)tableName
-              columnsSchema:(MSACDBColumnsSchema *)columnsSchema {
+- (BOOL)createTable:(NSString *)tableName columnsSchema:(MSACDBColumnsSchema *)columnsSchema {
   return [self executeQueryUsingBlock:^int(void *db) {
            if (![MSACDBStorage tableExists:tableName inOpenedDatabase:db]) {
-             NSString *createQuery =
-                 [NSString stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName,
-                                            [MSACDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
+             NSString *createQuery = [NSString
+                 stringWithFormat:@"CREATE TABLE \"%@\" (%@);", tableName, [MSACDBStorage columnsQueryFromColumnsSchema:columnsSchema]];
              int result = [MSACDBStorage executeNonSelectionQuery:createQuery inOpenedDatabase:db];
              if (result == SQLITE_OK) {
                MSACLogVerbose([MSACAppCenter logTag], @"Table %@ has been created", tableName);
@@ -243,7 +241,10 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (NSUInteger)versionInOpenedDatabase:(void *)db result:(int *)result {
-  NSArray<NSArray *> *entries = [MSACDBStorage executeSelectionQuery:@"PRAGMA user_version" inOpenedDatabase:db result:result withValues:nil];
+  NSArray<NSArray *> *entries = [MSACDBStorage executeSelectionQuery:@"PRAGMA user_version"
+                                                    inOpenedDatabase:db
+                                                              result:result
+                                                          withValues:nil];
   return entries.count > 0 && entries[0].count > 0 ? [(NSNumber *)entries[0][0] unsignedIntegerValue] : 0;
 }
 
@@ -302,24 +303,25 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 + (int)executeNonSelectionQuery:(NSString *)query inOpenedDatabase:(void *)db withValues:(nullable MSACStorageBindableArray *)values {
-  return [MSACDBStorage executeQuery:query
-                  inOpenedDatabase:db
-                        withValues:values
-                        usingBlock:^(void *statement) {
-                          int stepResult = sqlite3_step(statement);
-                          if (stepResult == SQLITE_DONE) {
-                            return SQLITE_OK;
-                          }
-                          NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
-                          if (stepResult == SQLITE_CORRUPT || stepResult == SQLITE_NOTADB) {
-                            MSACLogError([MSACAppCenter logTag], @"A database file is corrupted, result=%d\n\t%@", stepResult, errorMessage);
-                          } else if (stepResult == SQLITE_FULL) {
-                            MSACLogDebug([MSACAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
-                          } else {
-                            MSACLogError([MSACAppCenter logTag], @"Could not execute the statement, result=%d\n\t%@", stepResult, errorMessage);
-                          }
-                          return stepResult;
-                        }];
+  return [MSACDBStorage
+          executeQuery:query
+      inOpenedDatabase:db
+            withValues:values
+            usingBlock:^(void *statement) {
+              int stepResult = sqlite3_step(statement);
+              if (stepResult == SQLITE_DONE) {
+                return SQLITE_OK;
+              }
+              NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+              if (stepResult == SQLITE_CORRUPT || stepResult == SQLITE_NOTADB) {
+                MSACLogError([MSACAppCenter logTag], @"A database file is corrupted, result=%d\n\t%@", stepResult, errorMessage);
+              } else if (stepResult == SQLITE_FULL) {
+                MSACLogDebug([MSACAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
+              } else {
+                MSACLogError([MSACAppCenter logTag], @"Could not execute the statement, result=%d\n\t%@", stepResult, errorMessage);
+              }
+              return stepResult;
+            }];
 }
 
 + (int)executeQuery:(NSString *)query
@@ -365,32 +367,33 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
                                        result:(int *)result
                                    withValues:(nullable MSACStorageBindableArray *)values {
   NSMutableArray<NSMutableArray *> *entries = [NSMutableArray<NSMutableArray *> new];
-  int queryResult = [MSACDBStorage executeQuery:query
-                             inOpenedDatabase:db
-                                   withValues:values
-                                   usingBlock:^(void *statement) {
-                                     int stepResult;
+  int queryResult =
+      [MSACDBStorage executeQuery:query
+                 inOpenedDatabase:db
+                       withValues:values
+                       usingBlock:^(void *statement) {
+                         int stepResult;
 
-                                     // Loop on rows.
-                                     while ((stepResult = sqlite3_step(statement)) == SQLITE_ROW) {
-                                       NSMutableArray *entry = [NSMutableArray new];
+                         // Loop on rows.
+                         while ((stepResult = sqlite3_step(statement)) == SQLITE_ROW) {
+                           NSMutableArray *entry = [NSMutableArray new];
 
-                                       // Loop on columns.
-                                       for (int i = 0; i < sqlite3_column_count(statement); i++) {
-                                         NSObject *value = [MSACDBStorage columnValueFromStatement:statement atIndex:i];
-                                         [entry addObject:value];
-                                       }
-                                       if (entry.count > 0) {
-                                         [entries addObject:entry];
-                                       }
-                                     }
-                                     if (stepResult != SQLITE_DONE) {
-                                       NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
-                                       MSACLogError([MSACAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
-                                       return stepResult;
-                                     }
-                                     return SQLITE_OK;
-                                   }];
+                           // Loop on columns.
+                           for (int i = 0; i < sqlite3_column_count(statement); i++) {
+                             NSObject *value = [MSACDBStorage columnValueFromStatement:statement atIndex:i];
+                             [entry addObject:value];
+                           }
+                           if (entry.count > 0) {
+                             [entries addObject:entry];
+                           }
+                         }
+                         if (stepResult != SQLITE_DONE) {
+                           NSString *errorMessage = [NSString stringWithUTF8String:sqlite3_errmsg(db)];
+                           MSACLogError([MSACAppCenter logTag], @"Query failed with error: %d\n\t%@", stepResult, errorMessage);
+                           return stepResult;
+                         }
+                         return SQLITE_OK;
+                       }];
   if (result) {
     *result = queryResult;
   }
@@ -411,7 +414,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   case SQLITE_NULL:
     return [NSNull null];
   default:
-    MSACLogError([MSACAppCenter logTag], @"Could not retrieve column value at index %d from statement: unknown type %d.", index, columnType);
+    MSACLogError([MSACAppCenter logTag], @"Could not retrieve column value at index %d from statement: unknown type %d.", index,
+                 columnType);
     return [NSNull null];
   }
 }
@@ -436,23 +440,24 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   long requestedMaxPageCount = sizeInBytes % self.pageSize ? sizeInBytes / self.pageSize + 1 : sizeInBytes / self.pageSize;
   if (currentPageCount > requestedMaxPageCount) {
     MSACLogWarning([MSACAppCenter logTag],
-                 @"Cannot change database size to %ld bytes as it would cause a loss of data. "
-                  "Maximum database size will not be changed.",
-                 sizeInBytes);
+                   @"Cannot change database size to %ld bytes as it would cause a loss of data. "
+                    "Maximum database size will not be changed.",
+                   sizeInBytes);
     success = NO;
   } else {
 
     // Attempt to set the limit and check the page count to make sure the given limit works.
     result = [MSACDBStorage setMaxPageCount:requestedMaxPageCount inOpenedDatabase:db];
     if (result != SQLITE_OK) {
-      MSACLogError([MSACAppCenter logTag], @"Could not change maximum database size to %ld bytes. SQLite error code: %i", sizeInBytes, result);
+      MSACLogError([MSACAppCenter logTag], @"Could not change maximum database size to %ld bytes. SQLite error code: %i", sizeInBytes,
+                   result);
       success = NO;
     } else {
       long currentMaxPageCount = [MSACDBStorage getMaxPageCountInOpenedDatabase:db];
       long actualMaxSize = currentMaxPageCount * self.pageSize;
       if (requestedMaxPageCount != currentMaxPageCount) {
         MSACLogError([MSACAppCenter logTag], @"Could not change maximum database size to %ld bytes, current maximum size is %ld bytes.",
-                   sizeInBytes, actualMaxSize);
+                     sizeInBytes, actualMaxSize);
         success = NO;
       } else {
         if (sizeInBytes == actualMaxSize) {

@@ -199,7 +199,7 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
   // Don't lose time pretty printing if not going to be printed.
   if (error) {
     MSACLogDebug([MSACAppCenter logTag], @"HTTP request error with code: %td, domain: %@, description: %@", error.code, error.domain,
-               error.localizedDescription);
+                 error.localizedDescription);
   } else if ([MSACAppCenter logLevel] <= MSACLogLevelVerbose) {
     NSString *contentType = response.allHeaderFields[kMSACHeaderContentTypeKey];
     NSString *payload;

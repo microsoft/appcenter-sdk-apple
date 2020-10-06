@@ -35,7 +35,7 @@
 
   // If
   MSACStringTypedProperty *sut = [MSACStringTypedProperty new];
-  sut.name =  @"propertyName";
+  sut.name = @"propertyName";
   sut.value = @"value";
 
   // When
@@ -46,7 +46,6 @@
   XCTAssertEqualObjects(dictionary[@"name"], sut.name);
   XCTAssertEqualObjects(dictionary[@"value"], sut.value);
 }
-
 
 - (void)testPropertyTypeIsCorrectWhenPropertyIsInitialized {
 

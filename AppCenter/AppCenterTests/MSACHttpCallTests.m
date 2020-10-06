@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "AppCenter+Internal.h"
+#import "HTTPStubs.h"
 #import "MSACAppCenterErrors.h"
 #import "MSACCompression.h"
 #import "MSACConstants+Internal.h"
@@ -13,7 +14,6 @@
 #import "MSACMockLog.h"
 #import "MSACTestFrameworks.h"
 #import "NSURLRequest+HTTPBodyTesting.h"
-#import "HTTPStubs.h"
 @interface MSACHttpCallTests : XCTestCase
 @end
 
@@ -33,13 +33,13 @@
   // When
   MSACHttpCall *call =
       [[MSACHttpCall alloc] initWithUrl:[NSURL new]
-                               method:@"POST"
-                              headers:nil
-                                 data:longData
-                       retryIntervals:@[]
-                   compressionEnabled:YES
-                    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
-                    }];
+                                 method:@"POST"
+                                headers:nil
+                                   data:longData
+                         retryIntervals:@[]
+                     compressionEnabled:YES
+                      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+                      }];
 
   // Then
   XCTAssertEqualObjects(call.data, expectedData);
@@ -57,13 +57,13 @@
   // When
   MSACHttpCall *call =
       [[MSACHttpCall alloc] initWithUrl:[NSURL new]
-                               method:@"POST"
-                              headers:nil
-                                 data:shortData
-                       retryIntervals:@[]
-                   compressionEnabled:YES
-                    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
-                    }];
+                                 method:@"POST"
+                                headers:nil
+                                   data:shortData
+                         retryIntervals:@[]
+                     compressionEnabled:YES
+                      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+                      }];
 
   // Then
   XCTAssertEqualObjects(call.data, shortData);
@@ -82,13 +82,13 @@
   // When
   MSACHttpCall *call =
       [[MSACHttpCall alloc] initWithUrl:[NSURL new]
-                               method:@"POST"
-                              headers:nil
-                                 data:longData
-                       retryIntervals:@[]
-                   compressionEnabled:NO
-                    completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
-                    }];
+                                 method:@"POST"
+                                headers:nil
+                                   data:longData
+                         retryIntervals:@[]
+                     compressionEnabled:NO
+                      completionHandler:^(__unused NSData *responseBody, __unused NSHTTPURLResponse *response, __unused NSError *error){
+                      }];
 
   // Then
   XCTAssertEqualObjects(call.data, longData);

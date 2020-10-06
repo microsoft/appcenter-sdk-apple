@@ -130,7 +130,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
       }
       if (!self.ingestion.isReadyToSend) {
         MSACLogDebug([MSACAppCenter logTag], @"Log of type '%@' was not filtered out by delegate(s) but ingestion is not ready to send it.",
-                   item.type);
+                     item.type);
         [self enumerateDelegatesForSelector:@selector(channel:didCompleteEnqueueingLog:internalId:)
                                   withBlock:^(id<MSACChannelDelegate> delegate) {
                                     [delegate channel:self didCompleteEnqueueingLog:item internalId:internalLogId];
@@ -138,7 +138,8 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
         return;
       }
       if (self.discardLogs) {
-        MSACLogWarning([MSACAppCenter logTag], @"Channel %@ disabled in log discarding mode, discard this log.", self.configuration.groupId);
+        MSACLogWarning([MSACAppCenter logTag], @"Channel %@ disabled in log discarding mode, discard this log.",
+                       self.configuration.groupId);
         NSError *error = [NSError errorWithDomain:kMSACACErrorDomain
                                              code:MSACACConnectionPausedErrorCode
                                          userInfo:@{NSLocalizedDescriptionKey : kMSACACConnectionPausedErrorDesc}];
@@ -185,8 +186,8 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
     NSUInteger count = [container.logs count];
     for (NSUInteger i = 0; i < count; i++) {
       MSACLogDebug([MSACAppCenter logTag], @"Sending %tu/%tu log, group Id: %@, batch Id: %@, session Id: %@, payload:\n%@", (i + 1), count,
-                 self.configuration.groupId, container.batchId, container.logs[i].sid,
-                 [(MSACAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
+                   self.configuration.groupId, container.batchId, container.logs[i].sid,
+                   [(MSACAbstractLog *)container.logs[i] serializeLogWithPrettyPrinting:YES]);
     }
   }
 
@@ -225,7 +226,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
               // Failure.
               else {
                 MSACLogError([MSACAppCenter logTag], @"Log(s) sent with failure, batch Id:%@, status code:%tu", ingestionBatchId,
-                           response.statusCode);
+                             response.statusCode);
 
                 // Notify delegates.
                 [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
@@ -238,7 +239,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
                 // Disable and delete all data on fatal error.
                 if (![MSACHttpUtil isRecoverableError:response.statusCode]) {
                   MSACLogError([MSACAppCenter logTag], @"Fatal error encountered; shutting down channel unit with group ID %@",
-                             self.configuration.groupId);
+                               self.configuration.groupId);
                   [self setEnabled:NO andDeleteDataOnDisabled:YES];
                   return;
                 }
@@ -303,7 +304,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
                                                      // Check if there is data to send. Logs may be deleted from storage before this flush.
                                                      if (logArray.count > 0) {
                                                        MSACLogContainer *container = [[MSACLogContainer alloc] initWithBatchId:batchId
-                                                                                                                   andLogs:logArray];
+                                                                                                                       andLogs:logArray];
                                                        [self sendLogContainer:container];
                                                      }
                                                    }];
@@ -317,7 +318,8 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
 - (void)checkPendingLogs {
 
   // If the interval is default and we reached batchSizeLimit flush logs now.
-  if (!self.paused && self.configuration.flushInterval == kMSACFlushIntervalDefault && self.itemsCount >= self.configuration.batchSizeLimit) {
+  if (!self.paused && self.configuration.flushInterval == kMSACFlushIntervalDefault &&
+      self.itemsCount >= self.configuration.batchSizeLimit) {
     [self flushQueue];
   } else if (self.itemsCount > 0) {
     NSUInteger flushInterval = [self resolveFlushInterval];
@@ -473,7 +475,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
 - (void)pauseWithIdentifyingObjectSync:(id<NSObject>)identifyingObject {
   [self.pausedIdentifyingObjects addObject:identifyingObject];
   MSACLogVerbose([MSACAppCenter logTag], @"Identifying object %@ added to pause lane for channel %@.", identifyingObject,
-               self.configuration.groupId);
+                 self.configuration.groupId);
   if (!self.paused) {
     MSACLogDebug([MSACAppCenter logTag], @"Pause channel %@.", self.configuration.groupId);
     self.paused = YES;
@@ -488,7 +490,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
 - (void)resumeWithIdentifyingObjectSync:(id<NSObject>)identifyingObject {
   [self.pausedIdentifyingObjects removeObject:identifyingObject];
   MSACLogVerbose([MSACAppCenter logTag], @"Identifying object %@ removed from pause lane for channel %@.", identifyingObject,
-               self.configuration.groupId);
+                 self.configuration.groupId);
   if ([self.pausedIdentifyingObjects count] == 0) {
     MSACLogDebug([MSACAppCenter logTag], @"Resume channel %@.", self.configuration.groupId);
     self.paused = NO;

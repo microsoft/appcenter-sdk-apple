@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MSACIngestionDelegate;
 
 typedef void (^MSACSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLResponse *_Nullable response, NSData *_Nullable data,
-                                             NSError *_Nullable error);
+                                               NSError *_Nullable error);
 
 @protocol MSACIngestionProtocol <NSObject, MSACEnable>
 

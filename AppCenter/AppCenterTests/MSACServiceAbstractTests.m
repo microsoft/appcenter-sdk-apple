@@ -31,10 +31,10 @@
 - (instancetype)init {
   if ((self = [super init])) {
     _channelUnitConfiguration = [[MSACChannelUnitConfiguration alloc] initWithGroupId:[self groupId]
-                                                                           priority:MSACPriorityDefault
-                                                                      flushInterval:3.0
-                                                                     batchSizeLimit:50
-                                                                pendingBatchesLimit:3];
+                                                                             priority:MSACPriorityDefault
+                                                                        flushInterval:3.0
+                                                                       batchSizeLimit:50
+                                                                  pendingBatchesLimit:3];
   }
   return self;
 }

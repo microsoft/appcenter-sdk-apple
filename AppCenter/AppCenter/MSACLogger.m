@@ -10,7 +10,7 @@ static MSACLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
 
 MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvider, MSACLogLevel logLevel, NSString *tag,
-                                           __attribute__((unused)) const char *file, const char *function, uint line) {
+                                             __attribute__((unused)) const char *file, const char *function, uint line) {
   if (messageProvider) {
     if (_currentLogLevel > logLevel) {
       return;

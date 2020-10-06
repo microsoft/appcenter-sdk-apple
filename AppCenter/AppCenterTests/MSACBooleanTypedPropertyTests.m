@@ -15,7 +15,7 @@
 
   // If
   MSACBooleanTypedProperty *sut = [MSACBooleanTypedProperty new];
-  sut.name =  @"propertyName";
+  sut.name = @"propertyName";
   sut.value = YES;
 
   // When

@@ -22,12 +22,12 @@ static NSString *const kMSACAnotherTestGroupId = @"AnotherGroupId";
 static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
 
 static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
-                                         @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                         @"\"groupId\" TEXT NOT NULL, "
-                                         @"\"log\" TEXT NOT NULL, "
-                                         @"\"targetToken\" TEXT, "
-                                         @"\"targetKey\" TEXT, "
-                                         @"\"priority\" INTEGER)";
+                                           @"\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                           @"\"groupId\" TEXT NOT NULL, "
+                                           @"\"log\" TEXT NOT NULL, "
+                                           @"\"targetToken\" TEXT, "
+                                           @"\"targetKey\" TEXT, "
+                                           @"\"priority\" INTEGER)";
 
 @interface MSACLogDBStorageTests : XCTestCase
 
@@ -463,10 +463,7 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
   NSString *condition;
   NSArray *remainingLogs;
   [self.sut.batches removeAllObjects];
-  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5
-                                                  groupId:kMSACTestGroupId
-                                                    flags:MSACFlagsDefault
-                                   andVerifyLogGeneration:YES];
+  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5 groupId:kMSACTestGroupId flags:MSACFlagsDefault andVerifyLogGeneration:YES];
   [self.sut loadLogsWithGroupId:kMSACTestGroupId
                           limit:2
              excludedTargetKeys:nil
@@ -501,10 +498,7 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
   NSString *condition;
   NSArray *remainingLogs;
   [self.sut.batches removeAllObjects];
-  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5
-                                                  groupId:kMSACTestGroupId
-                                                    flags:MSACFlagsDefault
-                                   andVerifyLogGeneration:YES];
+  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5 groupId:kMSACTestGroupId flags:MSACFlagsDefault andVerifyLogGeneration:YES];
   [self.sut loadLogsWithGroupId:kMSACTestGroupId
                           limit:2
              excludedTargetKeys:nil
@@ -544,10 +538,7 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
   NSString *condition;
   NSArray *remainingLogs;
   [self.sut.batches removeAllObjects];
-  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5
-                                                  groupId:kMSACTestGroupId
-                                                    flags:MSACFlagsDefault
-                                   andVerifyLogGeneration:YES];
+  NSArray *savedLogs = [self generateAndSaveLogsWithCount:5 groupId:kMSACTestGroupId flags:MSACFlagsDefault andVerifyLogGeneration:YES];
   NSArray *savedLogsFromOtherGroup = [self generateAndSaveLogsWithCount:3
                                                                 groupId:kMSACAnotherTestGroupId
                                                                   flags:MSACFlagsDefault
@@ -979,36 +970,26 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
 }
 
 - (NSArray<id<MSACLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
-                                             groupId:(NSString *)groupId
-                                               flags:(MSACFlags)flags
-                              andVerifyLogGeneration:(BOOL)verify {
-  return [self generateAndSaveLogsWithCount:count
-                                       size:nil
-                                    groupId:groupId
-                                      flags:flags
-                                    storage:self.sut
-                     andVerifyLogGeneration:verify];
+                                               groupId:(NSString *)groupId
+                                                 flags:(MSACFlags)flags
+                                andVerifyLogGeneration:(BOOL)verify {
+  return [self generateAndSaveLogsWithCount:count size:nil groupId:groupId flags:flags storage:self.sut andVerifyLogGeneration:verify];
 }
 
 - (NSArray<id<MSACLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
-                                                size:(NSNumber *)size
-                                             groupId:(NSString *)groupId
-                                               flags:(MSACFlags)flags
-                              andVerifyLogGeneration:(BOOL)verify {
-  return [self generateAndSaveLogsWithCount:count
-                                       size:size
-                                    groupId:groupId
-                                      flags:flags
-                                    storage:self.sut
-                     andVerifyLogGeneration:verify];
+                                                  size:(NSNumber *)size
+                                               groupId:(NSString *)groupId
+                                                 flags:(MSACFlags)flags
+                                andVerifyLogGeneration:(BOOL)verify {
+  return [self generateAndSaveLogsWithCount:count size:size groupId:groupId flags:flags storage:self.sut andVerifyLogGeneration:verify];
 }
 
 - (NSArray<id<MSACLog>> *)generateAndSaveLogsWithCount:(NSUInteger)count
-                                                size:(NSNumber *)size
-                                             groupId:(NSString *)groupId
-                                               flags:(MSACFlags)flags
-                                             storage:(MSACDBStorage *)storage
-                              andVerifyLogGeneration:(BOOL)verify {
+                                                  size:(NSNumber *)size
+                                               groupId:(NSString *)groupId
+                                                 flags:(MSACFlags)flags
+                                               storage:(MSACDBStorage *)storage
+                                andVerifyLogGeneration:(BOOL)verify {
   NSMutableArray<id<MSACLog>> *logs = [NSMutableArray arrayWithCapacity:count];
   NSUInteger trueLogCount;
   for (NSUInteger i = 0; i < count; ++i) {
@@ -1030,19 +1011,18 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
     // Check the insertion worked.
     MSACStorageBindableArray *values = [MSACStorageBindableArray new];
     [values addNumber:@((unsigned int)flags)];
-    trueLogCount =
-        [storage countEntriesForTable:kMSACLogTableName
-                            condition:[NSString stringWithFormat:@"\"%@\" = '%@' AND \"%@\" = ?", kMSACGroupIdColumnName,
-                                                                 groupId, kMSACPriorityColumnName]
-                           withValues:values];
+    trueLogCount = [storage countEntriesForTable:kMSACLogTableName
+                                       condition:[NSString stringWithFormat:@"\"%@\" = '%@' AND \"%@\" = ?", kMSACGroupIdColumnName,
+                                                                            groupId, kMSACPriorityColumnName]
+                                      withValues:values];
     assertThatUnsignedInteger(trueLogCount, equalToUnsignedInteger(count));
   }
   return logs;
 }
 
 - (NSArray<NSNumber *> *)dbIdsForPriority:(MSACFlags)flags inOpenedDatabase:(void *)db {
-  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = ? ORDER BY \"%@\" ASC", kMSACIdColumnName,
-                                                        kMSACLogTableName, kMSACPriorityColumnName, kMSACIdColumnName];
+  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" = ? ORDER BY \"%@\" ASC",
+                                                        kMSACIdColumnName, kMSACLogTableName, kMSACPriorityColumnName, kMSACIdColumnName];
   MSACStorageBindableArray *values = [MSACStorageBindableArray new];
   [values addNumber:@((unsigned int)flags)];
   NSArray<NSArray *> *entries = [MSACDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:values];
@@ -1112,8 +1092,8 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
     MSACAbstractLog *log = [MSACAbstractLog new];
     NSString *base64Data = [[MSACUtility archiveKeyedData:log] base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     NSString *addLogQuery = [NSString stringWithFormat:@"INSERT INTO \"%@\" (\"%@\", \"%@\", \"%@\") VALUES ('%@', '%@', %u)",
-                                                       kMSACLogTableName, kMSACGroupIdColumnName, kMSACLogColumnName, kMSACPriorityColumnName,
-                                                       kMSACTestGroupId, base64Data, (unsigned int)priority];
+                                                       kMSACLogTableName, kMSACGroupIdColumnName, kMSACLogColumnName,
+                                                       kMSACPriorityColumnName, kMSACTestGroupId, base64Data, (unsigned int)priority];
     result = sqlite3_exec(db, [addLogQuery UTF8String], NULL, NULL, NULL);
   } while (result == SQLITE_OK);
 
@@ -1172,7 +1152,8 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
 
 - (BOOL)containsLogWithDbId:(NSNumber *)dbId {
   sqlite3 *db = [self.storageTestUtil openDatabase];
-  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" = ?", kMSACLogTableName, kMSACIdColumnName];
+  NSString *selectLogQuery =
+      [NSString stringWithFormat:@"SELECT COUNT(*) FROM \"%@\" WHERE \"%@\" = ?", kMSACLogTableName, kMSACIdColumnName];
   MSACStorageBindableArray *values = [MSACStorageBindableArray new];
   [values addNumber:dbId];
   NSArray<NSArray<NSNumber *> *> *entries = [MSACDBStorage executeSelectionQuery:selectLogQuery inOpenedDatabase:db withValues:values];
@@ -1185,8 +1166,8 @@ static NSString *const kMSACLatestSchema = @"CREATE TABLE \"logs\" ("
 - (NSArray<NSNumber *> *)findUnknownDBIdsFromKnownIdList:(NSArray<NSNumber *> *)idList {
   sqlite3 *db = [self.storageTestUtil openDatabase];
   NSString *keyFormat = [self.sut buildKeyFormatWithCount:idList.count];
-  NSString *selectLogQuery = [NSString
-      stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" NOT IN %@", kMSACIdColumnName, kMSACLogTableName, kMSACIdColumnName, keyFormat];
+  NSString *selectLogQuery = [NSString stringWithFormat:@"SELECT \"%@\" FROM \"%@\" WHERE \"%@\" NOT IN %@", kMSACIdColumnName,
+                                                        kMSACLogTableName, kMSACIdColumnName, keyFormat];
 
   MSACStorageBindableArray *values = [MSACStorageBindableArray new];
 

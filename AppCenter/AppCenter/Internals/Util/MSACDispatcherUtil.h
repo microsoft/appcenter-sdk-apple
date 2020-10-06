@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define MSAC_DISPATCH_SELECTOR(declaration, object, selectorName, ...)                                                                       \
+#define MSAC_DISPATCH_SELECTOR(declaration, object, selectorName, ...)                                                                     \
   ({                                                                                                                                       \
     SEL selector = NSSelectorFromString(@ #selectorName);                                                                                  \
     IMP impl = [object methodForSelector:selector];                                                                                        \

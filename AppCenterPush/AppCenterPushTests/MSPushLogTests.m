@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSPushLog.h"
 #import "MSACTestFrameworks.h"
+#import "MSPushLog.h"
 
 @interface MSPushLogTests : XCTestCase
 

@@ -20,7 +20,9 @@
   hiddenSecret = [MSACHttpUtil hideSecret:secret];
 
   // Then
-  NSString *fullyHiddenSecret = [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSACHidingStringForAppSecret startingAtIndex:0];
+  NSString *fullyHiddenSecret = [@"" stringByPaddingToLength:hiddenSecret.length
+                                                  withString:kMSACHidingStringForAppSecret
+                                             startingAtIndex:0];
   NSString *appSecretHiddenPart = [hiddenSecret commonPrefixWithString:fullyHiddenSecret options:0];
   NSString *appSecretVisiblePart = [hiddenSecret substringFromIndex:appSecretHiddenPart.length];
   assertThatInteger(secret.length - appSecretHiddenPart.length, equalToShort(kMSACMaxCharactersDisplayedForAppSecret));
@@ -39,7 +41,9 @@
   hiddenSecret = [MSACHttpUtil hideSecret:secret];
 
   // Then
-  NSString *fullyHiddenSecret = [@"" stringByPaddingToLength:hiddenSecret.length withString:kMSACHidingStringForAppSecret startingAtIndex:0];
+  NSString *fullyHiddenSecret = [@"" stringByPaddingToLength:hiddenSecret.length
+                                                  withString:kMSACHidingStringForAppSecret
+                                             startingAtIndex:0];
   assertThatInteger(hiddenSecret.length, equalToUnsignedInteger(secret.length));
   assertThat(hiddenSecret, is(fullyHiddenSecret));
 }

@@ -23,7 +23,7 @@ NSString *MSACUtilityPropertyValidationCategory;
     // Don't send more properties than we can.
     if ([validProperties count] >= kMSACMaxPropertiesPerLog) {
       MSACLogWarning([MSACAppCenter logTag], @"%@ '%@' : properties cannot contain more than %d items. Skipping other properties.", logType,
-                   logName, kMSACMaxPropertiesPerLog);
+                     logName, kMSACMaxPropertiesPerLog);
       break;
     }
     if (![(NSObject *)key isKindOfClass:[NSString class]] || ![properties[key] isKindOfClass:[NSString class]]) {
@@ -33,13 +33,14 @@ NSString *MSACUtilityPropertyValidationCategory;
     // Validate key.
     NSString *strKey = key;
     if ([strKey length] < kMSACMinPropertyKeyLength) {
-      MSACLogWarning([MSACAppCenter logTag], @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.", logType, logName);
+      MSACLogWarning([MSACAppCenter logTag], @"%@ '%@' : a property key cannot be null or empty. Property will be skipped.", logType,
+                     logName);
       continue;
     }
     if ([strKey length] > kMSACMaxPropertyKeyLength) {
       MSACLogWarning([MSACAppCenter logTag],
-                   @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property key will be truncated.",
-                   logType, logName, strKey, kMSACMaxPropertyKeyLength);
+                     @"%@ '%@' : property %@ : property key length cannot be longer than %d characters. Property key will be truncated.",
+                     logType, logName, strKey, kMSACMaxPropertyKeyLength);
       strKey = [strKey substringToIndex:kMSACMaxPropertyKeyLength];
     }
 
@@ -47,8 +48,8 @@ NSString *MSACUtilityPropertyValidationCategory;
     NSString *value = properties[key];
     if ([value length] > kMSACMaxPropertyValueLength) {
       MSACLogWarning([MSACAppCenter logTag],
-                   @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property value will be truncated.",
-                   logType, logName, strKey, kMSACMaxPropertyValueLength);
+                     @"%@ '%@' : property '%@' : property value cannot be longer than %d characters. Property value will be truncated.",
+                     logType, logName, strKey, kMSACMaxPropertyValueLength);
       value = [value substringToIndex:kMSACMaxPropertyValueLength];
     }
 

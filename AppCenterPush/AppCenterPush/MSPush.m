@@ -14,11 +14,11 @@
 #import "MSACAppDelegateForwarder.h"
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitProtocol.h"
+#import "MSACUserIdContext.h"
 #import "MSPushAppDelegate.h"
 #import "MSPushLog.h"
 #import "MSPushNotificationInternal.h"
 #import "MSPushPrivate.h"
-#import "MSACUserIdContext.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 
 /**
@@ -64,7 +64,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     @"MSAppCenterPushIsEnabled" : @"kMSPushIsEnabledKey",       // [MSPush isEnabled]
     @"MSAppCenterPushServiceStorage" : @"pushServiceStorageKey" // [MSPush didRegisterForRemoteNotificationsWithDeviceToken]
   }
-                                forService:kMSServiceName];
+                                  forService:kMSServiceName];
   if ((self = [super init])) {
     // Init channel configuration.
     _channelUnitConfiguration = [[MSACChannelUnitConfiguration alloc] initDefaultConfigurationWithGroupId:[self groupId]];
@@ -185,7 +185,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
   [super applyEnabledState:isEnabled];
   if (isEnabled) {
 #if TARGET_OS_OSX
-    [MS_NOTIFICATION_CENTER addObserver:self
+    [MSAC_NOTIFICATION_CENTER addObserver:self
                                selector:@selector(applicationDidFinishLaunching:)
                                    name:NSApplicationDidFinishLaunchingNotification
                                  object:nil];
@@ -198,7 +198,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     MSACLogInfo([MSPush logTag], @"Push service has been enabled.");
   } else {
 #if TARGET_OS_OSX
-    [MS_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
+    [MSAC_NOTIFICATION_CENTER removeObserver:self name:NSApplicationDidFinishLaunchingNotification object:nil];
 #endif
     [[MSACAppDelegateForwarder sharedInstance] removeDelegate:self.appDelegate];
     [[MSACUserIdContext sharedInstance] removeDelegate:self];
@@ -234,7 +234,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
                             }
                             if (error) {
                               MSACLogWarning([MSPush logTag], @"Push notifications authorization request has been finished with error: %@",
-                                           error.localizedDescription);
+                                             error.localizedDescription);
                             }
                           }];
   } else {
@@ -365,7 +365,7 @@ static void *UserNotificationCenterDelegateContext = &UserNotificationCenterDele
     title = ([title isKindOfClass:[NSString class]]) ? title : nil;
     message = ([message isKindOfClass:[NSString class]]) ? message : nil;
     MSACLogDebug([MSPush logTag], @"Notification received.\nTitle: %@\nMessage:%@\nCustom data: %@", title, message,
-               [customData description]);
+                 [customData description]);
 
 #if TARGET_OS_OSX
 

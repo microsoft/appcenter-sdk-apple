@@ -17,7 +17,7 @@ static NSString *const kMSUserNotificationCenterDelegateForwarderEnabledKey = @"
 /**
  * This is an empty method to be used to force load this class into the runtime.
  */
-+(void)doNothingButForceLoadTheClass;
++ (void)doNothingButForceLoadTheClass;
 
 @end
 

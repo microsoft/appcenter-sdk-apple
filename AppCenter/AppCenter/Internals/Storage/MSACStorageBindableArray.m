@@ -3,8 +3,8 @@
 
 #import <sqlite3.h>
 
-#import "MSACStorageBindableArray.h"
 #import "MSACAppCenterInternal.h"
+#import "MSACStorageBindableArray.h"
 #import "MSACStorageNumberType.h"
 #import "MSACStorageTextType.h"
 
@@ -31,7 +31,7 @@
     int result = [value bindWithStatement:query atIndex:i + 1];
     if (result != SQLITE_OK) {
       MSACLogError([MSACAppCenter logTag], @"Binding query parameter %d failed with error: %d. Message: %@", i + 1, result,
-                 [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
+                   [NSString stringWithUTF8String:sqlite3_errmsg(db)]);
       return result;
     }
   }

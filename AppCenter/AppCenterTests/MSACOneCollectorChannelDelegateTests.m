@@ -39,20 +39,22 @@ static NSString *kMSACNilString = nil;
 
 - (void)setUp {
   [super setUp];
-  self.sut = [[MSACOneCollectorChannelDelegate alloc] initWithHttpClient:[MSACHttpClient new] installId:[NSUUID new] baseUrl:kMSACNilString];
+  self.sut = [[MSACOneCollectorChannelDelegate alloc] initWithHttpClient:[MSACHttpClient new]
+                                                               installId:[NSUUID new]
+                                                                 baseUrl:kMSACNilString];
   self.ingestionMock = OCMProtocolMock(@protocol(MSACIngestionProtocol));
   self.storageMock = OCMProtocolMock(@protocol(MSACStorage));
   self.logsDispatchQueue = dispatch_get_main_queue();
   self.baseUnitConfig = [[MSACChannelUnitConfiguration alloc] initWithGroupId:kMSACBaseGroupId
-                                                                   priority:MSACPriorityDefault
-                                                              flushInterval:3.0
-                                                             batchSizeLimit:1024
-                                                        pendingBatchesLimit:60];
+                                                                     priority:MSACPriorityDefault
+                                                                flushInterval:3.0
+                                                               batchSizeLimit:1024
+                                                          pendingBatchesLimit:60];
   self.oneCollectorUnitConfig = [[MSACChannelUnitConfiguration alloc] initWithGroupId:kMSACOneCollectorGroupId
-                                                                           priority:MSACPriorityDefault
-                                                                      flushInterval:3.0
-                                                                     batchSizeLimit:1024
-                                                                pendingBatchesLimit:60];
+                                                                             priority:MSACPriorityDefault
+                                                                        flushInterval:3.0
+                                                                       batchSizeLimit:1024
+                                                                  pendingBatchesLimit:60];
 }
 
 - (void)testDidAddChannelUnitWithBaseGroupId {
@@ -109,9 +111,9 @@ static NSString *kMSACNilString = nil;
   // If
   NSObject *token = [NSObject new];
   MSACChannelUnitDefault *channelUnitMock = [[MSACChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                                                                  storage:self.storageMock
-                                                                            configuration:self.baseUnitConfig
-                                                                        logsDispatchQueue:self.logsDispatchQueue];
+                                                                                      storage:self.storageMock
+                                                                                configuration:self.baseUnitConfig
+                                                                            logsDispatchQueue:self.logsDispatchQueue];
   id channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
   id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
@@ -129,9 +131,9 @@ static NSString *kMSACNilString = nil;
   // If
   NSObject *token = [NSObject new];
   MSACChannelUnitDefault *channelUnitMock = [[MSACChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                                                                  storage:self.storageMock
-                                                                            configuration:self.baseUnitConfig
-                                                                        logsDispatchQueue:self.logsDispatchQueue];
+                                                                                      storage:self.storageMock
+                                                                                configuration:self.baseUnitConfig
+                                                                            logsDispatchQueue:self.logsDispatchQueue];
   id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   self.sut.oneCollectorChannels[kMSACBaseGroupId] = oneCollectorChannelUnitMock;
@@ -149,9 +151,9 @@ static NSString *kMSACNilString = nil;
   // If
   NSObject *token = [NSObject new];
   MSACChannelUnitDefault *channelUnitMock = [[MSACChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                                                                  storage:self.storageMock
-                                                                            configuration:self.baseUnitConfig
-                                                                        logsDispatchQueue:self.logsDispatchQueue];
+                                                                                      storage:self.storageMock
+                                                                                configuration:self.baseUnitConfig
+                                                                            logsDispatchQueue:self.logsDispatchQueue];
   id channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
   id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:OCMOCK_ANY]).andReturn(oneCollectorChannelUnitMock);
@@ -169,9 +171,9 @@ static NSString *kMSACNilString = nil;
   // If
   NSObject *token = [NSObject new];
   MSACChannelUnitDefault *channelUnitMock = [[MSACChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                                                                  storage:self.storageMock
-                                                                            configuration:self.baseUnitConfig
-                                                                        logsDispatchQueue:self.logsDispatchQueue];
+                                                                                      storage:self.storageMock
+                                                                                configuration:self.baseUnitConfig
+                                                                            logsDispatchQueue:self.logsDispatchQueue];
   id oneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   id otherOneCollectorChannelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   self.sut.oneCollectorChannels[kMSACBaseGroupId] = oneCollectorChannelUnitMock;
@@ -193,13 +195,13 @@ static NSString *kMSACNilString = nil;
 
   // If
   MSACChannelUnitDefault *channelUnit = [[MSACChannelUnitDefault alloc] initWithIngestion:self.ingestionMock
-                                                                              storage:self.storageMock
-                                                                        configuration:self.baseUnitConfig
-                                                                    logsDispatchQueue:self.logsDispatchQueue];
+                                                                                  storage:self.storageMock
+                                                                            configuration:self.baseUnitConfig
+                                                                        logsDispatchQueue:self.logsDispatchQueue];
   MSACChannelUnitDefault *oneCollectorChannelUnit = [[MSACChannelUnitDefault alloc] initWithIngestion:self.sut.oneCollectorIngestion
-                                                                                          storage:self.storageMock
-                                                                                    configuration:self.oneCollectorUnitConfig
-                                                                                logsDispatchQueue:self.logsDispatchQueue];
+                                                                                              storage:self.storageMock
+                                                                                        configuration:self.oneCollectorUnitConfig
+                                                                                    logsDispatchQueue:self.logsDispatchQueue];
   [channelUnit addDelegate:self.sut];
   id channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
   OCMStub([channelGroupMock addChannelUnitWithConfiguration:OCMOCK_ANY withIngestion:self.sut.oneCollectorIngestion])

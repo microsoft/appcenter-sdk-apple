@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACAppCenterInternal.h"
 #import "MSACCustomProperties.h"
+#import "MSACAppCenterInternal.h"
 #import "MSACCustomPropertiesPrivate.h"
 
 static NSString *const kKeyPattern = @"^[a-zA-Z][a-zA-Z0-9]*$";
@@ -62,7 +62,7 @@ static const int maxPropertyValueLength = 128;
     regex = [NSRegularExpression regularExpressionWithPattern:kKeyPattern options:(NSRegularExpressionOptions)0 error:&error];
     if (!regex) {
       MSACLogError([MSACAppCenter logTag], @"Couldn't create regular expression with pattern\"%@\": %@", kKeyPattern,
-                 error.localizedDescription);
+                   error.localizedDescription);
       return NO;
     }
   }
@@ -71,7 +71,8 @@ static const int maxPropertyValueLength = 128;
     return NO;
   }
   if (key.length > maxPropertyKeyLength) {
-    MSACLogError([MSACAppCenter logTag], @"Custom property \"%@\" length cannot be longer than \"%d\" characters.", key, maxPropertyKeyLength);
+    MSACLogError([MSACAppCenter logTag], @"Custom property \"%@\" length cannot be longer than \"%d\" characters.", key,
+                 maxPropertyKeyLength);
     return NO;
   }
   if ([self.properties objectForKey:key]) {
@@ -88,7 +89,8 @@ static const int maxPropertyValueLength = 128;
     if ([value isKindOfClass:[NSString class]]) {
       NSString *stringValue = (NSString *)value;
       if (stringValue.length > maxPropertyValueLength) {
-        MSACLogError([MSACAppCenter logTag], @"Custom property value length cannot be longer than \"%d\" characters.", maxPropertyValueLength);
+        MSACLogError([MSACAppCenter logTag], @"Custom property value length cannot be longer than \"%d\" characters.",
+                     maxPropertyValueLength);
         return NO;
       }
     } else if ([value isKindOfClass:[NSNumber class]]) {

@@ -223,7 +223,8 @@ static NSObject *const classLock;
 + (NSData *)getMetadataStringWithKeyTag:(NSString *)keyTag {
 
   // Format is {key tag}/{algorithm}/{cipher mode}/{padding mode}/{key length}
-  NSArray *metadata = @[ keyTag, kMSACEncryptionAlgorithmName, kMSACEncryptionCipherMode, kMSACEncryptionPaddingMode, @(kMSACEncryptionKeySize) ];
+  NSArray *metadata =
+      @[ keyTag, kMSACEncryptionAlgorithmName, kMSACEncryptionCipherMode, kMSACEncryptionPaddingMode, @(kMSACEncryptionKeySize) ];
   NSString *metadataString = [metadata componentsJoinedByString:kMSACEncryptionMetadataInternalSeparator];
   return [metadataString dataUsingEncoding:NSUTF8StringEncoding];
 }

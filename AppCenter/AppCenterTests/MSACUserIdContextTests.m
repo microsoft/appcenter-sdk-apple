@@ -173,17 +173,17 @@
 }
 
 - (void)testDelegateCalledOnUserIdChangedToNil {
-  
+
   // If
   NSString *userId = @"Robert";
   [[MSACUserIdContext sharedInstance] setUserId:userId];
   id delegateMock = OCMProtocolMock(@protocol(MSACUserIdContextDelegate));
   [self.sut addDelegate:delegateMock];
   OCMExpect([delegateMock userIdContext:self.sut didUpdateUserId:nil]);
-  
+
   // When
   [[MSACUserIdContext sharedInstance] setUserId:nil];
-  
+
   // Then
   XCTAssertEqual([self.sut userId], nil);
   OCMVerify([delegateMock userIdContext:self.sut didUpdateUserId:nil]);
