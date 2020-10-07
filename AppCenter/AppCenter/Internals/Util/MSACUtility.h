@@ -58,4 +58,12 @@
  */
 + (NSData *)archiveKeyedData:(id)data;
 
+/**
+ * Add models for migration.
+ *
+ * @param data Dictionary for migration classes, where key - old class name, value - new class type.
+ *
+ */
++ (void)addMigrationClasses:(NSDictionary<NSString *, id> *)data;
+
 @end

@@ -281,6 +281,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
         @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
   }
                                   forService:kMSACServiceName];
+  [MSACUtility addMigrationClasses:@{
+    @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
+    @"MSDevice" : MSACDevice.self,
+    @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
+    @"MSErrorReport" : MSACErrorReport.self
+  }];
   if ((self = [super init])) {
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];

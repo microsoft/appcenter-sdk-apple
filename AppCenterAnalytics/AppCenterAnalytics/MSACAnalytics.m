@@ -6,15 +6,21 @@
 #import "MSACAnalyticsConstants.h"
 #import "MSACAnalyticsPrivate.h"
 #import "MSACAnalyticsTransmissionTargetInternal.h"
+#import "MSACBooleanTypedProperty.h"
 #import "MSACChannelGroupProtocol.h"
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitProtocol.h"
 #import "MSACConstants+Internal.h"
+#import "MSACDateTimeTypedProperty.h"
+#import "MSACDeviceHistoryInfo.h"
+#import "MSACDoubleTypedProperty.h"
 #import "MSACEventLog.h"
 #import "MSACEventProperties.h"
 #import "MSACEventPropertiesInternal.h"
+#import "MSACLongTypedProperty.h"
 #import "MSACPageLog.h"
 #import "MSACSessionContext.h"
+#import "MSACStartSessionLog.h"
 #import "MSACStringTypedProperty.h"
 #import "MSACTypedProperty.h"
 #import "MSACUserIdContext.h"
@@ -48,10 +54,24 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 - (instancetype)init {
 
   [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
-    @"MSACAppCenterAnalyticsIsEnabled" : MSACPrefixKeyFrom(@"kMSACAnalyticsIsEnabledKey"), // [MSACAnalytics isEnabled]
-    @"MSACAppCenterPastSessions" : @"pastSessionsKey"                                      // [MSACSessionTracker init]
+    @"MSAppCenterAnalyticsIsEnabled" : MSACPrefixKeyFrom(@"kMSAnalyticsIsEnabledKey"), // [MSACAnalytics isEnabled]
+    @"MSAppCenterPastSessions" : @"pastSessionsKey"                                    // [MSACSessionTracker init]
   }
                                   forService:kMSACServiceName];
+  [MSACUtility addMigrationClasses:@{
+    @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
+    @"MSAbstractLog" : MSACAbstractLog.self,
+    @"MSEventLog" : MSACEventLog.self,
+    @"MSEventProperties" : MSACEventProperties.self,
+    @"MSLogWithNameAndProperties" : MSACLogWithNameAndProperties.self,
+    @"MSBooleanTypedProperty" : MSACBooleanTypedProperty.self,
+    @"MSDateTimeTypedProperty" : MSACDateTimeTypedProperty.self,
+    @"MSDoubleTypedProperty" : MSACDoubleTypedProperty.self,
+    @"MSLongTypedProperty" : MSACLongTypedProperty.self,
+    @"MSStringTypedProperty" : MSACStringTypedProperty.self,
+    @"MSTypedProperty" : MSACTypedProperty.self,
+    @"MSStartSessionLog" : MSACStartSessionLog.self
+  }];
   if ((self = [super init])) {
     // Set defaults.
     _autoPageTrackingEnabled = NO;

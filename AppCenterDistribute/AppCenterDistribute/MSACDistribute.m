@@ -104,6 +104,7 @@ static dispatch_once_t onceToken;
     // [MSACDistribute requestInstallInformationWith]
   }
                                   forService:kMSACServiceName];
+  [MSACUtility addMigrationClasses:@{@"MSReleaseDetails" : MSACReleaseDetails.self}];
   if ((self = [super init])) {
 
     // Init.

@@ -11,8 +11,10 @@
 #import "MSACChannelGroupDefaultPrivate.h"
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACDependencyConfiguration.h"
+#import "MSACDeviceHistoryInfo.h"
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACHttpClient.h"
+#import "MSACLogWithProperties.h"
 #import "MSACLoggerInternal.h"
 #import "MSACOneCollectorChannelDelegate.h"
 #import "MSACSessionContext.h"
@@ -266,6 +268,19 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     };
     [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:changedKeys forService:kMSACServiceName];
   }
+  [MSACUtility addMigrationClasses:@{
+    @"MSDeviceHistoryInfo" : MSACDeviceHistoryInfo.self,
+    @"MSDevice" : MSACDevice.self,
+    @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
+    @"MSUserIdHistoryInfo" : MSACUserIdHistoryInfo.self,
+    @"MSDevice" : MSACDevice.self,
+    @"MSLogWithProperties" : MSACLogWithProperties.self,
+    @"MSWrapperSdk" : MSACWrapperSdk.self,
+    @"MSAbstractLog" : MSACAbstractLog.self,
+  }];
+#if !TARGET_OS_TV
+  [MSACUtility addMigrationClasses:@{@"MSCustomProperties" : MSACCustomProperties.self}];
+#endif
   return self;
 }
 
