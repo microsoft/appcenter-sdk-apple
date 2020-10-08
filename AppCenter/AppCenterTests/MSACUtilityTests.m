@@ -1165,29 +1165,4 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   XCTAssertTrue([unarchiveSession.timestamp isEqualToDate:pastDate]);
 }
 
-- (void)testArchivingWithInvalidClassesData {
-
-  // If
-  NSString *wrongKey = @"key";
-  NSString *sessionId = @"testSession";
-  NSDate *pastDate = [NSDate dateWithTimeIntervalSince1970:0];
-
-  // When
-  MSACTestSessionInfo *testSessionInfo = [[MSACTestSessionInfo alloc] initWithTimestamp:pastDate andSessionId:sessionId];
-  NSData *archiveSession = [MSACUtility archiveKeyedData:testSessionInfo];
-
-  // Then
-  [MSACUtility addMigrationClasses:@{wrongKey : MSACSessionHistoryInfo.self}];
-  NSObject *unarchiveSession = [MSACUtility unarchiveKeyedData:archiveSession];
-
-  // Check unarchive with wrong key.
-  XCTAssertFalse([unarchiveSession class] == [MSACSessionHistoryInfo class]);
-  XCTAssertNotNil(unarchiveSession);
-
-  // Check unarchive with wrong class type.
-  [MSACUtility addMigrationClasses:@{@"MSACTestSessionInfo" : NSString.self}];
-  unarchiveSession = [MSACUtility unarchiveKeyedData:archiveSession];
-  XCTAssertNil(unarchiveSession);
-}
-
 @end
