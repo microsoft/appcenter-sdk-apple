@@ -62,6 +62,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
       @"MSAbstractLog" : MSACAbstractLog.self,
       @"MSEventLog" : MSACEventLog.self,
+      @"MSPageLog" : MSACPageLog.self,
       @"MSEventProperties" : MSACEventProperties.self,
       @"MSLogWithNameAndProperties" : MSACLogWithNameAndProperties.self,
       @"MSBooleanTypedProperty" : MSACBooleanTypedProperty.self,

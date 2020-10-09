@@ -104,7 +104,11 @@ static dispatch_once_t onceToken;
       // [MSACDistribute requestInstallInformationWith]
     }
                                     forService:kMSACServiceName];
-    [MSACUtility addMigrationClasses:@{@"MSReleaseDetails" : MSACReleaseDetails.self}];
+    [MSACUtility addMigrationClasses:@{
+      @"MSReleaseDetails" : MSACReleaseDetails.self,
+      @"MSErrorDetails" : MSACErrorDetails.self,
+      @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
+    }];
 
     // Init.
     _apiUrl = kMSACDefaultApiUrl;
