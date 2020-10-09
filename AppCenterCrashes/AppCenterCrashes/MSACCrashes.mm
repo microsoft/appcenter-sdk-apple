@@ -34,6 +34,10 @@
 #import "MSACUtility+File.h"
 #import "MSACWrapperCrashesHelper.h"
 #import "MSACWrapperExceptionManagerInternal.h"
+#import "MSACThread.h"
+#import "MSACStackFrame.h"
+#import "MSACException.h"
+#import "MSACBinary.h"
 
 /**
  * Service name for initialization.
@@ -284,6 +288,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
                                     forService:kMSACServiceName];
     [MSACUtility addMigrationClasses:@{
       @"MSDevice" : MSACDevice.self,
+      @"MSAppleErrorLog" : MSACAppleErrorLog.self,
+      @"MSThread" : MSACThread.self,
+      @"MSException" : MSACException.self,
+      @"MSStackFrame" : MSACStackFrame.self,
+      @"MSBinary" : MSACBinary.self,
       @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
       @"MSErrorReport" : MSACErrorReport.self
     }];

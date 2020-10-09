@@ -271,6 +271,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   [MSACUtility addMigrationClasses:@{
     @"MSDeviceHistoryInfo" : MSACDeviceHistoryInfo.self,
     @"MSDevice" : MSACDevice.self,
+    @"MSStartServiceLog" : MSACStartServiceLog.self,
     @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
     @"MSUserIdHistoryInfo" : MSACUserIdHistoryInfo.self,
     @"MSLogWithProperties" : MSACLogWithProperties.self,
