@@ -52,27 +52,27 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 #pragma mark - Service initialization
 
 - (instancetype)init {
-
-  [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
-    @"MSAppCenterAnalyticsIsEnabled" : MSACPrefixKeyFrom(@"kMSAnalyticsIsEnabledKey"), // [MSACAnalytics isEnabled]
-    @"MSAppCenterPastSessions" : @"pastSessionsKey"                                    // [MSACSessionTracker init]
-  }
-                                  forService:kMSACServiceName];
-  [MSACUtility addMigrationClasses:@{
-    @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
-    @"MSAbstractLog" : MSACAbstractLog.self,
-    @"MSEventLog" : MSACEventLog.self,
-    @"MSEventProperties" : MSACEventProperties.self,
-    @"MSLogWithNameAndProperties" : MSACLogWithNameAndProperties.self,
-    @"MSBooleanTypedProperty" : MSACBooleanTypedProperty.self,
-    @"MSDateTimeTypedProperty" : MSACDateTimeTypedProperty.self,
-    @"MSDoubleTypedProperty" : MSACDoubleTypedProperty.self,
-    @"MSLongTypedProperty" : MSACLongTypedProperty.self,
-    @"MSStringTypedProperty" : MSACStringTypedProperty.self,
-    @"MSTypedProperty" : MSACTypedProperty.self,
-    @"MSStartSessionLog" : MSACStartSessionLog.self
-  }];
   if ((self = [super init])) {
+    [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+      @"MSAppCenterAnalyticsIsEnabled" : MSACPrefixKeyFrom(@"kMSAnalyticsIsEnabledKey"), // [MSACAnalytics isEnabled]
+      @"MSAppCenterPastSessions" : @"pastSessionsKey"                                    // [MSACSessionTracker init]
+    }
+                                    forService:kMSACServiceName];
+    [MSACUtility addMigrationClasses:@{
+      @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
+      @"MSAbstractLog" : MSACAbstractLog.self,
+      @"MSEventLog" : MSACEventLog.self,
+      @"MSEventProperties" : MSACEventProperties.self,
+      @"MSLogWithNameAndProperties" : MSACLogWithNameAndProperties.self,
+      @"MSBooleanTypedProperty" : MSACBooleanTypedProperty.self,
+      @"MSDateTimeTypedProperty" : MSACDateTimeTypedProperty.self,
+      @"MSDoubleTypedProperty" : MSACDoubleTypedProperty.self,
+      @"MSLongTypedProperty" : MSACLongTypedProperty.self,
+      @"MSStringTypedProperty" : MSACStringTypedProperty.self,
+      @"MSTypedProperty" : MSACTypedProperty.self,
+      @"MSStartSessionLog" : MSACStartSessionLog.self
+    }];
+
     // Set defaults.
     _autoPageTrackingEnabled = NO;
     _flushInterval = kMSACFlushIntervalDefault;

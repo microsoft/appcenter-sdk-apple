@@ -274,20 +274,19 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 #pragma mark - Service initialization
 
 - (instancetype)init {
-  [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
-    @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSACCrashes isEnabled]
-    @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSACCrashes processMemoryWarningInLastSession]
-    @"MSAppCenterCrashesUserConfirmation" :
-        @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
-  }
-                                  forService:kMSACServiceName];
-  [MSACUtility addMigrationClasses:@{
-    @"MSSessionHistoryInfo" : MSACSessionHistoryInfo.self,
-    @"MSDevice" : MSACDevice.self,
-    @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
-    @"MSErrorReport" : MSACErrorReport.self
-  }];
   if ((self = [super init])) {
+    [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+      @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSACCrashes isEnabled]
+      @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSACCrashes processMemoryWarningInLastSession]
+      @"MSAppCenterCrashesUserConfirmation" :
+          @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
+    }
+                                    forService:kMSACServiceName];
+    [MSACUtility addMigrationClasses:@{
+      @"MSDevice" : MSACDevice.self,
+      @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
+      @"MSErrorReport" : MSACErrorReport.self
+    }];
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSACCrashesUtil crashesDir];
