@@ -25,6 +25,11 @@ static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,
 @implementation MSACUtility
 
 /**
+ * Dictionary for migration classes, where key - old class name, value - new class type.
+ */
+static NSMutableDictionary<NSString *, id> *targetClasses;
+
+/**
  * @discussion Workaround for exporting symbols from category object files. See article
  * https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
  */
@@ -51,6 +56,9 @@ __attribute__((used)) static void importCategories() {
   @try {
     if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
       NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
+      for (NSString *key in targetClasses) {
+        [unarchiver setClass:targetClasses[key] forClassName:key];
+      }
       unarchiver.requiresSecureCoding = NO;
       unarchivedData = [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:&error];
     } else {
@@ -93,10 +101,16 @@ __attribute__((used)) static void importCategories() {
   if (!archivedData || exception) {
 
     // Unarchiving process failed.
-    MSACLogError([MSACAppCenter logTag], @"Unarchiving NSData failed with error: %@",
+    MSACLogError([MSACAppCenter logTag], @"Archiving NSData failed with error: %@",
                  exception ? exception.reason : error.localizedDescription);
   }
   return archivedData;
 }
 
++ (void)addMigrationClasses:(NSDictionary<NSString *, id> *)data {
+  if (targetClasses == nil) {
+    targetClasses = [NSMutableDictionary new];
+  }
+  [targetClasses addEntriesFromDictionary:data];
+}
 @end

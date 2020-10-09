@@ -7,9 +7,11 @@
 #import <UIKit/UIKit.h>
 #endif
 
+#import "MSACAbstractErrorLog.h"
 #import "MSACAppCenterInternal.h"
 #import "MSACAppleErrorLog.h"
 #import "MSACApplicationForwarder.h"
+#import "MSACBinary.h"
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitProtocol.h"
 #import "MSACCrashHandlerSetupDelegate.h"
@@ -27,12 +29,16 @@
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
 #import "MSACErrorReportPrivate.h"
+#import "MSACException.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
 #import "MSACSessionContext.h"
+#import "MSACStackFrame.h"
+#import "MSACThread.h"
 #import "MSACUserIdContext.h"
 #import "MSACUtility+File.h"
 #import "MSACWrapperCrashesHelper.h"
+#import "MSACWrapperException.h"
 #import "MSACWrapperExceptionManagerInternal.h"
 
 /**
@@ -274,14 +280,26 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 #pragma mark - Service initialization
 
 - (instancetype)init {
-  [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
-    @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSACCrashes isEnabled]
-    @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSACCrashes processMemoryWarningInLastSession]
-    @"MSAppCenterCrashesUserConfirmation" :
-        @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
-  }
-                                  forService:kMSACServiceName];
   if ((self = [super init])) {
+    [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+      @"MSAppCenterCrashesIsEnabled" : @"kMSCrashesIsEnabledKey",                 // [MSACCrashes isEnabled]
+      @"MSAppCenterAppDidReceiveMemoryWarning" : @"MSAppDidReceiveMemoryWarning", // [MSACCrashes processMemoryWarningInLastSession]
+      @"MSAppCenterCrashesUserConfirmation" :
+          @"MSUserConfirmation" // [MSACCrashes shouldAlwaysSend], [MSACCrashes notifyWithUserConfirmation]
+    }
+                                    forService:kMSACServiceName];
+    [MSACUtility addMigrationClasses:@{
+      @"MSAppleErrorLog" : MSACAppleErrorLog.self,
+      @"MSThread" : MSACThread.self,
+      @"MSWrapperException" : MSACWrapperException.self,
+      @"MSAbstractErrorLog" : MSACAbstractErrorLog.self,
+      @"MSHandledErrorLog" : MSACHandledErrorLog.self,
+      @"MSException" : MSACException.self,
+      @"MSStackFrame" : MSACStackFrame.self,
+      @"MSBinary" : MSACBinary.self,
+      @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
+      @"MSErrorReport" : MSACErrorReport.self
+    }];
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSACCrashesUtil crashesDir];

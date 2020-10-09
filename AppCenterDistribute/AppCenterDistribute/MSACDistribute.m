@@ -68,43 +68,47 @@ static dispatch_once_t onceToken;
 #pragma mark - Service initialization
 
 - (instancetype)init {
-
-  [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
-    @"MSAppCenterDistributeIsEnabled" : @"kMSDistributeIsEnabledKey", // [MSDistribute isEnabled]
-    @"MSAppCenterPostponedTimestamp" : @"MSPostponedTimestamp",
-    // [MSACDistribute notifyUpdateAction],
-    // [MSACDistribute handleUpdate],
-    // [MSACDistribute checkLatestRelease]
-    @"MSAppCenterSDKHasLaunchedWithDistribute" : @"MSSDKHasLaunchedWithDistribute",
-    // [MSACDistribute init],
-    // [MSACDistribute checkLatestRelease]
-    @"MSAppCenterMandatoryRelease" : @"MSMandatoryRelease",
-    // [MSACDistribute checkLatestRelease],
-    // [MSACDistribute handleUpdate]
-    @"MSAppCenterDistributionGroupId" : @"MSDistributionGroupId",
-    // [MSACDistribute startUpdateOnStart],
-    // [MSACDistribute processDistributionGroupId],
-    // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
-    @"MSAppCenterUpdateSetupFailedPackageHash" : @"MSUpdateSetupFailedPackageHash",
-    // [MSACDistribute showUpdateSetupFailedAlert],
-    // [MSACDistribute requestInstallInformationWith]
-    @"MSAppCenterDownloadedReleaseHash" : @"MSDownloadedReleaseHash",
-    // [MSACDistribute storeDownloadedReleaseDetails],
-    // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
-    @"MSAppCenterDownloadedReleaseId" : @"MSDownloadedReleaseId",
-    // [MSACDistribute getReportingParametersForUpdatedRelease],
-    // [MSACDistribute storeDownloadedReleaseDetails],
-    // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
-    @"MSAppCenterDownloadedDistributionGroupId" : @"MSDownloadedDistributionGroupId",
-    // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
-    // [MSACDistribute storeDownloadedReleaseDetails]
-    @"MSAppCenterTesterAppUpdateSetupFailed" : @"MSTesterAppUpdateSetupFailed"
-    // [MSACDistribute showUpdateSetupFailedAlert],
-    // [MSACDistribute openUrl],
-    // [MSACDistribute requestInstallInformationWith]
-  }
-                                  forService:kMSACServiceName];
   if ((self = [super init])) {
+    [MSAC_APP_CENTER_USER_DEFAULTS migrateKeys:@{
+      @"MSAppCenterDistributeIsEnabled" : @"kMSDistributeIsEnabledKey", // [MSDistribute isEnabled]
+      @"MSAppCenterPostponedTimestamp" : @"MSPostponedTimestamp",
+      // [MSACDistribute notifyUpdateAction],
+      // [MSACDistribute handleUpdate],
+      // [MSACDistribute checkLatestRelease]
+      @"MSAppCenterSDKHasLaunchedWithDistribute" : @"MSSDKHasLaunchedWithDistribute",
+      // [MSACDistribute init],
+      // [MSACDistribute checkLatestRelease]
+      @"MSAppCenterMandatoryRelease" : @"MSMandatoryRelease",
+      // [MSACDistribute checkLatestRelease],
+      // [MSACDistribute handleUpdate]
+      @"MSAppCenterDistributionGroupId" : @"MSDistributionGroupId",
+      // [MSACDistribute startUpdateOnStart],
+      // [MSACDistribute processDistributionGroupId],
+      // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded]
+      @"MSAppCenterUpdateSetupFailedPackageHash" : @"MSUpdateSetupFailedPackageHash",
+      // [MSACDistribute showUpdateSetupFailedAlert],
+      // [MSACDistribute requestInstallInformationWith]
+      @"MSAppCenterDownloadedReleaseHash" : @"MSDownloadedReleaseHash",
+      // [MSACDistribute storeDownloadedReleaseDetails],
+      // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
+      @"MSAppCenterDownloadedReleaseId" : @"MSDownloadedReleaseId",
+      // [MSACDistribute getReportingParametersForUpdatedRelease],
+      // [MSACDistribute storeDownloadedReleaseDetails],
+      // [MSACDistribute removeDownloadedReleaseDetailsIfUpdated]
+      @"MSAppCenterDownloadedDistributionGroupId" : @"MSDownloadedDistributionGroupId",
+      // [MSACDistribute changeDistributionGroupIdAfterAppUpdateIfNeeded],
+      // [MSACDistribute storeDownloadedReleaseDetails]
+      @"MSAppCenterTesterAppUpdateSetupFailed" : @"MSTesterAppUpdateSetupFailed"
+      // [MSACDistribute showUpdateSetupFailedAlert],
+      // [MSACDistribute openUrl],
+      // [MSACDistribute requestInstallInformationWith]
+    }
+                                    forService:kMSACServiceName];
+    [MSACUtility addMigrationClasses:@{
+      @"MSReleaseDetails" : MSACReleaseDetails.self,
+      @"MSErrorDetails" : MSACErrorDetails.self,
+      @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
+    }];
 
     // Init.
     _apiUrl = kMSACDefaultApiUrl;
