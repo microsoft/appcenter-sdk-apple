@@ -108,7 +108,7 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (void)addMigrationClasses:(NSDictionary<NSString *, id> *)data {
-  if (targetClasses == NULL) {
+  if (targetClasses == nil) {
     targetClasses = [NSMutableDictionary new];
   }
   [targetClasses addEntriesFromDictionary:data];
