@@ -289,7 +289,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     }
                                     forService:kMSACServiceName];
     [MSACUtility addMigrationClasses:@{
-      @"MSDevice" : MSACDevice.self,
       @"MSAppleErrorLog" : MSACAppleErrorLog.self,
       @"MSThread" : MSACThread.self,
       @"MSWrapperException" : MSACWrapperException.self,
