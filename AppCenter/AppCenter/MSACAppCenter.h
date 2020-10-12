@@ -71,18 +71,14 @@
 + (void)startFromLibraryWithServices:(NSArray<Class> *)services;
 
 /**
- * Check whether the SDK has already been configured or not.
- *
- * @return YES if configured, NO otherwise.
+ * The flag indicates whether the SDK has already been configured or not.
  */
-+ (BOOL)isConfigured;
+@property(atomic, readonly, getter=isConfigured) BOOL configured;
 
 /**
- * Check whether app is running in App Center Test Cloud.
- *
- * @return true if running in App Center Test Cloud, false otherwise.
+ * The flag indicates whether app is running in App Center Test Cloud.
  */
-+ (BOOL)isRunningInAppCenterTestCloud;
+@property(atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.

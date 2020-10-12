@@ -44,11 +44,9 @@
 - (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token;
 
 /**
- * Checks if the service needs the application secret.
- *
- * @return `YES` if the application secret is required, `NO` otherwise.
+ * The flag indicate whether the service needs the application secret or not.
  */
-- (BOOL)isAppSecretRequired;
+@property(atomic, readonly, getter=isAppSecretRequired) BOOL appSecretRequired;
 
 @end
 
