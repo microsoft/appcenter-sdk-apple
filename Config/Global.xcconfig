@@ -1,7 +1,6 @@
 #include "./Version.xcconfig"
 
 // :Mark: Architectures
-MS_SIM_ARCHS = x86_64 i386
 SDKROOT = iphoneos
 
 // :Mark: Deployment
