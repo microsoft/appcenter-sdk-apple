@@ -39,9 +39,12 @@ cp -RHv "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework" "${PRODUCTS_DIR}"
 
 # Uses the Lipo Tool to combine both binary files (i386/x86_64 + armv7/armv7s/arm64/arm64e) into one universal final product.
 echo "Combine binary files into universal final product"
+lipo -remove arm64 \
+  "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" \
+  -output "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}-Intel.a"
 lipo -create \
   "${OUTPUT_DEVICE_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" \
-  "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}" \
+  "${OUTPUT_SIMULATOR_DIR}/${PROJECT_NAME}-Intel.a" \
   -output "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
 lipo -info "${PRODUCTS_DIR}/${PROJECT_NAME}.framework/${PROJECT_NAME}"
 
