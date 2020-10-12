@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSDevice.h"
-#import "MSLogger.h"
-#import "MSServiceAbstractInternal.h"
-#import "MSServiceInternal.h"
-#import "MSUtility+Application.h"
-#import "MSUtility+Date.h"
-#import "MSUtility+Environment.h"
-#import "MSUtility+PropertyValidation.h"
-#import "MSWrapperSdk.h"
+#import "MSACDevice.h"
+#import "MSACLogger.h"
+#import "MSACServiceAbstractInternal.h"
+#import "MSACServiceInternal.h"
+#import "MSACUtility+Application.h"
+#import "MSACUtility+Date.h"
+#import "MSACUtility+Environment.h"
+#import "MSACUtility+PropertyValidation.h"
+#import "MSACWrapperSdk.h"
 
 // Channel
-#import "Channel/MSChannelDelegate.h"
+#import "Channel/MSACChannelDelegate.h"
 
 // Model
-#import "MSLog.h"
-#import "Model/MSAbstractLogInternal.h"
-#import "Model/MSLogContainer.h"
-#import "Model/Util/MSAppCenterUserDefaults.h"
+#import "MSACLog.h"
+#import "Model/MSACAbstractLogInternal.h"
+#import "Model/MSACLogContainer.h"
+#import "Model/Util/MSACAppCenterUserDefaults.h"

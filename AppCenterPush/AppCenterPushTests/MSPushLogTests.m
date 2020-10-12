@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSACTestFrameworks.h"
 #import "MSPushLog.h"
-#import "MSTestFrameworks.h"
 
 @interface MSPushLogTests : XCTestCase
 
@@ -31,7 +31,7 @@
 
   // If
   NSString *typeName = @"pushInstallation";
-  NSString *pushToken = MS_UUID_STRING;
+  NSString *pushToken = MSAC_UUID_STRING;
   self.sut.pushToken = pushToken;
 
   // When
@@ -47,7 +47,7 @@
 
   // If
   NSString *typeName = @"pushInstallation";
-  NSString *pushToken = MS_UUID_STRING;
+  NSString *pushToken = MSAC_UUID_STRING;
   self.sut.pushToken = pushToken;
 
   // When
@@ -65,7 +65,7 @@
 - (void)testIsValid {
 
   // If
-  self.sut.device = OCMClassMock([MSDevice class]);
+  self.sut.device = OCMClassMock([MSACDevice class]);
   OCMStub([self.sut.device isValid]).andReturn(YES);
   self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:42];
   self.sut.sid = @"1234567890";
@@ -74,7 +74,7 @@
   XCTAssertFalse([self.sut isValid]);
 
   // When
-  self.sut.pushToken = MS_UUID_STRING;
+  self.sut.pushToken = MSAC_UUID_STRING;
 
   // Then
   XCTAssertTrue([self.sut isValid]);

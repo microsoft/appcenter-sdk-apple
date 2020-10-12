@@ -28,7 +28,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
       }
     }
 
-    func getTransmissionTarget() -> MSAnalyticsTransmissionTarget? {
+    func getTransmissionTarget() -> MSACAnalyticsTransmissionTarget? {
       if isDefault {
         return nil
       } else {

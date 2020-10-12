@@ -11,163 +11,163 @@ import AppCenterPush
  */
 class AppCenterDelegateSwift : AppCenterDelegate {
 
-  //MARK: MSAppCenter section.
+  //MARK: MSACAppCenter section.
   func isAppCenterEnabled() -> Bool {
-    return MSAppCenter.isEnabled()
+    return MSACAppCenter.isEnabled()
   }
   func setAppCenterEnabled(_ isEnabled: Bool) {
-    MSAppCenter.setEnabled(isEnabled)
+    MSACAppCenter.setEnabled(isEnabled)
   }
   func setCountryCode(_ countryCode: String?) {
-    MSAppCenter.setCountryCode(countryCode)
+    MSACAppCenter.setCountryCode(countryCode)
   }
-  func setCustomProperties(_ customProperties: MSCustomProperties){
-    MSAppCenter.setCustomProperties(customProperties)
+  func setCustomProperties(_ customProperties: MSACCustomProperties){
+    MSACAppCenter.setCustomProperties(customProperties)
   }
   func installId() -> String {
-    return MSAppCenter.installId().uuidString
+    return MSACAppCenter.installId().uuidString
   }
   func appSecret() -> String {
     return kMSSwiftAppSecret
   }
   func isDebuggerAttached() -> Bool {
-    return MSAppCenter.isDebuggerAttached()
+    return MSACAppCenter.isDebuggerAttached()
   }
   func startAnalyticsFromLibrary() {
-    MSAppCenter.startFromLibrary(withServices: [MSAnalytics.self])
+    MSACAppCenter.startFromLibrary(withServices: [MSACAnalytics.self])
   }
   func setUserId(_ userId: String?) {
-    MSAppCenter.setUserId(userId);
+    MSACAppCenter.setUserId(userId);
   }
   func setLogUrl(_ logUrl: String?) {
-    MSAppCenter.setLogUrl(logUrl);
+    MSACAppCenter.setLogUrl(logUrl);
   }
 
   //MARK: Modules section.
   func isAnalyticsEnabled() -> Bool {
-    return MSAnalytics.isEnabled()
+    return MSACAnalytics.isEnabled()
   }
   func isCrashesEnabled() -> Bool {
-    return MSCrashes.isEnabled()
+    return MSACCrashes.isEnabled()
   }
   func isPushEnabled() -> Bool {
     return MSPush.isEnabled()
   }
   func setAnalyticsEnabled(_ isEnabled: Bool) {
-    MSAnalytics.setEnabled(isEnabled)
+    MSACAnalytics.setEnabled(isEnabled)
   }
   func setCrashesEnabled(_ isEnabled: Bool) {
-    MSCrashes.setEnabled(isEnabled)
+    MSACCrashes.setEnabled(isEnabled)
   }
   func setPushEnabled(_ isEnabled: Bool) {
     MSPush.setEnabled(isEnabled)
   }
 
-  //MARK: MSAnalytics section.
+  //MARK: MSACAnalytics section.
   func trackEvent(_ eventName: String) {
-    MSAnalytics.trackEvent(eventName)
+    MSACAnalytics.trackEvent(eventName)
   }
   func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>) {
-    MSAnalytics.trackEvent(eventName, withProperties: properties)
+    MSACAnalytics.trackEvent(eventName, withProperties: properties)
   }
-  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>, flags: MSFlags) {
-    MSAnalytics.trackEvent(eventName, withProperties: properties, flags:flags)
+  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>, flags: MSACFlags) {
+    MSACAnalytics.trackEvent(eventName, withProperties: properties, flags:flags)
   }
-  func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties) {
-    MSAnalytics.trackEvent(eventName, withProperties: properties)
+  func trackEvent(_ eventName: String, withTypedProperties properties: MSACEventProperties) {
+    MSACAnalytics.trackEvent(eventName, withProperties: properties)
   }
-  func trackEvent(_ eventName: String, withTypedProperties properties: MSEventProperties?, flags: MSFlags) {
-    MSAnalytics.trackEvent(eventName, withProperties: properties, flags: flags)
+  func trackEvent(_ eventName: String, withTypedProperties properties: MSACEventProperties?, flags: MSACFlags) {
+    MSACAnalytics.trackEvent(eventName, withProperties: properties, flags: flags)
   }
   func resume() {
-    MSAnalytics.resume()
+    MSACAnalytics.resume()
   }
   func pause() {
-    MSAnalytics.pause()
+    MSACAnalytics.pause()
   }
   #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String) {
-    // MSAnalytics.trackPage(pageName)
+    // MSACAnalytics.trackPage(pageName)
   }
   #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String, withProperties properties: Dictionary<String, String>) {
-    // MSAnalytics.trackPage(pageName, withProperties: properties)
+    // MSACAnalytics.trackPage(pageName, withProperties: properties)
   }
 
-  //MARK: MSCrashes section.
+  //MARK: MSACCrashes section.
   func hasCrashedInLastSession() -> Bool {
-    return MSCrashes.hasCrashedInLastSession()
+    return MSACCrashes.hasCrashedInLastSession()
   }
   func generateTestCrash() {
-    MSCrashes.generateTestCrash()
+    MSACCrashes.generateTestCrash()
   }
 
   //MARK: Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.incidentIdentifier
+    return MSACCrashes.lastSessionCrashReport()?.incidentIdentifier
   }
   func lastCrashReportReporterKey() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.reporterKey
+    return MSACCrashes.lastSessionCrashReport()?.reporterKey
   }
   func lastCrashReportSignal() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.signal
+    return MSACCrashes.lastSessionCrashReport()?.signal
   }
   func lastCrashReportExceptionName() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.exceptionName
+    return MSACCrashes.lastSessionCrashReport()?.exceptionName
   }
   func lastCrashReportExceptionReason() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.exceptionReason
+    return MSACCrashes.lastSessionCrashReport()?.exceptionReason
   }
   func lastCrashReportAppStartTimeDescription() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.appStartTime.description
+    return MSACCrashes.lastSessionCrashReport()?.appStartTime.description
   }
   func lastCrashReportAppErrorTimeDescription() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.appErrorTime.description
+    return MSACCrashes.lastSessionCrashReport()?.appErrorTime.description
   }
   func lastCrashReportAppProcessIdentifier() -> UInt {
-    return (MSCrashes.lastSessionCrashReport()?.appProcessIdentifier)!
+    return (MSACCrashes.lastSessionCrashReport()?.appProcessIdentifier)!
   }
   func lastCrashReportIsAppKill() -> Bool {
-    return (MSCrashes.lastSessionCrashReport()?.isAppKill())!
+    return (MSACCrashes.lastSessionCrashReport()?.isAppKill())!
   }
   func lastCrashReportDeviceModel() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.model
+    return MSACCrashes.lastSessionCrashReport()?.device.model
   }
   func lastCrashReportDeviceOemName() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.oemName
+    return MSACCrashes.lastSessionCrashReport()?.device.oemName
   }
   func lastCrashReportDeviceOsName() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.osName
+    return MSACCrashes.lastSessionCrashReport()?.device.osName
   }
   func lastCrashReportDeviceOsVersion() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.osVersion
+    return MSACCrashes.lastSessionCrashReport()?.device.osVersion
   }
   func lastCrashReportDeviceOsBuild() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.osBuild
+    return MSACCrashes.lastSessionCrashReport()?.device.osBuild
   }
   func lastCrashReportDeviceLocale() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.locale
+    return MSACCrashes.lastSessionCrashReport()?.device.locale
   }
   func lastCrashReportDeviceTimeZoneOffset() -> NSNumber? {
-    return MSCrashes.lastSessionCrashReport()?.device.timeZoneOffset
+    return MSACCrashes.lastSessionCrashReport()?.device.timeZoneOffset
   }
   func lastCrashReportDeviceScreenSize() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.screenSize
+    return MSACCrashes.lastSessionCrashReport()?.device.screenSize
   }
   func lastCrashReportDeviceAppVersion() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.appVersion
+    return MSACCrashes.lastSessionCrashReport()?.device.appVersion
   }
   func lastCrashReportDeviceAppBuild() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.appBuild
+    return MSACCrashes.lastSessionCrashReport()?.device.appBuild
   }
   func lastCrashReportDeviceCarrierName() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.carrierName
+    return MSACCrashes.lastSessionCrashReport()?.device.carrierName
   }
   func lastCrashReportDeviceCarrierCountry() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.carrierCountry
+    return MSACCrashes.lastSessionCrashReport()?.device.carrierCountry
   }
   func lastCrashReportDeviceAppNamespace() -> String? {
-    return MSCrashes.lastSessionCrashReport()?.device.appNamespace
+    return MSACCrashes.lastSessionCrashReport()?.device.appNamespace
   }
 
   //MARK: MSEventFilter section.
@@ -178,6 +178,6 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     MSEventFilter.setEnabled(isEnabled);
   }
   func startEventFilterService() {
-    MSAppCenter.startService(MSEventFilter.self)
+    MSACAppCenter.startService(MSEventFilter.self)
   }
 }

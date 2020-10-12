@@ -5,10 +5,10 @@
 #if !TARGET_OS_OSX
 #import <UserNotifications/UserNotifications.h>
 #endif
-#import "MSDelegateForwarderPrivate.h"
-#import "MSDelegateForwarderTestUtil.h"
+#import "MSACDelegateForwarderPrivate.h"
+#import "MSACDelegateForwarderTestUtil.h"
+#import "MSACTestFrameworks.h"
 #import "MSPush.h"
-#import "MSTestFrameworks.h"
 #import "MSUserNotificationCenterDelegateForwarder.h"
 
 #define MS_RETURN_IF_USER_NOTIFICATION_CENTER_NOT_SUPPORTED                                                                                \
@@ -198,9 +198,9 @@
         assertThatShort(pushCallCounter, equalToShort(0));
         handler(UNNotificationPresentationOptionAlert);
       };
-  [MSDelegateForwarderTestUtil addSelector:willPresentNotificationSel
-                            implementation:originalWillPresentNotificationImp
-                                toInstance:originalUserNotificationCenterDelegate];
+  [MSACDelegateForwarderTestUtil addSelector:willPresentNotificationSel
+                              implementation:originalWillPresentNotificationImp
+                                  toInstance:originalUserNotificationCenterDelegate];
 
   // Swizzle.
   [[self.sut class] load];
@@ -252,9 +252,9 @@
         assertThatShort(pushCallCounter, equalToShort(0));
         handler();
       };
-  [MSDelegateForwarderTestUtil addSelector:didReceiveNotificationResponseSel
-                            implementation:originalDidReceiveNotificationResponseImp
-                                toInstance:originalUserNotificationCenterDelegate];
+  [MSACDelegateForwarderTestUtil addSelector:didReceiveNotificationResponseSel
+                              implementation:originalDidReceiveNotificationResponseImp
+                                  toInstance:originalUserNotificationCenterDelegate];
 
   // Swizzle.
   [[self.sut class] load];
@@ -281,7 +281,7 @@
 }
 
 - (id<UNUserNotificationCenterDelegate>)createOriginalUserNotificationCenterDelegateInstance {
-  return [MSDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(UNUserNotificationCenterDelegate)];
+  return [MSACDelegateForwarderTestUtil createInstanceConformingToProtocol:@protocol(UNUserNotificationCenterDelegate)];
 }
 
 @end

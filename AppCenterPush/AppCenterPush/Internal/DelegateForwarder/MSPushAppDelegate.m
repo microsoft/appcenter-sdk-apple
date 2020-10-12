@@ -2,25 +2,26 @@
 // Licensed under the MIT License.
 
 #import "MSPushAppDelegate.h"
-#import "MSAppDelegateForwarder.h"
+#import "MSACAppDelegateForwarder.h"
 #import "MSPush.h"
 
 @implementation MSPushAppDelegate
 
-#pragma mark - MSAppDelegate
+#pragma mark - MSACAppDelegate
 
-- (void)application:(__attribute__((unused))MSApplication *)application
+- (void)application:(__attribute__((unused))MSACApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   [MSPush didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (void)application:(__attribute__((unused))MSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+- (void)application:(__attribute__((unused))MSACApplication *)application
+    didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   [MSPush didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 // Callback for macOS + workaround for iOS 10 bug. See
 // https://forums.developer.apple.com/thread/54332
-- (void)application:(__attribute__((unused))MSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)application:(__attribute__((unused))MSACApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   [MSPush didReceiveRemoteNotification:userInfo];
 }
 
@@ -43,59 +44,59 @@
 
 #pragma mark - Forwarding
 
-@implementation MSAppDelegateForwarder (MSPush)
+@implementation MSACAppDelegateForwarder (MSPush)
 
 + (void)load {
 
   // Register selectors to swizzle for Push.
-  [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
-                                                                            didRegisterForRemoteNotificationsWithDeviceToken:)];
-  [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
-                                                                            didFailToRegisterForRemoteNotificationsWithError:)];
-  [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
+  [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
+                                                                              didRegisterForRemoteNotificationsWithDeviceToken:)];
+  [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
+                                                                              didFailToRegisterForRemoteNotificationsWithError:)];
+  [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:didReceiveRemoteNotification:)];
 #if !TARGET_OS_OSX
-  [[MSAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
-                                                                            didReceiveRemoteNotification:fetchCompletionHandler:)];
+  [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:
+                                                                              didReceiveRemoteNotification:fetchCompletionHandler:)];
 #endif
 }
 
-- (void)custom_application:(MSApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+- (void)custom_application:(MSACApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSACAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-    ((void (*)(id, SEL, MSApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
+    ((void (*)(id, SEL, MSACApplication *, NSData *))originalImp)(self, _cmd, application, deviceToken);
   }
 
   // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+  [[MSACAppDelegateForwarder sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
-- (void)custom_application:(MSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+- (void)custom_application:(MSACApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSACAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-    ((void (*)(id, SEL, MSApplication *, NSError *))originalImp)(self, _cmd, application, error);
+    ((void (*)(id, SEL, MSACApplication *, NSError *))originalImp)(self, _cmd, application, error);
   }
 
   // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:application didFailToRegisterForRemoteNotificationsWithError:error];
+  [[MSACAppDelegateForwarder sharedInstance] application:application didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
-- (void)custom_application:(MSApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)custom_application:(MSACApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
   IMP originalImp = NULL;
 
   // Forward to the original delegate.
-  [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+  [[MSACAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
   if (originalImp) {
-    ((void (*)(id, SEL, MSApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
+    ((void (*)(id, SEL, MSACApplication *, NSDictionary *))originalImp)(self, _cmd, application, userInfo);
   }
 
   // Forward to custom delegates.
-  [[MSAppDelegateForwarder sharedInstance] application:application didReceiveRemoteNotification:userInfo];
+  [[MSACAppDelegateForwarder sharedInstance] application:application didReceiveRemoteNotification:userInfo];
 }
 
 #if !TARGET_OS_OSX
@@ -107,11 +108,11 @@
   __block UIBackgroundFetchResult actualFetchResult = UIBackgroundFetchResultNoData;
   __block short customHandlerCalledCount = 0;
   __block short customDelegateToCallCount = 0;
-  __block MSCompletionExecutor executors = MSCompletionExecutorNone;
+  __block MSACCompletionExecutor executors = MSACCompletionExecutorNone;
 
   // This handler will be used by all the delegates, it unifies the results and execute the real handler at the end.
-  void (^commonCompletionHandler)(UIBackgroundFetchResult, MSCompletionExecutor) =
-      ^(UIBackgroundFetchResult fetchResult, MSCompletionExecutor executor) {
+  void (^commonCompletionHandler)(UIBackgroundFetchResult, MSACCompletionExecutor) =
+      ^(UIBackgroundFetchResult fetchResult, MSACCompletionExecutor executor) {
         /*
          * As per the Apple documentation:
          * https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application
@@ -132,53 +133,53 @@
         executors = executors | executor;
 
         // Count all custom executors who already ran their completion handler.
-        if (executor == MSCompletionExecutorCustom) {
+        if (executor == MSACCompletionExecutorCustom) {
           customHandlerCalledCount++;
         }
 
         // Be sure original delegate and/or custom delegates and/or the app forwarder executed their completion handler.
-        if ((executor == MSCompletionExecutorForwarder) ||
-            (customHandlerCalledCount == customDelegateToCallCount && (executors & MSCompletionExecutorOriginal || !originalImp))) {
+        if ((executor == MSACCompletionExecutorForwarder) ||
+            (customHandlerCalledCount == customDelegateToCallCount && (executors & MSACCompletionExecutorOriginal || !originalImp))) {
           completionHandler(actualFetchResult);
         }
       };
 
   // Completion handler dedicated to custom delegates.
   id customCompletionHandler = ^(UIBackgroundFetchResult fetchResult) {
-    commonCompletionHandler(fetchResult, MSCompletionExecutorCustom);
+    commonCompletionHandler(fetchResult, MSACCompletionExecutorCustom);
   };
 
   // Block any addition/deletion of custom delegates since delegate count must remain the same.
-  @synchronized([MSAppDelegateForwarder class]) {
+  @synchronized([MSACAppDelegateForwarder class]) {
 
     // Count how many custom delegates will respond to the selector.
-    for (id<MSCustomApplicationDelegate> delegate in [MSAppDelegateForwarder sharedInstance].delegates) {
+    for (id<MSACCustomApplicationDelegate> delegate in [MSACAppDelegateForwarder sharedInstance].delegates) {
       if ([delegate respondsToSelector:_cmd]) {
         customDelegateToCallCount++;
       }
     }
 
     // Forward to the original delegate.
-    [[MSAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
+    [[MSACAppDelegateForwarder sharedInstance].originalImplementations[NSStringFromSelector(_cmd)] getValue:&originalImp];
     if (originalImp) {
 
       // Completion handler dedicated to the original delegate.
       id originalCompletionHandler = ^(UIBackgroundFetchResult fetchResult) {
-        commonCompletionHandler(fetchResult, MSCompletionExecutorOriginal);
+        commonCompletionHandler(fetchResult, MSACCompletionExecutorOriginal);
       };
       ((void (*)(id, SEL, UIApplication *, NSDictionary *, void (^)(UIBackgroundFetchResult)))originalImp)(
           self, _cmd, application, userInfo, originalCompletionHandler);
     } else if (customDelegateToCallCount == 0) {
 
       // There is no one to handle this selector but iOS requires to call the completion handler anyway.
-      commonCompletionHandler(UIBackgroundFetchResultNoData, MSCompletionExecutorForwarder);
+      commonCompletionHandler(UIBackgroundFetchResultNoData, MSACCompletionExecutorForwarder);
       return;
     }
 
     // Forward to custom delegates.
-    [[MSAppDelegateForwarder sharedInstance] application:application
-                            didReceiveRemoteNotification:userInfo
-                                  fetchCompletionHandler:customCompletionHandler];
+    [[MSACAppDelegateForwarder sharedInstance] application:application
+                              didReceiveRemoteNotification:userInfo
+                                    fetchCompletionHandler:customCompletionHandler];
   }
 }
 

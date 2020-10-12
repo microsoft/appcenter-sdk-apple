@@ -27,6 +27,31 @@ if [ ! -d "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" ] || \
   exit 1
 fi
 
+# Verify prefix for framework classes.
+framework_classes() {
+  nm -gjoUC "$1" | awk '{print $2}' | grep "_OBJC_CLASS_" | cut -d_ -f5-
+}
+verify_framework_prefixes() {
+  local name=${1##*/}
+  name=${name%.*}
+  local classes=$(framework_classes "$1/$name")
+  for prefix in ${@:2}; do
+    classes=$(echo "$classes" | grep -v $prefix)
+  done
+  echo "$classes"
+  [ -z "$classes" ]
+}
+for framework in $PRODUCTS_DIR/**/*.framework; do
+  invalid_prefix_classes+=($(verify_framework_prefixes "$framework" "MSAC" "MSPL")) || invalid_prefix_framework+=(${framework#"$PRODUCTS_DIR"/})
+done
+if [ ${#invalid_prefix_framework[@]} -ne 0 ]; then
+  echo "There are frameworks that contain classes without required prefix: ${invalid_prefix_framework[@]}"
+  echo "Please fix the prefix for the following classes:"
+  printf '%s\n' "${invalid_prefix_classes[@]}" | sort | uniq
+  # TODO uncomment before release.
+  # exit 1
+fi
+
 # Verify bitcode.
 function verify_bitcode() {
   local name=${1##*/}

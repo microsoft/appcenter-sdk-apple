@@ -10,7 +10,7 @@
 @implementation AppCenterApplication
 
 - (void)reportException:(NSException *)exception {
-  [MSCrashes applicationDidReportException:exception];
+  [MSACCrashes applicationDidReportException:exception];
   [super reportException:exception];
 }
 

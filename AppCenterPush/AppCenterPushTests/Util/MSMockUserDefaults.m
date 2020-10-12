@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 #import "MSMockUserDefaults.h"
-#import "MSAppCenterUserDefaults.h"
-#import "MSAppCenterUserDefaultsPrivate.h"
-#import "MSTestFrameworks.h"
+#import "MSACAppCenterUserDefaults.h"
+#import "MSACAppCenterUserDefaultsPrivate.h"
+#import "MSACTestFrameworks.h"
 
 @interface MSMockUserDefaults ()
 
@@ -21,7 +21,7 @@
     _dictionary = [NSMutableDictionary new];
 
     // Mock MSUserDefaults shared method to return this instance.
-    _mockMSUserDefaults = OCMClassMock([MSAppCenterUserDefaults class]);
+    _mockMSUserDefaults = OCMClassMock([MSACAppCenterUserDefaults class]);
     OCMStub([_mockMSUserDefaults shared]).andReturn(self);
   }
   return self;

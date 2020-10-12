@@ -10,10 +10,10 @@ import AppCenter
  */
 @objc protocol AppCenterDelegate {
 
-  // MSAppCenter section.
+  // MSACAppCenter section.
   func isAppCenterEnabled() -> Bool
   func setAppCenterEnabled(_ isEnabled: Bool)
-  func setCustomProperties(_ customProperties: MSCustomProperties)
+  func setCustomProperties(_ customProperties: MSACCustomProperties)
   func installId() -> String
   func appSecret() -> String
   func isDebuggerAttached() -> Bool
@@ -30,18 +30,18 @@ import AppCenter
   func setCrashesEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
 
-  // MSAnalytics section.
+  // MSACAnalytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
-  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: MSFlags)
-  func trackEvent(_ eventName: String, withTypedProperties: MSEventProperties)
-  func trackEvent(_ eventName: String, withTypedProperties: MSEventProperties?, flags: MSFlags)
+  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: MSACFlags)
+  func trackEvent(_ eventName: String, withTypedProperties: MSACEventProperties)
+  func trackEvent(_ eventName: String, withTypedProperties: MSACEventProperties?, flags: MSACFlags)
   func trackPage(_ pageName: String)
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   func resume()
   func pause()
 
-  // MSCrashes section.
+  // MSACCrashes section.
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
 

@@ -60,7 +60,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       }
     }
 
-    func getTransmissionTarget() -> MSAnalyticsTransmissionTarget? {
+    func getTransmissionTarget() -> MSACAnalyticsTransmissionTarget? {
       if isDefault {
         return nil
       }
@@ -635,7 +635,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     setEventPropertyState(property, forTarget: target)
   }
 
-  func setEventPropertyState(_ property: EventProperty, forTarget target: MSAnalyticsTransmissionTarget) {
+  func setEventPropertyState(_ property: EventProperty, forTarget target: MSACAnalyticsTransmissionTarget) {
     let type = EventPropertyType(rawValue: property.type)!
     switch type {
     case .string:

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSACServiceInternal.h"
+#import "MSACUserIdContextDelegate.h"
 #import "MSPush.h"
 #import "MSPushDelegate.h"
-#import "MSServiceInternal.h"
-#import "MSUserIdContextDelegate.h"
 
 /**
  * Keys for payload in push notification.
@@ -18,12 +18,12 @@ static NSString *const kMSPushNotificationCustomDataKey = @"appCenter";
 // TODO remove this one as soon as the push backend removes it.
 static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 
-@protocol MSCustomApplicationDelegate;
+@protocol MSACCustomApplicationDelegate;
 
 #if TARGET_OS_OSX
-@interface MSPush () <NSUserNotificationCenterDelegate, MSUserIdContextDelegate>
+@interface MSPush () <NSUserNotificationCenterDelegate, MSACUserIdContextDelegate>
 #else
-@interface MSPush () <MSUserIdContextDelegate>
+@interface MSPush () <MSACUserIdContextDelegate>
 #endif
 
 @property(nonatomic) id<MSPushDelegate> delegate;
@@ -37,7 +37,7 @@ static NSString *const kMSPushNotificationOldCustomDataKey = @"mobile_center";
 /**
  * Custom application delegate dedicated to Push.
  */
-@property(nonatomic) id<MSCustomApplicationDelegate> appDelegate;
+@property(nonatomic) id<MSACCustomApplicationDelegate> appDelegate;
 
 /**
  * Method to reset the singleton when running unit tests only. So calling sharedInstance returns a fresh instance.

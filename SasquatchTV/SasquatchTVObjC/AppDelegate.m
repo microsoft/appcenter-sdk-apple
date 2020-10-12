@@ -8,7 +8,7 @@
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 
-@interface AppDelegate () <MSCrashesDelegate>
+@interface AppDelegate () <MSACCrashesDelegate>
 
 @end
 
@@ -16,8 +16,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-  [MSAppCenter setLogLevel:MSLogLevelVerbose];
-  [MSAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@ [[MSAnalytics class], [MSCrashes class]]];
+  [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
+  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@ [[MSACAnalytics class], [MSACCrashes class]]];
   [self crashes];
   [self setAppCenterCenterDelegate];
   return YES;
@@ -41,10 +41,10 @@
 #pragma mark - Private
 
 - (void)crashes {
-  if ([MSCrashes hasCrashedInLastSession]) {
-    MSErrorReport *errorReport = [MSCrashes lastSessionCrashReport];
+  if ([MSACCrashes hasCrashedInLastSession]) {
+    MSACErrorReport *errorReport = [MSACCrashes lastSessionCrashReport];
     NSLog(@"We crashed with Signal: %@", errorReport.signal);
-    MSDevice *device = [errorReport device];
+    MSACDevice *device = [errorReport device];
     NSString *osVersion = [device osVersion];
     NSString *appVersion = [device appVersion];
     NSString *appBuild = [device appBuild];
@@ -53,8 +53,8 @@
     NSLog(@"App Build is: %@", appBuild);
   }
 
-  [MSCrashes setDelegate:self];
-  [MSCrashes setUserConfirmationHandler:(^(NSArray<MSErrorReport *> *errorReports) {
+  [MSACCrashes setDelegate:self];
+  [MSACCrashes setUserConfirmationHandler:(^(NSArray<MSACErrorReport *> *errorReports) {
 
                // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Sorry about that!", nil)
@@ -62,25 +62,25 @@
                                                                                                 @"report so we can fix the issue?", nil)
                                                                                  preferredStyle:UIAlertControllerStyleAlert];
 
-               // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationDontSend.
+               // Add a "No"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationDontSend.
                [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Don't Send", nil)
                                                                    style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction *action) {
-                                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationDontSend];
+                                                                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationDontSend];
                                                                  }]];
 
-               // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationSend.
+               // Add a "Yes"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationSend.
                [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil)
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction *action) {
-                                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationSend];
+                                                                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationSend];
                                                                  }]];
 
-               // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSUserConfirmationAlways.
+               // Add a "Always"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationAlways.
                [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Always Send", nil)
                                                                    style:UIAlertActionStyleDefault
                                                                  handler:^(UIAlertAction *action) {
-                                                                   [MSCrashes notifyWithUserConfirmation:MSUserConfirmationAlways];
+                                                                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationAlways];
                                                                  }]];
                // Show the alert controller.
                [[[self window] rootViewController] presentViewController:alertController animated:YES completion:nil];
@@ -93,28 +93,28 @@
   sasquatchController.appCenter = [[AppCenterDelegateObjC alloc] init];
 }
 
-#pragma mark - MSCrashesDelegate
+#pragma mark - MSACCrashesDelegate
 
-- (BOOL)crashes:(MSCrashes *)crashes shouldProcessErrorReport:(MSErrorReport *)errorReport {
+- (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport {
   NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
   return YES;
 }
 
-- (void)crashes:(MSCrashes *)crashes willSendErrorReport:(MSErrorReport *)errorReport {
+- (void)crashes:(MSACCrashes *)crashes willSendErrorReport:(MSACErrorReport *)errorReport {
   NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSCrashes *)crashes didSucceedSendingErrorReport:(MSErrorReport *)errorReport {
+- (void)crashes:(MSACCrashes *)crashes didSucceedSendingErrorReport:(MSACErrorReport *)errorReport {
   NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSCrashes *)crashes didFailSendingErrorReport:(MSErrorReport *)errorReport withError:(NSError *)error {
+- (void)crashes:(MSACCrashes *)crashes didFailSendingErrorReport:(MSACErrorReport *)errorReport withError:(NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
-- (NSArray<MSErrorAttachmentLog *> *)attachmentsWithCrashes:(MSCrashes *)crashes forErrorReport:(MSErrorReport *)errorReport {
-  MSErrorAttachmentLog *attachment1 = [MSErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
-  MSErrorAttachmentLog *attachment2 = [MSErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
+- (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport {
+  MSACErrorAttachmentLog *attachment1 = [MSACErrorAttachmentLog attachmentWithText:@"Hello world!" filename:@"hello.txt"];
+  MSACErrorAttachmentLog *attachment2 = [MSACErrorAttachmentLog attachmentWithBinary:[@"Fake image" dataUsingEncoding:NSUTF8StringEncoding]
                                                                         filename:@"fake_image.jpeg"
                                                                      contentType:@"image/jpeg"];
   return @[ attachment1, attachment2 ];
