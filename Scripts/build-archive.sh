@@ -61,8 +61,8 @@ function verify_bitcode() {
 for framework in \
     $PRODUCTS_DIR/iOS/*.framework \
     $PRODUCTS_DIR/tvOS/*.framework \
-    $PRODUCTS_DIR/XCFramework/*.xcframework/ios-arm*/*.framework \
-    $PRODUCTS_DIR/XCFramework/*.xcframework/tvos-arm*/*.framework; do
+    $PRODUCTS_DIR/XCFramework/*.xcframework/ios-!(*-*)/*.framework \
+    $PRODUCTS_DIR/XCFramework/*.xcframework/tvos-!(*-*)/*.framework; do
   verify_bitcode "$framework" || invalid_bitcode+=(${framework#"$PRODUCTS_DIR"/})
 done
 if [ ${#invalid_bitcode[@]} -ne 0 ]; then
@@ -98,14 +98,14 @@ function verify_architectures() {
   done
 }
 verify_architectures "iOS/*.framework" armv7 armv7s arm64 arm64e i386 x86_64 || exit $?
-verify_architectures "macOS/*.framework" x86_64 || exit $?
-verify_architectures "tvOS/*.framework" arm64 i386 x86_64 || exit $?
+verify_architectures "macOS/*.framework" arm64 x86_64 || exit $?
+verify_architectures "tvOS/*.framework" arm64 x86_64 || exit $?
 verify_architectures "XCFramework/*.xcframework/ios-!(*-*)/*.framework" armv7 armv7s arm64 arm64e || exit $?
-verify_architectures "XCFramework/*.xcframework/ios-*-maccatalyst/*.framework" x86_64 || exit $?
-verify_architectures "XCFramework/*.xcframework/ios-*-simulator/*.framework" i386 x86_64 || exit $?
-verify_architectures "XCFramework/*.xcframework/macos-*/*.framework" x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/ios-*-maccatalyst/*.framework" arm64 x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/ios-*-simulator/*.framework" arm64 i386 x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/macos-*/*.framework" arm64 x86_64 || exit $?
 verify_architectures "XCFramework/*.xcframework/tvos-!(*-*)/*.framework" arm64 || exit $?
-verify_architectures "XCFramework/*.xcframework/tvos-*-simulator/*.framework" i386 x86_64 || exit $?
+verify_architectures "XCFramework/*.xcframework/tvos-*-simulator/*.framework" arm64 x86_64 || exit $?
 
 # Creates zip archive.
 # Usage: archive <result-name> <list-of-content>
