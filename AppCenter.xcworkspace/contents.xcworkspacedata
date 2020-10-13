@@ -109,9 +109,6 @@
       location = "group:AppCenterDistribute/AppCenterDistribute.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:AppCenterPush/AppCenterPush.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:CrashLib/CrashLib.xcodeproj">
    </FileRef>
    <FileRef
