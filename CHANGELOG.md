@@ -7,6 +7,10 @@
 * **[Breaking change]** In order to avoid a naming conflict with classes in Apple's private frameworks, we now use "MSAC" prefix instead of "MS". Please follow the [migration guide](replace-with-link) for adopting the new naming.
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
 
+### App Center Push
+
+App Center Push is [retired](https://aka.ms/MBaaS-retirement-blog-post) and has been removed from the SDK.
+
 ___
 
 ## Version 3.3.4
