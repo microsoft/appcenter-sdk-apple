@@ -1165,4 +1165,9 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   XCTAssertTrue([unarchiveSession.timestamp isEqualToDate:pastDate]);
 }
 
+- (void)testTrimPrefix {
+  NSString *expectedString = @"UtilityTests";
+  XCTAssertTrue([expectedString isEqualToString:MSAC_CLASS_NAME_WITHOUT_PREFIX]);
+}
+
 @end
