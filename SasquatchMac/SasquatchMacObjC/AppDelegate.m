@@ -8,7 +8,6 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
-@import AppCenterPush;
 
 @interface AppDelegate ()
 
@@ -37,7 +36,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
   // Customize services.
   [self setupCrashes];
-  [self setupPush];
 
   // Set max storage size.
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
@@ -59,7 +57,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   }
 
   // Start AppCenter.
-  NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class], [MSPush class]];
+  NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class]];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
   switch (startTarget) {
@@ -155,11 +153,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"NSApplicationCrashOnExceptions" : @YES}];
 }
 
-- (void)setupPush {
-  [MSPush setDelegate:self];
-  [NSUserNotificationCenter defaultUserNotificationCenter].delegate = self;
-}
-
 #pragma mark - MSACCrashesDelegate
 
 - (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport {
@@ -209,51 +202,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
     }
   }
   return attachments;
-}
-
-#pragma mark - MSPushDelegate
-
-- (void)application:(NSApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-  NSLog(@"%@ Did register for remote notifications with device token.", kMSLogTag);
-}
-
-- (void)application:(NSApplication *)application didFailToRegisterForRemoteNotificationsWithError:(nonnull NSError *)error {
-  NSLog(@"%@ Did fail to register for remote notifications with error %@.", kMSLogTag, [error localizedDescription]);
-}
-
-- (void)application:(NSApplication *)application didReceiveRemoteNotification:(NSDictionary<NSString *, id> *)userInfo {
-  NSLog(@"%@ Did receive remote notification", kMSLogTag);
-}
-
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification {
-  NSLog(@"%@ Did receive user notification", kMSLogTag);
-}
-
-- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
-
-  // Bring any window to foreground if it was miniaturized.
-  for (NSWindow *window in [NSApp windows]) {
-    if ([window isMiniaturized]) {
-      [window deminiaturize:self];
-      break;
-    }
-  }
-
-  // Show alert for the notification.
-  NSString *title = pushNotification.title ?: @"";
-  NSString *message = pushNotification.message;
-  NSMutableString *customData = nil;
-  for (NSString *key in pushNotification.customData) {
-    ([customData length] == 0) ? customData = [NSMutableString new] : [customData appendString:@", "];
-    [customData appendFormat:@"%@: %@", key, [pushNotification.customData objectForKey:key]];
-  }
-  message = [NSString
-      stringWithFormat:@"%@%@%@", (message ? message : @""), (message && customData ? @"\n" : @""), (customData ? customData : @"")];
-  NSAlert *alert = [[NSAlert alloc] init];
-  [alert setMessageText:title];
-  [alert setInformativeText:message];
-  [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-  [alert runModal];
 }
 
 #pragma mark - CLLocationManagerDelegate

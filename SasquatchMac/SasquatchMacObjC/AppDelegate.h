@@ -5,10 +5,9 @@
 #import <CoreLocation/CoreLocation.h>
 
 @import AppCenterCrashes;
-@import AppCenterPush;
 
 @interface AppDelegate
-    : NSObject <NSApplicationDelegate, MSACCrashesDelegate, MSPushDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
+    : NSObject <NSApplicationDelegate, MSACCrashesDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
 
 - (void) overrideCountryCode;
 
