@@ -96,21 +96,12 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 /**
- * Get log level.
- *
- * @return Log level.
+ * The SDK's log level.
  */
-+ (MSACLogLevel)logLevel;
+@property(class, nonatomic, setter=setLogLevel:) MSACLogLevel logLevel NS_SWIFT_NAME(logLevel);
 
 /**
- * Set log level.
- *
- * @param logLevel The log level.
- */
-+ (void)setLogLevel:(MSACLogLevel)logLevel;
-
-/**
- * Set log level handler.
+ * Set log handler.
  *
  * @param logHandler Handler.
  */
