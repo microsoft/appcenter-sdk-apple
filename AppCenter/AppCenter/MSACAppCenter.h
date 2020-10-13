@@ -73,12 +73,12 @@
 /**
  * The flag indicates whether the SDK has already been configured or not.
  */
-@property(atomic, readonly, getter=isConfigured) BOOL configured;
+@property(class, atomic, readonly, getter=isConfigured) BOOL configured;
 
 /**
  * The flag indicates whether app is running in App Center Test Cloud.
  */
-@property(atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud;
+@property(class, atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud;
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
