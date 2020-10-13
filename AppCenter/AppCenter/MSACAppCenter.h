@@ -11,6 +11,7 @@
 @class MSACCustomProperties;
 #endif
 
+NS_SWIFT_NAME(AppCenter)
 @interface MSACAppCenter : NSObject
 
 /**
@@ -88,23 +89,11 @@
 + (void)setLogUrl:(NSString *)logUrl;
 
 /**
- * Enable or disable the SDK as a whole. In addition to AppCenter resources, it will also enable or disable all registered services.
+ * The flag indicates whether or not the SDK was enabled as a whole
+ *
  * The state is persisted in the device's storage across application launches.
- *
- * @param isEnabled YES to enable, NO to disable.
- *
- * @see isEnabled
  */
-+ (void)setEnabled:(BOOL)isEnabled;
-
-/**
- * Check whether the SDK is enabled or not as a whole.
- *
- * @return YES if enabled, NO otherwise.
- *
- * @see setEnabled:
- */
-+ (BOOL)isEnabled;
+@property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 /**
  * Get log level.
