@@ -7,7 +7,7 @@
 @import AppCenterCrashes;
 
 @interface AppDelegate
-    : NSObject <NSApplicationDelegate, MSACCrashesDelegate, NSUserNotificationCenterDelegate, CLLocationManagerDelegate>
+    : NSObject <NSApplicationDelegate, MSACCrashesDelegate, CLLocationManagerDelegate>
 
 - (void) overrideCountryCode;
 

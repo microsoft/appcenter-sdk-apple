@@ -86,7 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSACCrashesDelegate, CLLocat
     }
 
     // Start AppCenter.
-    let services = [MSACAnalytics.self, MSACCrashes.self ]
+    let services = [MSACAnalytics.self, MSACCrashes.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     switch startTarget {
