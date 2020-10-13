@@ -14,7 +14,7 @@
 @interface MSACAppCenter : NSObject
 
 /**
- * Returns the singleton instance of MSACASACAppCenter.
+ * Returns the singleton instance of MSACAppCenter.
  */
 + (instancetype)sharedInstance;
 
@@ -205,7 +205,7 @@
  * @param userId User identifier.
  *
  * @discussion Set the user identifier for logs sent for the default target token when the secret passed in @c
- * MSACASACAppCenter:start:withServices: contains "target={targetToken}".
+ * MSACAppCenter:start:withServices: contains "target={targetToken}".
  *
  * For App Center backend the user identifier maximum length is 256 characters.
  *
