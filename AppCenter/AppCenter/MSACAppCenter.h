@@ -82,13 +82,6 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud;
 
 /**
- * Change the base URL (schema + authority + port only) used to communicate with the backend.
- *
- * @param logUrl Base URL to use for backend communication.
- */
-+ (void)setLogUrl:(NSString *)logUrl;
-
-/**
  * The flag indicates whether or not the SDK was enabled as a whole
  *
  * The state is persisted in the device's storage across application launches.
@@ -99,6 +92,13 @@ NS_SWIFT_NAME(AppCenter)
  * The SDK's log level.
  */
 @property(class, nonatomic, setter=setLogLevel:) MSACLogLevel logLevel NS_SWIFT_NAME(logLevel);
+
+/**
+ * Change the base URL (schema + authority + port only) used to communicate with the backend.
+ *
+ * @param logUrl Base URL to use for backend communication.
+ */
++ (void)setLogUrl:(NSString *)logUrl;
 
 /**
  * Set log handler.
