@@ -12,10 +12,10 @@
 @protocol MSACService <NSObject>
 
 /**
-* The flag indicates whether the service is enabled or not.
-*
-* The state is persisted in the device's storage across application launches.
-*/
+ * The flag indicates whether the service is enabled or not.
+ *
+ * The state is persisted in the device's storage across application launches.
+ */
 @property(class, nonatomic, assign, getter=isEnabled) BOOL enabled;
 
 @end
