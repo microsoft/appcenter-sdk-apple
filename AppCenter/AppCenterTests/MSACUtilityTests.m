@@ -7,7 +7,7 @@
 #import "MSACTestFrameworks.h"
 #import "MSACTestSessionInfo.h"
 #import "MSACUtility+ApplicationPrivate.h"
-#import "MSACUtility+Date.h"
+#import "MSACUtility+DatePrivate.h"
 #import "MSACUtility+Environment.h"
 #import "MSACUtility+File.h"
 #import "MSACUtility+PropertyValidation.h"
@@ -159,6 +159,7 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
 - (void)testDateFormatterConcurrentInitialization {
 
   // If
+  [MSACUtility resetDateFormatterInstance];
   XCTestExpectation *expectation = [self expectationWithDescription:@"queueExpectation"];
   dispatch_queue_t concurrentQueue = dispatch_queue_create("com.dateformatter.queue", DISPATCH_QUEUE_CONCURRENT);
   id nsDateFormatter = OCMClassMock([NSDateFormatter class]);

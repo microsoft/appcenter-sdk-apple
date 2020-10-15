@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACUtility+Date.h"
+#import "MSACUtility+DatePrivate.h"
+
+/**
+ * Singleton.
+ */
+static NSDateFormatter *dateFormatter = nil;
 
 /*
  * Workaround for exporting symbols from category object files.
@@ -23,7 +28,6 @@ NSString *MSACUtilityDateCategory;
 }
 
 + (NSDateFormatter *)ISO8601DateFormatter {
-  static NSDateFormatter *dateFormatter = nil;
   if (!dateFormatter) {
     @synchronized(self) {
       if (!dateFormatter) {
@@ -35,6 +39,10 @@ NSString *MSACUtilityDateCategory;
     }
   }
   return dateFormatter;
+}
+
++ (void)resetDateFormatterInstance {
+  dateFormatter = nil;
 }
 
 @end
