@@ -8,6 +8,7 @@
 /**
  * Details of an uploaded release.
  */
+NS_SWIFT_NAME(ReleaseDetails)
 @interface MSACReleaseDetails : NSObject
 
 /**

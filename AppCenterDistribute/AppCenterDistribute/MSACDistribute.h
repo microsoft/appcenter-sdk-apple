@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * App Center Distribute service.
  */
+NS_SWIFT_NAME(Distribute)
 @interface MSACDistribute : MSACServiceAbstract
 
 typedef NS_ENUM(NSInteger, MSACUpdateAction) {
