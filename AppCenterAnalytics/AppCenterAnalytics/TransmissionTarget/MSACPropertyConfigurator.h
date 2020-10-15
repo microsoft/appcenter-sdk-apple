@@ -5,6 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(PropertyConfigurator)
 @interface MSACPropertyConfigurator : NSObject
 
 /**

@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, MSACAnalyticsAuthenticationType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AnalyticsAuthenticationProvider)
 @interface MSACAnalyticsAuthenticationProvider : NSObject
 
 /**

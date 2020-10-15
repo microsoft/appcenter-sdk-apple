@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * App Center analytics service.
  */
+NS_SWIFT_NAME(Analytics)
 @interface MSACAnalytics : MSACServiceAbstract
 
 /**

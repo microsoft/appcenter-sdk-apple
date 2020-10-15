@@ -6,6 +6,7 @@
 @class MSACEventProperties;
 @class MSACMetadataExtension;
 
+NS_SWIFT_NAME(EventLog)
 @interface MSACEventLog : MSACLogWithNameAndProperties
 
 /**
