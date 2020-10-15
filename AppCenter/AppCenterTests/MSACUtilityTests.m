@@ -156,6 +156,41 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   XCTAssertGreaterThan(actual, 0);
 }
 
+- (void)testDateFormatterConcurrentInitialization {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"queueExpectation"];
+  dispatch_queue_t concurrentQueue = dispatch_queue_create("com.dateformatter.queue",  DISPATCH_QUEUE_CONCURRENT);
+  id nsDateFormatter = OCMClassMock([NSDateFormatter class]);
+  OCMStub([nsDateFormatter stringFromDate:OCMOCK_ANY]).andReturn(@"stub");
+  OCMStub([nsDateFormatter alloc]).andReturn(nsDateFormatter);
+
+  // When
+  int dispatchTimes = 10;
+  for (int i = 0; i <= dispatchTimes; i++) {
+    dispatch_async(concurrentQueue, ^{
+      if (i == dispatchTimes){
+        [expectation fulfill];
+        return;
+      }
+      @try {
+        [MSACUtility dateToISO8601:[NSDate dateWithTimeIntervalSince1970:i]];
+      } @catch (NSException *exception) {
+        XCTFail(@"Expectation Failed with error: %@", exception);
+      }
+    });
+  }
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSACTestTimeout
+                               handler:^(NSError *error) {
+    OCMVerify(times(1), [nsDateFormatter alloc]);
+    if (error) {
+      XCTFail(@"Expectation Failed with error: %@", error);
+    }
+  }];
+}
+
 #pragma mark - MSACUtility+Environment.h
 
 // FIXME: This method actually opens a dialog to ask to handle the URL on Mac.
