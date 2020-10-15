@@ -10,6 +10,7 @@
  * Custom properties builder.
  * Collects multiple properties to send in one log.
  */
+NS_SWIFT_NAME(CustomProperties)
 @interface MSACCustomProperties : NSObject
 
 /**

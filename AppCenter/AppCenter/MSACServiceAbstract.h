@@ -14,6 +14,7 @@
  * Abstraction of services common logic.
  * This class is intended to be subclassed only not instantiated directly.
  */
+NS_SWIFT_NAME(ServiceAbstract)
 @interface MSACServiceAbstract : NSObject <MSACService>
 
 /**
@@ -46,7 +47,7 @@
 /**
  * The flag indicate whether the service needs the application secret or not.
  */
-@property(atomic, readonly, getter=isAppSecretRequired) BOOL appSecretRequired;
+@property(atomic, readonly, getter=isAppSecretRequired) BOOL appSecretRequired NS_SWIFT_NAME(appSecretRequired);
 
 @end
 

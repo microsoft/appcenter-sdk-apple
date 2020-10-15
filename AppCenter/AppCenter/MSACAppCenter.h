@@ -74,12 +74,13 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * The flag indicates whether the SDK has already been configured or not.
  */
-@property(class, atomic, readonly, getter=isConfigured) BOOL configured;
+@property(class, atomic, readonly, getter=isConfigured) BOOL configured NS_SWIFT_NAME(configured);
 
 /**
  * The flag indicates whether app is running in App Center Test Cloud.
  */
-@property(class, atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud;
+@property(class, atomic, readonly, getter=isRunningInAppCenterTestCloud)
+    BOOL runningInAppCenterTestCloud NS_SWIFT_NAME(runningInAppCenterTestCloud);
 
 /**
  * The flag indicates whether or not the SDK was enabled as a whole

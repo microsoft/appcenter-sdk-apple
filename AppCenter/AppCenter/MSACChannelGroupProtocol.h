@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * `MSACChannelGroupProtocol` represents a kind of channel that contains constituent MSACChannelUnit objects. When an operation from the
  * `MSACChannelProtocol` is performed on the group, that operation should be propagated to its constituent MSACChannelUnit objects.
  */
+NS_SWIFT_NAME(ChannelGroupProtocol)
 @protocol MSACChannelGroupProtocol <MSACChannelProtocol>
 
 /**

@@ -9,6 +9,7 @@
 /**
  * Protocol to define an instance that can be enabled/disabled.
  */
+NS_SWIFT_NAME(Enable)
 @protocol MSACEnable <NSObject>
 
 @required
