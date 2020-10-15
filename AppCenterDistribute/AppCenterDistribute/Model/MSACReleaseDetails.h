@@ -38,7 +38,7 @@ NS_SWIFT_NAME(ReleaseDetails)
 /**
  * The flag that indicates whether the release is a mandatory update or not.
  */
-@property(nonatomic, getter=isMandatoryUpdate, assign) BOOL mandatoryUpdate;
+@property(nonatomic, getter=isMandatoryUpdate, assign) BOOL mandatoryUpdate NS_SWIFT_NAME(mandatoryUpdate);
 
 /**
  * The URL that hosts the release notes for this release.

@@ -66,14 +66,14 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
  *
  * @param apiUrl The new URL.
  */
-+ (void)setApiUrl:(NSString *)apiUrl;
++ (void)setApiUrl:(NSString *)apiUrl NS_SWIFT_NAME(set(apiUrl:));
 
 /**
  * Change the base URL that is used to install update.
  *
  * @param installUrl The new URL.
  */
-+ (void)setInstallUrl:(NSString *)installUrl;
++ (void)setInstallUrl:(NSString *)installUrl  NS_SWIFT_NAME(set(installUrl:));
 
 /**
  * Process URL request for the service.
@@ -84,7 +84,7 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (BOOL)openURL:(NSURL *)url;
++ (BOOL)openURL:(NSURL *)url NS_SWIFT_NAME(open(_:));
 
 /**
  * Disable checking the latest release of the application when the SDK starts.
