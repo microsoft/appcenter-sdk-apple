@@ -64,7 +64,7 @@ NS_SWIFT_NAME(CustomProperties)
  *
  * @return This instance.
  */
-- (instancetype)clearPropertyForKey:(NSString *)key;
+- (instancetype)clearPropertyForKey:(NSString *)key NS_SWIFT_NAME(clearProperty(for:));
 
 @end
 
