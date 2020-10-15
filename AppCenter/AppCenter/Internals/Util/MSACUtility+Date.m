@@ -25,7 +25,7 @@ NSString *MSACUtilityDateCategory;
 + (NSDateFormatter *)ISO8601DateFormatter {
   static NSDateFormatter *dateFormatter = nil;
   if (!dateFormatter) {
-    @synchronized(self){
+    @synchronized(self) {
       if (!dateFormatter) {
         dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setLocale:[NSLocale systemLocale]];

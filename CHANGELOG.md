@@ -6,6 +6,7 @@
 
 * **[Breaking change]** In order to avoid a naming conflict with classes in Apple's private frameworks, we now use "MSAC" prefix instead of "MS". Please follow the [migration guide](replace-with-link) for adopting the new naming.
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
+* **[Fix]** Fix `NSDateFormatter` initialization in a concurrent environment.
 
 ___
 
