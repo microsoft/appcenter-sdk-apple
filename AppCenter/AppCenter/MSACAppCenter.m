@@ -474,6 +474,10 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   return _logUrl;
 }
 
++ (NSString *)logUrl {
+  return [[MSACAppCenter sharedInstance] logUrl];
+}
+
 - (void)setLogUrl:(NSString *)logUrl {
   @synchronized(self) {
     _logUrl = logUrl;
