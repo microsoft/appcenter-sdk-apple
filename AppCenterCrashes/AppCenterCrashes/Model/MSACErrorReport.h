@@ -5,6 +5,7 @@
 
 @class MSACDevice;
 
+NS_SWIFT_NAME(ErrorReport)
 @interface MSACErrorReport : NSObject
 
 /**
@@ -63,6 +64,6 @@
  *
  * @see `[MSACCrashes didReceiveMemoryWarningInLastSession]`
  */
-- (BOOL)isAppKill;
+@property(nonatomic, readonly) BOOL isAppKill;
 
 @end

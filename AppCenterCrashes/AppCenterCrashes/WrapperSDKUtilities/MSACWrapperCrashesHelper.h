@@ -14,21 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * This general class allows wrappers to supplement the Crashes SDK with their own behavior.
  */
+NS_SWIFT_NAME(WrapperCrashesHelper)
 @interface MSACWrapperCrashesHelper : NSObject
 
 /**
- * Sets the crash handler setup delegate.
+ * Sets or gets the crash handler setup delegate.
  *
- * @param delegate The delegate to set.
  */
-+ (void)setCrashHandlerSetupDelegate:(id<MSACCrashHandlerSetupDelegate>)delegate;
-
-/**
- * Gets the crash handler setup delegate.
- *
- * @return The delegate being used by Crashes.
- */
-+ (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate;
+@property(class, nonatomic, setter=setCrashHandlerSetupDelegate:, getter=getCrashHandlerSetupDelegate) id<MSACCrashHandlerSetupDelegate>
+    crashHandlerSetupDelegate NS_SWIFT_NAME(crashHandlerSetupDelegate);
 
 /**
  * Enables or disables automatic crash processing.

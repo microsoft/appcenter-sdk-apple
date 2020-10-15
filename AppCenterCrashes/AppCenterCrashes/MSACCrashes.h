@@ -57,6 +57,7 @@ typedef NS_ENUM(NSUInteger, MSACUserConfirmation) {
 
 @protocol MSACCrashesDelegate;
 
+NS_SWIFT_NAME(Crashes)
 @interface MSACCrashes : MSACServiceAbstract
 
 ///-----------------------------------------------------------------------------
@@ -87,19 +88,19 @@ typedef NS_ENUM(NSUInteger, MSACUserConfirmation) {
  *
  * @return Returns YES is the app has crashed in the last session.
  */
-+ (BOOL)hasCrashedInLastSession;
+@property(class, readonly, nonatomic) BOOL hasCrashedInLastSession;
 
 /**
  * Check if the app received memory warning in the last session.
  *
  * @return Returns YES is the app received memory warning in the last session.
  */
-+ (BOOL)hasReceivedMemoryWarningInLastSession;
+@property(class, readonly, nonatomic) BOOL hasReceivedMemoryWarningInLastSession;
 
 /**
  * Provides details about the crash that occurred in the last app session
  */
-+ (nullable MSACErrorReport *)lastSessionCrashReport;
+@property(class, nullable, readonly, nonatomic) MSACErrorReport *lastSessionCrashReport;
 
 #if TARGET_OS_OSX || TARGET_OS_MACCATALYST
 /**
@@ -148,16 +149,15 @@ typedef NS_ENUM(NSUInteger, MSACUserConfirmation) {
  *
  * @see MSACCrashesDelegate
  */
-+ (void)setDelegate:(_Nullable id<MSACCrashesDelegate>)delegate;
+@property(class, nonatomic, weak) id<MSACCrashesDelegate> _Nullable delegate;
 
 /**
  * Set a user confirmation handler that is invoked right before processing crash reports to determine whether sending crash reports or not.
  *
- * @param userConfirmationHandler A handler for user confirmation.
  *
  * @see MSACUserConfirmationHandler
  */
-+ (void)setUserConfirmationHandler:(_Nullable MSACUserConfirmationHandler)userConfirmationHandler;
+@property(class, nonatomic, strong) MSACUserConfirmationHandler _Nullable userConfirmationHandler;
 
 /**
  * Notify SDK with a confirmation to handle the crash report.

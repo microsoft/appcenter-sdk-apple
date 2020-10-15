@@ -203,7 +203,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 @implementation MSACCrashes
 
-@synthesize delegate = _delegate;
 @synthesize channelGroup = _channelGroup;
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
@@ -228,6 +227,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 + (BOOL)hasCrashedInLastSession {
   return [[MSACCrashes sharedInstance] didCrashInLastSession];
+}
+
++ (_Nullable MSACUserConfirmationHandler)userConfirmationHandler {
+  return [[MSACCrashes sharedInstance] userConfirmationHandler];
 }
 
 + (BOOL)hasReceivedMemoryWarningInLastSession {
@@ -271,6 +274,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
  */
 + (void)disableMachExceptionHandler {
   [[MSACCrashes sharedInstance] setEnableMachExceptionHandler:NO];
+}
+
++ (id<MSACCrashesDelegate>)delegate {
+  return [[MSACCrashes sharedInstance] delegate];
 }
 
 + (void)setDelegate:(_Nullable id<MSACCrashesDelegate>)delegate {
