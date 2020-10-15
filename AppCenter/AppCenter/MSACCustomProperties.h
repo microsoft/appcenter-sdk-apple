@@ -22,7 +22,7 @@ NS_SWIFT_NAME(CustomProperties)
  *
  * @return This instance.
  */
-- (instancetype)setString:(NSString *)value forKey:(NSString *)key;
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:for:));
 
 /**
  * Set the specified property value with the specified key.
@@ -33,7 +33,7 @@ NS_SWIFT_NAME(CustomProperties)
  *
  * @return This instance.
  */
-- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key;
+- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key  NS_SWIFT_NAME(set(_:for:));
 
 /**
  * Set the specified property value with the specified key.
@@ -44,7 +44,7 @@ NS_SWIFT_NAME(CustomProperties)
  *
  * @return This instance.
  */
-- (instancetype)setBool:(BOOL)value forKey:(NSString *)key;
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:for:));
 
 /**
  * Set the specified property value with the specified key.
@@ -55,7 +55,7 @@ NS_SWIFT_NAME(CustomProperties)
  *
  * @return This instance.
  */
-- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key;
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:for:));
 
 /**
  * Clear the property for the specified key.
