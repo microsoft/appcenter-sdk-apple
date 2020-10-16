@@ -182,8 +182,8 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
         [MSACUtility dateToISO8601:[NSDate dateWithTimeIntervalSince1970:i]];
       } @catch (NSException *exception) {
         XCTFail(@"Expectation Failed with error: %@", exception);
-      } @
-      synchronized(lock) {
+      }
+      @synchronized(lock) {
         counter++;
         if (counter == dispatchTimes) {
           [expectation fulfill];
