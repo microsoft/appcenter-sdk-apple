@@ -60,8 +60,6 @@ NS_SWIFT_NAME(ErrorReport)
  * thread for too long, or other reasons. See Apple documentation:
  * https://developer.apple.com/library/ios/qa/qa1693/_index.html.
  *
- * @return YES if the details represent an app kill instead of a crash.
- *
  * @see `[MSACCrashes didReceiveMemoryWarningInLastSession]`
  */
 @property(nonatomic, readonly) BOOL isAppKill;

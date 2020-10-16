@@ -34,7 +34,7 @@ NS_SWIFT_NAME(WrapperCrashesHelper)
  *
  * @return An array of unprocessed error reports.
  */
-@property(class, readonly, nonatomic) NSArray<MSACErrorReport *> * unprocessedCrashReports;
+@property(class, readonly, nonatomic) NSArray<MSACErrorReport *> *unprocessedCrashReports;
 
 /**
  * Resumes processing for a given subset of the unprocessed reports.
