@@ -95,7 +95,7 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic, setter=setLogLevel:) MSACLogLevel logLevel NS_SWIFT_NAME(logLevel);
 
 /**
- * The SDK's base URL (schema + authority + port only) used to communicate with the backend..
+ * Base URL to use for backend communication.
  */
 @property(class, nonatomic, setter=setLogUrl:) NSString * logUrl NS_SWIFT_NAME(logUrl);
 
