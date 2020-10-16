@@ -136,7 +136,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
-    self.pushEnabledSwitch.isOn = appCenter.isPushEnabled()
 
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
@@ -150,15 +149,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   @IBAction func enabledSwitchUpdated(_ sender: UISwitch) {
     appCenter.setAppCenterEnabled(sender.isOn)
-    updateViewState()
-  }
-
-  @IBAction func pushSwitchStateUpdated(_ sender: UISwitch) {
-#if !targetEnvironment(macCatalyst)
-    appCenter.setPushEnabled(sender.isOn)
-#else
-    showAlert(message: "AppCenter Push is not supported by Mac Catalyst")
-#endif
     updateViewState()
   }
     

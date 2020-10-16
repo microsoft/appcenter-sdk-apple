@@ -18,9 +18,6 @@ Pod::Spec.new do |s|
                       3. App Center Distribute (iOS only):
                       App Center Distribute lets your users install a new version of the app when you distribute it with App Center. With a new version of the app available, the SDK will present an update dialog to the users to either download or postpone the new version. Once they choose to update, the SDK will start to update your application. This feature is automatically disabled on versions of your app deployed to the Apple App Store.
 
-                      4. App Center Push (iOS and macOS):
-                      App Center Push enables you to send push notifications to users of your app from the App Center portal. You can also segment your user base based on a set of properties and send them targeted notifications. Not available for tvOS SDK.
-
                         DESC
 
   s.homepage          = 'https://appcenter.ms'
@@ -77,16 +74,6 @@ Pod::Spec.new do |s|
     ss.ios.weak_frameworks = 'SafariServices'
     ss.ios.resource_bundle = { 'AppCenterDistributeResources' => ['AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle/*.lproj'] }
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework"
- end
-
- s.subspec 'Push' do |ss|
-    ss.dependency 'AppCenter/Core'
-    ss.frameworks = 'Foundation'
-    ss.ios.frameworks = 'UIKit'
-    ss.osx.frameworks = 'AppKit'
-    ss.ios.weak_frameworks = 'UserNotifications'
-    ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/iOS/AppCenterPush.framework"
-    ss.osx.vendored_frameworks = "AppCenter-SDK-Apple/macOS/AppCenterPush.framework"
  end
 
 end
