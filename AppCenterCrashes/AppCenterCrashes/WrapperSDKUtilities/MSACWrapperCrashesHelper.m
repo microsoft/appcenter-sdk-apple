@@ -40,6 +40,10 @@
   [[MSACCrashes sharedInstance] setAutomaticProcessingEnabled:automaticProcessing];
 }
 
++ (BOOL)automaticProcessing {
+  return [[MSACCrashes sharedInstance] isAutomaticProcessingEnabled];
+}
+
 /**
  * Gets a list of unprocessed crash reports.
  */
