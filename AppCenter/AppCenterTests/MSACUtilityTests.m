@@ -7,13 +7,19 @@
 #import "MSACTestFrameworks.h"
 #import "MSACTestSessionInfo.h"
 #import "MSACUtility+ApplicationPrivate.h"
-#import "MSACUtility+DatePrivate.h"
+#import "MSACUtility+Date.h"
 #import "MSACUtility+Environment.h"
 #import "MSACUtility+File.h"
 #import "MSACUtility+PropertyValidation.h"
 #import "MSACUtility+StringFormatting.h"
 
 static NSTimeInterval const kMSACTestTimeout = 1.0;
+
+@interface MSACUtility (Test)
+
++ (void)resetDateFormatterInstance;
+
+@end
 
 @interface MSACUtilityTests : XCTestCase
 
@@ -168,16 +174,21 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
 
   // When
   int dispatchTimes = 10;
-  for (int i = 0; i <= dispatchTimes; i++) {
+  __block NSObject *lock = [NSObject new];
+  __block int counter = 0;
+  for (int i = 0; i < dispatchTimes; i++) {
     dispatch_async(concurrentQueue, ^{
-      if (i == dispatchTimes) {
-        [expectation fulfill];
-        return;
-      }
       @try {
         [MSACUtility dateToISO8601:[NSDate dateWithTimeIntervalSince1970:i]];
       } @catch (NSException *exception) {
         XCTFail(@"Expectation Failed with error: %@", exception);
+      } @
+      synchronized(lock) {
+        counter++;
+        if (counter == dispatchTimes) {
+          [expectation fulfill];
+          return;
+        }
       }
     });
   }

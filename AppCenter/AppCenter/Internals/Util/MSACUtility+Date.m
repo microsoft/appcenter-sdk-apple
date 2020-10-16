@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACUtility+DatePrivate.h"
+#import "MSACUtility+Date.h"
 
 /**
- * Singleton.
+ * Cached date formatter instance.
  */
 static NSDateFormatter *dateFormatter = nil;
 
