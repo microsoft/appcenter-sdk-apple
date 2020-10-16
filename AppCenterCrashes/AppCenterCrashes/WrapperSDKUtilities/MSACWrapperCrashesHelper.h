@@ -21,7 +21,7 @@ NS_SWIFT_NAME(WrapperCrashesHelper)
  * Sets or gets the crash handler setup delegate.
  *
  */
-@property(class, nonatomic, setter=setCrashHandlerSetupDelegate:, getter=getCrashHandlerSetupDelegate) id<MSACCrashHandlerSetupDelegate>
+@property(class, nonatomic, getter=getCrashHandlerSetupDelegate, setter=setCrashHandlerSetupDelegate:) id<MSACCrashHandlerSetupDelegate>
     crashHandlerSetupDelegate;
 
 /**
