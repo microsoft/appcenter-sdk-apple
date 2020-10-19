@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
  *
  * @discussion Place this method call into your app delegate's openURL method.
  */
-+ (BOOL)openURL:(NSURL *)url NS_SWIFT_NAME(open(_:));
++ (BOOL)openURL:(NSURL *)url;
 
 /**
  * Disable checking the latest release of the application when the SDK starts.
