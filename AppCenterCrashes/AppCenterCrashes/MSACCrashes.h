@@ -149,15 +149,14 @@ NS_SWIFT_NAME(Crashes)
  *
  * @see MSACCrashesDelegate
  */
-@property(class, nonatomic, weak) id<MSACCrashesDelegate> _Nullable delegate;
+@property(class, nonatomic) id<MSACCrashesDelegate> _Nullable delegate;
 
 /**
  * Set a user confirmation handler that is invoked right before processing crash reports to determine whether sending crash reports or not.
  *
- *
  * @see MSACUserConfirmationHandler
  */
-@property(class, nonatomic, weak) MSACUserConfirmationHandler _Nullable userConfirmationHandler;
+@property(class, nonatomic) MSACUserConfirmationHandler _Nullable userConfirmationHandler;
 
 /**
  * Notify SDK with a confirmation to handle the crash report.
