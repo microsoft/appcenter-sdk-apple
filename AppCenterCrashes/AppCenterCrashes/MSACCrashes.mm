@@ -276,7 +276,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   [[MSACCrashes sharedInstance] setEnableMachExceptionHandler:NO];
 }
 
-+ (id<MSACCrashesDelegate>)delegate {
++ (_Nullable id<MSACCrashesDelegate>)delegate {
   return [[MSACCrashes sharedInstance] delegate];
 }
 
@@ -351,7 +351,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
   // Enabling.
   if (isEnabled) {
-    id<MSACCrashHandlerSetupDelegate> crashSetupDelegate = [MSACWrapperCrashesHelper getCrashHandlerSetupDelegate];
+    id<MSACCrashHandlerSetupDelegate> crashSetupDelegate = [MSACWrapperCrashesHelper сrashHandlerSetupDelegate];
 
     // Check if a wrapper SDK has a preference for uncaught exception handling.
     BOOL enableUncaughtExceptionHandler = YES;

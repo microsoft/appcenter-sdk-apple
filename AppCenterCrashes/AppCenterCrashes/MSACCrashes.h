@@ -157,7 +157,7 @@ NS_SWIFT_NAME(Crashes)
  *
  * @see MSACUserConfirmationHandler
  */
-@property(class, nonatomic, strong) MSACUserConfirmationHandler _Nullable userConfirmationHandler;
+@property(class, nonatomic, weak) MSACUserConfirmationHandler _Nullable userConfirmationHandler;
 
 /**
  * Notify SDK with a confirmation to handle the crash report.

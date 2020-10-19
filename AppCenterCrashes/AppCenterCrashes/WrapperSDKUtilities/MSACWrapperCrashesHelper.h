@@ -18,11 +18,11 @@ NS_SWIFT_NAME(WrapperCrashesHelper)
 @interface MSACWrapperCrashesHelper : NSObject
 
 /**
- * Sets or gets the crash handler setup delegate.
+ * The crash handler setup delegate.
  *
  */
-@property(class, nonatomic, getter=getCrashHandlerSetupDelegate, setter=setCrashHandlerSetupDelegate:) id<MSACCrashHandlerSetupDelegate>
-    crashHandlerSetupDelegate;
+@property(class, nonatomic, weak, setter=setCrashHandlerSetupDelegate:) _Nullable id<MSACCrashHandlerSetupDelegate>
+сrashHandlerSetupDelegate;
 
 /**
  * Enables or disables automatic crash processing. Passing NO causes SDK not to send reports immediately, even if "Always Send" is true.

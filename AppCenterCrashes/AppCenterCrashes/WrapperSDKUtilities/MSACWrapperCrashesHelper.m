@@ -29,7 +29,7 @@
   [[MSACWrapperCrashesHelper sharedInstance] setCrashHandlerSetupDelegate:delegate];
 }
 
-+ (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate {
++ (_Nullable id<MSACCrashHandlerSetupDelegate>)сrashHandlerSetupDelegate {
   return [[MSACWrapperCrashesHelper sharedInstance] crashHandlerSetupDelegate];
 }
 
