@@ -256,6 +256,14 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
   self.ingestion.appSecret = appSecret;
 }
 
+- (NSString *_Nullable)appSecret {
+  return self.ingestion.appSecret;
+}
+
+- (NSString *_Nullable)logUrl {
+  return self.ingestion.baseURL;
+}
+
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
   dispatch_async(self.logsDispatchQueue, ^{
     [self.storage setMaxStorageSize:sizeInBytes completionHandler:completionHandler];

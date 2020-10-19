@@ -92,35 +92,29 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * The SDK's log level.
  */
-@property(class, nonatomic, setter=setLogLevel:) MSACLogLevel logLevel NS_SWIFT_NAME(logLevel);
+@property(class, nonatomic, setter=setLogLevel:) MSACLogLevel logLevel;
 
 /**
  * Base URL to use for backend communication.
  */
-@property(class, nonatomic, setter=setLogUrl:) NSString * logUrl NS_SWIFT_NAME(logUrl);
+@property(class, nonatomic, setter=setLogUrl:) NSString *logUrl;
 
 /**
  * Set log handler.
- *
- * @param logHandler Handler.
  */
-+ (void)setLogHandler:(MSACLogHandler)logHandler;
+@property(class, nonatomic, setter=setLogHandler:) MSACLogHandler logHandler;
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK that uses the App
  * Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
- *
- * @param wrapperSdk Wrapper SDK information.
  */
-+ (void)setWrapperSdk:(MSACWrapperSdk *)wrapperSdk;
+@property(class, nonatomic, setter=setWrapperSdk:) MSACWrapperSdk *wrapperSdk;
 
 #if !TARGET_OS_TV
 /**
  * Set the custom properties.
- *
- * @param customProperties Custom properties object.
  */
-+ (void)setCustomProperties:(MSACCustomProperties *)customProperties;
+@property(class, nonatomic, setter=setCustomProperties:) MSACCustomProperties *customProperties;
 #endif
 
 /**
@@ -177,8 +171,6 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * Set the user identifier.
  *
- * @param userId User identifier.
- *
  * @discussion Set the user identifier for logs sent for the default target token when the secret passed in @c
  * MSACASACAppCenter:start:withServices: contains "target={targetToken}".
  *
@@ -186,13 +178,13 @@ NS_SWIFT_NAME(AppCenter)
  *
  * AppCenter must be configured or started before this API can be used.
  */
-+ (void)setUserId:(NSString *)userId;
+@property(class, nonatomic, setter=setUserId:) NSString *userId;
 
 /**
  * Set country code to use when building device properties.
  *
- * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
+ * @see https://www.iso.org/obp/ui/#search for more information.
  */
-+ (void)setCountryCode:(NSString *)countryCode;
+@property(class, nonatomic, setter=setCountryCode:) NSString *countryCode;
 
 @end

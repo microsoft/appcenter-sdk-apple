@@ -33,7 +33,7 @@ NS_SWIFT_NAME(CustomProperties)
  *
  * @return This instance.
  */
-- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key  NS_SWIFT_NAME(set(_:for:));
+- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:for:));
 
 /**
  * Set the specified property value with the specified key.
