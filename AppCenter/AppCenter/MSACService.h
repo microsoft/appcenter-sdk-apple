@@ -17,7 +17,7 @@ NS_SWIFT_NAME(Service)
  *
  * The state is persisted in the device's storage across application launches.
  */
-@property(class, nonatomic, assign, getter=isEnabled) BOOL enabled;
+@property(class, nonatomic, assign, getter=isEnabled) BOOL enabled NS_SWIFT_NAME(enabled);
 
 @end
 

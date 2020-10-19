@@ -26,7 +26,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)configureWithAppSecret:(NSString *)appSecret;
++ (void)configureWithAppSecret:(NSString *)appSecret NS_SWIFT_NAME(configure(withAppSecret:));
 
 /**
  * Configure the SDK.
@@ -43,7 +43,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
++ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services NS_SWIFT_NAME(start(withAppSecret:services:));
 
 /**
  * Start the SDK with an array of services.
@@ -52,7 +52,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)startWithServices:(NSArray<Class> *)services;
++ (void)startWithServices:(NSArray<Class> *)services NS_SWIFT_NAME(start(services:));
 
 /**
  * Start a service.
@@ -69,7 +69,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @param services Array of services to start.
  */
-+ (void)startFromLibraryWithServices:(NSArray<Class> *)services;
++ (void)startFromLibraryWithServices:(NSArray<Class> *)services NS_SWIFT_NAME(startFromLibrary(services:));
 
 /**
  * The flag indicates whether the SDK has already been configured or not.
