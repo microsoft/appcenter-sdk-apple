@@ -107,7 +107,7 @@ static const char deviceIdPrefix = 'i';
 
 - (void)channel:(id<MSACChannelProtocol>)__unused channel prepareLog:(id<MSACLog>)log {
   MSACAnalyticsTransmissionTarget *target = self.transmissionTarget;
-  if (target && [log isKindOfClass:[MSACCommonSchemaLog class]] && [target isEnabled] && [log.tag isEqual:target]) {
+  if (target && [log isKindOfClass:[MSACCommonSchemaLog class]] && target.enabled && [log.tag isEqual:target]) {
 
     // Override the application version.
     while (target) {

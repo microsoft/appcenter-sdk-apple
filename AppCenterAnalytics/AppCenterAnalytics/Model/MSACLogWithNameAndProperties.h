@@ -5,6 +5,7 @@
 
 #import "MSACLogWithProperties.h"
 
+NS_SWIFT_NAME(LogWithNameAndProperties)
 @interface MSACLogWithNameAndProperties : MSACLogWithProperties
 
 /**
