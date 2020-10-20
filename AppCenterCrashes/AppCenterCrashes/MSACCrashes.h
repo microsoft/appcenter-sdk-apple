@@ -88,14 +88,14 @@ NS_SWIFT_NAME(Crashes)
  *
  * @return Returns YES is the app has crashed in the last session.
  */
-@property(class, readonly, nonatomic) BOOL hasCrashedInLastSession NS_SWIFT_NAME(crashedInLastSession);
+@property(class, readonly, nonatomic) BOOL hasCrashedInLastSession;
 
 /**
  * Check if the app received memory warning in the last session.
  *
  * @return Returns YES is the app received memory warning in the last session.
  */
-@property(class, readonly, nonatomic) BOOL hasReceivedMemoryWarningInLastSession NS_SWIFT_NAME(receivedMemoryWarningInLastSession);
+@property(class, readonly, nonatomic) BOOL hasReceivedMemoryWarningInLastSession;
 
 /**
  * Provides details about the crash that occurred in the last app session
