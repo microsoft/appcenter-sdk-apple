@@ -75,25 +75,31 @@
       location = "group:Scripts"
       name = "Scripts">
       <FileRef
-         location = "group:build-docs.sh">
-      </FileRef>
-      <FileRef
-         location = "group:build-ios-framework.sh">
-      </FileRef>
-      <FileRef
-         location = "group:build-macos-framework.sh">
-      </FileRef>
-      <FileRef
-         location = "group:build-maccatalyst-framework.sh">
-      </FileRef>
-      <FileRef
-         location = "group:build-tvos-framework.sh">
-      </FileRef>
-      <FileRef
-         location = "group:build-xcframework.sh">
-      </FileRef>
-      <FileRef
          location = "group:VerifyNoBuildSettings.swift">
+      </FileRef>
+      <FileRef
+         location = "group:build-framework.sh">
+      </FileRef>
+      <FileRef
+         location = "group:combine-frameworks.sh">
+      </FileRef>
+      <FileRef
+         location = "group:combine-libraries.sh">
+      </FileRef>
+      <FileRef
+         location = "group:combine-xcframework.sh">
+      </FileRef>
+      <FileRef
+         location = "group:copy-products.sh">
+      </FileRef>
+      <FileRef
+         location = "group:generate-documentation.sh">
+      </FileRef>
+      <FileRef
+         location = "group:verify-modifications.sh">
+      </FileRef>
+      <FileRef
+         location = "group:create-archive.sh">
       </FileRef>
    </Group>
    <FileRef
