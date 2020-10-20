@@ -15,7 +15,7 @@
  * Indicates whether this service is enabled.
  * The state is persisted in the device's storage across application launches.
  */
-@property(class, atomic, setter=setEnabled:) BOOL isEnabled NS_SWIFT_NAME(enabled);
+@property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 @end
 
