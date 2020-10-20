@@ -95,6 +95,18 @@ static MSACDeviceTracker *sharedInstance = nil;
   }
 }
 
+- (NSString *)getCountryCode {
+  @synchronized(self) {
+    return overriddenCountryCode;
+  }
+}
+
+- (MSACWrapperSdk *)getWrapperSdk {
+  @synchronized(self) {
+    return wrapperSdkInformation;
+  }
+}
+
 + (void)refreshDeviceNextTime {
   @synchronized([MSACDeviceTracker sharedInstance]) {
     needRefresh = YES;

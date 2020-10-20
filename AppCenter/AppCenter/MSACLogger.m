@@ -52,6 +52,12 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
   }
 }
 
++ (MSACLogHandler)getCurrentLogHandler {
+  @synchronized(self) {
+    return currentLogHandler;
+  }
+}
+
 + (void)setCurrentLogLevel:(MSACLogLevel)currentLogLevel {
   @synchronized(self) {
     _isUserDefinedLogLevel = YES;

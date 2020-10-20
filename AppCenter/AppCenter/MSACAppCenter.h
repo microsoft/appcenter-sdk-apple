@@ -26,7 +26,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)configureWithAppSecret:(NSString *)appSecret;
++ (void)configureWithAppSecret:(NSString *)appSecret NS_SWIFT_NAME(configure(withAppSecret:));
 
 /**
  * Configure the SDK.
@@ -43,7 +43,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
++ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services NS_SWIFT_NAME(start(withAppSecret:services:));
 
 /**
  * Start the SDK with an array of services.
@@ -52,7 +52,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)startWithServices:(NSArray<Class> *)services;
++ (void)startWithServices:(NSArray<Class> *)services NS_SWIFT_NAME(start(services:));
 
 /**
  * Start a service.
@@ -69,7 +69,7 @@ NS_SWIFT_NAME(AppCenter)
  *
  * @param services Array of services to start.
  */
-+ (void)startFromLibraryWithServices:(NSArray<Class> *)services;
++ (void)startFromLibraryWithServices:(NSArray<Class> *)services NS_SWIFT_NAME(startFromLibrary(services:));
 
 /**
  * The flag indicates whether the SDK has already been configured or not.
@@ -92,29 +92,23 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * The SDK's log level.
  */
-@property(class, nonatomic, setter=setLogLevel:) MSACLogLevel logLevel NS_SWIFT_NAME(logLevel);
+@property(class, nonatomic) MSACLogLevel logLevel;
 
 /**
- * Change the base URL (schema + authority + port only) used to communicate with the backend.
- *
- * @param logUrl Base URL to use for backend communication.
+ * Base URL to use for backend communication.
  */
-+ (void)setLogUrl:(NSString *)logUrl;
+@property(class, nonatomic) NSString *logUrl;
 
 /**
  * Set log handler.
- *
- * @param logHandler Handler.
  */
-+ (void)setLogHandler:(MSACLogHandler)logHandler;
+@property(class, nonatomic) MSACLogHandler logHandler;
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK that uses the App
  * Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
- *
- * @param wrapperSdk Wrapper SDK information.
  */
-+ (void)setWrapperSdk:(MSACWrapperSdk *)wrapperSdk;
+@property(class, nonatomic) MSACWrapperSdk *wrapperSdk;
 
 #if !TARGET_OS_TV
 /**
@@ -179,8 +173,6 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * Set the user identifier.
  *
- * @param userId User identifier.
- *
  * @discussion Set the user identifier for logs sent for the default target token when the secret passed in @c
  * MSACASACAppCenter:start:withServices: contains "target={targetToken}".
  *
@@ -188,13 +180,13 @@ NS_SWIFT_NAME(AppCenter)
  *
  * AppCenter must be configured or started before this API can be used.
  */
-+ (void)setUserId:(NSString *)userId;
+@property(class, nonatomic) NSString *userId;
 
 /**
  * Set country code to use when building device properties.
  *
- * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
+ * @see https://www.iso.org/obp/ui/#search for more information.
  */
-+ (void)setCountryCode:(NSString *)countryCode;
+@property(class, nonatomic) NSString *countryCode;
 
 @end
