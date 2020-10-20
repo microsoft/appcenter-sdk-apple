@@ -290,15 +290,15 @@ static dispatch_once_t onceToken;
 #pragma mark - Public
 
 + (id<MSACDistributeDelegate>)delegate {
-    return [[MSACDistribute sharedInstance] delegate];
+  return [[MSACDistribute sharedInstance] delegate];
 }
 
 + (NSString *)apiUrl {
-    return [[MSACDistribute sharedInstance] apiUrl];
+  return [[MSACDistribute sharedInstance] apiUrl];
 }
 
 + (NSString *)installUrl {
-    return [[MSACDistribute sharedInstance] installUrl];
+  return [[MSACDistribute sharedInstance] installUrl];
 }
 
 + (void)setApiUrl:(NSString *)apiUrl {
