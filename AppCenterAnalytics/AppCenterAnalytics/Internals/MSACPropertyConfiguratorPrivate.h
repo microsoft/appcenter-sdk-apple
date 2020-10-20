@@ -12,26 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MSACPropertyConfigurator ()
 
 /**
- * The application version to be overwritten.
- */
-@property(nonatomic, copy) NSString *appVersion;
-
-/**
- * The application name to be overwritten.
- */
-@property(nonatomic, copy) NSString *appName;
-
-/**
- * The application locale to be overwritten.
- */
-@property(nonatomic, copy) NSString *appLocale;
-
-/**
- * The userId to be overwritten.
- */
-@property(nonatomic, copy) NSString *userId;
-
-/**
  * The transmission target which will have overwritten properties.
  */
 @property(nonatomic, weak) MSACAnalyticsTransmissionTarget *transmissionTarget;
