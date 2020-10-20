@@ -11,7 +11,7 @@ import AppCenterPush
  */
 class AppCenterDelegateSwift : AppCenterDelegate {
 
-  //MARK: MSACAppCenter section.
+  //MARK: AppCenter section.
   func isAppCenterEnabled() -> Bool {
     return AppCenter.enabled
   }

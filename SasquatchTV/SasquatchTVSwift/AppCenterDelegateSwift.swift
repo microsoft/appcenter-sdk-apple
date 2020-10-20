@@ -10,23 +10,23 @@ import AppCenterCrashes;
  */
 class AppCenterDelegateSwift : AppCenterDelegate {
 
-  // MARK: MSACAppCenter section.
+  // MARK: AppCenter section.
   func isAppCenterEnabled()->Bool { return AppCenter.enabled; }
   func setAppCenterEnabled(_ isEnabled : Bool) { AppCenter.enabled = isEnabled; }
   func installId()->String { return AppCenter.installId().uuidString; }
   #warning("TODO: Uncomment when appSecret is moved from internal to public.")
   func appSecret()->String {
-    // return MSACAppCenter.sharedInstance().appSecret()
+    // return AppCenter.sharedInstance().appSecret()
     return "Internal";
   }
   #warning("TODO: Uncomment when appSecret is moved from internal to public.")
   func logUrl()->String {
-    // return MSACAppCenter.sharedInstance().logUrl()
+    // return AppCenter.sharedInstance().logUrl()
     return "Internal";
   }
   func isDebuggerAttached()->Bool { return AppCenter.isDebuggerAttached(); }
 
-  // MARK: MSACAnalytics section.
+  // MARK: Analytics section.
   func isAnalyticsEnabled()->Bool { return Analytics.enabled; }
 
   func setAnalyticsEnabled(_ isEnabled : Bool) { Analytics.enabled = isEnabled; }
@@ -39,15 +39,15 @@ class AppCenterDelegateSwift : AppCenterDelegate {
 
   #warning("TODO: Uncomment when trackPage is moved from internal to public.")
   func trackPage(_ pageName : String) {
-    // MSACAnalytics.trackPage(pageName);
+    // Analytics.trackPage(pageName);
   }
 
   #warning("TODO: Uncomment when trackPage is moved from internal to public.")
   func trackPage(_ pageName : String, withProperties properties : Dictionary<String, String>) {
-    // MSACAnalytics.trackPage(pageName, withProperties: properties);
+    // Analytics.trackPage(pageName, withProperties: properties);
   }
 
-  // MARK: MSACCrashes section.
+  // MARK: Crashes section.
 
   func isCrashesEnabled() -> Bool{
     return Crashes.enabled

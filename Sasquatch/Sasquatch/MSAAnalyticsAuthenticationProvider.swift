@@ -31,7 +31,7 @@ class MSAAnalyticsAuthenticationProvider: NSObject, AnalyticsAuthenticationProvi
         return _instance!
     }
     
-    // Implement required method of MSACAnalyticsAuthenticationProviderDelegate protocol.
+    // Implement required method of AnalyticsAuthenticationProviderDelegate protocol.
     func authenticationProvider(_ authenticationProvider: AnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSACAnalyticsAuthenticationProviderCompletionBlock!) {
         if let refreshUrl = URL(string: kMSABaseUrl + kMSATokenEndpoint) {
             let config = URLSessionConfiguration.default

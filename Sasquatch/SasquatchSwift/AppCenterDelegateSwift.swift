@@ -27,7 +27,7 @@ import AppCenterPush
  */
 class AppCenterDelegateSwift: AppCenterDelegate {
 
-  // MSACAppCenter section.
+  // AppCenter section.
   func isAppCenterEnabled() -> Bool {
     return AppCenter.enabled
   }
@@ -121,7 +121,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 #endif
   }
 
-  // MSACAnalytics section.
+  // Analytics section.
   func trackEvent(_ eventName: String) {
     Analytics.trackEvent(eventName)
   }
@@ -144,12 +144,12 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String) {
-    // MSACAnalytics.trackPage(pageName)
+    // Analytics.trackPage(pageName)
   }
 
   #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String, withProperties properties: Dictionary<String, String>) {
-    // MSACAnalytics.trackPage(pageName, withProperties: properties)
+    // Analytics.trackPage(pageName, withProperties: properties)
   }
 
   func resume() {
@@ -160,7 +160,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     Analytics.pause()
   }
 
-  // MSACCrashes section.
+  // Crashes section.
   func hasCrashedInLastSession() -> Bool {
     return Crashes.crashedInLastSession
   }
@@ -173,7 +173,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     Crashes.generateTestCrash()
   }
 
-  // MSACDistribute section.
+  // Distribute section.
 
   func checkForUpdate() {
 #if canImport(AppCenterDistribute)

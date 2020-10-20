@@ -332,12 +332,12 @@ extension AppDelegate: DistributeDelegate {
               message: NSLocalizedString("distribute_alert_message", tableName: "Sasquatch", comment: ""),
               preferredStyle: .alert)
 
-      // Add a "Yes"-Button and call the notifyUpdateAction-callback with MSUserAction.update
+      // Add a "Yes"-Button and call the notifyUpdateAction-callback with .update
       alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_yes", tableName: "Sasquatch", comment: ""), style: .cancel) { _ in
         Distribute.notify(.update)
       })
 
-      // Add a "No"-Button and call the notifyUpdateAction-callback with MSUserAction.postpone
+      // Add a "No"-Button and call the notifyUpdateAction-callback with .postpone
       alertController.addAction(UIAlertAction(title: NSLocalizedString("distribute_alert_no", tableName: "Sasquatch", comment: ""), style: .default) { _ in
         Distribute.notify(.postpone)
       })

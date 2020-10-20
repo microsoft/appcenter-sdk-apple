@@ -10,7 +10,7 @@ import AppCenter
  */
 @objc protocol AppCenterDelegate {
 
-  // MSACAppCenter section.
+  // AppCenter section.
   func isAppCenterEnabled() -> Bool
   func setAppCenterEnabled(_ isEnabled: Bool)
   func setCustomProperties(_ customProperties: CustomProperties)
@@ -30,7 +30,7 @@ import AppCenter
   func setCrashesEnabled(_ isEnabled: Bool)
   func setPushEnabled(_ isEnabled: Bool)
 
-  // MSACAnalytics section.
+  // Analytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: MSACFlags)
@@ -41,7 +41,7 @@ import AppCenter
   func resume()
   func pause()
 
-  // MSACCrashes section.
+  // Crashes section.
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
 
