@@ -175,10 +175,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   return [[MSACDeviceTracker sharedInstance] getCountryCode];
 }
 
-+ (MSACCustomProperties *)customProperties {
-  return nil;
-}
-
 + (MSACWrapperSdk *)wrapperSdk {
   return [[MSACDeviceTracker sharedInstance] getWrapperSdk];
 }

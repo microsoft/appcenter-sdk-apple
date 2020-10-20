@@ -113,8 +113,10 @@ NS_SWIFT_NAME(AppCenter)
 #if !TARGET_OS_TV
 /**
  * Set the custom properties.
- */
-@property(class, nonatomic, setter=setCustomProperties:) MSACCustomProperties *customProperties;
+ *
+ * @param customProperties Custom properties object.
+*/
++ (void)setCustomProperties:(MSACCustomProperties *)customProperties;
 #endif
 
 /**
