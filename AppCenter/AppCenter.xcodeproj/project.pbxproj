@@ -48,31 +48,6 @@
 			name = "AppCenter tvOS Universal";
 			productName = "Fat Framework";
 		};
-		846AEA40253DD7E5009EFC2D /* AppCenter Documentation */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 846AEA45253DD7E5009EFC2D /* Build configuration list for PBXAggregateTarget "AppCenter Documentation" */;
-			buildPhases = (
-				846AEA41253DD7E5009EFC2D /* Generate Documentation */,
-			);
-			dependencies = (
-			);
-			name = "AppCenter Documentation";
-			productName = "Fat Framework";
-		};
-		846AEA79253DD814009EFC2D /* AppCenter Archive */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 846AEA7B253DD814009EFC2D /* Build configuration list for PBXAggregateTarget "AppCenter Archive" */;
-			buildPhases = (
-				846AEA7A253DD814009EFC2D /* Verify Modifications */,
-				84948EBD253F065300DBC52B /* Create Archive With Universal Frameworks */,
-				84948EBE253F066F00DBC52B /* Create Archive With XCFramework */,
-			);
-			dependencies = (
-				84948EBC253F064E00DBC52B /* PBXTargetDependency */,
-			);
-			name = "AppCenter Archive";
-			productName = "Fat Framework";
-		};
 		846AEAB2253DD822009EFC2D /* AppCenter */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 846AEAB4253DD822009EFC2D /* Build configuration list for PBXAggregateTarget "AppCenter" */;
@@ -80,7 +55,6 @@
 				846AEAB3253DD822009EFC2D /* Copy Products */,
 			);
 			dependencies = (
-				846AEAF9253DD936009EFC2D /* PBXTargetDependency */,
 				846AEAF3253DD92E009EFC2D /* PBXTargetDependency */,
 				846AEAF5253DD92E009EFC2D /* PBXTargetDependency */,
 				846AEAF1253DD92E009EFC2D /* PBXTargetDependency */,
@@ -965,20 +939,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 846AE9F9253DD71B009EFC2D;
 			remoteInfo = "AppCenter tvOS Universal";
-		};
-		846AEAF8253DD936009EFC2D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 846AEA40253DD7E5009EFC2D;
-			remoteInfo = "AppCenter Documentation";
-		};
-		84948EBB253F064E00DBC52B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 846AEAB2253DD822009EFC2D;
-			remoteInfo = AppCenter;
 		};
 		C2392EE42464279400425640 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2681,8 +2641,6 @@
 			projectRoot = "";
 			targets = (
 				846AEAB2253DD822009EFC2D /* AppCenter */,
-				846AEA79253DD814009EFC2D /* AppCenter Archive */,
-				846AEA40253DD7E5009EFC2D /* AppCenter Documentation */,
 				8414DF7824599AF800B316C5 /* AppCenter XCFramework */,
 				846AE940253DC5C4009EFC2D /* AppCenter iOS Universal */,
 				846AE9F9253DD71B009EFC2D /* AppCenter tvOS Universal */,
@@ -2944,38 +2902,6 @@
 			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenter.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenter.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.framework\"\n";
 			showEnvVarsInLog = 0;
 		};
-		846AEA41253DD7E5009EFC2D /* Generate Documentation */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"",
-			);
-			name = "Generate Documentation";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../Scripts/generate-documentation.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		846AEA7A253DD814009EFC2D /* Verify Modifications */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"",
-			);
-			name = "Verify Modifications";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../Scripts/verify-modifications.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		846AEAB3253DD822009EFC2D /* Copy Products */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2990,44 +2916,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/../Scripts/copy-products.sh\"\n";
-		};
-		84948EBD253F065300DBC52B /* Create Archive With Universal Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Create Archive With Universal Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../Scripts/create-archive.sh\" \"$PRODUCT_NAME-$CURRENT_PROJECT_VERSION\" \"iOS Framework\" \"tvOS Framework\" \"Mac OS X Framework\" \"Tools\"\n";
-			showEnvVarsInLog = 0;
-		};
-		84948EBE253F066F00DBC52B /* Create Archive With XCFramework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Create Archive With XCFramework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../Scripts/create-archive.sh\" \"$PRODUCT_NAME-XCFramework-$CURRENT_PROJECT_VERSION\" \"$PROJECT_NAME.xcframework\"\n";
-			showEnvVarsInLog = 0;
 		};
 		C2CB276A230EDE990076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3602,16 +3490,6 @@
 			target = 846AE9F9253DD71B009EFC2D /* AppCenter tvOS Universal */;
 			targetProxy = 846AEAF6253DD92E009EFC2D /* PBXContainerItemProxy */;
 		};
-		846AEAF9253DD936009EFC2D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 846AEA40253DD7E5009EFC2D /* AppCenter Documentation */;
-			targetProxy = 846AEAF8253DD936009EFC2D /* PBXContainerItemProxy */;
-		};
-		84948EBC253F064E00DBC52B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 846AEAB2253DD822009EFC2D /* AppCenter */;
-			targetProxy = 84948EBB253F064E00DBC52B /* PBXContainerItemProxy */;
-		};
 		C2392EFA24642B9000425640 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "OCMock iOS";
@@ -3768,38 +3646,6 @@
 			};
 			name = Release;
 		};
-		846AEA46253DD7E5009EFC2D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		846AEA47253DD7E5009EFC2D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		846AEA7C253DD814009EFC2D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		846AEA7D253DD814009EFC2D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		846AEAB5253DD822009EFC2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
@@ -3930,24 +3776,6 @@
 			buildConfigurations = (
 				846AE9FF253DD71B009EFC2D /* Debug */,
 				846AEA00253DD71B009EFC2D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		846AEA45253DD7E5009EFC2D /* Build configuration list for PBXAggregateTarget "AppCenter Documentation" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				846AEA46253DD7E5009EFC2D /* Debug */,
-				846AEA47253DD7E5009EFC2D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		846AEA7B253DD814009EFC2D /* Build configuration list for PBXAggregateTarget "AppCenter Archive" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				846AEA7C253DD814009EFC2D /* Debug */,
-				846AEA7D253DD814009EFC2D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
