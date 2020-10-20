@@ -24,19 +24,19 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
   }
   
   @IBAction func send() {
-    let customProperties = MSACCustomProperties()
+    let customProperties = CustomProperties()
     for property in properties {
       switch property.type {
       case .Clear:
-        customProperties.clearProperty(forKey: property.key)
+        customProperties.clearProperty(for: property.key)
       case .String:
-        customProperties.setString(property.value as? String, forKey: property.key)
+        customProperties.set(property.value as? String, for: property.key)
       case .Number:
-        customProperties.setNumber(property.value as? NSNumber, forKey: property.key)
+        customProperties.set(property.value as? NSNumber, for: property.key)
       case .Boolean:
-        customProperties.setBool(property.value as! Bool, forKey: property.key)
+        customProperties.set(property.value as! Bool, for: property.key)
       case .DateTime:
-        customProperties.setDate(property.value as? Date, forKey: property.key)
+        customProperties.set(property.value as? Date, for: property.key)
       }
     }
     appCenter.setCustomProperties(customProperties)

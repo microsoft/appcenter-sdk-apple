@@ -45,7 +45,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     self.customized.isOn = UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey)
     self.autoCheckForUpdate.isOn = UserDefaults.standard.bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
     preparePickers()
-    self.updateTrack = UpdateTrack.getSelf(by: MSACDistribute.updateTrack)
+    self.updateTrack = UpdateTrack.getSelf(by: Distribute.updateTrack)
   }
 
   private func preparePickers() {
