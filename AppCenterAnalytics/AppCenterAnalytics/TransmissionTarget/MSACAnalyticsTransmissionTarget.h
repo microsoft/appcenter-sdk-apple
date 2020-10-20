@@ -112,7 +112,8 @@ NS_SWIFT_NAME(AnalyticsTransmissionTarget)
 - (MSACAnalyticsTransmissionTarget *)transmissionTargetForToken:(NSString *)token NS_SWIFT_NAME(transmissionTarget(forToken:));
 
 /**
- * The flag indicates whether or not this transmission target is enabled. Changing its state will also change states of nested transmission targets.
+ * The flag indicates whether or not this transmission target is enabled. Changing its state will also change states of nested transmission
+ * targets.
  */
 @property(nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 

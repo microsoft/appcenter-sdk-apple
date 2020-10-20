@@ -205,7 +205,7 @@ NS_SWIFT_NAME(Analytics)
  * Must be between 3 seconds and 86400 seconds (1 day).
  * Must be called before Analytics service start.
  */
-@property(class, atomic, setter=setTransmissionInterval:) NSUInteger transmissionInterval;
+@property(class, atomic) NSUInteger transmissionInterval;
 
 @end
 

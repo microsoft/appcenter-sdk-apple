@@ -270,7 +270,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 }
 
 + (NSUInteger)transmissionInterval {
-    return [MSACAnalytics sharedInstance].flushInterval;
+  return [MSACAnalytics sharedInstance].flushInterval;
 }
 
 + (void)setTransmissionInterval:(NSUInteger)interval {

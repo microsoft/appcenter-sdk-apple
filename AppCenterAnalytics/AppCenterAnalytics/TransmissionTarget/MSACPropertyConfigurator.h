@@ -12,26 +12,26 @@ NS_SWIFT_NAME(PropertyConfigurator)
  * Override the application version.
  *
  */
-@property(nonatomic, copy, setter=setAppVersion:) NSString *_Nullable appVersion;
+@property(nonatomic, copy) NSString *_Nullable appVersion;
 
 /**
  * Override the application name.
  *
  */
-@property(nonatomic, copy, setter=setAppName:) NSString *_Nullable appName;
+@property(nonatomic, copy) NSString *_Nullable appName;
 
 /**
  * Override the application locale.
  *
  */
-@property(nonatomic, copy, setter=setAppLocale:) NSString *_Nullable appLocale;
+@property(nonatomic, copy) NSString *_Nullable appLocale;
 
 /**
  * User identifier.
  * The identifier needs to start with c: or i: or d: or w: prefixes.
  *
  */
-@property(nonatomic, copy, setter=setUserId:) NSString *_Nullable userId;
+@property(nonatomic, copy) NSString *_Nullable userId;
 
 /**
  * Set a string event property to be attached to events tracked by this transmission target and its child transmission targets.
