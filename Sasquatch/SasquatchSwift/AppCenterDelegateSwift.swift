@@ -41,7 +41,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func installId() -> String {
-    return AppCenter.installId().uuidString
+    return AppCenter.installId.uuidString
   }
 
   func appSecret() -> String {
@@ -57,11 +57,11 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   }
 
   func sdkVersion() -> String {
-    return AppCenter.sdkVersion()
+    return AppCenter.sdkVersion
   }
 
   func isDebuggerAttached() -> Bool {
-    return AppCenter.isDebuggerAttached()
+    return AppCenter.isDebuggerAttached
   }
 
   func startAnalyticsFromLibrary() {
@@ -162,11 +162,11 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   // Crashes section.
   func hasCrashedInLastSession() -> Bool {
-    return Crashes.crashedInLastSession
+    return Crashes.hasCrashedInLastSession
   }
   
   func hasReceivedMemoryWarningInLastSession() -> Bool {
-    return Crashes.receivedMemoryWarningInLastSession
+    return Crashes.hasReceivedMemoryWarningInLastSession
   }
   
   func generateTestCrash() {

@@ -25,13 +25,13 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     AppCenter.setCustomProperties(customProperties)
   }
   func installId() -> String {
-    return AppCenter.installId().uuidString
+    return AppCenter.installId.uuidString
   }
   func appSecret() -> String {
     return kMSSwiftAppSecret
   }
   func isDebuggerAttached() -> Bool {
-    return AppCenter.isDebuggerAttached()
+    return AppCenter.isDebuggerAttached
   }
   func startAnalyticsFromLibrary() {
     AppCenter.startFromLibrary(services: [Analytics.self])
@@ -96,7 +96,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
 
   //MARK: Crashes section.
   func hasCrashedInLastSession() -> Bool {
-    return Crashes.crashedInLastSession
+    return Crashes.hasCrashedInLastSession
   }
   func generateTestCrash() {
     Crashes.generateTestCrash()

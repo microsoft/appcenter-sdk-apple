@@ -13,7 +13,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   // MARK: AppCenter section.
   func isAppCenterEnabled()->Bool { return AppCenter.enabled; }
   func setAppCenterEnabled(_ isEnabled : Bool) { AppCenter.enabled = isEnabled; }
-  func installId()->String { return AppCenter.installId().uuidString; }
+  func installId()->String { return AppCenter.installId.uuidString; }
   #warning("TODO: Uncomment when appSecret is moved from internal to public.")
   func appSecret()->String {
     // return AppCenter.sharedInstance().appSecret()
@@ -24,7 +24,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     // return AppCenter.sharedInstance().logUrl()
     return "Internal";
   }
-  func isDebuggerAttached()->Bool { return AppCenter.isDebuggerAttached(); }
+  func isDebuggerAttached()->Bool { return AppCenter.isDebuggerAttached; }
 
   // MARK: Analytics section.
   func isAnalyticsEnabled()->Bool { return Analytics.enabled; }
@@ -58,7 +58,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   }
 
   func hasCrashedInLastSession() -> Bool{
-    return Crashes.crashedInLastSession
+    return Crashes.hasCrashedInLastSession
   }
 
   func generateTestCrash() {
