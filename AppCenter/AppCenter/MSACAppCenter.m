@@ -171,6 +171,26 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   [[MSACDeviceTracker sharedInstance] setWrapperSdk:wrapperSdk];
 }
 
++ (NSString *)countryCode {
+  return [[MSACDeviceTracker sharedInstance] getCountryCode];
+}
+
++ (MSACWrapperSdk *)wrapperSdk {
+  return [[MSACDeviceTracker sharedInstance] getWrapperSdk];
+}
+
++ (NSString *)userId {
+  return [[MSACUserIdContext sharedInstance] userId];
+}
+
++ (MSACLogHandler)logHandler {
+  return [MSACLogger getCurrentLogHandler];
+}
+
++ (BOOL)debuggerAttached {
+  return self.isDebuggerAttached;
+}
+
 #if !TARGET_OS_TV
 + (void)setCustomProperties:(MSACCustomProperties *)customProperties {
   [[MSACAppCenter sharedInstance] setCustomProperties:customProperties];
@@ -472,6 +492,10 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (NSString *)logUrl {
   return _logUrl;
+}
+
++ (NSString *)logUrl {
+  return [[MSACAppCenter sharedInstance] logUrl];
 }
 
 - (void)setLogUrl:(NSString *)logUrl {

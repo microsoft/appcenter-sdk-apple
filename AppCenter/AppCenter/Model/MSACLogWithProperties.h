@@ -8,6 +8,7 @@
 
 #import "MSACAbstractLog.h"
 
+NS_SWIFT_NAME(LogWithProperties)
 @interface MSACLogWithProperties : MSACAbstractLog
 
 /**

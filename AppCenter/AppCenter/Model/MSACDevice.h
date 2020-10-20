@@ -8,6 +8,7 @@
 
 #import "MSACWrapperSdk.h"
 
+NS_SWIFT_NAME(Device)
 @interface MSACDevice : MSACWrapperSdk
 
 /*

@@ -9,6 +9,7 @@
 /**
  * Protocol declaring service logic.
  */
+NS_SWIFT_NAME(Service)
 @protocol MSACService <NSObject>
 
 /**
