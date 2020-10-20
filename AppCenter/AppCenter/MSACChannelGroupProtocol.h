@@ -47,12 +47,12 @@ NS_SWIFT_NAME(ChannelGroupProtocol)
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
  */
-@property(nonatomic, setter=setLogUrl:) NSString *_Nullable logUrl NS_SWIFT_NAME(logUrl);
+@property(nonatomic) NSString *_Nullable logUrl;
 
 /**
  * Set the app secret.
  */
-@property(nonatomic, setter=setAppSecret:) NSString *_Nullable appSecret NS_SWIFT_NAME(appSecret);
+@property(nonatomic) NSString *_Nullable appSecret;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.

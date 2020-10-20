@@ -92,30 +92,30 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * The SDK's log level.
  */
-@property(class, nonatomic, setter=setLogLevel:) MSACLogLevel logLevel;
+@property(class, nonatomic) MSACLogLevel logLevel;
 
 /**
  * Base URL to use for backend communication.
  */
-@property(class, nonatomic, setter=setLogUrl:) NSString *logUrl;
+@property(class, nonatomic) NSString *logUrl;
 
 /**
  * Set log handler.
  */
-@property(class, nonatomic, setter=setLogHandler:) MSACLogHandler logHandler;
+@property(class, nonatomic) MSACLogHandler logHandler;
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK that uses the App
  * Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
  */
-@property(class, nonatomic, setter=setWrapperSdk:) MSACWrapperSdk *wrapperSdk;
+@property(class, nonatomic) MSACWrapperSdk *wrapperSdk;
 
 #if !TARGET_OS_TV
 /**
  * Set the custom properties.
  *
  * @param customProperties Custom properties object.
-*/
+ */
 + (void)setCustomProperties:(MSACCustomProperties *)customProperties;
 #endif
 
@@ -180,13 +180,13 @@ NS_SWIFT_NAME(AppCenter)
  *
  * AppCenter must be configured or started before this API can be used.
  */
-@property(class, nonatomic, setter=setUserId:) NSString *userId;
+@property(class, nonatomic) NSString *userId;
 
 /**
  * Set country code to use when building device properties.
  *
  * @see https://www.iso.org/obp/ui/#search for more information.
  */
-@property(class, nonatomic, setter=setCountryCode:) NSString *countryCode;
+@property(class, nonatomic) NSString *countryCode;
 
 @end
