@@ -121,8 +121,6 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * Check whether the application delegate forwarder is enabled or not.
  *
- * @return YES if enabled, NO otherwise.
- *
  * @discussion The application delegate forwarder forwards messages that target your application delegate methods via swizzling to the SDK.
  * It simplifies the SDK integration but may not be suitable to any situations. For
  * instance it should be disabled if you or one of your third party SDK is doing message forwarding on the application delegate. Message
@@ -130,29 +128,26 @@ NS_SWIFT_NAME(AppCenter)
  * To disable the application delegate forwarder just add the `AppCenterAppDelegateForwarderEnabled` tag to your Info .plist file and set it
  * to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
-+ (BOOL)isAppDelegateForwarderEnabled;
+@property(class, readonly, nonatomic) BOOL isAppDelegateForwarderEnabled;
 
 /**
- * Get unique installation identifier.
+ * Unique installation identifier.
  *
- * @return Unique installation identifier.
  */
-+ (NSUUID *)installId;
+@property(class, readonly, nonatomic) NSUUID *installId;
 
 /**
  * Detect if a debugger is attached to the app process. This is only invoked once on app startup and can not detect
  * if the debugger is being attached during runtime!
  *
- * @return BOOL if the debugger is attached.
  */
-+ (BOOL)isDebuggerAttached;
+@property(class, readonly, nonatomic) BOOL isDebuggerAttached;
 
 /**
- * Get the current version of AppCenter SDK.
+ * Current version of AppCenter SDK.
  *
- * @return The current version of AppCenter SDK.
  */
-+ (NSString *)sdkVersion;
+@property(class, readonly, nonatomic) NSString *sdkVersion;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started. This method is only intended for
