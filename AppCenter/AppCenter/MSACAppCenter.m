@@ -187,10 +187,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   return [MSACLogger getCurrentLogHandler];
 }
 
-+ (BOOL)debuggerAttached {
-  return self.isDebuggerAttached;
-}
-
 #if !TARGET_OS_TV
 + (void)setCustomProperties:(MSACCustomProperties *)customProperties {
   [[MSACAppCenter sharedInstance] setCustomProperties:customProperties];

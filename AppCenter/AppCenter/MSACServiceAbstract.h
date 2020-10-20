@@ -47,7 +47,7 @@ NS_SWIFT_NAME(ServiceAbstract)
 /**
  * The flag indicate whether the service needs the application secret or not.
  */
-@property(atomic, readonly, getter=isAppSecretRequired) BOOL appSecretRequired NS_SWIFT_NAME(appSecretRequired);
+@property(atomic, readonly) BOOL isAppSecretRequired;
 
 @end
 

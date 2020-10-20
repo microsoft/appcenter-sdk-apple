@@ -29,14 +29,14 @@
 - (void)clearDevices;
 
 /**
- * Gets country code.
+ * Get country code.
  *
  * @return country code.
  */
 - (NSString *)getCountryCode;
 
 /**
- * Gets wrapper sdk.
+ * Get wrapper SDK.
  *
  * @return wrapper sdk.
  */
