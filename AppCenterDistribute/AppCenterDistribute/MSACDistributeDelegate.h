@@ -5,6 +5,7 @@
 
 @class MSACDistribute;
 
+NS_SWIFT_NAME(DistributeDelegate)
 @protocol MSACDistributeDelegate <NSObject>
 
 @optional
