@@ -7,6 +7,9 @@
 @class MSACErrorReport;
 @class MSACErrorAttachmentLog;
 
+NS_ASSUME_NONNULL_BEGIN
+
+NS_SWIFT_NAME(CrashesDelegate)
 @protocol MSACCrashesDelegate <NSObject>
 
 @optional
@@ -63,3 +66,5 @@
 - (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport;
 
 @end
+
+NS_ASSUME_NONNULL_END

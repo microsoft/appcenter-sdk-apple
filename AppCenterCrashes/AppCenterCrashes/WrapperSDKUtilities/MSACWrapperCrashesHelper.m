@@ -29,7 +29,7 @@
   [[MSACWrapperCrashesHelper sharedInstance] setCrashHandlerSetupDelegate:delegate];
 }
 
-+ (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate {
++ (_Nullable id<MSACCrashHandlerSetupDelegate>)сrashHandlerSetupDelegate {
   return [[MSACWrapperCrashesHelper sharedInstance] crashHandlerSetupDelegate];
 }
 
@@ -38,6 +38,10 @@
  */
 + (void)setAutomaticProcessing:(BOOL)automaticProcessing {
   [[MSACCrashes sharedInstance] setAutomaticProcessingEnabled:automaticProcessing];
+}
+
++ (BOOL)automaticProcessing {
+  return [[MSACCrashes sharedInstance] isAutomaticProcessingEnabled];
 }
 
 /**
