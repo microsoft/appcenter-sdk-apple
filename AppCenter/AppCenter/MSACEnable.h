@@ -20,7 +20,7 @@ NS_SWIFT_NAME(Enable)
  * @param isEnabled  A boolean value set to YES to enable the instance or NO to disable it.
  * @param deleteData A boolean value set to YES to delete data or NO to keep it.
  */
-- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData;
+- (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData NS_SWIFT_NAME(setEnabled(_:deleteDataOnDisabled:));
 
 @end
 

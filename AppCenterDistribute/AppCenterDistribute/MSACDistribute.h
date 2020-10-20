@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * App Center Distribute service.
  */
+NS_SWIFT_NAME(Distribute)
 @interface MSACDistribute : MSACServiceAbstract
 
 typedef NS_ENUM(NSInteger, MSACUpdateAction) {
@@ -43,9 +44,7 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
 @property(class, nonatomic) MSACUpdateTrack updateTrack;
 
 /**
- * Set a Distribute delegate
- *
- * @param delegate A Distribute delegate.
+ * Distribute delegate
  *
  * @discussion If Distribute delegate is set and releaseAvailableWithDetails is returning <code>YES</code>, you must call
  * notifyUpdateAction: with one of update actions to handle a release properly.
@@ -53,26 +52,23 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
  * @see releaseAvailableWithDetails:
  * @see notifyUpdateAction:
  */
-+ (void)setDelegate:(id<MSACDistributeDelegate>)delegate;
+@property(class, nonatomic, weak, setter=setDelegate:) id<MSACDistributeDelegate> delegate;
+
+/**
+ * URL that is used for generic update related tasks.
+ */
+@property(class, nonatomic, copy, setter=setApiUrl:) NSString *apiUrl;
+
+/**
+ * URL that is used to install update.
+ *
+ */
+@property(class, nonatomic, copy, setter=setInstallUrl:) NSString *installUrl;
 
 /**
  * Notify SDK with an update action to handle the release.
  */
 + (void)notifyUpdateAction:(MSACUpdateAction)action;
-
-/**
- * Change The URL that will be used for generic update related tasks.
- *
- * @param apiUrl The new URL.
- */
-+ (void)setApiUrl:(NSString *)apiUrl;
-
-/**
- * Change the base URL that is used to install update.
- *
- * @param installUrl The new URL.
- */
-+ (void)setInstallUrl:(NSString *)installUrl;
 
 /**
  * Process URL request for the service.

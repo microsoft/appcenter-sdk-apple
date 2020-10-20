@@ -13,11 +13,10 @@ NS_SWIFT_NAME(Service)
 @protocol MSACService <NSObject>
 
 /**
- * The flag indicates whether the service is enabled or not.
- *
+ * Indicates whether this service is enabled.
  * The state is persisted in the device's storage across application launches.
  */
-@property(class, nonatomic, assign, getter=isEnabled) BOOL enabled;
+@property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 @end
 
