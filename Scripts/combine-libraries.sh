@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # Combines libraries for device and simulator into universal one.
 # Usage: combine-libs.sh <device> <simulator> <output>
 

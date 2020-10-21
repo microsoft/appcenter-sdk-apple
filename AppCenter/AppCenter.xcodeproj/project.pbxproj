@@ -63,6 +63,39 @@
 			name = AppCenter;
 			productName = "Fat Framework";
 		};
+		84F4D4162541689000F5FB39 /* AppCenter iOS Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84F4D41A2541689000F5FB39 /* Build configuration list for PBXAggregateTarget "AppCenter iOS Documentation" */;
+			buildPhases = (
+				84F4D4172541689000F5FB39 /* Build Documentation */,
+			);
+			dependencies = (
+			);
+			name = "AppCenter iOS Documentation";
+			productName = "Fat Framework";
+		};
+		84F4D451254168B700F5FB39 /* AppCenter tvOS Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84F4D453254168B700F5FB39 /* Build configuration list for PBXAggregateTarget "AppCenter tvOS Documentation" */;
+			buildPhases = (
+				84F4D452254168B700F5FB39 /* Build Documentation */,
+			);
+			dependencies = (
+			);
+			name = "AppCenter tvOS Documentation";
+			productName = "Fat Framework";
+		};
+		84F4D46F254168BC00F5FB39 /* AppCenter macOS Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84F4D471254168BC00F5FB39 /* Build configuration list for PBXAggregateTarget "AppCenter macOS Documentation" */;
+			buildPhases = (
+				84F4D470254168BC00F5FB39 /* Build Documentation */,
+			);
+			dependencies = (
+			);
+			name = "AppCenter macOS Documentation";
+			productName = "Fat Framework";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -1279,6 +1312,10 @@
 		8087362820C134AC004C4157 /* MSACEncrypter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACEncrypter.m; sourceTree = "<group>"; };
 		8087362A20C1DCCF004C4157 /* MSACEncrypterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACEncrypterTests.m; sourceTree = "<group>"; };
 		80B7EA2020CA9C9C00DF524C /* MSACEncrypterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACEncrypterPrivate.h; sourceTree = "<group>"; };
+		84843FA825419446005E2FC7 /* XCFramework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = XCFramework.xcconfig; path = ../../../Config/XCFramework.xcconfig; sourceTree = "<group>"; };
+		84843FC3254194D9005E2FC7 /* Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Universal.xcconfig; path = ../../../Config/Universal.xcconfig; sourceTree = "<group>"; };
+		84F4D50B2541937200F5FB39 /* iOSUniversal.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = iOSUniversal.xcconfig; path = ../../../Config/iOSUniversal.xcconfig; sourceTree = "<group>"; };
+		84F4D50C2541939B00F5FB39 /* tvOSUniversal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOSUniversal.xcconfig; path = ../../../Config/tvOSUniversal.xcconfig; sourceTree = "<group>"; };
 		9237B60B2244407000C273D8 /* MSACHttpClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACHttpClientTests.m; sourceTree = "<group>"; };
 		9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACUserIdContextTests.m; sourceTree = "<group>"; };
 		B23507B32118D22800F98D4F /* MSACTicketCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACTicketCache.m; sourceTree = "<group>"; };
@@ -1717,6 +1754,9 @@
 			isa = PBXGroup;
 			children = (
 				C9A92026230C08540068070D /* Info.plist */,
+				84843FC3254194D9005E2FC7 /* Universal.xcconfig */,
+				84843FA825419446005E2FC7 /* XCFramework.xcconfig */,
+				84F4D50C2541939B00F5FB39 /* tvOSUniversal.xcconfig */,
 				04545DC8227B603D00A49E06 /* AppCenter.xcconfig */,
 				6E0401841D1CAD810051BCFA /* AppCenter Debug.xcconfig */,
 				0469D1B11F4DF89A00A43A8E /* AppCenter Release.xcconfig */,
@@ -1726,6 +1766,7 @@
 				0485AFEC1EAAAC3B00C10CAF /* macOS.modulemap */,
 				043120711EE0BCC4007054C5 /* tvOS.xcconfig */,
 				043120701EE0BCC4007054C5 /* tvOS.modulemap */,
+				84F4D50B2541937200F5FB39 /* iOSUniversal.xcconfig */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -2650,6 +2691,9 @@
 				6E2395771D22EF4F00E543C8 /* AppCenter iOS Tests */,
 				046AEACF1ECA562A00CBE511 /* AppCenter macOS Tests */,
 				0446DEFE1F3B864600C8E338 /* AppCenter tvOS Tests */,
+				84F4D4162541689000F5FB39 /* AppCenter iOS Documentation */,
+				84F4D451254168B700F5FB39 /* AppCenter tvOS Documentation */,
+				84F4D46F254168BC00F5FB39 /* AppCenter macOS Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -2916,6 +2960,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/../Scripts/copy-products.sh\"\n";
+		};
+		84F4D4172541689000F5FB39 /* Build Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"",
+			);
+			name = "Build Documentation";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" iOS\n";
+			showEnvVarsInLog = 0;
+		};
+		84F4D452254168B700F5FB39 /* Build Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"",
+			);
+			name = "Build Documentation";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" tvOS\n";
+			showEnvVarsInLog = 0;
+		};
+		84F4D470254168BC00F5FB39 /* Build Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"",
+			);
+			name = "Build Documentation";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" macOS\n";
+			showEnvVarsInLog = 0;
 		};
 		C2CB276A230EDE990076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3596,71 +3688,99 @@
 		};
 		8414DF7B24599AF800B316C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FA825419446005E2FC7 /* XCFramework.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-xcframework";
 			};
 			name = Debug;
 		};
 		8414DF7C24599AF800B316C5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FA825419446005E2FC7 /* XCFramework.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-xcframework";
 			};
 			name = Release;
 		};
 		846AE943253DC5C4009EFC2D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 84F4D50B2541937200F5FB39 /* iOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		846AE944253DC5C4009EFC2D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 84F4D50B2541937200F5FB39 /* iOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		846AE9FF253DD71B009EFC2D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 84F4D50C2541939B00F5FB39 /* tvOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
 			};
 			name = Debug;
 		};
 		846AEA00253DD71B009EFC2D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 84F4D50C2541939B00F5FB39 /* tvOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = appletvos;
 			};
 			name = Release;
 		};
 		846AEAB5253DD822009EFC2D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 84843FC3254194D9005E2FC7 /* Universal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		846AEAB6253DD822009EFC2D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FC3254194D9005E2FC7 /* Universal.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		84F4D41B2541689000F5FB39 /* Debug */ = {
+			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84F4D41C2541689000F5FB39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		84F4D454254168B700F5FB39 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		84F4D455254168B700F5FB39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		84F4D472254168BC00F5FB39 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		84F4D473254168BC00F5FB39 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			buildSettings = {
 			};
 			name = Release;
 		};
@@ -3668,7 +3788,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -3676,7 +3795,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -3684,8 +3802,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Debug;
 		};
@@ -3693,8 +3809,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Release;
 		};
@@ -3702,7 +3816,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -3710,7 +3823,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -3785,6 +3897,33 @@
 			buildConfigurations = (
 				846AEAB5253DD822009EFC2D /* Debug */,
 				846AEAB6253DD822009EFC2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84F4D41A2541689000F5FB39 /* Build configuration list for PBXAggregateTarget "AppCenter iOS Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84F4D41B2541689000F5FB39 /* Debug */,
+				84F4D41C2541689000F5FB39 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84F4D453254168B700F5FB39 /* Build configuration list for PBXAggregateTarget "AppCenter tvOS Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84F4D454254168B700F5FB39 /* Debug */,
+				84F4D455254168B700F5FB39 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84F4D471254168BC00F5FB39 /* Build configuration list for PBXAggregateTarget "AppCenter macOS Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84F4D472254168BC00F5FB39 /* Debug */,
+				84F4D473254168BC00F5FB39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

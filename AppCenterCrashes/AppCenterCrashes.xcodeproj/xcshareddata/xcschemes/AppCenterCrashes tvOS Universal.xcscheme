@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8494941C254037A300DBC52B"
-               BuildableName = "AppCenterCrashes iOS Universal copy"
-               BlueprintName = "AppCenterCrashes iOS Universal copy"
+               BuildableName = "AppCenterCrashes tvOS Universal"
+               BlueprintName = "AppCenterCrashes tvOS Universal"
                ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -51,8 +51,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8494941C254037A300DBC52B"
-            BuildableName = "AppCenterCrashes iOS Universal copy"
-            BlueprintName = "AppCenterCrashes iOS Universal copy"
+            BuildableName = "AppCenterCrashes tvOS Universal"
+            BlueprintName = "AppCenterCrashes tvOS Universal"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

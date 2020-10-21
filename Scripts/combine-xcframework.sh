@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # Remove the previous version of the xcframework.
 rm -rf "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.xcframework"
 

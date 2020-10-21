@@ -14,48 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-               BuildableName = "AppCenter iOS Documentation"
-               BlueprintName = "AppCenter iOS Documentation"
-               ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD114C1EF2F5F0000C5A5C"
-               BuildableName = "AppCenter macOS Documentation"
-               BlueprintName = "AppCenter macOS Documentation"
-               ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD11671EF2FE1D000C5A5C"
-               BuildableName = "AppCenter tvOS Documentation"
-               BlueprintName = "AppCenter tvOS Documentation"
-               ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
                BuildableName = "AppCenterAnalytics iOS Documentation"
                BlueprintName = "AppCenterAnalytics iOS Documentation"
@@ -146,6 +104,48 @@
                ReferencedContainer = "container:AppCenterDistribute/AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84F4D4162541689000F5FB39"
+               BuildableName = "AppCenter iOS Documentation"
+               BlueprintName = "AppCenter iOS Documentation"
+               ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84F4D46F254168BC00F5FB39"
+               BuildableName = "AppCenter macOS Documentation"
+               BlueprintName = "AppCenter macOS Documentation"
+               ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84F4D451254168B700F5FB39"
+               BuildableName = "AppCenter tvOS Documentation"
+               BlueprintName = "AppCenter tvOS Documentation"
+               ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -176,10 +176,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6E6BFC311D234FAE00DF7617"
-            BuildableName = "AppCenter iOS Documentation"
-            BlueprintName = "AppCenter iOS Documentation"
-            ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
+            BlueprintIdentifier = "E85547E91D2D68C5002DF6E2"
+            BuildableName = "AppCenterAnalytics iOS Documentation"
+            BlueprintName = "AppCenterAnalytics iOS Documentation"
+            ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

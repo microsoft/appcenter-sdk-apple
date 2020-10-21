@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # Clean
 rm -rf "$BUILT_PRODUCTS_DIR"
 mkdir -p "$BUILT_PRODUCTS_DIR"

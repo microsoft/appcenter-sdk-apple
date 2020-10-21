@@ -868,6 +868,10 @@
 		80955E28218B497400CD59A1 /* macOS_report_overwrite_link_register.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = macOS_report_overwrite_link_register.plcrash; sourceTree = "<group>"; };
 		80955E29218B497400CD59A1 /* macOS_report_objc_message_released_object.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = macOS_report_objc_message_released_object.plcrash; sourceTree = "<group>"; };
 		80955E2A218B497400CD59A1 /* macOS_report_swift.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = macOS_report_swift.plcrash; sourceTree = "<group>"; };
+		84843FDD25419532005E2FC7 /* Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Universal.xcconfig; path = ../../../Config/Universal.xcconfig; sourceTree = "<group>"; };
+		84843FF625419532005E2FC7 /* iOSUniversal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOSUniversal.xcconfig; path = ../../../Config/iOSUniversal.xcconfig; sourceTree = "<group>"; };
+		84843FF725419532005E2FC7 /* tvOSUniversal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOSUniversal.xcconfig; path = ../../../Config/tvOSUniversal.xcconfig; sourceTree = "<group>"; };
+		84843FF825419532005E2FC7 /* XCFramework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = XCFramework.xcconfig; path = ../../../Config/XCFramework.xcconfig; sourceTree = "<group>"; };
 		922446821F621D4500E4034A /* MSACHandledErrorLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACHandledErrorLog.h; sourceTree = "<group>"; };
 		922446831F621F3A00E4034A /* MSACHandledErrorLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACHandledErrorLog.m; sourceTree = "<group>"; };
 		922446851F6222EC00E4034A /* MSACHandledErrorLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACHandledErrorLogTests.m; sourceTree = "<group>"; };
@@ -1168,6 +1172,10 @@
 			isa = PBXGroup;
 			children = (
 				F8DD7527230D7EC400B095B6 /* Info.plist */,
+				84843FF725419532005E2FC7 /* tvOSUniversal.xcconfig */,
+				84843FF625419532005E2FC7 /* iOSUniversal.xcconfig */,
+				84843FF825419532005E2FC7 /* XCFramework.xcconfig */,
+				84843FDD25419532005E2FC7 /* Universal.xcconfig */,
 				04545DCA227B605200A49E06 /* AppCenterCrashes.xcconfig */,
 				6E37297F1D1DE93800F1E4AE /* AppCenterCrashes Debug.xcconfig */,
 				0469D1B31F4E013C00A43A8E /* AppCenterCrashes Release.xcconfig */,
@@ -2627,63 +2635,57 @@
 		};
 		8414DF872459D41B00B316C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FF825419532005E2FC7 /* XCFramework.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-xcframework";
 			};
 			name = Debug;
 		};
 		8414DF882459D41B00B316C5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FF825419532005E2FC7 /* XCFramework.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-xcframework";
 			};
 			name = Release;
 		};
 		849493FD2540373B00DBC52B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FF625419532005E2FC7 /* iOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		849493FE2540373B00DBC52B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FF625419532005E2FC7 /* iOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		84949427254037A300DBC52B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FF725419532005E2FC7 /* tvOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		84949428254037A300DBC52B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FF725419532005E2FC7 /* tvOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 		849494642540384B00DBC52B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FDD25419532005E2FC7 /* Universal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		849494652540384B00DBC52B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FDD25419532005E2FC7 /* Universal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -2691,7 +2693,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -2699,7 +2700,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8251ECE36D400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -2707,8 +2707,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Debug;
 		};
@@ -2716,8 +2714,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Release;
 		};
@@ -2725,8 +2721,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Debug;
 		};
@@ -2734,8 +2728,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC8261ECE370100FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Release;
 		};

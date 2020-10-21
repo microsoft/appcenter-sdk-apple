@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 # Builds the framework for the specified target.
 # Usage: build-framework.sh <target> <sdk>
 # Note: it must be run from Xcode's build phase.

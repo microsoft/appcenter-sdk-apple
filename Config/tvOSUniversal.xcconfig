@@ -1,0 +1,5 @@
+#include "./tvOS.xcconfig"
+
+EFFECTIVE_PLATFORM_NAME = -appletvuniversal
+PRODUCT_NAME = $(TARGET_NAME)
+

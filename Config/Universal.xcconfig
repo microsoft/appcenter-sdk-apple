@@ -1,0 +1,5 @@
+#include "./iOS.xcconfig"
+
+EFFECTIVE_PLATFORM_NAME = 
+PRODUCT_NAME = $(TARGET_NAME)
+

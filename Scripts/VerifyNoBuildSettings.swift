@@ -29,10 +29,7 @@ let ignoreSettings = [
   "PROVISIONING_PROFILE_SPECIFIER",
   "INFOPLIST_FILE",
   "TEST_TARGET_NAME",
-  "IBSC_MODULE",
-  "SDKROOT",
-  "EFFECTIVE_PLATFORM_NAME",
-  "PRODUCT_NAME"
+  "IBSC_MODULE"
 ]
 let startTime = Date()
 let xcodeprojPath = CommandLine.arguments[1]

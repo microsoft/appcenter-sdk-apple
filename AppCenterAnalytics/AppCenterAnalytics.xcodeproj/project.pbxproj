@@ -551,6 +551,10 @@
 		6E3E2CC81D359D5E00B1EE50 /* MSACPageLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACPageLog.m; sourceTree = "<group>"; };
 		6E3E2CD01D359F3300B1EE50 /* MSACEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* MSACPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACPageLogTests.m; sourceTree = "<group>"; };
+		84843FD125419522005E2FC7 /* iOSUniversal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = iOSUniversal.xcconfig; path = ../../../Config/iOSUniversal.xcconfig; sourceTree = "<group>"; };
+		84843FDA25419522005E2FC7 /* XCFramework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = XCFramework.xcconfig; path = ../../../Config/XCFramework.xcconfig; sourceTree = "<group>"; };
+		84843FDB25419522005E2FC7 /* Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Universal.xcconfig; path = ../../../Config/Universal.xcconfig; sourceTree = "<group>"; };
+		84843FDC25419522005E2FC7 /* tvOSUniversal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = tvOSUniversal.xcconfig; path = ../../../Config/tvOSUniversal.xcconfig; sourceTree = "<group>"; };
 		B2350985211A69AA00F98D4F /* MSACAnalyticsAuthenticationProviderInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAnalyticsAuthenticationProviderInternal.h; sourceTree = "<group>"; };
 		B25E21CC214044A400CAA156 /* MSACPropertyConfiguratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACPropertyConfiguratorTests.m; sourceTree = "<group>"; };
 		B26D4DDE211BA99E00AB4E28 /* MSACAnalyticsAuthenticationProviderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACAnalyticsAuthenticationProviderTests.m; sourceTree = "<group>"; };
@@ -856,6 +860,10 @@
 			isa = PBXGroup;
 			children = (
 				F8D68481230D7D74000A7CED /* Info.plist */,
+				84843FDC25419522005E2FC7 /* tvOSUniversal.xcconfig */,
+				84843FD125419522005E2FC7 /* iOSUniversal.xcconfig */,
+				84843FDA25419522005E2FC7 /* XCFramework.xcconfig */,
+				84843FDB25419522005E2FC7 /* Universal.xcconfig */,
 				04545DC9227B604700A49E06 /* AppCenterAnalytics.xcconfig */,
 				B2812EF21DA3148000307DCE /* AppCenterAnalytics Debug.xcconfig */,
 				0469D1B21F4DFE4C00A43A8E /* AppCenterAnalytics Release.xcconfig */,
@@ -1859,63 +1867,53 @@
 		};
 		8414DF812459D3C500B316C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FDC25419522005E2FC7 /* tvOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
-				PRODUCT_NAME = $TARGET_NAME;
 			};
 			name = Debug;
 		};
 		8414DF822459D3C500B316C5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
-				PRODUCT_NAME = $TARGET_NAME;
 			};
 			name = Release;
 		};
 		849491282540167E00DBC52B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FD125419522005E2FC7 /* iOSUniversal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
-				PRODUCT_NAME = $TARGET_NAME;
 			};
 			name = Debug;
 		};
 		849491292540167E00DBC52B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
-				PRODUCT_NAME = $TARGET_NAME;
 			};
 			name = Release;
 		};
 		8494923A25401E7600DBC52B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FDA25419522005E2FC7 /* XCFramework.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-xcframework";
 			};
 			name = Debug;
 		};
 		8494923B25401E7600DBC52B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "-xcframework";
 			};
 			name = Release;
 		};
 		8494925825401E7C00DBC52B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84843FDB25419522005E2FC7 /* Universal.xcconfig */;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		8494925925401E7C00DBC52B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EFFECTIVE_PLATFORM_NAME = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1923,7 +1921,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -1931,7 +1928,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};
@@ -1939,8 +1935,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Debug;
 		};
@@ -1948,8 +1942,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
-				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Release;
 		};
@@ -1957,7 +1949,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Debug;
 		};
@@ -1965,8 +1956,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
-				DEVELOPMENT_TEAM = "";
 			};
 			name = Release;
 		};

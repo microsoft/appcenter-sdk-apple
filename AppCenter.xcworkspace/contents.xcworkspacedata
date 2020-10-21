@@ -70,6 +70,18 @@
       <FileRef
          location = "group:watchOS.xcconfig">
       </FileRef>
+      <FileRef
+         location = "group:tvOSUniversal.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:iOSUniversal.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:XCFramework.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Universal.xcconfig">
+      </FileRef>
    </Group>
    <Group
       location = "group:Scripts"

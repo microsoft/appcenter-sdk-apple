@@ -1,0 +1,5 @@
+#include "./iOS.xcconfig"
+
+EFFECTIVE_PLATFORM_NAME = -iphoneuniversal
+PRODUCT_NAME = $(TARGET_NAME)
+
