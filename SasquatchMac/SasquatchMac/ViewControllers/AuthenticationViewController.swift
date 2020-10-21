@@ -11,7 +11,7 @@ extension URL {
     }
 }
 
-class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSACAnalyticsAuthenticationProviderDelegate {
+class AuthenticationViewController: NSViewController, WKNavigationDelegate, AnalyticsAuthenticationProviderDelegate {
 
     var onAuthDataReceived: ((_ token: String, _ userId: String, _ expiresAt: Date) -> Void)?
 
@@ -98,9 +98,9 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAC
                         self.refreshToken = refreshToken
                         NSLog("Successfully signed in with user_id: %@", newUrl.valueOf("user_id")!)
 
-                        // Create a MSACAnalyticsAuthenticationProvider and register as an MSACAnalyticsAuthenticationProvider.
-                        let provider = MSACAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
-                        MSACAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
+                        // Create a AnalyticsAuthenticationProvider and register as an MSACAnalyticsAuthenticationProvider.
+                        let provider = AnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
+                        AnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
                     }
                 }
                 self.window?.performClose(nil)
@@ -128,8 +128,8 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, MSAC
         }
     }
 
-    // Implement required method of MSACAnalyticsAuthenticationProviderDelegate protocol.
-    func authenticationProvider(_ authenticationProvider: MSACAnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSACAnalyticsAuthenticationProviderCompletionBlock!) {
+    // Implement required method of AnalyticsAuthenticationProviderDelegate protocol.
+    func authenticationProvider(_ authenticationProvider: AnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSACAnalyticsAuthenticationProviderCompletionBlock!) {
         if let refreshUrl = URL(string: self.baseUrl + self.tokenEndpoint) {
             let config = URLSessionConfiguration.default
             let session = URLSession(configuration: config)

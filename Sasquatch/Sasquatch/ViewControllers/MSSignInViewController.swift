@@ -75,9 +75,9 @@ class MSSignInViewController: UIViewController, WKNavigationDelegate {
             UserDefaults.standard.set(userId, forKey: kMSATokenKey)
             UserDefaults.standard.set(refreshToken, forKey: kMSARefreshTokenKey)
             
-            // Create a MSACAnalyticsAuthenticationProvider and register as an MSACAnalyticsAuthenticationProvider.
-            let provider = MSACAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: userId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
-            MSACAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
+            // Create a AnalyticsAuthenticationProvider and register as an MSACAnalyticsAuthenticationProvider.
+            let provider = AnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: userId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
+            AnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
           }
         }
       }

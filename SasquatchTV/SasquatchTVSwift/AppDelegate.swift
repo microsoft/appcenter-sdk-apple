@@ -8,30 +8,30 @@ import AppCenterCrashes;
 
 @UIApplicationMain
 
-class AppDelegate : UIResponder, UIApplicationDelegate, MSACCrashesDelegate {
+class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
 
   var window : UIWindow?;
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     // Override point for customization after application launch.
-    MSACAppCenter.setLogLevel(MSACLogLevel.verbose);
-    MSACAppCenter.start("e57f6975-9167-4b3b-b450-bbb87b717b82", withServices : [MSACAnalytics.self, MSACCrashes.self]);
+    AppCenter.logLevel = MSACLogLevel.verbose;
+    AppCenter.start(withAppSecret: "e57f6975-9167-4b3b-b450-bbb87b717b82", services : [Analytics.self, Crashes.self]);
 
     // Crashes Delegate.
-    MSACCrashes.setDelegate(self)
-    MSACCrashes.setUserConfirmationHandler({ (errorReports: [MSACErrorReport]) in
+    Crashes.delegate = self
+    Crashes.userConfirmationHandler = ({ (errorReports: [ErrorReport]) in
       let alertController = UIAlertController(title: "Sorry about that!",
               message: "Do you want to send an anonymous crash report so we can fix the issue?",
               preferredStyle: .alert)
       alertController.addAction(UIAlertAction(title: "Send", style: .default) { _ in
-          MSACCrashes.notify(with: .send)
+          Crashes.notify(with: .send)
       })
       alertController.addAction(UIAlertAction(title: "Always send", style: .default) { _ in
-          MSACCrashes.notify(with: .always)
+          Crashes.notify(with: .always)
       })
       alertController.addAction(UIAlertAction(title: "Don't send", style: .cancel) { _ in
-          MSACCrashes.notify(with: .dontSend)
+          Crashes.notify(with: .dontSend)
       })
       self.window?.rootViewController?.present(alertController, animated: true)
       return true
@@ -62,22 +62,22 @@ class AppDelegate : UIResponder, UIApplicationDelegate, MSACCrashesDelegate {
   }
 
   // Crashes Delegate
-  func crashes(_ crashes: MSACCrashes!, shouldProcessErrorReport errorReport: MSACErrorReport!) -> Bool {
+  func crashes(_ crashes: Crashes!, shouldProcessErrorReport errorReport: ErrorReport!) -> Bool {
     return true
   }
 
-  func crashes(_ crashes: MSACCrashes!, willSend errorReport: MSACErrorReport!) {
+  func crashes(_ crashes: Crashes!, willSend errorReport: ErrorReport!) {
   }
 
-  func crashes(_ crashes: MSACCrashes!, didSucceedSending errorReport: MSACErrorReport!) {
+  func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
   }
 
-  func crashes(_ crashes: MSACCrashes!, didFailSending errorReport: MSACErrorReport!, withError error: Error!) {
+  func crashes(_ crashes: Crashes!, didFailSending errorReport: ErrorReport!, withError error: Error!) {
   }
 
-  func attachments(with crashes: MSACCrashes, for errorReport: MSACErrorReport) -> [MSACErrorAttachmentLog] {
-    let attachment1 = MSACErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
-    let attachment2 = MSACErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
+  func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
+    let attachment1 = ErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
+    let attachment2 = ErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
     return [attachment1!, attachment2!]
   }
 
