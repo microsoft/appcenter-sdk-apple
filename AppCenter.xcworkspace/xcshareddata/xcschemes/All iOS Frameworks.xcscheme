@@ -64,20 +64,6 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91F9A230C004A0068070D"
-               BuildableName = "AppCenterPush.framework"
-               BlueprintName = "AppCenterPush iOS Framework"
-               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
@@ -102,20 +88,6 @@
                BuildableName = "AppCenterDistribute.xctest"
                BlueprintName = "AppCenterDistribute iOS Tests"
                ReferencedContainer = "container:AppCenterDistribute/AppCenterDistribute.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
-               BuildableName = "AppCenterPush.xctest"
-               BlueprintName = "AppCenterPush iOS Tests"
-               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -174,16 +146,6 @@
                BuildableName = "AppCenterDistribute.xctest"
                BlueprintName = "AppCenterDistribute iOS Tests"
                ReferencedContainer = "container:AppCenterDistribute/AppCenterDistribute.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D3AD5EBF1E5C4F6A001627AB"
-               BuildableName = "AppCenterPush.xctest"
-               BlueprintName = "AppCenterPush iOS Tests"
-               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

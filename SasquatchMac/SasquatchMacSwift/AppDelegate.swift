@@ -7,7 +7,6 @@ import CoreLocation
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-import AppCenterPush
 
 enum StartupMode: Int {
     case appCenter
@@ -19,7 +18,7 @@ enum StartupMode: Int {
 
 @NSApplicationMain
 @objc(AppDelegate)
-class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, MSPushDelegate, CLLocationManagerDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationManagerDelegate {
 
   var rootController: NSWindowController!
   var locationManager: CLLocationManager = CLLocationManager()
@@ -56,9 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, MSPushDeleg
     // Enable catching uncaught exceptions thrown on the main thread.
     UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
 
-    // Push Delegate.
-    MSPush.setDelegate(self);
-
     // Set loglevel to verbose.
     AppCenter.logLevel = .verbose
 
@@ -90,7 +86,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, MSPushDeleg
     }
 
     // Start AppCenter.
-    let services = [Analytics.self, Crashes.self, MSPush.self]
+    let services = [Analytics.self, Crashes.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     switch startTarget {
@@ -194,32 +190,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, MSPushDeleg
       }
     }
     return attachments
-  }
-
-  // Push Delegate
-
-  func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
-
-    // Bring any window to foreground if it was miniaturized.
-    for window in NSApp.windows {
-      if (window.isMiniaturized) {
-        window.deminiaturize(self)
-        break
-      }
-    }
-
-    let title: String = pushNotification.title ?? ""
-    var message: String = pushNotification.message ?? ""
-    var customData: String = ""
-    for item in pushNotification.customData {
-      customData =  ((customData.isEmpty) ? "" : "\(customData), ") + "\(item.key): \(item.value)"
-    }
-    message =  message + ((customData.isEmpty) ? "" : "\n\(customData)")
-    let alert: NSAlert = NSAlert()
-    alert.messageText = title
-    alert.informativeText = message
-    alert.addButton(withTitle: "OK")
-    alert.runModal()
   }
     
   // CLLocationManager Delegate

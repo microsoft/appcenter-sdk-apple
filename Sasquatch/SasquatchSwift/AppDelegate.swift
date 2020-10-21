@@ -12,9 +12,6 @@ import AppCenterCrashes
 #if canImport(AppCenterDistribute)
 import AppCenterDistribute
 #endif
-#if canImport(AppCenterPush)
-import AppCenterPush
-#endif
 import UserNotifications
 
 enum StartupMode: Int {
@@ -26,7 +23,7 @@ enum StartupMode: Int {
 }
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocationManagerDelegate {
 
   private var notificationPresentationCompletionHandler: Any?
   private var notificationResponseCompletionHandler: Any?
@@ -35,16 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, UNUserNo
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-    if #available(iOS 10.0, *) {
-      UNUserNotificationCenter.current().delegate = self
-    }
     Crashes.delegate = self
 #if canImport(AppCenterDistribute)
     Distribute.delegate = self
-#endif
-#if canImport(AppCenterPush)
-    MSPush.setDelegate(self)
 #endif
     AppCenter.logLevel = MSACLogLevel.verbose
 
@@ -90,9 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, UNUserNo
     var services = [Analytics.self, Crashes.self]
 #if canImport(AppCenterDistribute)
     services.append(Distribute.self)
-#endif
-#if canImport(AppCenterPush)
-    services.append(MSPush.self)
 #endif
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftCombinedAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
@@ -187,26 +174,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, UNUserNo
   func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
     // Forward the URL.
     return Distribute.open(url);
-  }
-
-#endif
-#if canImport(AppCenterPush)
-
-  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    MSPush.didRegisterForRemoteNotifications(withDeviceToken: deviceToken)
-  }
-
-  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-    MSPush.didFailToRegisterForRemoteNotificationsWithError(error)
-  }
-
-  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    let result: Bool = MSPush.didReceiveRemoteNotification(userInfo)
-    if result {
-      completionHandler(.newData)
-    } else {
-      completionHandler(.noData)
-    }
   }
 
 #endif
@@ -347,75 +314,6 @@ extension AppDelegate: DistributeDelegate {
       return true
     }
     return false
-  }
-}
-
-#endif
-#if canImport(AppCenterPush)
-
-extension AppDelegate: MSPushDelegate {
-  func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
-
-    // Alert in foreground if requested from custom data.
-    if #available(iOS 10.0, *), notificationPresentationCompletionHandler != nil && pushNotification.customData["presentation"] == "alert" {
-      (notificationPresentationCompletionHandler as! (UNNotificationPresentationOptions) -> Void)(.alert)
-      notificationPresentationCompletionHandler = nil
-      return;
-    }
-
-    // Create and show a popup from the notification payload.
-    let title: String = pushNotification.title ?? ""
-    var message: String = pushNotification.message ?? ""
-    var customData: String = ""
-    for item in pushNotification.customData {
-      customData = ((customData.isEmpty) ? "" : "\(customData), ") + "\(item.key): \(item.value)"
-    }
-    if (UIApplication.shared.applicationState == .background) {
-      NSLog("Notification received in background (silent push), title: \"\(title)\", message: \"\(message)\", custom data: \"\(customData)\"");
-    } else {
-      if #available(iOS 10.0, *) {
-        if (!message.isEmpty) {
-          message += "\n"
-        }
-        if notificationResponseCompletionHandler != nil {
-          message += "Tapped notification"
-        } else {
-          message += "Received in foreground"
-        }
-      }
-      message += (customData.isEmpty ? "" : "\n\(customData)")
-
-      let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-      alertController.addAction(UIAlertAction(title: "OK", style: .cancel))
-
-      // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true)
-    }
-
-    // Call notification completion handlers.
-    if #available(iOS 10.0, *) {
-      if (notificationResponseCompletionHandler != nil){
-        (notificationResponseCompletionHandler as! () -> Void)()
-        notificationResponseCompletionHandler = nil
-      }
-      if (notificationPresentationCompletionHandler != nil){
-        (notificationPresentationCompletionHandler as! (UNNotificationPresentationOptions) -> Void)([])
-        notificationPresentationCompletionHandler = nil
-      }
-    }
-  }
-
-  // Native push delegates
-  @available(iOS 10.0, *)
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    notificationPresentationCompletionHandler = completionHandler;
-    MSPush.didReceiveRemoteNotification(notification.request.content.userInfo)
-  }
-
-  @available(iOS 10.0, *)
-  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    notificationResponseCompletionHandler = completionHandler;
-    MSPush.didReceiveRemoteNotification(response.notification.request.content.userInfo)
   }
 }
 

@@ -3,6 +3,11 @@
 
 #import "MSACUtility+Date.h"
 
+/**
+ * Cached date formatter instance.
+ */
+static NSDateFormatter *dateFormatter = nil;
+
 /*
  * Workaround for exporting symbols from category object files.
  */
@@ -23,14 +28,21 @@ NSString *MSACUtilityDateCategory;
 }
 
 + (NSDateFormatter *)ISO8601DateFormatter {
-  static NSDateFormatter *dateFormatter = nil;
   if (!dateFormatter) {
-    dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[NSLocale systemLocale]];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+    @synchronized(self) {
+      if (!dateFormatter) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setLocale:[NSLocale systemLocale]];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+      }
+    }
   }
   return dateFormatter;
+}
+
++ (void)resetDateFormatterInstance {
+  dateFormatter = nil;
 }
 
 @end

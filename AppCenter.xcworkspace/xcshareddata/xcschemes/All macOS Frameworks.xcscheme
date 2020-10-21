@@ -50,20 +50,6 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C9A91FA3230C00540068070D"
-               BuildableName = "AppCenterPush.framework"
-               BlueprintName = "AppCenterPush macOS Framework"
-               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
             buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
@@ -102,20 +88,6 @@
                BuildableName = "AppCenterCrashes.xctest"
                BlueprintName = "AppCenterCrashes macOS Tests"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "046964131F2A559C00F9D31F"
-               BuildableName = "AppCenterPush.xctest"
-               BlueprintName = "AppCenterPush macOS Tests"
-               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -155,16 +127,6 @@
                BuildableName = "AppCenterCrashes.xctest"
                BlueprintName = "AppCenterCrashes macOS Tests"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "046964131F2A559C00F9D31F"
-               BuildableName = "AppCenterPush.xctest"
-               BlueprintName = "AppCenterPush macOS Tests"
-               ReferencedContainer = "container:AppCenterPush/AppCenterPush.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

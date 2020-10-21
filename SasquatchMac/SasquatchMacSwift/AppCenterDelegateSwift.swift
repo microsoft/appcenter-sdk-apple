@@ -4,7 +4,6 @@
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-import AppCenterPush
 
 /**
  * AppCenterDelegate implementation in Swift.
@@ -50,17 +49,11 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func isCrashesEnabled() -> Bool {
     return Crashes.enabled
   }
-  func isPushEnabled() -> Bool {
-    return MSPush.enabled
-  }
   func setAnalyticsEnabled(_ isEnabled: Bool) {
     Analytics.enabled = isEnabled
   }
   func setCrashesEnabled(_ isEnabled: Bool) {
     Crashes.enabled = isEnabled
-  }
-  func setPushEnabled(_ isEnabled: Bool) {
-    MSPush.enabled = isEnabled
   }
 
   //MARK: Analytics section.
