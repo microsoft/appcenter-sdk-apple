@@ -3,7 +3,7 @@
 
 import Cocoa
 
-// FIXME: trackPage has been hidden in MSACAnalytics temporarily. Use internal until the feature comes back.
+// FIXME: trackPage has been hidden in Analytics temporarily. Use internal until the feature comes back.
 class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
   class EventProperty : NSObject {
@@ -32,14 +32,14 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     case critical = "Critical"
     case invalid = "Invalid"
 
-    var flags: MSACFlags {
+    var flags: Flags {
       switch self {
       case .normal:
         return [.normal]
       case .critical:
         return [.critical]
       case .invalid:
-        return MSACFlags.init(rawValue: 42)
+        return Flags.init(rawValue: 42)
       default:
         return []
       }

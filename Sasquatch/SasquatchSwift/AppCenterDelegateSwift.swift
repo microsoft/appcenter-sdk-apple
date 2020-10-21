@@ -113,7 +113,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     Analytics.trackEvent(eventName, withProperties: properties)
   }
 
-  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>, flags: MSACFlags) {
+  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>, flags: Flags) {
     Analytics.trackEvent(eventName, withProperties: properties, flags:flags)
   }
 
@@ -121,7 +121,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     Analytics.trackEvent(eventName, withProperties: properties)
   }
 
-  func trackEvent(_ eventName: String, withTypedProperties properties: EventProperties?, flags: MSACFlags) {
+  func trackEvent(_ eventName: String, withTypedProperties properties: EventProperties?, flags: Flags) {
     Analytics.trackEvent(eventName, withProperties: properties, flags: flags)
   }
 

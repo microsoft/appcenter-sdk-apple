@@ -15,7 +15,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     // Override point for customization after application launch.
-    AppCenter.logLevel = MSACLogLevel.verbose;
+    AppCenter.logLevel = LogLevel.verbose;
     AppCenter.start(withAppSecret: "e57f6975-9167-4b3b-b450-bbb87b717b82", services : [Analytics.self, Crashes.self]);
 
     // Crashes Delegate.

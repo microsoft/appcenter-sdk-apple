@@ -42,7 +42,7 @@ typedef NS_ENUM(NSUInteger, MSACLogLevel) {
    *  Logging is disabled
    */
   MSACLogLevelNone = 99
-};
+} NS_SWIFT_NAME(LogLevel);
 
 typedef NSString * (^MSACLogMessageProvider)(void);
 typedef void (^MSACLogHandler)(MSACLogMessageProvider messageProvider, MSACLogLevel logLevel, NSString *tag, const char *file,

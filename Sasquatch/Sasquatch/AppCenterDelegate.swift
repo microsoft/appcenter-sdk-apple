@@ -37,9 +37,9 @@ import AppCenterAnalytics
   // Analytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
-  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: MSACFlags)
+  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: Flags)
   func trackEvent(_ eventName: String, withTypedProperties: EventProperties)
-  func trackEvent(_ eventName: String, withTypedProperties: EventProperties?, flags: MSACFlags)
+  func trackEvent(_ eventName: String, withTypedProperties: EventProperties?, flags: Flags)
   func trackPage(_ pageName: String)
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   func resume()

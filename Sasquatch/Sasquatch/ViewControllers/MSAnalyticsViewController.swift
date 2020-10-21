@@ -11,14 +11,14 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     case Critical = "Critical"
     case Invalid = "Invalid"
 
-    var flags: MSACFlags {
+    var flags: Flags {
       switch self {
       case .Normal:
         return [.normal]
       case .Critical:
         return [.critical]
       case .Invalid:
-        return MSACFlags.init(rawValue: 42)
+        return Flags.init(rawValue: 42)
       default:
         return []
       }

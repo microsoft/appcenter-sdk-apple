@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
    * An update track for tracking updates sent to private groups.
    */
   MSACUpdateTrackPrivate = 2
-};
+} NS_SWIFT_NAME(UpdateTrack);
 
 /**
  * Update track.

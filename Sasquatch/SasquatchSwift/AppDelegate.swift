@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
 #if canImport(AppCenterDistribute)
     Distribute.delegate = self
 #endif
-    AppCenter.logLevel = MSACLogLevel.verbose
+    AppCenter.logLevel = LogLevel.verbose
 
     // Set max storage size.
     let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     }
 #if canImport(AppCenterDistribute)
     if let updateTrackValue = UserDefaults.standard.value(forKey: kMSUpdateTrackKey) as? Int,
-       let updateTrack = MSACUpdateTrack(rawValue: updateTrackValue) {
+       let updateTrack = UpdateTrack(rawValue: updateTrackValue) {
         Distribute.updateTrack = updateTrack
     }
     if UserDefaults.standard.bool(forKey: kSASAutomaticCheckForUpdateDisabledKey) {
@@ -120,17 +120,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
               message: "Do you want to send an anonymous crash report so we can fix the issue?",
               preferredStyle: .alert)
 
-      // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationDontSend
+      // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with UserConfirmation.dontSend
       alertController.addAction(UIAlertAction(title: "Don't send", style: .cancel) { _ in
         Crashes.notify(with: .dontSend)
       })
 
-      // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationSend
+      // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with UserConfirmation.send
       alertController.addAction(UIAlertAction(title: "Send", style: .default) { _ in
         Crashes.notify(with: .send)
       })
 
-      // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationAlways
+      // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with UserConfirmation.always
       alertController.addAction(UIAlertAction(title: "Always send", style: .default) { _ in
         Crashes.notify(with: .always)
       })
@@ -249,7 +249,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
         let data = try Data(contentsOf: referenceUrl!)
         let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, referenceUrl!.pathExtension as NSString, nil)?.takeRetainedValue()
         let mime = UTTypeCopyPreferredTagWithClass(uti!, kUTTagClassMIMEType)?.takeRetainedValue() as NSString?
-        let binaryAttachment = MSACErrorAttachmentLog.attachment(withBinary: data, filename: referenceUrl?.lastPathComponent, contentType: mime! as String)!
+        let binaryAttachment = ErrorAttachmentLog.attachment(withBinary: data, filename: referenceUrl?.lastPathComponent, contentType: mime! as String)!
         attachments.append(binaryAttachment)
         print("Add binary attachment with \(data.count) bytes")
       } catch {

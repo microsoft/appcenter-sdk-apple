@@ -98,7 +98,7 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, Anal
                         self.refreshToken = refreshToken
                         NSLog("Successfully signed in with user_id: %@", newUrl.valueOf("user_id")!)
 
-                        // Create a AnalyticsAuthenticationProvider and register as an MSACAnalyticsAuthenticationProvider.
+                        // Create a AnalyticsAuthenticationProvider and register as an AnalyticsAuthenticationProvider.
                         let provider = AnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: newUrl.valueOf("user_id")!, delegate: self)
                         AnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
                     }
@@ -129,7 +129,7 @@ class AuthenticationViewController: NSViewController, WKNavigationDelegate, Anal
     }
 
     // Implement required method of AnalyticsAuthenticationProviderDelegate protocol.
-    func authenticationProvider(_ authenticationProvider: AnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: MSACAnalyticsAuthenticationProviderCompletionBlock!) {
+    func authenticationProvider(_ authenticationProvider: AnalyticsAuthenticationProvider!, acquireTokenWithCompletionHandler completionHandler: AnalyticsAuthenticationProviderCompletionBlock!) {
         if let refreshUrl = URL(string: self.baseUrl + self.tokenEndpoint) {
             let config = URLSessionConfiguration.default
             let session = URLSession(configuration: config)

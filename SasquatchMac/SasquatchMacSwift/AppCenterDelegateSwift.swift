@@ -63,13 +63,13 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>) {
     Analytics.trackEvent(eventName, withProperties: properties)
   }
-  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>, flags: MSACFlags) {
+  func trackEvent(_ eventName: String, withProperties properties: Dictionary<String, String>, flags: Flags) {
     Analytics.trackEvent(eventName, withProperties: properties, flags:flags)
   }
   func trackEvent(_ eventName: String, withTypedProperties properties: EventProperties) {
     Analytics.trackEvent(eventName, withProperties: properties)
   }
-  func trackEvent(_ eventName: String, withTypedProperties properties: EventProperties?, flags: MSACFlags) {
+  func trackEvent(_ eventName: String, withTypedProperties properties: EventProperties?, flags: Flags) {
     Analytics.trackEvent(eventName, withProperties: properties, flags: flags)
   }
   func resume() {
