@@ -172,11 +172,11 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (NSString *)countryCode {
-  return [[MSACDeviceTracker sharedInstance] getCountryCode];
+  return [[MSACDeviceTracker sharedInstance] countryCode];
 }
 
 + (MSACWrapperSdk *)wrapperSdk {
-  return [[MSACDeviceTracker sharedInstance] getWrapperSdk];
+  return [[MSACDeviceTracker sharedInstance] wrapperSdk];
 }
 
 + (NSString *)userId {

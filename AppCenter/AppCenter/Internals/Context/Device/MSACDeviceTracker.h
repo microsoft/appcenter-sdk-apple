@@ -28,18 +28,4 @@
  */
 - (void)clearDevices;
 
-/**
- * Get country code.
- *
- * @return country code.
- */
-- (NSString *)getCountryCode;
-
-/**
- * Get wrapper SDK.
- *
- * @return wrapper sdk.
- */
-- (MSACWrapperSdk *)getWrapperSdk;
-
 @end
