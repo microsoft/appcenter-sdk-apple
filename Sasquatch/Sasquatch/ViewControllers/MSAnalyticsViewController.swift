@@ -98,7 +98,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     }
     let eventProperties = eventPropertiesSection.eventProperties()
     for _ in 0..<Int(countSlider.value) {
-      if let properties = eventProperties as? MSACEventProperties {
+      if let properties = eventProperties as? EventProperties {
 
         // The AppCenterDelegate uses the argument label "withTypedProperties", but the underlying swift API simply uses "withProperties".
         if priority != .Default {
@@ -122,7 +122,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       for targetToken in MSTransmissionTargets.shared.transmissionTargets.keys {
         if MSTransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
           let target = MSTransmissionTargets.shared.transmissionTargets[targetToken]!
-          if let properties = eventProperties as? MSACEventProperties {
+          if let properties = eventProperties as? EventProperties {
             if priority != .Default {
               target.trackEvent(name, withProperties: properties, flags: priority.flags)
             } else {

@@ -85,18 +85,18 @@ class CommonSchemaPropertiesTableSection : SimplePropertiesTableSection {
     propertyValues[selectedTarget!]![propertyIndex] = sender.text!
     switch CommonSchemaPropertyRow(rawValue: propertyIndex)! {
     case .AppName:
-      target.propertyConfigurator.setAppName(sender.text!)
+      target.propertyConfigurator.appName = sender.text!
       break
     case .AppVersion:
-      target.propertyConfigurator.setAppVersion(sender.text!)
+      target.propertyConfigurator.appVersion = sender.text!
       break
     case .AppLocale:
-      target.propertyConfigurator.setAppLocale(sender.text!)
+      target.propertyConfigurator.appLocale = sender.text!
       break
     case .UserId:
       let text = sender.text ?? ""
       let userId = !text.isEmpty ? text : nil
-      target.propertyConfigurator.setUserId(userId)
+      target.propertyConfigurator.userId = userId
       break
     }
     sender.resignFirstResponder()

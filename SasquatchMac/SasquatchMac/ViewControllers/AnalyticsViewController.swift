@@ -85,7 +85,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     let eventProperties = eventPropertiesSet()
     let eventName = name.stringValue
     for _ in 0..<Int(countSlider.intValue) {
-      if let properties = eventProperties as? MSACEventProperties {
+      if let properties = eventProperties as? EventProperties {
         if priority != .defaultType {
           appCenter.trackEvent(eventName, withTypedProperties: properties, flags: priority.flags)
         } else {
@@ -107,7 +107,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       for targetToken in TransmissionTargets.shared.transmissionTargets.keys {
         if TransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
           let target = TransmissionTargets.shared.transmissionTargets[targetToken]!
-          if let properties = eventProperties as? MSACEventProperties {
+          if let properties = eventProperties as? EventProperties {
             if priority != .defaultType {
               target.trackEvent(eventName, withProperties: properties, flags: priority.flags)
             } else {
@@ -219,7 +219,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     }
     var onlyStrings = true
     var propertyDictionary = [String: String]()
-    let properties = MSACEventProperties()
+    let properties = EventProperties()
     for property in eventProperties {
       let key = property.key
       guard let type = EventPropertyType(rawValue: property.type) else {
