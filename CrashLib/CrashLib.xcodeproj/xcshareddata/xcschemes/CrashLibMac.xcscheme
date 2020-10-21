@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "846AEA40253DD7E5009EFC2D"
-               BuildableName = "AppCenter Documentation"
-               BlueprintName = "AppCenter Documentation"
-               ReferencedContainer = "container:AppCenter.xcodeproj">
+               BlueprintIdentifier = "8065B5771F4C3FF4004FF622"
+               BuildableName = "CrashLibMac.framework"
+               BlueprintName = "CrashLibMac"
+               ReferencedContainer = "container:CrashLib.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,10 +50,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "846AEA40253DD7E5009EFC2D"
-            BuildableName = "AppCenter Documentation"
-            BlueprintName = "AppCenter Documentation"
-            ReferencedContainer = "container:AppCenter.xcodeproj">
+            BlueprintIdentifier = "8065B5771F4C3FF4004FF622"
+            BuildableName = "CrashLibMac.framework"
+            BlueprintName = "CrashLibMac"
+            ReferencedContainer = "container:CrashLib.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

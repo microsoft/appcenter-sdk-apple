@@ -7,29 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Fat Framework" */;
-			buildPhases = (
-				0431216E1EE0C213007054C5 /* Build Universal Framework */,
-			);
-			dependencies = (
-			);
-			name = "AppCenterAnalytics tvOS Fat Framework";
-			productName = "Fat Framework";
-		};
-		0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics macOS Fat Framework" */;
-			buildPhases = (
-				0485AFF01EAAADAC00C10CAF /* Build Universal Framework */,
-			);
-			dependencies = (
-				D5E3B3D2247BF5BB00D93E90 /* PBXTargetDependency */,
-			);
-			name = "AppCenterAnalytics macOS Fat Framework";
-			productName = "Fat Framework";
-		};
 		04FD11551EF2F818000C5A5C /* AppCenterAnalytics macOS Documentation */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 04FD11591EF2F818000C5A5C /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics macOS Documentation" */;
@@ -37,7 +14,6 @@
 				04FD11581EF2F818000C5A5C /* Build Documentation */,
 			);
 			dependencies = (
-				04FD115D1EF2F849000C5A5C /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics macOS Documentation";
 			productName = "Jazzy Docs";
@@ -49,35 +25,64 @@
 				04FD11731EF2FE43000C5A5C /* Build Documentation */,
 			);
 			dependencies = (
-				04FD11781EF2FE5B000C5A5C /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics tvOS Documentation";
 			productName = "Jazzy Docs";
 		};
-		8414DF7E2459D3C500B316C5 /* AppCenterAnalytics XCFramework */ = {
+		8414DF7E2459D3C500B316C5 /* AppCenterAnalytics tvOS Universal */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 8414DF802459D3C500B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics XCFramework" */;
+			buildConfigurationList = 8414DF802459D3C500B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Universal" */;
 			buildPhases = (
-				D5E3B3EA247C051100D93E90 /* Build Mac Catalyst */,
-				8414DF7F2459D3C500B316C5 /* Build XCFramework */,
+				D5E3B3EA247C051100D93E90 /* Build tvOS Device Framework */,
+				8414DF7F2459D3C500B316C5 /* Build tvOS Simulator Framework */,
+				8494929225401F0600DBC52B /* Combine tvOS Universal Framework */,
 			);
 			dependencies = (
-				D5E3B3DC247BF60A00D93E90 /* PBXTargetDependency */,
-				D5E3B3DA247BF60600D93E90 /* PBXTargetDependency */,
-				D559CA0A2477ECFA00CF60D5 /* PBXTargetDependency */,
+			);
+			name = "AppCenterAnalytics tvOS Universal";
+			productName = "Fat Framework";
+		};
+		8494911E2540167E00DBC52B /* AppCenterAnalytics iOS Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 849491272540167E00DBC52B /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Universal" */;
+			buildPhases = (
+				849491252540167E00DBC52B /* Build iOS Device Framework */,
+				849491262540167E00DBC52B /* Build iOS Simulator Framework */,
+				8494929125401F0000DBC52B /* Combine iOS Universal Framework */,
+			);
+			dependencies = (
+			);
+			name = "AppCenterAnalytics iOS Universal";
+			productName = "Fat Framework";
+		};
+		8494923625401E7600DBC52B /* AppCenterAnalytics XCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8494923925401E7600DBC52B /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics XCFramework" */;
+			buildPhases = (
+				8494923725401E7600DBC52B /* Build Mac Catalyst */,
+				8494923825401E7600DBC52B /* Combine XCFramework */,
+			);
+			dependencies = (
+				849492AD25401F8700DBC52B /* PBXTargetDependency */,
+				849492AB25401F8700DBC52B /* PBXTargetDependency */,
+				849492AF25401F8700DBC52B /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics XCFramework";
 			productName = "Fat Framework";
 		};
-		E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */ = {
+		8494925425401E7C00DBC52B /* AppCenterAnalytics */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Fat Framework" */;
+			buildConfigurationList = 8494925725401E7C00DBC52B /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics" */;
 			buildPhases = (
-				E85547E81D2D6827002DF6E2 /* Build Universal Framework */,
+				8494925525401E7C00DBC52B /* Copy Products */,
 			);
 			dependencies = (
+				849492C02540200100DBC52B /* PBXTargetDependency */,
+				849492C22540200100DBC52B /* PBXTargetDependency */,
+				849492C42540200100DBC52B /* PBXTargetDependency */,
+				849492BE2540200100DBC52B /* PBXTargetDependency */,
 			);
-			name = "AppCenterAnalytics iOS Fat Framework";
+			name = AppCenterAnalytics;
 			productName = "Fat Framework";
 		};
 		E85547E91D2D68C5002DF6E2 /* AppCenterAnalytics iOS Documentation */ = {
@@ -87,7 +92,6 @@
 				E85547ED1D2D68CF002DF6E2 /* Build Documentation */,
 			);
 			dependencies = (
-				386352E41D51047400D0D450 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics iOS Documentation";
 			productName = "Jazzy Docs";
@@ -287,26 +291,54 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */ = {
+		849492AA25401F8700DBC52B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
-			remoteInfo = "Fat Framework";
+			remoteGlobalIDString = 8494911E2540167E00DBC52B;
+			remoteInfo = "AppCenterAnalytics iOS Universal";
 		};
-		04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */ = {
+		849492AC25401F8700DBC52B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0431216D1EE0C213007054C5;
-			remoteInfo = "Fat Framework";
+			remoteGlobalIDString = C9A91F36230BFB970068070D;
+			remoteInfo = "AppCenterAnalytics macOS Framework";
 		};
-		386352E31D51047400D0D450 /* PBXContainerItemProxy */ = {
+		849492AE25401F8700DBC52B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
-			remoteInfo = "Fat Framework";
+			remoteGlobalIDString = 8414DF7E2459D3C500B316C5;
+			remoteInfo = "AppCenterAnalytics tvOS Universal";
+		};
+		849492BD2540200100DBC52B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8494923625401E7600DBC52B;
+			remoteInfo = "AppCenterAnalytics XCFramework";
+		};
+		849492BF2540200100DBC52B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8494911E2540167E00DBC52B;
+			remoteInfo = "AppCenterAnalytics iOS Universal";
+		};
+		849492C12540200100DBC52B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F36230BFB970068070D;
+			remoteInfo = "AppCenterAnalytics macOS Framework";
+		};
+		849492C32540200100DBC52B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8414DF7E2459D3C500B316C5;
+			remoteInfo = "AppCenterAnalytics tvOS Universal";
 		};
 		C2392F0924642C8700425640 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -398,34 +430,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F2B230BFB8A0068070D;
 			remoteInfo = "AppCenterAnalytics tvOS Framework";
-		};
-		D559CA092477ECFA00CF60D5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
-			remoteInfo = "AppCenterAnalytics iOS Fat Framework";
-		};
-		D5E3B3D1247BF5BB00D93E90 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A91F36230BFB970068070D;
-			remoteInfo = "AppCenterAnalytics macOS Framework";
-		};
-		D5E3B3D9247BF60600D93E90 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
-			remoteInfo = "AppCenterAnalytics macOS Fat Framework";
-		};
-		D5E3B3DB247BF60A00D93E90 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0431216D1EE0C213007054C5;
-			remoteInfo = "AppCenterAnalytics tvOS Fat Framework";
 		};
 		DFCB802D2472D5D70058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1183,19 +1187,19 @@
 			);
 			projectRoot = "";
 			targets = (
+				8494925425401E7C00DBC52B /* AppCenterAnalytics */,
+				8494923625401E7600DBC52B /* AppCenterAnalytics XCFramework */,
+				8494911E2540167E00DBC52B /* AppCenterAnalytics iOS Universal */,
+				8414DF7E2459D3C500B316C5 /* AppCenterAnalytics tvOS Universal */,
 				C9CA69D82306CAF700EE82AA /* AppCenterAnalytics iOS Framework */,
-				E85547D41D2D6723002DF6E2 /* AppCenterAnalytics iOS Tests */,
-				E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */,
-				E85547E91D2D68C5002DF6E2 /* AppCenterAnalytics iOS Documentation */,
 				C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */,
-				046AEAB21ECA51AF00CBE511 /* AppCenterAnalytics macOS Tests */,
-				0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */,
-				04FD11551EF2F818000C5A5C /* AppCenterAnalytics macOS Documentation */,
 				C9A91F2B230BFB8A0068070D /* AppCenterAnalytics tvOS Framework */,
+				E85547D41D2D6723002DF6E2 /* AppCenterAnalytics iOS Tests */,
+				046AEAB21ECA51AF00CBE511 /* AppCenterAnalytics macOS Tests */,
 				0446DF3D1F3B8E6300C8E338 /* AppCenterAnalytics tvOS Tests */,
-				0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */,
+				E85547E91D2D68C5002DF6E2 /* AppCenterAnalytics iOS Documentation */,
+				04FD11551EF2F818000C5A5C /* AppCenterAnalytics macOS Documentation */,
 				04FD11701EF2FE43000C5A5C /* AppCenterAnalytics tvOS Documentation */,
-				8414DF7E2459D3C500B316C5 /* AppCenterAnalytics XCFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -1333,36 +1337,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0431216E1EE0C213007054C5 /* Build Universal Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Build Universal Framework";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-tvos-framework.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		0485AFF01EAAADAC00C10CAF /* Build Universal Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Build Universal Framework";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-macos-framework.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		04FD11581EF2F818000C5A5C /* Build Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1393,20 +1367,142 @@
 			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" tvOS\n";
 			showEnvVarsInLog = 0;
 		};
-		8414DF7F2459D3C500B316C5 /* Build XCFramework */ = {
+		8414DF7F2459D3C500B316C5 /* Build tvOS Simulator Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build XCFramework";
+			name = "Build tvOS Simulator Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME tvOS Framework\" \"appletvsimulator\"\n";
 			showEnvVarsInLog = 0;
+		};
+		849491252540167E00DBC52B /* Build iOS Device Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build iOS Device Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME iOS Framework\" \"iphoneos\"\n";
+			showEnvVarsInLog = 0;
+		};
+		849491262540167E00DBC52B /* Build iOS Simulator Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build iOS Simulator Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME iOS Framework\" \"iphonesimulator\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8494923725401E7600DBC52B /* Build Mac Catalyst */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Mac Catalyst";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME iOS Framework\" \"maccatalyst\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8494923825401E7600DBC52B /* Combine XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Combine XCFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/combine-xcframework.sh\"\n";
+		};
+		8494925525401E7C00DBC52B /* Copy Products */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Products";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/copy-products.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8494929125401F0000DBC52B /* Combine iOS Universal Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Combine iOS Universal Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterAnalytics.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterAnalytics.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.framework\"\n";
+		};
+		8494929225401F0600DBC52B /* Combine tvOS Universal Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Combine tvOS Universal Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterAnalytics.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterAnalytics.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.framework\"\n";
 		};
 		C2D73CD7230FC74C00390198 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1465,7 +1561,7 @@
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
 			showEnvVarsInLog = 0;
 		};
-		D5E3B3EA247C051100D93E90 /* Build Mac Catalyst */ = {
+		D5E3B3EA247C051100D93E90 /* Build tvOS Device Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1474,29 +1570,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Build Mac Catalyst";
+			name = "Build tvOS Device Framework";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-maccatalyst-framework.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E85547E81D2D6827002DF6E2 /* Build Universal Framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Build Universal Framework";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME tvOS Framework\" \"appletvos\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E85547ED1D2D68CF002DF6E2 /* Build Documentation */ = {
@@ -1637,20 +1718,40 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		04FD115D1EF2F849000C5A5C /* PBXTargetDependency */ = {
+		849492AB25401F8700DBC52B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */;
-			targetProxy = 04FD115C1EF2F849000C5A5C /* PBXContainerItemProxy */;
+			target = 8494911E2540167E00DBC52B /* AppCenterAnalytics iOS Universal */;
+			targetProxy = 849492AA25401F8700DBC52B /* PBXContainerItemProxy */;
 		};
-		04FD11781EF2FE5B000C5A5C /* PBXTargetDependency */ = {
+		849492AD25401F8700DBC52B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */;
-			targetProxy = 04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */;
+			target = C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */;
+			targetProxy = 849492AC25401F8700DBC52B /* PBXContainerItemProxy */;
 		};
-		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
+		849492AF25401F8700DBC52B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */;
-			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
+			target = 8414DF7E2459D3C500B316C5 /* AppCenterAnalytics tvOS Universal */;
+			targetProxy = 849492AE25401F8700DBC52B /* PBXContainerItemProxy */;
+		};
+		849492BE2540200100DBC52B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8494923625401E7600DBC52B /* AppCenterAnalytics XCFramework */;
+			targetProxy = 849492BD2540200100DBC52B /* PBXContainerItemProxy */;
+		};
+		849492C02540200100DBC52B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8494911E2540167E00DBC52B /* AppCenterAnalytics iOS Universal */;
+			targetProxy = 849492BF2540200100DBC52B /* PBXContainerItemProxy */;
+		};
+		849492C22540200100DBC52B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */;
+			targetProxy = 849492C12540200100DBC52B /* PBXContainerItemProxy */;
+		};
+		849492C42540200100DBC52B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8414DF7E2459D3C500B316C5 /* AppCenterAnalytics tvOS Universal */;
+			targetProxy = 849492C32540200100DBC52B /* PBXContainerItemProxy */;
 		};
 		C2392F6024642D3300425640 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1682,26 +1783,6 @@
 			target = C9A91F2B230BFB8A0068070D /* AppCenterAnalytics tvOS Framework */;
 			targetProxy = C2D73CDE230FC7C700390198 /* PBXContainerItemProxy */;
 		};
-		D559CA0A2477ECFA00CF60D5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Fat Framework */;
-			targetProxy = D559CA092477ECFA00CF60D5 /* PBXContainerItemProxy */;
-		};
-		D5E3B3D2247BF5BB00D93E90 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */;
-			targetProxy = D5E3B3D1247BF5BB00D93E90 /* PBXContainerItemProxy */;
-		};
-		D5E3B3DA247BF60600D93E90 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0485AFEF1EAAADAC00C10CAF /* AppCenterAnalytics macOS Fat Framework */;
-			targetProxy = D5E3B3D9247BF60600D93E90 /* PBXContainerItemProxy */;
-		};
-		D5E3B3DC247BF60A00D93E90 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Fat Framework */;
-			targetProxy = D5E3B3DB247BF60A00D93E90 /* PBXContainerItemProxy */;
-		};
 		DFCB80402472D5E30058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "OCHamcrest-iOS";
@@ -1720,20 +1801,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		043121701EE0C213007054C5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		043121711EE0C213007054C5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 043121731EE0C248007054C5 /* tvOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		0446DF521F3B8E6300C8E338 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0484DD601F3910FF0092B777 /* Tests tvOS.xcconfig */;
@@ -1758,20 +1825,6 @@
 		046AEAC51ECA51AF00CBE511 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		0485AFF21EAAADAC00C10CAF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		0485AFF31EAAADAC00C10CAF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1807,12 +1860,62 @@
 		8414DF812459D3C500B316C5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
+				PRODUCT_NAME = $TARGET_NAME;
 			};
 			name = Debug;
 		};
 		8414DF822459D3C500B316C5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "-appletvuniversal";
+				PRODUCT_NAME = $TARGET_NAME;
+			};
+			name = Release;
+		};
+		849491282540167E00DBC52B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
+				PRODUCT_NAME = $TARGET_NAME;
+			};
+			name = Debug;
+		};
+		849491292540167E00DBC52B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "-iphoneuniversal";
+				PRODUCT_NAME = $TARGET_NAME;
+			};
+			name = Release;
+		};
+		8494923A25401E7600DBC52B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "-xcframework";
+			};
+			name = Debug;
+		};
+		8494923B25401E7600DBC52B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "-xcframework";
+			};
+			name = Release;
+		};
+		8494925825401E7C00DBC52B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8494925925401E7C00DBC52B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EFFECTIVE_PLATFORM_NAME = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1837,6 +1940,7 @@
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
+				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Debug;
 		};
@@ -1845,6 +1949,7 @@
 			baseConfigurationReference = 049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
+				EFFECTIVE_PLATFORM_NAME = "-macosx";
 			};
 			name = Release;
 		};
@@ -1893,20 +1998,6 @@
 			};
 			name = Release;
 		};
-		E85547E61D2D681F002DF6E2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		E85547E71D2D681F002DF6E2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		E85547EB1D2D68C5002DF6E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */;
@@ -1924,15 +2015,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0431216F1EE0C213007054C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Fat Framework" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				043121701EE0C213007054C5 /* Debug */,
-				043121711EE0C213007054C5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		0446DF511F3B8E6300C8E338 /* Build configuration list for PBXNativeTarget "AppCenterAnalytics tvOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1947,15 +2029,6 @@
 			buildConfigurations = (
 				046AEAC41ECA51AF00CBE511 /* Debug */,
 				046AEAC51ECA51AF00CBE511 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0485AFF11EAAADAC00C10CAF /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics macOS Fat Framework" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0485AFF21EAAADAC00C10CAF /* Debug */,
-				0485AFF31EAAADAC00C10CAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1978,11 +2051,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8414DF802459D3C500B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics XCFramework" */ = {
+		8414DF802459D3C500B316C5 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics tvOS Universal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8414DF812459D3C500B316C5 /* Debug */,
 				8414DF822459D3C500B316C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		849491272540167E00DBC52B /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				849491282540167E00DBC52B /* Debug */,
+				849491292540167E00DBC52B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8494923925401E7600DBC52B /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics XCFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8494923A25401E7600DBC52B /* Debug */,
+				8494923B25401E7600DBC52B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8494925725401E7C00DBC52B /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8494925825401E7C00DBC52B /* Debug */,
+				8494925925401E7C00DBC52B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2028,15 +2128,6 @@
 			buildConfigurations = (
 				E85547DE1D2D6723002DF6E2 /* Debug */,
 				E85547DF1D2D6723002DF6E2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E85547E51D2D681F002DF6E2 /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics iOS Fat Framework" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E85547E61D2D681F002DF6E2 /* Debug */,
-				E85547E71D2D681F002DF6E2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

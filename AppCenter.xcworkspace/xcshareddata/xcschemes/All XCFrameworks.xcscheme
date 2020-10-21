@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8414DF7E2459D3C500B316C5"
-               BuildableName = "AppCenterAnalytics XCFramework"
-               BlueprintName = "AppCenterAnalytics XCFramework"
+               BuildableName = "AppCenterAnalytics tvOS Universal"
+               BlueprintName = "AppCenterAnalytics tvOS Universal"
                ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
