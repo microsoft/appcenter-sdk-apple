@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Feature]** Make SDK API more Swift-friendly.
+* **[Feature]** **[Breaking change]** Make SDK API more Swift-friendly. You can find the API updates in the [swift migration table](replace-with-link).
 * **[Breaking change]** In order to avoid a naming conflict with classes in Apple's private frameworks, we now use "MSAC" prefix instead of "MS". Please follow the [migration guide](replace-with-link) for adopting the new naming.
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
 
