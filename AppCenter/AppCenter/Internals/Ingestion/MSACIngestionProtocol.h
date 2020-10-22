@@ -20,7 +20,7 @@ typedef void (^MSACSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLRespon
 /**
  * The indicator of readiness to send data.
  */
-@property(nonatomic, readonly) BOOL isReadyToSend;
+@property(nonatomic, readonly, getter=isReadyToSend) BOOL readyToSend NS_SWIFT_NAME(isReadyToSend);
 
 /**
  * Send data.
