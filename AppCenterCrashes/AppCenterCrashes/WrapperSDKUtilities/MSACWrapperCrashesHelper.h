@@ -21,7 +21,16 @@ NS_SWIFT_NAME(WrapperCrashesHelper)
  * The crash handler setup delegate.
  *
  */
-@property(class, nonatomic, setter=setCrashHandlerSetupDelegate:) _Nullable id<MSACCrashHandlerSetupDelegate> сrashHandlerSetupDelegate;
+@property(class, nonatomic) _Nullable id<MSACCrashHandlerSetupDelegate> crashHandlerSetupDelegate;
+
+/**
+ * Gets the crash handler setup delegate.
+ *
+ * @deprecated
+ *
+ * @return The delegate being used by Crashes.
+ */
++ (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate DEPRECATED_MSG_ATTRIBUTE("Use crashHandlerSetupDelegate instead");
 
 /**
  * Enables or disables automatic crash processing. Passing NO causes SDK not to send reports immediately, even if "Always Send" is true.

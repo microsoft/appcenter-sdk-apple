@@ -351,7 +351,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
   // Enabling.
   if (isEnabled) {
-    id<MSACCrashHandlerSetupDelegate> crashSetupDelegate = [MSACWrapperCrashesHelper сrashHandlerSetupDelegate];
+    id<MSACCrashHandlerSetupDelegate> crashSetupDelegate = [MSACWrapperCrashesHelper crashHandlerSetupDelegate];
 
     // Check if a wrapper SDK has a preference for uncaught exception handling.
     BOOL enableUncaughtExceptionHandler = YES;
