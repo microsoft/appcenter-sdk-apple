@@ -58,15 +58,15 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
       }
       switch type {
       case .Clear:
-        customProperties.clearProperty(for: key)
+        customProperties.clearProperty(forKey: key)
       case .String:
-        customProperties.set(property.string, for: key)
+        customProperties.set(property.string, forKey: key)
       case .Number:
-        customProperties.set(property.number, for: key)
+        customProperties.set(property.number, forKey: key)
       case .Boolean:
-        customProperties.set(property.boolean, for: key)
+        customProperties.set(property.boolean, forKey: key)
       case .DateTime:
-        customProperties.set(property.dateTime, for: key)
+        customProperties.set(property.dateTime, forKey: key)
       }
     }
     appCenter.setCustomProperties(customProperties)

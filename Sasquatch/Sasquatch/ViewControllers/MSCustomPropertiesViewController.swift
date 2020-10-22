@@ -28,15 +28,15 @@ class MSCustomPropertiesViewController : UITableViewController, AppCenterProtoco
     for property in properties {
       switch property.type {
       case .Clear:
-        customProperties.clearProperty(for: property.key)
+        customProperties.clearProperty(forKey: property.key)
       case .String:
-        customProperties.set(property.value as? String, for: property.key)
+        customProperties.set(property.value as? String, forKey: property.key)
       case .Number:
-        customProperties.set(property.value as? NSNumber, for: property.key)
+        customProperties.set(property.value as? NSNumber, forKey: property.key)
       case .Boolean:
-        customProperties.set(property.value as! Bool, for: property.key)
+        customProperties.set(property.value as! Bool, forKey: property.key)
       case .DateTime:
-        customProperties.set(property.value as? Date, for: property.key)
+        customProperties.set(property.value as? Date, forKey: property.key)
       }
     }
     appCenter.setCustomProperties(customProperties)
