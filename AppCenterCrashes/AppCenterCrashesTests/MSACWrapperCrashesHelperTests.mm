@@ -58,7 +58,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   [MSACWrapperCrashesHelper setCrashHandlerSetupDelegate:delegateMock];
 
   // When
-  id<MSACCrashHandlerSetupDelegate> retrievedDelegate = [MSACWrapperCrashesHelper сrashHandlerSetupDelegate];
+  id<MSACCrashHandlerSetupDelegate> retrievedDelegate = [MSACWrapperCrashesHelper crashHandlerSetupDelegate];
 
   // Then
   assertThat(delegateMock, equalTo(retrievedDelegate));
