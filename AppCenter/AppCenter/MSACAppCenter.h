@@ -74,12 +74,12 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * The flag indicates whether the SDK has already been configured or not.
  */
-@property(class, atomic, readonly, getter=isConfigured) BOOL configured NS_SWIFT_NAME(isConfigured);
+@property(class, atomic, readonly, getter=isConfigured) BOOL configured;
 
 /**
  * The flag indicates whether app is running in App Center Test Cloud.
  */
-@property(class, atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud NS_SWIFT_NAME(isRunningInAppCenterTestCloud);
+@property(class, atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud;
 
 /**
  * The flag indicates whether or not the SDK was enabled as a whole
@@ -128,7 +128,7 @@ NS_SWIFT_NAME(AppCenter)
  * To disable the application delegate forwarder just add the `AppCenterAppDelegateForwarderEnabled` tag to your Info .plist file and set it
  * to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
-@property(class, readonly, nonatomic, getter=isAppDelegateForwarderEnabled) BOOL appDelegateForwarderEnabled NS_SWIFT_NAME(isAppDelegateForwarderEnabled);
+@property(class, readonly, nonatomic, getter=isAppDelegateForwarderEnabled) BOOL appDelegateForwarderEnabled;
 
 /**
  * Unique installation identifier.
@@ -141,7 +141,7 @@ NS_SWIFT_NAME(AppCenter)
  * if the debugger is being attached during runtime!
  *
  */
-@property(class, readonly, nonatomic, getter=isDebuggerAttached) BOOL debuggerAttached NS_SWIFT_NAME(isDebuggerAttached);
+@property(class, readonly, nonatomic, getter=isDebuggerAttached) BOOL debuggerAttached;
 
 /**
  * Current version of AppCenter SDK.
