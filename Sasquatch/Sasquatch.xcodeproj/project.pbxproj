@@ -332,6 +332,76 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		32A1BE4225430BE900FE8CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 846AE940253DC5C4009EFC2D;
+			remoteInfo = "AppCenter iOS Universal";
+		};
+		32A1BE6D25430C0F00FE8CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 849493F32540373B00DBC52B;
+			remoteInfo = "AppCenterCrashes iOS Universal";
+		};
+		32A1BE7125430C8800FE8CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 846AE940253DC5C4009EFC2D;
+			remoteInfo = "AppCenter iOS Universal";
+		};
+		32A1BE7525430C9E00FE8CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 846AE940253DC5C4009EFC2D;
+			remoteInfo = "AppCenter iOS Universal";
+		};
+		32A1BE7725430CA400FE8CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8494911E2540167E00DBC52B;
+			remoteInfo = "AppCenterAnalytics iOS Universal";
+		};
+		32A1BE7925430CAD00FE8CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 849493F32540373B00DBC52B;
+			remoteInfo = "AppCenterCrashes iOS Universal";
+		};
+		32D449DD254319CE0052ECA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8494911E2540167E00DBC52B;
+			remoteInfo = "AppCenterAnalytics iOS Universal";
+		};
+		32D449E325431A020052ECA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 849493F32540373B00DBC52B;
+			remoteInfo = "AppCenterCrashes iOS Universal";
+		};
+		32D449E525431A140052ECA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A281E451E90009B4468;
+			remoteInfo = "AppCenterDistribute iOS Fat Framework";
+		};
+		32D44B68254338080052ECA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
+			remoteInfo = "AppCenterDistribute iOS Framework";
+		};
 		5CD700EA1EA4B74600FC5D12 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
@@ -542,70 +612,7 @@
 			remoteGlobalIDString = C9A91F8C230BFFFF0068070D;
 			remoteInfo = "AppCenterDistribute iOS Framework";
 		};
-		C2AFD442247D6D56007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
-		};
-		C2AFD444247D6D56007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
-			remoteInfo = "AppCenterAnalytics iOS Fat Framework";
-		};
-		C2AFD446247D6D56007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
-			remoteInfo = "AppCenterCrashes iOS Fat Framework";
-		};
 		C2AFD448247D6D56007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD4A281E451E90009B4468;
-			remoteInfo = "AppCenterDistribute iOS Fat Framework";
-		};
-		C2AFD44C247D6D77007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
-		};
-		C2AFD44E247D6D77007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
-			remoteInfo = "AppCenterCrashes iOS Fat Framework";
-		};
-		C2AFD450247D6D87007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
-		};
-		C2AFD452247D6D87007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
-			remoteInfo = "AppCenterAnalytics iOS Fat Framework";
-		};
-		C2AFD454247D6D87007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6E3729771D1DE83200F1E4AE;
-			remoteInfo = "AppCenterCrashes iOS Fat Framework";
-		};
-		C2AFD456247D6D87007E6EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
 			proxyType = 1;
@@ -1509,10 +1516,10 @@
 			isa = PBXGroup;
 			children = (
 				C261440A230FE86400D65EBF /* AppCenter.framework */,
-				B20AE3CB2102812300A1A195 /* AppCenter.xctest */,
 				C261440C230FE86400D65EBF /* AppCenter.framework */,
-				B20AE3CF2102812300A1A195 /* AppCenter.xctest */,
 				C261440E230FE86400D65EBF /* AppCenter.framework */,
+				B20AE3CB2102812300A1A195 /* AppCenter.xctest */,
+				B20AE3CF2102812300A1A195 /* AppCenter.xctest */,
 				B20AE3D32102812300A1A195 /* AppCenter.xctest */,
 			);
 			name = Products;
@@ -1522,10 +1529,10 @@
 			isa = PBXGroup;
 			children = (
 				C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */,
-				B20AE3E62102813300A1A195 /* AppCenterAnalytics.xctest */,
 				C261441E230FE86400D65EBF /* AppCenterAnalytics.framework */,
-				B20AE3EA2102813300A1A195 /* AppCenterAnalytics.xctest */,
 				C2614420230FE86400D65EBF /* AppCenterAnalytics.framework */,
+				B20AE3E62102813300A1A195 /* AppCenterAnalytics.xctest */,
+				B20AE3EA2102813300A1A195 /* AppCenterAnalytics.xctest */,
 				B20AE3EE2102813300A1A195 /* AppCenterAnalytics.xctest */,
 			);
 			name = Products;
@@ -1546,10 +1553,10 @@
 			isa = PBXGroup;
 			children = (
 				C261443A230FE86400D65EBF /* AppCenterCrashes.framework */,
-				B20AE4042102818B00A1A195 /* AppCenterCrashes.xctest */,
 				C261443C230FE86400D65EBF /* AppCenterCrashes.framework */,
-				B20AE4082102818B00A1A195 /* AppCenterCrashes.xctest */,
 				C261443E230FE86400D65EBF /* AppCenterCrashes.framework */,
+				B20AE4042102818B00A1A195 /* AppCenterCrashes.xctest */,
+				B20AE4082102818B00A1A195 /* AppCenterCrashes.xctest */,
 				B20AE40C2102818B00A1A195 /* AppCenterCrashes.xctest */,
 			);
 			name = Products;
@@ -1763,9 +1770,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2AFD443247D6D56007E6EE1 /* PBXTargetDependency */,
-				C2AFD445247D6D56007E6EE1 /* PBXTargetDependency */,
-				C2AFD447247D6D56007E6EE1 /* PBXTargetDependency */,
+				32A1BE7A25430CAD00FE8CF9 /* PBXTargetDependency */,
+				32A1BE7825430CA400FE8CF9 /* PBXTargetDependency */,
+				32A1BE7625430C9E00FE8CF9 /* PBXTargetDependency */,
 				C2AFD449247D6D56007E6EE1 /* PBXTargetDependency */,
 				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 				C2F156F82338C34500798480 /* PBXTargetDependency */,
@@ -1780,7 +1787,6 @@
 			buildConfigurationList = 84226CA51E8908CA00798417 /* Build configuration list for PBXNativeTarget "SasquatchSwift" */;
 			buildPhases = (
 				F84923EB2111C2C800E14DBE /* Verify No Build Settings */,
-				F83D7AC12317C51900E7E8F4 /* Remove the wrong framework */,
 				84226C7C1E8908C900798417 /* Sources */,
 				84226C7D1E8908C900798417 /* Frameworks */,
 				84226C7E1E8908C900798417 /* Resources */,
@@ -1792,10 +1798,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2AFD451247D6D87007E6EE1 /* PBXTargetDependency */,
-				C2AFD453247D6D87007E6EE1 /* PBXTargetDependency */,
-				C2AFD455247D6D87007E6EE1 /* PBXTargetDependency */,
-				C2AFD457247D6D87007E6EE1 /* PBXTargetDependency */,
+				32D44B69254338080052ECA1 /* PBXTargetDependency */,
+				32D449E625431A140052ECA1 /* PBXTargetDependency */,
+				32D449E425431A020052ECA1 /* PBXTargetDependency */,
+				32D449DE254319CE0052ECA1 /* PBXTargetDependency */,
+				32A1BE7225430C8800FE8CF9 /* PBXTargetDependency */,
 				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 				C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */,
 				C2F156E42338C31E00798480 /* PBXTargetDependency */,
@@ -1927,8 +1934,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2AFD44D247D6D77007E6EE1 /* PBXTargetDependency */,
-				C2AFD44F247D6D77007E6EE1 /* PBXTargetDependency */,
+				32A1BE6E25430C0F00FE8CF9 /* PBXTargetDependency */,
+				32A1BE4325430BE900FE8CF9 /* PBXTargetDependency */,
 				C2F156CA2338C2C800798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchSwift Extension";
@@ -2675,25 +2682,6 @@
 			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
 			showEnvVarsInLog = 0;
 		};
-		F83D7AC12317C51900E7E8F4 /* Remove the wrong framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove the wrong framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
-			showEnvVarsInLog = 0;
-		};
 		F84923BB21119AE100E14DBE /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3067,6 +3055,56 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		32A1BE4325430BE900FE8CF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter iOS Universal";
+			targetProxy = 32A1BE4225430BE900FE8CF9 /* PBXContainerItemProxy */;
+		};
+		32A1BE6E25430C0F00FE8CF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes iOS Universal";
+			targetProxy = 32A1BE6D25430C0F00FE8CF9 /* PBXContainerItemProxy */;
+		};
+		32A1BE7225430C8800FE8CF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter iOS Universal";
+			targetProxy = 32A1BE7125430C8800FE8CF9 /* PBXContainerItemProxy */;
+		};
+		32A1BE7625430C9E00FE8CF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenter iOS Universal";
+			targetProxy = 32A1BE7525430C9E00FE8CF9 /* PBXContainerItemProxy */;
+		};
+		32A1BE7825430CA400FE8CF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAnalytics iOS Universal";
+			targetProxy = 32A1BE7725430CA400FE8CF9 /* PBXContainerItemProxy */;
+		};
+		32A1BE7A25430CAD00FE8CF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes iOS Universal";
+			targetProxy = 32A1BE7925430CAD00FE8CF9 /* PBXContainerItemProxy */;
+		};
+		32D449DE254319CE0052ECA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterAnalytics iOS Universal";
+			targetProxy = 32D449DD254319CE0052ECA1 /* PBXContainerItemProxy */;
+		};
+		32D449E425431A020052ECA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterCrashes iOS Universal";
+			targetProxy = 32D449E325431A020052ECA1 /* PBXContainerItemProxy */;
+		};
+		32D449E625431A140052ECA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterDistribute iOS Fat Framework";
+			targetProxy = 32D449E525431A140052ECA1 /* PBXContainerItemProxy */;
+		};
+		32D44B69254338080052ECA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AppCenterDistribute iOS Framework";
+			targetProxy = 32D44B68254338080052ECA1 /* PBXContainerItemProxy */;
+		};
 		5CD700EB1EA4B74600FC5D12 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84226C7F1E8908C900798417 /* SasquatchSwift */;
@@ -3108,55 +3146,10 @@
 			target = B20AE37C21027D6200A1A195 /* SasquatchPuppet */;
 			targetProxy = B2A888BA2102B1E7001ACFDF /* PBXContainerItemProxy */;
 		};
-		C2AFD443247D6D56007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter iOS Fat Framework";
-			targetProxy = C2AFD442247D6D56007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD445247D6D56007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics iOS Fat Framework";
-			targetProxy = C2AFD444247D6D56007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD447247D6D56007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes iOS Fat Framework";
-			targetProxy = C2AFD446247D6D56007E6EE1 /* PBXContainerItemProxy */;
-		};
 		C2AFD449247D6D56007E6EE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenterDistribute iOS Fat Framework";
 			targetProxy = C2AFD448247D6D56007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD44D247D6D77007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter iOS Fat Framework";
-			targetProxy = C2AFD44C247D6D77007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD44F247D6D77007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes iOS Fat Framework";
-			targetProxy = C2AFD44E247D6D77007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD451247D6D87007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter iOS Fat Framework";
-			targetProxy = C2AFD450247D6D87007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD453247D6D87007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics iOS Fat Framework";
-			targetProxy = C2AFD452247D6D87007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD455247D6D87007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes iOS Fat Framework";
-			targetProxy = C2AFD454247D6D87007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD457247D6D87007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterDistribute iOS Fat Framework";
-			targetProxy = C2AFD456247D6D87007E6EE1 /* PBXContainerItemProxy */;
 		};
 		C2F156942338C1F000798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
