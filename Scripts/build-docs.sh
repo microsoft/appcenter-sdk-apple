@@ -9,8 +9,10 @@
 
 OS_NAME=$1
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple/${OS_NAME}"
-INSTALL_DIR="${PRODUCTS_DIR}/${PROJECT_NAME}.framework"
-DOCUMENTATION_DIR="${PRODUCTS_DIR}/Documentation/${PROJECT_NAME}"
+INSTALL_DIR="${BUILD_DIR}/${CONFIGURATION}-${sdk}/${PROJECT_NAME}.framework"
+DOCUMENTATION_DIR="${BUILD_DIR}/Documentation/${PROJECT_NAME}"
+
+echo "INSTALL_DIR = ${INSTALL_DIR}"
 
 # Check if jazzy installed.
 if [ ! -x "$(command -v jazzy)" ]; then

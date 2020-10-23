@@ -70,6 +70,7 @@
 				84F4D4172541689000F5FB39 /* Build Documentation */,
 			);
 			dependencies = (
+				848442022542D1EB005E2FC7 /* PBXTargetDependency */,
 			);
 			name = "AppCenter iOS Documentation";
 			productName = "Fat Framework";
@@ -972,6 +973,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 846AE9F9253DD71B009EFC2D;
 			remoteInfo = "AppCenter tvOS Universal";
+		};
+		848442012542D1EB005E2FC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 846AE940253DC5C4009EFC2D;
+			remoteInfo = "AppCenter iOS Universal";
 		};
 		C2392EE42464279400425640 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3582,6 +3590,11 @@
 			target = 846AE9F9253DD71B009EFC2D /* AppCenter tvOS Universal */;
 			targetProxy = 846AEAF6253DD92E009EFC2D /* PBXContainerItemProxy */;
 		};
+		848442022542D1EB005E2FC7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 846AE940253DC5C4009EFC2D /* AppCenter iOS Universal */;
+			targetProxy = 848442012542D1EB005E2FC7 /* PBXContainerItemProxy */;
+		};
 		C2392EFA24642B9000425640 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "OCMock iOS";
@@ -3758,28 +3771,28 @@
 		};
 		84F4D454254168B700F5FB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		84F4D455254168B700F5FB39 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 049BC8291ECE3A5A00FB6719 /* macOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
 		};
 		84F4D472254168BC00F5FB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		84F4D473254168BC00F5FB39 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 043120711EE0BCC4007054C5 /* tvOS.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;

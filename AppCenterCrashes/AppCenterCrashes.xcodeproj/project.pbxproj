@@ -2139,7 +2139,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME iOS Framework\" \"appletvos\"\n";
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME tvOS Framework\" \"appletvos\"\n";
 			showEnvVarsInLog = 0;
 		};
 		84949424254037A300DBC52B /* Build tvOS Simulator Framework */ = {
@@ -2154,7 +2154,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME iOS Framework\" \"appletvsimulator\"\n";
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME tvOS Framework\" \"appletvsimulator\"\n";
 			showEnvVarsInLog = 0;
 		};
 		84949425254037A300DBC52B /* Combine tvOS Universal Framework */ = {
@@ -2173,7 +2173,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterCrashes.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterCrashes.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.framework\"\n";
+			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterCrashes.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterCrashes.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.framework\"\n";
 			showEnvVarsInLog = 0;
 		};
 		849494612540384B00DBC52B /* Copy Products */ = {

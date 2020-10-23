@@ -93,6 +93,9 @@
          location = "group:build-framework.sh">
       </FileRef>
       <FileRef
+         location = "group:build-docs.sh">
+      </FileRef>
+      <FileRef
          location = "group:combine-frameworks.sh">
       </FileRef>
       <FileRef
