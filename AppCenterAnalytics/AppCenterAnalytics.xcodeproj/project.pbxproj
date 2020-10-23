@@ -76,7 +76,6 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 8494925725401E7C00DBC52B /* Build configuration list for PBXAggregateTarget "AppCenterAnalytics" */;
 			buildPhases = (
-				8494925525401E7C00DBC52B /* Copy Products */,
 			);
 			dependencies = (
 				849492C02540200100DBC52B /* PBXTargetDependency */,
@@ -1481,25 +1480,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/../Scripts/combine-xcframework.sh\"\n";
 		};
-		8494925525401E7C00DBC52B /* Copy Products */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Products";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../Scripts/copy-products.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		8494929125401F0000DBC52B /* Combine iOS Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1516,7 +1496,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterAnalytics.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterAnalytics.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.framework\"\n";
+			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterAnalytics.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterAnalytics.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$SRCROOT/../AppCenter-SDK-Apple/iOS/$PROJECT_NAME.framework\"\n";
 		};
 		8494929225401F0600DBC52B /* Combine tvOS Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1534,7 +1514,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterAnalytics.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterAnalytics.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.framework\"\n";
+			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterAnalytics.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterAnalytics.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$SRCROOT/../AppCenter-SDK-Apple/iOS/$PROJECT_NAME.framework\"\n";
 		};
 		C2D73CD7230FC74C00390198 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
