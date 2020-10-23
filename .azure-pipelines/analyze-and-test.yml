@@ -13,4 +13,17 @@ jobs:
     platform: iOS
     modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute ]
 
+- template: analyze-and-test-template.yml
+  parameters:
+    platform: macOS
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
 
+- template: analyze-and-test-template.yml
+  parameters:
+    platform: tvOS
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
+
+- template: analyze-and-test-template.yml
+  parameters:
+    platform: MacCatalyst
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
