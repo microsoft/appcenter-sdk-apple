@@ -82,6 +82,7 @@
 				84F4D452254168B700F5FB39 /* Build Documentation */,
 			);
 			dependencies = (
+				C98138552542F3D100CD31A9 /* PBXTargetDependency */,
 			);
 			name = "AppCenter tvOS Documentation";
 			productName = "Fat Framework";
@@ -93,6 +94,7 @@
 				84F4D470254168BC00F5FB39 /* Build Documentation */,
 			);
 			dependencies = (
+				C98138532542F35600CD31A9 /* PBXTargetDependency */,
 			);
 			name = "AppCenter macOS Documentation";
 			productName = "Fat Framework";
@@ -1071,6 +1073,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A9201B230C07A50068070D;
 			remoteInfo = "AppCenter tvOS Framework";
+		};
+		C98138522542F35600CD31A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91FFE230C05D70068070D;
+			remoteInfo = "AppCenter macOS Framework";
+		};
+		C98138542542F3D100CD31A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 846AE9F9253DD71B009EFC2D;
+			remoteInfo = "AppCenter tvOS Universal";
 		};
 		DFCB80072472C1BD0058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3624,6 +3640,16 @@
 			isa = PBXTargetDependency;
 			target = C9A9201B230C07A50068070D /* AppCenter tvOS Framework */;
 			targetProxy = C2CB275D230EDE320076A4E0 /* PBXContainerItemProxy */;
+		};
+		C98138532542F35600CD31A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91FFE230C05D70068070D /* AppCenter macOS Framework */;
+			targetProxy = C98138522542F35600CD31A9 /* PBXContainerItemProxy */;
+		};
+		C98138552542F3D100CD31A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 846AE9F9253DD71B009EFC2D /* AppCenter tvOS Universal */;
+			targetProxy = C98138542542F3D100CD31A9 /* PBXContainerItemProxy */;
 		};
 		DFCB80182472D1960058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

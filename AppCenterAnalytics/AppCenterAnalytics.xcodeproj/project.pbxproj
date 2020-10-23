@@ -14,6 +14,7 @@
 				04FD11581EF2F818000C5A5C /* Build Documentation */,
 			);
 			dependencies = (
+				C98138612542F41600CD31A9 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics macOS Documentation";
 			productName = "Jazzy Docs";
@@ -25,6 +26,7 @@
 				04FD11731EF2FE43000C5A5C /* Build Documentation */,
 			);
 			dependencies = (
+				C98138632542F41F00CD31A9 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics tvOS Documentation";
 			productName = "Jazzy Docs";
@@ -92,6 +94,7 @@
 				E85547ED1D2D68CF002DF6E2 /* Build Documentation */,
 			);
 			dependencies = (
+				C98138572542F41100CD31A9 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics iOS Documentation";
 			productName = "Jazzy Docs";
@@ -430,6 +433,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F2B230BFB8A0068070D;
 			remoteInfo = "AppCenterAnalytics tvOS Framework";
+		};
+		C98138562542F41100CD31A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8494911E2540167E00DBC52B;
+			remoteInfo = "AppCenterAnalytics iOS Universal";
+		};
+		C98138602542F41600CD31A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A91F36230BFB970068070D;
+			remoteInfo = "AppCenterAnalytics macOS Framework";
+		};
+		C98138622542F41F00CD31A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8414DF7E2459D3C500B316C5;
+			remoteInfo = "AppCenterAnalytics tvOS Universal";
 		};
 		DFCB802D2472D5D70058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1790,6 +1814,21 @@
 			isa = PBXTargetDependency;
 			target = C9A91F2B230BFB8A0068070D /* AppCenterAnalytics tvOS Framework */;
 			targetProxy = C2D73CDE230FC7C700390198 /* PBXContainerItemProxy */;
+		};
+		C98138572542F41100CD31A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8494911E2540167E00DBC52B /* AppCenterAnalytics iOS Universal */;
+			targetProxy = C98138562542F41100CD31A9 /* PBXContainerItemProxy */;
+		};
+		C98138612542F41600CD31A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */;
+			targetProxy = C98138602542F41600CD31A9 /* PBXContainerItemProxy */;
+		};
+		C98138632542F41F00CD31A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8414DF7E2459D3C500B316C5 /* AppCenterAnalytics tvOS Universal */;
+			targetProxy = C98138622542F41F00CD31A9 /* PBXContainerItemProxy */;
 		};
 		DFCB80402472D5E30058D292 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
