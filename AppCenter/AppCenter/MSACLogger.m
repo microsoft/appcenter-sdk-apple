@@ -52,7 +52,7 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
   }
 }
 
-+ (MSACLogHandler)getCurrentLogHandler {
++ (MSACLogHandler)logHandler {
   @synchronized(self) {
     return currentLogHandler;
   }

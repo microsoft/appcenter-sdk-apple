@@ -42,6 +42,4 @@ NS_SWIFT_NAME(Logger)
           function:(const char *)function
               line:(uint)line;
 
-+ (MSACLogHandler)getCurrentLogHandler;
-
 @end

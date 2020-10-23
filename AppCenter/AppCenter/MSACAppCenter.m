@@ -184,7 +184,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (MSACLogHandler)logHandler {
-  return [MSACLogger getCurrentLogHandler];
+  return [MSACLogger logHandler];
 }
 
 #if !TARGET_OS_TV
