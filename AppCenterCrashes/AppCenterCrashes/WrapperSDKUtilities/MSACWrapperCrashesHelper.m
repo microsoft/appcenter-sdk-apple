@@ -34,7 +34,7 @@
 }
 
 + (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate {
-  return MSACWrapperCrashesHelper.crashHandlerSetupDelegate;
+  return [MSACWrapperCrashesHelper sharedInstance].crashHandlerSetupDelegate;
 }
 
 /**
