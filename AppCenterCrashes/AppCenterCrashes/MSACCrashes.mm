@@ -230,7 +230,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 }
 
 + (_Nullable MSACUserConfirmationHandler)userConfirmationHandler {
-  return [[MSACCrashes sharedInstance] userConfirmationHandler];
+  return [MSACCrashes sharedInstance].userConfirmationHandler;
 }
 
 + (BOOL)hasReceivedMemoryWarningInLastSession {
@@ -277,7 +277,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 }
 
 + (_Nullable id<MSACCrashesDelegate>)delegate {
-  return [[MSACCrashes sharedInstance] delegate];
+  return [MSACCrashes sharedInstance].delegate;
 }
 
 + (void)setDelegate:(_Nullable id<MSACCrashesDelegate>)delegate {
