@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, MSACInitializationPriority) {
   MSACInitializationPriorityDefault = 500,
   MSACInitializationPriorityHigh = 750,
   MSACInitializationPriorityMax = 999
-};
+} NS_SWIFT_NAME(InitializationPriority);
 
 /**
  * Enum with the different HTTP status codes.
@@ -167,4 +167,4 @@ typedef NS_ENUM(NSInteger, MSACHTTPCodesNo) {
   MSACHTTPCodesNo522ConnectionTimedOut = 522,
   MSACHTTPCodesNo598NetworkReadTimeoutErrorUnknown = 598,
   MSACHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599
-};
+} NS_SWIFT_NAME(HTTPCodesNo);

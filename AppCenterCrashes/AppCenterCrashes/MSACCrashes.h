@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, MSACErrorLogSetting) {
    * Each error log is send automatically.
    */
   MSACErrorLogSettingAutoSend = 2
-};
+} NS_SWIFT_NAME(ErrorLogSetting);
 
 /**
  * Crash Manager alert user input.
@@ -53,7 +53,7 @@ typedef NS_ENUM(NSUInteger, MSACUserConfirmation) {
    * User wants to send all error logs.
    */
   MSACUserConfirmationAlways = 2
-};
+} NS_SWIFT_NAME(UserConfirmation);
 
 @protocol MSACCrashesDelegate;
 

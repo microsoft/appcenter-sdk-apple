@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, MSACUpdateAction) {
    * Action to postpone update.
    */
   MSACUpdateActionPostpone
-};
+} NS_SWIFT_NAME(UpdateAction);
 
 typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
 
