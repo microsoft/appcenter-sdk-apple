@@ -7,23 +7,25 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */ = {
+		04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Universal */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Fat Framework" */;
+			buildConfigurationList = 04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Universal" */;
 			buildPhases = (
-				04FD4A2C1E453159009B4468 /* Build Universal Framework */,
+				04FD4A2C1E453159009B4468 /* Build iOS Device Framework */,
+				324F3BA4254783E50006E223 /* Build iOS Simulator Framework */,
+				324F3BA5254783F70006E223 /* Combine iOS Universal Framework */,
 			);
 			dependencies = (
 				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
 			);
-			name = "AppCenterDistribute iOS Fat Framework";
+			name = "AppCenterDistribute iOS Universal";
 			productName = "Fat Framework";
 		};
 		04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 04FD4A3D1E453640009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Documentation" */;
 			buildPhases = (
-				04FD4A401E4536B0009B4468 /* Build Documentation */,
+				04FD4A401E4536B0009B4468 /* Generate Documentation */,
 			);
 			dependencies = (
 				0471B9361E4556570022F951 /* PBXTargetDependency */,
@@ -31,11 +33,24 @@
 			name = "AppCenterDistribute iOS Documentation";
 			productName = "Jazzy Docs";
 		};
+		324F3C5925478CE80006E223 /* AppCenterDistribute */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 324F3C5D25478CE80006E223 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute" */;
+			buildPhases = (
+				324F3C5C25478CE80006E223 /* Copy Products */,
+			);
+			dependencies = (
+				324F3C7825478D060006E223 /* PBXTargetDependency */,
+				324F3C7625478D030006E223 /* PBXTargetDependency */,
+			);
+			name = AppCenterDistribute;
+			productName = "Fat Framework";
+		};
 		845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 845017E0245ADB360026E0DB /* Build configuration list for PBXAggregateTarget "AppCenterDistribute XCFramework" */;
 			buildPhases = (
-				845017DF245ADB360026E0DB /* Build XCFramework */,
+				845017DF245ADB360026E0DB /* Combine XCFramework */,
 			);
 			dependencies = (
 				D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */,
@@ -138,6 +153,20 @@
 			remoteGlobalIDString = 04FD4A281E451E90009B4468;
 			remoteInfo = "Fat Framework";
 		};
+		324F3C7525478D030006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 845017DC245ADB360026E0DB;
+			remoteInfo = "AppCenterDistribute XCFramework";
+		};
+		324F3C7725478D060006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD4A3C1E453640009B4468;
+			remoteInfo = "AppCenterDistribute iOS Documentation";
+		};
 		B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
@@ -213,7 +242,7 @@
 			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 04FD4A281E451E90009B4468;
-			remoteInfo = "AppCenterDistribute iOS Fat Framework";
+			remoteInfo = "AppCenterDistribute iOS Universal";
 		};
 		DFCB80772472D71C0058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -328,6 +357,9 @@
 		24E6AC9423A18AC900B8D33A /* MSACTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSACTestUtil.m; sourceTree = "<group>"; };
 		24E6AC9623A18BA800B8D33A /* MSACMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACMockLog.m; path = ../../../AppCenter/AppCenterTests/Util/MSACMockLog.m; sourceTree = "<group>"; };
 		24E6AC9723A18BA800B8D33A /* MSACMockLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACMockLog.h; path = ../../../AppCenter/AppCenterTests/Util/MSACMockLog.h; sourceTree = "<group>"; };
+		324F3BAE25478A3F0006E223 /* XCFramework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = XCFramework.xcconfig; path = ../../../Config/XCFramework.xcconfig; sourceTree = "<group>"; };
+		324F3BAF25478A3F0006E223 /* iOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS Universal.xcconfig"; path = "../../../Config/iOS Universal.xcconfig"; sourceTree = "<group>"; };
+		324F3BB025478A3F0006E223 /* tvOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS Universal.xcconfig"; path = "../../../Config/tvOS Universal.xcconfig"; sourceTree = "<group>"; };
 		383A2FE31EBA308700817742 /* MSACDistributeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACDistributeAppDelegate.h; sourceTree = "<group>"; };
 		383A2FE51EBA30B300817742 /* MSACDistributeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeAppDelegate.m; sourceTree = "<group>"; };
 		387CC62F210A9D9C002BA068 /* MSACMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACMockKeychainUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSACMockKeychainUtil.h; sourceTree = "<group>"; };
@@ -456,6 +488,9 @@
 		0471B5F31E45466F0022F951 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				324F3BAF25478A3F0006E223 /* iOS Universal.xcconfig */,
+				324F3BB025478A3F0006E223 /* tvOS Universal.xcconfig */,
+				324F3BAE25478A3F0006E223 /* XCFramework.xcconfig */,
 				F8A27E462476714F002DDDAA /* iOS Distribute.xcconfig */,
 				F8D6848E230D7DE9000A7CED /* Info.plist */,
 				04545DCC227B606600A49E06 /* AppCenterDistribute.xcconfig */,
@@ -879,10 +914,11 @@
 			targets = (
 				C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */,
 				04FD4A301E453531009B4468 /* AppCenterDistribute iOS Tests */,
-				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */,
+				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Universal */,
 				04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */,
 				B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */,
 				845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */,
+				324F3C5925478CE80006E223 /* AppCenterDistribute */,
 			);
 		};
 /* End PBXProject section */
@@ -1018,49 +1054,102 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04FD4A2C1E453159009B4468 /* Build Universal Framework */ = {
+		04FD4A2C1E453159009B4468 /* Build iOS Device Framework */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build Universal Framework";
+			name = "Build iOS Device Framework";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-ios-framework.sh\"\n";
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME iOS Framework\" \"iphoneos\"\n";
 			showEnvVarsInLog = 0;
 		};
-		04FD4A401E4536B0009B4468 /* Build Documentation */ = {
+		04FD4A401E4536B0009B4468 /* Generate Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build Documentation";
+			name = "Generate Documentation";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-docs.sh\" iOS\n";
+			shellScript = "\"${SRCROOT}/../Scripts/generate-documentation.sh\" iOS\n";
 			showEnvVarsInLog = 0;
 		};
-		845017DF245ADB360026E0DB /* Build XCFramework */ = {
+		324F3BA4254783E50006E223 /* Build iOS Simulator Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build iOS Simulator Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/build-framework.sh\" \"$PROJECT_NAME iOS Framework\" \"iphonesimulator\"\n";
+			showEnvVarsInLog = 0;
+		};
+		324F3BA5254783F70006E223 /* Combine iOS Universal Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Combine iOS Universal Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphoneos/$PRODUCT_NAME.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-iphonesimulator/$PRODUCT_NAME.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.framework\"\n";
+			showEnvVarsInLog = 0;
+		};
+		324F3C5C25478CE80006E223 /* Copy Products */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Build XCFramework";
+			name = "Copy Products";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Scripts/build-xcframework.sh\"\n";
+			shellScript = "\"$SRCROOT/../Scripts/copy-products.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		845017DF245ADB360026E0DB /* Combine XCFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Combine XCFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/combine-xcframework.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
@@ -1154,8 +1243,18 @@
 /* Begin PBXTargetDependency section */
 		0471B9361E4556570022F951 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Universal */;
 			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
+		};
+		324F3C7625478D030006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */;
+			targetProxy = 324F3C7525478D030006E223 /* PBXContainerItemProxy */;
+		};
+		324F3C7825478D060006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */;
+			targetProxy = 324F3C7725478D060006E223 /* PBXContainerItemProxy */;
 		};
 		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1174,7 +1273,7 @@
 		};
 		D559CA1E2477ED0F00CF60D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Fat Framework */;
+			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Universal */;
 			targetProxy = D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */;
 		};
 		DFCB808C2472D7280058D292 /* PBXTargetDependency */ = {
@@ -1271,6 +1370,20 @@
 			};
 			name = Release;
 		};
+		324F3C5E25478CE80006E223 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		324F3C5F25478CE80006E223 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		845017E1245ADB360026E0DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1325,7 +1438,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Fat Framework" */ = {
+		04FD4A291E451E90009B4468 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute iOS Universal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				04FD4A2A1E451E90009B4468 /* Debug */,
@@ -1348,6 +1461,15 @@
 			buildConfigurations = (
 				04FD4A3E1E453640009B4468 /* Debug */,
 				04FD4A3F1E453640009B4468 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		324F3C5D25478CE80006E223 /* Build configuration list for PBXAggregateTarget "AppCenterDistribute" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				324F3C5E25478CE80006E223 /* Debug */,
+				324F3C5F25478CE80006E223 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

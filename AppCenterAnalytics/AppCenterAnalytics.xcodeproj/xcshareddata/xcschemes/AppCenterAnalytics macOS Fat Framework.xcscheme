@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "AppCenterAnalytics macOS Fat Framework"
-               BlueprintName = "AppCenterAnalytics macOS Fat Framework"
+               BuildableName = "AppCenterAnalytics macOS Universal"
+               BlueprintName = "AppCenterAnalytics macOS Universal"
                ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterAnalytics macOS Fat Framework"
-            BlueprintName = "AppCenterAnalytics macOS Fat Framework"
+            BuildableName = "AppCenterAnalytics macOS Universal"
+            BlueprintName = "AppCenterAnalytics macOS Universal"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-            BuildableName = "AppCenterAnalytics macOS Fat Framework"
-            BlueprintName = "AppCenterAnalytics macOS Fat Framework"
+            BuildableName = "AppCenterAnalytics macOS Universal"
+            BlueprintName = "AppCenterAnalytics macOS Universal"
             ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -1071,14 +1071,14 @@
 			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6E04017D1D1CAC710051BCFA;
-			remoteInfo = "AppCenter iOS Fat Framework";
+			remoteInfo = "AppCenter iOS Universal";
 		};
 		D5E3B397247BEACB00D93E90 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 043121491EE0BFC7007054C5;
-			remoteInfo = "AppCenter tvOS Fat Framework";
+			remoteInfo = "AppCenter tvOS Universal";
 		};
 		DFCB80072472C1BD0058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;

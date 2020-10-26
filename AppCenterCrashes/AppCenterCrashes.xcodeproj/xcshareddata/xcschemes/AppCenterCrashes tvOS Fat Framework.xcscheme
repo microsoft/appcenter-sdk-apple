@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
-               BuildableName = "AppCenterCrashes tvOS Fat Framework"
-               BlueprintName = "AppCenterCrashes tvOS Fat Framework"
+               BuildableName = "AppCenterCrashes tvOS Universal"
+               BlueprintName = "AppCenterCrashes tvOS Universal"
                ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
-            BuildableName = "AppCenterCrashes tvOS Fat Framework"
-            BlueprintName = "AppCenterCrashes tvOS Fat Framework"
+            BuildableName = "AppCenterCrashes tvOS Universal"
+            BlueprintName = "AppCenterCrashes tvOS Universal"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
-            BuildableName = "AppCenterCrashes tvOS Fat Framework"
-            BlueprintName = "AppCenterCrashes tvOS Fat Framework"
+            BuildableName = "AppCenterCrashes tvOS Universal"
+            BlueprintName = "AppCenterCrashes tvOS Universal"
             ReferencedContainer = "container:AppCenterCrashes.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

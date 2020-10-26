@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-               BuildableName = "AppCenter iOS Fat Framework"
-               BlueprintName = "AppCenter iOS Fat Framework"
+               BuildableName = "AppCenter iOS Universal"
+               BlueprintName = "AppCenter iOS Universal"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFE61EAA937000C10CAF"
-               BuildableName = "AppCenter macOS Fat Framework"
-               BlueprintName = "AppCenter macOS Fat Framework"
+               BuildableName = "AppCenter macOS Universal"
+               BlueprintName = "AppCenter macOS Universal"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "043121491EE0BFC7007054C5"
-               BuildableName = "AppCenter tvOS Fat Framework"
-               BlueprintName = "AppCenter tvOS Fat Framework"
+               BuildableName = "AppCenter tvOS Universal"
+               BlueprintName = "AppCenter tvOS Universal"
                ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E85547E41D2D681F002DF6E2"
-               BuildableName = "AppCenterAnalytics iOS Fat Framework"
-               BlueprintName = "AppCenterAnalytics iOS Fat Framework"
+               BuildableName = "AppCenterAnalytics iOS Universal"
+               BlueprintName = "AppCenterAnalytics iOS Universal"
                ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFEF1EAAADAC00C10CAF"
-               BuildableName = "AppCenterAnalytics macOS Fat Framework"
-               BlueprintName = "AppCenterAnalytics macOS Fat Framework"
+               BuildableName = "AppCenterAnalytics macOS Universal"
+               BlueprintName = "AppCenterAnalytics macOS Universal"
                ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -85,8 +85,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0431216D1EE0C213007054C5"
-               BuildableName = "AppCenterAnalytics tvOS Fat Framework"
-               BlueprintName = "AppCenterAnalytics tvOS Fat Framework"
+               BuildableName = "AppCenterAnalytics tvOS Universal"
+               BlueprintName = "AppCenterAnalytics tvOS Universal"
                ReferencedContainer = "container:AppCenterAnalytics/AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -99,8 +99,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E3729771D1DE83200F1E4AE"
-               BuildableName = "AppCenterCrashes iOS Fat Framework"
-               BlueprintName = "AppCenterCrashes iOS Fat Framework"
+               BuildableName = "AppCenterCrashes iOS Universal"
+               BlueprintName = "AppCenterCrashes iOS Universal"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -113,8 +113,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0485AFF91EAAB27E00C10CAF"
-               BuildableName = "AppCenterCrashes macOS Fat Framework"
-               BlueprintName = "AppCenterCrashes macOS Fat Framework"
+               BuildableName = "AppCenterCrashes macOS Universal"
+               BlueprintName = "AppCenterCrashes macOS Universal"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -127,8 +127,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04EBBEE91F01C0E10006B8AE"
-               BuildableName = "AppCenterCrashes tvOS Fat Framework"
-               BlueprintName = "AppCenterCrashes tvOS Fat Framework"
+               BuildableName = "AppCenterCrashes tvOS Universal"
+               BlueprintName = "AppCenterCrashes tvOS Universal"
                ReferencedContainer = "container:AppCenterCrashes/AppCenterCrashes.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -141,8 +141,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "AppCenterDistribute iOS Fat Framework"
-               BlueprintName = "AppCenterDistribute iOS Fat Framework"
+               BuildableName = "AppCenterDistribute iOS Universal"
+               BlueprintName = "AppCenterDistribute iOS Universal"
                ReferencedContainer = "container:AppCenterDistribute/AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -177,8 +177,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E04017D1D1CAC710051BCFA"
-            BuildableName = "AppCenter iOS Fat Framework"
-            BlueprintName = "AppCenter iOS Fat Framework"
+            BuildableName = "AppCenter iOS Universal"
+            BlueprintName = "AppCenter iOS Universal"
             ReferencedContainer = "container:AppCenter/AppCenter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

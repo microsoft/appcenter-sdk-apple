@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "AppCenterDistribute iOS Fat Framework"
-               BlueprintName = "AppCenterDistribute iOS Fat Framework"
+               BuildableName = "AppCenterDistribute iOS Universal"
+               BlueprintName = "AppCenterDistribute iOS Universal"
                ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD4A281E451E90009B4468"
-            BuildableName = "AppCenterDistribute iOS Fat Framework"
-            BlueprintName = "AppCenterDistribute iOS Fat Framework"
+            BuildableName = "AppCenterDistribute iOS Universal"
+            BlueprintName = "AppCenterDistribute iOS Universal"
             ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "04FD4A281E451E90009B4468"
-            BuildableName = "AppCenterDistribute iOS Fat Framework"
-            BlueprintName = "AppCenterDistribute iOS Fat Framework"
+            BuildableName = "AppCenterDistribute iOS Universal"
+            BlueprintName = "AppCenterDistribute iOS Universal"
             ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
