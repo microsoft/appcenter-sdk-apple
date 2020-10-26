@@ -44,6 +44,9 @@
          location = "group:Global.xcconfig">
       </FileRef>
       <FileRef
+         location = "group:iOS Universal.xcconfig">
+      </FileRef>
+      <FileRef
          location = "group:iOS.xcconfig">
       </FileRef>
       <FileRef
@@ -62,6 +65,9 @@
          location = "group:Tests.xcconfig">
       </FileRef>
       <FileRef
+         location = "group:tvOS Universal.xcconfig">
+      </FileRef>
+      <FileRef
          location = "group:tvOS.xcconfig">
       </FileRef>
       <FileRef
@@ -69,6 +75,9 @@
       </FileRef>
       <FileRef
          location = "group:watchOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:XCFramework.xcconfig">
       </FileRef>
    </Group>
    <Group
