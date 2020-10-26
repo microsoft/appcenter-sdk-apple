@@ -7,7 +7,6 @@
 #import "AppCenterCrashes.h"
 #if !TARGET_OS_MACCATALYST
 #import "AppCenterDistribute.h"
-#import "AppCenterPush.h"
 #endif
 // Internal
 #import "MSACAnalyticsInternal.h"
@@ -18,13 +17,11 @@
 #import <AppCenterAnalytics/AppCenterAnalytics.h>
 #import <AppCenterCrashes/AppCenterCrashes.h>
 #import <AppCenterDistribute/AppCenterDistribute.h>
-#import <AppCenterPush/AppCenterPush.h>
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
-@import AppCenterPush;
 #endif
 
 #import "AppCenterDelegateObjC.h"
@@ -103,14 +100,6 @@
 #endif
 }
 
-- (BOOL)isPushEnabled {
-#if !TARGET_OS_MACCATALYST
-  return [MSPush isEnabled];
-#else
-  return NO;
-#endif
-}
-
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
   [MSACAnalytics setEnabled:isEnabled];
 }
@@ -122,12 +111,6 @@
 - (void)setDistributeEnabled:(BOOL)isEnabled {
 #if !TARGET_OS_MACCATALYST
   [MSACDistribute setEnabled:isEnabled];
-#endif
-}
-
-- (void)setPushEnabled:(BOOL)isEnabled {
-#if !TARGET_OS_MACCATALYST
-  [MSPush setEnabled:isEnabled];
 #endif
 }
 

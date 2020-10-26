@@ -12,7 +12,6 @@
 #import "AppCenterCrashes.h"
 #if !TARGET_OS_MACCATALYST
 #import "AppCenterDistribute.h"
-#import "AppCenterPush.h"
 #endif
 
 // Internal ones
@@ -23,13 +22,11 @@
 #import <AppCenterAnalytics/AppCenterAnalytics.h>
 #import <AppCenterCrashes/AppCenterCrashes.h>
 #import <AppCenterDistribute/AppCenterDistribute.h>
-#import <AppCenterPush/AppCenterPush.h>
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
 @import AppCenterDistribute;
-@import AppCenterPush;
 #endif
 
 #import "AppCenterDelegateObjC.h"
@@ -43,13 +40,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     MSACAnalyticsDelegate,
 #endif
 #if !TARGET_OS_MACCATALYST
-    MSACDistributeDelegate, MSPushDelegate,
+    MSACDistributeDelegate,
 #endif
-    MSACCrashesDelegate, UNUserNotificationCenterDelegate, CLLocationManagerDelegate>
+    MSACCrashesDelegate, CLLocationManagerDelegate>
 
 @property(nonatomic) MSAnalyticsResult *analyticsResult;
-@property(nonatomic) API_AVAILABLE(ios(10.0)) void (^notificationPresentationCompletionHandler)(UNNotificationPresentationOptions options);
-@property(nonatomic) void (^notificationResponseCompletionHandler)(void);
 @property(nonatomic) CLLocationManager *locationManager;
 
 @end
@@ -79,13 +74,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 // Customize App Center SDK.
 #pragma clang diagnostic ignored "-Wpartial-availability"
-  if (@available(iOS 10.0, *)) {
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    center.delegate = self;
-  }
 #pragma clang diagnostic pop
 #if !TARGET_OS_MACCATALYST
-  [MSPush setDelegate:self];
   [MSACDistribute setDelegate:self];
 #endif
   // Set max storage size.
@@ -135,7 +125,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   
   // Start App Center SDK.
 #if !TARGET_OS_MACCATALYST
-  NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class], [MSACDistribute class], [MSPush class]];
+  NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class], [MSACDistribute class]];
 #else
   NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class]];
 #endif
@@ -390,73 +380,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   }
   return NO;
 }
-#pragma mark - Push callbacks
 
-// iOS 10 and later, called when a notification is delivered to an app that is in the foreground.
-// When this callback is called, this disables the other callback that MSPush handles.
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-       willPresentNotification:(UNNotification *)notification
-         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler API_AVAILABLE(ios(10.0)) {
-  self.notificationPresentationCompletionHandler = completionHandler;
-}
-
-// iOS 10 and later, asks the delegate to process the user's response to a delivered notification.
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-    didReceiveNotificationResponse:(UNNotificationResponse *)response
-             withCompletionHandler:(void (^)(void))completionHandler API_AVAILABLE(ios(10.0)) {
-  self.notificationResponseCompletionHandler = completionHandler;
-}
-
-- (void)push:(MSPush *)push didReceivePushNotification:(MSPushNotification *)pushNotification {
-
-  // Alert in foreground if requested from custom data.
-  if (self.notificationPresentationCompletionHandler && [pushNotification.customData[@"presentation"] isEqual:@"alert"]) {
-    self.notificationPresentationCompletionHandler(UNNotificationPresentationOptionAlert);
-    self.notificationPresentationCompletionHandler = nil;
-    return;
-  }
-
-  // Create and show a popup from the notification payload.
-  NSString *title = pushNotification.title ?: @"";
-  NSString *message = pushNotification.message;
-  NSMutableString *customData = nil;
-  for (NSString *key in pushNotification.customData) {
-    ([customData length] == 0) ? customData = [NSMutableString new] : [customData appendString:@", "];
-    [customData appendFormat:@"%@: %@", key, pushNotification.customData[key]];
-  }
-  if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
-    NSLog(@"Notification received in background (silent push), title: \"%@\", "
-          @"message: "
-          @"\"%@\", custom data: \"%@\"",
-          title, message, customData);
-  } else {
-    NSString *stateMessage;
-    if ([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion < 10) {
-      stateMessage = @"";
-    } else if (self.notificationResponseCompletionHandler) {
-      stateMessage = @"Tapped notification\n";
-    } else {
-      stateMessage = @"Received in foreground\n";
-    }
-    message = [NSString stringWithFormat:@"%@%@%@%@", stateMessage, (message ? message : @""), (message && customData ? @"\n" : @""),
-                                         (customData ? customData : [@"" mutableCopy])];
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                             message:message
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
-    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-  }
-
-  // Call notification completion handlers.
-  if (self.notificationResponseCompletionHandler) {
-    self.notificationResponseCompletionHandler();
-    self.notificationResponseCompletionHandler = nil;
-  }
-  if (self.notificationPresentationCompletionHandler) {
-    self.notificationPresentationCompletionHandler(UNNotificationPresentationOptionNone);
-    self.notificationPresentationCompletionHandler = nil;
-  }
-}
 #endif
 
 #pragma mark - CLLocationManagerDelegate

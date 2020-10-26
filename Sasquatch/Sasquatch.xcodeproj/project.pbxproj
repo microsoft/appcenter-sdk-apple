@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
-		046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
-		046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */; };
@@ -139,7 +137,6 @@
 		B27D54BE210A5E7E004E82C9 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */; };
 		B27D54BF210A5E7E004E82C9 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
 		B27D54C0210A5E7E004E82C9 /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* AppCenterDistribute.framework */; };
-		B27D54C1210A5E7E004E82C9 /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		B27D54C3210A5E7E004E82C9 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		B27D54C4210A5E7E004E82C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C551E88FF4A00798417 /* Assets.xcassets */; };
 		B27D54C6210A5E7E004E82C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F809D5021FC6DA2B005E0F83 /* LaunchScreen.storyboard */; };
@@ -172,7 +169,6 @@
 		B2A4CFA2210A6E6900199B4F /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */; };
 		B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D301E89301B00798417 /* AppCenterCrashes.framework */; };
 		B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84226D311E89301B00798417 /* AppCenterDistribute.framework */; };
-		B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046790411E8DA7D80033FDEC /* AppCenterPush.framework */; };
 		B2A4CFA7210A6E6900199B4F /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		B2A4CFA9210A6E6900199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C891E8908CA00798417 /* Assets.xcassets */; };
 		B2A4CFAA210A6E6900199B4F /* MSAnalyticsTransmissionTargetSelectorViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EE21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.xib */; };
@@ -204,7 +200,6 @@
 		C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */; };
 		C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; platformFilter = ios; };
-		C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261445A230FE86400D65EBF /* AppCenterPush.framework */; platformFilter = ios; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156E02338C31500798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
@@ -463,20 +458,6 @@
 			remoteGlobalIDString = B2C070B81E5E68540076D6A9;
 			remoteInfo = AppCenterDistributeResources;
 		};
-		B20AE436210281C400A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
-			remoteInfo = AppCenterPushIOSTests;
-		};
-		B20AE43A210281C400A1A195 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 046964251F2A559C00F9D31F;
-			remoteInfo = AppCenterPushMacOSTests;
-		};
 		B2A888A32102A407001ACFDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
@@ -561,20 +542,6 @@
 			remoteGlobalIDString = C9A91F8C230BFFFF0068070D;
 			remoteInfo = "AppCenterDistribute iOS Framework";
 		};
-		C2614459230FE86400D65EBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91F9B230C004A0068070D;
-			remoteInfo = "AppCenterPush iOS Framework";
-		};
-		C261445B230FE86400D65EBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91FAC230C00540068070D;
-			remoteInfo = "AppCenterPush macOS Framework";
-		};
 		C2AFD442247D6D56007E6EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
@@ -602,13 +569,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04FD4A281E451E90009B4468;
 			remoteInfo = "AppCenterDistribute iOS Fat Framework";
-		};
-		C2AFD44A247D6D56007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
-			remoteInfo = "AppCenterPush iOS Fat Framework";
 		};
 		C2AFD44C247D6D77007E6EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -652,13 +612,6 @@
 			remoteGlobalIDString = 04FD4A281E451E90009B4468;
 			remoteInfo = "AppCenterDistribute iOS Fat Framework";
 		};
-		C2AFD458247D6D87007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D3AD5F221E5C9562001627AB;
-			remoteInfo = "AppCenterPush iOS Fat Framework";
-		};
 		C2F156932338C1F000798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B20AE3B92102812300A1A195 /* AppCenter.xcodeproj */;
@@ -686,13 +639,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F8B230BFFFF0068070D;
 			remoteInfo = "AppCenterDistribute iOS Framework";
-		};
-		C2F1569F2338C1F000798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C9A91F9A230C004A0068070D;
-			remoteInfo = "AppCenterPush iOS Framework";
 		};
 		C2F156A92338C26A00798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1072,7 +1018,6 @@
 		041A4BBC1F8C2A84009E1B6C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041A4BBD1F8C2A8B009E1B6C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Sasquatch.strings"; sourceTree = "<group>"; };
 		041E2BEE1FB6465000793316 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		046790411E8DA7D80033FDEC /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/iOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046790441E8DA8D50033FDEC /* SasquatchSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchSwift.entitlements; sourceTree = "<group>"; };
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
@@ -1123,7 +1068,6 @@
 		B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterAnalytics.xcodeproj; path = ../AppCenterAnalytics/AppCenterAnalytics.xcodeproj; sourceTree = "<group>"; };
 		B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterCrashes.xcodeproj; path = ../AppCenterCrashes/AppCenterCrashes.xcodeproj; sourceTree = "<group>"; };
 		B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterDistribute.xcodeproj; path = ../AppCenterDistribute/AppCenterDistribute.xcodeproj; sourceTree = "<group>"; };
-		B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterPush.xcodeproj; path = ../AppCenterPush/AppCenterPush.xcodeproj; sourceTree = "<group>"; };
 		B20AE48521028E2A00A1A195 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B20AE48721028E3300A1A195 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B20AE48921028E3C00A1A195 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -1223,7 +1167,6 @@
 				84226D371E89302900798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D381E89302900798417 /* AppCenterCrashes.framework in Frameworks */,
 				84226D391E89302900798417 /* AppCenterDistribute.framework in Frameworks */,
-				046790421E8DA7D80033FDEC /* AppCenterPush.framework in Frameworks */,
 				C2F156F52338C34500798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1236,7 +1179,6 @@
 				84226D331E89301B00798417 /* AppCenterAnalytics.framework in Frameworks */,
 				84226D341E89301B00798417 /* AppCenterCrashes.framework in Frameworks */,
 				84226D351E89301B00798417 /* AppCenterDistribute.framework in Frameworks */,
-				046790431E8DA7E90033FDEC /* AppCenterPush.framework in Frameworks */,
 				C2F156E12338C31E00798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1249,7 +1191,6 @@
 				C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */,
 				C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */,
 				C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */,
-				C2614463230FE88A00D65EBF /* AppCenterPush.framework in Frameworks */,
 				04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */,
 				C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */,
 				B20AE48A21028E3C00A1A195 /* libz.tbd in Frameworks */,
@@ -1266,7 +1207,6 @@
 				B27D54BE210A5E7E004E82C9 /* AppCenterAnalytics.framework in Frameworks */,
 				B27D54BF210A5E7E004E82C9 /* AppCenterCrashes.framework in Frameworks */,
 				B27D54C0210A5E7E004E82C9 /* AppCenterDistribute.framework in Frameworks */,
-				B27D54C1210A5E7E004E82C9 /* AppCenterPush.framework in Frameworks */,
 				C2F156F92338C34B00798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1279,7 +1219,6 @@
 				B2A4CFA2210A6E6900199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				B2A4CFA3210A6E6900199B4F /* AppCenterCrashes.framework in Frameworks */,
 				B2A4CFA4210A6E6900199B4F /* AppCenterDistribute.framework in Frameworks */,
-				B2A4CFA5210A6E6900199B4F /* AppCenterPush.framework in Frameworks */,
 				C2F156E62338C32C00798480 /* CrashLibIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1548,7 +1487,6 @@
 				84226D301E89301B00798417 /* AppCenterCrashes.framework */,
 				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
 				F8EE93532331212D0023C682 /* AppCenterDistributeResources.bundle */,
-				046790411E8DA7D80033FDEC /* AppCenterPush.framework */,
 				04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
 				B20AE48521028E2A00A1A195 /* libsqlite3.tbd */,
@@ -1600,7 +1538,6 @@
 				B20AE3D42102813300A1A195 /* AppCenterAnalytics.xcodeproj */,
 				B20AE3F22102818B00A1A195 /* AppCenterCrashes.xcodeproj */,
 				B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */,
-				B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */,
 			);
 			name = AppCenter;
 			sourceTree = "<group>";
@@ -1624,17 +1561,6 @@
 				C2614450230FE86400D65EBF /* AppCenterDistribute.framework */,
 				B20AE4182102819C00A1A195 /* AppCenterDistribute.xctest */,
 				B20AE41A2102819C00A1A195 /* AppCenterDistributeResources.bundle */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		B20AE42A210281C400A1A195 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C261445A230FE86400D65EBF /* AppCenterPush.framework */,
-				B20AE437210281C400A1A195 /* AppCenterPush.xctest */,
-				C261445C230FE86400D65EBF /* AppCenterPush.framework */,
-				B20AE43B210281C400A1A195 /* AppCenterPush.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1841,7 +1767,6 @@
 				C2AFD445247D6D56007E6EE1 /* PBXTargetDependency */,
 				C2AFD447247D6D56007E6EE1 /* PBXTargetDependency */,
 				C2AFD449247D6D56007E6EE1 /* PBXTargetDependency */,
-				C2AFD44B247D6D56007E6EE1 /* PBXTargetDependency */,
 				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 				C2F156F82338C34500798480 /* PBXTargetDependency */,
 			);
@@ -1871,7 +1796,6 @@
 				C2AFD453247D6D87007E6EE1 /* PBXTargetDependency */,
 				C2AFD455247D6D87007E6EE1 /* PBXTargetDependency */,
 				C2AFD457247D6D87007E6EE1 /* PBXTargetDependency */,
-				C2AFD459247D6D87007E6EE1 /* PBXTargetDependency */,
 				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 				C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */,
 				C2F156E42338C31E00798480 /* PBXTargetDependency */,
@@ -1900,7 +1824,6 @@
 				C2F156962338C1F000798480 /* PBXTargetDependency */,
 				C2F156982338C1F000798480 /* PBXTargetDependency */,
 				C2F1569C2338C1F000798480 /* PBXTargetDependency */,
-				C2F156A02338C1F000798480 /* PBXTargetDependency */,
 				B2A888A42102A407001ACFDF /* PBXTargetDependency */,
 				C2F156D42338C2FC00798480 /* PBXTargetDependency */,
 			);
@@ -2273,10 +2196,6 @@
 					ProjectRef = B20AE40D2102819C00A1A195 /* AppCenterDistribute.xcodeproj */;
 				},
 				{
-					ProductGroup = B20AE42A210281C400A1A195 /* Products */;
-					ProjectRef = B20AE429210281C400A1A195 /* AppCenterPush.xcodeproj */;
-				},
-				{
 					ProductGroup = C2F156A42338C26A00798480 /* Products */;
 					ProjectRef = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
 				},
@@ -2387,20 +2306,6 @@
 			remoteRef = B20AE4192102819C00A1A195 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		B20AE437210281C400A1A195 /* AppCenterPush.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterPush.xctest;
-			remoteRef = B20AE436210281C400A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B20AE43B210281C400A1A195 /* AppCenterPush.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterPush.xctest;
-			remoteRef = B20AE43A210281C400A1A195 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C261440A230FE86400D65EBF /* AppCenter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2469,20 +2374,6 @@
 			fileType = wrapper.framework;
 			path = AppCenterDistribute.framework;
 			remoteRef = C261444F230FE86400D65EBF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C261445A230FE86400D65EBF /* AppCenterPush.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterPush.framework;
-			remoteRef = C2614459230FE86400D65EBF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C261445C230FE86400D65EBF /* AppCenterPush.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterPush.framework;
-			remoteRef = C261445B230FE86400D65EBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C2F156AA2338C26A00798480 /* CrashLibIOS.framework */ = {
@@ -3237,11 +3128,6 @@
 			name = "AppCenterDistribute iOS Fat Framework";
 			targetProxy = C2AFD448247D6D56007E6EE1 /* PBXContainerItemProxy */;
 		};
-		C2AFD44B247D6D56007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterPush iOS Fat Framework";
-			targetProxy = C2AFD44A247D6D56007E6EE1 /* PBXContainerItemProxy */;
-		};
 		C2AFD44D247D6D77007E6EE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenter iOS Fat Framework";
@@ -3272,11 +3158,6 @@
 			name = "AppCenterDistribute iOS Fat Framework";
 			targetProxy = C2AFD456247D6D87007E6EE1 /* PBXContainerItemProxy */;
 		};
-		C2AFD459247D6D87007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterPush iOS Fat Framework";
-			targetProxy = C2AFD458247D6D87007E6EE1 /* PBXContainerItemProxy */;
-		};
 		C2F156942338C1F000798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "AppCenter iOS Framework";
@@ -3297,12 +3178,6 @@
 			name = "AppCenterDistribute iOS Framework";
 			platformFilter = ios;
 			targetProxy = C2F1569B2338C1F000798480 /* PBXContainerItemProxy */;
-		};
-		C2F156A02338C1F000798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterPush iOS Framework";
-			platformFilter = ios;
-			targetProxy = C2F1569F2338C1F000798480 /* PBXContainerItemProxy */;
 		};
 		C2F156C62338C2B900798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

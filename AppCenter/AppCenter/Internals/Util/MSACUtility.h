@@ -20,7 +20,7 @@
 #define MSAC_UUID_STRING [[NSUUID UUID] UUIDString]
 #define MSAC_UUID_FROM_STRING(uuidString) [[NSUUID alloc] initWithUUIDString:uuidString]
 #define MSAC_LOCALE [NSLocale currentLocale]
-#define MSAC_CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:2]
+#define MSAC_CLASS_NAME_WITHOUT_PREFIX [NSStringFromClass([self class]) substringFromIndex:4]
 #define MSAC_IS_APP_EXTENSION ([[[NSBundle mainBundle] executablePath] rangeOfString:@".appex/"].length > 0)
 #define MSAC_APP_MAIN_BUNDLE [NSBundle mainBundle]
 

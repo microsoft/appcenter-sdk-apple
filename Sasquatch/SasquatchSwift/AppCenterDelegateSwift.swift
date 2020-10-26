@@ -18,9 +18,6 @@ import AppCenterDistribute
   func delegate() -> MSACDistributeDelegate
 }
 #endif
-#if canImport(AppCenterPush)
-import AppCenterPush
-#endif
 
 /**
  * AppCenterDelegate implementation in Swift.
@@ -93,14 +90,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 #endif
   }
 
-  func isPushEnabled() -> Bool {
-#if canImport(AppCenterPush)
-    return MSPush.isEnabled()
-#else
-    return false
-#endif
-  }
-
   func setAnalyticsEnabled(_ isEnabled: Bool) {
     MSACAnalytics.setEnabled(isEnabled)
   }
@@ -112,12 +101,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func setDistributeEnabled(_ isEnabled: Bool) {
 #if canImport(AppCenterDistribute)
     MSACDistribute.setEnabled(isEnabled)
-#endif
-  }
-
-  func setPushEnabled(_ isEnabled: Bool) {
-#if canImport(AppCenterPush)
-    MSPush.setEnabled(isEnabled)
 #endif
   }
 

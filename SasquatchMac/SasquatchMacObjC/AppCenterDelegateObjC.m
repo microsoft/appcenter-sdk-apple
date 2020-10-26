@@ -8,7 +8,6 @@
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
-@import AppCenterPush;
 
 /**
  * AppCenterDelegate implementation in Objective C.
@@ -67,20 +66,12 @@
   return [MSACCrashes isEnabled];
 }
 
-- (BOOL)isPushEnabled {
-  return [MSPush isEnabled];
-}
-
 - (void)setAnalyticsEnabled:(BOOL)isEnabled {
   return [MSACAnalytics setEnabled:isEnabled];
 }
 
 - (void)setCrashesEnabled:(BOOL)isEnabled {
   return [MSACCrashes setEnabled:isEnabled];
-}
-
-- (void)setPushEnabled:(BOOL)isEnabled {
-  return [MSPush setEnabled:isEnabled];
 }
 
 #pragma mark - MSACAnalytics section.
