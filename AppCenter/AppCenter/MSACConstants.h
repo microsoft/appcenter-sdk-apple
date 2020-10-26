@@ -52,7 +52,7 @@ typedef void (^MSACLogHandler)(MSACLogMessageProvider messageProvider, MSACLogLe
  * Channel priorities, check the kMSACPriorityCount if you add a new value.
  * The order matters here! Values NEED to range from low priority to high priority.
  */
-typedef NS_ENUM(NSInteger, MSACPriority) { MSACPriorityBackground, MSACPriorityDefault, MSACPriorityHigh };
+typedef NS_ENUM(NSInteger, MSACPriority) { MSACPriorityBackground, MSACPriorityDefault, MSACPriorityHigh } NS_SWIFT_NAME(Priority);
 static short const kMSACPriorityCount = MSACPriorityHigh + 1;
 
 /**
