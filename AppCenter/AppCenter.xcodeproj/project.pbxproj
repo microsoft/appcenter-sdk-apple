@@ -87,8 +87,13 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = C229D8AC2546E7E5001909F3 /* Build configuration list for PBXAggregateTarget "AppCenter" */;
 			buildPhases = (
+				C26F4E7C2546F406006E0EB7 /* Copy Products */,
 			);
 			dependencies = (
+				C26F4E712546F3ED006E0EB7 /* PBXTargetDependency */,
+				C26F4E732546F3ED006E0EB7 /* PBXTargetDependency */,
+				C26F4E772546F3ED006E0EB7 /* PBXTargetDependency */,
+				C26F4E792546F3ED006E0EB7 /* PBXTargetDependency */,
 			);
 			name = AppCenter;
 			productName = AppCenter;
@@ -1011,6 +1016,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91FFE230C05D70068070D;
 			remoteInfo = "AppCenter macOS Framework";
+		};
+		C26F4E702546F3ED006E0EB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8414DF7824599AF800B316C5;
+			remoteInfo = "AppCenter XCFramework";
+		};
+		C26F4E722546F3ED006E0EB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E6BFC311D234FAE00DF7617;
+			remoteInfo = "AppCenter iOS Documentation";
+		};
+		C26F4E762546F3ED006E0EB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD114C1EF2F5F0000C5A5C;
+			remoteInfo = "AppCenter macOS Documentation";
+		};
+		C26F4E782546F3ED006E0EB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E0400FB1D1C98220051BCFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04FD11671EF2FE1D000C5A5C;
+			remoteInfo = "AppCenter tvOS Documentation";
 		};
 		C28A8A4D230EDC0700C4CE43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2984,6 +3017,25 @@
 			shellScript = "DEVICE_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvos/$PRODUCT_NAME.framework\"\nSIMULATOR_FRAMEWORK=\"$BUILD_DIR/$CONFIGURATION-appletvsimulator/$PRODUCT_NAME.framework\"\n\"$SRCROOT/../Scripts/combine-frameworks.sh\" \"$DEVICE_FRAMEWORK\" \"$SIMULATOR_FRAMEWORK\" \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.framework\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C26F4E7C2546F406006E0EB7 /* Copy Products */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Products";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../Scripts/copy-products.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C2CB276A230EDE990076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3551,6 +3603,26 @@
 			isa = PBXTargetDependency;
 			target = C9A91FFE230C05D70068070D /* AppCenter macOS Framework */;
 			targetProxy = C26F4E592546F38B006E0EB7 /* PBXContainerItemProxy */;
+		};
+		C26F4E712546F3ED006E0EB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8414DF7824599AF800B316C5 /* AppCenter XCFramework */;
+			targetProxy = C26F4E702546F3ED006E0EB7 /* PBXContainerItemProxy */;
+		};
+		C26F4E732546F3ED006E0EB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E6BFC311D234FAE00DF7617 /* AppCenter iOS Documentation */;
+			targetProxy = C26F4E722546F3ED006E0EB7 /* PBXContainerItemProxy */;
+		};
+		C26F4E772546F3ED006E0EB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD114C1EF2F5F0000C5A5C /* AppCenter macOS Documentation */;
+			targetProxy = C26F4E762546F3ED006E0EB7 /* PBXContainerItemProxy */;
+		};
+		C26F4E792546F3ED006E0EB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04FD11671EF2FE1D000C5A5C /* AppCenter tvOS Documentation */;
+			targetProxy = C26F4E782546F3ED006E0EB7 /* PBXContainerItemProxy */;
 		};
 		C28A8A4E230EDC0700C4CE43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
