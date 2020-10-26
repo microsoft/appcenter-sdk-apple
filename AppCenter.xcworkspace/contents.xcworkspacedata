@@ -75,22 +75,34 @@
       location = "group:Scripts"
       name = "Scripts">
       <FileRef
-         location = "group:build-docs.sh">
+         location = "group:build-framework.sh">
       </FileRef>
       <FileRef
-         location = "group:build-ios-framework.sh">
+         location = "group:combine-frameworks.sh">
       </FileRef>
       <FileRef
-         location = "group:build-macos-framework.sh">
+         location = "group:combine-libraries.sh">
       </FileRef>
       <FileRef
-         location = "group:build-maccatalyst-framework.sh">
+         location = "group:combine-xcframework.sh">
       </FileRef>
       <FileRef
-         location = "group:build-tvos-framework.sh">
+         location = "group:create-archive.sh">
       </FileRef>
       <FileRef
-         location = "group:build-xcframework.sh">
+         location = "group:framework-version.sh">
+      </FileRef>
+      <FileRef
+         location = "group:/Users/ivan.matkov/Projects/AppCenter/AppCenter-SDK-Apple/Scripts/generate-documentation.sh">
+      </FileRef>
+      <FileRef
+         location = "group:get-release-notes.sh">
+      </FileRef>
+      <FileRef
+         location = "group:sort-schemes.sh">
+      </FileRef>
+      <FileRef
+         location = "group:update-version.sh">
       </FileRef>
       <FileRef
          location = "group:VerifyNoBuildSettings.swift">

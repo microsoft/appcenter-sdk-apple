@@ -4,7 +4,7 @@
 # Licensed under the MIT License.
 
 # Creates zip archives from frameworks.
-# Usage: build-archive.sh
+# Usage: create-archive.sh
 
 PROJECT_DIR="$(dirname "$0")/.."
 PRODUCT_NAME="AppCenter-SDK-Apple"
