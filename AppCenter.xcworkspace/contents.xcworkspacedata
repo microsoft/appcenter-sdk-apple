@@ -84,12 +84,6 @@
       location = "group:Scripts"
       name = "Scripts">
       <FileRef
-         location = "group:copy-products.sh">
-      </FileRef>
-      <FileRef
-         location = "group:generate-documentation.sh">
-      </FileRef>
-      <FileRef
          location = "group:build-framework.sh">
       </FileRef>
       <FileRef
@@ -102,10 +96,16 @@
          location = "group:combine-xcframework.sh">
       </FileRef>
       <FileRef
+         location = "group:copy-products.sh">
+      </FileRef>
+      <FileRef
          location = "group:create-archive.sh">
       </FileRef>
       <FileRef
          location = "group:framework-version.sh">
+      </FileRef>
+      <FileRef
+         location = "group:generate-documentation.sh">
       </FileRef>
       <FileRef
          location = "group:get-release-notes.sh">

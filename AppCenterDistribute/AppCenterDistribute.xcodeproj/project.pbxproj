@@ -915,13 +915,13 @@
 			);
 			projectRoot = "";
 			targets = (
+				324F3C5925478CE80006E223 /* AppCenterDistribute */,
+				845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */,
 				C9A91F8B230BFFFF0068070D /* AppCenterDistribute iOS Framework */,
 				04FD4A301E453531009B4468 /* AppCenterDistribute iOS Tests */,
 				04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Universal */,
 				04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */,
 				B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */,
-				845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */,
-				324F3C5925478CE80006E223 /* AppCenterDistribute */,
 			);
 		};
 /* End PBXProject section */

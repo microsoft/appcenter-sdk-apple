@@ -1693,6 +1693,8 @@
 			);
 			projectRoot = "";
 			targets = (
+				324F3C1B25478C780006E223 /* AppCenterCrashes */,
+				8414DF842459D41B00B316C5 /* AppCenterCrashes XCFramework */,
 				C9A91F49230BFD930068070D /* AppCenterCrashes iOS Framework */,
 				6E171AE01D22F781000DC480 /* AppCenterCrashes iOS Tests */,
 				6E3729771D1DE83200F1E4AE /* AppCenterCrashes iOS Universal */,
@@ -1704,8 +1706,6 @@
 				0446DF651F3B977100C8E338 /* AppCenterCrashes tvOS Tests */,
 				04EBBEE91F01C0E10006B8AE /* AppCenterCrashes tvOS Universal */,
 				04EBBEF11F01C7100006B8AE /* AppCenterCrashes tvOS Documentation */,
-				8414DF842459D41B00B316C5 /* AppCenterCrashes XCFramework */,
-				324F3C1B25478C780006E223 /* AppCenterCrashes */,
 			);
 		};
 /* End PBXProject section */
