@@ -11,7 +11,7 @@
  *
  * @return Returns YES to discard crash reports, otherwise NO.
  */
-typedef BOOL (^MSACUserConfirmationHandler)(NSArray<MSACErrorReport *> *_Nonnull errorReports);
+typedef BOOL (^MSACUserConfirmationHandler)(NSArray<MSACErrorReport *> *_Nonnull errorReports) NS_SWIFT_NAME(UserConfirmationHandler);
 
 /**
  * Error Logging status.
