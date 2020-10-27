@@ -84,6 +84,12 @@
       location = "group:Scripts"
       name = "Scripts">
       <FileRef
+         location = "group:copy-products.sh">
+      </FileRef>
+      <FileRef
+         location = "group:generate-documentation.sh">
+      </FileRef>
+      <FileRef
          location = "group:build-framework.sh">
       </FileRef>
       <FileRef
@@ -100,9 +106,6 @@
       </FileRef>
       <FileRef
          location = "group:framework-version.sh">
-      </FileRef>
-      <FileRef
-         location = "group:/Users/ivan.matkov/Projects/AppCenter/AppCenter-SDK-Apple/Scripts/generate-documentation.sh">
       </FileRef>
       <FileRef
          location = "group:get-release-notes.sh">
