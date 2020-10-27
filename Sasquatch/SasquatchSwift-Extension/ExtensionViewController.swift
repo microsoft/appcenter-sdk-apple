@@ -26,7 +26,7 @@ class ExtensionViewController: UIViewController, NCWidgetProviding, CrashesDeleg
     AppCenter.start(withAppSecret: "238d7788-8e63-478f-a747-33444bdadbda", services: [Crashes.self])
   }
   
-    func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
+  func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
     if (attachementsSwitch.isOn) {
       let attachment1 = ErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
       let attachment2 = ErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
