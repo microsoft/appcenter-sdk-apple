@@ -229,7 +229,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   return [[MSACCrashes sharedInstance] didCrashInLastSession];
 }
 
-+ (_Nullable MSACUserConfirmationHandler)userConfirmationHandler {
++ (MSACUserConfirmationHandler)userConfirmationHandler {
   return [MSACCrashes sharedInstance].userConfirmationHandler;
 }
 
@@ -237,7 +237,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   return [[MSACCrashes sharedInstance] didReceiveMemoryWarningInLastSession];
 }
 
-+ (void)setUserConfirmationHandler:(_Nullable MSACUserConfirmationHandler)userConfirmationHandler {
++ (void)setUserConfirmationHandler:(MSACUserConfirmationHandler)userConfirmationHandler {
   [[MSACCrashes sharedInstance] setUserConfirmationHandler:userConfirmationHandler];
 }
 
@@ -276,11 +276,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   [[MSACCrashes sharedInstance] setEnableMachExceptionHandler:NO];
 }
 
-+ (_Nullable id<MSACCrashesDelegate>)delegate {
++ (id<MSACCrashesDelegate>)delegate {
   return [MSACCrashes sharedInstance].delegate;
 }
 
-+ (void)setDelegate:(_Nullable id<MSACCrashesDelegate>)delegate {
++ (void)setDelegate:(id<MSACCrashesDelegate>)delegate {
   [[MSACCrashes sharedInstance] setDelegate:delegate];
 }
 

@@ -256,11 +256,11 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
   self.ingestion.appSecret = appSecret;
 }
 
-- (NSString *_Nullable)appSecret {
+- (NSString *)appSecret {
   return self.ingestion.appSecret;
 }
 
-- (NSString *_Nullable)logUrl {
+- (NSString *)logUrl {
   return self.ingestion.baseURL;
 }
 

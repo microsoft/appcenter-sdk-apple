@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
  * @see releaseAvailableWithDetails:
  * @see notifyUpdateAction:
  */
-@property(class, nonatomic, weak, setter=setDelegate:) id<MSACDistributeDelegate> delegate;
+@property(class, nonatomic, weak) id<MSACDistributeDelegate> _Nullable delegate;
 
 /**
  * URL that is used for generic update related tasks.
