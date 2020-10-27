@@ -5,7 +5,7 @@
 ### App Center
 
 * **[Feature]** **[Breaking change]** Make SDK API more Swift-friendly. You can find the API updates in the [swift migration table](https://docs.microsoft.com/appcenter/sdk/getting-started/migration/apple-sdk-update#swift-api-changes).
-* **[Breaking change]** In order to avoid a naming conflict with classes in Apple's private frameworks, we now use "MSAC" prefix instead of "MS". Please follow the [migration guide](https://docs.microsoft.com/appcenter/sdk/getting-started/migration/apple-sdk-update) for adopting the new naming.
+* **[Breaking change]** The App Center prefix `MS` in Objective-C is consolidated to `MSAC` for collision prevention. Please follow the [migration guide](https://docs.microsoft.com/appcenter/sdk/getting-started/migration/apple-sdk-update) for adopting the new naming.
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
 * **[Fix]** Fix `NSDateFormatter` initialization in a concurrent environment.
 
