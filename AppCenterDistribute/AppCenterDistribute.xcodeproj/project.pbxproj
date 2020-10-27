@@ -870,6 +870,9 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
+					324F3C5925478CE80006E223 = {
+						ProvisioningStyle = Automatic;
+					};
 					C9A91F8B230BFFFF0068070D = {
 						CreatedOnToolsVersion = 10.2.1;
 						ProvisioningStyle = Automatic;
@@ -1330,14 +1333,14 @@
 		};
 		04FD4A2A1E451E90009B4468 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 324F3BAF25478A3F0006E223 /* iOS Universal.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		04FD4A2B1E451E90009B4468 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 049BC8221ECE349200FB6719 /* iOS.xcconfig */;
+			baseConfigurationReference = 324F3BAF25478A3F0006E223 /* iOS Universal.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
@@ -1373,25 +1376,27 @@
 		324F3C5E25478CE80006E223 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Debug;
 		};
 		324F3C5F25478CE80006E223 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Release;
 		};
 		845017E1245ADB360026E0DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 324F3BAE25478A3F0006E223 /* XCFramework.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		845017E2245ADB360026E0DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 324F3BAE25478A3F0006E223 /* XCFramework.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
