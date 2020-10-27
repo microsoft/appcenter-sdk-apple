@@ -8,6 +8,9 @@ set -e
 PRODUCTS_DIR="${SRCROOT}/../AppCenter-SDK-Apple"
 
 copy_framework() {
+  if [ ! -e "$1/${PROJECT_NAME}.$3" ]; then
+    return
+  fi
   rm -rf "$2/${PROJECT_NAME}.$3"
   mkdir -p "$2"
   cp -RHv "$1/${PROJECT_NAME}.$3" "$2"

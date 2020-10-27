@@ -28,7 +28,6 @@
 				04FD4A401E4536B0009B4468 /* Generate Documentation */,
 			);
 			dependencies = (
-				0471B9361E4556570022F951 /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute iOS Documentation";
 			productName = "Jazzy Docs";
@@ -40,7 +39,6 @@
 				324F3C5C25478CE80006E223 /* Copy Products */,
 			);
 			dependencies = (
-				324F3C7825478D060006E223 /* PBXTargetDependency */,
 				324F3C7625478D030006E223 /* PBXTargetDependency */,
 			);
 			name = AppCenterDistribute;
@@ -146,26 +144,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0471B9351E4556570022F951 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD4A281E451E90009B4468;
-			remoteInfo = "Fat Framework";
-		};
 		324F3C7525478D030006E223 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 845017DC245ADB360026E0DB;
 			remoteInfo = "AppCenterDistribute XCFramework";
-		};
-		324F3C7725478D060006E223 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD4A3C1E453640009B4468;
-			remoteInfo = "AppCenterDistribute iOS Documentation";
 		};
 		B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1244,20 +1228,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0471B9361E4556570022F951 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04FD4A281E451E90009B4468 /* AppCenterDistribute iOS Universal */;
-			targetProxy = 0471B9351E4556570022F951 /* PBXContainerItemProxy */;
-		};
 		324F3C7625478D030006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */;
 			targetProxy = 324F3C7525478D030006E223 /* PBXContainerItemProxy */;
-		};
-		324F3C7825478D060006E223 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04FD4A3C1E453640009B4468 /* AppCenterDistribute iOS Documentation */;
-			targetProxy = 324F3C7725478D060006E223 /* PBXContainerItemProxy */;
 		};
 		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

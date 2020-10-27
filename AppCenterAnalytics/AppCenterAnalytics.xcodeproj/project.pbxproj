@@ -38,7 +38,6 @@
 				04FD11731EF2FE43000C5A5C /* Generate Documentation */,
 			);
 			dependencies = (
-				04FD11781EF2FE5B000C5A5C /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics tvOS Documentation";
 			productName = "Jazzy Docs";
@@ -51,9 +50,6 @@
 			);
 			dependencies = (
 				324F3C1425478C200006E223 /* PBXTargetDependency */,
-				324F3C1A25478C290006E223 /* PBXTargetDependency */,
-				324F3C1825478C250006E223 /* PBXTargetDependency */,
-				324F3C1625478C230006E223 /* PBXTargetDependency */,
 			);
 			name = AppCenterAnalytics;
 			productName = "Fat Framework";
@@ -93,7 +89,6 @@
 				E85547ED1D2D68CF002DF6E2 /* Generate Documentation */,
 			);
 			dependencies = (
-				386352E41D51047400D0D450 /* PBXTargetDependency */,
 			);
 			name = "AppCenterAnalytics iOS Documentation";
 			productName = "Jazzy Docs";
@@ -293,13 +288,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0431216D1EE0C213007054C5;
-			remoteInfo = "Fat Framework";
-		};
 		324F3BA62547854D0006E223 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -313,34 +301,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8414DF7E2459D3C500B316C5;
 			remoteInfo = "AppCenterAnalytics XCFramework";
-		};
-		324F3C1525478C230006E223 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547E91D2D68C5002DF6E2;
-			remoteInfo = "AppCenterAnalytics iOS Documentation";
-		};
-		324F3C1725478C250006E223 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD11551EF2F818000C5A5C;
-			remoteInfo = "AppCenterAnalytics macOS Documentation";
-		};
-		324F3C1925478C290006E223 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04FD11701EF2FE43000C5A5C;
-			remoteInfo = "AppCenterAnalytics tvOS Documentation";
-		};
-		386352E31D51047400D0D450 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E85547E41D2D681F002DF6E2;
-			remoteInfo = "Fat Framework";
 		};
 		C2392F0924642C8700425640 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1746,11 +1706,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		04FD11781EF2FE5B000C5A5C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0431216D1EE0C213007054C5 /* AppCenterAnalytics tvOS Universal */;
-			targetProxy = 04FD11771EF2FE5B000C5A5C /* PBXContainerItemProxy */;
-		};
 		324F3BA72547854D0006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C9A91F36230BFB970068070D /* AppCenterAnalytics macOS Framework */;
@@ -1760,26 +1715,6 @@
 			isa = PBXTargetDependency;
 			target = 8414DF7E2459D3C500B316C5 /* AppCenterAnalytics XCFramework */;
 			targetProxy = 324F3C1325478C200006E223 /* PBXContainerItemProxy */;
-		};
-		324F3C1625478C230006E223 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E85547E91D2D68C5002DF6E2 /* AppCenterAnalytics iOS Documentation */;
-			targetProxy = 324F3C1525478C230006E223 /* PBXContainerItemProxy */;
-		};
-		324F3C1825478C250006E223 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04FD11551EF2F818000C5A5C /* AppCenterAnalytics macOS Documentation */;
-			targetProxy = 324F3C1725478C250006E223 /* PBXContainerItemProxy */;
-		};
-		324F3C1A25478C290006E223 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04FD11701EF2FE43000C5A5C /* AppCenterAnalytics tvOS Documentation */;
-			targetProxy = 324F3C1925478C290006E223 /* PBXContainerItemProxy */;
-		};
-		386352E41D51047400D0D450 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E85547E41D2D681F002DF6E2 /* AppCenterAnalytics iOS Universal */;
-			targetProxy = 386352E31D51047400D0D450 /* PBXContainerItemProxy */;
 		};
 		C2392F6024642D3300425640 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

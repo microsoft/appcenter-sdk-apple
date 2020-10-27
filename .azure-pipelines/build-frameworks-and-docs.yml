@@ -33,13 +33,19 @@ jobs:
     displayName: 'Install Jazzy'
 
   - task: Xcode@5
-    displayName: Build
+    displayName: Build App Center Frameworks
     inputs:
       xcWorkspacePath: AppCenter.xcworkspace
-      scheme: 'All Frameworks+Documentation'
+      scheme: 'All App Center Frameworks'
       xcodeVersion: specifyPath
       xcodeDeveloperDir: '$(XCODE_PATH)'
     timeoutInMinutes: 15
+
+  - task: Xcode@5
+    displayName: Generate App Center Documentation
+    inputs:
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: 'All App Center Documentation'
 
   - task: Bash@3
     displayName: Archive
