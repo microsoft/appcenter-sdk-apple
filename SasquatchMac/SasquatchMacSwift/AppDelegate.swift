@@ -140,7 +140,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
   }
   // Crashes Delegate
 
-  func crashes(_ crashes: Crashes!, shouldProcessErrorReport errorReport: ErrorReport!) -> Bool {
+  func crashes(_ crashes: Crashes!, shouldProcess errorReport: ErrorReport!) -> Bool {
     if errorReport.exceptionReason != nil {
       NSLog("Should process error report with: %@", errorReport.exceptionReason);
     }

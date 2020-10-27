@@ -202,7 +202,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
 
   // Crashes Delegate
 
-  func crashes(_ crashes: Crashes!, shouldProcessErrorReport errorReport: ErrorReport!) -> Bool {
+  func crashes(_ crashes: Crashes!, shouldProcess errorReport: ErrorReport!) -> Bool {
 
     // return true if the crash report should be processed, otherwise false.
     return true

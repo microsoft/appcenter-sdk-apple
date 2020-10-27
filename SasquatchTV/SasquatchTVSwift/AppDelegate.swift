@@ -62,7 +62,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
   }
 
   // Crashes Delegate
-  func crashes(_ crashes: Crashes!, shouldProcessErrorReport errorReport: ErrorReport!) -> Bool {
+  func crashes(_ crashes: Crashes!, shouldProcess errorReport: ErrorReport!) -> Bool {
     return true
   }
 
