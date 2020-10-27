@@ -22,7 +22,7 @@ NS_SWIFT_NAME(CrashesDelegate)
  *
  * @discussion Crashes will send logs to the server or discard/delete logs based on this method's return value.
  */
-- (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport;
+- (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport NS_SWIFT_NAME(crashes(_:shouldProcess:));
 
 /**
  * Callback method that will be called before each error will be send to the server.
@@ -32,7 +32,7 @@ NS_SWIFT_NAME(CrashesDelegate)
  *
  * @discussion Use this callback to display custom UI while crashes are sent to the server.
  */
-- (void)crashes:(MSACCrashes *)crashes willSendErrorReport:(MSACErrorReport *)errorReport;
+- (void)crashes:(MSACCrashes *)crashes willSendErrorReport:(MSACErrorReport *)errorReport NS_SWIFT_NAME(crashes(_:willSend:));
 
 /**
  * Callback method that will be called after the SDK successfully sent an error report to the server.
@@ -42,7 +42,7 @@ NS_SWIFT_NAME(CrashesDelegate)
  *
  * @discussion Use this method to hide your custom UI.
  */
-- (void)crashes:(MSACCrashes *)crashes didSucceedSendingErrorReport:(MSACErrorReport *)errorReport;
+- (void)crashes:(MSACCrashes *)crashes didSucceedSendingErrorReport:(MSACErrorReport *)errorReport NS_SWIFT_NAME(crashes(_:didSucceedSending:));
 
 /**
  * Callback method that will be called in case the SDK was unable to send an error report to the server.
@@ -63,7 +63,7 @@ NS_SWIFT_NAME(CrashesDelegate)
  *
  * @discussion Implement this method if you want attachments to the given error report.
  */
-- (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport;
+- (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport NS_SWIFT_NAME(attachments(with:for:));
 
 @end
 

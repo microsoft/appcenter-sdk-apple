@@ -20,6 +20,6 @@ NS_SWIFT_NAME(DistributeDelegate)
  *
  * @see [MSACDistribute notifyUpdateAction:]
  */
-- (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details;
+- (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details NS_SWIFT_NAME(distribute(_:releaseAvailableWith:));
 
 @end
