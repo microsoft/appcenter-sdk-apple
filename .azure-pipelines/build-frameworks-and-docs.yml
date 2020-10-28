@@ -13,7 +13,10 @@ pool:
 variables:
   Configuration: Release
   SDK:
-  XCODE_PATH: '/Applications/Xcode_12.2.app/Contents/Developer'
+
+  # Xcode 11.3.1 version is the last one that has compatible bitcode with Xcode 11.0 (minimal supported).
+  XCODE_PATH: '/Applications/Xcode_11.3.1.app/Contents/Developer'
+  APPLE_SILICON_XCODE_PATH: '/Applications/Xcode_12.2.app/Contents/Developer'
 
 jobs:
 - job:
@@ -39,7 +42,12 @@ jobs:
       scheme: 'All App Center Frameworks'
       xcodeVersion: specifyPath
       xcodeDeveloperDir: '$(XCODE_PATH)'
+      args: 'SYMROOT="$(Build.BinariesDirectory)"'
     timeoutInMinutes: 15
+
+  - template: build-apple-silicon-framework-template.yml
+    parameters:
+      modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
 
   - task: Xcode@5
     displayName: Generate App Center Documentation
