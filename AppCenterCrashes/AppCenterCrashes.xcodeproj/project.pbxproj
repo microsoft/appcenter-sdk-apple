@@ -1996,6 +1996,7 @@
 			);
 			name = "Build tvOS Device Framework";
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2045,6 +2046,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2059,11 +2061,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterCrashes.framework",
+				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterCrashes.framework",
 			);
 			name = "Combine iOS Universal Framework";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				$BUILT_PRODUCTS_DIR/AppCenterCrashes.framework,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2102,6 +2107,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2116,11 +2122,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterCrashes.framework",
+				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterCrashes.framework",
 			);
 			name = "Combine tvOS Universal Framework";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				$BUILT_PRODUCTS_DIR/AppCenterCrashes.framework,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2136,6 +2145,7 @@
 			);
 			name = "Build iOS Device Framework";
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2162,7 +2172,15 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
+				$BUILD_DIR/$CONFIGURATION/AppCenterCrashes.framework,
+				"$BUILD_DIR/$CONFIGURATION-maccatalyst/AppCenterCrashes.framework",
+				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterCrashes.framework",
+				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterCrashes.framework",
+				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterCrashes.framework",
+				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterCrashes.framework",
 			);
 			name = "Combine XCFramework";
 			outputPaths = (
@@ -2242,6 +2260,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-maccatalyst/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

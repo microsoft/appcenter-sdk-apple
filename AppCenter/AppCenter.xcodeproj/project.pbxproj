@@ -2838,7 +2838,12 @@
 			files = (
 			);
 			inputPaths = (
-				"",
+				$BUILD_DIR/$CONFIGURATION/AppCenter.framework,
+				"$BUILD_DIR/$CONFIGURATION-maccatalyst/AppCenter.framework",
+				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenter.framework",
+				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenter.framework",
+				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenter.framework",
+				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenter.framework",
 			);
 			name = "Combine XCFramework";
 			outputPaths = (
@@ -2876,6 +2881,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2895,6 +2901,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2909,11 +2916,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenter.framework",
+				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenter.framework",
 			);
 			name = "Combine iOS Universal Framework";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				$BUILT_PRODUCTS_DIR/AppCenter.framework,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2933,6 +2943,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2952,6 +2963,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2966,11 +2978,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenter.framework",
+				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenter.framework",
 			);
 			name = "Combine tvOS Universal Framework";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				$BUILT_PRODUCTS_DIR/AppCenter.framework,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3066,6 +3081,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$BUILD_DIR/$CONFIGURATION-maccatalyst/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
