@@ -47,7 +47,7 @@ jobs:
 
   - template: build-apple-silicon-framework-template.yml
     parameters:
-      modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
+      modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute ]
 
   - task: Xcode@5
     displayName: Generate App Center Documentation

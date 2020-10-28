@@ -4,19 +4,72 @@ parameters:
 
 steps:
 - ${{ each module in parameters.modules }}:
+  - ${{ if ne(module, 'AppCenterDistribute') }}:
+    - task: Xcode@5
+      displayName: ${{ format('Build {0} macOS Framework for Apple Silicon', module) }}
+      inputs:
+        xcWorkspacePath: AppCenter.xcworkspace
+        scheme: '${{ module }} macOS Framework'
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
+        args: 'SYMROOT="$(Build.BinariesDirectory)"'
+
+    - task: Xcode@5
+      displayName: ${{ format('Build {0} Mac Catalyst for Apple Silicon', module) }}
+      inputs:
+        xcWorkspacePath: AppCenter.xcworkspace
+        scheme: '${{ module }} iOS Framework'
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
+        destinationPlatformOption: macOS
+        args: 'SYMROOT="$(Build.BinariesDirectory)" ONLY_ACTIVE_ARCH=NO ARCHS=arm64'
+
+    - task: Xcode@5
+      displayName: ${{ format('Build {0} tvOS for Simulators on Apple Silicon', module) }}
+      inputs:
+        xcWorkspacePath: AppCenter.xcworkspace
+        scheme: '${{ module }} tvOS Framework'
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
+        destinationPlatformOption: tvOS
+        destinationTypeOption: simulators
+        destinationSimulators: 'Apple TV'
+        args: 'SYMROOT="$(Build.BinariesDirectory)" ONLY_ACTIVE_ARCH=NO ARCHS=arm64'
+
   - task: Xcode@5
-    displayName: ${{ format('Build {0} macOS Framework for Apple Silicon', module) }}
+    displayName: ${{ format('Build {0} iOS for Simulators on Apple Silicon', module) }}
     inputs:
       xcWorkspacePath: AppCenter.xcworkspace
-      scheme: '${{ module }} macOS Framework'
+      scheme: '${{ module }} iOS Framework'
       xcodeVersion: specifyPath
       xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
-      args: 'SYMROOT="$(Build.BinariesDirectory)"'
+      destinationPlatformOption: iOS
+      destinationTypeOption: simulators
+      destinationSimulators: 'iPhone 11'
+      args: 'SYMROOT="$(Build.BinariesDirectory)" ONLY_ACTIVE_ARCH=NO ARCHS=arm64'
 
   - bash: |
-      rm -rf "AppCenter-SDK-Apple/macOS/${{ module }}.framework"
-      cp -R "$BUILD_BINARIESDIRECTORY/Release/${{ module }}.framework" "AppCenter-SDK-Apple/macOS"
-      lipo -info "AppCenter-SDK-Apple/macOS/${{ module }}.framework/${{ module }}"
+      if [ -e "AppCenter-SDK-Apple/macOS/${{ module }}.framework" ]; then
+        rm -rf "AppCenter-SDK-Apple/macOS/${{ module }}.framework"
+        cp -R "$BUILD_BINARIESDIRECTORY/Release/${{ module }}.framework" "AppCenter-SDK-Apple/macOS"
+        lipo -info "AppCenter-SDK-Apple/macOS/${{ module }}.framework/${{ module }}"
+        rm -rf "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/macos-x86_64/${{ module }}.framework"
+        cp -R "$BUILD_BINARIESDIRECTORY/Release/${{ module }}.framework" "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/macos-x86_64"
+      fi
+
+      append_to_xcframework() {
+        if [ -e "$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework" ]; then
+          lipo "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework/${{ module }}" \
+            "$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework/${{ module }}" \
+            -create -output "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework/${{ module }}"
+          lipo -info "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework/${{ module }}"
+        else
+          echo "\"$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework\" doesn't exist."
+        fi
+      }
+      append_to_xcframework ios-i386_x86_64-simulator iphonesimulator
+      append_to_xcframework ios-x86_64-maccatalyst maccatalyst
+      append_to_xcframework tvos-x86_64-simulator appletvsimulator
 
       rm -rf "AppCenter-SDK-Apple/XCFramework/${{ module }}.xcframework"
       for framework in $BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/*/${{ module }}.framework; do
