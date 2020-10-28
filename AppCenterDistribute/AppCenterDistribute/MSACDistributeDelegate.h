@@ -24,6 +24,6 @@ NS_SWIFT_NAME(DistributeDelegate)
  */
 - (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details;
 
-NS_ASSUME_NONNULL_END
-
 @end
+
+NS_ASSUME_NONNULL_END
