@@ -5,6 +5,9 @@
 
 @class MSACDistribute;
 
+NS_ASSUME_NONNULL_BEGIN
+
+NS_SWIFT_NAME(DistributeDelegate)
 @protocol MSACDistributeDelegate <NSObject>
 
 @optional
@@ -22,3 +25,5 @@
 - (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details;
 
 @end
+
+NS_ASSUME_NONNULL_END

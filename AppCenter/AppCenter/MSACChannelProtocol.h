@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  * `MSACChannelProtocol` contains the essential operations of a channel. Channels are broadly responsible for enqueuing logs to be sent to
  * the backend and/or stored on disk.
  */
+NS_SWIFT_NAME(ChannelProtocol)
 @protocol MSACChannelProtocol <NSObject, MSACEnable>
 
 /**

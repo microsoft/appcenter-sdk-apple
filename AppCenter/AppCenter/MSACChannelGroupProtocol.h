@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  * `MSACChannelGroupProtocol` represents a kind of channel that contains constituent MSACChannelUnit objects. When an operation from the
  * `MSACChannelProtocol` is performed on the group, that operation should be propagated to its constituent MSACChannelUnit objects.
  */
+NS_SWIFT_NAME(ChannelGroupProtocol)
 @protocol MSACChannelGroupProtocol <MSACChannelProtocol>
 
 /**
@@ -28,7 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The added `MSACChannelUnitProtocol`. Use this object to enqueue logs.
  */
-- (id<MSACChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSACChannelUnitConfiguration *)configuration;
+- (id<MSACChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSACChannelUnitConfiguration *)configuration
+    NS_SWIFT_NAME(addChannelUnit(withConfiguration:));
 
 /**
  * Initialize a channel unit with the given configuration.
@@ -39,21 +41,18 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The added `MSACChannelUnitProtocol`. Use this object to enqueue logs.
  */
 - (id<MSACChannelUnitProtocol>)addChannelUnitWithConfiguration:(MSACChannelUnitConfiguration *)configuration
-                                                 withIngestion:(nullable id<MSACIngestionProtocol>)ingestion;
+                                                 withIngestion:(nullable id<MSACIngestionProtocol>)ingestion
+    NS_SWIFT_NAME(addChannelUnit(_:ingestion:));
 
 /**
  * Change the base URL (schema + authority + port only) used to communicate with the backend.
- *
- * @param logUrl base URL to use for backend communication.
  */
-- (void)setLogUrl:(NSString *)logUrl;
+@property(nonatomic) NSString *_Nullable logUrl;
 
 /**
  * Set the app secret.
- *
- * @param appSecret The app secret.
  */
-- (void)setAppSecret:(NSString *)appSecret;
+@property(nonatomic) NSString *_Nullable appSecret;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started.
@@ -65,7 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @param completionHandler Callback that is invoked when the database size has been set. The `BOOL` parameter is `YES` if changing the size
  * is successful, and `NO` otherwise.
  */
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler;
+- (void)setMaxStorageSize:(long)sizeInBytes
+        completionHandler:(nullable void (^)(BOOL))completionHandler NS_SWIFT_NAME(setMaxStorageSize(_:completionHandler:));
 
 /**
  * Return a channel unit instance for the given groupId.

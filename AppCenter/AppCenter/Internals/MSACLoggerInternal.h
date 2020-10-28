@@ -16,6 +16,8 @@ FOUNDATION_EXPORT MSACLogHandler const msDefaultLogHandler;
 
 + (MSACLogLevel)currentLogLevel;
 
++ (MSACLogHandler)logHandler;
+
 + (void)setCurrentLogLevel:(MSACLogLevel)currentLogLevel;
 
 + (void)setLogHandler:(MSACLogHandler)logHandler;

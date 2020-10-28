@@ -203,7 +203,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 @implementation MSACCrashes
 
-@synthesize delegate = _delegate;
 @synthesize channelGroup = _channelGroup;
 @synthesize channelUnitConfiguration = _channelUnitConfiguration;
 
@@ -230,11 +229,15 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   return [[MSACCrashes sharedInstance] didCrashInLastSession];
 }
 
++ (MSACUserConfirmationHandler)userConfirmationHandler {
+  return [MSACCrashes sharedInstance].userConfirmationHandler;
+}
+
 + (BOOL)hasReceivedMemoryWarningInLastSession {
   return [[MSACCrashes sharedInstance] didReceiveMemoryWarningInLastSession];
 }
 
-+ (void)setUserConfirmationHandler:(_Nullable MSACUserConfirmationHandler)userConfirmationHandler {
++ (void)setUserConfirmationHandler:(MSACUserConfirmationHandler)userConfirmationHandler {
   [[MSACCrashes sharedInstance] setUserConfirmationHandler:userConfirmationHandler];
 }
 
@@ -273,7 +276,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   [[MSACCrashes sharedInstance] setEnableMachExceptionHandler:NO];
 }
 
-+ (void)setDelegate:(_Nullable id<MSACCrashesDelegate>)delegate {
++ (id<MSACCrashesDelegate>)delegate {
+  return [MSACCrashes sharedInstance].delegate;
+}
+
++ (void)setDelegate:(id<MSACCrashesDelegate>)delegate {
   [[MSACCrashes sharedInstance] setDelegate:delegate];
 }
 
@@ -344,7 +351,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
   // Enabling.
   if (isEnabled) {
-    id<MSACCrashHandlerSetupDelegate> crashSetupDelegate = [MSACWrapperCrashesHelper getCrashHandlerSetupDelegate];
+    id<MSACCrashHandlerSetupDelegate> crashSetupDelegate = [MSACWrapperCrashesHelper crashHandlerSetupDelegate];
 
     // Check if a wrapper SDK has a preference for uncaught exception handling.
     BOOL enableUncaughtExceptionHandler = YES;

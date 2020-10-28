@@ -8,8 +8,10 @@
 /**
  * Completion handler that returns the authentication token and the expiry date.
  */
-typedef void (^MSACAnalyticsAuthenticationProviderCompletionBlock)(NSString *token, NSDate *expiryDate);
+typedef void (^MSACAnalyticsAuthenticationProviderCompletionBlock)(NSString *token, NSDate *expiryDate)
+    NS_SWIFT_NAME(AnalyticsAuthenticationProviderCompletionBlock);
 
+NS_SWIFT_NAME(AnalyticsAuthenticationProviderDelegate)
 @protocol MSACAnalyticsAuthenticationProviderDelegate <NSObject>
 
 /**

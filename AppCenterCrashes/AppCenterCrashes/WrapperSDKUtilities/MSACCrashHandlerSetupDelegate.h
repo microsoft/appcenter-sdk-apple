@@ -6,6 +6,7 @@
 /**
  * This is required for Wrapper SDKs that need to provide custom behavior surrounding the setup of crash handlers.
  */
+NS_SWIFT_NAME(CrashHandlerSetupDelegate)
 @protocol MSACCrashHandlerSetupDelegate <NSObject>
 
 @optional
