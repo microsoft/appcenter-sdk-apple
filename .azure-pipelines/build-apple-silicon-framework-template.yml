@@ -58,14 +58,16 @@ steps:
       fi
 
       append_to_xcframework() {
-        if [ -e "$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework" ]; then
-          lipo "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework/${{ module }}" \
-            "$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework/${{ module }}" \
-            -create -output "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework/${{ module }}"
-          lipo -info "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework/${{ module }}"
-        else
-          echo "\"$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework\" doesn't exist."
+        if [ ! -e "$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework" ]; then
+          return 1
         fi
+        local framework="$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework"
+        local binary="$framework/Versions/A/${{ module }}"
+        [[ ! -e "$binary" ]] && binary="$framework/${{ module }}"
+        lipo "$binary" \
+          "$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework/${{ module }}" \
+          -create -output "$binary"
+        lipo -info "$binary"
       }
       append_to_xcframework ios-i386_x86_64-simulator iphonesimulator
       append_to_xcframework ios-x86_64-maccatalyst maccatalyst
