@@ -51,7 +51,7 @@ jobs:
     displayName: Archive
     inputs:
       targetType: filePath
-      filePath: './Scripts/build-archive.sh'
+      filePath: './Scripts/create-archive.sh'
 
   - task: CopyFiles@2
     displayName: 'Copy Archives to Staging Directory'

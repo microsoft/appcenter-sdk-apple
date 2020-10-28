@@ -21,7 +21,7 @@ if [ ! -d "$PRODUCTS_DIR/iOS" ] || [ ! -d "$PRODUCTS_DIR/macOS" ] || \
 fi
 
 # Check if resource bundles are there.
-if [ ! -d "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" ] || \
+if [ ! -d "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle" ] || \
     [ ! -d "$PRODUCTS_DIR/XCFramework/AppCenterDistributeResources.bundle" ]; then
   echo "Cannot find resource bundles to archive, please run build first"
   exit 1
@@ -138,13 +138,13 @@ function archive() {
 # Get current version.
 VERSION="$($(dirname "$0")/framework-version.sh)"
 
-# Archive fat frameworks for CocoaPods.
-archive "$PRODUCT_NAME-$VERSION.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
-
 # Archive fat frameworks for Carthage.
-mv "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework"
 archive "$PRODUCT_NAME-$VERSION.carthage.framework.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
+
+# Archive fat frameworks for CocoaPods.
 mv "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle" "$PRODUCTS_DIR/iOS"
+archive "$PRODUCT_NAME-$VERSION.zip" "$PRODUCT_NAME/iOS" "$PRODUCT_NAME/macOS" "$PRODUCT_NAME/tvOS"
+mv "$PRODUCTS_DIR/iOS/AppCenterDistributeResources.bundle" "$PRODUCTS_DIR/iOS/AppCenterDistribute.framework"
 
 # Archive XCFrameworks.
 archive "$PRODUCT_NAME-XCFramework-$VERSION.zip" $(cd "$PROJECT_DIR" && ls -d "$PRODUCT_NAME/XCFramework"/*)
