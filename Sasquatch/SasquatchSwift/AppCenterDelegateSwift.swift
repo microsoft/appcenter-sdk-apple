@@ -203,7 +203,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     if (Distribute.responds(to: sharedInstanceSelector)) {
       let distributeInstance = Distribute.perform(sharedInstanceSelector).takeUnretainedValue()
       let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
-      _ = distriuteDelegate.distribute?(distributeInstance as? Distribute, releaseAvailableWith: releaseDetails)
+      _ = distriuteDelegate.distribute?(distributeInstance as! Distribute, releaseAvailableWith: releaseDetails)
     }
 #endif
   }

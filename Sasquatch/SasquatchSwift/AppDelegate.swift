@@ -202,19 +202,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
 
   // Crashes Delegate
 
-  func crashes(_ crashes: Crashes!, shouldProcess errorReport: ErrorReport!) -> Bool {
+  func crashes(_ crashes: Crashes, shouldProcess errorReport: ErrorReport) -> Bool {
 
     // return true if the crash report should be processed, otherwise false.
     return true
   }
 
-  func crashes(_ crashes: Crashes!, willSend errorReport: ErrorReport!) {
+  func crashes(_ crashes: Crashes, willSend errorReport: ErrorReport) {
   }
 
-  func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
+  func crashes(_ crashes: Crashes, didSucceedSending errorReport: ErrorReport) {
   }
 
-  func crashes(_ crashes: Crashes!, didFailSending errorReport: ErrorReport!, withError error: Error!) {
+  func crashes(_ crashes: Crashes, didFailSending errorReport: ErrorReport, withError error: Error) {
   }
 
   func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
@@ -291,7 +291,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
 #if canImport(AppCenterDistribute)
 
 extension AppDelegate: DistributeDelegate {
-  func distribute(_ distribute: Distribute!, releaseAvailableWith details: ReleaseDetails!) -> Bool {
+  func distribute(_ distribute: Distribute, releaseAvailableWith details: ReleaseDetails) -> Bool {
     if UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey) {
 
       // Show a dialog to the user where they can choose if they want to update.
