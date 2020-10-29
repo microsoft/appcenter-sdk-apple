@@ -269,6 +269,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   return [MSACAnalytics sharedInstance].autoPageTrackingEnabled;
 }
 
++ (NSUInteger)transmissionInterval {
+  return [MSACAnalytics sharedInstance].flushInterval;
+}
+
 + (void)setTransmissionInterval:(NSUInteger)interval {
   [[MSACAnalytics sharedInstance] setTransmissionInterval:interval];
 }

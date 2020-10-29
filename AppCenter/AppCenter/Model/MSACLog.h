@@ -8,6 +8,7 @@
 
 @class MSACDevice;
 
+NS_SWIFT_NAME(Log)
 @protocol MSACLog <NSObject>
 
 /**

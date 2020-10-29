@@ -29,8 +29,12 @@
   [[MSACWrapperCrashesHelper sharedInstance] setCrashHandlerSetupDelegate:delegate];
 }
 
++ (id<MSACCrashHandlerSetupDelegate>)crashHandlerSetupDelegate {
+  return [MSACWrapperCrashesHelper sharedInstance].crashHandlerSetupDelegate;
+}
+
 + (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate {
-  return [[MSACWrapperCrashesHelper sharedInstance] crashHandlerSetupDelegate];
+  return [MSACWrapperCrashesHelper sharedInstance].crashHandlerSetupDelegate;
 }
 
 /**
@@ -38,6 +42,10 @@
  */
 + (void)setAutomaticProcessing:(BOOL)automaticProcessing {
   [[MSACCrashes sharedInstance] setAutomaticProcessingEnabled:automaticProcessing];
+}
+
++ (BOOL)automaticProcessing {
+  return [MSACCrashes sharedInstance].isAutomaticProcessingEnabled;
 }
 
 /**

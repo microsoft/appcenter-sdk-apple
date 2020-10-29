@@ -11,6 +11,7 @@
 @class MSACCustomProperties;
 #endif
 
+NS_SWIFT_NAME(AppCenter)
 @interface MSACAppCenter : NSObject
 
 /**
@@ -25,7 +26,7 @@
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)configureWithAppSecret:(NSString *)appSecret;
++ (void)configureWithAppSecret:(NSString *)appSecret NS_SWIFT_NAME(configure(withAppSecret:));
 
 /**
  * Configure the SDK.
@@ -42,7 +43,7 @@
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services;
++ (void)start:(NSString *)appSecret withServices:(NSArray<Class> *)services NS_SWIFT_NAME(start(withAppSecret:services:));
 
 /**
  * Start the SDK with an array of services.
@@ -51,7 +52,7 @@
  *
  * @discussion This may be called only once per application process lifetime.
  */
-+ (void)startWithServices:(NSArray<Class> *)services;
++ (void)startWithServices:(NSArray<Class> *)services NS_SWIFT_NAME(start(services:));
 
 /**
  * Start a service.
@@ -68,76 +69,45 @@
  *
  * @param services Array of services to start.
  */
-+ (void)startFromLibraryWithServices:(NSArray<Class> *)services;
++ (void)startFromLibraryWithServices:(NSArray<Class> *)services NS_SWIFT_NAME(startFromLibrary(services:));
 
 /**
- * Check whether the SDK has already been configured or not.
- *
- * @return YES if configured, NO otherwise.
+ * The flag indicates whether the SDK has already been configured or not.
  */
-+ (BOOL)isConfigured;
+@property(class, atomic, readonly, getter=isConfigured) BOOL configured;
 
 /**
- * Check whether app is running in App Center Test Cloud.
- *
- * @return true if running in App Center Test Cloud, false otherwise.
+ * The flag indicates whether app is running in App Center Test Cloud.
  */
-+ (BOOL)isRunningInAppCenterTestCloud;
+@property(class, atomic, readonly, getter=isRunningInAppCenterTestCloud) BOOL runningInAppCenterTestCloud;
 
 /**
- * Change the base URL (schema + authority + port only) used to communicate with the backend.
+ * The flag indicates whether or not the SDK was enabled as a whole
  *
- * @param logUrl Base URL to use for backend communication.
- */
-+ (void)setLogUrl:(NSString *)logUrl;
-
-/**
- * Enable or disable the SDK as a whole. In addition to AppCenter resources, it will also enable or disable all registered services.
  * The state is persisted in the device's storage across application launches.
- *
- * @param isEnabled YES to enable, NO to disable.
- *
- * @see isEnabled
  */
-+ (void)setEnabled:(BOOL)isEnabled;
+@property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 /**
- * Check whether the SDK is enabled or not as a whole.
- *
- * @return YES if enabled, NO otherwise.
- *
- * @see setEnabled:
+ * The SDK's log level.
  */
-+ (BOOL)isEnabled;
+@property(class, nonatomic) MSACLogLevel logLevel;
 
 /**
- * Get log level.
- *
- * @return Log level.
+ * Base URL to use for backend communication.
  */
-+ (MSACLogLevel)logLevel;
+@property(class, nonatomic) NSString *logUrl;
 
 /**
- * Set log level.
- *
- * @param logLevel The log level.
+ * Set log handler.
  */
-+ (void)setLogLevel:(MSACLogLevel)logLevel;
-
-/**
- * Set log level handler.
- *
- * @param logHandler Handler.
- */
-+ (void)setLogHandler:(MSACLogHandler)logHandler;
+@property(class, nonatomic) MSACLogHandler logHandler;
 
 /**
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK that uses the App
  * Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
- *
- * @param wrapperSdk Wrapper SDK information.
  */
-+ (void)setWrapperSdk:(MSACWrapperSdk *)wrapperSdk;
+@property(class, nonatomic) MSACWrapperSdk *wrapperSdk;
 
 #if !TARGET_OS_TV
 /**
@@ -151,8 +121,6 @@
 /**
  * Check whether the application delegate forwarder is enabled or not.
  *
- * @return YES if enabled, NO otherwise.
- *
  * @discussion The application delegate forwarder forwards messages that target your application delegate methods via swizzling to the SDK.
  * It simplifies the SDK integration but may not be suitable to any situations. For
  * instance it should be disabled if you or one of your third party SDK is doing message forwarding on the application delegate. Message
@@ -160,29 +128,26 @@
  * To disable the application delegate forwarder just add the `AppCenterAppDelegateForwarderEnabled` tag to your Info .plist file and set it
  * to `0`. Then you will have to forward any application delegate needed by the SDK manually.
  */
-+ (BOOL)isAppDelegateForwarderEnabled;
+@property(class, readonly, nonatomic, getter=isAppDelegateForwarderEnabled) BOOL appDelegateForwarderEnabled;
 
 /**
- * Get unique installation identifier.
+ * Unique installation identifier.
  *
- * @return Unique installation identifier.
  */
-+ (NSUUID *)installId;
+@property(class, readonly, nonatomic) NSUUID *installId;
 
 /**
  * Detect if a debugger is attached to the app process. This is only invoked once on app startup and can not detect
  * if the debugger is being attached during runtime!
  *
- * @return BOOL if the debugger is attached.
  */
-+ (BOOL)isDebuggerAttached;
+@property(class, readonly, nonatomic, getter=isDebuggerAttached) BOOL debuggerAttached;
 
 /**
- * Get the current version of AppCenter SDK.
+ * Current version of AppCenter SDK.
  *
- * @return The current version of AppCenter SDK.
  */
-+ (NSString *)sdkVersion;
+@property(class, readonly, nonatomic) NSString *sdkVersion;
 
 /**
  * Set the maximum size of the internal storage. This method must be called before App Center is started. This method is only intended for
@@ -202,8 +167,6 @@
 /**
  * Set the user identifier.
  *
- * @param userId User identifier.
- *
  * @discussion Set the user identifier for logs sent for the default target token when the secret passed in @c
  * MSACAppCenter:start:withServices: contains "target={targetToken}".
  *
@@ -211,13 +174,13 @@
  *
  * AppCenter must be configured or started before this API can be used.
  */
-+ (void)setUserId:(NSString *)userId;
+@property(class, nonatomic) NSString *userId;
 
 /**
  * Set country code to use when building device properties.
  *
- * @param countryCode The two-letter ISO country code. @see https://www.iso.org/obp/ui/#search for more information.
+ * @see https://www.iso.org/obp/ui/#search for more information.
  */
-+ (void)setCountryCode:(NSString *)countryCode;
+@property(class, nonatomic) NSString *countryCode;
 
 @end

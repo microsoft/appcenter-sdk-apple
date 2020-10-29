@@ -9,26 +9,14 @@
 /**
  * Protocol declaring service logic.
  */
+NS_SWIFT_NAME(Service)
 @protocol MSACService <NSObject>
 
 /**
- * Enable or disable this service.
- * The state is persisted in the device's storage across application launches.
- *
- * @param isEnabled Whether this service is enabled or not.
- *
- * @see isEnabled
- */
-+ (void)setEnabled:(BOOL)isEnabled;
-
-/**
  * Indicates whether this service is enabled.
- *
- * @return `YES` if this service is enabled, `NO` if it is not.
- *
- * @see setEnabled:
+ * The state is persisted in the device's storage across application launches.
  */
-+ (BOOL)isEnabled;
+@property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 @end
 

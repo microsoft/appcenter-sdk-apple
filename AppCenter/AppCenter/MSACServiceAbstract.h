@@ -14,6 +14,7 @@
  * Abstraction of services common logic.
  * This class is intended to be subclassed only not instantiated directly.
  */
+NS_SWIFT_NAME(ServiceAbstract)
 @interface MSACServiceAbstract : NSObject <MSACService>
 
 /**
@@ -44,11 +45,9 @@
 - (void)updateConfigurationWithAppSecret:(NSString *)appSecret transmissionTargetToken:(NSString *)token;
 
 /**
- * Checks if the service needs the application secret.
- *
- * @return `YES` if the application secret is required, `NO` otherwise.
+ * The flag indicate whether the service needs the application secret or not.
  */
-- (BOOL)isAppSecretRequired;
+@property(atomic, readonly) BOOL isAppSecretRequired;
 
 @end
 

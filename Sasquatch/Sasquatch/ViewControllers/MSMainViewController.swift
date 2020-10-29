@@ -80,8 +80,8 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     
     if let msaUserId = UserDefaults.standard.string(forKey: kMSATokenKey),
         let refreshToken = UserDefaults.standard.string(forKey: kMSARefreshTokenKey) {
-        let provider = MSACAnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: msaUserId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
-        MSACAnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
+        let provider = AnalyticsAuthenticationProvider(authenticationType: .msaCompact, ticketKey: msaUserId, delegate: MSAAnalyticsAuthenticationProvider.getInstance(refreshToken, self))
+        AnalyticsTransmissionTarget.addAuthenticationProvider(authenticationProvider:provider)
     }
 
     // Storage size section.
@@ -138,7 +138,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
 
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
-    self.logFilterSwitch.isOn = MSEventFilter.isEnabled()
+    self.logFilterSwitch.isOn = MSEventFilter.enabled
     #else
     self.logFilterSwitch.isOn = false
     let cell = self.logFilterSwitch.superview!.superview as! UITableViewCell
@@ -160,10 +160,10 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     if !eventFilterStarted {
-      MSACAppCenter.startService(MSEventFilter.self)
+      AppCenter.startService(MSEventFilter.self)
       eventFilterStarted = true
     }
-    MSEventFilter.setEnabled(sender.isOn)
+    MSEventFilter.enabled = sender.isOn
     updateViewState()
     #endif
   }

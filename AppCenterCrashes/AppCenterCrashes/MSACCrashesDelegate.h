@@ -7,6 +7,9 @@
 @class MSACErrorReport;
 @class MSACErrorAttachmentLog;
 
+NS_ASSUME_NONNULL_BEGIN
+
+NS_SWIFT_NAME(CrashesDelegate)
 @protocol MSACCrashesDelegate <NSObject>
 
 @optional
@@ -19,7 +22,7 @@
  *
  * @discussion Crashes will send logs to the server or discard/delete logs based on this method's return value.
  */
-- (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport;
+- (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport NS_SWIFT_NAME(crashes(_:shouldProcess:));
 
 /**
  * Callback method that will be called before each error will be send to the server.
@@ -63,3 +66,5 @@
 - (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport;
 
 @end
+
+NS_ASSUME_NONNULL_END
