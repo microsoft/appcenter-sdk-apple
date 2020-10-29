@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "AppCenter+Internal.h"
-#import "MSACAppCenter.h"
+#import <AppCenter/MSACAppCenter.h>
 #import "MSACChannelGroupProtocol.h"
 #import "MSACServiceInternal.h"
 

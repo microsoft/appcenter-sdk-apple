@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACAppCenter.h"
+#import <AppCenter/MSACAppCenter.h>
 #import "MSACChannelUnitProtocol.h"
 
 @class MSACOneCollectorChannelDelegate;

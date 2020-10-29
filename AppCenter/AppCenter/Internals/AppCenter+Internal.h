@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACDevice.h"
-#import "MSACLogger.h"
+#import <AppCenter/MSACLogger.h>
 #import "MSACServiceAbstractInternal.h"
 #import "MSACServiceInternal.h"
 #import "MSACUtility+Application.h"

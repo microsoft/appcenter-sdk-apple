@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACAnalytics.h"
+#import <AppCenterAnalytics/MSACAnalytics.h>
 #import "MSACAnalyticsDelegate.h"
-#import "MSACAnalyticsTransmissionTarget.h"
+#import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
 #import "MSACChannelDelegate.h"
 #import "MSACServiceInternal.h"
 

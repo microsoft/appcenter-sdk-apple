@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACLogger.h"
+#import <AppCenter/MSACLogger.h>
 
 FOUNDATION_EXPORT MSACLogHandler const msDefaultLogHandler;
 

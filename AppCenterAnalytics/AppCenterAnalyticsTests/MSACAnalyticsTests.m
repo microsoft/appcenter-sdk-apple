@@ -5,7 +5,7 @@
 #import "MSACAnalyticsCategory.h"
 #import "MSACAnalyticsPrivate.h"
 #import "MSACAnalyticsTransmissionTargetPrivate.h"
-#import "MSACAppCenter.h"
+#import <AppCenter/MSACAppCenter.h>
 #import "MSACAppCenterInternal.h"
 #import "MSACAppCenterPrivate.h"
 #import "MSACAppCenterUserDefaultsPrivate.h"
