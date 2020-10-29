@@ -4,7 +4,7 @@
 #import "MSACAbstractLog.h"
 #import "MSACAppCenterInternal.h"
 #import "MSACCommonSchemaLog.h"
-#import "MSACConstants.h"
+#import <AppCenter/MSACConstants.h>
 #import "MSACLog.h"
 #import "MSACLogConversion.h"
 #import "MSACSerializableObject.h"

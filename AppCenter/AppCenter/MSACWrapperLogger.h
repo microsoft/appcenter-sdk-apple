@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACConstants.h"
+#import <AppCenter/MSACConstants.h>
 
 /**
  * This is a utility for producing App Center style log messages. It is only intended for use by App Center services and wrapper SDKs of App

@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACConstants.h"
+#import <AppCenter/MSACConstants.h>
 
 #define MSACLog(_level, _tag, _message)                                                                                                    \
   [MSACLogger logMessage:_message level:_level tag:_tag file:__FILE__ function:__PRETTY_FUNCTION__ line:__LINE__]

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACDistributeDelegate.h"
-#import "MSACServiceAbstract.h"
+#import <AppCenter/MSACServiceAbstract.h>
+#import <AppCenterDistribute/MSACDistributeDelegate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

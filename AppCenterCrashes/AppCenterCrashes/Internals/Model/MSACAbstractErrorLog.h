@@ -4,7 +4,7 @@
 #import <Foundation/Foundation.h>
 
 #import "AppCenter+Internal.h"
-#import "MSACLogWithProperties.h"
+#import <AppCenter/MSACLogWithProperties.h>
 
 @class MSACErrorAttachment;
 

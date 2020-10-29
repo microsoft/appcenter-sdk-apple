@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACConstants+Internal.h"
-#import "MSACConstants.h"
+#import <AppCenter/MSACConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

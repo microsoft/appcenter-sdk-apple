@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACConstants.h"
+#import <AppCenter/MSACConstants.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

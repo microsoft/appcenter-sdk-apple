@@ -3,6 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACDistribute.h"
-#import "MSACDistributeDelegate.h"
-#import "MSACReleaseDetails.h"
+#import <AppCenterDistribute/MSACDistribute.h>
+#import <AppCenterDistribute/MSACDistributeDelegate.h>
+#import <AppCenterDistribute/MSACReleaseDetails.h>

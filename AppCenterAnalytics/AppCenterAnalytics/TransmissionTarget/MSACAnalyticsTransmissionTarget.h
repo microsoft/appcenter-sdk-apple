@@ -3,9 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACAnalyticsAuthenticationProvider.h"
-#import "MSACConstants+Flags.h"
-#import "MSACPropertyConfigurator.h"
+#import <AppCenter/MSACConstants+Flags.h>
+#import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
+#import <AppCenterAnalytics/MSACPropertyConfigurator.h>
 
 @class MSACEventProperties;
 

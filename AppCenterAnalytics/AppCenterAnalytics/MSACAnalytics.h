@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACAnalyticsTransmissionTarget.h"
-#import "MSACServiceAbstract.h"
+#import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
+#import <AppCenter/MSACServiceAbstract.h>
 
 @class MSACEventProperties;
 

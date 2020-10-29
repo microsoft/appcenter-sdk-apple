@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACChannelProtocol.h"
+#import <AppCenter/MSACChannelProtocol.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
