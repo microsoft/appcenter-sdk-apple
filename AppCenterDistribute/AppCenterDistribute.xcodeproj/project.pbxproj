@@ -88,8 +88,6 @@
 		C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200612230FDF7000848D5B /* AppCenter.framework */; };
 		C2392F7324642DC600425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F4224642CB600425640 /* OCMock.framework */; };
 		C24D1C79247F34770025261B /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
-		C9EBAA2B230D37ED00A20F0F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082091F74BBB100DC776D /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBAA2C230D37ED00A20F0F /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B93B1E4557620022F951 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2D230D37ED00A20F0F /* MSACIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSACIngestionProtocol.h */; };
 		C9EBAA2E230D37FD00A20F0F /* AppCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2F230D37FD00A20F0F /* MSACDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSACDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -122,7 +120,6 @@
 		C9EBAAED230D3A9B00A20F0F /* MSACDistributeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 383A2FE51EBA30B300817742 /* MSACDistributeAppDelegate.m */; };
 		C9EBAAEF230D3A9B00A20F0F /* MSACDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSACDistributeInfoTracker.m */; };
 		C9EBAAF0230D3A9B00A20F0F /* MSACReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSACReleaseDetails.m */; };
-		C9EBAB37230D73A800A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB36230D73A800A20F0F /* AppCenter.framework */; };
 		DFCB808D2472D7310058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80802472D71C0058D292 /* OCHamcrest.framework */; };
 		DFE95501244D8B4D0061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F2244D8B410061E3FA /* HTTPStubs.m */; };
 		DFE95502244D8B4D0061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */; };
@@ -212,6 +209,48 @@
 			proxyType = 1;
 			remoteGlobalIDString = F0B950F01B0080BE00942C38;
 			remoteInfo = "OCMock iOS";
+		};
+		D557364C254AAECF00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D557363C254AAECF00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91FB6230C01140068070D;
+			remoteInfo = "AppCenter iOS Framework";
+		};
+		D557364E254AAECF00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D557363C254AAECF00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
+			remoteInfo = "AppCenter iOS Tests";
+		};
+		D5573650254AAECF00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D557363C254AAECF00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92007230C05D70068070D;
+			remoteInfo = "AppCenter macOS Framework";
+		};
+		D5573652254AAECF00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D557363C254AAECF00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
+			remoteInfo = "AppCenter macOS Tests";
+		};
+		D5573654254AAECF00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D557363C254AAECF00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92024230C07A50068070D;
+			remoteInfo = "AppCenter tvOS Framework";
+		};
+		D5573656254AAECF00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D557363C254AAECF00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
+			remoteInfo = "AppCenter tvOS Tests";
 		};
 		D559CA1D2477ED0F00CF60D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -308,7 +347,6 @@
 		0471B5F41E45466F0022F951 /* AppCenterDistribute Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "AppCenterDistribute Debug.xcconfig"; sourceTree = "<group>"; };
 		0471B8981E4547480022F951 /* MSACDistribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACDistribute.m; sourceTree = "<group>"; };
 		0471B89A1E4547750022F951 /* MSACDistribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACDistribute.h; sourceTree = "<group>"; };
-		0471B93B1E4557620022F951 /* MSACServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACServiceAbstract.h; path = ../AppCenter/AppCenter/MSACServiceAbstract.h; sourceTree = "<group>"; };
 		047D137E1EAFF87500D699BA /* MSACReleaseDetailsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACReleaseDetailsPrivate.h; sourceTree = "<group>"; };
 		048210261FD08C42006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = Resources/pt.lproj/AppCenterDistribute.strings; sourceTree = "<group>"; };
 		048BB2FC1E60A40D009D92C2 /* MSACReleaseDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACReleaseDetails.h; sourceTree = "<group>"; };
@@ -320,7 +358,6 @@
 		04980B632413003B00F384A5 /* MSACDistributeCheckForUpdateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeCheckForUpdateTests.m; sourceTree = "<group>"; };
 		049BC8221ECE349200FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8271ECE387A00FB6719 /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
-		04A082091F74BBB100DC776D /* MSACService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACService.h; path = ../AppCenter/AppCenter/MSACService.h; sourceTree = "<group>"; };
 		04A140C51ECE89B2001CEE94 /* MSACMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACMockUserDefaults.h; path = ../../../AppCenter/AppCenterTests/Util/MSACMockUserDefaults.h; sourceTree = "<group>"; };
 		04A140C61ECE89B2001CEE94 /* MSACMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSACMockUserDefaults.m; sourceTree = "<group>"; };
 		04DC2EC81E78A3B4003F23B5 /* error_details.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = error_details.json; sourceTree = "<group>"; };
@@ -382,6 +419,7 @@
 		C2392F2F24642CB500425640 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../Vendor/OCMock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterDistribute.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB36230D73A800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D557363C254AAECF00B64478 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
 		DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
 		DFE954F2244D8B410061E3FA /* HTTPStubs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
 		DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
@@ -429,7 +467,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB37230D73A800A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,8 +560,7 @@
 		04FD4A131E451E12009B4468 = {
 			isa = PBXGroup;
 			children = (
-				04A082091F74BBB100DC776D /* MSACService.h */,
-				0471B93B1E4557620022F951 /* MSACServiceAbstract.h */,
+				D557362F254AAEC600B64478 /* AppCenter */,
 				040AF0321E52859F005C1174 /* MSACIngestionProtocol.h */,
 				04FD4A1E1E451E12009B4468 /* AppCenterDistribute */,
 				04FD4A321E453531009B4468 /* AppCenterDistributeTests */,
@@ -693,6 +729,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D557362F254AAEC600B64478 /* AppCenter */ = {
+			isa = PBXGroup;
+			children = (
+				D557363C254AAECF00B64478 /* AppCenter.xcodeproj */,
+			);
+			path = AppCenter;
+			sourceTree = "<group>";
+		};
+		D557363D254AAECF00B64478 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D557364D254AAECF00B64478 /* AppCenter.framework */,
+				D557364F254AAECF00B64478 /* AppCenter.xctest */,
+				D5573651254AAECF00B64478 /* AppCenter.framework */,
+				D5573653254AAECF00B64478 /* AppCenter.xctest */,
+				D5573655254AAECF00B64478 /* AppCenter.framework */,
+				D5573657254AAECF00B64478 /* AppCenter.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DFCB806E2472D71C0058D292 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -758,13 +815,11 @@
 				DFE9550A244D8B570061E3FA /* HTTPStubsResponse+JSON.h in Headers */,
 				C9EBAA36230D384900A20F0F /* MSACSemVerPreReleaseId.h in Headers */,
 				C9EBAA35230D384900A20F0F /* MSACDistributeIngestion.h in Headers */,
-				C9EBAA2C230D37ED00A20F0F /* MSACServiceAbstract.h in Headers */,
 				DFE9550C244D8B570061E3FA /* HTTPStubsResponse.h in Headers */,
 				DFE9550D244D8B570061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
 				C9EBAA3A230D384900A20F0F /* MSACGuidedAccessUtil.h in Headers */,
 				C9EBAA30230D37FD00A20F0F /* MSACDistributeDelegate.h in Headers */,
 				C9EBAA3D230D385400A20F0F /* MSACDistributeAppDelegate.h in Headers */,
-				C9EBAA2B230D37ED00A20F0F /* MSACService.h in Headers */,
 				C9EBAA38230D384900A20F0F /* MSACBasicMachOParser.h in Headers */,
 				C9EBAA40230D387400A20F0F /* MSACReleaseDetails.h in Headers */,
 				DFE9550B244D8B570061E3FA /* HTTPStubsPathHelpers.h in Headers */,
@@ -881,6 +936,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = D557363D254AAECF00B64478 /* Products */;
+					ProjectRef = D557363C254AAECF00B64478 /* AppCenter.xcodeproj */;
+				},
+				{
 					ProductGroup = DFCB806E2472D71C0058D292 /* Products */;
 					ProjectRef = DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */;
 				},
@@ -950,6 +1009,48 @@
 			fileType = wrapper.framework;
 			path = OCMock.framework;
 			remoteRef = C2392F4524642CB600425640 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D557364D254AAECF00B64478 /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = D557364C254AAECF00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D557364F254AAECF00B64478 /* AppCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenter.xctest;
+			remoteRef = D557364E254AAECF00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5573651254AAECF00B64478 /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = D5573650254AAECF00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5573653254AAECF00B64478 /* AppCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenter.xctest;
+			remoteRef = D5573652254AAECF00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5573655254AAECF00B64478 /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = D5573654254AAECF00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5573657254AAECF00B64478 /* AppCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenter.xctest;
+			remoteRef = D5573656254AAECF00B64478 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DFCB80782472D71C0058D292 /* OCHamcrest.framework */ = {
