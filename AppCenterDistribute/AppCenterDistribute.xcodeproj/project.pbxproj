@@ -16,7 +16,6 @@
 				324F3BA5254783F70006E223 /* Combine iOS Universal Framework */,
 			);
 			dependencies = (
-				B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */,
 			);
 			name = "AppCenterDistribute iOS Universal";
 			productName = "Fat Framework";
@@ -150,13 +149,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 845017DC245ADB360026E0DB;
 			remoteInfo = "AppCenterDistribute XCFramework";
-		};
-		B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04FD4A141E451E12009B4468 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B2C070B71E5E68540076D6A9;
-			remoteInfo = AppCenterDistributeResources;
 		};
 		C220060F230FDF6800848D5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1239,11 +1231,6 @@
 			isa = PBXTargetDependency;
 			target = 845017DC245ADB360026E0DB /* AppCenterDistribute XCFramework */;
 			targetProxy = 324F3C7525478D030006E223 /* PBXContainerItemProxy */;
-		};
-		B2C070C31E5E69E70076D6A9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B2C070B71E5E68540076D6A9 /* AppCenterDistribute Resources */;
-			targetProxy = B2C070C21E5E69E70076D6A9 /* PBXContainerItemProxy */;
 		};
 		C2200610230FDF6800848D5B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
