@@ -1027,42 +1027,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Push" id="bph-q1-XSC" userLabel="Push">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="42" id="e34-4Y-CUh">
-                                        <rect key="frame" x="0.0" y="730.5" width="375" height="42"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e34-4Y-CUh" id="4EG-VM-yOG">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Push Enabled" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VcK-qb-Nle" userLabel="Push Enabled">
-                                                    <rect key="frame" x="16" y="11" width="104.5" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a34-Sx-8Yt" userLabel="Push Switch">
-                                                    <rect key="frame" x="308" y="5.5" width="51" height="31"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Push Enabled"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                    <connections>
-                                                        <action selector="pushSwitchStateUpdated:" destination="9Ck-4D-Ozb" eventType="valueChanged" id="N8W-3Z-oiY"/>
-                                                    </connections>
-                                                </switch>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="VcK-qb-Nle" firstAttribute="centerY" secondItem="4EG-VM-yOG" secondAttribute="centerY" id="Rhf-VA-qaZ" userLabel="Push Enabled.centerY = centerY"/>
-                                                <constraint firstAttribute="trailing" secondItem="a34-Sx-8Yt" secondAttribute="trailing" constant="18" id="f7t-Ob-ncL"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VcK-qb-Nle" secondAttribute="trailing" id="f9l-9F-PDY" userLabel="trailing ≥ Push Enabled.trailing"/>
-                                                <constraint firstItem="a34-Sx-8Yt" firstAttribute="centerY" secondItem="4EG-VM-yOG" secondAttribute="centerY" id="gUG-Uc-afq"/>
-                                                <constraint firstItem="VcK-qb-Nle" firstAttribute="leading" secondItem="4EG-VM-yOG" secondAttribute="leading" constant="16" id="ik2-ez-Ykc" userLabel="Push Enabled.leading = leading + 16"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Miscellaneous" id="3h3-3G-53T">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="tGS-wq-cLO">

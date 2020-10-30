@@ -694,7 +694,6 @@
                         <tabViewItem label="Transmission" id="hXq-ux-PKB"/>
                         <tabViewItem label="Analytics" id="ffY-hS-eWq"/>
                         <tabViewItem label="Crashes" id="iER-DJ-FGF"/>
-                        <tabViewItem label="Push" id="JWj-Ge-FfC"/>
                         <tabViewItem label="Custom Properties" id="WAr-ri-AqZ"/>
                         <tabViewItem id="mpq-fk-uEo"/>
                     </tabViewItems>
@@ -1094,48 +1093,6 @@
                 <customObject id="vLk-6U-B4n" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="90" y="1871"/>
-        </scene>
-        <!--Push View Controller-->
-        <scene sceneID="K2h-f4-aYX">
-            <objects>
-                <viewController id="Mjv-Xl-DhP" customClass="PushViewController" customModule="SasquatchMacObjC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="fab-Cp-sHg">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="VTj-PC-0PL">
-                                <rect key="frame" x="178" y="239" width="95" height="18"/>
-                                <buttonCell key="cell" type="check" title="Set Enabled" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ix9-N9-RQC">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="setEnabled:" target="Mjv-Xl-DhP" id="WQ5-HQ-hRB"/>
-                                </connections>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uPg-m9-QRy">
-                                <rect key="frame" x="194" y="263" width="63" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Settings" id="YQ2-r9-gkH">
-                                    <font key="font" metaFont="systemBold"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="VTj-PC-0PL" firstAttribute="top" secondItem="uPg-m9-QRy" secondAttribute="bottom" constant="8" id="ddu-wn-1Ev"/>
-                            <constraint firstItem="uPg-m9-QRy" firstAttribute="top" secondItem="fab-Cp-sHg" secondAttribute="top" constant="20" id="o7R-h5-hjO"/>
-                            <constraint firstItem="uPg-m9-QRy" firstAttribute="centerX" secondItem="fab-Cp-sHg" secondAttribute="centerX" id="uG9-qh-ZyG"/>
-                            <constraint firstItem="VTj-PC-0PL" firstAttribute="centerX" secondItem="fab-Cp-sHg" secondAttribute="centerX" id="wqB-4i-VL5"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="setEnabledButton" destination="VTj-PC-0PL" id="SfL-nl-zTu"/>
-                    </connections>
-                </viewController>
-                <customObject id="ktC-yA-oEi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="728" y="159"/>
         </scene>
         <!--Analytics View Controller-->
         <scene sceneID="lLj-GW-lcp">

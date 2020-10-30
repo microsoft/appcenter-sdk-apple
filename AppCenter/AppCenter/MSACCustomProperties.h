@@ -10,6 +10,7 @@
  * Custom properties builder.
  * Collects multiple properties to send in one log.
  */
+NS_SWIFT_NAME(CustomProperties)
 @interface MSACCustomProperties : NSObject
 
 /**
@@ -21,7 +22,7 @@
  *
  * @return This instance.
  */
-- (instancetype)setString:(NSString *)value forKey:(NSString *)key;
+- (instancetype)setString:(NSString *)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:forKey:));
 
 /**
  * Set the specified property value with the specified key.
@@ -32,7 +33,7 @@
  *
  * @return This instance.
  */
-- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key;
+- (instancetype)setNumber:(NSNumber *)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:forKey:));
 
 /**
  * Set the specified property value with the specified key.
@@ -43,7 +44,7 @@
  *
  * @return This instance.
  */
-- (instancetype)setBool:(BOOL)value forKey:(NSString *)key;
+- (instancetype)setBool:(BOOL)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:forKey:));
 
 /**
  * Set the specified property value with the specified key.
@@ -54,7 +55,7 @@
  *
  * @return This instance.
  */
-- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key;
+- (instancetype)setDate:(NSDate *)value forKey:(NSString *)key NS_SWIFT_NAME(set(_:forKey:));
 
 /**
  * Clear the property for the specified key.
@@ -63,7 +64,7 @@
  *
  * @return This instance.
  */
-- (instancetype)clearPropertyForKey:(NSString *)key;
+- (instancetype)clearPropertyForKey:(NSString *)key NS_SWIFT_NAME(clearProperty(forKey:));
 
 @end
 

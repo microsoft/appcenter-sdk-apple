@@ -19,10 +19,11 @@ typedef NS_ENUM(NSUInteger, MSACAnalyticsAuthenticationType) {
    * AuthenticationType MSA Delegate.
    */
   MSACAnalyticsAuthenticationTypeMsaDelegate
-};
+} NS_SWIFT_NAME(AnalyticsAuthenticationType);
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(AnalyticsAuthenticationProvider)
 @interface MSACAnalyticsAuthenticationProvider : NSObject
 
 /**

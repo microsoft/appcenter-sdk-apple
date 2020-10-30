@@ -32,6 +32,7 @@
             return [NSString stringWithFormat:(format), ##__VA_ARGS__];                                                                    \
           }))
 
+NS_SWIFT_NAME(Logger)
 @interface MSACLogger : NSObject
 
 + (void)logMessage:(MSACLogMessageProvider)messageProvider

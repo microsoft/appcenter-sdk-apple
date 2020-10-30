@@ -14,35 +14,35 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * This general class allows wrappers to supplement the Crashes SDK with their own behavior.
  */
+NS_SWIFT_NAME(WrapperCrashesHelper)
 @interface MSACWrapperCrashesHelper : NSObject
 
 /**
- * Sets the crash handler setup delegate.
+ * The crash handler setup delegate.
  *
- * @param delegate The delegate to set.
  */
-+ (void)setCrashHandlerSetupDelegate:(id<MSACCrashHandlerSetupDelegate>)delegate;
+@property(class, nonatomic) _Nullable id<MSACCrashHandlerSetupDelegate> crashHandlerSetupDelegate;
 
 /**
  * Gets the crash handler setup delegate.
  *
+ * @deprecated
+ *
  * @return The delegate being used by Crashes.
  */
-+ (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate;
++ (id<MSACCrashHandlerSetupDelegate>)getCrashHandlerSetupDelegate DEPRECATED_MSG_ATTRIBUTE("Use crashHandlerSetupDelegate instead");
 
 /**
- * Enables or disables automatic crash processing.
- *
- * @param automaticProcessing Passing NO causes SDK not to send reports immediately, even if "Always Send" is true.
+ * Enables or disables automatic crash processing. Passing NO causes SDK not to send reports immediately, even if "Always Send" is true.
  */
-+ (void)setAutomaticProcessing:(BOOL)automaticProcessing;
+@property(class, nonatomic) BOOL automaticProcessing;
 
 /**
  * Gets a list of unprocessed crash reports. Will block until the service starts.
  *
  * @return An array of unprocessed error reports.
  */
-+ (NSArray<MSACErrorReport *> *)unprocessedCrashReports;
+@property(class, readonly, nonatomic) NSArray<MSACErrorReport *> *unprocessedCrashReports;
 
 /**
  * Resumes processing for a given subset of the unprocessed reports.

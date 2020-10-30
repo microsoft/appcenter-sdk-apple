@@ -5,8 +5,15 @@
 ### App Center
 
 * **[Feauture]** Add support for Apple Silicon (arm64 simulators are not supported via CocoaPods).
-* **[Breaking change]** In order to avoid a naming conflict with classes in Apple's private frameworks, we now use "MSAC" prefix instead of "MS". Please follow the [migration guide](replace-with-link) for adopting the new naming.
+* **[Feature]** **[Breaking change]** Make SDK API more Swift-friendly. You can find the API updates in the [swift migration table](https://docs.microsoft.com/appcenter/sdk/getting-started/migration/apple-sdk-update#swift-api-changes).
+* **[Breaking change]** The App Center prefix `MS` in Objective-C is consolidated to `MSAC` for collision prevention. Please follow the [migration guide](https://docs.microsoft.com/appcenter/sdk/getting-started/migration/apple-sdk-update) for adopting the new naming.
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
+* **[Fix]** Fix `NSDateFormatter` initialization in a concurrent environment.
+
+### App Center Push
+
+App Center Push has been removed from the SDK and will be [retired on December 31st, 2020](https://devblogs.microsoft.com/appcenter/migrating-off-app-center-push/). 
+As an alternative to App Center Push, we recommend you migrate to [Azure Notification Hubs](https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-overview) by following the [Push Migration Guide](https://docs.microsoft.com/en-us/appcenter/migration/push/).
 
 ___
 

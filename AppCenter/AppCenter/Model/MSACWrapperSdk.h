@@ -6,6 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
+NS_SWIFT_NAME(WrapperSdk)
 @interface MSACWrapperSdk : NSObject
 
 /*

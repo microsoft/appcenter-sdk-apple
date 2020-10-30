@@ -5,36 +5,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(PropertyConfigurator)
 @interface MSACPropertyConfigurator : NSObject
 
 /**
  * Override the application version.
  *
- * @param appVersion New application version for a transmission target.
  */
-- (void)setAppVersion:(nullable NSString *)appVersion;
+@property(nonatomic, copy) NSString *_Nullable appVersion;
 
 /**
  * Override the application name.
  *
- * @param appName New application name for a transmission target.
  */
-- (void)setAppName:(nullable NSString *)appName;
+@property(nonatomic, copy) NSString *_Nullable appName;
 
 /**
  * Override the application locale.
  *
- * @param appLocale New application locale for a transmission target.
  */
-- (void)setAppLocale:(nullable NSString *)appLocale;
+@property(nonatomic, copy) NSString *_Nullable appLocale;
 
 /**
- * Set the user identifier.
- * The user identifier needs to start with c: or i: or d: or w: prefixes.
+ * User identifier.
+ * The identifier needs to start with c: or i: or d: or w: prefixes.
  *
- * @param userId user identifier.
  */
-- (void)setUserId:(nullable NSString *)userId;
+@property(nonatomic, copy) NSString *_Nullable userId;
 
 /**
  * Set a string event property to be attached to events tracked by this transmission target and its child transmission targets.

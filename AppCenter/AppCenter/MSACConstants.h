@@ -42,17 +42,17 @@ typedef NS_ENUM(NSUInteger, MSACLogLevel) {
    *  Logging is disabled
    */
   MSACLogLevelNone = 99
-};
+} NS_SWIFT_NAME(LogLevel);
 
-typedef NSString * (^MSACLogMessageProvider)(void);
+typedef NSString * (^MSACLogMessageProvider)(void)NS_SWIFT_NAME(LogMessageProvider);
 typedef void (^MSACLogHandler)(MSACLogMessageProvider messageProvider, MSACLogLevel logLevel, NSString *tag, const char *file,
-                               const char *function, uint line);
+                               const char *function, uint line) NS_SWIFT_NAME(LogHandler);
 
 /**
  * Channel priorities, check the kMSACPriorityCount if you add a new value.
  * The order matters here! Values NEED to range from low priority to high priority.
  */
-typedef NS_ENUM(NSInteger, MSACPriority) { MSACPriorityBackground, MSACPriorityDefault, MSACPriorityHigh };
+typedef NS_ENUM(NSInteger, MSACPriority) { MSACPriorityBackground, MSACPriorityDefault, MSACPriorityHigh } NS_SWIFT_NAME(Priority);
 static short const kMSACPriorityCount = MSACPriorityHigh + 1;
 
 /**
@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, MSACInitializationPriority) {
   MSACInitializationPriorityDefault = 500,
   MSACInitializationPriorityHigh = 750,
   MSACInitializationPriorityMax = 999
-};
+} NS_SWIFT_NAME(InitializationPriority);
 
 /**
  * Enum with the different HTTP status codes.
@@ -167,4 +167,4 @@ typedef NS_ENUM(NSInteger, MSACHTTPCodesNo) {
   MSACHTTPCodesNo522ConnectionTimedOut = 522,
   MSACHTTPCodesNo598NetworkReadTimeoutErrorUnknown = 598,
   MSACHTTPCodesNo599NetworkConnectTimeoutErrorUnknown = 599
-};
+} NS_SWIFT_NAME(HTTPCodesNo);

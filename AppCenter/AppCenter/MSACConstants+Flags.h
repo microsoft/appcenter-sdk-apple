@@ -13,6 +13,6 @@ typedef NS_OPTIONS(NSUInteger, MSACFlags) {
   MSACFlagsPersistenceNormal DEPRECATED_MSG_ATTRIBUTE("please use MSACFlagsNormal") = MSACFlagsNormal,
   MSACFlagsPersistenceCritical DEPRECATED_MSG_ATTRIBUTE("please use MSACFlagsCritical") = MSACFlagsCritical,
   MSACFlagsDefault = MSACFlagsNormal
-};
+} NS_SWIFT_NAME(Flags);
 
 #endif

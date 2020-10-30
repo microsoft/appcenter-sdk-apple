@@ -176,6 +176,20 @@ static NSString *const kMSACPastDevicesKey = @"PastDevices";
 - (void)setCountryCode:(NSString *)countryCode;
 
 /**
+ * Get country code.
+ *
+ * @return country code.
+ */
+- (NSString *)countryCode;
+
+/**
+ * Get wrapper SDK.
+ *
+ * @return wrapper sdk.
+ */
+- (MSACWrapperSdk *)wrapperSdk;
+
+/**
  * Return a new Instance of MSACDevice.
  *
  * @returns A new Instance of MSACDevice. @see MSACDevice
