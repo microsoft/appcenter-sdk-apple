@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1010"
+   LastUpgradeVersion = "1200"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
-      buildImplicitDependencies = "NO">
+      buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "04FD4A281E451E90009B4468"
-               BuildableName = "AppCenterDistribute iOS Fat Framework"
-               BlueprintName = "AppCenterDistribute iOS Fat Framework"
-               ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
+               BlueprintIdentifier = "324F3BF925478BD10006E223"
+               BuildableName = "AppCenterAnalytics"
+               BlueprintName = "AppCenterAnalytics"
+               ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,8 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -42,17 +40,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD4A281E451E90009B4468"
-            BuildableName = "AppCenterDistribute iOS Fat Framework"
-            BlueprintName = "AppCenterDistribute iOS Fat Framework"
-            ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -63,10 +50,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "04FD4A281E451E90009B4468"
-            BuildableName = "AppCenterDistribute iOS Fat Framework"
-            BlueprintName = "AppCenterDistribute iOS Fat Framework"
-            ReferencedContainer = "container:AppCenterDistribute.xcodeproj">
+            BlueprintIdentifier = "324F3BF925478BD10006E223"
+            BuildableName = "AppCenterAnalytics"
+            BlueprintName = "AppCenterAnalytics"
+            ReferencedContainer = "container:AppCenterAnalytics.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
