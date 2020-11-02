@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACDistributeIngestion.h"
-#import <AppCenter/MSACAppCenter.h>
+#import "MSACAppCenter.h"
 #import "MSACAppCenterInternal.h"
 #import "MSACConstants+Internal.h"
 #import "MSACHttpIngestionPrivate.h"

@@ -5,7 +5,7 @@
 #import "MSACBasicMachOParser.h"
 #import "MSACDistributeInternal.h"
 #import "MSACDistributePrivate.h"
-#import <AppCenter/MSACLogger.h>
+#import "MSACLogger.h"
 #import "MSACSemVer.h"
 #import "MSACUtility+StringFormatting.h"
 

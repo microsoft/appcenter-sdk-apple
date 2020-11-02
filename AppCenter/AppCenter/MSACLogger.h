@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef MSAC_LOGGER
+#define MSAC_LOGGER
+
 #import <AppCenter/MSACConstants.h>
 
 #define MSACLog(_level, _tag, _message)                                                                                                    \
@@ -43,3 +46,5 @@ NS_SWIFT_NAME(Logger)
               line:(uint)line;
 
 @end
+
+#endif

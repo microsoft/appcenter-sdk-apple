@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <AppCenterAnalytics/MSACAnalytics.h>
+#ifndef MSAC_ANALYTICS_INTERNAL_H
+#define MSAC_ANALYTICS_INTERNAL_H
+
+#import "MSACAnalytics.h"
 #import "MSACAnalyticsDelegate.h"
-#import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
+#import "MSACAnalyticsTransmissionTarget.h"
 #import "MSACChannelDelegate.h"
 #import "MSACServiceInternal.h"
 
@@ -80,3 +83,5 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

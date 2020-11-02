@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef EVENT_PROPERTIES
+#define EVENT_PROPERTIES
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -54,3 +57,5 @@ NS_SWIFT_NAME(EventProperties)
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

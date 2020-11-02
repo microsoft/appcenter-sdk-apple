@@ -18,7 +18,7 @@
 #import "MSACConstants+Internal.h"
 #import "MSACDeviceExtension.h"
 #import "MSACEventPropertiesInternal.h"
-#import <AppCenter/MSACLogger.h>
+#import "MSACLogger.h"
 #import "MSACPropertyConfiguratorPrivate.h"
 #import "MSACStringTypedProperty.h"
 #import "MSACUserExtension.h"

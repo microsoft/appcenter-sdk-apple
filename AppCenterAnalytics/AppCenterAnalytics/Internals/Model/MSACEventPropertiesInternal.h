@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <AppCenterAnalytics/MSACEventProperties.h>
+#import "MSACEventProperties.h"
 
 @class MSACTypedProperty;
 

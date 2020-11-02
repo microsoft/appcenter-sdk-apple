@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef MSAC_APP_CENTER
+#define MSAC_APP_CENTER
+
 #import <AppCenter/MSACConstants.h>
 
 @class MSACWrapperSdk;
@@ -184,3 +187,5 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic) NSString *countryCode;
 
 @end
+
+#endif

@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef ANALYTICS_TRANSMISSION_TARGET
+#define ANALYTICS_TRANSMISSION_TARGET
+
 #import <AppCenter/MSACConstants+Flags.h>
 #import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
 #import <AppCenterAnalytics/MSACPropertyConfigurator.h>
@@ -134,3 +137,5 @@ NS_SWIFT_NAME(AnalyticsTransmissionTarget)
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

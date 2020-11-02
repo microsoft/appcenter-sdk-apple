@@ -8,7 +8,7 @@
 #import "MSACCSExtensions.h"
 #import "MSACCommonSchemaLog.h"
 #import "MSACEventPropertiesInternal.h"
-#import <AppCenter/MSACLogger.h>
+#import "MSACLogger.h"
 #import "MSACPropertyConfiguratorInternal.h"
 #import "MSACProtocolExtension.h"
 #import "MSACServiceAbstractInternal.h"
