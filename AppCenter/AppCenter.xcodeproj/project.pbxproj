@@ -549,7 +549,7 @@
 		F8936CB5230C24D9006A330F /* MSACChannelGroupProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542741A2012AF0500BE766F /* MSACChannelGroupProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CB6230C24D9006A330F /* MSACChannelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 354274162012AE4000BE766F /* MSACChannelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CB7230C24D9006A330F /* MSACConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* MSACConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8936CB8230C24D9006A330F /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8936CB8230C24D9006A330F /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		F8936CB9230C24D9006A330F /* MSACEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSACEnable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CBA230C24D9006A330F /* MSACLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSACLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CBB230C24D9006A330F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -561,7 +561,7 @@
 		F8936CC1230C24D9006A330F /* MSACChannelGroupProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542741A2012AF0500BE766F /* MSACChannelGroupProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CC2230C24D9006A330F /* MSACChannelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 354274162012AE4000BE766F /* MSACChannelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CC3230C24D9006A330F /* MSACConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* MSACConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8936CC4230C24D9006A330F /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8936CC4230C24D9006A330F /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		F8936CC5230C24D9006A330F /* MSACEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSACEnable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CC6230C24D9006A330F /* MSACLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSACLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CC7230C24DA006A330F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -573,7 +573,7 @@
 		F8936CCD230C24DA006A330F /* MSACChannelGroupProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542741A2012AF0500BE766F /* MSACChannelGroupProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CCE230C24DA006A330F /* MSACChannelProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 354274162012AE4000BE766F /* MSACChannelProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CCF230C24DA006A330F /* MSACConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04013F1D1C99AC0051BCFA /* MSACConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8936CD0230C24DA006A330F /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8936CD0230C24DA006A330F /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525B82194D44E00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		F8936CD1230C24DA006A330F /* MSACEnable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3542742220167DA400BE766F /* MSACEnable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CD2230C24DA006A330F /* MSACLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC22019531F00B9E22C /* MSACLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CD3230C24DA006A330F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2093,9 +2093,9 @@
 				F8936CB4230C24D9006A330F /* MSACAppCenterErrors.h in Headers */,
 				F8936D65230C2804006A330F /* MSACDoubleTypedProperty.h in Headers */,
 				F8936D51230C2804006A330F /* MSACDeviceExtension.h in Headers */,
-				F8936CB8230C24D9006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936D27230C2804006A330F /* MSACLoggerInternal.h in Headers */,
 				F8936D4F230C2804006A330F /* MSACCSData.h in Headers */,
+				F8936CB8230C24D9006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936D4B230C2804006A330F /* MSACAppCenterIngestion.h in Headers */,
 				F8936CED230C2603006A330F /* MSACOneCollectorChannelDelegatePrivate.h in Headers */,
 				F8936D5D230C2804006A330F /* MSACModel.h in Headers */,
@@ -2232,10 +2232,10 @@
 				F8936DA9230C2805006A330F /* MSACDeviceExtension.h in Headers */,
 				F8936D7F230C2805006A330F /* MSACLoggerInternal.h in Headers */,
 				F8936DA7230C2805006A330F /* MSACCSData.h in Headers */,
-				F8936CC4230C24D9006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936DA3230C2805006A330F /* MSACAppCenterIngestion.h in Headers */,
 				F8936D01230C2604006A330F /* MSACOneCollectorChannelDelegatePrivate.h in Headers */,
 				F8936DB5230C2805006A330F /* MSACModel.h in Headers */,
+				F8936CC4230C24D9006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936DCE230C2805006A330F /* MSACUtility+Environment.h in Headers */,
 				F8936D88230C2805006A330F /* MSACChannelGroupDefault.h in Headers */,
 				F8936DA6230C2805006A330F /* MSACCommonSchemaLog.h in Headers */,
@@ -2372,10 +2372,10 @@
 				F8936E01230C2805006A330F /* MSACDeviceExtension.h in Headers */,
 				F8936DD7230C2805006A330F /* MSACLoggerInternal.h in Headers */,
 				F8936DFF230C2805006A330F /* MSACCSData.h in Headers */,
-				F8936CD0230C24DA006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936DFB230C2805006A330F /* MSACAppCenterIngestion.h in Headers */,
 				F8936D15230C2604006A330F /* MSACOneCollectorChannelDelegatePrivate.h in Headers */,
 				F8936E0D230C2805006A330F /* MSACModel.h in Headers */,
+				F8936CD0230C24DA006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936E26230C2805006A330F /* MSACUtility+Environment.h in Headers */,
 				F8936DE0230C2805006A330F /* MSACChannelGroupDefault.h in Headers */,
 				F8936DFE230C2805006A330F /* MSACCommonSchemaLog.h in Headers */,

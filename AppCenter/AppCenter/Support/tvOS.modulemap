@@ -4,6 +4,10 @@ framework module AppCenter {
   export *
   module * { export * }
   
+  explicit module Private {
+    header "MSACConstants+Flags.h"
+  }
+  
   link framework "Foundation"
   link framework "SystemConfiguration"
   link framework "UIKit"
