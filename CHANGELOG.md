@@ -10,6 +10,10 @@
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
 * **[Fix]** Fix `NSDateFormatter` initialization in a concurrent environment.
 
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.8.0.
+
 ### App Center Push
 
 App Center Push has been removed from the SDK and will be [retired on December 31st, 2020](https://devblogs.microsoft.com/appcenter/migrating-off-app-center-push/). 
