@@ -1,11 +1,12 @@
 #!/bin/bash
-set -e
 
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
 # Combines frameworks for device and simulator into universal one.
 # Usage: combine-frameworks.sh <device> <simulator> <output>
+
+set -e
 
 echo "Combining device and simulator frameworks"
 cp -Rv "$1" "$3"

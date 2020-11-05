@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
@@ -7,6 +6,8 @@ set -e
 # Builds the framework for the specified target.
 # Usage: build-framework.sh <target> <sdk>
 # Note: it must be run from Xcode's build phase.
+
+set -e
 
 # Print only target name and configuration. Mimic Xcode output to make prettify tools happy.
 echo "=== BUILD TARGET $1 OF PROJECT $PROJECT_NAME WITH CONFIGURATION $CONFIGURATION ==="
