@@ -1,0 +1,78 @@
+parameters:
+- name: modules
+  type: object
+
+steps:
+- ${{ each module in parameters.modules }}:
+  - ${{ if ne(module, 'AppCenterDistribute') }}:
+    - task: Xcode@5
+      displayName: ${{ format('Build {0} macOS Framework for Apple Silicon', module) }}
+      inputs:
+        xcWorkspacePath: AppCenter.xcworkspace
+        scheme: '${{ module }} macOS Framework'
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
+        args: 'SYMROOT="$(Build.BinariesDirectory)" ONLY_ACTIVE_ARCH=NO ARCHS=arm64'
+
+    - task: Xcode@5
+      displayName: ${{ format('Build {0} Mac Catalyst for Apple Silicon', module) }}
+      inputs:
+        xcWorkspacePath: AppCenter.xcworkspace
+        scheme: '${{ module }} iOS Framework'
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
+        destinationPlatformOption: macOS
+        args: 'SYMROOT="$(Build.BinariesDirectory)" ONLY_ACTIVE_ARCH=NO ARCHS=arm64'
+
+    - task: Xcode@5
+      displayName: ${{ format('Build {0} tvOS for Simulators on Apple Silicon', module) }}
+      inputs:
+        xcWorkspacePath: AppCenter.xcworkspace
+        scheme: '${{ module }} tvOS Framework'
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
+        destinationPlatformOption: tvOS
+        destinationTypeOption: simulators
+        destinationSimulators: 'Apple TV'
+        args: 'SYMROOT="$(Build.BinariesDirectory)" ONLY_ACTIVE_ARCH=NO ARCHS=arm64'
+
+  - task: Xcode@5
+    displayName: ${{ format('Build {0} iOS for Simulators on Apple Silicon', module) }}
+    inputs:
+      xcWorkspacePath: AppCenter.xcworkspace
+      scheme: '${{ module }} iOS Framework'
+      xcodeVersion: specifyPath
+      xcodeDeveloperDir: '$(APPLE_SILICON_XCODE_PATH)'
+      destinationPlatformOption: iOS
+      destinationTypeOption: simulators
+      destinationSimulators: 'iPhone 11'
+      args: 'SYMROOT="$(Build.BinariesDirectory)" ONLY_ACTIVE_ARCH=NO ARCHS=arm64'
+
+  - bash: |
+      append_to_framework() {
+        if [ ! -e "$1" ]; then
+          return 1
+        fi
+        local binary="$1/Versions/A/${{ module }}"
+        [[ ! -e "$binary" ]] && binary="$1/${{ module }}"
+        lipo "$binary" "$2/${{ module }}" -create -output "$binary"
+        lipo -info "$binary"
+      }
+      append_to_xcframework() {
+        append_to_framework \
+          "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/$1/${{ module }}.framework" \
+          "$BUILD_BINARIESDIRECTORY/Release-$2/${{ module }}.framework"
+      }
+      append_to_framework "AppCenter-SDK-Apple/macOS/${{ module }}.framework" "$BUILD_BINARIESDIRECTORY/Release/${{ module }}.framework"
+      append_to_framework "$BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/macos-x86_64/${{ module }}.framework" "$BUILD_BINARIESDIRECTORY/Release/${{ module }}.framework"
+      append_to_xcframework ios-i386_x86_64-simulator iphonesimulator
+      append_to_xcframework ios-x86_64-maccatalyst maccatalyst
+      append_to_xcframework tvos-x86_64-simulator appletvsimulator
+
+      rm -rf "AppCenter-SDK-Apple/XCFramework/${{ module }}.xcframework"
+      for framework in $BUILD_BINARIESDIRECTORY/Release-xcframework/${{ module }}.xcframework/*/${{ module }}.framework; do
+        xcframeworks+=( -framework "$framework")
+      done
+      xcodebuild -create-xcframework "${xcframeworks[@]}" -output "AppCenter-SDK-Apple/XCFramework/${{ module }}.xcframework"
+      ls "AppCenter-SDK-Apple/XCFramework/${{ module }}.xcframework"
+    displayName: ${{ format('Combine {0} Apple Silicon Binaries', module) }}

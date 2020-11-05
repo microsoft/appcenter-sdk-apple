@@ -2,8 +2,6 @@ SDKROOT = iphoneos
 TARGETED_DEVICE_FAMILY = 1,2
 SUPPORTS_MACCATALYST = YES
 ARCHS[sdk=iphoneos*] = $(ARCHS_STANDARD) armv7s arm64e
-ARCHS[sdk=iphonesimulator*] = $(MS_SIM_ARCHS)
-VALID_ARCHS[sdk=iphonesimulator*] = $(MS_SIM_ARCHS)
 SKIP_INSTALL = YES
 
 OTHER_CFLAGS = $(inherited) -fembed-bitcode-marker
