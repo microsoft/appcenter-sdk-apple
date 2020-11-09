@@ -185,9 +185,11 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
 #if !targetEnvironment(macCatalyst)
         PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in ()
           if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            self.present(picker, animated: true)
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.delegate = self
+                self.present(picker, animated: true)
+              }
           }
         })
 #else
