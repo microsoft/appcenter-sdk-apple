@@ -11,12 +11,12 @@ jobs:
 - template: analyze-and-test-template.yml
   parameters:
     platform: iOS
-    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute, AppCenterPush ]
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute ]
 
 - template: analyze-and-test-template.yml
   parameters:
     platform: macOS
-    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterPush ]
+    modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes ]
 
 - template: analyze-and-test-template.yml
   parameters:

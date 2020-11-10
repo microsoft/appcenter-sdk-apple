@@ -45,7 +45,7 @@ class EventPropertiesTableSection : PropertiesTableSection {
     }
     var onlyStrings = true
     var propertyDictionary = [String: String]()
-    let eventProperties = MSEventProperties()
+    let eventProperties = EventProperties()
     for property in typedProperties {
       switch property.type {
       case .String:

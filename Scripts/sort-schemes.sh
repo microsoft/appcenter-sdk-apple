@@ -105,7 +105,6 @@ replace_number_or_hide_scheme "AppCenter/AppCenter.xcodeproj" false
 replace_number_or_hide_scheme "AppCenterAnalytics/AppCenterAnalytics.xcodeproj" false
 replace_number_or_hide_scheme "AppCenterCrashes/AppCenterCrashes.xcodeproj" false
 replace_number_or_hide_scheme "AppCenterDistribute/AppCenterDistribute.xcodeproj" false
-replace_number_or_hide_scheme "AppCenterPush/AppCenterPush.xcodeproj" false
 
 # Sort schemes in apps projects.
 replace_number_or_hide_scheme "Sasquatch/Sasquatch.xcodeproj" false

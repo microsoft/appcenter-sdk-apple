@@ -6,7 +6,7 @@ import AppCenterCrashes
 import NotificationCenter
 import UIKit
 
-class ExtensionViewController: UIViewController, NCWidgetProviding, MSCrashesDelegate {
+class ExtensionViewController: UIViewController, NCWidgetProviding, CrashesDelegate {
   @IBOutlet weak var crashLabel: UILabel!
   @IBOutlet weak var extensionLabel: UILabel!
   @IBOutlet weak var attachementsSwitch: UISwitch!
@@ -21,15 +21,15 @@ class ExtensionViewController: UIViewController, NCWidgetProviding, MSCrashesDel
     crashLabel.text = crashes[0].title
     let dateString = DateFormatter.localizedString(from: Date.init(), dateStyle: DateFormatter.Style.medium, timeStyle: DateFormatter.Style.medium)
     extensionLabel.text = "Run #\(dateString)"
-    MSAppCenter.setLogLevel(.verbose)
-    MSCrashes.setDelegate(self)
-    MSAppCenter.start("238d7788-8e63-478f-a747-33444bdadbda", withServices: [MSCrashes.self])
+    AppCenter.logLevel = .verbose
+    Crashes.delegate = self
+    AppCenter.start(withAppSecret: "238d7788-8e63-478f-a747-33444bdadbda", services: [Crashes.self])
   }
   
-  func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
+  func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
     if (attachementsSwitch.isOn) {
-      let attachment1 = MSErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
-      let attachment2 = MSErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
+      let attachment1 = ErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
+      let attachment2 = ErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
       return [attachment1!, attachment2!]
     }
     return [];

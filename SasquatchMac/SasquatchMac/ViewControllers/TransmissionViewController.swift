@@ -50,17 +50,17 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
       if isDefault {
         return TransmissionTargets.defaultTransmissionTargetWasEnabled
       } else {
-        return getTransmissionTarget()?.isEnabled() ?? false
+        return getTransmissionTarget()?.enabled ?? false
       }
     }
 
     func setTransmissionTargetEnabled(_ enabledState: Bool) {
       if !isDefault {
-        getTransmissionTarget()!.setEnabled(enabledState)
+        getTransmissionTarget()!.enabled = enabledState
       }
     }
 
-    func getTransmissionTarget() -> MSAnalyticsTransmissionTarget? {
+    func getTransmissionTarget() -> AnalyticsTransmissionTarget? {
       if isDefault {
         return nil
       }
@@ -394,7 +394,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
         }
         let childSwitch: NSButton? = childCell.subviews[cellSubviews.valueCheck.rawValue] as? NSButton
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
-        childSwitch!.state = (childTarget?.isEnabled())! ? .on : .off
+        childSwitch!.state = (childTarget?.enabled)! ? .on : .off
         childSwitch!.isEnabled = state
       }
     }
@@ -476,16 +476,16 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     let value: String? = sender.stringValue.isEmpty ? nil : sender.stringValue
     switch CommonSchemaPropertyRow(rawValue: propertyIndex - 1)! {
     case .appName:
-      target.propertyConfigurator.setAppName(value)
+      target.propertyConfigurator.appName = value
       break
     case .appVersion:
-      target.propertyConfigurator.setAppVersion(value)
+      target.propertyConfigurator.appVersion = value
       break
     case .appLocale:
-      target.propertyConfigurator.setAppLocale(value)
+      target.propertyConfigurator.appLocale = value
       break
     case .userId:
-      target.propertyConfigurator.setUserId(value)
+      target.propertyConfigurator.userId = value
       break
     }
   }
@@ -635,7 +635,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     setEventPropertyState(property, forTarget: target)
   }
 
-  func setEventPropertyState(_ property: EventProperty, forTarget target: MSAnalyticsTransmissionTarget) {
+  func setEventPropertyState(_ property: EventProperty, forTarget target: AnalyticsTransmissionTarget) {
     let type = EventPropertyType(rawValue: property.type)!
     switch type {
     case .string:

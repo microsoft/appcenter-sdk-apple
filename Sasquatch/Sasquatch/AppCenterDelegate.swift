@@ -13,10 +13,10 @@ import AppCenterAnalytics
  */
 @objc protocol AppCenterDelegate {
 
-  // MSAppCenter section.
+  // AppCenter section.
   func isAppCenterEnabled() -> Bool
   func setAppCenterEnabled(_ isEnabled: Bool)
-  func setCustomProperties(_ customProperties: MSCustomProperties)
+  func setCustomProperties(_ customProperties: CustomProperties)
   func installId() -> String
   func appSecret() -> String
   func sdkVersion() -> String
@@ -30,29 +30,27 @@ import AppCenterAnalytics
   func isAnalyticsEnabled() -> Bool
   func isCrashesEnabled() -> Bool
   func isDistributeEnabled() -> Bool
-  func isPushEnabled() -> Bool
   func setAnalyticsEnabled(_ isEnabled: Bool)
   func setCrashesEnabled(_ isEnabled: Bool)
   func setDistributeEnabled(_ isEnabled: Bool)
-  func setPushEnabled(_ isEnabled: Bool)
 
-  // MSAnalytics section.
+  // Analytics section.
   func trackEvent(_ eventName: String)
   func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>)
-  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: MSFlags)
-  func trackEvent(_ eventName: String, withTypedProperties: MSEventProperties)
-  func trackEvent(_ eventName: String, withTypedProperties: MSEventProperties?, flags: MSFlags)
+  func trackEvent(_ eventName: String, withProperties: Dictionary<String, String>, flags: Flags)
+  func trackEvent(_ eventName: String, withTypedProperties: EventProperties)
+  func trackEvent(_ eventName: String, withTypedProperties: EventProperties?, flags: Flags)
   func trackPage(_ pageName: String)
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   func resume()
   func pause()
   
-  // MSCrashes section.
+  // Crashes section.
   func hasCrashedInLastSession() -> Bool
   func hasReceivedMemoryWarningInLastSession() -> Bool
   func generateTestCrash()
   
-  // MSDistribute section.
+  // Distribute section.
   func showConfirmationAlert()
   func checkForUpdate()
   func showDistributeDisabledAlert()

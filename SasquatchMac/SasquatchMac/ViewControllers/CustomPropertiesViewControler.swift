@@ -50,7 +50,7 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
   }
   
   @IBAction func send(_ sender: Any) {
-    let customProperties = MSCustomProperties()
+    let customProperties = CustomProperties()
     for property in properties {
       let key = property.key
       guard let type = CustomPropertyType(rawValue: property.type) else {
@@ -60,13 +60,13 @@ class CustomPropertiesViewControler: NSViewController, NSTableViewDelegate {
       case .Clear:
         customProperties.clearProperty(forKey: key)
       case .String:
-        customProperties.setString(property.string, forKey: key)
+        customProperties.set(property.string, forKey: key)
       case .Number:
-        customProperties.setNumber(property.number, forKey: key)
+        customProperties.set(property.number, forKey: key)
       case .Boolean:
-        customProperties.setBool(property.boolean, forKey: key)
+        customProperties.set(property.boolean, forKey: key)
       case .DateTime:
-        customProperties.setDate(property.dateTime, forKey: key)
+        customProperties.set(property.dateTime, forKey: key)
       }
     }
     appCenter.setCustomProperties(customProperties)

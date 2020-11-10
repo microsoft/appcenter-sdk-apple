@@ -73,7 +73,7 @@ class TargetPropertiesTableSection : PropertiesTableSection {
     targetProperties[selectedTarget!]!.remove(at: arrayIndex)
   }
 
-  func setEventPropertyState(_ state: PropertyState, forTarget target: MSAnalyticsTransmissionTarget) {
+  func setEventPropertyState(_ state: PropertyState, forTarget target: AnalyticsTransmissionTarget) {
     switch state.type {
     case .String:
       target.propertyConfigurator.setEventProperty(state.value as! String, forKey: state.key)

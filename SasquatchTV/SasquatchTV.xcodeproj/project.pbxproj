@@ -92,6 +92,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		324F3F4A2548708B0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD21B247D617E007E6EE1 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C229D8AB2546E7E5001909F3;
+			remoteInfo = AppCenter;
+		};
+		324F3F4C2548708B0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD237247D617E007E6EE1 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3BF925478BD10006E223;
+			remoteInfo = AppCenterAnalytics;
+		};
+		324F3F4E2548708B0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD1FF247D617E007E6EE1 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3C1B25478C780006E223;
+			remoteInfo = AppCenterCrashes;
+		};
+		324F3F502548709F0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD21B247D617E007E6EE1 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C229D8AB2546E7E5001909F3;
+			remoteInfo = AppCenter;
+		};
+		324F3F522548709F0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD237247D617E007E6EE1 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3BF925478BD10006E223;
+			remoteInfo = AppCenterAnalytics;
+		};
+		324F3F542548709F0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD1FF247D617E007E6EE1 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3C1B25478C780006E223;
+			remoteInfo = AppCenterCrashes;
+		};
 		5C2CC6F21EE6BE5500E2BDA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D322EFBA1E8E97A100A8EDA5 /* Project object */;
@@ -287,48 +329,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0446DF541F3B8E6300C8E338;
 			remoteInfo = "AppCenterAnalytics tvOS Tests";
-		};
-		C2AFD253247D6190007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD21B247D617E007E6EE1 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 043121491EE0BFC7007054C5;
-			remoteInfo = "AppCenter tvOS Fat Framework";
-		};
-		C2AFD255247D6190007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD237247D617E007E6EE1 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0431216D1EE0C213007054C5;
-			remoteInfo = "AppCenterAnalytics tvOS Fat Framework";
-		};
-		C2AFD257247D6190007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD1FF247D617E007E6EE1 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04EBBEE91F01C0E10006B8AE;
-			remoteInfo = "AppCenterCrashes tvOS Fat Framework";
-		};
-		C2AFD259247D6198007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD21B247D617E007E6EE1 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 043121491EE0BFC7007054C5;
-			remoteInfo = "AppCenter tvOS Fat Framework";
-		};
-		C2AFD25B247D6198007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD237247D617E007E6EE1 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0431216D1EE0C213007054C5;
-			remoteInfo = "AppCenterAnalytics tvOS Fat Framework";
-		};
-		C2AFD25D247D6198007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD1FF247D617E007E6EE1 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 04EBBEE91F01C0E10006B8AE;
-			remoteInfo = "AppCenterCrashes tvOS Fat Framework";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -814,9 +814,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2AFD25A247D6198007E6EE1 /* PBXTargetDependency */,
-				C2AFD25C247D6198007E6EE1 /* PBXTargetDependency */,
-				C2AFD25E247D6198007E6EE1 /* PBXTargetDependency */,
+				324F3F512548709F0006E223 /* PBXTargetDependency */,
+				324F3F532548709F0006E223 /* PBXTargetDependency */,
+				324F3F552548709F0006E223 /* PBXTargetDependency */,
 				C2AFD1FB247D6160007E6EE1 /* PBXTargetDependency */,
 			);
 			name = SasquatchTVSwift;
@@ -838,9 +838,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2AFD254247D6190007E6EE1 /* PBXTargetDependency */,
-				C2AFD256247D6190007E6EE1 /* PBXTargetDependency */,
-				C2AFD258247D6190007E6EE1 /* PBXTargetDependency */,
+				324F3F4B2548708B0006E223 /* PBXTargetDependency */,
+				324F3F4D2548708B0006E223 /* PBXTargetDependency */,
+				324F3F4F2548708B0006E223 /* PBXTargetDependency */,
 				C2AFD1EE247D6138007E6EE1 /* PBXTargetDependency */,
 			);
 			name = SasquatchTVObjC;
@@ -1344,6 +1344,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		324F3F4B2548708B0006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenter;
+			targetProxy = 324F3F4A2548708B0006E223 /* PBXContainerItemProxy */;
+		};
+		324F3F4D2548708B0006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenterAnalytics;
+			targetProxy = 324F3F4C2548708B0006E223 /* PBXContainerItemProxy */;
+		};
+		324F3F4F2548708B0006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenterCrashes;
+			targetProxy = 324F3F4E2548708B0006E223 /* PBXContainerItemProxy */;
+		};
+		324F3F512548709F0006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenter;
+			targetProxy = 324F3F502548709F0006E223 /* PBXContainerItemProxy */;
+		};
+		324F3F532548709F0006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenterAnalytics;
+			targetProxy = 324F3F522548709F0006E223 /* PBXContainerItemProxy */;
+		};
+		324F3F552548709F0006E223 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenterCrashes;
+			targetProxy = 324F3F542548709F0006E223 /* PBXContainerItemProxy */;
+		};
 		5C2CC6F31EE6BE5500E2BDA4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D322EFEA1E8E97DF00A8EDA5 /* SasquatchTVObjC */;
@@ -1373,36 +1403,6 @@
 			isa = PBXTargetDependency;
 			name = CrashLibTV;
 			targetProxy = C2AFD1FC247D6165007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD254247D6190007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter tvOS Fat Framework";
-			targetProxy = C2AFD253247D6190007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD256247D6190007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics tvOS Fat Framework";
-			targetProxy = C2AFD255247D6190007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD258247D6190007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes tvOS Fat Framework";
-			targetProxy = C2AFD257247D6190007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD25A247D6198007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter tvOS Fat Framework";
-			targetProxy = C2AFD259247D6198007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD25C247D6198007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics tvOS Fat Framework";
-			targetProxy = C2AFD25B247D6198007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD25E247D6198007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes tvOS Fat Framework";
-			targetProxy = C2AFD25D247D6198007E6EE1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

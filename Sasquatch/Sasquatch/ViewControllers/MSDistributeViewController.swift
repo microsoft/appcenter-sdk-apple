@@ -12,18 +12,18 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var updateTrackField: UITextField!
   var appCenter: AppCenterDelegate!
 
-  enum UpdateTrack: String, CaseIterable {
+  enum UpdateTrackUpperCase: String, CaseIterable {
     case Public = "Public"
     case Private = "Private"
 
-    var state: MSUpdateTrack {
+    var state: UpdateTrack {
        switch self {
        case .Public: return .public
        case .Private: return .private
        }
     }
 
-    static func getSelf(by track: MSUpdateTrack) -> UpdateTrack {
+    static func getSelf(by track: UpdateTrack) -> UpdateTrackUpperCase {
        switch track {
        case .public: return .Public
        case .private: return .Private
@@ -31,9 +31,9 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     }
   }
 
-  private var updatePicker: MSEnumPicker<UpdateTrack>?
+  private var updatePicker: MSEnumPicker<UpdateTrackUpperCase>?
 
-  private var updateTrack = UpdateTrack.Public {
+  private var updateTrack = UpdateTrackUpperCase.Public {
 
     didSet {
        self.updateTrackField.text = self.updateTrack.rawValue
@@ -45,15 +45,15 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     self.customized.isOn = UserDefaults.standard.bool(forKey: kSASCustomizedUpdateAlertKey)
     self.autoCheckForUpdate.isOn = UserDefaults.standard.bool(forKey: kSASAutomaticCheckForUpdateDisabledKey)
     preparePickers()
-    self.updateTrack = UpdateTrack.getSelf(by: MSDistribute.updateTrack)
+    self.updateTrack = UpdateTrackUpperCase.getSelf(by: Distribute.updateTrack)
   }
 
   private func preparePickers() {
-    self.updatePicker = MSEnumPicker<UpdateTrack>(
+    self.updatePicker = MSEnumPicker<UpdateTrackUpperCase>(
         textField: self.updateTrackField,
-        allValues: UpdateTrack.allCases,
+        allValues: UpdateTrackUpperCase.allCases,
         onChange: { index in
-            let pickedValue = UpdateTrack.allCases[index]
+            let pickedValue = UpdateTrackUpperCase.allCases[index]
             UserDefaults.standard.set(pickedValue.state.rawValue, forKey: kMSUpdateTrackKey)
     })
     self.updateTrackField.delegate = self.updatePicker

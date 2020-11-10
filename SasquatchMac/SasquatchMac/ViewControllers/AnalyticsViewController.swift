@@ -3,7 +3,7 @@
 
 import Cocoa
 
-// FIXME: trackPage has been hidden in MSAnalytics temporarily. Use internal until the feature comes back.
+// FIXME: trackPage has been hidden in Analytics temporarily. Use internal until the feature comes back.
 class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate {
 
   class EventProperty : NSObject {
@@ -32,14 +32,14 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     case critical = "Critical"
     case invalid = "Invalid"
 
-    var flags: MSFlags {
+    var flags: Flags {
       switch self {
       case .normal:
         return [.normal]
       case .critical:
         return [.critical]
       case .invalid:
-        return MSFlags.init(rawValue: 42)
+        return Flags.init(rawValue: 42)
       default:
         return []
       }
@@ -85,7 +85,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     let eventProperties = eventPropertiesSet()
     let eventName = name.stringValue
     for _ in 0..<Int(countSlider.intValue) {
-      if let properties = eventProperties as? MSEventProperties {
+      if let properties = eventProperties as? EventProperties {
         if priority != .defaultType {
           appCenter.trackEvent(eventName, withTypedProperties: properties, flags: priority.flags)
         } else {
@@ -107,7 +107,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       for targetToken in TransmissionTargets.shared.transmissionTargets.keys {
         if TransmissionTargets.shared.targetShouldSendAnalyticsEvents(targetToken: targetToken) {
           let target = TransmissionTargets.shared.transmissionTargets[targetToken]!
-          if let properties = eventProperties as? MSEventProperties {
+          if let properties = eventProperties as? EventProperties {
             if priority != .defaultType {
               target.trackEvent(eventName, withProperties: properties, flags: priority.flags)
             } else {
@@ -219,7 +219,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     }
     var onlyStrings = true
     var propertyDictionary = [String: String]()
-    let properties = MSEventProperties()
+    let properties = EventProperties()
     for property in eventProperties {
       let key = property.key
       guard let type = EventPropertyType(rawValue: property.type) else {

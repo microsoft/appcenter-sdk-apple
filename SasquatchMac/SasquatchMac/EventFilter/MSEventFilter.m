@@ -33,7 +33,7 @@ static NSString *const kMSEventTypeName = @"event";
   return @"eventFilter";
 }
 
-#pragma mark - MSServiceAbstract
+#pragma mark - MSACServiceAbstract
 
 /**
  * Enable/disable this service.
@@ -45,28 +45,28 @@ static NSString *const kMSEventTypeName = @"event";
 + (void)setEnabled:(BOOL)isEnabled {
   [super setEnabled:isEnabled];
   if (isEnabled) {
-    [MSEventFilter logMessage:@"Event Filter service has been enabled." withLogLevel:MSLogLevelInfo];
+    [MSEventFilter logMessage:@"Event Filter service has been enabled." withLogLevel:MSACLogLevelInfo];
   } else {
-    [MSEventFilter logMessage:@"Event Filter service has been disabled." withLogLevel:MSLogLevelInfo];
+    [MSEventFilter logMessage:@"Event Filter service has been disabled." withLogLevel:MSACLogLevelInfo];
   }
 }
 
-- (void)startWithChannelGroup:(id<MSChannelGroupProtocol>)channelGroup
+- (void)startWithChannelGroup:(id<MSACChannelGroupProtocol>)channelGroup
                     appSecret:(NSString *)appSecret
       transmissionTargetToken:(NSString *)token
               fromApplication:(BOOL)fromApplication {
   [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
-  [channelGroup addDelegate:(id<MSChannelDelegate>)self];
+  [channelGroup addDelegate:(id<MSACChannelDelegate>)self];
 }
 
-#pragma mark - MSChannelDelegate
+#pragma mark - MSACChannelDelegate
 
-- (BOOL)channelUnit:(id<MSChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSLog>)log {
+- (BOOL)channelUnit:(id<MSACChannelUnitProtocol>)__unused channelUnit shouldFilterLog:(id<MSACLog>)log {
   if (![MSEventFilter isEnabled]) {
     return NO;
   }
   if ([[log type] isEqualToString:kMSEventTypeName]) {
-    MSEventLog *eventLog = (MSEventLog *)log;
+    MSACEventLog *eventLog = (MSACEventLog *)log;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd-MM-YYYY HH:mm:ss"];
     NSString *logTimestampString = [dateFormatter stringFromDate:log.timestamp];
@@ -76,7 +76,7 @@ static NSString *const kMSEventTypeName = @"event";
                          \n\tLog SID = %@\
                          \n\tEvent name = %@",
                                                    log.type, logTimestampString, log.sid, eventLog.name];
-    [MSEventFilter logMessage:message withLogLevel:MSLogLevelInfo];
+    [MSEventFilter logMessage:message withLogLevel:MSACLogLevelInfo];
     return YES;
   }
   return NO;
@@ -84,8 +84,8 @@ static NSString *const kMSEventTypeName = @"event";
 
 #pragma mark - Helper methods
 
-+ (void)logMessage:(NSString *)message withLogLevel:(MSLogLevel)logLevel {
-  [MSWrapperLogger MSWrapperLog:^{
++ (void)logMessage:(NSString *)message withLogLevel:(MSACLogLevel)logLevel {
+  [MSACWrapperLogger MSACWrapperLog:^{
     return message;
   }
                             tag:[MSEventFilter logTag]

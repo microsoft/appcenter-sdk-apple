@@ -8,7 +8,7 @@ private let kDefaultTargetKey = "defaultTargetKey"
 class TransmissionTargets {
   static let shared = TransmissionTargets.init()
   static let startTarget = UserDefaults.standard.integer(forKey: kMSStartTargetKey)
-  var transmissionTargets = [String: MSAnalyticsTransmissionTarget]()
+  var transmissionTargets = [String: AnalyticsTransmissionTarget]()
   private var sendsAnalyticsEvents = [String: Bool]()
   enum StartupMode: Int {
     case appCenter
@@ -28,7 +28,7 @@ class TransmissionTargets {
     // Parent target.
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     let parentTargetToken = appName.contains("SasquatchMacSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
-    let parentTarget = MSAnalytics.transmissionTarget(forToken: parentTargetToken)
+    let parentTarget = Analytics.transmissionTarget(forToken: parentTargetToken)
     transmissionTargets[parentTargetToken] = parentTarget
     sendsAnalyticsEvents[parentTargetToken] = true
 

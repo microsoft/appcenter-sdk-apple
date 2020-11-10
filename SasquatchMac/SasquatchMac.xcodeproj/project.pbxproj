@@ -15,8 +15,6 @@
 		042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */; };
 		042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* AppCenterProvider.swift */; };
 		0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */; };
-		046964561F2A607D00F9D31F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
-		046964581F2A74E600F9D31F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
 		04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
 		353332F720126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
@@ -42,8 +40,6 @@
 		5C6F9BCD1EB8FBE6009E52D8 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
 		5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */; };
 		5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
-		803CFF381F6A87180072B9BA /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
-		803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
 		B2A4CFBA210A716E00199B4F /* AppCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* AppCenterProvider.swift */; };
 		B2A4CFBB210A716E00199B4F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		B2A4CFBC210A716E00199B4F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
@@ -54,12 +50,10 @@
 		B2A4CFC1210A716E00199B4F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C251E8E75B300B288CE /* AppDelegate.m */; };
 		B2A4CFC2210A716E00199B4F /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
 		B2A4CFC3210A716E00199B4F /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
-		B2A4CFC4210A716E00199B4F /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
 		B2A4CFC5210A716E00199B4F /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */; };
 		B2A4CFC7210A716E00199B4F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
 		B2A4CFC8210A716E00199B4F /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		B2A4CFC9210A716E00199B4F /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */; };
-		B2A4CFCA210A716E00199B4F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
 		B2A4CFCD210A716E00199B4F /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		B2A4CFCE210A716E00199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C2D1E8E75B300B288CE /* Assets.xcassets */; };
 		B2A4CFD8210A77D400199B4F /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */; };
@@ -70,13 +64,11 @@
 		B2A4CFDD210A77D400199B4F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		B2A4CFDE210A77D400199B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C621E8E763600B288CE /* AppDelegate.swift */; };
 		B2A4CFDF210A77D400199B4F /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
-		B2A4CFE0210A77D400199B4F /* PushViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803CFF371F6A87180072B9BA /* PushViewController.swift */; };
 		B2A4CFE1210A77D400199B4F /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */; };
 		B2A4CFE2210A77D400199B4F /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */; };
 		B2A4CFE4210A77D400199B4F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
 		B2A4CFE5210A77D400199B4F /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		B2A4CFE6210A77D400199B4F /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */; };
-		B2A4CFE7210A77D400199B4F /* AppCenterPush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 046964551F2A607D00F9D31F /* AppCenterPush.framework */; };
 		B2A4CFEA210A77D400199B4F /* SasquatchMac.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C151E8E757300B288CE /* SasquatchMac.storyboard */; };
 		B2A4CFEB210A77D400199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3C31C661E8E763600B288CE /* Assets.xcassets */; };
 		C29BC5E323999D7C00E5E8F7 /* AppCenterApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = C29BC5E223999D7C00E5E8F7 /* AppCenterApplication.m */; };
@@ -116,54 +108,54 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		324F3F1D2548705B0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C229D8AB2546E7E5001909F3;
+			remoteInfo = AppCenter;
+		};
+		324F3F1F2548705B0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3BF925478BD10006E223;
+			remoteInfo = AppCenterAnalytics;
+		};
+		324F3F212548705B0006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3C1B25478C780006E223;
+			remoteInfo = AppCenterCrashes;
+		};
+		324F3F5B254872530006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C229D8AB2546E7E5001909F3;
+			remoteInfo = AppCenter;
+		};
+		324F3F5D254872530006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3BF925478BD10006E223;
+			remoteInfo = AppCenterAnalytics;
+		};
+		324F3F5F254872530006E223 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3C1B25478C780006E223;
+			remoteInfo = AppCenterCrashes;
+		};
 		C23A144C247D5CA60025DA31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156AF2338C27700798480 /* CrashLib.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 84D067F1244864DC000B708B;
 			remoteInfo = CrashLibWatch;
-		};
-		C29DB69F24AA1C3800931C65 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
-			remoteInfo = "AppCenter macOS Fat Framework";
-		};
-		C29DB6A124AA1C3800931C65 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
-			remoteInfo = "AppCenterAnalytics macOS Fat Framework";
-		};
-		C29DB6A324AA1C3800931C65 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
-			remoteInfo = "AppCenterCrashes macOS Fat Framework";
-		};
-		C29DB6A524AA1C3800931C65 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0469640E1F2A558F00F9D31F;
-			remoteInfo = "AppCenterPush macOS Fat Framework";
-		};
-		C29DB6D524AA1CA600931C65 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
-			remoteInfo = "AppCenter macOS Fat Framework";
-		};
-		C29DB6D724AA1CA600931C65 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
-			remoteInfo = "AppCenterCrashes macOS Fat Framework";
 		};
 		C2AFD27A247D630F007E6EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -249,34 +241,6 @@
 			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
 			remoteInfo = "AppCenter tvOS Tests";
 		};
-		C2AFD2AD247D630F007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91F9B230C004A0068070D;
-			remoteInfo = "AppCenterPush iOS Framework";
-		};
-		C2AFD2AF247D630F007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D3AD5EC01E5C4F6A001627AB;
-			remoteInfo = "AppCenterPush iOS Tests";
-		};
-		C2AFD2B1247D630F007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91FAC230C00540068070D;
-			remoteInfo = "AppCenterPush macOS Framework";
-		};
-		C2AFD2B3247D630F007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 046964251F2A559C00F9D31F;
-			remoteInfo = "AppCenterPush macOS Tests";
-		};
 		C2AFD2C5247D630F007E6EE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */;
@@ -318,34 +282,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 0446DF541F3B8E6300C8E338;
 			remoteInfo = "AppCenterAnalytics tvOS Tests";
-		};
-		C2AFD2D1247D6326007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFE61EAA937000C10CAF;
-			remoteInfo = "AppCenter macOS Fat Framework";
-		};
-		C2AFD2D3247D6326007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFEF1EAAADAC00C10CAF;
-			remoteInfo = "AppCenterAnalytics macOS Fat Framework";
-		};
-		C2AFD2D5247D6326007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0485AFF91EAAB27E00C10CAF;
-			remoteInfo = "AppCenterCrashes macOS Fat Framework";
-		};
-		C2AFD2D7247D6326007E6EE1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0469640E1F2A558F00F9D31F;
-			remoteInfo = "AppCenterPush macOS Fat Framework";
 		};
 		C2F156B52338C27700798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -498,7 +434,6 @@
 		042496891EC3D29900502B62 /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
 		0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
 		046964541F2A5EE600F9D31F /* SasquatchMacObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacObjC.entitlements; sourceTree = "<group>"; };
-		046964551F2A607D00F9D31F /* AppCenterPush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterPush.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterPush.framework"; sourceTree = "<group>"; };
 		046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift.entitlements; sourceTree = "<group>"; };
 		04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenter.framework"; sourceTree = "<group>"; };
@@ -513,7 +448,6 @@
 		5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegateSwift.swift; sourceTree = "<group>"; };
 		5CA0000921EDB16D00127624 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterViewController.swift; sourceTree = "<group>"; };
-		803CFF371F6A87180072B9BA /* PushViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushViewController.swift; sourceTree = "<group>"; };
 		80A3A89A1F0BF30100FBE3B6 /* SasquatchMac-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SasquatchMac-Bridging-Header.h"; sourceTree = "<group>"; };
 		B2A4CFD4210A716E00199B4F /* SasquatchMacObjC-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacObjC-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2A4CFF1210A77D400199B4F /* SasquatchMacSwift-Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SasquatchMacSwift-Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -521,7 +455,6 @@
 		C29BC5E223999D7C00E5E8F7 /* AppCenterApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppCenterApplication.m; sourceTree = "<group>"; };
 		C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterCrashes.xcodeproj; path = ../AppCenterCrashes/AppCenterCrashes.xcodeproj; sourceTree = "<group>"; };
 		C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
-		C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterPush.xcodeproj; path = ../AppCenterPush/AppCenterPush.xcodeproj; sourceTree = "<group>"; };
 		C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenterAnalytics.xcodeproj; path = ../AppCenterAnalytics/AppCenterAnalytics.xcodeproj; sourceTree = "<group>"; };
 		C2F156AF2338C27700798480 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		D3C31C161E8E757300B288CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SasquatchMac.storyboard; sourceTree = "<group>"; };
@@ -556,7 +489,6 @@
 				B2A4CFC7210A716E00199B4F /* AppCenter.framework in Frameworks */,
 				B2A4CFC8210A716E00199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				B2A4CFC9210A716E00199B4F /* AppCenterCrashes.framework in Frameworks */,
-				B2A4CFCA210A716E00199B4F /* AppCenterPush.framework in Frameworks */,
 				C2F157662338E6A800798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,7 +500,6 @@
 				B2A4CFE4210A77D400199B4F /* AppCenter.framework in Frameworks */,
 				B2A4CFE5210A77D400199B4F /* AppCenterAnalytics.framework in Frameworks */,
 				B2A4CFE6210A77D400199B4F /* AppCenterCrashes.framework in Frameworks */,
-				B2A4CFE7210A77D400199B4F /* AppCenterPush.framework in Frameworks */,
 				C2F1575C2338E5E800798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -580,7 +511,6 @@
 				04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */,
 				04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */,
 				042319CD1EAAD720008FACA0 /* AppCenterCrashes.framework in Frameworks */,
-				046964561F2A607D00F9D31F /* AppCenterPush.framework in Frameworks */,
 				C2F157612338E64000798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -592,7 +522,6 @@
 				5C6F9BCD1EB8FBE6009E52D8 /* AppCenter.framework in Frameworks */,
 				042319CE1EAAD73F008FACA0 /* AppCenterAnalytics.framework in Frameworks */,
 				042319CF1EAAD73F008FACA0 /* AppCenterCrashes.framework in Frameworks */,
-				046964581F2A74E600F9D31F /* AppCenterPush.framework in Frameworks */,
 				C2F1576B2338E6AD00798480 /* CrashLibMac.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -626,7 +555,6 @@
 				C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */,
 				C2AFD2B5247D630F007E6EE1 /* AppCenterAnalytics.xcodeproj */,
 				C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */,
-				C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */,
 			);
 			name = AppCenter;
 			sourceTree = "<group>";
@@ -653,17 +581,6 @@
 				C2AFD29D247D630F007E6EE1 /* AppCenter.xctest */,
 				C2AFD29F247D630F007E6EE1 /* AppCenter.framework */,
 				C2AFD2A1247D630F007E6EE1 /* AppCenter.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C2AFD2A3247D630F007E6EE1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C2AFD2AE247D630F007E6EE1 /* AppCenterPush.framework */,
-				C2AFD2B0247D630F007E6EE1 /* AppCenterPush.xctest */,
-				C2AFD2B2247D630F007E6EE1 /* AppCenterPush.framework */,
-				C2AFD2B4247D630F007E6EE1 /* AppCenterPush.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -803,7 +720,6 @@
 				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
 				F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */,
 				353332F620126200009B0946 /* EventFilterViewController.swift */,
-				803CFF371F6A87180072B9BA /* PushViewController.swift */,
 				4A3147512206896100B0FC8A /* AuthenticationViewController.swift */,
 				4A0A708522044A37007565A6 /* TransmissionViewController.swift */,
 			);
@@ -823,7 +739,6 @@
 			isa = PBXGroup;
 			children = (
 				B2CD74CF1F22C3150070E7DF /* libsqlite3.tbd */,
-				046964551F2A607D00F9D31F /* AppCenterPush.framework */,
 				042319CC1EAAD720008FACA0 /* AppCenterCrashes.framework */,
 				04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */,
 				04ED31D41EAAC7510033BAAE /* AppCenter.framework */,
@@ -911,10 +826,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2AFD2D2247D6326007E6EE1 /* PBXTargetDependency */,
-				C2AFD2D4247D6326007E6EE1 /* PBXTargetDependency */,
-				C2AFD2D6247D6326007E6EE1 /* PBXTargetDependency */,
-				C2AFD2D8247D6326007E6EE1 /* PBXTargetDependency */,
+				324F3F5C254872530006E223 /* PBXTargetDependency */,
+				324F3F5E254872530006E223 /* PBXTargetDependency */,
+				324F3F60254872530006E223 /* PBXTargetDependency */,
 				C2F157642338E64000798480 /* PBXTargetDependency */,
 			);
 			name = SasquatchMacObjC;
@@ -937,10 +851,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				C29DB6A024AA1C3800931C65 /* PBXTargetDependency */,
-				C29DB6A224AA1C3800931C65 /* PBXTargetDependency */,
-				C29DB6A424AA1C3800931C65 /* PBXTargetDependency */,
-				C29DB6A624AA1C3800931C65 /* PBXTargetDependency */,
+				324F3F1E2548705B0006E223 /* PBXTargetDependency */,
+				324F3F202548705B0006E223 /* PBXTargetDependency */,
+				324F3F222548705B0006E223 /* PBXTargetDependency */,
 				F8EE646A231E6F8E0007A52E /* PBXTargetDependency */,
 				C2F1576E2338E6AD00798480 /* PBXTargetDependency */,
 			);
@@ -962,8 +875,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C29DB6D624AA1CA600931C65 /* PBXTargetDependency */,
-				C29DB6D824AA1CA600931C65 /* PBXTargetDependency */,
 				C2F157592338E5D300798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacSwift-Extension";
@@ -1045,10 +956,6 @@
 				{
 					ProductGroup = C2AFD26B247D630F007E6EE1 /* Products */;
 					ProjectRef = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
-				},
-				{
-					ProductGroup = C2AFD2A3247D630F007E6EE1 /* Products */;
-					ProjectRef = C2AFD2A2247D630F007E6EE1 /* AppCenterPush.xcodeproj */;
 				},
 				{
 					ProductGroup = C2F156B02338C27700798480 /* Products */;
@@ -1156,34 +1063,6 @@
 			fileType = wrapper.cfbundle;
 			path = AppCenter.xctest;
 			remoteRef = C2AFD2A0247D630F007E6EE1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2AFD2AE247D630F007E6EE1 /* AppCenterPush.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterPush.framework;
-			remoteRef = C2AFD2AD247D630F007E6EE1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2AFD2B0247D630F007E6EE1 /* AppCenterPush.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterPush.xctest;
-			remoteRef = C2AFD2AF247D630F007E6EE1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2AFD2B2247D630F007E6EE1 /* AppCenterPush.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenterPush.framework;
-			remoteRef = C2AFD2B1247D630F007E6EE1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C2AFD2B4247D630F007E6EE1 /* AppCenterPush.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenterPush.xctest;
-			remoteRef = C2AFD2B3247D630F007E6EE1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C2AFD2C6247D630F007E6EE1 /* AppCenterAnalytics.framework */ = {
@@ -1437,7 +1316,6 @@
 				B2A4CFC2210A716E00199B4F /* AppCenterViewController.swift in Sources */,
 				B2A4CFC3210A716E00199B4F /* AnalyticsViewController.swift in Sources */,
 				4A3147532206897800B0FC8A /* AuthenticationViewController.swift in Sources */,
-				B2A4CFC4210A716E00199B4F /* PushViewController.swift in Sources */,
 				B2A4CFC5210A716E00199B4F /* AppCenterDelegateObjC.m in Sources */,
 				4A0A7082220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 			);
@@ -1458,7 +1336,6 @@
 				B2A4CFDD210A77D400199B4F /* EventFilterViewController.swift in Sources */,
 				B2A4CFDE210A77D400199B4F /* AppDelegate.swift in Sources */,
 				B2A4CFDF210A77D400199B4F /* CrashesViewController.swift in Sources */,
-				B2A4CFE0210A77D400199B4F /* PushViewController.swift in Sources */,
 				B2A4CFE1210A77D400199B4F /* AnalyticsViewController.swift in Sources */,
 				4A0A708922044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				B2A4CFE2210A77D400199B4F /* AppCenterDelegate.swift in Sources */,
@@ -1483,7 +1360,6 @@
 				5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */,
 				5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */,
 				4A3147522206896100B0FC8A /* AuthenticationViewController.swift in Sources */,
-				803CFF381F6A87180072B9BA /* PushViewController.swift in Sources */,
 				0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */,
 				4A0A7081220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 			);
@@ -1504,7 +1380,6 @@
 				353332F720126200009B0946 /* EventFilterViewController.swift in Sources */,
 				D3C31C631E8E763600B288CE /* AppDelegate.swift in Sources */,
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
-				803CFF391F6A87180072B9BA /* PushViewController.swift in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
 				4A0A708822044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */,
@@ -1524,55 +1399,35 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C29DB6A024AA1C3800931C65 /* PBXTargetDependency */ = {
+		324F3F1E2548705B0006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "AppCenter macOS Fat Framework";
-			targetProxy = C29DB69F24AA1C3800931C65 /* PBXContainerItemProxy */;
+			name = AppCenter;
+			targetProxy = 324F3F1D2548705B0006E223 /* PBXContainerItemProxy */;
 		};
-		C29DB6A224AA1C3800931C65 /* PBXTargetDependency */ = {
+		324F3F202548705B0006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics macOS Fat Framework";
-			targetProxy = C29DB6A124AA1C3800931C65 /* PBXContainerItemProxy */;
+			name = AppCenterAnalytics;
+			targetProxy = 324F3F1F2548705B0006E223 /* PBXContainerItemProxy */;
 		};
-		C29DB6A424AA1C3800931C65 /* PBXTargetDependency */ = {
+		324F3F222548705B0006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "AppCenterCrashes macOS Fat Framework";
-			targetProxy = C29DB6A324AA1C3800931C65 /* PBXContainerItemProxy */;
+			name = AppCenterCrashes;
+			targetProxy = 324F3F212548705B0006E223 /* PBXContainerItemProxy */;
 		};
-		C29DB6A624AA1C3800931C65 /* PBXTargetDependency */ = {
+		324F3F5C254872530006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "AppCenterPush macOS Fat Framework";
-			targetProxy = C29DB6A524AA1C3800931C65 /* PBXContainerItemProxy */;
+			name = AppCenter;
+			targetProxy = 324F3F5B254872530006E223 /* PBXContainerItemProxy */;
 		};
-		C29DB6D624AA1CA600931C65 /* PBXTargetDependency */ = {
+		324F3F5E254872530006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "AppCenter macOS Fat Framework";
-			targetProxy = C29DB6D524AA1CA600931C65 /* PBXContainerItemProxy */;
+			name = AppCenterAnalytics;
+			targetProxy = 324F3F5D254872530006E223 /* PBXContainerItemProxy */;
 		};
-		C29DB6D824AA1CA600931C65 /* PBXTargetDependency */ = {
+		324F3F60254872530006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "AppCenterCrashes macOS Fat Framework";
-			targetProxy = C29DB6D724AA1CA600931C65 /* PBXContainerItemProxy */;
-		};
-		C2AFD2D2247D6326007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenter macOS Fat Framework";
-			targetProxy = C2AFD2D1247D6326007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD2D4247D6326007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterAnalytics macOS Fat Framework";
-			targetProxy = C2AFD2D3247D6326007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD2D6247D6326007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterCrashes macOS Fat Framework";
-			targetProxy = C2AFD2D5247D6326007E6EE1 /* PBXContainerItemProxy */;
-		};
-		C2AFD2D8247D6326007E6EE1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AppCenterPush macOS Fat Framework";
-			targetProxy = C2AFD2D7247D6326007E6EE1 /* PBXContainerItemProxy */;
+			name = AppCenterCrashes;
+			targetProxy = 324F3F5F254872530006E223 /* PBXContainerItemProxy */;
 		};
 		C2F157592338E5D300798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

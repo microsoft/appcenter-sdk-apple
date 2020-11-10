@@ -7,7 +7,6 @@ import CoreLocation
 import AppCenter
 import AppCenterAnalytics
 import AppCenterCrashes
-import AppCenterPush
 
 enum StartupMode: Int {
     case appCenter
@@ -19,7 +18,7 @@ enum StartupMode: Int {
 
 @NSApplicationMain
 @objc(AppDelegate)
-class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDelegate, CLLocationManagerDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationManagerDelegate {
 
   var rootController: NSWindowController!
   var locationManager: CLLocationManager = CLLocationManager()
@@ -27,8 +26,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   func applicationDidFinishLaunching(_ notification: Notification) {
     
     // Crashes Delegate.
-    MSCrashes.setDelegate(self);
-    MSCrashes.setUserConfirmationHandler({ (errorReports: [MSErrorReport]) in
+    Crashes.delegate = self;
+    Crashes.userConfirmationHandler = ({ (errorReports: [ErrorReport]) in
       let alert: NSAlert = NSAlert()
       alert.messageText = "Sorry about that!"
       alert.informativeText = "Do you want to send an anonymous crash report so we can fix the issue?"
@@ -39,13 +38,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
 
       switch (alert.runModal()) {
       case .alertFirstButtonReturn:
-        MSCrashes.notify(with: .always)
+        Crashes.notify(with: .always)
         break;
       case .alertSecondButtonReturn:
-        MSCrashes.notify(with: .send)
+        Crashes.notify(with: .send)
         break;
       case .alertThirdButtonReturn:
-        MSCrashes.notify(with: .dontSend)
+        Crashes.notify(with: .dontSend)
         break;
       default:
         break;
@@ -56,16 +55,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Enable catching uncaught exceptions thrown on the main thread.
     UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
 
-    // Push Delegate.
-    MSPush.setDelegate(self);
-
     // Set loglevel to verbose.
-    MSAppCenter.setLogLevel(MSLogLevel.verbose)
+    AppCenter.logLevel = .verbose
 
     // Set custom log URL.
     let logUrl = UserDefaults.standard.string(forKey: kMSLogUrl)
     if logUrl != nil {
-      MSAppCenter.setLogUrl(logUrl)
+      AppCenter.logUrl = logUrl
     }
     
     // Set location manager.
@@ -75,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Set max storage size.
     let storageMaxSize = UserDefaults.standard.object(forKey: kMSStorageMaxSizeKey) as? Int
     if storageMaxSize != nil {
-        MSAppCenter.setMaxStorageSize(storageMaxSize!, completionHandler: { success in
+        AppCenter.setMaxStorageSize(storageMaxSize!, completionHandler: { success in
             DispatchQueue.main.async {
                 if success {
                     let realSize = Int64(ceil(Double(storageMaxSize!) / Double(kMSStoragePageSize))) * Int64(kMSStoragePageSize)
@@ -90,21 +86,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     }
 
     // Start AppCenter.
-    let services = [MSAnalytics.self, MSCrashes.self, MSPush.self]
+    let services = [Analytics.self, Crashes.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftAppSecret
     switch startTarget {
     case .appCenter:
-        MSAppCenter.start(appSecret, withServices: services)
+        AppCenter.start(withAppSecret:appSecret, services: services)
         break
     case .oneCollector:
-        MSAppCenter.start("target=\(kMSSwiftTargetToken)", withServices: services)
+        AppCenter.start(withAppSecret: "target=\(kMSSwiftTargetToken)", services: services)
         break
     case .both:
-        MSAppCenter.start("appsecret=\(appSecret);target=\(kMSSwiftTargetToken)", withServices: services)
+        AppCenter.start(withAppSecret: "appsecret=\(appSecret);target=\(kMSSwiftTargetToken)", services: services)
         break
     case .none:
-        MSAppCenter.start(withServices: services)
+        AppCenter.start(services: services)
         break
     case .skip:
         break
@@ -113,7 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     // Set user id.
     let userId = UserDefaults.standard.string(forKey: kMSUserIdKey)
     if userId != nil {
-      MSAppCenter.setUserId(userId)
+      AppCenter.userId = userId
     }
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
@@ -144,38 +140,38 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
   }
   // Crashes Delegate
 
-  func crashes(_ crashes: MSCrashes!, shouldProcessErrorReport errorReport: MSErrorReport!) -> Bool {
+  func crashes(_ crashes: Crashes, shouldProcess errorReport: ErrorReport) -> Bool {
     if errorReport.exceptionReason != nil {
       NSLog("Should process error report with: %@", errorReport.exceptionReason);
     }
     return true
   }
 
-  func crashes(_ crashes: MSCrashes!, willSend errorReport: MSErrorReport!) {
+  func crashes(_ crashes: Crashes, willSend errorReport: ErrorReport) {
     if errorReport.exceptionReason != nil {
       NSLog("Will send error report with: %@", errorReport.exceptionReason);
     }
   }
 
-  func crashes(_ crashes: MSCrashes!, didSucceedSending errorReport: MSErrorReport!) {
+  func crashes(_ crashes: Crashes, didSucceedSending errorReport: ErrorReport) {
     if errorReport.exceptionReason != nil {
       NSLog("Did succeed error report sending with: %@", errorReport.exceptionReason);
     }
   }
 
-  func crashes(_ crashes: MSCrashes!, didFailSending errorReport: MSErrorReport!, withError error: Error!) {
+  func crashes(_ crashes: Crashes, didFailSending errorReport: ErrorReport, withError error: Error) {
     if errorReport.exceptionReason != nil {
       NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
     }
   }
 
-  func attachments(with crashes: MSCrashes, for errorReport: MSErrorReport) -> [MSErrorAttachmentLog] {
-    var attachments = [MSErrorAttachmentLog]()
+  func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
+    var attachments = [ErrorAttachmentLog]()
 
     // Text attachment.
     let text = UserDefaults.standard.string(forKey: "textAttachment") ?? ""
     if !text.isEmpty {
-      let textAttachment = MSErrorAttachmentLog.attachment(withText: text, filename: "user.log")!
+      let textAttachment = ErrorAttachmentLog.attachment(withText: text, filename: "user.log")!
       attachments.append(textAttachment)
     }
 
@@ -186,7 +182,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
         let data = try Data(contentsOf: referenceUrl!)
         let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, referenceUrl!.pathExtension as NSString, nil)?.takeRetainedValue()
         let mime = UTTypeCopyPreferredTagWithClass(uti!, kUTTagClassMIMEType)?.takeRetainedValue() as NSString?
-        let binaryAttachment = MSErrorAttachmentLog.attachment(withBinary: data, filename: referenceUrl?.lastPathComponent, contentType: mime! as String)!
+        let binaryAttachment = ErrorAttachmentLog.attachment(withBinary: data, filename: referenceUrl?.lastPathComponent, contentType: mime! as String)!
         attachments.append(binaryAttachment)
         print("Add binary attachment with \(data.count) bytes")
       } catch {
@@ -195,32 +191,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     }
     return attachments
   }
-
-  // Push Delegate
-
-  func push(_ push: MSPush!, didReceive pushNotification: MSPushNotification!) {
-
-    // Bring any window to foreground if it was miniaturized.
-    for window in NSApp.windows {
-      if (window.isMiniaturized) {
-        window.deminiaturize(self)
-        break
-      }
-    }
-
-    let title: String = pushNotification.title ?? ""
-    var message: String = pushNotification.message ?? ""
-    var customData: String = ""
-    for item in pushNotification.customData {
-      customData =  ((customData.isEmpty) ? "" : "\(customData), ") + "\(item.key): \(item.value)"
-    }
-    message =  message + ((customData.isEmpty) ? "" : "\n\(customData)")
-    let alert: NSAlert = NSAlert()
-    alert.messageText = title
-    alert.informativeText = message
-    alert.addButton(withTitle: "OK")
-    alert.runModal()
-  }
     
   // CLLocationManager Delegate
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -228,7 +198,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, MSCrashesDelegate, MSPushDel
     let userLocation:CLLocation = locations[0] as CLLocation
     CLGeocoder().reverseGeocodeLocation(userLocation) { (placemarks, error) in
       if error == nil {
-        MSAppCenter.setCountryCode(placemarks?.first?.isoCountryCode)
+        AppCenter.countryCode = placemarks?.first?.isoCountryCode
       }
     }
   }

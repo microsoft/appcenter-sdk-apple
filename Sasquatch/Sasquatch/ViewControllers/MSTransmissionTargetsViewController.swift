@@ -18,17 +18,17 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
       if isDefault {
         return MSTransmissionTargets.shared.defaultTransmissionTargetIsEnabled
       } else {
-        return getTransmissionTarget()!.isEnabled()
+        return getTransmissionTarget()!.enabled
       }
     }
 
     func setTransmissionTargetEnabled(_ enabledState: Bool) {
       if !isDefault {
-        getTransmissionTarget()!.setEnabled(enabledState)
+        getTransmissionTarget()!.enabled = enabledState
       }
     }
 
-    func getTransmissionTarget() -> MSAnalyticsTransmissionTarget? {
+    func getTransmissionTarget() -> AnalyticsTransmissionTarget? {
       if isDefault {
         return nil
       } else {
@@ -196,7 +196,7 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
         }
         let childSwitch: UISwitch? = childCell.getSubview()
         let childTarget = transmissionTargetSections![childSectionIndex].getTransmissionTarget()
-        childSwitch!.setOn(childTarget!.isEnabled(), animated: true)
+        childSwitch!.setOn(childTarget!.enabled, animated: true)
         childSwitch!.isEnabled = sender!.isOn
       }
     }

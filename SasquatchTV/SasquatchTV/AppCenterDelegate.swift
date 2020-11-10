@@ -10,7 +10,7 @@ import Foundation;
  */
 @objc protocol AppCenterDelegate {
 
-  // MARK: MSAppCenter section.
+  // MARK: AppCenter section.
   func isAppCenterEnabled()->Bool;
   func setAppCenterEnabled(_ isEnabled : Bool);
   func installId()->String;
@@ -25,13 +25,13 @@ import Foundation;
   func isCrashesEnabled() -> Bool
   func setCrashesEnabled(_ isEnabled: Bool)
 
-  // MARK: MSAnalytics section.
+  // MARK: Analytics section.
   func trackEvent(_ eventName : String);
   func trackEvent(_ eventName : String, withProperties : Dictionary<String, String>);
   func trackPage(_ pageName : String);
   func trackPage(_ pageName : String, withProperties : Dictionary<String, String>);
 
-  // MARK: MSCrashes section.
+  // MARK: Crashes section.
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
 
