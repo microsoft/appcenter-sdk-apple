@@ -4,6 +4,3 @@ GCC_PREPROCESSOR_DEFINITIONS = $(inherited) GCC_PREPROCESSOR_MACRO_SASQUATCH_OBJ
 CLANG_ENABLE_MODULES = NO
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework UserNotifications
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SafariServices
-
-// Use only standard achitectures in ObjC test application
-ARCHS[sdk=iphoneos*] = $(ARCHS_STANDARD)
