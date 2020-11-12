@@ -2,6 +2,10 @@
 
 ## Version 4.0.1 (Under development)
 
+### App Center Distribute
+
+* **[Feature]** Support Swift Package Manager (5.3)
+
 ___
 
 ## Version 4.0.0
