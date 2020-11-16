@@ -4,7 +4,7 @@
 
 ### App Center Distribute
 
-* **[Feature]** Support Swift Package Manager (5.3)
+* **[Feature]** Add the Distribute module to Swift Package Manager. Because the API for adding resources to Swift Package Manager was added in Swift 5.3 the Distribute module can be available since Xcode 12 and higher.
 
 ___
 

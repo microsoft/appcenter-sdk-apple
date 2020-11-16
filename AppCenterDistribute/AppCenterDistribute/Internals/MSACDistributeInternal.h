@@ -9,7 +9,11 @@
 #import "MSACReleaseDetailsPrivate.h"
 #import "MSACServiceInternal.h"
 
+#ifdef SWIFTPM_MODULE_BUNDLE
+#define APP_CENTER_DISTRIBUTE_BUNDLE_NAME @"App Center_AppCenterDistribute"
+#else
 #define APP_CENTER_DISTRIBUTE_BUNDLE_NAME @"AppCenterDistributeResources"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

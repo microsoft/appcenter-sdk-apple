@@ -89,7 +89,7 @@ let package = Package(
             path: "AppCenterDistribute/AppCenterDistribute",
             exclude: ["Support"],
             resources: [
-                .copy("AppCenterDistributeResources.bundle"),
+                .process("Resources/AppCenterDistribute.strings"),
             ],
             cSettings: [
                 .headerSearchPath("**"),
@@ -97,8 +97,8 @@ let package = Package(
             ],
             linkerSettings: [
                 .linkedFramework("Foundation"),
-                .linkedFramework("SafariServices"),
-                .linkedFramework("UIKit"),
+                .linkedFramework("SafariServices", .when(platforms: [.iOS])),
+                .linkedFramework("UIKit", .when(platforms: [.iOS])),
             ]
         )
     ]
