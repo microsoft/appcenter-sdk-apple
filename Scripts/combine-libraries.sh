@@ -1,11 +1,12 @@
 #!/bin/bash
-set -e
 
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
 # Combines libraries for device and simulator into universal one.
 # Usage: combine-libraries.sh <device> <simulator> <output>
+
+set -e
 
 library_archs_diff() {
   local device_archs=($(lipo -archs "$1"))

@@ -23,8 +23,7 @@ let package = Package(
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
-        // TODO replace commit hash to released version before release.
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .revision("54e06bbedb47337115779837668dc4e96f6cabeb")),
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.8.0")),
     ],
     targets: [
         .target(
@@ -32,7 +31,7 @@ let package = Package(
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
             cSettings: [
-                .define("APP_CENTER_C_VERSION", to:"\"4.0.0\""),
+                .define("APP_CENTER_C_VERSION", to:"\"4.0.1\""),
                 .define("APP_CENTER_C_BUILD", to:"\"1\""),
                 .headerSearchPath("**"),
             ],

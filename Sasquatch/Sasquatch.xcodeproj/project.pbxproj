@@ -199,6 +199,11 @@
 		C261445E230FE88A00D65EBF /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261441C230FE86400D65EBF /* AppCenterAnalytics.framework */; };
 		C2614460230FE88A00D65EBF /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C261443A230FE86400D65EBF /* AppCenterCrashes.framework */; };
 		C2614462230FE88A00D65EBF /* AppCenterDistribute.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2614450230FE86400D65EBF /* AppCenterDistribute.framework */; platformFilter = ios; };
+		C2CED6A4255BEB4E00A6C320 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C2CED67C255BEB0100A6C320 /* AppCenterDistributeResources.bundle */; };
+		C2CED6AF255BEB6C00A6C320 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C2CED67C255BEB0100A6C320 /* AppCenterDistributeResources.bundle */; };
+		C2CED6B9255BEBA900A6C320 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C2CED6B3255BEB9F00A6C320 /* AppCenterDistributeResources.bundle */; platformFilter = ios; };
+		C2CED6C6255BEC2D00A6C320 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C2CED6C0255BEC2700A6C320 /* AppCenterDistributeResources.bundle */; };
+		C2CED6CA255BEC3500A6C320 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C2CED6C0255BEC2700A6C320 /* AppCenterDistributeResources.bundle */; };
 		C2F156D12338C2FC00798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
 		C2F156D22338C2FC00798480 /* CrashLibIOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C2F156E02338C31500798480 /* CrashLibIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F156AA2338C26A00798480 /* CrashLibIOS.framework */; };
@@ -1081,6 +1086,9 @@
 		C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Extension.xcconfig"; sourceTree = "<group>"; };
 		C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch ObjC.xcconfig"; sourceTree = "<group>"; };
+		C2CED67C255BEB0100A6C320 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		C2CED6B3255BEB9F00A6C320 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/XCFramework/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
+		C2CED6C0255BEC2700A6C320 /* AppCenterDistributeResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AppCenterDistributeResources.bundle; path = "../AppCenter-SDK-Apple/iOS/AppCenterDistribute.framework/AppCenterDistributeResources.bundle"; sourceTree = "<group>"; };
 		C2F156A32338C26A00798480 /* CrashLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashLib.xcodeproj; path = ../CrashLib/CrashLib.xcodeproj; sourceTree = "<group>"; };
 		C9E7E482231E99E9007D96DC /* SasquatchSwift-Preview Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchSwift-Preview Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9E7E483231E99E9007D96DC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -1465,16 +1473,19 @@
 		84226D0F1E8921DE00798417 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DFC734A8247C1CA500DC782B /* AppCenter.xcframework */,
-				DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */,
-				DFC734A9247C1CA500DC782B /* AppCenterCrashes.xcframework */,
-				DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */,
-				C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */,
 				84226D2E1E89301A00798417 /* AppCenter.framework */,
+				DFC734A8247C1CA500DC782B /* AppCenter.xcframework */,
 				84226D2F1E89301B00798417 /* AppCenterAnalytics.framework */,
+				DFC734A7247C1CA500DC782B /* AppCenterAnalytics.xcframework */,
 				84226D301E89301B00798417 /* AppCenterCrashes.framework */,
+				DFC734A9247C1CA500DC782B /* AppCenterCrashes.xcframework */,
 				84226D311E89301B00798417 /* AppCenterDistribute.framework */,
+				DFC73475247C1CA400DC782B /* AppCenterDistribute.xcframework */,
+				C2CED6C0255BEC2700A6C320 /* AppCenterDistributeResources.bundle */,
+				C2CED6B3255BEB9F00A6C320 /* AppCenterDistributeResources.bundle */,
+				C2CED67C255BEB0100A6C320 /* AppCenterDistributeResources.bundle */,
 				04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */,
+				C21B6FC0234CD92C00ACCEF7 /* CoreServices.framework */,
 				B20AE48721028E3300A1A195 /* libc++.tbd */,
 				B20AE48521028E2A00A1A195 /* libsqlite3.tbd */,
 				B20AE48921028E3C00A1A195 /* libz.tbd */,
@@ -2413,6 +2424,7 @@
 				B2E011F421091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				845964AB1E8A7E6600BABA51 /* Main.storyboard in Resources */,
 				35ABB5D220FEAD8E002E6841 /* Assets.xcassets in Resources */,
+				C2CED6C6255BEC2D00A6C320 /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2428,6 +2440,7 @@
 				84D63FF91E8BAA90004C9F86 /* Main.storyboard in Resources */,
 				35ABB5D320FEAD8F002E6841 /* Assets.xcassets in Resources */,
 				B2E011F821091EFF003F4A5B /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
+				C2CED6CA255BEC3500A6C320 /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2459,6 +2472,7 @@
 				B27D54C8210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
 				B27D54C9210A5E7E004E82C9 /* Main.storyboard in Resources */,
 				B27D54CA210A5E7E004E82C9 /* Assets.xcassets in Resources */,
+				C2CED6A4255BEB4E00A6C320 /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2474,6 +2488,7 @@
 				B2A4CFAC210A6E6900199B4F /* Main.storyboard in Resources */,
 				B2A4CFAD210A6E6900199B4F /* Assets.xcassets in Resources */,
 				B2A4CFAE210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
+				C2CED6AF255BEB6C00A6C320 /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2546,6 +2561,7 @@
 				DF4D2DE324768E40004A12DC /* Main.storyboard in Resources */,
 				DF4D2DE424768E40004A12DC /* Assets.xcassets in Resources */,
 				DF4D2DE524768E40004A12DC /* MSAnalyticsPropertyTableViewCell.xib in Resources */,
+				C2CED6B9255BEBA900A6C320 /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
