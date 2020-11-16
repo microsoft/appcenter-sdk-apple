@@ -2,6 +2,10 @@
 
 ## Version 4.0.1 (Under development)
 
+### App Center
+
+* **[Fix]** Fix `double-quoted` warnings in Xcode 12.
+
 ___
 
 ## Version 4.0.0
@@ -13,7 +17,6 @@ ___
 * **[Breaking change]** The App Center prefix `MS` in Objective-C is consolidated to `MSAC` for collision prevention. Please follow the [migration guide](https://docs.microsoft.com/appcenter/sdk/getting-started/migration/apple-sdk-update) for adopting the new naming.
 * **[Fix]** Fix `NSInvalidArgumentException` when using non-string object as a key in `NSUserDefaults`.
 * **[Fix]** Fix `NSDateFormatter` initialization in a concurrent environment.
-* **[Fix]** Fix `double-quoted` warnings in Xcode 12.
 
 ### App Center Crashes
 
