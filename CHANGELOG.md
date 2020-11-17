@@ -4,7 +4,7 @@
 
 ### App Center Distribute
 
-* **[Feature]** Support Swift Package Manager (5.3)
+* **[Feature]** Add the Distribute module to Swift Package Manager. Please note that due to additional resources bundle, it requires Swift 5.3 (Xcode 12 and higher).
 
 ___
 
