@@ -10,7 +10,7 @@
 #import "MSACServiceInternal.h"
 
 /**
- * For Swift Package Manager the name of the bundle resource consists [Package name]_[Resource name].
+ * For Swift Package Manager the name of the bundle resource consists of [Package name]_[Resource name].
  */
 #ifdef SWIFTPM_MODULE_BUNDLE
 #define APP_CENTER_DISTRIBUTE_BUNDLE_NAME @"App Center_AppCenterDistribute"
