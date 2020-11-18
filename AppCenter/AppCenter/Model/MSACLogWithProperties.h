@@ -6,7 +6,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenter/MSACAbstractLog.h>)
 #import <AppCenter/MSACAbstractLog.h>
+#else
+#import "MSACAbstractLog.h"
+#endif
 
 NS_SWIFT_NAME(LogWithProperties)
 @interface MSACLogWithProperties : MSACAbstractLog

@@ -7,7 +7,12 @@
 #import "MSACLog.h"
 #import "MSACLogConversion.h"
 #import "MSACSerializableObject.h"
+
+#if __has_include(<AppCenter/MSACConstants.h>)
 #import <AppCenter/MSACConstants.h>
+#else
+#import "MSACConstants.h"
+#endif
 
 @interface MSACAbstractLog () <MSACLog, MSACSerializableObject, MSACLogConversion>
 

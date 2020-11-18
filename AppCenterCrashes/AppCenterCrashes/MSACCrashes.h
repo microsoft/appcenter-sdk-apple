@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if __has_include(<AppCenter/MSACServiceAbstract.h>)
 #import <AppCenter/MSACServiceAbstract.h>
+#else
+#import "MSACServiceAbstract.h"
+#endif
 #import <AppCenterCrashes/MSACErrorReport.h>
 
 @class MSACCrashesDelegate;

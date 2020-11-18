@@ -3,7 +3,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <AppCenter/MSACAbstractLog.h>
 #import <AppCenterAnalytics/MSACAnalytics.h>
 #import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
 #import <AppCenterAnalytics/MSACAnalyticsAuthenticationProviderDelegate.h>

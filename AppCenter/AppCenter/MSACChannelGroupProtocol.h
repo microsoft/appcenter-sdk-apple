@@ -6,7 +6,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenter/MSACChannelProtocol.h>)
 #import <AppCenter/MSACChannelProtocol.h>
+#else
+#import "MSACChannelProtocol.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

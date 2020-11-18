@@ -3,7 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenter/MSACAbstractLog.h>)
 #import <AppCenter/MSACAbstractLog.h>
+#else
+#import "MSACAbstractLog.h"
+#endif
 
 /**
  * Error attachment log.

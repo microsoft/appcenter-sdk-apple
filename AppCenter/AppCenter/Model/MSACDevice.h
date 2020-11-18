@@ -6,7 +6,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenter/MSACWrapperSdk.h>)
 #import <AppCenter/MSACWrapperSdk.h>
+#else
+#import "MSACWrapperSdk.h"
+#endif
 
 NS_SWIFT_NAME(Device)
 @interface MSACDevice : MSACWrapperSdk

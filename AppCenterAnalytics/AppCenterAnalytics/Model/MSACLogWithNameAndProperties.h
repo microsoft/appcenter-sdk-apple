@@ -3,7 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenter/MSACLogWithProperties.h>)
 #import <AppCenter/MSACLogWithProperties.h>
+#else
+#import "MSACLogWithProperties.h"
+#endif
 
 NS_SWIFT_NAME(LogWithNameAndProperties)
 @interface MSACLogWithNameAndProperties : MSACLogWithProperties

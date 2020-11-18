@@ -6,7 +6,11 @@
 #ifndef ANALYTICS_TRANSMISSION_TARGET
 #define ANALYTICS_TRANSMISSION_TARGET
 
+#if __has_include(<AppCenter/MSACConstants+Flags.h>)
 #import <AppCenter/MSACConstants+Flags.h>
+#else
+#import "MSACConstants+Flags.h"
+#endif
 #import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
 #import <AppCenterAnalytics/MSACPropertyConfigurator.h>
 

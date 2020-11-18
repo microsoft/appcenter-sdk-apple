@@ -6,7 +6,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenter/MSACEnable.h>)
 #import <AppCenter/MSACEnable.h>
+#else
+#import "MSACEnable.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
