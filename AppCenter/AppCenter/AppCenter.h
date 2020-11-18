@@ -8,8 +8,8 @@
 #import <AppCenter/MSACAppCenterErrors.h>
 #import <AppCenter/MSACChannelGroupProtocol.h>
 #import <AppCenter/MSACChannelProtocol.h>
-#import <AppCenter/MSACConstants.h>
 #import <AppCenter/MSACConstants+Flags.h>
+#import <AppCenter/MSACConstants.h>
 #import <AppCenter/MSACCustomProperties.h>
 #import <AppCenter/MSACDevice.h>
 #import <AppCenter/MSACEnable.h>
