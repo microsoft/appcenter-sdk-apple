@@ -9,7 +9,14 @@
 #import "MSACReleaseDetailsPrivate.h"
 #import "MSACServiceInternal.h"
 
-#define APP_CENTER_DISTRIBUTE_BUNDLE @"AppCenterDistributeResources.bundle"
+/**
+ * For Swift Package Manager the name of the bundle resource consists of [Package name]_[Resource name].
+ */
+#ifdef SWIFTPM_MODULE_BUNDLE
+#define APP_CENTER_DISTRIBUTE_BUNDLE_NAME @"App Center_AppCenterDistribute"
+#else
+#define APP_CENTER_DISTRIBUTE_BUNDLE_NAME @"AppCenterDistributeResources"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
