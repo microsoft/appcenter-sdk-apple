@@ -13,10 +13,17 @@ NSBundle *MSACDistributeBundle(void) {
   static NSBundle *bundle = nil;
   static dispatch_once_t predicate;
   dispatch_once(&predicate, ^{
-    // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/AppCenterDistribute.bundle
-    NSString *mainBundlePath = [[NSBundle bundleForClass:[MSACDistribute class]] resourcePath];
-    NSString *frameworkBundlePath = [mainBundlePath stringByAppendingPathComponent:APP_CENTER_DISTRIBUTE_BUNDLE];
-    bundle = [NSBundle bundleWithPath:frameworkBundlePath];
+  // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/AppCenterDistribute.bundle
+#ifdef SWIFTPM_MODULE_BUNDLE
+    NSBundle *mainBundle = [NSBundle mainBundle];
+#else
+    NSBundle *mainBundle = [NSBundle bundleForClass:[MSACDistribute class]];
+#endif
+
+    NSURL *url = [mainBundle URLForResource:APP_CENTER_DISTRIBUTE_BUNDLE_NAME withExtension:@"bundle"];
+    if (url) {
+      bundle = [NSBundle bundleWithURL:url];
+    }
 
     // Log to console in case the bundle is nil.
     if (!bundle) {
