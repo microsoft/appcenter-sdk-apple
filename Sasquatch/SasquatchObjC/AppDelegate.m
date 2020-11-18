@@ -18,12 +18,7 @@
 #import "MSACAnalyticsInternal.h"
 
 #elif GCC_PREPROCESSOR_MACRO_SASQUATCH_OBJC
-#if __has_include(<AppCenter/AppCenter.h>)
 #import <AppCenter/AppCenter.h>
-#else
-#import "AppCenter.h"
-#endif
-
 #import <AppCenterAnalytics/AppCenterAnalytics.h>
 #import <AppCenterCrashes/AppCenterCrashes.h>
 #import <AppCenterDistribute/AppCenterDistribute.h>
