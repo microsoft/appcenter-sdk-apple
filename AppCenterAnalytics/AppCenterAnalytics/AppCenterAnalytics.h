@@ -3,11 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACAbstractLog.h"
-#import "MSACAnalytics.h"
-#import "MSACAnalyticsAuthenticationProvider.h"
-#import "MSACAnalyticsAuthenticationProviderDelegate.h"
-#import "MSACAnalyticsTransmissionTarget.h"
-#import "MSACConstants+Flags.h"
-#import "MSACEventLog.h"
-#import "MSACEventProperties.h"
+#import <AppCenterAnalytics/MSACAnalytics.h>
+#import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
+#import <AppCenterAnalytics/MSACAnalyticsAuthenticationProviderDelegate.h>
+#import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
+#import <AppCenterAnalytics/MSACEventLog.h>
+#import <AppCenterAnalytics/MSACEventProperties.h>

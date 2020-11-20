@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACErrorAttachmentLog.h"
+#import <AppCenterCrashes/MSACErrorAttachmentLog.h>
 
 // Exporting symbols for category.
 extern NSString *MSACMSACErrorLogAttachmentLogUtilityCategory;

@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACAnalyticsTransmissionTarget.h"
+#ifndef MSAC_ANALYTICS_H
+#define MSAC_ANALYTICS_H
+
+#if __has_include(<AppCenter/MSACServiceAbstract.h>)
+#import <AppCenter/MSACServiceAbstract.h>
+#else
 #import "MSACServiceAbstract.h"
+#endif
+#import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
 
 @class MSACEventProperties;
 
@@ -210,3 +217,5 @@ NS_SWIFT_NAME(Analytics)
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

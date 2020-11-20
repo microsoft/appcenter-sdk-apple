@@ -2,6 +2,10 @@
 
 ## Version 4.0.1 (Under development)
 
+### App Center
+
+* **[Fix]** Fix `double-quoted` warnings in Xcode 12.
+
 ### App Center Distribute
 
 * **[Feature]** Add the Distribute module to Swift Package Manager. Please note that due to additional resources bundle, it requires Swift 5.3 (Xcode 12 and higher).

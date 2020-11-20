@@ -138,21 +138,6 @@
 		C2D73CE5230FC7EF00390198 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D73CE4230FC7EF00390198 /* AppCenter.framework */; };
 		C2D73CE6230FC7F900390198 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CA69D92306CAF700EE82AA /* AppCenterAnalytics.framework */; };
 		C2D73CE8230FC7FC00390198 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D73CE7230FC7FC00390198 /* AppCenter.framework */; };
-		C9A92080230C5E370068070D /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92081230C5E370068070D /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525BC2194D49C00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92082230C5E370068070D /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSACLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92083230C5E370068070D /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92084230C5E370068070D /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92085230C5E380068070D /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92086230C5E380068070D /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525BC2194D49C00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92087230C5E380068070D /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSACLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92088230C5E380068070D /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A92089230C5E380068070D /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A9208A230C5E390068070D /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC72019596400B9E22C /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A9208B230C5E390068070D /* MSACConstants+Flags.h in Headers */ = {isa = PBXBuildFile; fileRef = 04B525BC2194D49C00FA37FD /* MSACConstants+Flags.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A9208C230C5E390068070D /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 358F9BC52019590100B9E22C /* MSACLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A9208D230C5E390068070D /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082051F74BB8600DC776D /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9A9208E230C5E390068070D /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77041D6CC39400D68CC1 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A9208F230C5E4B0068070D /* AppCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A92090230C5E4B0068070D /* MSACAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547C31D2D6253002DF6E2 /* MSACAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9A92091230C5E4C0068070D /* AppCenterAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = E85547CC1D2D63EF002DF6E2 /* AppCenterAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -273,9 +258,6 @@
 		C9EBAA88230D39CA00A20F0F /* MSACAnalyticsAuthenticationProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = B2E2ECB82114DAB800C688C0 /* MSACAnalyticsAuthenticationProvider.m */; };
 		C9EBAA89230D39CA00A20F0F /* MSACAnalyticsTransmissionTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 35134330205704C100E6DC7D /* MSACAnalyticsTransmissionTarget.m */; };
 		C9EBAA8A230D39CA00A20F0F /* MSACPropertyConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = E758FA7C20FFDEE700011793 /* MSACPropertyConfigurator.m */; };
-		C9EBAB19230D724700A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB18230D724700A20F0F /* AppCenter.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		C9EBAB29230D72F300A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB28230D72F300A20F0F /* AppCenter.framework */; };
-		C9EBAB2B230D72F900A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2A230D72F900A20F0F /* AppCenter.framework */; };
 		DFCB80412472D5EB0058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80362472D5D70058D292 /* OCHamcrest.framework */; };
 		DFCB80442472D6470058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB802E2472D5D70058D292 /* OCHamcrest.framework */; };
 		DFCB80472472D6590058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80382472D5D70058D292 /* OCHamcrest.framework */; };
@@ -393,6 +375,48 @@
 			remoteGlobalIDString = C9A91F2B230BFB8A0068070D;
 			remoteInfo = "AppCenterAnalytics tvOS Framework";
 		};
+		D55735C6254AAE6100B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91FB6230C01140068070D;
+			remoteInfo = "AppCenter iOS Framework";
+		};
+		D55735C8254AAE6100B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
+			remoteInfo = "AppCenter iOS Tests";
+		};
+		D55735CA254AAE6100B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92007230C05D70068070D;
+			remoteInfo = "AppCenter macOS Framework";
+		};
+		D55735CC254AAE6100B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
+			remoteInfo = "AppCenter macOS Tests";
+		};
+		D55735CE254AAE6100B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92024230C07A50068070D;
+			remoteInfo = "AppCenter tvOS Framework";
+		};
+		D55735D0254AAE6100B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
+			remoteInfo = "AppCenter tvOS Tests";
+		};
 		D559CA092477ECFA00CF60D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -497,8 +521,6 @@
 		049BC82A1ECE3B9400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC82B1ECE3B9A00FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
 		049BC82C1ECE3CF000FB6719 /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
-		04A082051F74BB8600DC776D /* MSACService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACService.h; path = ../AppCenter/AppCenter/MSACService.h; sourceTree = "<group>"; };
-		04B525BC2194D49C00FA37FD /* MSACConstants+Flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MSACConstants+Flags.h"; path = "../AppCenter/AppCenter/MSACConstants+Flags.h"; sourceTree = "<group>"; };
 		04ED31E91EAAD32B0033BAAE /* macOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = macOS.modulemap; sourceTree = "<group>"; };
 		04ED31EB1EAAD3390033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
 		266ED07D29C2A2CC67AD1F60 /* MSACEventPropertiesInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACEventPropertiesInternal.h; sourceTree = "<group>"; };
@@ -512,8 +534,6 @@
 		35134330205704C100E6DC7D /* MSACAnalyticsTransmissionTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACAnalyticsTransmissionTarget.m; sourceTree = "<group>"; };
 		351343352057093600E6DC7D /* MSACAnalyticsTransmissionTargetInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAnalyticsTransmissionTargetInternal.h; sourceTree = "<group>"; };
 		351343362058900800E6DC7D /* MSACAnalyticsTransmissionTargetTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACAnalyticsTransmissionTargetTests.m; sourceTree = "<group>"; };
-		358F9BC52019590100B9E22C /* MSACLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACLogWithProperties.h; path = ../AppCenter/AppCenter/Model/MSACLogWithProperties.h; sourceTree = "<group>"; };
-		358F9BC72019596400B9E22C /* MSACAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSACAbstractLog.h; sourceTree = "<group>"; };
 		35A204BE216C1AC600FEBADA /* MSACEventPropertiesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACEventPropertiesTests.m; sourceTree = "<group>"; };
 		35BF19E21DF9C43F00193027 /* MSACAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAnalyticsDelegate.h; sourceTree = "<group>"; };
 		35BF19E31DF9D58F00193027 /* MSACMockAnalyticsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACMockAnalyticsDelegate.h; sourceTree = "<group>"; };
@@ -521,7 +541,6 @@
 		3813B9641DBFE68200831214 /* MSACAnalyticsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACAnalyticsInternal.h; sourceTree = "<group>"; };
 		38337D6E20C0AB0D00CEDA17 /* MSACEventLogPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACEventLogPrivate.h; sourceTree = "<group>"; };
 		3855D51320E2F03000CBC499 /* MSACAnalyticsTransmissionTargetPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACAnalyticsTransmissionTargetPrivate.h; sourceTree = "<group>"; };
-		387C77041D6CC39400D68CC1 /* MSACServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACServiceAbstract.h; path = ../AppCenter/AppCenter/MSACServiceAbstract.h; sourceTree = "<group>"; };
 		38C215DF20E692C700191F3C /* MSACMockUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACMockUserDefaults.m; path = ../../../AppCenter/AppCenterTests/Util/MSACMockUserDefaults.m; sourceTree = "<group>"; };
 		38C215E020E692C700191F3C /* MSACMockUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACMockUserDefaults.h; path = ../../../AppCenter/AppCenterTests/Util/MSACMockUserDefaults.h; sourceTree = "<group>"; };
 		6E3E2CC51D359D5E00B1EE50 /* MSACEventLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACEventLog.h; sourceTree = "<group>"; };
@@ -602,7 +621,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB29230D72F300A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,7 +628,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB2B230D72F900A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,7 +635,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB19230D724700A20F0F /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,11 +788,6 @@
 		E85547B71D2D6253002DF6E2 = {
 			isa = PBXGroup;
 			children = (
-				358F9BC72019596400B9E22C /* MSACAbstractLog.h */,
-				04B525BC2194D49C00FA37FD /* MSACConstants+Flags.h */,
-				358F9BC52019590100B9E22C /* MSACLogWithProperties.h */,
-				04A082051F74BB8600DC776D /* MSACService.h */,
-				387C77041D6CC39400D68CC1 /* MSACServiceAbstract.h */,
 				E85547C21D2D6253002DF6E2 /* AppCenterAnalytics */,
 				E85547D61D2D6723002DF6E2 /* AppCenterAnalyticsTests */,
 				E85547C11D2D6253002DF6E2 /* Products */,
@@ -893,7 +904,6 @@
 				C9A920C8230C5ECA0068070D /* MSACAnalyticsConstants.h in Headers */,
 				C9A920BA230C5EBE0068070D /* MSACPageLog.h in Headers */,
 				C9A920C7230C5ECA0068070D /* MSACAnalyticsCategory.h in Headers */,
-				C9A92087230C5E380068070D /* MSACLogWithProperties.h in Headers */,
 				C9A920E1230C5EF00068070D /* MSACAnalyticsAuthenticationProviderInternal.h in Headers */,
 				C9A920DB230C5EE40068070D /* MSACPropertyConfigurator.h in Headers */,
 				C9A9209C230C5E610068070D /* MSACAnalyticsInternal.h in Headers */,
@@ -901,7 +911,6 @@
 				C9A920D8230C5EE40068070D /* MSACAnalyticsAuthenticationProvider.h in Headers */,
 				C9A920C2230C5EC40068070D /* MSACSessionTracker.h in Headers */,
 				C9A920B9230C5EBE0068070D /* MSACEventPropertiesInternal.h in Headers */,
-				C9A92086230C5E380068070D /* MSACConstants+Flags.h in Headers */,
 				C9A92092230C5E4C0068070D /* MSACAnalytics.h in Headers */,
 				C9A920CC230C5ED20068070D /* MSACEventLog.h in Headers */,
 				C9A920B2230C5E9D0068070D /* MSACEventLogPrivate.h in Headers */,
@@ -909,17 +918,14 @@
 				C9A920AC230C5E6D0068070D /* MSACPropertyConfiguratorPrivate.h in Headers */,
 				C9A920B3230C5E9D0068070D /* MSACSessionTrackerPrivate.h in Headers */,
 				C9A9209D230C5E610068070D /* MSACAnalyticsDelegate.h in Headers */,
-				C9A92088230C5E380068070D /* MSACService.h in Headers */,
 				C9A920AB230C5E6D0068070D /* MSACAnalyticsTransmissionTargetPrivate.h in Headers */,
 				C9A9209B230C5E610068070D /* AppCenter+Internal.h in Headers */,
 				C9A920AA230C5E6D0068070D /* MSACAnalyticsPrivate.h in Headers */,
 				C9A9209E230C5E610068070D /* MSACAnalyticsTransmissionTargetInternal.h in Headers */,
-				C9A92089230C5E380068070D /* MSACServiceAbstract.h in Headers */,
 				C9A920BB230C5EBE0068070D /* MSACStartSessionLog.h in Headers */,
 				C9A92091230C5E4C0068070D /* AppCenterAnalytics.h in Headers */,
 				C9A920CB230C5ED20068070D /* MSACEventProperties.h in Headers */,
 				C9A920C1230C5EC40068070D /* MSACSessionTrackerDelegate.h in Headers */,
-				C9A92085230C5E380068070D /* MSACAbstractLog.h in Headers */,
 				C9A920CD230C5ED20068070D /* MSACLogWithNameAndProperties.h in Headers */,
 				C9A920A0230C5E610068070D /* MSACPropertyConfiguratorInternal.h in Headers */,
 				C9A920D9230C5EE40068070D /* MSACAnalyticsAuthenticationProviderDelegate.h in Headers */,
@@ -933,7 +939,6 @@
 				C9A920CA230C5ECB0068070D /* MSACAnalyticsConstants.h in Headers */,
 				C9A920BD230C5EBE0068070D /* MSACPageLog.h in Headers */,
 				C9A920C9230C5ECB0068070D /* MSACAnalyticsCategory.h in Headers */,
-				C9A9208C230C5E390068070D /* MSACLogWithProperties.h in Headers */,
 				C9A920E2230C5EF00068070D /* MSACAnalyticsAuthenticationProviderInternal.h in Headers */,
 				C9A920DF230C5EE50068070D /* MSACPropertyConfigurator.h in Headers */,
 				C9A920A2230C5E620068070D /* MSACAnalyticsInternal.h in Headers */,
@@ -941,12 +946,10 @@
 				C9A920DC230C5EE50068070D /* MSACAnalyticsAuthenticationProvider.h in Headers */,
 				C9A920C4230C5EC50068070D /* MSACSessionTracker.h in Headers */,
 				C9A920BC230C5EBE0068070D /* MSACEventPropertiesInternal.h in Headers */,
-				C9A9208B230C5E390068070D /* MSACConstants+Flags.h in Headers */,
 				C9A92090230C5E4B0068070D /* MSACAnalytics.h in Headers */,
 				C9A920D2230C5ED40068070D /* MSACEventLog.h in Headers */,
 				C9A920A5230C5E620068070D /* MSACAnalytics+Validation.h in Headers */,
 				C9A920A3230C5E620068070D /* MSACAnalyticsDelegate.h in Headers */,
-				C9A9208D230C5E390068070D /* MSACService.h in Headers */,
 				C9A920AF230C5E6D0068070D /* MSACPropertyConfiguratorPrivate.h in Headers */,
 				C9A920AE230C5E6D0068070D /* MSACAnalyticsTransmissionTargetPrivate.h in Headers */,
 				C9A920A1230C5E620068070D /* AppCenter+Internal.h in Headers */,
@@ -954,12 +957,10 @@
 				C9A920B4230C5E9E0068070D /* MSACEventLogPrivate.h in Headers */,
 				C9A920B5230C5E9E0068070D /* MSACSessionTrackerPrivate.h in Headers */,
 				C9A920A4230C5E620068070D /* MSACAnalyticsTransmissionTargetInternal.h in Headers */,
-				C9A9208E230C5E390068070D /* MSACServiceAbstract.h in Headers */,
 				C9A920BE230C5EBE0068070D /* MSACStartSessionLog.h in Headers */,
 				C9A9208F230C5E4B0068070D /* AppCenterAnalytics.h in Headers */,
 				C9A920D1230C5ED40068070D /* MSACEventProperties.h in Headers */,
 				C9A920C3230C5EC50068070D /* MSACSessionTrackerDelegate.h in Headers */,
-				C9A9208A230C5E390068070D /* MSACAbstractLog.h in Headers */,
 				C9A920D3230C5ED40068070D /* MSACLogWithNameAndProperties.h in Headers */,
 				C9A920A6230C5E620068070D /* MSACPropertyConfiguratorInternal.h in Headers */,
 				C9A920DD230C5EE50068070D /* MSACAnalyticsAuthenticationProviderDelegate.h in Headers */,
@@ -973,7 +974,6 @@
 				C9A920C6230C5EC90068070D /* MSACAnalyticsConstants.h in Headers */,
 				C9A920B7230C5EBC0068070D /* MSACPageLog.h in Headers */,
 				C9A920C5230C5EC90068070D /* MSACAnalyticsCategory.h in Headers */,
-				C9A92082230C5E370068070D /* MSACLogWithProperties.h in Headers */,
 				C9A920E0230C5EEF0068070D /* MSACAnalyticsAuthenticationProviderInternal.h in Headers */,
 				C9A920D7230C5EE30068070D /* MSACPropertyConfigurator.h in Headers */,
 				C9A92096230C5E600068070D /* MSACAnalyticsInternal.h in Headers */,
@@ -981,25 +981,21 @@
 				C9A920D4230C5EE30068070D /* MSACAnalyticsAuthenticationProvider.h in Headers */,
 				C9A920C0230C5EC40068070D /* MSACSessionTracker.h in Headers */,
 				C9A920B6230C5EBC0068070D /* MSACEventPropertiesInternal.h in Headers */,
-				C9A92081230C5E370068070D /* MSACConstants+Flags.h in Headers */,
 				C9A92094230C5E4D0068070D /* MSACAnalytics.h in Headers */,
 				C9A920CF230C5ED30068070D /* MSACEventLog.h in Headers */,
 				C9A92099230C5E600068070D /* MSACAnalytics+Validation.h in Headers */,
 				C9A92097230C5E600068070D /* MSACAnalyticsDelegate.h in Headers */,
 				C9A920A8230C5E6C0068070D /* MSACAnalyticsTransmissionTargetPrivate.h in Headers */,
 				C9A920A7230C5E6C0068070D /* MSACAnalyticsPrivate.h in Headers */,
-				C9A92083230C5E370068070D /* MSACService.h in Headers */,
 				C9A920A9230C5E6C0068070D /* MSACPropertyConfiguratorPrivate.h in Headers */,
 				C9A920B1230C5E9C0068070D /* MSACSessionTrackerPrivate.h in Headers */,
 				C9A920B0230C5E9C0068070D /* MSACEventLogPrivate.h in Headers */,
 				C9A92095230C5E600068070D /* AppCenter+Internal.h in Headers */,
 				C9A92098230C5E600068070D /* MSACAnalyticsTransmissionTargetInternal.h in Headers */,
-				C9A92084230C5E370068070D /* MSACServiceAbstract.h in Headers */,
 				C9A920B8230C5EBC0068070D /* MSACStartSessionLog.h in Headers */,
 				C9A92093230C5E4D0068070D /* AppCenterAnalytics.h in Headers */,
 				C9A920CE230C5ED30068070D /* MSACEventProperties.h in Headers */,
 				C9A920BF230C5EC40068070D /* MSACSessionTrackerDelegate.h in Headers */,
-				C9A92080230C5E370068070D /* MSACAbstractLog.h in Headers */,
 				C9A920D0230C5ED30068070D /* MSACLogWithNameAndProperties.h in Headers */,
 				C9A9209A230C5E600068070D /* MSACPropertyConfiguratorInternal.h in Headers */,
 				C9A920D5230C5EE30068070D /* MSACAnalyticsAuthenticationProviderDelegate.h in Headers */,

@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACAnalyticsAuthenticationProviderDelegate.h"
+#import <AppCenterAnalytics/MSACAnalyticsAuthenticationProviderDelegate.h>
 
 /**
  * Different authentication types, e.g. MSA Compact, MSA Delegate, AAD,... .
