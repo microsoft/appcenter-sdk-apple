@@ -4,12 +4,14 @@
 #ifndef MSAC_ANALYTICS_H
 #define MSAC_ANALYTICS_H
 
-#if __has_include(<AppCenter/MSACServiceAbstract.h>)
+#if __has_include(<AppCenter/MSACServiceAbstract.h>) \
+&& __has_include(<AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>)
 #import <AppCenter/MSACServiceAbstract.h>
+#import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
 #else
+#import "MSACAnalyticsTransmissionTarget.h"
 #import "MSACServiceAbstract.h"
 #endif
-#import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
 
 @class MSACEventProperties;
 

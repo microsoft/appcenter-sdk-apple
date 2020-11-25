@@ -6,13 +6,17 @@
 #ifndef ANALYTICS_TRANSMISSION_TARGET
 #define ANALYTICS_TRANSMISSION_TARGET
 
-#if __has_include(<AppCenter/MSACConstants+Flags.h>)
+#if __has_include(<AppCenter/MSACConstants+Flags.h>) \
+    && __has_include(<AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>) \
+    && __has_include(<AppCenterAnalytics/MSACPropertyConfigurator.h>)
 #import <AppCenter/MSACConstants+Flags.h>
-#else
-#import "MSACConstants+Flags.h"
-#endif
 #import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
 #import <AppCenterAnalytics/MSACPropertyConfigurator.h>
+#else
+#import "MSACAnalyticsAuthenticationProvider.h"
+#import "MSACConstants+Flags.h"
+#import "MSACPropertyConfigurator.h"
+#endif
 
 @class MSACEventProperties;
 
