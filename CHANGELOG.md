@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
+* **[Fix]** Fix possible exception because of storage pageSize property zero value.
 
 ### App Center Distribute
 
