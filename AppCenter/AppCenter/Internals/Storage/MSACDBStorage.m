@@ -66,6 +66,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     return result;
   }
   self.pageSize = [MSACDBStorage getPageSizeInOpenedDatabase:db];
+  if (self.pageSize <= 0) {
+    MSACLogError([MSACAppCenter logTag], @"Failed to get storage page size.");
+    sqlite3_close(db);
+    return SQLITE_ERROR;
+  }
   NSUInteger databaseVersion = [MSACDBStorage versionInOpenedDatabase:db result:&result];
   if (result != SQLITE_OK) {
     sqlite3_close(db);
@@ -101,7 +106,12 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   if (!db) {
     return result;
   }
-
+  if (self.pageSize <= 0) {
+    MSACLogError([MSACAppCenter logTag], @"Probably storage was not configured.");
+    sqlite3_close(db);
+    return SQLITE_ERROR;
+  }
+    
   // The value is stored as part of the database connection and must be reset every time the database is opened.
   long maxPageCount = self.maxSizeInBytes / self.pageSize;
   result = [MSACDBStorage setMaxPageCount:maxPageCount inOpenedDatabase:db];

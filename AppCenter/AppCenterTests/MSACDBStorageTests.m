@@ -241,6 +241,17 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
   assertThatLong(counter, equalToLong(0));
 }
 
+- (void)testInitWithZeroPageSize {
+    id dbStorageMock = OCMClassMock([MSACDBStorage class]);
+    OCMStub([dbStorageMock getPageSizeInOpenedDatabase: [OCMArg anyPointer]]).andReturn(0);
+    self.sut = [[MSACDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSACTestDBFileName];
+    int result = [self.sut executeQueryUsingBlock:^int(void *_Nonnull __unused db) {
+      return SQLITE_OK;
+    }];
+    XCTAssertEqual(SQLITE_ERROR, result);
+    [dbStorageMock stopMocking];
+}
+
 - (void)testGetPageSizeInOpenedDatabaseReturnsZeroWhenQueryFails {
 
   // If
