@@ -66,7 +66,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     return result;
   }
   self.pageSize = [MSACDBStorage getPageSizeInOpenedDatabase:db];
-  if (self.pageSize <= 0) {
+  if (self.pageSize == 0) {
     MSACLogError([MSACAppCenter logTag], @"Failed to get storage page size.");
     sqlite3_close(db);
     return SQLITE_ERROR;
@@ -106,8 +106,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   if (!db) {
     return result;
   }
-  if (self.pageSize <= 0) {
-    MSACLogError([MSACAppCenter logTag], @"Probably storage was not configured.");
+  if (self.pageSize == 0) {
+    MSACLogError([MSACAppCenter logTag], @"The database was not configured correctly. The page size is expected to be non zero.");
     sqlite3_close(db);
     return SQLITE_ERROR;
   }
@@ -441,6 +441,14 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
   BOOL success;
   sqlite3 *db = [MSACDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
   if (!db) {
+    return;
+  }
+  if (self.pageSize == 0) {
+    MSACLogError([MSACAppCenter logTag], @"The database was not configured correctly. The page size is expected to be non zero.");
+    sqlite3_close(db);
+    if (completionHandler) {
+      completionHandler(NO);
+    }
     return;
   }
 

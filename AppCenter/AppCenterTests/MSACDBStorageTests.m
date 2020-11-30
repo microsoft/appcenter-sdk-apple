@@ -252,6 +252,26 @@ static const long kMSACTestStorageSizeMinimumUpperLimitInBytes = 40 * 1024;
     [dbStorageMock stopMocking];
 }
 
+- (void)testMaxStorageSizeWithZeroPageSize {
+    id dbStorageMock = OCMClassMock([MSACDBStorage class]);
+    OCMStub([dbStorageMock getPageSizeInOpenedDatabase: [OCMArg anyPointer]]).andReturn(0);
+    self.sut = [[MSACDBStorage alloc] initWithSchema:self.schema version:1 filename:kMSACTestDBFileName];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Completion handler invoked."];
+    long maxCapacityInBytes = kMSACTestStorageSizeMinimumUpperLimitInBytes + 4 * 1024;
+    [self.sut setMaxStorageSize:maxCapacityInBytes
+                           completionHandler:^(BOOL success){
+                             XCTAssertFalse(success);
+                             [expectation fulfill];
+                           }];
+    [self waitForExpectationsWithTimeout:1
+                                 handler:^(NSError *_Nullable error) {
+                                   if (error) {
+                                     XCTFail(@"Expectation Failed with error: %@", error);
+                                   }
+                                 }];
+    [dbStorageMock stopMocking];
+}
+
 - (void)testGetPageSizeInOpenedDatabaseReturnsZeroWhenQueryFails {
 
   // If
