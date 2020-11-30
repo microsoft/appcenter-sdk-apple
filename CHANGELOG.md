@@ -6,6 +6,10 @@
 
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
 
+### App Center Crashes
+
+* **[Fix]** Fix setting `nil` for attachments in the error report.
+
 ### App Center Distribute
 
 * **[Feature]** Add the Distribute module to Swift Package Manager. Please note that due to additional resources bundle, it requires Swift 5.3 (Xcode 12 and higher).
