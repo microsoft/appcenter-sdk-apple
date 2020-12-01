@@ -13,13 +13,12 @@ NSBundle *MSACDistributeBundle(void) {
   static NSBundle *bundle = nil;
   static dispatch_once_t predicate;
   dispatch_once(&predicate, ^{
+
   // The resource bundle is part of the main app bundle, e.g. .../Puppet.app/AppCenterDistribute.bundle
 #ifdef SWIFTPM_MODULE_BUNDLE
-    NSBundle *mainBundle = [NSBundle mainBundle];
+    bundle = SWIFTPM_MODULE_BUNDLE;
 #else
     NSBundle *mainBundle = [NSBundle bundleForClass:[MSACDistribute class]];
-#endif
-
     NSURL *url = [mainBundle URLForResource:APP_CENTER_DISTRIBUTE_BUNDLE_NAME withExtension:@"bundle"];
     if (url) {
       bundle = [NSBundle bundleWithURL:url];
@@ -30,6 +29,7 @@ NSBundle *MSACDistributeBundle(void) {
       MSACLogError([MSACDistribute logTag], @"The AppCenterDistributeResources.bundle file could not be found in your app. "
                                             @"Please add it to your project as described in our readme.");
     }
+#endif
   });
   return bundle;
 }
