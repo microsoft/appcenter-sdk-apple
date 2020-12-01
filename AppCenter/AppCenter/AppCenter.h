@@ -3,23 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<AppCenter/MSACAbstractLog.h>) \ 
-    && __has_include(<AppCenter/MSACAppCenter.h>) \
-    && __has_include(<AppCenter/MSACAppCenterErrors.h>) \
-    && __has_include(<AppCenter/MSACChannelGroupProtocol.h>) \
-    && __has_include(<AppCenter/MSACChannelProtocol.h>) \
-    && __has_include(<AppCenter/MSACConstants+Flags.h>) \
-    && __has_include(<AppCenter/MSACConstants.h>) \
-    && __has_include(<AppCenter/MSACCustomProperties.h>) \
-    && __has_include(<AppCenter/MSACDevice.h>) \
-    && __has_include(<AppCenter/MSACEnable.h>) \
-    && __has_include(<AppCenter/MSACLog.h>) \
-    && __has_include(<AppCenter/MSACLogWithProperties.h>) \
-    && __has_include(<AppCenter/MSACLogger.h>) \
-    && __has_include(<AppCenter/MSACService.h>) \
-    && __has_include(<AppCenter/MSACServiceAbstract.h>) \
-    && __has_include(<AppCenter/MSACWrapperLogger.h>) \
-    && __has_include(<AppCenter/MSACWrapperSdk.h>)
+#if __has_include(<AppCenter/MSACAppCenter.h>)
 #import <AppCenter/MSACAbstractLog.h>
 #import <AppCenter/MSACAppCenter.h>
 #import <AppCenter/MSACAppCenterErrors.h>

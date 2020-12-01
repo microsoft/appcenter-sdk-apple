@@ -3,12 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#if __has_include(<AppCenterCrashes/MSACCrashHandlerSetupDelegate.h>) \
-    && __has_include(<AppCenterCrashes/MSACCrashes.h>) \
-    && __has_include(<AppCenterCrashes/MSACCrashesDelegate.h>) \
-    && __has_include(<AppCenterCrashes/MSACErrorAttachmentLog+Utility.h>) \
-    && __has_include(<AppCenterCrashes/MSACErrorAttachmentLog.h>) \
-    && __has_include(<AppCenterCrashes/MSACWrapperCrashesHelper.h>)
+#if __has_include(<AppCenterCrashes/MSACCrashes.h>)
 #import <AppCenterCrashes/MSACCrashHandlerSetupDelegate.h>
 #import <AppCenterCrashes/MSACCrashes.h>
 #import <AppCenterCrashes/MSACCrashesDelegate.h>
