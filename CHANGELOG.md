@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
+* **[Fix]** Fix a crash when SQLite returns zero for `page_size`.
 
 ### App Center Distribute
 
