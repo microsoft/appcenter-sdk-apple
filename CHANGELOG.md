@@ -8,7 +8,7 @@
 
 ### App Center Crashes
 
-* **[Fix]** Fix setting `nil` for attachments in the error report.
+* **[Fix]** Change the API for the `attachmentsWithCrashes` delegate for the opportunity to set attachments value to `nil` before sending.
 
 ### App Center Distribute
 
