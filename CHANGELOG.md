@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
+* **[Feature]** Add support of XCFramework to the Cocoapods. Cocoapods version 9.0+ is requirement now.
 
 ### App Center Distribute
 
