@@ -3,8 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef MSAC_LOG_WITH_NAME_PROPERTIES
-#define MSAC_LOG_WITH_NAME_PROPERTIES
+#ifndef MSAC_LOG_WITH_NAME_PROPERTIES_H
+#define MSAC_LOG_WITH_NAME_PROPERTIES_H
 
 #if __has_include(<AppCenter/MSACLogWithProperties.h>)
 #import <AppCenter/MSACLogWithProperties.h>
