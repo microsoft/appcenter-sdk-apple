@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#if __has_include(<AppCenter/MSACServiceAbstract.h>) \
-    && __has_include(<AppCenterDistribute/MSACDistributeDelegate.h>)
+#if __has_include(<AppCenter/MSACServiceAbstract.h>)
 #import <AppCenter/MSACServiceAbstract.h>
+#else
+#import "MSACServiceAbstract.h"
+#endif
+
+#if __has_include(<AppCenterDistribute/MSACDistributeDelegate.h>)
 #import <AppCenterDistribute/MSACDistributeDelegate.h>
 #else
 #import "MSACDistributeDelegate.h"
-#import "MSACServiceAbstract.h"
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
