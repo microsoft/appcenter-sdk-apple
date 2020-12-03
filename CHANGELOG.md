@@ -8,7 +8,7 @@
 
 ### App Center Crashes
 
-* **[Fix]** Change the API for the `attachmentsWithCrashes` delegate for the opportunity to set attachments value to `nil` before sending.
+* **[Fix]** Fix nullability for attachments methods in crashes delegate. `nil` is valid return value now (4.0.0 regression).
 
 ### App Center Distribute
 
