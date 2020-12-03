@@ -6,7 +6,12 @@
 #else
 #import "MSACServiceAbstract.h"
 #endif
+
+#if __has_include(<AppCenterCrashes/MSACErrorReport.h>)
 #import <AppCenterCrashes/MSACErrorReport.h>
+#else
+#import "MSACErrorReport.h"
+#endif
 
 @class MSACCrashesDelegate;
 

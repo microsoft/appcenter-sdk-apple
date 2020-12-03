@@ -9,7 +9,12 @@
 #else
 #import "MSACServiceAbstract.h"
 #endif
+
+#if __has_include(<AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>)
 #import <AppCenterAnalytics/MSACAnalyticsTransmissionTarget.h>
+#else
+#import "MSACAnalyticsTransmissionTarget.h"
+#endif
 
 @class MSACEventProperties;
 
