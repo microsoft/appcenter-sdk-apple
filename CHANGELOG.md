@@ -5,7 +5,12 @@
 ### App Center
 
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
+* **[Fix]** Fix a crash when SQLite returns zero for `page_size`.
 * **[Feature]** Add support of XCFramework to the Cocoapods. Cocoapods version 9.0+ is requirement now.
+
+### App Center Crashes
+
+* **[Fix]** Fix nullability for attachments methods in crashes delegate. `nil` is valid return value now (4.0.0 regression).
 
 ### App Center Distribute
 

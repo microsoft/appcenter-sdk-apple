@@ -6,7 +6,12 @@
 #else
 #import "MSACServiceAbstract.h"
 #endif
+
+#if __has_include(<AppCenterDistribute/MSACDistributeDelegate.h>)
 #import <AppCenterDistribute/MSACDistributeDelegate.h>
+#else
+#import "MSACDistributeDelegate.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

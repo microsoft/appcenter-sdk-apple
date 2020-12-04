@@ -3,7 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenterCrashes/MSACCrashHandlerSetupDelegate.h>)
 #import <AppCenterCrashes/MSACCrashHandlerSetupDelegate.h>
+#else
+#import "MSACCrashHandlerSetupDelegate.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 

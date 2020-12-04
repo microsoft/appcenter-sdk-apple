@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if __has_include(<AppCenterDistribute/MSACReleaseDetails.h>)
 #import <AppCenterDistribute/MSACReleaseDetails.h>
+#else
+#import "MSACReleaseDetails.h"
+#endif
 
 @class MSACDistribute;
 

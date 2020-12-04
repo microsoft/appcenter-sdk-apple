@@ -108,6 +108,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		322992BB25782F1D0028AC7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C229D8AB2546E7E5001909F3;
+			remoteInfo = AppCenter;
+		};
+		322992E425782F270028AC7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C2AFD26A247D630F007E6EE1 /* AppCenterCrashes.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 324F3C1B25478C780006E223;
+			remoteInfo = AppCenterCrashes;
+		};
 		324F3F1D2548705B0006E223 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2AFD286247D630F007E6EE1 /* AppCenter.xcodeproj */;
@@ -875,6 +889,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				322992E525782F270028AC7E /* PBXTargetDependency */,
+				322992BC25782F1D0028AC7E /* PBXTargetDependency */,
 				C2F157592338E5D300798480 /* PBXTargetDependency */,
 			);
 			name = "SasquatchMacSwift-Extension";
@@ -1399,6 +1415,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		322992BC25782F1D0028AC7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenter;
+			targetProxy = 322992BB25782F1D0028AC7E /* PBXContainerItemProxy */;
+		};
+		322992E525782F270028AC7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AppCenterCrashes;
+			targetProxy = 322992E425782F270028AC7E /* PBXContainerItemProxy */;
+		};
 		324F3F1E2548705B0006E223 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AppCenter;

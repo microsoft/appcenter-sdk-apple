@@ -63,7 +63,7 @@ NS_SWIFT_NAME(CrashesDelegate)
  *
  * @discussion Implement this method if you want attachments to the given error report.
  */
-- (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport;
+- (nullable NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport;
 
 @end
 

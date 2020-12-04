@@ -11,8 +11,14 @@
 #else
 #import "MSACConstants+Flags.h"
 #endif
+
+#if __has_include(<AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>)
 #import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
 #import <AppCenterAnalytics/MSACPropertyConfigurator.h>
+#else
+#import "MSACAnalyticsAuthenticationProvider.h"
+#import "MSACPropertyConfigurator.h"
+#endif
 
 @class MSACEventProperties;
 

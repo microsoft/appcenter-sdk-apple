@@ -6,7 +6,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "App Center",
+    name: "AppCenter",
     platforms: [
         .iOS(.v9),
         .macOS(.v10_10),

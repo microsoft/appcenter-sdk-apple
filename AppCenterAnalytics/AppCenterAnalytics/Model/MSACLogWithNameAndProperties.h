@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef MSAC_LOG_WITH_NAME_PROPERTIES_H
+#define MSAC_LOG_WITH_NAME_PROPERTIES_H
+
 #if __has_include(<AppCenter/MSACLogWithProperties.h>)
 #import <AppCenter/MSACLogWithProperties.h>
 #else
@@ -18,3 +21,5 @@ NS_SWIFT_NAME(LogWithNameAndProperties)
 @property(nonatomic, copy) NSString *name;
 
 @end
+
+#endif
