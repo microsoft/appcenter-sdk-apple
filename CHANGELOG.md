@@ -6,7 +6,7 @@
 
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
 * **[Fix]** Fix a crash when SQLite returns zero for `page_size`.
-* **[Feature]** Add support of XCFramework to the Cocoapods. Cocoapods version 9.0+ is requirement now.
+* **[Feature]** Add support of XCFramework to the Cocoapods. Cocoapods version 1.9+ is requirement now.
 
 ### App Center Crashes
 
