@@ -449,6 +449,16 @@ static dispatch_once_t onceToken;
   }
 }
 
+- (void)checkDelegateAndInvokeNoReleaseAvailableCallback {
+  id<MSACDistributeDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(noReleaseAvailable)]) {
+   dispatch_async(dispatch_get_main_queue(), ^{
+     [delegate noReleaseAvailable];
+     MSACLogDebug([MSACDistribute logTag], @"Called noReleaseAvailable delegate.");
+   });
+  }
+}
+
 - (void)checkLatestRelease:(NSString *)updateToken distributionGroupId:(NSString *)distributionGroupId releaseHash:(NSString *)releaseHash {
 
   // Check if it's okay to check for updates.
@@ -526,7 +536,10 @@ static dispatch_once_t onceToken;
           // Failure.
           else {
             MSACLogError([MSACDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
-
+            if (response.statusCode == MSACHTTPCodesNo404NotFound) {
+              [self checkDelegateAndInvokeNoReleaseAvailableCallback];
+            }
+            
             // Check the status code to clean up Distribute data for an unrecoverable error.
             if (![MSACHttpUtil isRecoverableError:response.statusCode]) {
 
@@ -784,6 +797,7 @@ static dispatch_once_t onceToken;
   // Step 2. Check status of the release. TODO: This will be deprecated soon.
   if (![details.status isEqualToString:@"available"]) {
     MSACLogError([MSACDistribute logTag], @"The new release is not available, skip update.");
+    [self checkDelegateAndInvokeNoReleaseAvailableCallback];
     return NO;
   }
 
@@ -813,6 +827,7 @@ static dispatch_once_t onceToken;
   // Step 5. Check version/hash to identify a newer version.
   if (![self isNewerVersion:details]) {
     MSACLogDebug([MSACDistribute logTag], @"The application is already up-to-date.");
+    [self checkDelegateAndInvokeNoReleaseAvailableCallback];
     return NO;
   }
 

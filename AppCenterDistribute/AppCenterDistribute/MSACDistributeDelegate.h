@@ -28,6 +28,11 @@ NS_SWIFT_NAME(DistributeDelegate)
  */
 - (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details;
 
+/**
+ * Callback method that will be called update check reports that there is no new release available for update.
+ */
+- (void)noReleaseAvailable;
+
 @end
 
 NS_ASSUME_NONNULL_END
