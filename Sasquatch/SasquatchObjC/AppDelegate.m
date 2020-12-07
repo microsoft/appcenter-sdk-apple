@@ -381,6 +381,18 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   return NO;
 }
 
+- (void)noReleaseAvailable {
+  NSLog(@"No release available callback invoked");
+  UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                 message:@"No updates available"
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+  [self presentViewController:alert animated:YES completion:nil];
+  int duration = 1;
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    [alert dismissViewControllerAnimated:YES completion:nil];
+  });
+}
+
 #endif
 
 #pragma mark - CLLocationManagerDelegate
