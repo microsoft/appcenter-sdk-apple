@@ -452,10 +452,10 @@ static dispatch_once_t onceToken;
 - (void)checkDelegateAndInvokeNoReleaseAvailableCallback {
   id<MSACDistributeDelegate> delegate = self.delegate;
   if ([delegate respondsToSelector:@selector(noReleaseAvailable)]) {
-   dispatch_async(dispatch_get_main_queue(), ^{
-     [delegate noReleaseAvailable];
-     MSACLogDebug([MSACDistribute logTag], @"Called noReleaseAvailable delegate.");
-   });
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [delegate noReleaseAvailable];
+      MSACLogDebug([MSACDistribute logTag], @"Called noReleaseAvailable delegate.");
+    });
   }
 }
 
@@ -539,7 +539,7 @@ static dispatch_once_t onceToken;
             if (response.statusCode == MSACHTTPCodesNo404NotFound) {
               [self checkDelegateAndInvokeNoReleaseAvailableCallback];
             }
-            
+
             // Check the status code to clean up Distribute data for an unrecoverable error.
             if (![MSACHttpUtil isRecoverableError:response.statusCode]) {
 

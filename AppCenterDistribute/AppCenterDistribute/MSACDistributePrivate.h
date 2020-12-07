@@ -260,8 +260,8 @@ static NSString *const kMSACTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSet
 - (BOOL)handleUpdate:(MSACReleaseDetails *)details;
 
 /**
-* Check if delegate is set and responds to selector of noReleaseAvailableCallback, and invoke it if everything is correct.
-*/
+ * Check if delegate is set and responds to selector of noReleaseAvailableCallback, and invoke it if everything is correct.
+ */
 - (void)checkDelegateAndInvokeNoReleaseAvailableCallback;
 
 /**
