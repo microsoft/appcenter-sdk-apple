@@ -536,9 +536,6 @@ static dispatch_once_t onceToken;
           // Failure.
           else {
             MSACLogError([MSACDistribute logTag], @"Failed to get an update response, status code: %tu", response.statusCode);
-            if (response.statusCode == MSACHTTPCodesNo404NotFound) {
-              [self checkDelegateAndInvokeNoReleaseAvailableCallback];
-            }
 
             // Check the status code to clean up Distribute data for an unrecoverable error.
             if (![MSACHttpUtil isRecoverableError:response.statusCode]) {
@@ -560,6 +557,9 @@ static dispatch_once_t onceToken;
                 [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACPostponedTimestampKey];
                 [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACDistributionGroupIdKey];
                 [self.distributeInfoTracker removeDistributionGroupId];
+              } else if (details && ([kMSACErrorCodeNoReleasesForUser isEqualToString:details.code] ||
+                                     [kMSACErrorCodeNoReleasesFound isEqualToString:details.code])) {
+                [self checkDelegateAndInvokeNoReleaseAvailableCallback];
               }
             }
 
@@ -797,7 +797,6 @@ static dispatch_once_t onceToken;
   // Step 2. Check status of the release. TODO: This will be deprecated soon.
   if (![details.status isEqualToString:@"available"]) {
     MSACLogError([MSACDistribute logTag], @"The new release is not available, skip update.");
-    [self checkDelegateAndInvokeNoReleaseAvailableCallback];
     return NO;
   }
 
