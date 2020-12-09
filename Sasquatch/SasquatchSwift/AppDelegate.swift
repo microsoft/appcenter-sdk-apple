@@ -322,6 +322,20 @@ extension AppDelegate: DistributeDelegate {
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     self.window?.rootViewController?.present(alert, animated: true)
   }
+
+  func distributeWillClose(_ distribute: Distribute) {
+    print("distributeWillClose callback invoked");
+    DispatchQueue.main.async {
+      let alertController = UIAlertController(title: NSLocalizedString("distribute_alert_willclose_title", tableName: "Sasquatch", comment: ""),
+              message: NSLocalizedString("distribute_alert_willclose_message", tableName: "Sasquatch", comment: ""),
+              preferredStyle: .alert)
+
+      // Show alert saying that the app is closing
+      self.window?.rootViewController?.present(alertController, animated: true)
+    }
+
+    sleep(7)
+  }
 }
 
 #endif

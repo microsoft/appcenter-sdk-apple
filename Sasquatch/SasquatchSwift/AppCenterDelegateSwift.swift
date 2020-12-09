@@ -16,6 +16,7 @@ import AppCenterDistribute
   func showConfirmationAlert(_ releaseDetails: ReleaseDetails)
   func showDistributeDisabledAlert()
   func delegate() -> DistributeDelegate
+  func closeApp()
 }
 #endif
 
@@ -204,6 +205,21 @@ class AppCenterDelegateSwift: AppCenterDelegate {
       let distributeInstance = Distribute.perform(sharedInstanceSelector).takeUnretainedValue()
       let distriuteDelegate = distributeInstance.perform(delegateSelector).takeUnretainedValue()
       _ = distriuteDelegate.distribute?(distributeInstance as! Distribute, releaseAvailableWith: releaseDetails)
+    }
+#endif
+  }
+
+  func closeApp() {
+#if canImport(AppCenterDistribute)
+    let sharedInstanceSelector = #selector(Selectors.sharedInstance)
+    let closeAppSelector = #selector(Selectors.closeApp)
+    if (Distribute.responds(to: sharedInstanceSelector)) {
+      let distributeInstance = Distribute.perform(sharedInstanceSelector).takeUnretainedValue()
+      if (distributeInstance.responds(to: closeAppSelector)) {
+        DispatchQueue.global().async {
+          _ = distributeInstance.perform(closeAppSelector)
+        }
+      }
     }
 #endif
   }

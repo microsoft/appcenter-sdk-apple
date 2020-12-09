@@ -217,6 +217,19 @@
 #endif
 }
 
+- (void)closeApp {
+#if !TARGET_OS_MACCATALYST
+  if ([MSACDistribute respondsToSelector:@selector(sharedInstance)]) {
+    id distributeInstance = [MSACDistribute performSelector:@selector(sharedInstance)];
+    if ([distributeInstance respondsToSelector:@selector(closeApp)]) {
+      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [distributeInstance performSelector:@selector(closeApp)];
+      });
+    }
+  }
+#endif
+}
+
 #pragma mark - Last crash report section.
 
 - (NSString *)lastCrashReportIncidentIdentifier {

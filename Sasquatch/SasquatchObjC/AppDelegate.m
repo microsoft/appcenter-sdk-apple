@@ -396,6 +396,17 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
+- (void)distributeWillClose:(MSACDistribute *)distribute {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_willclose_title", @"Sasquatch", @"")
+                                                                             message:NSLocalizedStringFromTable(@"distribute_alert_willclose_message", @"Sasquatch", @"")
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+  });
+
+  sleep(7);
+}
+
 #endif
 
 #pragma mark - CLLocationManagerDelegate
