@@ -31,7 +31,7 @@ NS_SWIFT_NAME(DistributeDelegate)
 /**
  * Callback method that will be called update check reports that there is no new release available for update.
  */
-- (void)noReleaseAvailable;
+- (void)onNoReleaseAvailable;
 
 @end
 

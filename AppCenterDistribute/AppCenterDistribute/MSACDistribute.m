@@ -449,11 +449,11 @@ static dispatch_once_t onceToken;
   }
 }
 
-- (void)checkDelegateAndInvokeNoReleaseAvailableCallback {
+- (void)checkDelegateAndInvokeOnNoReleaseAvailableCallback {
   id<MSACDistributeDelegate> delegate = self.delegate;
-  if ([delegate respondsToSelector:@selector(noReleaseAvailable)]) {
+  if ([delegate respondsToSelector:@selector(onNoReleaseAvailableonNoReleaseAvailable)]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [delegate noReleaseAvailable];
+      [delegate onNoReleaseAvailable];
       MSACLogDebug([MSACDistribute logTag], @"Called noReleaseAvailable delegate.");
     });
   }
@@ -557,9 +557,10 @@ static dispatch_once_t onceToken;
                 [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACPostponedTimestampKey];
                 [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACDistributionGroupIdKey];
                 [self.distributeInfoTracker removeDistributionGroupId];
-              } else if (details && ([kMSACErrorCodeNoReleasesForUser isEqualToString:details.code] ||
-                                     [kMSACErrorCodeNoReleasesFound isEqualToString:details.code])) {
-                [self checkDelegateAndInvokeNoReleaseAvailableCallback];
+              }
+              if (details && ([kMSACErrorCodeNoReleasesForUser isEqualToString:details.code] ||
+                              [kMSACErrorCodeNoReleasesFound isEqualToString:details.code])) {
+                [self checkDelegateAndInvokeOnNoReleaseAvailableCallback];
               }
             }
 
@@ -826,7 +827,7 @@ static dispatch_once_t onceToken;
   // Step 5. Check version/hash to identify a newer version.
   if (![self isNewerVersion:details]) {
     MSACLogDebug([MSACDistribute logTag], @"The application is already up-to-date.");
-    [self checkDelegateAndInvokeNoReleaseAvailableCallback];
+    [self checkDelegateAndInvokeOnNoReleaseAvailableCallback];
     return NO;
   }
 
