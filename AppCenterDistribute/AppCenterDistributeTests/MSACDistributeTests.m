@@ -2385,6 +2385,71 @@ static NSURL *sfURL;
   XCTAssertEqual(strongDelegate, delegateMock);
 }
 
+- (void)testDelegateMethodWillCloseIsCalled {
+
+  // If
+  XCTestExpectation *willCloseIsCalledExpectation = [self expectationWithDescription:@"willCloseCalled"];
+
+  NSString *expectedExceptionName = @"expected exception";
+
+  id<MSACDistributeDelegate> delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
+  OCMStub([delegateMock distributeWillClose:self.sut]).andDo(^(__unused NSInvocation *invocation) {
+    [willCloseIsCalledExpectation fulfill];
+
+    // We raise an exception here to prevent the 'exit(0)' call, which is happening in MSACDistribute's 'closeApp'.
+    [NSException raise:expectedExceptionName format:@"test"];
+  });
+
+  // When
+  [self.sut setDelegate:delegateMock];
+
+  @try {
+    [self.sut closeApp];
+  } @catch (NSException *exception) {
+    XCTAssertTrue(exception.name == expectedExceptionName);
+  }
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
+- (void)testDelegateMethodReleaseAvailableWithDetailsIsCalled {
+
+  // If
+  XCTestExpectation *releaseAvailableWithDetailsIsCalledExpectation =
+      [self expectationWithDescription:@"releaseAvailableWithDetailsIsCalled"];
+
+  MSACReleaseDetails *details = [MSACReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id distributeMock = OCMPartialMock(self.sut);
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
+  OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
+
+  id<MSACDistributeDelegate> delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
+  OCMStub([delegateMock distribute:self.sut releaseAvailableWithDetails:detailsMock]).andDo(^(__unused NSInvocation *invocation) {
+    [releaseAvailableWithDetailsIsCalledExpectation fulfill];
+  });
+
+  // When
+  [self.sut setDelegate:delegateMock];
+  [self.sut handleUpdate:detailsMock];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *_Nullable error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+}
+
 - (void)testDefaultUpdateAlert {
 
   // If
