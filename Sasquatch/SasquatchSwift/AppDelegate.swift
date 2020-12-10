@@ -315,6 +315,11 @@ extension AppDelegate: DistributeDelegate {
     }
     return false
   }
+  
+  func onNoReleaseAvailable(_ distribute: Distribute) {
+    let alert = UIAlertController(title: nil, message: "No updates available", preferredStyle: .alert)
+    self.window?.rootViewController?.present(alert, animated: true)
+  }
 }
 
 #endif
