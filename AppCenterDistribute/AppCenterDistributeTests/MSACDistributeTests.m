@@ -840,7 +840,6 @@ static NSURL *sfURL;
 
   // If
   XCTestExpectation *expectation = [self expectationWithDescription:@"onNoReleaseAvailable was invoked"];
-  __block BOOL invoked = NO;
   MSACReleaseDetails *details = [MSACReleaseDetails new];
   details.status = @"available";
   id detailsMock = OCMPartialMock(details);
@@ -849,9 +848,8 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
 
   OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(NO);
-  OCMStub([delegateMock onNoReleaseAvailable]).andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([delegateMock onNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
     [expectation fulfill];
-    invoked = YES;
   });
 
   // When
@@ -861,7 +859,6 @@ static NSURL *sfURL;
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
-                                 XCTAssertTrue(invoked);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }
@@ -871,11 +868,10 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-- (void)testCheckNoReleasesInvokesNoReleaseAvailableCallback {
+- (void)testCheckNoReleasesInvokesOnNoReleaseAvailableCallback {
 
   // If
   XCTestExpectation *invokedExpectation = [self expectationWithDescription:@"onNoReleaseAvailable was invoked"];
-  __block BOOL invoked = NO;
   id distributeMock = OCMPartialMock(self.sut);
   id delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
   // Mock the HTTP client. Use dependency configuration to simplify MSACHttpClient mock.
@@ -899,9 +895,8 @@ static NSURL *sfURL;
       })
       .andForwardToRealObject();
 
-  OCMStub([delegateMock onNoReleaseAvailable]).andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([delegateMock onNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
     [invokedExpectation fulfill];
-    invoked = YES;
   });
 
   // Non recoverable error.
@@ -919,7 +914,6 @@ static NSURL *sfURL;
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {
                                  // Then
-                                 XCTAssertTrue(invoked);
                                  if (error) {
                                    XCTFail(@"Expectation Failed with error: %@", error);
                                  }

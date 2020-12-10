@@ -451,9 +451,9 @@ static dispatch_once_t onceToken;
 
 - (void)checkDelegateAndInvokeOnNoReleaseAvailableCallback {
   id<MSACDistributeDelegate> delegate = self.delegate;
-  if ([delegate respondsToSelector:@selector(onNoReleaseAvailableonNoReleaseAvailable)]) {
+  if ([delegate respondsToSelector:@selector(onNoReleaseAvailable:)]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [delegate onNoReleaseAvailable];
+      [delegate onNoReleaseAvailable:self];
       MSACLogDebug([MSACDistribute logTag], @"Called noReleaseAvailable delegate.");
     });
   }
