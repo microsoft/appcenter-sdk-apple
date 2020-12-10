@@ -398,12 +398,12 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (void)distributeWillExitApp:(MSACDistribute *)distribute {
   dispatch_async(dispatch_get_main_queue(), ^{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_willExit_title", @"Sasquatch", @"")
-                                                                             message:NSLocalizedStringFromTable(@"distribute_alert_willExit_message", @"Sasquatch", @"")
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_willExit_title", @"Sasquatch", @"")
+                                            message:NSLocalizedStringFromTable(@"distribute_alert_willExit_message", @"Sasquatch", @"")
+                                     preferredStyle:UIAlertControllerStyleAlert];
     [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
   });
-
   sleep(7);
 }
 
