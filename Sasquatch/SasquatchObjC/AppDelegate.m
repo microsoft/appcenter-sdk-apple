@@ -390,7 +390,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 - (void)onNoReleaseAvailable {
   NSLog(@"No release available callback invoked");
   UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                 message:@"No updates available"
+                                                                 message:NSLocalizedString(@"No updates available", nil)
                                                           preferredStyle:UIAlertControllerStyleAlert];
   [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
   int duration = 1;
