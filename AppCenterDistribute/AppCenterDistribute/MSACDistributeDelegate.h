@@ -41,7 +41,7 @@ NS_SWIFT_NAME(DistributeDelegate)
  *
  * @param distribute The instance of MSACDistribute.
  */
-- (void)distributeWillClose:(MSACDistribute *)distribute;
+- (void)distributeWillExitApp:(MSACDistribute *)distribute;
 
 @end
 
