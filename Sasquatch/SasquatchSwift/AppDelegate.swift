@@ -317,7 +317,9 @@ extension AppDelegate: DistributeDelegate {
   }
   
   func distributeNoReleaseAvailable(_ distribute: Distribute) {
+    NSLog("distributeNoReleaseAvailable invoked");
     let alert = UIAlertController(title: nil, message: "No updates available", preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     self.window?.rootViewController?.present(alert, animated: true)
   }
 }

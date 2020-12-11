@@ -388,15 +388,12 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 }
 
 - (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute {
-  NSLog(@"No release available callback invoked");
+  NSLog(@"distributeNoReleaseAvailable invoked");
   UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                  message:NSLocalizedString(@"No updates available", nil)
                                                           preferredStyle:UIAlertControllerStyleAlert];
+  [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
   [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
-  int duration = 1;
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    [alert dismissViewControllerAnimated:YES completion:nil];
-  });
 }
 
 #endif
