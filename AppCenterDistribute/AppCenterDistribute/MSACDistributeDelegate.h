@@ -33,7 +33,7 @@ NS_SWIFT_NAME(DistributeDelegate)
  *
  * @param distribute The instance of MSACDistribute.
  */
-- (void)onNoReleaseAvailable:(MSACDistribute *)distribute;
+- (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute;
 
 @end
 

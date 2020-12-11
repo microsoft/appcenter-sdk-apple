@@ -260,9 +260,9 @@ static NSString *const kMSACTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSet
 - (BOOL)handleUpdate:(MSACReleaseDetails *)details;
 
 /**
- * Check if delegate is set and responds to selector of noReleaseAvailableCallback, and invoke it if everything is correct.
+ * Check if delegate is set and responds to selector of distributeNoReleaseAvailable, and invoke it if everything is correct.
  */
-- (void)checkDelegateAndInvokeOnNoReleaseAvailableCallback;
+- (void)checkDelegateAndInvokeDistributeNoReleaseAvailableCallback;
 
 /**
  * Save details about a downloaded release. After an app is updated and restarted, this info will be used to report a download and to update

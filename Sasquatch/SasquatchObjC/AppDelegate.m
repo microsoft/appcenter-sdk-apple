@@ -387,7 +387,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   return NO;
 }
 
-- (void)onNoReleaseAvailable:(MSACDistribute *)distribute {
+- (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute {
   NSLog(@"No release available callback invoked");
   UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                  message:NSLocalizedString(@"No updates available", nil)

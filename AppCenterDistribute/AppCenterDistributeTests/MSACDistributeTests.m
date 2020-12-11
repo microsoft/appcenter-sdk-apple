@@ -836,10 +836,10 @@ static NSURL *sfURL;
   MSACDependencyConfiguration.httpClient = nil;
 }
 
-- (void)testCheckFromLatestReleaseInvokesOnNoReleaseAvailableCallback {
+- (void)testCheckFromLatestReleaseInvokesDistributeNoReleaseAvailableCallback {
 
   // If
-  XCTestExpectation *expectation = [self expectationWithDescription:@"onNoReleaseAvailable was invoked"];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"distributeNoReleaseAvailable was invoked"];
   MSACReleaseDetails *details = [MSACReleaseDetails new];
   details.status = @"available";
   id detailsMock = OCMPartialMock(details);
@@ -848,7 +848,7 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
 
   OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(NO);
-  OCMStub([delegateMock onNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([delegateMock distributeNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
     [expectation fulfill];
   });
 
@@ -868,10 +868,10 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-- (void)testCheckNoReleasesInvokesOnNoReleaseAvailableCallback {
+- (void)testCheckNoReleasesInvokesDistributeNoReleaseAvailableCallback {
 
   // If
-  XCTestExpectation *invokedExpectation = [self expectationWithDescription:@"onNoReleaseAvailable was invoked"];
+  XCTestExpectation *invokedExpectation = [self expectationWithDescription:@"distributeNoReleaseAvailable was invoked"];
   id distributeMock = OCMPartialMock(self.sut);
   id delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
   // Mock the HTTP client. Use dependency configuration to simplify MSACHttpClient mock.
@@ -895,7 +895,7 @@ static NSURL *sfURL;
       })
       .andForwardToRealObject();
 
-  OCMStub([delegateMock onNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+  OCMStub([delegateMock distributeNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
     [invokedExpectation fulfill];
   });
 
