@@ -2390,7 +2390,6 @@ static NSURL *sfURL;
   // If
   XCTestExpectation *willExitAppIsCalledExpectation = [self expectationWithDescription:@"willExitAppCalled"];
   NSString *expectedExceptionName = @"expected exception";
-
   id<MSACDistributeDelegate> delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
   OCMStub([delegateMock distributeWillExitApp:self.sut]).andDo(^(__unused NSInvocation *invocation) {
     [willExitAppIsCalledExpectation fulfill];
@@ -2421,7 +2420,6 @@ static NSURL *sfURL;
   // If
   XCTestExpectation *releaseAvailableWithDetailsIsCalledExpectation =
       [self expectationWithDescription:@"releaseAvailableWithDetailsIsCalled"];
-
   MSACReleaseDetails *details = [MSACReleaseDetails new];
   details.status = @"available";
   id detailsMock = OCMPartialMock(details);
@@ -2429,7 +2427,6 @@ static NSURL *sfURL;
   id distributeMock = OCMPartialMock(self.sut);
   OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(YES);
   OCMStub([distributeMock showConfirmationAlert:detailsMock]).andDo(nil);
-
   id<MSACDistributeDelegate> delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
   OCMStub([delegateMock distribute:self.sut releaseAvailableWithDetails:detailsMock]).andDo(^(__unused NSInvocation *invocation) {
     [releaseAvailableWithDetailsIsCalledExpectation fulfill];
