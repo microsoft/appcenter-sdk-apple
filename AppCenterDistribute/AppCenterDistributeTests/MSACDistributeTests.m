@@ -836,6 +836,95 @@ static NSURL *sfURL;
   MSACDependencyConfiguration.httpClient = nil;
 }
 
+- (void)testCheckFromLatestReleaseInvokesDistributeNoReleaseAvailableCallback {
+
+  // If
+  XCTestExpectation *expectation = [self expectationWithDescription:@"distributeNoReleaseAvailable was invoked"];
+  MSACReleaseDetails *details = [MSACReleaseDetails new];
+  details.status = @"available";
+  id detailsMock = OCMPartialMock(details);
+  OCMStub([detailsMock isValid]).andReturn(YES);
+  id delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
+  id distributeMock = OCMPartialMock(self.sut);
+
+  OCMStub([distributeMock isNewerVersion:detailsMock]).andReturn(NO);
+  OCMStub([delegateMock distributeNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+    [expectation fulfill];
+  });
+
+  // When
+  [self.sut setDelegate:delegateMock];
+  [self.sut handleUpdate:detailsMock];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  [delegateMock stopMocking];
+  [detailsMock stopMocking];
+  [distributeMock stopMocking];
+}
+
+- (void)testCheckNoReleasesInvokesDistributeNoReleaseAvailableCallback {
+
+  // If
+  XCTestExpectation *invokedExpectation = [self expectationWithDescription:@"distributeNoReleaseAvailable was invoked"];
+  id distributeMock = OCMPartialMock(self.sut);
+  id delegateMock = OCMProtocolMock(@protocol(MSACDistributeDelegate));
+  // Mock the HTTP client. Use dependency configuration to simplify MSACHttpClient mock.
+  id httpClientMock = OCMPartialMock([MSACHttpClient new]);
+  [MSACDependencyConfiguration setHttpClient:httpClientMock];
+  OCMReject([distributeMock handleUpdate:OCMOCK_ANY]);
+  self.sut.appSecret = kMSACTestAppSecret;
+  [distributeMock setValue:@(YES) forKey:@"updateFlowInProgress"];
+  id reachabilityMock = OCMClassMock([MSAC_Reachability class]);
+  OCMStub([reachabilityMock reachabilityForInternetConnection]).andReturn(reachabilityMock);
+  OCMStub([reachabilityMock currentReachabilityStatus]).andReturn(ReachableViaWiFi);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Request completed."];
+
+  OCMStub([httpClientMock requestCompletedWithHttpCall:OCMOCK_ANY data:OCMOCK_ANY response:OCMOCK_ANY error:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        [invocation retainArguments];
+        NSString *filename = [[NSBundle bundleForClass:[self class]] pathForResource:@"error_details_no_release" ofType:@"json"];
+        NSData *data = [NSData dataWithContentsOfFile:filename];
+        [invocation setArgument:&data atIndex:3];
+        [expectation fulfill];
+      })
+      .andForwardToRealObject();
+
+  OCMStub([delegateMock distributeNoReleaseAvailable:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
+    [invokedExpectation fulfill];
+  });
+
+  // Non recoverable error.
+  [MSACHttpTestUtil stubHttp404Response];
+
+  // When
+  [self.sut setDelegate:delegateMock];
+  [self.sut startWithChannelGroup:OCMProtocolMock(@protocol(MSACChannelGroupProtocol))
+                        appSecret:kMSACTestAppSecret
+          transmissionTargetToken:nil
+                  fromApplication:YES];
+  [self.sut checkLatestRelease:kMSACTestUpdateToken distributionGroupId:kMSACTestDistributionGroupId releaseHash:kMSACTestReleaseHash];
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+                                 // Then
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clean up
+  MSACDependencyConfiguration.httpClient = nil;
+  [delegateMock stopMocking];
+  [distributeMock stopMocking];
+}
+
 - (void)testCheckLatestReleaseOnRecoverableError {
 
   // If

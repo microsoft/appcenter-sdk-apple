@@ -88,6 +88,7 @@
 		C2200613230FDF7000848D5B /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2200612230FDF7000848D5B /* AppCenter.framework */; };
 		C2392F7324642DC600425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392F4224642CB600425640 /* OCMock.framework */; };
 		C24D1C79247F34770025261B /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
+		C97E8633257F987000717834 /* error_details_no_release.json in Resources */ = {isa = PBXBuildFile; fileRef = C97E8632257F96E800717834 /* error_details_no_release.json */; };
 		C9EBAA2D230D37ED00A20F0F /* MSACIngestionProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 040AF0321E52859F005C1174 /* MSACIngestionProtocol.h */; };
 		C9EBAA2E230D37FD00A20F0F /* AppCenterDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FD4A1F1E451E12009B4468 /* AppCenterDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBAA2F230D37FD00A20F0F /* MSACDistribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 0471B89A1E4547750022F951 /* MSACDistribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -375,6 +376,7 @@
 		BA6826E3C58372A269A6B43A /* MSACErrorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACErrorDetails.m; sourceTree = "<group>"; };
 		C2200612230FDF7000848D5B /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2392F2F24642CB500425640 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../Vendor/OCMock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
+		C97E8632257F96E800717834 /* error_details_no_release.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = error_details_no_release.json; sourceTree = "<group>"; };
 		C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterDistribute.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB36230D73A800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 			isa = PBXGroup;
 			children = (
 				04DC2EC81E78A3B4003F23B5 /* error_details.json */,
+				C97E8632257F96E800717834 /* error_details_no_release.json */,
 				040AF0111E523AC2005C1174 /* release_details.json */,
 			);
 			path = Fixtures;
@@ -998,6 +1001,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C97E8633257F987000717834 /* error_details_no_release.json in Resources */,
 				B270108D1E5FA2E4008552EF /* release_details.json in Resources */,
 				B2C070C01E5E69AD0076D6A9 /* AppCenterDistributeResources.bundle in Resources */,
 				04DC2EC91E78A3B4003F23B5 /* error_details.json in Resources */,
