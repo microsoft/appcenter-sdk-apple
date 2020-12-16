@@ -6,3 +6,5 @@
 "distribute_alert_message" = "This is a customized dialog. - Spanish";
 "distribute_alert_yes" = "Yes";
 "distribute_alert_no" = "No";
+"distribute_alert_willExit_title" = "Update is about to start installing!";
+"distribute_alert_willExit_message" = "Cleaning up resources... The app will be closed in a few seconds... - Spanish";

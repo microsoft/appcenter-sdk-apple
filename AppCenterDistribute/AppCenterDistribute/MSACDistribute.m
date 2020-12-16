@@ -1132,6 +1132,10 @@ static dispatch_once_t onceToken;
 }
 
 - (void)closeApp __attribute__((noreturn)) {
+  id<MSACDistributeDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector(distributeWillExitApp:)]) {
+    [delegate distributeWillExitApp:self];
+  }
   exit(0);
 }
 

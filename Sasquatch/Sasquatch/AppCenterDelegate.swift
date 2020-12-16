@@ -55,6 +55,7 @@ import AppCenterAnalytics
   func checkForUpdate()
   func showDistributeDisabledAlert()
   func showCustomConfirmationAlert()
+  func closeApp()
 
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?
