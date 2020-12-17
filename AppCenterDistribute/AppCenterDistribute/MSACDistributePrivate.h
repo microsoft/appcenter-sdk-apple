@@ -18,6 +18,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol MSACAuthenticationSession <NSObject>
+
+- (BOOL)start;
+- (void)cancel;
+
+@end
+
 @class MSACReleaseDetails;
 
 /**
@@ -140,7 +147,7 @@ static NSString *const kMSACTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSet
 /**
  * Authentication session instance.
  */
-@property(nullable, nonatomic) SFAuthenticationSession *authenticationSession API_AVAILABLE(ios(11.0));
+@property(nullable, nonatomic) id<MSACAuthenticationSession> authenticationSession API_AVAILABLE(ios(11.0));
 
 /**
  * Distribute info tracking component which adds extra fields to logs.

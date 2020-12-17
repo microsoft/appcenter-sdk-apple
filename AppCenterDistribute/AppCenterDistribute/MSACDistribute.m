@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
+#import <AuthenticationServices/AuthenticationServices.h>
 
 #import "MSACAppCenterInternal.h"
 #import "MSACAppDelegateForwarder.h"
@@ -20,6 +21,12 @@
 #import "MSACHttpClient.h"
 #import "MSACKeychainUtil.h"
 #import "MSACSessionContext.h"
+
+@interface ASWebAuthenticationSession () <MSACAuthenticationSession>
+@end
+
+@interface SFAuthenticationSession () <MSACAuthenticationSession>
+@end
 
 /**
  * Service storage key name.
@@ -682,7 +689,6 @@ static dispatch_once_t onceToken;
    * versions or for any versions when the update is mandatory.
    */
 
-  // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
   if (@available(iOS 11.0, *)) {
     dispatch_async(dispatch_get_main_queue(), ^{
       [self openURLInAuthenticationSessionWith:url];
@@ -723,9 +729,17 @@ static dispatch_once_t onceToken;
     }
     [[MSACUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
   };
-  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url
-                                                                callbackURLScheme:callbackUrlScheme
-                                                                completionHandler:authCompletionBlock];
+
+  id<MSACAuthenticationSession> session;
+  if (@available(iOS 12.0, *)) {
+    session = [[ASWebAuthenticationSession alloc] initWithURL:url
+                                            callbackURLScheme:callbackUrlScheme
+                                            completionHandler:authCompletionBlock];
+  } else {
+    session = [[SFAuthenticationSession alloc] initWithURL:url
+                                         callbackURLScheme:callbackUrlScheme
+                                         completionHandler:authCompletionBlock];
+  }
 
   // Calling 'start' on an existing session crashes the application - cancel session.
   [self.authenticationSession cancel];
