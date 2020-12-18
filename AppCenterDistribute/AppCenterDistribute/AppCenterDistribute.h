@@ -3,6 +3,12 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenterDistribute/MSACDistribute.h>)
+#import <AppCenterDistribute/MSACDistribute.h>
+#import <AppCenterDistribute/MSACDistributeDelegate.h>
+#import <AppCenterDistribute/MSACReleaseDetails.h>
+#else
 #import "MSACDistribute.h"
 #import "MSACDistributeDelegate.h"
 #import "MSACReleaseDetails.h"
+#endif

@@ -3,7 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<AppCenterAnalytics/MSACAnalyticsAuthenticationProviderDelegate.h>)
+#import <AppCenterAnalytics/MSACAnalyticsAuthenticationProviderDelegate.h>
+#else
 #import "MSACAnalyticsAuthenticationProviderDelegate.h"
+#endif
 
 /**
  * Different authentication types, e.g. MSA Compact, MSA Delegate, AAD,... .

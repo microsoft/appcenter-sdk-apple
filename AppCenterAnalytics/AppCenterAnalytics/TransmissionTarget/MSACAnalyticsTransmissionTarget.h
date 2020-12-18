@@ -3,9 +3,22 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACAnalyticsAuthenticationProvider.h"
+#ifndef ANALYTICS_TRANSMISSION_TARGET
+#define ANALYTICS_TRANSMISSION_TARGET
+
+#if __has_include(<AppCenter/MSACConstants+Flags.h>)
+#import <AppCenter/MSACConstants+Flags.h>
+#else
 #import "MSACConstants+Flags.h"
+#endif
+
+#if __has_include(<AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>)
+#import <AppCenterAnalytics/MSACAnalyticsAuthenticationProvider.h>
+#import <AppCenterAnalytics/MSACPropertyConfigurator.h>
+#else
+#import "MSACAnalyticsAuthenticationProvider.h"
 #import "MSACPropertyConfigurator.h"
+#endif
 
 @class MSACEventProperties;
 
@@ -134,3 +147,5 @@ NS_SWIFT_NAME(AnalyticsTransmissionTarget)
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif

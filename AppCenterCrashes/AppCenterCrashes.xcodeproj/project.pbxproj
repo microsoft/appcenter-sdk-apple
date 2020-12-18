@@ -246,18 +246,6 @@
 		C2FE827F23757CB7007DCD28 /* MSACApplicationForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = C2FE827B23757CB7007DCD28 /* MSACApplicationForwarder.m */; };
 		C2FE828023757CB7007DCD28 /* MSACApplicationForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = C2FE827B23757CB7007DCD28 /* MSACApplicationForwarder.m */; };
 		C2FE828123757CB7007DCD28 /* MSACApplicationForwarder.m in Sources */ = {isa = PBXBuildFile; fileRef = C2FE827B23757CB7007DCD28 /* MSACApplicationForwarder.m */; };
-		C9EBA966230D35A700A20F0F /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81331E8C565E001C76C9 /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA967230D35A700A20F0F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082011F74BB6100DC776D /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA968230D35A700A20F0F /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA969230D35A700A20F0F /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81331E8C565E001C76C9 /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA96A230D35A700A20F0F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082011F74BB6100DC776D /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA96B230D35A700A20F0F /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA96C230D35A800A20F0F /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81331E8C565E001C76C9 /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA96D230D35A800A20F0F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A082011F74BB6100DC776D /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA96E230D35A800A20F0F /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C77061D6CC41100D68CC1 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C9EBA96F230D35BC00A20F0F /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSACLogWithProperties.h */; };
-		C9EBA970230D35BC00A20F0F /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSACLogWithProperties.h */; };
-		C9EBA971230D35BD00A20F0F /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 380B81311E8C540E001C76C9 /* MSACLogWithProperties.h */; };
 		C9EBA972230D35CE00A20F0F /* AppCenterCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401361D1C98690051BCFA /* AppCenterCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA973230D35CE00A20F0F /* MSACCrashes.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E04014F1D1C9A4F0051BCFA /* MSACCrashes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA974230D35CE00A20F0F /* MSACCrashesDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2DCB1351DAC03C400120F87 /* MSACCrashesDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -405,9 +393,6 @@
 		C9EBAABE230D3A1D00A20F0F /* MSACErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSACErrorAttachmentLog.m */; };
 		C9EBAABF230D3A1D00A20F0F /* MSACErrorAttachmentLog+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3858A2191E93F3B400535A69 /* MSACErrorAttachmentLog+Utility.m */; };
 		C9EBAAC0230D3A1D00A20F0F /* MSACErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSACErrorReport.m */; };
-		C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2C230D735E00A20F0F /* AppCenter.framework */; };
-		C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB2E230D736A00A20F0F /* AppCenter.framework */; };
-		C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9EBAB30230D736F00A20F0F /* AppCenter.framework */; };
 		DFCB80662472D6920058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB805B2472D6770058D292 /* OCHamcrest.framework */; };
 		DFCB80692472D6DF0058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80532472D6770058D292 /* OCHamcrest.framework */; };
 		DFCB806C2472D6F00058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB805D2472D6770058D292 /* OCHamcrest.framework */; };
@@ -660,6 +645,48 @@
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
 		};
+		D55737CD254AB33F00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A91FB6230C01140068070D;
+			remoteInfo = "AppCenter iOS Framework";
+		};
+		D55737CF254AB33F00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
+			remoteInfo = "AppCenter iOS Tests";
+		};
+		D55737D1254AB33F00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92007230C05D70068070D;
+			remoteInfo = "AppCenter macOS Framework";
+		};
+		D55737D3254AB33F00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
+			remoteInfo = "AppCenter macOS Tests";
+		};
+		D55737D5254AB33F00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A92024230C07A50068070D;
+			remoteInfo = "AppCenter tvOS Framework";
+		};
+		D55737D7254AB33F00B64478 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
+			remoteInfo = "AppCenter tvOS Tests";
+		};
 		D559CA132477ED0500CF60D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
@@ -761,7 +788,6 @@
 		049553051EF19F9F0097E071 /* MSACCrashesUtilPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACCrashesUtilPrivate.h; sourceTree = "<group>"; };
 		049BC8251ECE36D400FB6719 /* iOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = iOS.xcconfig; sourceTree = "<group>"; };
 		049BC8261ECE370100FB6719 /* macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
-		04A082011F74BB6100DC776D /* MSACService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACService.h; path = ../AppCenter/AppCenter/MSACService.h; sourceTree = "<group>"; };
 		04EBBEEE1F01C1420006B8AE /* tvOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = tvOS.modulemap; sourceTree = "<group>"; };
 		04EBBEEF1F01C1420006B8AE /* tvOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = tvOS.xcconfig; sourceTree = "<group>"; };
 		04ED31F21EAAD6070033BAAE /* iOS.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = iOS.modulemap; sourceTree = "<group>"; };
@@ -784,12 +810,9 @@
 		35D504CD1DDD140500D58B40 /* MSACWrapperExceptionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACWrapperExceptionManager.h; sourceTree = "<group>"; };
 		35D504CE1DDD140500D58B40 /* MSACWrapperExceptionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACWrapperExceptionManager.m; sourceTree = "<group>"; };
 		35EF18DF1DDBCF6C00731CA8 /* MSACWrapperExceptionManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACWrapperExceptionManagerTests.m; sourceTree = "<group>"; };
-		380B81311E8C540E001C76C9 /* MSACLogWithProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACLogWithProperties.h; path = ../AppCenter/AppCenter/Model/MSACLogWithProperties.h; sourceTree = "<group>"; };
-		380B81331E8C565E001C76C9 /* MSACAbstractLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACAbstractLog.h; path = ../AppCenter/AppCenter/Model/MSACAbstractLog.h; sourceTree = "<group>"; };
 		382346411E8B3DAD001C3A76 /* MSACErrorAttachmentLogInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACErrorAttachmentLogInternal.h; sourceTree = "<group>"; };
 		3858A2171E93F37E00535A69 /* MSACErrorAttachmentLog+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MSACErrorAttachmentLog+Utility.h"; sourceTree = "<group>"; };
 		3858A2191E93F3B400535A69 /* MSACErrorAttachmentLog+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MSACErrorAttachmentLog+Utility.m"; sourceTree = "<group>"; };
-		387C77061D6CC41100D68CC1 /* MSACServiceAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACServiceAbstract.h; path = ../AppCenter/AppCenter/MSACServiceAbstract.h; sourceTree = "<group>"; };
 		38BD86511E8499EF004E8D7A /* MSACErrorAttachmentLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACErrorAttachmentLog.h; sourceTree = "<group>"; };
 		59493B275715F01438B2E6FD /* MSACCrashesUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACCrashesUtilTests.m; sourceTree = "<group>"; };
 		6E0401361D1C98690051BCFA /* AppCenterCrashes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterCrashes.h; sourceTree = "<group>"; };
@@ -884,6 +907,7 @@
 		C9EBAB2C230D735E00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB2E230D736A00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB30230D736F00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
 		DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
 		F82E4C74217F1FD600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F851DAEC1E81867D00525570 /* MSACCrashesCXXExceptionTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSACCrashesCXXExceptionTests.mm; sourceTree = "<group>"; };
@@ -947,7 +971,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB2D230D735E00A20F0F /* AppCenter.framework in Frameworks */,
 				C24C9D1D2472B49E0072C35D /* libCrashReporter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -956,7 +979,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB2F230D736A00A20F0F /* AppCenter.framework in Frameworks */,
 				C24C9D1F2472B4B20072C35D /* libCrashReporter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -965,7 +987,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBAB31230D736F00A20F0F /* AppCenter.framework in Frameworks */,
 				C24C9D1E2472B4AA0072C35D /* libCrashReporter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1045,10 +1066,7 @@
 		6E04012A1D1C98690051BCFA = {
 			isa = PBXGroup;
 			children = (
-				380B81331E8C565E001C76C9 /* MSACAbstractLog.h */,
-				380B81311E8C540E001C76C9 /* MSACLogWithProperties.h */,
-				04A082011F74BB6100DC776D /* MSACService.h */,
-				387C77061D6CC41100D68CC1 /* MSACServiceAbstract.h */,
+				D55737BC254AB33100B64478 /* AppCenter */,
 				6E0401351D1C98690051BCFA /* AppCenterCrashes */,
 				6E171AE21D22F781000DC480 /* AppCenterCrashesTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
@@ -1275,7 +1293,7 @@
 				C24C9CF92472B3C30072C35D /* libCrashReporter.a */,
 				C24C9CFF2472B3C30072C35D /* Tests macOS.xctest */,
 				C24C9D032472B3C30072C35D /* Tests iOS.xctest */,
-				C24C9D072472B3C30072C35D /* CrashReporter tvOS Tests.xctest */,
+				C24C9D072472B3C30072C35D /* Tests tvOS.xctest */,
 				C24C9D092472B3C30072C35D /* DemoCrash macOS.app */,
 				C24C9D0B2472B3C30072C35D /* DemoCrash iOS.app */,
 				C24C9D0F2472B3C30072C35D /* DemoCrash tvOS.app */,
@@ -1309,6 +1327,27 @@
 				B2F120DF1D657CF10060DED7 /* MSACErrorReport.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D55737BC254AB33100B64478 /* AppCenter */ = {
+			isa = PBXGroup;
+			children = (
+				D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */,
+			);
+			path = AppCenter;
+			sourceTree = "<group>";
+		};
+		D55737BE254AB33F00B64478 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D55737CE254AB33F00B64478 /* AppCenter.framework */,
+				D55737D0254AB33F00B64478 /* AppCenter.xctest */,
+				D55737D2254AB33F00B64478 /* AppCenter.framework */,
+				D55737D4254AB33F00B64478 /* AppCenter.xctest */,
+				D55737D6254AB33F00B64478 /* AppCenter.framework */,
+				D55737D8254AB33F00B64478 /* AppCenter.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		DFCB80492472D6770058D292 /* Products */ = {
@@ -1356,8 +1395,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBA968230D35A700A20F0F /* MSACServiceAbstract.h in Headers */,
-				C9EBA967230D35A700A20F0F /* MSACService.h in Headers */,
 				C9EBA9B1230D35FF00A20F0F /* MSACAbstractErrorLog.h in Headers */,
 				C9EBA97C230D35DB00A20F0F /* MSACWrapperCrashesHelper.h in Headers */,
 				C9EBA9B5230D35FF00A20F0F /* MSACThread.h in Headers */,
@@ -1375,7 +1412,6 @@
 				C9EBA9C0230D360400A20F0F /* MSACErrorReportPrivate.h in Headers */,
 				C9EBA995230D35F000A20F0F /* MSACCrashesPrivate.h in Headers */,
 				C9EBA9D1230D361E00A20F0F /* MSACErrorLogFormatterPrivate.h in Headers */,
-				C9EBA96F230D35BC00A20F0F /* MSACLogWithProperties.h in Headers */,
 				C9EBA9AE230D35FF00A20F0F /* MSACErrorAttachmentLogInternal.h in Headers */,
 				C9EBA988230D35EC00A20F0F /* AppCenter+Internal.h in Headers */,
 				C9EBA9AF230D35FF00A20F0F /* MSACException.h in Headers */,
@@ -1385,7 +1421,6 @@
 				C9EBA9D6230D362900A20F0F /* MSACErrorAttachmentLog.h in Headers */,
 				C9EBA9AC230D35FF00A20F0F /* MSACWrapperException.h in Headers */,
 				C9EBA9C4230D361600A20F0F /* MSACCrashesUtil.h in Headers */,
-				C9EBA966230D35A700A20F0F /* MSACAbstractLog.h in Headers */,
 				C9EBA9AD230D35FF00A20F0F /* MSACWrapperExceptionInternal.h in Headers */,
 				C9EBA9C5230D361600A20F0F /* MSACCrashReporter.h in Headers */,
 				C9EBA97B230D35DB00A20F0F /* MSACCrashHandlerSetupDelegate.h in Headers */,
@@ -1399,8 +1434,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBA96B230D35A700A20F0F /* MSACServiceAbstract.h in Headers */,
-				C9EBA96A230D35A700A20F0F /* MSACService.h in Headers */,
 				C9EBA9BB230D360000A20F0F /* MSACAbstractErrorLog.h in Headers */,
 				C9EBA980230D35DD00A20F0F /* MSACWrapperCrashesHelper.h in Headers */,
 				C9EBA9BF230D360000A20F0F /* MSACThread.h in Headers */,
@@ -1413,7 +1446,6 @@
 				C9EBA9BC230D360000A20F0F /* MSACBinary.h in Headers */,
 				C2FE827E23757CB7007DCD28 /* MSACApplicationForwarder.h in Headers */,
 				C9EBA98B230D35ED00A20F0F /* MSACCrashesInternal.h in Headers */,
-				C9EBA970230D35BC00A20F0F /* MSACLogWithProperties.h in Headers */,
 				C9EBA996230D35F000A20F0F /* MSACCrashesPrivate.h in Headers */,
 				C9EBA9BA230D360000A20F0F /* MSACStackFrame.h in Headers */,
 				C9EBA9B8230D360000A20F0F /* MSACErrorAttachmentLogInternal.h in Headers */,
@@ -1428,7 +1460,6 @@
 				C9EBA9D9230D362A00A20F0F /* MSACErrorAttachmentLog.h in Headers */,
 				C9EBA9B6230D360000A20F0F /* MSACWrapperException.h in Headers */,
 				C9EBA9CA230D361700A20F0F /* MSACCrashesUtil.h in Headers */,
-				C9EBA969230D35A700A20F0F /* MSACAbstractLog.h in Headers */,
 				C9EBA9B7230D360000A20F0F /* MSACWrapperExceptionInternal.h in Headers */,
 				C9EBA9CB230D361700A20F0F /* MSACCrashReporter.h in Headers */,
 				C9EBA97F230D35DD00A20F0F /* MSACCrashHandlerSetupDelegate.h in Headers */,
@@ -1442,8 +1473,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9EBA96E230D35A800A20F0F /* MSACServiceAbstract.h in Headers */,
-				C9EBA96D230D35A800A20F0F /* MSACService.h in Headers */,
 				C9EBA99D230D35FE00A20F0F /* MSACAbstractErrorLog.h in Headers */,
 				C9EBA982230D35DD00A20F0F /* MSACWrapperCrashesHelper.h in Headers */,
 				C9EBA9A1230D35FE00A20F0F /* MSACThread.h in Headers */,
@@ -1455,7 +1484,6 @@
 				C9EBA990230D35ED00A20F0F /* MSACWrapperExceptionManager.h in Headers */,
 				C9EBA99E230D35FE00A20F0F /* MSACBinary.h in Headers */,
 				C2FE827D23757CB7007DCD28 /* MSACApplicationForwarder.h in Headers */,
-				C9EBA971230D35BD00A20F0F /* MSACLogWithProperties.h in Headers */,
 				C9EBA991230D35ED00A20F0F /* MSACCrashesInternal.h in Headers */,
 				C9EBA99C230D35FE00A20F0F /* MSACStackFrame.h in Headers */,
 				C9EBA99A230D35FE00A20F0F /* MSACErrorAttachmentLogInternal.h in Headers */,
@@ -1471,7 +1499,6 @@
 				C9EBA9DC230D362A00A20F0F /* MSACErrorAttachmentLog.h in Headers */,
 				C9EBA998230D35FE00A20F0F /* MSACWrapperException.h in Headers */,
 				C9EBA9CD230D361800A20F0F /* MSACCrashesUtil.h in Headers */,
-				C9EBA96C230D35A800A20F0F /* MSACAbstractLog.h in Headers */,
 				C9EBA999230D35FE00A20F0F /* MSACWrapperExceptionInternal.h in Headers */,
 				C9EBA9CE230D361800A20F0F /* MSACCrashReporter.h in Headers */,
 				C9EBA981230D35DD00A20F0F /* MSACCrashHandlerSetupDelegate.h in Headers */,
@@ -1639,6 +1666,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = D55737BE254AB33F00B64478 /* Products */;
+					ProjectRef = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
+				},
+				{
 					ProductGroup = C24C9CD22472B3C30072C35D /* Products */;
 					ProjectRef = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
 				},
@@ -1783,10 +1814,10 @@
 			remoteRef = C24C9D022472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C24C9D072472B3C30072C35D /* CrashReporter tvOS Tests.xctest */ = {
+		C24C9D072472B3C30072C35D /* Tests tvOS.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "CrashReporter tvOS Tests.xctest";
+			path = "Tests tvOS.xctest";
 			remoteRef = C24C9D062472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1816,6 +1847,48 @@
 			fileType = "compiled.mach-o.executable";
 			path = "Fuzz Testing";
 			remoteRef = C24C9D122472B3C30072C35D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D55737CE254AB33F00B64478 /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = D55737CD254AB33F00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D55737D0254AB33F00B64478 /* AppCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenter.xctest;
+			remoteRef = D55737CF254AB33F00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D55737D2254AB33F00B64478 /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = D55737D1254AB33F00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D55737D4254AB33F00B64478 /* AppCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenter.xctest;
+			remoteRef = D55737D3254AB33F00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D55737D6254AB33F00B64478 /* AppCenter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AppCenter.framework;
+			remoteRef = D55737D5254AB33F00B64478 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D55737D8254AB33F00B64478 /* AppCenter.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AppCenter.xctest;
+			remoteRef = D55737D7254AB33F00B64478 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DFCB80532472D6770058D292 /* OCHamcrest.framework */ = {

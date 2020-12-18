@@ -1,5 +1,25 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.1.0
+
+### App Center
+
+* **[Fix]** Fix `double-quoted` warnings in Xcode 12.
+* **[Fix]** Fix a crash when SQLite returns zero for `page_size`.
+* **[Feature]** Use XCFramework format for the binary distribution via CocoaPods. CocoaPods version 1.9+ is a requirement now.
+
+### App Center Crashes
+
+* **[Fix]** Fix nullability for attachments methods in crashes delegate. `nil` is valid return value now (4.0.0 regression).
+
+### App Center Distribute
+
+* **[Feature]** Add `distributeNoReleaseAvailable` callback to Distribute delegate.
+* **[Feature]** Add `distributeWillExitApp` callback to Distribute delegate.
+* **[Feature]** Add the Distribute module to Swift Package Manager. Please note that due to additional resources bundle, it requires Swift 5.3 (Xcode 12 and higher).
+
+___
+
 ## Version 4.0.0
 
 ### App Center

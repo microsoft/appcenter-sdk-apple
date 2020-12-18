@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#if __has_include(<AppCenterDistribute/MSACReleaseDetails.h>)
+#import <AppCenterDistribute/MSACReleaseDetails.h>
+#else
 #import "MSACReleaseDetails.h"
+#endif
 
 @class MSACDistribute;
 
@@ -23,6 +27,21 @@ NS_SWIFT_NAME(DistributeDelegate)
  * @see [MSACDistribute notifyUpdateAction:]
  */
 - (BOOL)distribute:(MSACDistribute *)distribute releaseAvailableWithDetails:(MSACReleaseDetails *)details;
+
+/**
+ * Callback method that will be called whenever update check reports that there is no new release available for update.
+ *
+ * @param distribute The instance of MSACDistribute.
+ */
+- (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute;
+
+/**
+ * Callback method that will be called before the app is permanently closed for update.
+ * It is the right place to add any required clean ups.
+ *
+ * @param distribute The instance of MSACDistribute.
+ */
+- (void)distributeWillExitApp:(MSACDistribute *)distribute;
 
 @end
 

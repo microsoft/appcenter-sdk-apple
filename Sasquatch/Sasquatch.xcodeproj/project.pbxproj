@@ -676,13 +676,6 @@
 			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
 			remoteInfo = CrashLibIOS;
 		};
-		C2F156CF2338C2DA00798480 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B21A71DA1DD2A38C0044BB1C;
-			remoteInfo = CrashLibIOS;
-		};
 		C2F156D32338C2FC00798480 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2F156A32338C26A00798480 /* CrashLib.xcodeproj */;
@@ -1768,10 +1761,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				324F3EEC2548702D0006E223 /* PBXTargetDependency */,
 				324F3EEE2548703F0006E223 /* PBXTargetDependency */,
 				324F3EF02548703F0006E223 /* PBXTargetDependency */,
 				324F3EF22548703F0006E223 /* PBXTargetDependency */,
-				324F3EEC2548702D0006E223 /* PBXTargetDependency */,
 				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 				C2F156F82338C34500798480 /* PBXTargetDependency */,
 			);
@@ -1798,10 +1791,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				324F3EDA25486D450006E223 /* PBXTargetDependency */,
 				324F3EE025486D640006E223 /* PBXTargetDependency */,
 				324F3EDE25486D560006E223 /* PBXTargetDependency */,
 				324F3EDC25486D4E0006E223 /* PBXTargetDependency */,
-				324F3EDA25486D450006E223 /* PBXTargetDependency */,
 				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 				C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */,
 				C2F156E42338C31E00798480 /* PBXTargetDependency */,
@@ -1825,7 +1818,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C2F156D02338C2DA00798480 /* PBXTargetDependency */,
 				C2F156942338C1F000798480 /* PBXTargetDependency */,
 				C2F156962338C1F000798480 /* PBXTargetDependency */,
 				C2F156982338C1F000798480 /* PBXTargetDependency */,
@@ -3212,11 +3204,6 @@
 			isa = PBXTargetDependency;
 			name = CrashLibIOS;
 			targetProxy = C2F156C92338C2C800798480 /* PBXContainerItemProxy */;
-		};
-		C2F156D02338C2DA00798480 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrashLibIOS;
-			targetProxy = C2F156CF2338C2DA00798480 /* PBXContainerItemProxy */;
 		};
 		C2F156D42338C2FC00798480 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

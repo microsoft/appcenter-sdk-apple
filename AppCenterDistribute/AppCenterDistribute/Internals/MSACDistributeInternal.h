@@ -9,7 +9,7 @@
 #import "MSACReleaseDetailsPrivate.h"
 #import "MSACServiceInternal.h"
 
-#define APP_CENTER_DISTRIBUTE_BUNDLE @"AppCenterDistributeResources.bundle"
+#define APP_CENTER_DISTRIBUTE_BUNDLE_NAME @"AppCenterDistributeResources"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -5,6 +5,9 @@
       location = "group:appcenter-post-clone.sh">
    </FileRef>
    <FileRef
+      location = "group:Package@swift-5.3.swift">
+   </FileRef>
+   <FileRef
       location = "group:AppCenter.podspec">
    </FileRef>
    <FileRef

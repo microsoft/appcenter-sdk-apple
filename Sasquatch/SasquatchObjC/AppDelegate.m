@@ -82,27 +82,31 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
   if (storageMaxSize != nil) {
     [MSACAppCenter setMaxStorageSize:storageMaxSize.integerValue
-                 completionHandler:^(BOOL success) {
-                   dispatch_async(dispatch_get_main_queue(), ^{
-                     if (success) {
-                       long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
-                       [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
-                                                                 forKey:kMSStorageMaxSizeKey];
-                     } else {
+                   completionHandler:^(BOOL success) {
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                       if (success) {
+                         long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
+                         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
+                                                                   forKey:kMSStorageMaxSizeKey];
+                       } else {
 
-                       // Remove invalid value.
-                       [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
+                         // Remove invalid value.
+                         [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
 
-                       // Show alert.
-                       UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Warning!", nil)
-                                                                                                message:NSLocalizedString(@"The maximum size of the internal "
-                                                                                                        @"storage could not be set.", nil)
-                                                                                         preferredStyle:UIAlertControllerStyleAlert];
-                       [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
-                       [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-                     }
-                   });
-                 }];
+                         // Show alert.
+                         UIAlertController *alertController =
+                             [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Warning!", nil)
+                                                                 message:NSLocalizedString(@"The maximum size of the internal "
+                                                                                           @"storage could not be set.",
+                                                                                           nil)
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+                         [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
+                                                                             style:UIAlertActionStyleDefault
+                                                                           handler:nil]];
+                         [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+                       }
+                     });
+                   }];
   }
 
   NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
@@ -122,7 +126,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSACDistribute disableAutomaticCheckForUpdate];
   }
 #endif
-  
+
   // Start App Center SDK.
 #if !TARGET_OS_MACCATALYST
   NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class], [MSACDistribute class]];
@@ -207,38 +211,40 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
   [MSACCrashes setDelegate:self];
   [MSACCrashes setUserConfirmationHandler:(^(NSArray<MSACErrorReport *> *errorReports) {
-               // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
-               UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Sorry about that!", nil)
-                                                                                        message:NSLocalizedString(@"Do you want to send an anonymous crash "
-                                                                                                @"report so we can fix the issue?", nil)
-                                                                                 preferredStyle:UIAlertControllerStyleAlert];
+                 // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
+                 UIAlertController *alertController =
+                     [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Sorry about that!", nil)
+                                                         message:NSLocalizedString(@"Do you want to send an anonymous crash "
+                                                                                   @"report so we can fix the issue?",
+                                                                                   nil)
+                                                  preferredStyle:UIAlertControllerStyleAlert];
 
-               // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationDontSend
-               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Don't send", nil)
-                                                                   style:UIAlertActionStyleCancel
-                                                                 handler:^(UIAlertAction *action) {
-                                                                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationDontSend];
-                                                                 }]];
+                 // Add a "Don't send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationDontSend
+                 [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Don't send", nil)
+                                                                     style:UIAlertActionStyleCancel
+                                                                   handler:^(UIAlertAction *action) {
+                                                                     [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationDontSend];
+                                                                   }]];
 
-               // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationSend
-               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil)
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction *action) {
-                                                                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationSend];
-                                                                 }]];
+                 // Add a "Send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationSend
+                 [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Send", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction *action) {
+                                                                     [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationSend];
+                                                                   }]];
 
-               // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationAlways
-               [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Always send", nil)
-                                                                   style:UIAlertActionStyleDefault
-                                                                 handler:^(UIAlertAction *action) {
-                                                                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationAlways];
-                                                                 }]];
+                 // Add a "Always send"-Button and call the notifyWithUserConfirmation-callback with MSACUserConfirmationAlways
+                 [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Always send", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction *action) {
+                                                                     [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationAlways];
+                                                                   }]];
 
-               // Show the alert controller.
-               [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+                 // Show the alert controller.
+                 [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
 
-               return YES;
-             })];
+                 return YES;
+               })];
 }
 
 - (void)setAppCenterDelegate {
@@ -319,8 +325,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                        NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
                        CFRelease(UTI);
                        MSACErrorAttachmentLog *binaryAttachment = [MSACErrorAttachmentLog attachmentWithBinary:imageData
-                                                                                                  filename:dataUTI
-                                                                                               contentType:MIMEType];
+                                                                                                      filename:dataUTI
+                                                                                                   contentType:MIMEType];
                        [attachments addObject:binaryAttachment];
                        NSLog(@"Add binary attachment with %tu bytes", [imageData length]);
                      }];
@@ -334,8 +340,8 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
       CFRelease(UTI);
       MSACErrorAttachmentLog *binaryAttachment = [MSACErrorAttachmentLog attachmentWithBinary:data
-                                                                                 filename:referenceUrl.lastPathComponent
-                                                                              contentType:MIMEType];
+                                                                                     filename:referenceUrl.lastPathComponent
+                                                                                  contentType:MIMEType];
       [attachments addObject:binaryAttachment];
       NSLog(@"Add binary attachment with %tu bytes", [data length]);
     } else {
@@ -379,6 +385,26 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     return YES;
   }
   return NO;
+}
+
+- (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute {
+  NSLog(@"distributeNoReleaseAvailable invoked");
+  UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                 message:NSLocalizedString(@"No updates available", nil)
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+  [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
+  [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)distributeWillExitApp:(MSACDistribute *)distribute {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_willExit_title", @"Sasquatch", @"")
+                                            message:NSLocalizedStringFromTable(@"distribute_alert_willExit_message", @"Sasquatch", @"")
+                                     preferredStyle:UIAlertControllerStyleAlert];
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+  });
+  sleep(7);
 }
 
 #endif

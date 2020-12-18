@@ -13,6 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString const *kMSACErrorCodeNoReleasesForUser = @"no_releases_for_user";
 
 /**
+ * Error code string when no releases were found for the application.
+ */
+static NSString const *kMSACErrorCodeNoReleasesFound = @"not_found";
+
+/**
  * Details of an error response.
  */
 @interface MSACErrorDetails : NSObject

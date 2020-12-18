@@ -1,0 +1,4 @@
+{
+  "code": "no_releases_for_user",
+  "message": "Couldn't get a release because there are no releases for this user."
+}
