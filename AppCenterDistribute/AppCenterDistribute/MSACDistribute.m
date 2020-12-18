@@ -10,6 +10,7 @@
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitProtocol.h"
 #import "MSACDependencyConfiguration.h"
+#import "MSACDispatcherUtil.h"
 #import "MSACDistribute.h"
 #import "MSACDistributeAppDelegate.h"
 #import "MSACDistributeInternal.h"
@@ -739,9 +740,7 @@ static dispatch_once_t onceToken;
                                                                           callbackURLScheme:callbackUrlScheme
                                                                           completionHandler:authCompletionBlock];
     if (@available(iOS 13.0, *)) {
-      if ([self.delegate respondsToSelector:@selector(distributeAuthenticationPresentationAnchor:)]) {
-        asSession.presentationContextProvider = self;
-      }
+      asSession.presentationContextProvider = self;
     }
 
     session = asSession;
@@ -1350,10 +1349,27 @@ static dispatch_once_t onceToken;
 @implementation MSACDistribute (ContextProviding)
 
 - (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13)) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
-  return [self.delegate distributeAuthenticationPresentationAnchor:self];
-#pragma clang diagnostic pop
+  id<MSACDistributeDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector((distributeAuthenticationPresentationAnchor:))]) {
+    return [delegate distributeAuthenticationPresentationAnchor:self];
+  }
+
+  UIApplication *application = MSAC_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
+  NSSet *scenes = MSAC_DISPATCH_SELECTOR((NSSet * (*)(id, SEL)), application, connectedScenes);
+  NSObject *windowScene = nil;
+  for (NSObject *scene in scenes) {
+    NSInteger activationState = MSAC_DISPATCH_SELECTOR((NSInteger(*)(id, SEL)), scene, activationState);
+    if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
+      windowScene = scene;
+      break;
+    }
+  }
+  if (!windowScene) {
+    windowScene = scenes.anyObject;
+  }
+  NSArray *windows = MSAC_DISPATCH_SELECTOR((NSArray * (*)(id, SEL)), windowScene, windows);
+  ASPresentationAnchor anchor = windows.firstObject;
+  return anchor;
 }
 
 @end
