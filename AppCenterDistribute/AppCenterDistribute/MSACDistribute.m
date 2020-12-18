@@ -28,6 +28,9 @@
 @interface SFAuthenticationSession () <MSACAuthenticationSession>
 @end
 
+@interface MSACDistribute (ContextProviding) <ASWebAuthenticationPresentationContextProviding>
+@end
+
 /**
  * Service storage key name.
  */
@@ -731,10 +734,17 @@ static dispatch_once_t onceToken;
   };
 
   id<MSACAuthenticationSession> session;
-  if (@available(iOS 12.0, *)) {
-    session = [[ASWebAuthenticationSession alloc] initWithURL:url
-                                            callbackURLScheme:callbackUrlScheme
-                                            completionHandler:authCompletionBlock];
+  if (@available(iOS 12, *)) {
+    ASWebAuthenticationSession *asSession = [[ASWebAuthenticationSession alloc] initWithURL:url
+                                                                          callbackURLScheme:callbackUrlScheme
+                                                                          completionHandler:authCompletionBlock];
+    if (@available(iOS 13.0, *)) {
+      if ([self.delegate respondsToSelector:@selector(distributeAuthenticationPresentationAnchor:)]) {
+        asSession.presentationContextProvider = self;
+      }
+    }
+
+    session = asSession;
   } else {
     session = [[SFAuthenticationSession alloc] initWithURL:url
                                          callbackURLScheme:callbackUrlScheme
@@ -1333,6 +1343,17 @@ static dispatch_once_t onceToken;
   // Reset the onceToken so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
+}
+
+@end
+
+@implementation MSACDistribute (ContextProviding)
+
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullable-to-nonnull-conversion"
+  return [self.delegate distributeAuthenticationPresentationAnchor:self];
+#pragma clang diagnostic pop
 }
 
 @end
