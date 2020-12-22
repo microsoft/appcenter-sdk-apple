@@ -1348,6 +1348,10 @@ static dispatch_once_t onceToken;
 
 @implementation MSACDistribute (ContextProviding)
 
+#pragma clang diagnostic push
+
+#pragma clang diagnostic ignored "-Wunused-parameter"
+
 - (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13)) {
   id<MSACDistributeDelegate> delegate = self.delegate;
   if ([delegate respondsToSelector:@selector((distributeAuthenticationPresentationAnchor:))]) {
@@ -1371,5 +1375,7 @@ static dispatch_once_t onceToken;
   ASPresentationAnchor anchor = windows.firstObject;
   return anchor;
 }
+
+#pragma clang diagnostic pop
 
 @end
