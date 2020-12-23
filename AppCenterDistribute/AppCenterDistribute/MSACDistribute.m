@@ -26,8 +26,12 @@
 @interface ASWebAuthenticationSession () <MSACAuthenticationSession>
 @end
 
+#if !TARGET_OS_MACCATALYST
+
 @interface SFAuthenticationSession () <MSACAuthenticationSession>
 @end
+
+#endif
 
 @interface MSACDistribute (ContextProviding) <ASWebAuthenticationPresentationContextProviding>
 @end
@@ -708,7 +712,7 @@ static dispatch_once_t onceToken;
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url API_AVAILABLE(ios(11)) {
   NSString *obfuscatedUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
                                                                           withString:[MSACHttpUtil hideSecret:url.absoluteString]];
-  MSACLogDebug([MSACDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", obfuscatedUrl);
+  MSACLogDebug([MSACDistribute logTag], @"Using an AuthenticationSession to open URL: %@", obfuscatedUrl);
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSACDefaultCustomSchemeFormat, self.appSecret];
 
   // The completion block that we need to invoke.
@@ -735,11 +739,20 @@ static dispatch_once_t onceToken;
   };
 
   id<MSACAuthenticationSession> session;
+#if TARGET_OS_MACCATALYST
+  // Catalyst has a min SDK of 13. By not referencing SFAuthenticationSession, we also avoid a deprecation warning.
+  ASWebAuthenticationSession *asSession = [[ASWebAuthenticationSession alloc] initWithURL:url
+                                                                        callbackURLScheme:callbackUrlScheme
+                                                                        completionHandler:authCompletionBlock];
+  asSession.presentationContextProvider = self;
+
+  session = asSession;
+#else
   if (@available(iOS 12, *)) {
     ASWebAuthenticationSession *asSession = [[ASWebAuthenticationSession alloc] initWithURL:url
                                                                           callbackURLScheme:callbackUrlScheme
                                                                           completionHandler:authCompletionBlock];
-    if (@available(iOS 13.0, *)) {
+    if (@available(iOS 13, *)) {
       asSession.presentationContextProvider = self;
     }
 
@@ -749,6 +762,7 @@ static dispatch_once_t onceToken;
                                          callbackURLScheme:callbackUrlScheme
                                          completionHandler:authCompletionBlock];
   }
+#endif
 
   // Calling 'start' on an existing session crashes the application - cancel session.
   [self.authenticationSession cancel];
@@ -1348,11 +1362,7 @@ static dispatch_once_t onceToken;
 
 @implementation MSACDistribute (ContextProviding)
 
-#pragma clang diagnostic push
-
-#pragma clang diagnostic ignored "-Wunused-parameter"
-
-- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session API_AVAILABLE(ios(13)) {
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *) __unused session API_AVAILABLE(ios(13)) {
   id<MSACDistributeDelegate> delegate = self.delegate;
   if ([delegate respondsToSelector:@selector((distributeAuthenticationPresentationAnchor:))]) {
     return [delegate distributeAuthenticationPresentationAnchor:self];
@@ -1375,7 +1385,5 @@ static dispatch_once_t onceToken;
   ASPresentationAnchor anchor = windows.firstObject;
   return anchor;
 }
-
-#pragma clang diagnostic pop
 
 @end
