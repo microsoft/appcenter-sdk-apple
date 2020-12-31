@@ -23,16 +23,6 @@
 #import "MSACKeychainUtil.h"
 #import "MSACSessionContext.h"
 
-@interface ASWebAuthenticationSession () <MSACAuthenticationSession>
-@end
-
-#if !TARGET_OS_MACCATALYST
-
-@interface SFAuthenticationSession () <MSACAuthenticationSession>
-@end
-
-#endif
-
 @interface MSACDistribute (ContextProviding) <ASWebAuthenticationPresentationContextProviding>
 @end
 
@@ -710,6 +700,10 @@ static dispatch_once_t onceToken;
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url API_AVAILABLE(ios(11)) {
+    [self openURLInAuthenticationSessionWith:url usePresentationContext:YES];
+}
+
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url usePresentationContext:(BOOL)usePresentationContext API_AVAILABLE(ios(11)) {
   NSString *obfuscatedUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
                                                                           withString:[MSACHttpUtil hideSecret:url.absoluteString]];
   MSACLogDebug([MSACDistribute logTag], @"Using an AuthenticationSession to open URL: %@", obfuscatedUrl);
@@ -744,7 +738,9 @@ static dispatch_once_t onceToken;
   ASWebAuthenticationSession *asSession = [[ASWebAuthenticationSession alloc] initWithURL:url
                                                                         callbackURLScheme:callbackUrlScheme
                                                                         completionHandler:authCompletionBlock];
-  asSession.presentationContextProvider = self;
+  if (usePresentationContext) {
+    asSession.presentationContextProvider = self;
+  }
 
   session = asSession;
 #else
@@ -753,7 +749,9 @@ static dispatch_once_t onceToken;
                                                                           callbackURLScheme:callbackUrlScheme
                                                                           completionHandler:authCompletionBlock];
     if (@available(iOS 13, *)) {
-      asSession.presentationContextProvider = self;
+      if (usePresentationContext) {
+        asSession.presentationContextProvider = self;
+      }
     }
 
     session = asSession;

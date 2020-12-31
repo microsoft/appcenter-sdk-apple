@@ -1496,11 +1496,11 @@ static NSURL *sfURL;
   XCTAssertNil(distribute.authenticationSession);
 
   // When
-  [distribute openURLInAuthenticationSessionWith:fakeURL];
+  [distribute openURLInAuthenticationSessionWith:fakeURL usePresentationContext:NO];
 
   // Then
   XCTAssertNotNil(distribute.authenticationSession);
-  XCTAssert([distribute.authenticationSession isKindOfClass:[SFAuthenticationSession class]]);
+  XCTAssert([distribute.authenticationSession isKindOfClass:[SFAuthenticationSession class]] || [distribute.authenticationSession isKindOfClass:[ASWebAuthenticationSession class]]);
 
   // Clear
   [appCenterMock stopMocking];
@@ -3011,7 +3011,7 @@ static NSURL *sfURL;
                   fromApplication:YES];
   NSString *urlPath = [NSString stringWithFormat:@"%@/%@", kMSACDefaultURLFormat, kMSACTestAppSecret];
   NSURLComponents *components = [NSURLComponents componentsWithString:urlPath];
-  [self.sut openURLInAuthenticationSessionWith:components.URL];
+  [self.sut openURLInAuthenticationSessionWith:components.URL usePresentationContext:NO];
 
   // Then
   OCMVerifyAll(mockLogger);
@@ -3039,7 +3039,7 @@ static NSURL *sfURL;
                   fromApplication:YES];
 
   // When
-  [self.sut openURLInAuthenticationSessionWith:fakeURL];
+  [self.sut openURLInAuthenticationSessionWith:fakeURL usePresentationContext:NO];
 
   // Then
   /* No crash. */
