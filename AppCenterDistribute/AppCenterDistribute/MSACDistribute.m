@@ -145,8 +145,10 @@ static dispatch_once_t onceToken;
     // Init the distribute info tracker.
     _distributeInfoTracker = [[MSACDistributeInfoTracker alloc] init];
 
-    // In case we never finished removing this key. Which will result in
-    // update flow never gets processed again
+    /*
+     * In case we never finished removing this key. Which will result in
+     * update flow never gets processed again.
+     */
     if ([MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACUpdateTokenRequestIdKey]) {
       [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACUpdateTokenRequestIdKey];
     }
