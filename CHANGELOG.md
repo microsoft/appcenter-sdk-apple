@@ -2,6 +2,10 @@
 
 ## Version 4.1.1 (Under development)
 
+### App Center
+
+* **[Improvement]** Use ASWebAuthenticationSession for authentication on iOS 12 or later.
+
 ___
 
 ## Version 4.1.0
@@ -11,7 +15,6 @@ ___
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
 * **[Fix]** Fix a crash when SQLite returns zero for `page_size`.
 * **[Feature]** Use XCFramework format for the binary distribution via CocoaPods. CocoaPods version 1.9+ is a requirement now.
-* **[Improvement]** Use ASWebAuthenticationSession for authentication on iOS 12 or later.
 
 ### App Center Crashes
 
