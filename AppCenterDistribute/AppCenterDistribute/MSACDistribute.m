@@ -732,6 +732,7 @@ static dispatch_once_t onceToken;
     [[MSACUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
   };
 
+  // Create an authentication session based on the OS version
   id<MSACAuthenticationSession> session;
 #if TARGET_OS_MACCATALYST
   // Catalyst has a min SDK of 13. By not referencing SFAuthenticationSession, we also avoid a deprecation warning.
@@ -741,7 +742,6 @@ static dispatch_once_t onceToken;
   if (usePresentationContext) {
     asSession.presentationContextProvider = self;
   }
-
   session = asSession;
 #else
   if (@available(iOS 12, *)) {
@@ -753,7 +753,6 @@ static dispatch_once_t onceToken;
         asSession.presentationContextProvider = self;
       }
     }
-
     session = asSession;
   } else {
     session = [[SFAuthenticationSession alloc] initWithURL:url
@@ -1365,7 +1364,6 @@ static dispatch_once_t onceToken;
   if ([delegate respondsToSelector:@selector((distributeAuthenticationPresentationAnchor:))]) {
     return [delegate distributeAuthenticationPresentationAnchor:self];
   }
-
   UIApplication *application = MSAC_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
   NSSet *scenes = MSAC_DISPATCH_SELECTOR((NSSet * (*)(id, SEL)), application, connectedScenes);
   NSObject *windowScene = nil;
