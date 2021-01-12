@@ -161,9 +161,13 @@ static NSURL *sfURL;
 }
 
 - (void)testMigrateOnInit {
+  [self.settingsMock setObject:@1 forKey:kMSACUpdateTokenRequestIdKey];
   [MSACDistribute sharedInstance];
   NSString *key = [NSString stringWithFormat:kMSACMockMigrationKey, @"Distribute"];
   XCTAssertNotNil([self.settingsMock objectForKey:key]);
+
+  // Verify that kMSACUpdateTokenRequestIdKey was deleted.
+  XCTAssertNil([self.settingsMock objectForKey:kMSACUpdateTokenRequestIdKey]);
 }
 
 - (void)testInstallURL {
