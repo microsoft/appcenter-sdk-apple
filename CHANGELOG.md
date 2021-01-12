@@ -2,7 +2,9 @@
 
 ## Version 4.1.1 (Under development)
 
-___
+### App Center Distribute
+
+* **[Fix]** Fix `kMSACUpdateTokenRequestIdKey` never gets removed.
 
 ## Version 4.1.0
 
