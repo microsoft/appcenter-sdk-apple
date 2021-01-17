@@ -1500,7 +1500,8 @@ static NSURL *sfURL;
 
   // Then
   XCTAssertNotNil(distribute.authenticationSession);
-  XCTAssert([distribute.authenticationSession isKindOfClass:[SFAuthenticationSession class]] || [distribute.authenticationSession isKindOfClass:[ASWebAuthenticationSession class]]);
+  XCTAssert([distribute.authenticationSession isKindOfClass:[SFAuthenticationSession class]] ||
+            [distribute.authenticationSession isKindOfClass:[ASWebAuthenticationSession class]]);
 
   // Clear
   [appCenterMock stopMocking];

@@ -14,8 +14,8 @@
 #import "MSACCustomApplicationDelegate.h"
 #import "MSACDistribute.h"
 #import "MSACDistributeInfoTracker.h"
-#import <SafariServices/SafariServices.h>
 #import <AuthenticationServices/AuthenticationServices.h>
+#import <SafariServices/SafariServices.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

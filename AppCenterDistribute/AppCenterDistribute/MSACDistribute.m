@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <AuthenticationServices/AuthenticationServices.h>
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
-#import <AuthenticationServices/AuthenticationServices.h>
 
 #import "MSACAppCenterInternal.h"
 #import "MSACAppDelegateForwarder.h"
@@ -708,7 +708,7 @@ static dispatch_once_t onceToken;
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url API_AVAILABLE(ios(11)) {
-    [self openURLInAuthenticationSessionWith:url usePresentationContext:YES];
+  [self openURLInAuthenticationSessionWith:url usePresentationContext:YES];
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url usePresentationContext:(BOOL)usePresentationContext API_AVAILABLE(ios(11)) {
@@ -763,9 +763,7 @@ static dispatch_once_t onceToken;
     }
     session = asSession;
   } else {
-    session = [[SFAuthenticationSession alloc] initWithURL:url
-                                         callbackURLScheme:callbackUrlScheme
-                                         completionHandler:authCompletionBlock];
+    session = [[SFAuthenticationSession alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:authCompletionBlock];
   }
 #endif
 
@@ -1367,7 +1365,8 @@ static dispatch_once_t onceToken;
 
 @implementation MSACDistribute (ContextProviding)
 
-- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *) __unused session API_AVAILABLE(ios(13)) {
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)__unused session
+    API_AVAILABLE(ios(13)) {
   id<MSACDistributeDelegate> delegate = self.delegate;
   if ([delegate respondsToSelector:@selector((distributeAuthenticationPresentationAnchor:))]) {
     return [delegate distributeAuthenticationPresentationAnchor:self];
