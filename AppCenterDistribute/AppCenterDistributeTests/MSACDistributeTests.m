@@ -166,6 +166,14 @@ static NSURL *sfURL;
   XCTAssertNotNil([self.settingsMock objectForKey:key]);
 }
 
+- (void)testRemoveUpdateTokenKeyAfterAppCenterStart {
+  [self.settingsMock setObject:@1 forKey:kMSACUpdateTokenRequestIdKey];
+  [MSACDistribute sharedInstance];
+
+  // Verify that kMSACUpdateTokenRequestIdKey was deleted.
+  XCTAssertNil([self.settingsMock objectForKey:kMSACUpdateTokenRequestIdKey]);
+}
+
 - (void)testInstallURL {
 
   // If
