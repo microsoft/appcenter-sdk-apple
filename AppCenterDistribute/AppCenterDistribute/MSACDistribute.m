@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import <AuthenticationServices/AuthenticationServices.h>
 #import <Foundation/Foundation.h>
 #import <SafariServices/SafariServices.h>
 
@@ -9,6 +10,7 @@
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitProtocol.h"
 #import "MSACDependencyConfiguration.h"
+#import "MSACDispatcherUtil.h"
 #import "MSACDistribute.h"
 #import "MSACDistributeAppDelegate.h"
 #import "MSACDistributeInternal.h"
@@ -20,6 +22,9 @@
 #import "MSACHttpClient.h"
 #import "MSACKeychainUtil.h"
 #import "MSACSessionContext.h"
+
+@interface MSACDistribute (ContextProviding) <ASWebAuthenticationPresentationContextProviding>
+@end
 
 /**
  * Service storage key name.
@@ -690,7 +695,6 @@ static dispatch_once_t onceToken;
    * versions or for any versions when the update is mandatory.
    */
 
-  // TODO SFAuthenticationSession is deprecated, for iOS 12 use ASWebAuthenticationSession
   if (@available(iOS 11.0, *)) {
     dispatch_async(dispatch_get_main_queue(), ^{
       [self openURLInAuthenticationSessionWith:url];
@@ -704,9 +708,13 @@ static dispatch_once_t onceToken;
 }
 
 - (void)openURLInAuthenticationSessionWith:(NSURL *)url API_AVAILABLE(ios(11)) {
+  [self openURLInAuthenticationSessionWith:url usePresentationContext:YES];
+}
+
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url usePresentationContext:(BOOL)usePresentationContext API_AVAILABLE(ios(11)) {
   NSString *obfuscatedUrl = [url.absoluteString stringByReplacingOccurrencesOfString:self.appSecret
                                                                           withString:[MSACHttpUtil hideSecret:url.absoluteString]];
-  MSACLogDebug([MSACDistribute logTag], @"Using SFAuthenticationSession to open URL: %@", obfuscatedUrl);
+  MSACLogDebug([MSACDistribute logTag], @"Using an AuthenticationSession to open URL: %@", obfuscatedUrl);
   NSString *callbackUrlScheme = [NSString stringWithFormat:kMSACDefaultCustomSchemeFormat, self.appSecret];
 
   // The completion block that we need to invoke.
@@ -731,9 +739,33 @@ static dispatch_once_t onceToken;
     }
     [[MSACUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
   };
-  SFAuthenticationSession *session = [[SFAuthenticationSession alloc] initWithURL:url
-                                                                callbackURLScheme:callbackUrlScheme
-                                                                completionHandler:authCompletionBlock];
+
+  // Create an authentication session based on the OS version
+  id<MSACAuthenticationSession> session;
+#if TARGET_OS_MACCATALYST
+  // Catalyst has a min SDK of 13. By not referencing SFAuthenticationSession, we also avoid a deprecation warning.
+  ASWebAuthenticationSession *asSession = [[ASWebAuthenticationSession alloc] initWithURL:url
+                                                                        callbackURLScheme:callbackUrlScheme
+                                                                        completionHandler:authCompletionBlock];
+  if (usePresentationContext) {
+    asSession.presentationContextProvider = self;
+  }
+  session = asSession;
+#else
+  if (@available(iOS 12, *)) {
+    ASWebAuthenticationSession *asSession = [[ASWebAuthenticationSession alloc] initWithURL:url
+                                                                          callbackURLScheme:callbackUrlScheme
+                                                                          completionHandler:authCompletionBlock];
+    if (@available(iOS 13, *)) {
+      if (usePresentationContext) {
+        asSession.presentationContextProvider = self;
+      }
+    }
+    session = asSession;
+  } else {
+    session = [[SFAuthenticationSession alloc] initWithURL:url callbackURLScheme:callbackUrlScheme completionHandler:authCompletionBlock];
+  }
+#endif
 
   // Calling 'start' on an existing session crashes the application - cancel session.
   [self.authenticationSession cancel];
@@ -1327,6 +1359,34 @@ static dispatch_once_t onceToken;
   // Reset the onceToken so dispatch_once will run again.
   onceToken = 0;
   sharedInstance = nil;
+}
+
+@end
+
+@implementation MSACDistribute (ContextProviding)
+
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)__unused session
+    API_AVAILABLE(ios(13)) {
+  id<MSACDistributeDelegate> delegate = self.delegate;
+  if ([delegate respondsToSelector:@selector((distributeAuthenticationPresentationAnchor:))]) {
+    return [delegate distributeAuthenticationPresentationAnchor:self];
+  }
+  UIApplication *application = MSAC_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
+  NSSet *scenes = MSAC_DISPATCH_SELECTOR((NSSet * (*)(id, SEL)), application, connectedScenes);
+  NSObject *windowScene = nil;
+  for (NSObject *scene in scenes) {
+    NSInteger activationState = MSAC_DISPATCH_SELECTOR((NSInteger(*)(id, SEL)), scene, activationState);
+    if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
+      windowScene = scene;
+      break;
+    }
+  }
+  if (!windowScene) {
+    windowScene = scenes.anyObject;
+  }
+  NSArray *windows = MSAC_DISPATCH_SELECTOR((NSArray * (*)(id, SEL)), windowScene, windows);
+  ASPresentationAnchor anchor = windows.firstObject;
+  return anchor;
 }
 
 @end

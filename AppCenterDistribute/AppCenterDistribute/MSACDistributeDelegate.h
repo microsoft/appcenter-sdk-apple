@@ -7,6 +7,8 @@
 #import "MSACReleaseDetails.h"
 #endif
 
+#import <AuthenticationServices/AuthenticationServices.h>
+
 @class MSACDistribute;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -42,6 +44,13 @@ NS_SWIFT_NAME(DistributeDelegate)
  * @param distribute The instance of MSACDistribute.
  */
 - (void)distributeWillExitApp:(MSACDistribute *)distribute;
+
+/**
+ * Callback method to inform an ASWebAuthenticationSession from which window it should present content to the user.
+ *
+ * @param distribute The instance of MSACDistribute.
+ */
+- (ASPresentationAnchor)distributeAuthenticationPresentationAnchor:(MSACDistribute *)distribute API_AVAILABLE(ios(13));
 
 @end
 
