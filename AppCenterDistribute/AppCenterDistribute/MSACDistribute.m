@@ -1367,10 +1367,6 @@ static dispatch_once_t onceToken;
 
 - (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)__unused session
     API_AVAILABLE(ios(13)) {
-  id<MSACDistributeDelegate> delegate = self.delegate;
-  if ([delegate respondsToSelector:@selector((distributeAuthenticationPresentationAnchor:))]) {
-    return [delegate distributeAuthenticationPresentationAnchor:self];
-  }
   UIApplication *application = MSAC_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
   NSSet *scenes = MSAC_DISPATCH_SELECTOR((NSSet * (*)(id, SEL)), application, connectedScenes);
   NSObject *windowScene = nil;
