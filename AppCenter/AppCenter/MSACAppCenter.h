@@ -103,7 +103,7 @@ NS_SWIFT_NAME(AppCenter)
 /**
  * Base URL to use for backend communication.
  */
-@property(class, nonatomic) NSString *logUrl;
+@property(class, nonatomic, strong) NSString *logUrl;
 
 /**
  * Set log handler.
@@ -114,7 +114,7 @@ NS_SWIFT_NAME(AppCenter)
  * Set wrapper SDK information to use when building device properties. This is intended in case you are building a SDK that uses the App
  * Center SDK under the hood, e.g. our Xamarin SDK or ReactNative SDk.
  */
-@property(class, nonatomic) MSACWrapperSdk *wrapperSdk;
+@property(class, nonatomic, strong) MSACWrapperSdk *wrapperSdk;
 
 #if !TARGET_OS_TV
 /**
@@ -181,14 +181,14 @@ NS_SWIFT_NAME(AppCenter)
  *
  * AppCenter must be configured or started before this API can be used.
  */
-@property(class, nonatomic) NSString *userId;
+@property(class, nonatomic, strong) NSString *userId;
 
 /**
  * Set country code to use when building device properties.
  *
  * @see https://www.iso.org/obp/ui/#search for more information.
  */
-@property(class, nonatomic) NSString *countryCode;
+@property(class, nonatomic, strong) NSString *countryCode;
 
 @end
 
