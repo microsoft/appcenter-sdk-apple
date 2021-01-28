@@ -740,7 +740,7 @@ static dispatch_once_t onceToken;
     [[MSACUtility sharedApp] endBackgroundTask:backgroundAuthSessionTask];
   };
 
-  // Create an authentication session based on the OS version
+  // Create an authentication session based on the OS version.
   id<MSACAuthenticationSession> session;
 #if TARGET_OS_MACCATALYST
   // Catalyst has a min SDK of 13. By not referencing SFAuthenticationSession, we also avoid a deprecation warning.
@@ -1095,22 +1095,20 @@ static dispatch_once_t onceToken;
         [MSACAlertController alertControllerWithTitle:MSACDistributeLocalizedString(@"MSDistributeInAppUpdatesAreDisabled")
                                               message:MSACDistributeLocalizedString(@"MSDistributeInstallFailedMessage")];
 
-    // Add "Ignore" button to the dialog
+    // Add "Ignore" button to the dialog.
     [alertController addDefaultActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeIgnore")
                                        handler:^(__attribute__((unused)) UIAlertAction *action) {
                                          [MSAC_APP_CENTER_USER_DEFAULTS setObject:MSACPackageHash()
                                                                            forKey:kMSACUpdateSetupFailedPackageHashKey];
                                        }];
 
-    // Add "Reinstall" button to the dialog
+    // Add "Reinstall" button to the dialog.
     [alertController
         addPreferredActionWithTitle:MSACDistributeLocalizedString(@"MSDistributeReinstall")
                             handler:^(__attribute__((unused)) UIAlertAction *action) {
                               NSURL *installUrl = [NSURL URLWithString:[self installUrl]];
 
-                              /*
-                               * Add a flag to the install url to indicate that the update setup failed, to show a help page
-                               */
+                              // Add a flag to the install url to indicate that the update setup failed, to show a help page.
                               NSURLComponents *components = [[NSURLComponents alloc] initWithURL:installUrl resolvingAgainstBaseURL:NO];
                               NSURLQueryItem *newQueryItem = [[NSURLQueryItem alloc] initWithName:kMSACURLQueryUpdateSetupFailedKey
                                                                                             value:@"true"];
