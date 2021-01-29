@@ -96,7 +96,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
       case 1:
         appCenter.showDistributeDisabledAlert()
       case 3:
-        distributeWillExitApp()
+        exitWithSimulateUpdate()
       default: ()
       }
     default: ()
@@ -107,7 +107,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     UserDefaults.standard.set(sender.isOn, forKey: kSASCustomizedUpdateAlertKey)
   }
     
-  func distributeWillExitApp() {
+  func exitWithSimulateUpdate() {
     print("distributeWillExitApp callback invoked");
     let alertController = UIAlertController(title: NSLocalizedString("distribute_alert_willExit_title", tableName: "Sasquatch", comment: ""),
             message: NSLocalizedString("distribute_alert_willExit_message", tableName: "Sasquatch", comment: ""),
@@ -116,7 +116,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     // Show alert saying that the app is closing
     self.present(alertController, animated: true)
     DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
-      self.appCenter.closeApp()
+      exit(0)
     }
   }
 }

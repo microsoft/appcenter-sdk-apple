@@ -395,6 +395,17 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
   [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
 }
+
+- (void)distributeWillExitApp:(MSACDistribute *)distribute {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:NSLocalizedStringFromTable(@"distribute_alert_willExit_title", @"Sasquatch", @"")
+                                            message:NSLocalizedStringFromTable(@"distribute_alert_willExit_message", @"Sasquatch", @"")
+                                     preferredStyle:UIAlertControllerStyleAlert];
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+  });
+}
+
 #endif
 
 #pragma mark - CLLocationManagerDelegate
