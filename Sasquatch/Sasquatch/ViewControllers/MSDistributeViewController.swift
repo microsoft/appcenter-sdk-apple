@@ -95,8 +95,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
         }
       case 1:
         appCenter.showDistributeDisabledAlert()
-      case 3:
-        appCenter.closeApp()
       default: ()
       }
     default: ()
