@@ -5,7 +5,7 @@
 
 ### App Center
 
-* **[Fix]** Fix no objective-c properties attributes warnings.
+* **[Fix]** Fix Objective-C properties attributes warnings in MRC projects.
 
 ### App Center Distribute
 
