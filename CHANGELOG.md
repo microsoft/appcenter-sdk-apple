@@ -2,6 +2,11 @@
 
 ## Version 4.1.1 (Under development)
 
+
+### App Center
+
+* **[Fix]** Fix Objective-C properties attributes warnings in MRC projects.
+
 ### App Center Distribute
 
 * **[Fix]** Fix `kMSACUpdateTokenRequestIdKey` never gets removed.
