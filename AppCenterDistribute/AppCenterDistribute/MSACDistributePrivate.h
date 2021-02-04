@@ -14,9 +14,27 @@
 #import "MSACCustomApplicationDelegate.h"
 #import "MSACDistribute.h"
 #import "MSACDistributeInfoTracker.h"
+#import <AuthenticationServices/AuthenticationServices.h>
 #import <SafariServices/SafariServices.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@protocol MSACAuthenticationSession <NSObject>
+
+- (BOOL)start;
+- (void)cancel;
+
+@end
+
+@interface ASWebAuthenticationSession () <MSACAuthenticationSession>
+@end
+
+#if !TARGET_OS_MACCATALYST
+
+@interface SFAuthenticationSession () <MSACAuthenticationSession>
+@end
+
+#endif
 
 @class MSACReleaseDetails;
 
@@ -140,7 +158,7 @@ static NSString *const kMSACTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSet
 /**
  * Authentication session instance.
  */
-@property(nullable, nonatomic) SFAuthenticationSession *authenticationSession API_AVAILABLE(ios(11.0));
+@property(nullable, nonatomic) id<MSACAuthenticationSession> authenticationSession API_AVAILABLE(ios(11.0));
 
 /**
  * Distribute info tracking component which adds extra fields to logs.
@@ -204,11 +222,12 @@ static NSString *const kMSACTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSet
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url;
 
 /**
- * Open the given URL using an `SFAuthenticationSession`. Must run on the UI thread! iOS 11 only.
+ * Open the given URL using an `SFAuthenticationSession` or `ASWebAuthenticationSession`. Must run on the UI thread! iOS 11 only.
  *
  * @param url URL to open.
+ * @param usePresentationContext assign presentationContextProvider for ASWebAuthenticationSession when appropriate
  */
-- (void)openURLInAuthenticationSessionWith:(NSURL *)url;
+- (void)openURLInAuthenticationSessionWith:(NSURL *)url usePresentationContext:(BOOL)usePresentationContext;
 
 /**
  * Open the given URL using an `SFSafariViewController`. Must run on the UI thread! iOS 9 and 10 only.

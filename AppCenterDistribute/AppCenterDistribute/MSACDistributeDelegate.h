@@ -7,6 +7,8 @@
 #import "MSACReleaseDetails.h"
 #endif
 
+#import <AuthenticationServices/AuthenticationServices.h>
+
 @class MSACDistribute;
 
 NS_ASSUME_NONNULL_BEGIN

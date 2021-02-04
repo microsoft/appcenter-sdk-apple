@@ -2,14 +2,16 @@
 
 ## Version 4.1.1 (Under development)
 
-
 ### App Center
 
+* **[Improvement]** Use ASWebAuthenticationSession for authentication on iOS 12 or later.
 * **[Fix]** Fix Objective-C properties attributes warnings in MRC projects.
 
 ### App Center Distribute
 
 * **[Fix]** Fix `kMSACUpdateTokenRequestIdKey` never gets removed.
+
+___
 
 ## Version 4.1.0
 
