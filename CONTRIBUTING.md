@@ -5,9 +5,9 @@ The goal of this document is to provide a high-level overview of how you can get
 
 To contribute to the SDK, please
 
-* install Xcode 11 on your Mac.
-* install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
-* install `clang-format` for code formatting via [Homebrew](https://brew.sh) using the command `brew install clang-format`.
+* Install Xcode 11 on your Mac.
+* Install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
+* Install `clang-format` for code formatting via [Homebrew](https://brew.sh) using the command `brew install clang-format`.
 
 ## Sending a pull request
 
@@ -37,7 +37,7 @@ All Objective-C files follow LLVM coding style (with a few exceptions) and are f
 ### Comments
 
 1. Use capital letter in the beginning of each comment and dot at the end.
-1. Provide documentation for each public class, method, property.
+1. Provide documentation for each public class, method and property.
 
 ## Thank You!
 
