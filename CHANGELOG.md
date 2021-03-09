@@ -1,12 +1,25 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.1.1
+
+### App Center
+
+* **[Improvement]** Use ASWebAuthenticationSession for authentication on iOS 12 or later.
+* **[Fix]** Fix Objective-C properties attributes warnings in MRC projects.
+
+### App Center Distribute
+
+* **[Fix]** Fix `kMSACUpdateTokenRequestIdKey` never gets removed.
+
+___
+
 ## Version 4.1.0
 
 ### App Center
 
 * **[Fix]** Fix `double-quoted` warnings in Xcode 12.
 * **[Fix]** Fix a crash when SQLite returns zero for `page_size`.
-* **[Feature]** Use XCFramework format for the binary distribution via CocoaPods. CocoaPods version 1.9+ is a requirement now.
+* **[Feature]** Use XCFramework format for the binary distribution via CocoaPods. CocoaPods version 1.10+ is a requirement now.
 
 ### App Center Crashes
 

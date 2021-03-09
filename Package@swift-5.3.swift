@@ -36,7 +36,7 @@ let package = Package(
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
             cSettings: [
-                .define("APP_CENTER_C_VERSION", to:"\"4.0.1\""),
+                .define("APP_CENTER_C_VERSION", to:"\"4.1.1\""),
                 .define("APP_CENTER_C_BUILD", to:"\"1\""),
                 .headerSearchPath("**"),
             ],

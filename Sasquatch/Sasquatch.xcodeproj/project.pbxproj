@@ -235,7 +235,6 @@
 		D31EF9411E9517B600450162 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9401E9517B600450162 /* ExtensionDelegate.m */; };
 		D31EF9441E9517B600450162 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9431E9517B600450162 /* NotificationController.m */; };
 		D31EF9461E9517B600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9451E9517B600450162 /* Assets.xcassets */; };
-		D31EF94A1E9517B600450162 /* SasquatchWatchObjC.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9291E9517B500450162 /* SasquatchWatchObjC.app */; };
 		D31EF9581E9517C500450162 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9561E9517C500450162 /* Interface.storyboard */; };
 		D31EF95A1E9517C500450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF9591E9517C500450162 /* Assets.xcassets */; };
 		D31EF9611E9517C600450162 /* SasquatchWatchSwift Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D31EF9601E9517C600450162 /* SasquatchWatchSwift Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -243,7 +242,6 @@
 		D31EF96A1E9517C600450162 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF9691E9517C600450162 /* ExtensionDelegate.swift */; };
 		D31EF96C1E9517C600450162 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31EF96B1E9517C600450162 /* NotificationController.swift */; };
 		D31EF96E1E9517C600450162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31EF96D1E9517C600450162 /* Assets.xcassets */; };
-		D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D31EF9541E9517C500450162 /* SasquatchWatchSwift.app */; };
 		DF4D2DB824768E40004A12DC /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		DF4D2DB924768E40004A12DC /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849A3E711E8A9922008711CB /* AppCenterProtocol.swift */; };
 		DF4D2DBA24768E40004A12DC /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
@@ -732,26 +730,12 @@
 			remoteGlobalIDString = D31EF9341E9517B600450162;
 			remoteInfo = "SasquatchWatchObjC Extension";
 		};
-		D31EF9481E9517B600450162 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D31EF9281E9517B500450162;
-			remoteInfo = SasquatchWatchObjC;
-		};
 		D31EF9621E9517C600450162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D31EF95F1E9517C600450162;
 			remoteInfo = "SasquatchWatchSwift Extension";
-		};
-		D31EF9701E9517C600450162 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84226C0A1E88FEFC00798417 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D31EF9531E9517C500450162;
-			remoteInfo = SasquatchWatchSwift;
 		};
 		DF4D2DB424768E40004A12DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -949,28 +933,6 @@
 				D31EF9611E9517C600450162 /* SasquatchWatchSwift Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				D31EF94A1E9517B600450162 /* SasquatchWatchObjC.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D36AD7171E94FF98003D34E7 /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				D31EF9721E9517C600450162 /* SasquatchWatchSwift.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F89D790B1E93DA3B0094521F /* Embed Frameworks */ = {
@@ -1756,7 +1718,6 @@
 				84226C441E88FF4A00798417 /* Frameworks */,
 				84226C451E88FF4A00798417 /* Resources */,
 				F89D790B1E93DA3B0094521F /* Embed Frameworks */,
-				D36AD6EE1E94FF6B003D34E7 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
@@ -1765,7 +1726,6 @@
 				324F3EEE2548703F0006E223 /* PBXTargetDependency */,
 				324F3EF02548703F0006E223 /* PBXTargetDependency */,
 				324F3EF22548703F0006E223 /* PBXTargetDependency */,
-				D31EF9491E9517B600450162 /* PBXTargetDependency */,
 				C2F156F82338C34500798480 /* PBXTargetDependency */,
 			);
 			name = SasquatchObjC;
@@ -1784,7 +1744,6 @@
 				84226C7D1E8908C900798417 /* Frameworks */,
 				84226C7E1E8908C900798417 /* Resources */,
 				F89D790E1E93DA500094521F /* Embed Frameworks */,
-				D36AD7171E94FF98003D34E7 /* Embed Watch Content */,
 				04CCE79421F7A511000AD84C /* CopyFiles */,
 				C9E7E534231E9A5E007D96DC /* Embed App Extensions */,
 			);
@@ -1795,7 +1754,6 @@
 				324F3EE025486D640006E223 /* PBXTargetDependency */,
 				324F3EDE25486D560006E223 /* PBXTargetDependency */,
 				324F3EDC25486D4E0006E223 /* PBXTargetDependency */,
-				D31EF9711E9517C600450162 /* PBXTargetDependency */,
 				C9E7E4EF231E9A5E007D96DC /* PBXTargetDependency */,
 				C2F156E42338C31E00798480 /* PBXTargetDependency */,
 			);
@@ -3245,20 +3203,10 @@
 			target = D31EF9341E9517B600450162 /* SasquatchWatchObjC Extension */;
 			targetProxy = D31EF9371E9517B600450162 /* PBXContainerItemProxy */;
 		};
-		D31EF9491E9517B600450162 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D31EF9281E9517B500450162 /* SasquatchWatchObjC */;
-			targetProxy = D31EF9481E9517B600450162 /* PBXContainerItemProxy */;
-		};
 		D31EF9631E9517C600450162 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D31EF95F1E9517C600450162 /* SasquatchWatchSwift Extension */;
 			targetProxy = D31EF9621E9517C600450162 /* PBXContainerItemProxy */;
-		};
-		D31EF9711E9517C600450162 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D31EF9531E9517C500450162 /* SasquatchWatchSwift */;
-			targetProxy = D31EF9701E9517C600450162 /* PBXContainerItemProxy */;
 		};
 		DF4D2DB324768E40004A12DC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
