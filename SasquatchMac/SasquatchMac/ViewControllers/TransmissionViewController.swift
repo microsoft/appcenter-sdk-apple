@@ -260,6 +260,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           value.stringValue = property.value
           value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
+          cell.subviews[cellSubviews.valueText.rawValue].isHidden = false
           return cell
         case kAppVersionRow:
           let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
@@ -268,6 +269,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           value.stringValue = property.value
           value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
+          cell.subviews[cellSubviews.valueText.rawValue].isHidden = false
           return cell
         case kAppLocaleRow:
           let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
@@ -276,6 +278,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           value.stringValue = property.value
           value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
+          cell.subviews[cellSubviews.valueText.rawValue].isHidden = false
           return cell
         case kUserIdRow:
           let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
@@ -284,6 +287,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           value.stringValue = property.value
           value.delegate = self
           cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
+          cell.subviews[cellSubviews.valueText.rawValue].isHidden = false
           return cell
         default:
            return nil
