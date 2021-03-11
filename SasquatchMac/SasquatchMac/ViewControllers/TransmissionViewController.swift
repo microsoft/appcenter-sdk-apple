@@ -250,6 +250,7 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
           value.isEnabled = !((value.state as NSNumber).boolValue)
           value.target = self
           value.action = #selector(collectDeviceIdSwitchCellEnabled)
+          cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = false
           cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
           return cell   
         case kAppNameRow:
