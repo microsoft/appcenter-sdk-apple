@@ -566,7 +566,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
   }
 }
 
-- (void)notifyFailureBeforeSendingForItem:(id<MSACLog>)item withError:(NSError *)error {
+- (void)notifyFailureBeforeSendingForItem:(id<MSACLog>)item withError:(nullable NSError *)error {
   NSArray *synchronizedDelegates;
   @synchronized(self.delegates) {
 

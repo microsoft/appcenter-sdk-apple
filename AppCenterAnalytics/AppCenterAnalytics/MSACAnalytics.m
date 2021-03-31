@@ -546,7 +546,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   }
 }
 
-- (void)channel:(id<MSACChannelProtocol>)channel didFailSendingLog:(id<MSACLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSACChannelProtocol>)channel didFailSendingLog:(id<MSACLog>)log withError:(nullable NSError *)error {
   (void)channel;
   if (!self.delegate) {
     return;
