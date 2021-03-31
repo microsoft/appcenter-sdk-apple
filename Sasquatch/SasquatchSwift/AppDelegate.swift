@@ -214,7 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
   func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
   }
 
-  func crashes(_ crashes: Crashes!, didFailSending errorReport: ErrorReport!, withError error: Error) {
+  func crashes(_ crashes: Crashes, didFailSending errorReport: ErrorReport, withError error: Error?) {
   }
 
   func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {

@@ -129,9 +129,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
   // Start App Center SDK.
 #if !TARGET_OS_MACCATALYST
-  NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class], [MSACDistribute class]];
+  NSArray<Class> *services = @[ [MSACAnalytics class], [MSACCrashes class], [MSACDistribute class] ];
 #else
-  NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class]];
+  NSArray<Class> *services = @[ [MSACAnalytics class], [MSACCrashes class] ];
 #endif
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
@@ -272,7 +272,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
 
-- (void)analytics:(nonnull MSACAnalytics *)analytics didFailSendingEventLog:(nonnull MSACEventLog *)eventLog withError:(nullable NSError *)error {
+- (void)analytics:(nonnull MSACAnalytics *)analytics
+    didFailSendingEventLog:(nonnull MSACEventLog *)eventLog
+                 withError:(nullable NSError *)error {
   [self.analyticsResult didFailSendingWithEventLog:eventLog withError:error];
   [NSNotificationCenter.defaultCenter postNotificationName:kUpdateAnalyticsResultNotification object:self.analyticsResult];
 }
@@ -293,7 +295,9 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
 }
 
-- (void)crashes:(nonnull MSACCrashes *)crashes didFailSendingErrorReport:(nonnull MSACErrorReport *)errorReport withError:(nullable NSError *)error {
+- (void)crashes:(nonnull MSACCrashes *)crashes
+    didFailSendingErrorReport:(nonnull MSACErrorReport *)errorReport
+                    withError:(nullable NSError *)error {
   NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
 }
 
@@ -397,7 +401,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 }
 
 - (void)distributeWillExitApp:(MSACDistribute *)distribute {
-    NSLog(@"distributeWillExitApp callback invoked");
+  NSLog(@"distributeWillExitApp callback invoked");
 }
 
 #endif
