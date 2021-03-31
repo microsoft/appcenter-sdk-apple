@@ -207,7 +207,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
                 MSACLogWarning([MSACAppCenter logTag], @"Batch Id %@ not expected, ignore.", ingestionBatchId);
                 return;
               }
-              BOOL succeeded = response.statusCode == MSACHTTPCodesNo200OK;
+              BOOL succeeded = [MSACHttpUtil isSuccessStatusCode:response.statusCode];
               if (succeeded) {
                 MSACLogDebug([MSACAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
 

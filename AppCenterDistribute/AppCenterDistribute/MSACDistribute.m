@@ -506,7 +506,7 @@ static dispatch_once_t onceToken;
           NSError *jsonError = nil;
 
           // Success.
-          if (response.statusCode == MSACHTTPCodesNo200OK) {
+          if ([MSACHttpUtil isSuccessStatusCode:response.statusCode]) {
             MSACReleaseDetails *details = nil;
             if (data) {
               id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
