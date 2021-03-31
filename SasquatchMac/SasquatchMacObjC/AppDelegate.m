@@ -155,20 +155,20 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 #pragma mark - MSACCrashesDelegate
 
-- (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport {
+- (BOOL)crashes:(nonnull MSACCrashes *)crashes shouldProcessErrorReport:(nonnull MSACErrorReport *)errorReport {
   NSLog(@"%@ Should process error report with: %@", kMSLogTag, errorReport.exceptionReason);
   return YES;
 }
 
-- (void)crashes:(MSACCrashes *)crashes willSendErrorReport:(MSACErrorReport *)errorReport {
+- (void)crashes:(nonnull MSACCrashes *)crashes willSendErrorReport:(nonnull MSACErrorReport *)errorReport {
   NSLog(@"%@ Will send error report with: %@", kMSLogTag, errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSACCrashes *)crashes didSucceedSendingErrorReport:(MSACErrorReport *)errorReport {
+- (void)crashes:(nonnull MSACCrashes *)crashes didSucceedSendingErrorReport:(nonnull MSACErrorReport *)errorReport {
   NSLog(@"%@ Did succeed error report sending with: %@", kMSLogTag, errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSACCrashes *)crashes didFailSendingErrorReport:(MSACErrorReport *)errorReport withError:(NSError *)error {
+- (void)crashes:(nonnull MSACCrashes *)crashes didFailSendingErrorReport:(nonnull MSACErrorReport *)errorReport withError:(nullable NSError *)error {
   NSLog(@"%@ Did fail sending report with: %@, and error: %@", kMSLogTag, errorReport.exceptionReason, error.localizedDescription);
 }
 
