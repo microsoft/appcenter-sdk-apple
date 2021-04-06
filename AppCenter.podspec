@@ -65,6 +65,7 @@ Pod::Spec.new do |s|
     ss.dependency 'AppCenter/Core'
     ss.frameworks = 'Foundation'
     ss.ios.frameworks = 'UIKit'
+    ss.ios.frameworks = 'AuthenticationServices'
     ss.ios.weak_frameworks = 'SafariServices'
     ss.ios.resource_bundle = { 'AppCenterDistributeResources' => ['AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/*.lproj'] }
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/AppCenterDistribute.xcframework"
