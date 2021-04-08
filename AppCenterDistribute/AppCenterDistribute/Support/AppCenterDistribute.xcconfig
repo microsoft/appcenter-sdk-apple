@@ -1,6 +1,6 @@
 PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.distribute
 
-OTHER_LDFLAGS=$(inherited) -framework Foundation -weak_framework SafariServices
+OTHER_LDFLAGS=$(inherited) -framework Foundation -weak_framework AuthenticationServices -weak_framework SafariServices
 
 CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES
 

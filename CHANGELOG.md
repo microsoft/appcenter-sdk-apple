@@ -2,6 +2,9 @@
 
 ## Version 4.1.2 (Under development)
 
+### App Center Distribute
+
+* **[Fix]** Fix linking framework `AuthenticationServices`.
 ___
 
 ## Version 4.1.1
