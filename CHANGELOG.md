@@ -4,7 +4,7 @@
 
 ### App Center Distribute
 
-* **[Fix]** Fix linking framework `ASWebAuthenticationSession`.
+* **[Fix]** Fix linking framework `AuthenticationServices`.
 ___
 
 ## Version 4.1.1
