@@ -2,6 +2,10 @@
 
 ## Version 4.1.2 (Under development)
 
+### App Center Crashes
+
+* **[Fix]** Fix error nullability in crashes delegate.
+
 ___
 
 ## Version 4.1.1
