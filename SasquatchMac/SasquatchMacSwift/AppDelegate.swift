@@ -153,7 +153,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
     }
   }
 
-  func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport) {
+  func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
     if errorReport.exceptionReason != nil {
       NSLog("Did succeed error report sending with: %@", errorReport.exceptionReason);
     }
