@@ -98,6 +98,7 @@ let package = Package(
             linkerSettings: [
                 .linkedFramework("Foundation"),
                 .linkedFramework("SafariServices", .when(platforms: [.iOS])),
+                .linkedFramework("AuthenticationServices", .when(platforms: [.iOS])),
                 .linkedFramework("UIKit", .when(platforms: [.iOS])),
             ]
         )
