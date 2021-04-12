@@ -62,20 +62,20 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
   }
 
   // Crashes Delegate
-  func crashes(_ crashes: Crashes, shouldProcess errorReport: ErrorReport) -> Bool {
+  func crashes(_ crashes: Crashes!, shouldProcess errorReport: ErrorReport!) -> Bool {
     return true
   }
 
-  func crashes(_ crashes: Crashes, willSend errorReport: ErrorReport) {
+  func crashes(_ crashes: Crashes!, willSend errorReport: ErrorReport!) {
   }
 
-  func crashes(_ crashes: Crashes, didSucceedSending errorReport: ErrorReport) {
+  func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
   }
 
-  func crashes(_ crashes: Crashes, didFailSending errorReport: ErrorReport, withError error: Error!) {
+  func crashes(_ crashes: Crashes!, didFailSending errorReport: ErrorReport!, withError error: Error?) {
   }
 
-  func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
+  func attachments(with crashes: Crashes!, for errorReport: ErrorReport!) -> [ErrorAttachmentLog] {
     let attachment1 = ErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
     let attachment2 = ErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
     return [attachment1!, attachment2!]

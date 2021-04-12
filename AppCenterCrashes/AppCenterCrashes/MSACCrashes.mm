@@ -665,7 +665,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   }
 }
 
-- (void)channel:(id<MSACChannelProtocol>)__unused channel didFailSendingLog:(id<MSACLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSACChannelProtocol>)__unused channel didFailSendingLog:(id<MSACLog>)log withError:(nullable NSError *)error {
   id<MSACCrashesDelegate> delegate = self.delegate;
   if ([delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);

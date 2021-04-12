@@ -144,7 +144,7 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
                             }];
 }
 
-- (void)channel:(id<MSACChannelProtocol>)channel didFailSendingLog:(id<MSACLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSACChannelProtocol>)channel didFailSendingLog:(id<MSACLog>)log withError:(nullable NSError *)error {
   [self enumerateDelegatesForSelector:@selector(channel:didFailSendingLog:withError:)
                             withBlock:^(id<MSACChannelDelegate> delegate) {
                               [delegate channel:channel didFailSendingLog:log withError:error];

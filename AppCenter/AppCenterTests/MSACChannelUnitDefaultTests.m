@@ -121,7 +121,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   [dateMock stopMocking];
 }
 
-- (void)testCustomFlushIntervalSending200Logs {
+- (void)customFlushIntervalSending200Logs:(int)status {
 
   // If
   __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
@@ -131,7 +131,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   __block int currentBatchId = 1;
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
   NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:flushInterval + 100];
-  __block id responseMock = [MSACHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
+  __block id responseMock = [MSACHttpTestUtil createMockResponseForStatusCode:status headers:nil];
   __block MSACSendAsyncCompletionHandler ingestionBlock;
 
   // Requests counter.
@@ -215,6 +215,18 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   // Clear
   [dateMock stopMocking];
   [responseMock stopMocking];
+}
+
+- (void)testCustomFlushIntervalSending200LogsWithStatus200 {
+    [self customFlushIntervalSending200Logs:200];
+}
+
+- (void)testCustomFlushIntervalSending200LogsWithStatus201 {
+    [self customFlushIntervalSending200Logs:201];
+}
+
+- (void)testCustomFlushIntervalSending200LogsWithStatus299 {
+    [self customFlushIntervalSending200Logs:299];
 }
 
 - (void)testLogsFlushedImmediatelyWhenIntervalIsOver {
