@@ -2,6 +2,10 @@
 
 ## Version 4.1.2 (Under development)
 
+### App Center
+
+* **[Fix]** Fix umbrella header warnings in Xcode 12.5b3
+
 ### App Center Crashes
 
 * **[Fix]** Fix error nullability in crashes delegate.
