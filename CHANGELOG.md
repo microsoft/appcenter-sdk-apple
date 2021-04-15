@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Fix]** Fix umbrella header warnings in Xcode 12.5b3
+* **[Fix]** Fix umbrella header warnings in Xcode 12.5
 
 ### App Center Crashes
 
