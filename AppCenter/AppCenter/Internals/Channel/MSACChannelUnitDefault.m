@@ -21,6 +21,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
 
 @synthesize configuration = _configuration;
 @synthesize logsDispatchQueue = _logsDispatchQueue;
+@synthesize networkRequestsAllowed = _networkRequestsAllowed;
 
 #pragma mark - Initialization
 
@@ -31,6 +32,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
     _pendingBatchQueueFull = NO;
     _availableBatchFromStorage = NO;
     _enabled = YES;
+    _networkRequestsAllowed = YES;
     _paused = NO;
     _discardLogs = NO;
     _delegates = [NSHashTable weakObjectsHashTable];
@@ -261,6 +263,9 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
 }
 
 - (void)flushQueue {
+  if (!self.isNetworkRequestsAllowed) {
+    return;
+  }
 
   // Nothing to flush if there is no ingestion.
   if (!self.ingestion) {
@@ -585,6 +590,21 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
       [delegate channel:self didFailSendingLog:item withError:error];
     }
   }
+}
+
+#pragma mark - MSACChannelProtocol
+
+- (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+  BOOL previousNetworkState = self.networkRequestsAllowed;
+  _networkRequestsAllowed = isAllowed;
+  if (isAllowed && !previousNetworkState) {
+    MSACLogDebug([MSACAppCenter logTag], @"The network requests are allowed now, flush the logs");
+    [self flushQueue];
+  }
+}
+
+- (BOOL)isNetworkRequestsAllowed {
+  return _networkRequestsAllowed;
 }
 
 @end

@@ -96,6 +96,12 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 /**
+ * Flag indicating whether SDK network requests are allowed.
+ */
+@property(class, nonatomic, getter=isNetworkRequestsAllowed, setter=setNetworkRequestsAllowed:)
+    BOOL networkRequestsAllowed NS_SWIFT_NAME(networkRequestsAllowed);
+
+/**
  * The SDK's log level.
  */
 @property(class, nonatomic) MSACLogLevel logLevel;

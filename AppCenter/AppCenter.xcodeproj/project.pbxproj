@@ -417,6 +417,9 @@
 		DF5DA1FD23A0E57B00DE695C /* MSACDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSACDispatcherUtil.m */; };
 		DF5DA1FE23A0E57B00DE695C /* MSACDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSACDispatcherUtil.m */; };
 		DF5DA1FF23A0E57B00DE695C /* MSACDispatcherUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = DF5DA1FC23A0E57B00DE695C /* MSACDispatcherUtil.m */; };
+		DFB854B42629D1E600578726 /* MSACNetworkRequests.h in Headers */ = {isa = PBXBuildFile; fileRef = DFB854AB2629D16900578726 /* MSACNetworkRequests.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DFB854C22629D1E800578726 /* MSACNetworkRequests.h in Headers */ = {isa = PBXBuildFile; fileRef = DFB854AB2629D16900578726 /* MSACNetworkRequests.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DFB854C32629D1E900578726 /* MSACNetworkRequests.h in Headers */ = {isa = PBXBuildFile; fileRef = DFB854AB2629D16900578726 /* MSACNetworkRequests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DFCB80192472D1B20058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80102472C1BD0058D292 /* OCHamcrest.framework */; };
 		DFCB801F2472D4370058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80082472C1BD0058D292 /* OCHamcrest.framework */; };
 		DFCB80222472D50A0058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80122472C1BD0058D292 /* OCHamcrest.framework */; };
@@ -1352,6 +1355,7 @@
 		D5812F312423C2FA00C5F5C5 /* MSACUserDefaultsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACUserDefaultsTests.m; sourceTree = "<group>"; };
 		DF5DA1F823A0E55500DE695C /* MSACDispatcherUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDispatcherUtil.h; sourceTree = "<group>"; };
 		DF5DA1FC23A0E57B00DE695C /* MSACDispatcherUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDispatcherUtil.m; sourceTree = "<group>"; };
+		DFB854AB2629D16900578726 /* MSACNetworkRequests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACNetworkRequests.h; sourceTree = "<group>"; };
 		DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
 		DFE95520244D96170061E3FA /* HTTPStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
 		DFE95521244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
@@ -1646,6 +1650,7 @@
 				6E04013F1D1C99AC0051BCFA /* MSACConstants.h */,
 				04B525B82194D44E00FA37FD /* MSACConstants+Flags.h */,
 				3542742220167DA400BE766F /* MSACEnable.h */,
+				DFB854AB2629D16900578726 /* MSACNetworkRequests.h */,
 				358F9BC22019531F00B9E22C /* MSACLogger.h */,
 				3592ABA61DC90E3600EF4592 /* MSACLogger.m */,
 				6E0401451D1C99AC0051BCFA /* MSACService.h */,
@@ -2154,6 +2159,7 @@
 				F8936CF4230C2603006A330F /* MSACOneCollectorIngestionPrivate.h in Headers */,
 				F8936D72230C2804006A330F /* MSACKeychainUtil.h in Headers */,
 				F8936D3F230C2804006A330F /* MSACUserIdContext.h in Headers */,
+				DFB854B42629D1E600578726 /* MSACNetworkRequests.h in Headers */,
 				F8936D70230C2804006A330F /* MSACEncrypter.h in Headers */,
 				F8936D4C230C2804006A330F /* MSACOneCollectorIngestion.h in Headers */,
 				F8936CD6230C25A3006A330F /* MSACCustomProperties.h in Headers */,
@@ -2294,6 +2300,7 @@
 				F8936DC8230C2805006A330F /* MSACEncrypter.h in Headers */,
 				F8936D9B230C2805006A330F /* MSACHttpClient.h in Headers */,
 				F8936DA4230C2805006A330F /* MSACOneCollectorIngestion.h in Headers */,
+				DFB854C22629D1E800578726 /* MSACNetworkRequests.h in Headers */,
 				F8936CDC230C25A4006A330F /* MSACCustomProperties.h in Headers */,
 				244CC1F92399CA5A00A58F51 /* MSACDependencyConfiguration.h in Headers */,
 				F8936DCB230C2805006A330F /* MSACUtility.h in Headers */,
@@ -2434,6 +2441,7 @@
 				F8936E20230C2805006A330F /* MSACEncrypter.h in Headers */,
 				F8936DF3230C2805006A330F /* MSACHttpClient.h in Headers */,
 				F8936DFC230C2805006A330F /* MSACOneCollectorIngestion.h in Headers */,
+				DFB854C32629D1E900578726 /* MSACNetworkRequests.h in Headers */,
 				F8936CE2230C25A5006A330F /* MSACCustomProperties.h in Headers */,
 				244CC1FA2399CA5A00A58F51 /* MSACDependencyConfiguration.h in Headers */,
 				F8936E23230C2805006A330F /* MSACUtility.h in Headers */,

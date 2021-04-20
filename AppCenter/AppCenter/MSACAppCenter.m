@@ -60,6 +60,8 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 
 @synthesize logUrl = _logUrl;
 
+@synthesize networkRequestsAllowed = _networkRequestsAllowed;
+
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
@@ -142,6 +144,21 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     }
   }
   return NO;
+}
+
++ (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+  [[MSACAppCenter sharedInstance] setNetworkRequestsAllowed:isAllowed];
+}
+
+/**
+ * Checks if SDK network requests are allowed.
+ *
+ * @return `YES` if network requests are allowed, `NO` otherwise
+ */
++ (BOOL)isNetworkRequestsAllowed {
+  @synchronized([MSACAppCenter sharedInstance]) {
+    return [[MSACAppCenter sharedInstance] isNetworkRequestsAllowed];
+  }
 }
 
 + (BOOL)isAppDelegateForwarderEnabled {
@@ -259,6 +276,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   if ((self = [super init])) {
     _services = [NSMutableArray new];
     _enabledStateUpdating = NO;
+    _networkRequestsAllowed = YES;
     NSDictionary *changedKeys = @{
       @"MSAppCenterChannelStartTimer" : MSACPrefixKeyFrom(@"MSChannelStartTimer"),
       // [MSACChannelUnitDefault oldestPendingLogTimestampKey]
@@ -577,6 +595,20 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 #endif
 
+- (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+  @synchronized(self) {
+    _networkRequestsAllowed = isAllowed;
+    if ([self canBeUsed]) {
+      [self.channelGroup setNetworkRequestsAllowed:isAllowed];
+    }
+    MSACLogInfo([MSACAppCenter logTag], @"App Center SDK network requests are %@.", isAllowed ? @"allowed" : @"forbidden");
+  }
+}
+
+- (BOOL)isNetworkRequestsAllowed {
+  return _networkRequestsAllowed;
+}
+
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {
     if (![self canBeUsed]) {
@@ -668,6 +700,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
       self.channelGroup = [[MSACChannelGroupDefault alloc] initWithHttpClient:httpClient
                                                                     installId:self.installId
                                                                        logUrl:self.logUrl ?: kMSACAppCenterBaseUrl];
+      [self.channelGroup setNetworkRequestsAllowed:self.isNetworkRequestsAllowed];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
       if (self.requestedMaxStorageSizeInBytes) {
         long storageSize = [self.requestedMaxStorageSizeInBytes longValue];

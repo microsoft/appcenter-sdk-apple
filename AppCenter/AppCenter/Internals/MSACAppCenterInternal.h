@@ -68,6 +68,11 @@ static NSString *const kMSACTrueEnvironmentString = @"1";
 @property(nonatomic, getter=isConfiguredFromApplication) BOOL configuredFromApplication;
 
 /**
+ * Flag indicating whether SDK network requests are allowed.
+ */
+@property(nonatomic, getter=isNetworkRequestsAllowed) BOOL networkRequestsAllowed;
+
+/**
  * Flag indicating if the SDK is enabled state updating or not.
  */
 @property(nonatomic, getter=isEnabledStateUpdating) BOOL enabledStateUpdating;

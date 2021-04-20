@@ -11,6 +11,11 @@
 #else
 #import "MSACEnable.h"
 #endif
+#if __has_include(<AppCenter/MSACNetworkRequests.h>)
+#import <AppCenter/MSACNetworkRequests.h>
+#else
+#import "MSACNetworkRequests.h"
+#endif
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  * the backend and/or stored on disk.
  */
 NS_SWIFT_NAME(ChannelProtocol)
-@protocol MSACChannelProtocol <NSObject, MSACEnable>
+@protocol MSACChannelProtocol <NSObject, MSACEnable, MSACNetworkRequests>
 
 /**
  * Add delegate.
