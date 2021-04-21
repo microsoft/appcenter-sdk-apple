@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Feature]** Add a `setNetworkRequestsAllowed` API to block network requests.
+* **[Fix]** Fix umbrella header warnings in Xcode 12.5
 
 ### App Center Crashes
 
