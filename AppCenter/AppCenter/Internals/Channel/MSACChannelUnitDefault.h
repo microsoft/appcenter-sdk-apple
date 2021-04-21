@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Flag indicating whether SDK network requests are allowed.
  */
-@property(nonatomic, getter=isNetworkRequestsAllowed, setter=setNetworkRequestsAllowed:) BOOL networkRequestsAllowed;
+@property(nonatomic, getter=isNetworkRequestsAllowed) BOOL networkRequestsAllowed;
 
 @end
 
