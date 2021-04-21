@@ -82,6 +82,14 @@
   [MSACAppCenter setCountryCode:countryCode];
 }
 
+- (BOOL)isNetworkRequestsAllowed {
+  return [MSACAppCenter isNetworkRequestsAllowed];
+}
+
+- (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+  [MSACAppCenter setNetworkRequestsAllowed:isAllowed];
+}
+
 #pragma mark - Modules section.
 
 - (BOOL)isAnalyticsEnabled {

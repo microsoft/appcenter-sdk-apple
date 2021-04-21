@@ -76,6 +76,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     }
 #endif
 
+    // Allow network requests by default
+    UserDefaults.standard.register(defaults: [kMSNetworkRequestsKey: true])
+    let networkRequestsAllowed = UserDefaults.standard.bool(forKey: kMSNetworkRequestsKey)
+    AppCenter.networkRequestsAllowed = networkRequestsAllowed
+
     // Start App Center SDK.
     var services = [Analytics.self, Crashes.self]
 #if canImport(AppCenterDistribute)
