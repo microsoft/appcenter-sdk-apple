@@ -55,7 +55,3 @@ jobs:
         PathtoPublish: /Users/runner/Library/Logs/DiagnosticReports
         ArtifactName: 'Test Diagnostic Reports'
       condition: failed()
-
-    - bash: 'bash <(curl -s https://codecov.io/bash) -X gcov -cF ${{ parameters.platform }}'
-      displayName: 'Upload Coverage Report to Codecov'
-
