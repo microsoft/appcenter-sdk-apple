@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#ifndef MSACNetworkRequests_h
-#define MSACNetworkRequests_h
+#ifndef MSACNetworkRequestsProtocol_h
+#define MSACNetworkRequestsProtocol_h
 
 #import <Foundation/Foundation.h>
 
 /**
  * Protocol to define an instance that can have network requests allowed/disallowed.
  */
-NS_SWIFT_NAME(NetworkRequests)
-@protocol MSACNetworkRequests <NSObject>
+NS_SWIFT_NAME(NetworkRequestsProtocol)
+@protocol MSACNetworkRequestsProtocol <NSObject>
 
 @required
 
@@ -21,5 +21,4 @@ NS_SWIFT_NAME(NetworkRequests)
 
 @end
 
-
-#endif /* MSACNetworkRequests_h */
+#endif /* MSACNetworkRequestsProtocol_h */

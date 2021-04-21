@@ -483,6 +483,32 @@
   [channelUnitMock stopMocking];
 }
 
+- (void)testBlockNetworkRequests {
+
+  // If
+  id<MSACChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
+  id<MSACChannelDelegate> delegateMock = OCMProtocolMock(@protocol(MSACChannelDelegate));
+  [self.sut addDelegate:delegateMock];
+  [self.sut.channels addObject:channelMock];
+
+  // Then
+  XCTAssertTrue([self.sut isNetworkRequestsAllowed]);
+
+  // When
+  [self.sut setNetworkRequestsAllowed:NO];
+
+  // Then
+  XCTAssertFalse([self.sut isNetworkRequestsAllowed]);
+  OCMVerify([channelMock setNetworkRequestsAllowed:NO]);
+
+  // When
+  [self.sut setNetworkRequestsAllowed:YES];
+
+  // Then
+  XCTAssertTrue([self.sut isNetworkRequestsAllowed]);
+  OCMVerify([channelMock setNetworkRequestsAllowed:YES]);
+}
+
 #pragma mark - Helper
 
 - (void)waitForLogsDispatchQueue {

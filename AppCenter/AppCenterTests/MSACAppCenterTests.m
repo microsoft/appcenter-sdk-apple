@@ -1017,4 +1017,51 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   XCTAssertNil([[MSACUserIdContext sharedInstance] userIdAt:[NSDate dateWithTimeIntervalSince1970:5000]]);
 }
 
+- (void)testDisableNetworkRequestsBeforeStart {
+
+  // If
+  NSArray *services = @[ MSACMockService.class, MSACMockSecondService.class ];
+
+  // When
+  [MSACAppCenter setNetworkRequestsAllowed:NO];
+  [MSACAppCenter start:MSAC_UUID_STRING withServices:services];
+
+  // Then
+  XCTAssertFalse([MSACAppCenter isNetworkRequestsAllowed]);
+  XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSACMockService sharedInstance].started);
+  XCTAssertTrue([MSACMockSecondService sharedInstance].started);
+  OCMVerify([self.channelGroupMock setNetworkRequestsAllowed:NO]);
+}
+
+- (void)testDisableNetworkRequestsAfterStart {
+
+  // If
+  NSArray *services = @[ MSACMockService.class, MSACMockSecondService.class ];
+  BOOL networkRequestsAllowed = YES;
+
+  // When
+  [MSACAppCenter start:MSAC_UUID_STRING withServices:services];
+
+  // Then
+  XCTAssertTrue([MSACAppCenter isNetworkRequestsAllowed]);
+  XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSACMockService sharedInstance].started);
+  XCTAssertTrue([MSACMockSecondService sharedInstance].started);
+  OCMVerify([self.channelGroupMock setNetworkRequestsAllowed:networkRequestsAllowed]);
+
+  // If
+  networkRequestsAllowed = NO;
+
+  // When
+  [MSACAppCenter setNetworkRequestsAllowed:networkRequestsAllowed];
+
+  // Then
+  XCTAssertFalse([MSACAppCenter isNetworkRequestsAllowed]);
+  XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
+  XCTAssertTrue([MSACMockService sharedInstance].started);
+  XCTAssertTrue([MSACMockSecondService sharedInstance].started);
+  OCMVerify([self.channelGroupMock setNetworkRequestsAllowed:networkRequestsAllowed]);
+}
+
 @end
