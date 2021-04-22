@@ -85,6 +85,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
         })
     }
 
+    // Allow network requests by default
+    UserDefaults.standard.register(defaults: [kMSNetworkRequestsKey: true])
+    let networkRequestsAllowed = UserDefaults.standard.bool(forKey: kMSNetworkRequestsKey)
+    AppCenter.networkRequestsAllowed = networkRequestsAllowed
+
     // Start AppCenter.
     let services = [Analytics.self, Crashes.self]
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!

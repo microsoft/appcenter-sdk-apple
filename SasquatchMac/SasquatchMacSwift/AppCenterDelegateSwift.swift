@@ -41,6 +41,12 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setLogUrl(_ logUrl: String?) {
     AppCenter.logUrl = logUrl;
   }
+  func isNetworkRequestsAllowed() -> Bool {
+    return AppCenter.networkRequestsAllowed
+  }
+  func setNetworkRequestsAllowed(_ isAllowed: Bool) {
+    AppCenter.networkRequestsAllowed = isAllowed
+  }
 
   //MARK: Modules section.
   func isAnalyticsEnabled() -> Bool {
