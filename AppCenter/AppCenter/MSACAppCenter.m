@@ -60,8 +60,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 
 @synthesize logUrl = _logUrl;
 
-@synthesize networkRequestsAllowed = _networkRequestsAllowed;
-
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
@@ -276,7 +274,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   if ((self = [super init])) {
     _services = [NSMutableArray new];
     _enabledStateUpdating = NO;
-    _networkRequestsAllowed = YES;
     NSDictionary *changedKeys = @{
       @"MSAppCenterChannelStartTimer" : MSACPrefixKeyFrom(@"MSChannelStartTimer"),
       // [MSACChannelUnitDefault oldestPendingLogTimestampKey]
@@ -597,16 +594,28 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
   @synchronized(self) {
-    _networkRequestsAllowed = isAllowed;
+    MSACLogInfo([MSACAppCenter logTag], @"App Center SDK network requests are %@.", isAllowed ? @"allowed" : @"forbidden");
+
+    // Persist the network permission status.
+    [MSAC_APP_CENTER_USER_DEFAULTS setObject:@(isAllowed) forKey:kMSACAppCenterNetworkRequestsAllowedKey];
     if ([self canBeUsed]) {
+
+      // Propagate to channel group.
       [self.channelGroup setNetworkRequestsAllowed:isAllowed];
     }
-    MSACLogInfo([MSACAppCenter logTag], @"App Center SDK network requests are %@.", isAllowed ? @"allowed" : @"forbidden");
   }
 }
 
 - (BOOL)isNetworkRequestsAllowed {
-  return _networkRequestsAllowed;
+
+  /*
+   * Get isAllowed value from persistence.
+   * No need to cache the value in a property, user settings already have their cache mechanism.
+   */
+  NSNumber *isAllowed = [MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACAppCenterNetworkRequestsAllowedKey];
+
+  // Return the persisted value otherwise it's enabled by default.
+  return (isAllowed) ? [isAllowed boolValue] : YES;
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
@@ -700,7 +709,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
       self.channelGroup = [[MSACChannelGroupDefault alloc] initWithHttpClient:httpClient
                                                                     installId:self.installId
                                                                        logUrl:self.logUrl ?: kMSACAppCenterBaseUrl];
-      [self.channelGroup setNetworkRequestsAllowed:self.isNetworkRequestsAllowed];
       [self.channelGroup addDelegate:self.oneCollectorChannelDelegate];
       if (self.requestedMaxStorageSizeInBytes) {
         long storageSize = [self.requestedMaxStorageSizeInBytes longValue];

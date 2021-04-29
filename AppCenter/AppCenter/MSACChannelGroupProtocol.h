@@ -80,6 +80,8 @@ NS_SWIFT_NAME(ChannelGroupProtocol)
  */
 - (nullable id<MSACChannelUnitProtocol>)channelUnitForGroupId:(NSString *)groupId;
 
+- (void)setNetworkRequestsAllowed:(BOOL)isAllowed;
+
 @end
 
 NS_ASSUME_NONNULL_END

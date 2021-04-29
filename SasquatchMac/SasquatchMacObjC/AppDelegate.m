@@ -56,10 +56,6 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
                    }];
   }
 
-  NSNumber *isNetworkRequestsAllowedNumber = [[NSUserDefaults standardUserDefaults] objectForKey:kMSNetworkRequestsKey];
-  BOOL isNetworkRequestsAllowed = (isNetworkRequestsAllowedNumber) ? [isNetworkRequestsAllowedNumber boolValue] : YES;
-  [MSACAppCenter setNetworkRequestsAllowed:isNetworkRequestsAllowed];
-
   // Start AppCenter.
   NSArray<Class> *services = @[ [MSACAnalytics class], [MSACCrashes class] ];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];

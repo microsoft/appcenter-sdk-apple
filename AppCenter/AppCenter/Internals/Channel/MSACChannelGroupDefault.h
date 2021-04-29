@@ -57,10 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, strong) NSMutableArray *channels;
 
-/**
- * Flag indicating whether SDK network requests are allowed.
- */
-@property(nonatomic, getter=isNetworkRequestsAllowed) BOOL networkRequestsAllowed;
+- (void)setNetworkRequestsAllowed:(BOOL)isAllowed;
 
 @end
 

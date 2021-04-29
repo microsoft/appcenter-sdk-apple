@@ -161,7 +161,6 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   @IBAction func networkRequestsAllowedChanged(_ sender: UISwitch) {
     appCenter.setNetworkRequestsAllowed(sender.isOn)
-    UserDefaults.standard.set(sender.isOn, forKey: kMSNetworkRequestsKey)
     updateViewState()
   }
 

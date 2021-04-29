@@ -7,14 +7,13 @@
 #import "MSACChannelGroupDefaultPrivate.h"
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitDefault.h"
+#import "MSACChannelUnitDefaultPrivate.h"
 #import "MSACDispatcherUtil.h"
 #import "MSACLogDBStorage.h"
 
 static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGroupQueue";
 
 @implementation MSACChannelGroupDefault
-
-@synthesize networkRequestsAllowed = _networkRequestsAllowed;
 
 #pragma mark - Initialization
 
@@ -32,7 +31,6 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
     _channels = [NSMutableArray<id<MSACChannelUnitProtocol>> new];
     _delegates = [NSHashTable weakObjectsHashTable];
     _storage = [MSACLogDBStorage new];
-    _networkRequestsAllowed = YES;
     if (ingestion) {
       _ingestion = ingestion;
     }
@@ -53,7 +51,6 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
                                                   configuration:configuration
                                               logsDispatchQueue:self.logsDispatchQueue];
     [channel addDelegate:self];
-    [channel setNetworkRequestsAllowed:self.networkRequestsAllowed];
     dispatch_async(self.logsDispatchQueue, ^{
       // Schedule sending any pending log.
       [channel checkPendingLogs];
@@ -181,16 +178,14 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 #pragma mark - Enable / Disable
 
 - (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
-  _networkRequestsAllowed = isAllowed;
+  if (isAllowed) {
+    MSACLogDebug([MSACAppCenter logTag], @"Network requests allowed, flush stored logs.");
 
-  // Propagate to initialized channels.
-  for (id<MSACChannelProtocol> channel in self.channels) {
-    [channel setNetworkRequestsAllowed:isAllowed];
+    // Propagate to initialized channels.
+    for (MSACChannelUnitDefault *channel in self.channels) {
+      [channel flushQueue];
+    }
   }
-}
-
-- (BOOL)isNetworkRequestsAllowed {
-  return _networkRequestsAllowed;
 }
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {

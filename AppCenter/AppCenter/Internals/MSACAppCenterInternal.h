@@ -13,6 +13,7 @@
  */
 static NSString *const kMSACInstallIdKey = @"InstallId";
 static NSString *const kMSACAppCenterIsEnabledKey = @"AppCenterIsEnabled";
+static NSString *const kMSACAppCenterNetworkRequestsAllowedKey = @"AppCenterNetworkRequestsAllowed";
 
 /*
  * Name of the environment variable to check for which services should be disabled.

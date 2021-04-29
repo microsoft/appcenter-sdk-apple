@@ -89,11 +89,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic) BOOL discardLogs;
 
-/**
- * Flag indicating whether SDK network requests are allowed.
- */
-@property(nonatomic, getter=isNetworkRequestsAllowed) BOOL networkRequestsAllowed;
-
 @end
 
 NS_ASSUME_NONNULL_END

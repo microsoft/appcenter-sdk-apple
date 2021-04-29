@@ -34,7 +34,6 @@ enum AppCenterSections: Int { case actions = 0; case miscellaneous = 1; case set
     case .miscellaneous:
       let isAllowed = !appCenter.isNetworkRequestsAllowed()
       appCenter.setNetworkRequestsAllowed(isAllowed)
-      UserDefaults.standard.set(isAllowed, forKey: kMSNetworkRequestsKey)
       self.networkRequestsLabel.text = appCenter.isNetworkRequestsAllowed() ? "Allowed" : "Forbidden"
       break
     case.settings:

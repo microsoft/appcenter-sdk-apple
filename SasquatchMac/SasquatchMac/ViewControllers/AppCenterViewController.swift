@@ -100,7 +100,6 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   @IBAction func setNetworkRequestsChanged(_ sender: NSButton) {
     appCenter.setNetworkRequestsAllowed(sender.state == .on)
-    UserDefaults.standard.set(sender.state == .on, forKey: kMSNetworkRequestsKey)
     sender.state = appCenter.isNetworkRequestsAllowed() ? .on : .off
   }
 

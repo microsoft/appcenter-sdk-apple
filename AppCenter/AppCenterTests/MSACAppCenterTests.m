@@ -1031,7 +1031,6 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
   XCTAssertTrue([MSACMockService sharedInstance].started);
   XCTAssertTrue([MSACMockSecondService sharedInstance].started);
-  OCMVerify([self.channelGroupMock setNetworkRequestsAllowed:NO]);
 }
 
 - (void)testDisableNetworkRequestsAfterStart {
@@ -1048,7 +1047,6 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
   XCTAssertTrue([MSACMockService sharedInstance].started);
   XCTAssertTrue([MSACMockSecondService sharedInstance].started);
-  OCMVerify([self.channelGroupMock setNetworkRequestsAllowed:networkRequestsAllowed]);
 
   // If
   networkRequestsAllowed = NO;

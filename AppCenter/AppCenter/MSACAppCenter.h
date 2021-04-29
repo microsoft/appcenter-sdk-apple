@@ -97,6 +97,8 @@ NS_SWIFT_NAME(AppCenter)
 
 /**
  * Flag indicating whether SDK network requests are allowed.
+ *
+ * The state is persisted in the device's storage across application launches.
  */
 @property(class, nonatomic, getter=isNetworkRequestsAllowed, setter=setNetworkRequestsAllowed:)
     BOOL networkRequestsAllowed NS_SWIFT_NAME(networkRequestsAllowed);
