@@ -96,7 +96,7 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic, getter=isEnabled, setter=setEnabled:) BOOL enabled NS_SWIFT_NAME(enabled);
 
 /**
- * Flag indicating whether SDK network requests are allowed.
+ * Flag indicating whether SDK can send network requests.
  *
  * The state is persisted in the device's storage across application launches.
  */

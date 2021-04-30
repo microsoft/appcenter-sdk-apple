@@ -179,11 +179,14 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 
 - (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
   if (isAllowed) {
-    MSACLogDebug([MSACAppCenter logTag], @"Network requests allowed, flush stored logs.");
-
-    // Propagate to initialized channels.
+    MSACLogDebug([MSACAppCenter logTag], @"Network requests are allowed, resume channels.");
     for (MSACChannelUnitDefault *channel in self.channels) {
-      [channel flushQueue];
+      [channel resumeWithIdentifyingObject:self];
+    }
+  } else {
+    MSACLogDebug([MSACAppCenter logTag], @"Network requests are forbidden, pause channels.");
+    for (MSACChannelUnitDefault *channel in self.channels) {
+      [channel pauseWithIdentifyingObject:self];
     }
   }
 }

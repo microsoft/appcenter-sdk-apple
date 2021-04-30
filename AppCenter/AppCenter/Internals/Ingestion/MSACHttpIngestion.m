@@ -97,20 +97,8 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
 
 - (BOOL)isEnabled {
   @synchronized(self) {
-    return _enabled && [self isNetworkRequestsAllowed];
+    return _enabled && [[MSACAppCenter sharedInstance] isNetworkRequestsAllowed];
   }
-}
-
-- (BOOL)isNetworkRequestsAllowed {
-
-  /*
-   * Get isAllowed value from persistence.
-   * No need to cache the value in a property, user settings already have their cache mechanism.
-   */
-  NSNumber *isAllowed = [MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACAppCenterNetworkRequestsAllowedKey];
-
-  // Return the persisted value otherwise it's enabled by default.
-  return (isAllowed) ? [isAllowed boolValue] : YES;
 }
 
 #pragma mark - MSACHttpIngestion

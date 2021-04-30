@@ -149,7 +149,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 /**
- * Checks if SDK network requests are allowed.
+ * Checks if SDK can send network requests.
  *
  * @return `YES` if network requests are allowed, `NO` otherwise
  */
@@ -615,7 +615,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   NSNumber *isAllowed = [MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACAppCenterNetworkRequestsAllowedKey];
 
   // Return the persisted value otherwise it's enabled by default.
-  return (isAllowed) ? [isAllowed boolValue] : YES;
+  return isAllowed != nil ? [isAllowed boolValue] : YES;
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
