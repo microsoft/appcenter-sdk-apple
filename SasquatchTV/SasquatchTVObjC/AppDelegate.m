@@ -3,7 +3,6 @@
 
 #import "AppDelegate.h"
 #import "AppCenterDelegateObjC.h"
-#import "Constants.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -18,7 +17,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
-
   [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@ [[MSACAnalytics class], [MSACCrashes class]]];
   [self crashes];
   [self setAppCenterCenterDelegate];
