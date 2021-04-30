@@ -1025,18 +1025,32 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   // When
   [self.settingsMock setObject:@NO forKey:kMSACAppCenterNetworkRequestsAllowedKey];
   [MSACAppCenter start:MSAC_UUID_STRING withServices:services];
+  OCMReject([self.channelGroupMock pauseWithIdentifyingObject:OCMOCK_ANY]);
+  OCMReject([self.channelGroupMock resumeWithIdentifyingObject:OCMOCK_ANY]);
 
   // Then
   XCTAssertFalse([MSACAppCenter isNetworkRequestsAllowed]);
   XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
   XCTAssertTrue([MSACMockService sharedInstance].started);
   XCTAssertTrue([MSACMockSecondService sharedInstance].started);
+  OCMVerifyAll(self.channelGroupMock);
 }
 
 - (void)testDisableNetworkRequestsAfterStart {
 
   // If
+  __block NSInteger pauseInvoked = 0;
+  __block NSInteger resumeInvoked = 0;
+  __block NSObject *tokenObject = nil;
   NSArray *services = @[ MSACMockService.class, MSACMockSecondService.class ];
+  OCMStub([self.channelGroupMock pauseWithIdentifyingObject:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&tokenObject atIndex:0];
+    pauseInvoked++;
+  });
+  OCMStub([self.channelGroupMock resumeWithIdentifyingObject:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    [invocation getArgument:&tokenObject atIndex:0];
+    resumeInvoked++;
+  });
 
   // When
   [MSACAppCenter start:MSAC_UUID_STRING withServices:services];
@@ -1046,15 +1060,27 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
   XCTAssertTrue([MSACMockService sharedInstance].started);
   XCTAssertTrue([MSACMockSecondService sharedInstance].started);
+  XCTAssertEqual(pauseInvoked, 0);
+  XCTAssertEqual(resumeInvoked, 0);
+  XCTAssertNil(tokenObject);
 
   // When
-  [self.settingsMock setObject:@NO forKey:kMSACAppCenterNetworkRequestsAllowedKey];
+  [MSACAppCenter setNetworkRequestsAllowed:NO];
 
   // Then
   XCTAssertFalse([MSACAppCenter isNetworkRequestsAllowed]);
-  XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
-  XCTAssertTrue([MSACMockService sharedInstance].started);
-  XCTAssertTrue([MSACMockSecondService sharedInstance].started);
+  XCTAssertEqual(pauseInvoked, 1);
+  XCTAssertEqual(resumeInvoked, 0);
+  XCTAssertEqual(tokenObject, self.channelGroupMock);
+
+  // When
+  [MSACAppCenter setNetworkRequestsAllowed:YES];
+
+  // Then
+  XCTAssertTrue([MSACAppCenter isNetworkRequestsAllowed]);
+  XCTAssertEqual(pauseInvoked, 1);
+  XCTAssertEqual(resumeInvoked, 1);
+  XCTAssertEqual(tokenObject, self.channelGroupMock);
 }
 
 @end

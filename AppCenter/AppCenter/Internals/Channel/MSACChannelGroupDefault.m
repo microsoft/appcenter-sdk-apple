@@ -7,7 +7,6 @@
 #import "MSACChannelGroupDefaultPrivate.h"
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitDefault.h"
-#import "MSACChannelUnitDefaultPrivate.h"
 #import "MSACDispatcherUtil.h"
 #import "MSACLogDBStorage.h"
 
@@ -176,20 +175,6 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 }
 
 #pragma mark - Enable / Disable
-
-- (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
-  if (isAllowed) {
-    MSACLogDebug([MSACAppCenter logTag], @"Network requests are allowed, resume channels.");
-    for (MSACChannelUnitDefault *channel in self.channels) {
-      [channel resumeWithIdentifyingObject:self];
-    }
-  } else {
-    MSACLogDebug([MSACAppCenter logTag], @"Network requests are forbidden, pause channels.");
-    for (MSACChannelUnitDefault *channel in self.channels) {
-      [channel pauseWithIdentifyingObject:self];
-    }
-  }
-}
 
 - (void)setEnabled:(BOOL)isEnabled andDeleteDataOnDisabled:(BOOL)deleteData {
 

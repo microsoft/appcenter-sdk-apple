@@ -599,9 +599,11 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     // Persist the network permission status.
     [MSAC_APP_CENTER_USER_DEFAULTS setObject:@(isAllowed) forKey:kMSACAppCenterNetworkRequestsAllowedKey];
     if ([self canBeUsed]) {
-
-      // Propagate to channel group.
-      [self.channelGroup setNetworkRequestsAllowed:isAllowed];
+      if (isAllowed) {
+        [self.channelGroup resumeWithIdentifyingObject:self.channelGroup];
+      } else {
+        [self.channelGroup pauseWithIdentifyingObject:self.channelGroup];
+      }
     }
   }
 }
