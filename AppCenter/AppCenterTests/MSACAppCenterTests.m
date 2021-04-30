@@ -1023,7 +1023,7 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   NSArray *services = @[ MSACMockService.class, MSACMockSecondService.class ];
 
   // When
-  [MSACAppCenter setNetworkRequestsAllowed:NO];
+  [self.settingsMock setObject:@NO forKey:kMSACAppCenterNetworkRequestsAllowedKey];
   [MSACAppCenter start:MSAC_UUID_STRING withServices:services];
 
   // Then
@@ -1037,7 +1037,6 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
 
   // If
   NSArray *services = @[ MSACMockService.class, MSACMockSecondService.class ];
-  BOOL networkRequestsAllowed = YES;
 
   // When
   [MSACAppCenter start:MSAC_UUID_STRING withServices:services];
@@ -1048,18 +1047,14 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   XCTAssertTrue([MSACMockService sharedInstance].started);
   XCTAssertTrue([MSACMockSecondService sharedInstance].started);
 
-  // If
-  networkRequestsAllowed = NO;
-
   // When
-  [MSACAppCenter setNetworkRequestsAllowed:networkRequestsAllowed];
+  [self.settingsMock setObject:@NO forKey:kMSACAppCenterNetworkRequestsAllowedKey];
 
   // Then
   XCTAssertFalse([MSACAppCenter isNetworkRequestsAllowed]);
   XCTAssertNotNil([[MSACAppCenter sharedInstance] appSecret]);
   XCTAssertTrue([MSACMockService sharedInstance].started);
   XCTAssertTrue([MSACMockSecondService sharedInstance].started);
-  OCMVerify([self.channelGroupMock setNetworkRequestsAllowed:networkRequestsAllowed]);
 }
 
 @end
