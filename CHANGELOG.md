@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Feature]** Add a `setNetworkRequestsAllowed` API to block network requests.
+* **[Feature]** Add a `AppCenter.networkRequestsAllowed` API to block any network requests without disabling the SDK.
 * **[Fix]** Fix umbrella header warnings in Xcode 12.5
 
 ### App Center Crashes
