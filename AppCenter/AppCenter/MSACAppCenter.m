@@ -144,6 +144,21 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   return NO;
 }
 
++ (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+  [[MSACAppCenter sharedInstance] setNetworkRequestsAllowed:isAllowed];
+}
+
+/**
+ * Checks if SDK can send network requests.
+ *
+ * @return `YES` if network requests are allowed, `NO` otherwise
+ */
++ (BOOL)isNetworkRequestsAllowed {
+  @synchronized([MSACAppCenter sharedInstance]) {
+    return [[MSACAppCenter sharedInstance] isNetworkRequestsAllowed];
+  }
+}
+
 + (BOOL)isAppDelegateForwarderEnabled {
   return [MSACAppDelegateForwarder sharedInstance].enabled;
 }
@@ -576,6 +591,34 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   [self sendCustomPropertiesLog:propertiesCopy];
 }
 #endif
+
+- (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+  @synchronized(self) {
+    MSACLogInfo([MSACAppCenter logTag], @"App Center SDK network requests are %@.", isAllowed ? @"allowed" : @"forbidden");
+
+    // Persist the network permission status.
+    [MSAC_APP_CENTER_USER_DEFAULTS setObject:@(isAllowed) forKey:kMSACAppCenterNetworkRequestsAllowedKey];
+    if ([self canBeUsed]) {
+      if (isAllowed) {
+        [self.channelGroup resumeWithIdentifyingObject:self.channelGroup];
+      } else {
+        [self.channelGroup pauseWithIdentifyingObject:self.channelGroup];
+      }
+    }
+  }
+}
+
+- (BOOL)isNetworkRequestsAllowed {
+
+  /*
+   * Get isAllowed value from persistence.
+   * No need to cache the value in a property, user settings already have their cache mechanism.
+   */
+  NSNumber *isAllowed = [MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACAppCenterNetworkRequestsAllowedKey];
+
+  // Return the persisted value otherwise it's enabled by default.
+  return isAllowed != nil ? [isAllowed boolValue] : YES;
+}
 
 - (void)setEnabled:(BOOL)isEnabled {
   @synchronized(self) {

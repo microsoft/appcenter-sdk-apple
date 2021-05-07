@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 #import "AppCenterDelegateObjC.h"
-#import "MSEventFilter.h"
 #import "Constants.h"
+#import "MSEventFilter.h"
 
 @import AppCenter;
 @import AppCenterAnalytics;
@@ -54,6 +54,14 @@
 
 - (void)setLogUrl:(NSString *)logUrl {
   [MSACAppCenter setLogUrl:logUrl];
+}
+
+- (BOOL)isNetworkRequestsAllowed {
+  return [MSACAppCenter isNetworkRequestsAllowed];
+}
+
+- (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+  [MSACAppCenter setNetworkRequestsAllowed:isAllowed];
 }
 
 #pragma mark - Modules section.

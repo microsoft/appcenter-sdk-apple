@@ -263,7 +263,8 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
 - (void)flushQueue {
 
   // Nothing to flush if there is no ingestion.
-  if (!self.ingestion) {
+  if (!self.ingestion || !self.ingestion.isEnabled) {
+    MSACLogDebug([MSACAppCenter logTag], @"AppCenter SDK is offline, groupId:%@.", self.configuration.groupId);
     return;
   }
 

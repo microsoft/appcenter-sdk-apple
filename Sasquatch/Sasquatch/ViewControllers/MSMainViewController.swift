@@ -24,6 +24,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   }
 
   @IBOutlet weak var appCenterEnabledSwitch: UISwitch!
+  @IBOutlet weak var networkRequestsAllowedSwitch: UISwitch!
   @IBOutlet weak var startupModeField: UITextField!
   @IBOutlet weak var installId: UILabel!
   @IBOutlet weak var appSecret: UILabel!
@@ -136,6 +137,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
 
   func updateViewState() {
     self.appCenterEnabledSwitch.isOn = appCenter.isAppCenterEnabled()
+    self.networkRequestsAllowedSwitch.isOn = appCenter.isNetworkRequestsAllowed()
 
     #if ACTIVE_COMPILATION_CONDITION_PUPPET
     self.logFilterSwitch.isOn = MSEventFilter.enabled
@@ -155,6 +157,11 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBAction func overrideCountryCode(_ sender: UIButton) {
     let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
     appDelegate?.requestLocation()
+  }
+
+  @IBAction func networkRequestsAllowedChanged(_ sender: UISwitch) {
+    appCenter.setNetworkRequestsAllowed(sender.isOn)
+    updateViewState()
   }
 
   @IBAction func logFilterSwitchChanged(_ sender: UISwitch) {

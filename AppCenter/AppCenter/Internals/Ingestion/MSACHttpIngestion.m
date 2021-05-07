@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACHttpIngestion.h"
+#import "MSACAppCenterErrors.h"
 #import "MSACAppCenterInternal.h"
 #import "MSACConstants+Internal.h"
 #import "MSACHttpClientPrivate.h"
@@ -94,6 +95,12 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
   }
 }
 
+- (BOOL)isEnabled {
+  @synchronized(self) {
+    return _enabled && [[MSACAppCenter sharedInstance] isNetworkRequestsAllowed];
+  }
+}
+
 #pragma mark - MSACHttpIngestion
 
 - (NSURL *)buildURLWithBaseURL:(NSString *)baseURL apiPath:(NSString *)apiPath queryStrings:(NSDictionary *)queryStrings {
@@ -174,7 +181,12 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
                callId:(NSString *)callId
     completionHandler:(MSACSendAsyncCompletionHandler)handler {
   @synchronized(self) {
-    if (!self.enabled) {
+    if (!self.isEnabled) {
+      MSACLogWarning([MSACAppCenter logTag], @"%@ is disabled.", NSStringFromClass([self class]));
+      NSError *error = [NSError errorWithDomain:kMSACACErrorDomain
+                                           code:MSACACDisabledErrorCode
+                                       userInfo:@{NSLocalizedDescriptionKey : kMSACACDisabledErrorDesc}];
+      handler(callId, nil, nil, error);
       return;
     }
     NSDictionary *httpHeaders = [self getHeadersWithData:data eTag:eTag];

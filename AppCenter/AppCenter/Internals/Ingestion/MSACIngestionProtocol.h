@@ -23,6 +23,12 @@ typedef void (^MSACSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLRespon
 @property(nonatomic, readonly, getter=isReadyToSend) BOOL readyToSend;
 
 /**
+ * A boolean value set to YES if the ingestion is enabled or NO otherwise.
+ * Enable/disable does resume/pause the ingestion as needed under the hood.
+ */
+@property(nonatomic, readonly, getter=isEnabled) BOOL enabled;
+
+/**
  * Send data.
  *
  * @param data Instance that will be transformed to request body.

@@ -17,6 +17,8 @@ import Foundation;
   func appSecret()->String;
   func logUrl()->String;
   func isDebuggerAttached()->Bool;
+  func isNetworkRequestsAllowed() -> Bool
+  func setNetworkRequestsAllowed(_ isAllowed: Bool)
 
   // MARK: Modules section.
   func isAnalyticsEnabled()->Bool;

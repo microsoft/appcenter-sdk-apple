@@ -61,6 +61,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   OCMStub([self.storageMock saveLog:OCMOCK_ANY withGroupId:OCMOCK_ANY flags:MSACFlagsCritical]).andReturn(YES);
   self.ingestionMock = OCMProtocolMock(@protocol(MSACIngestionProtocol));
   OCMStub([self.ingestionMock isReadyToSend]).andReturn(YES);
+  OCMStub([self.ingestionMock isEnabled]).andReturn(YES);
   self.settingsMock = [MSACMockUserDefaults new];
 }
 
@@ -1932,6 +1933,98 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 
   // Then
   [self waitForExpectations:@[ addDelegateExpectation, removeDelegateExpectation ] timeout:kMSACTestTimeout enforceOrder:YES];
+}
+
+- (void)testBlockAndAllowNetworkRequests {
+
+  // If
+  id<MSACIngestionProtocol> ingestionMock = OCMProtocolMock(@protocol(MSACIngestionProtocol));
+  dispatch_queue_t queue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL);
+  self.dispatchQueue = queue;
+
+  // Block network requests
+  OCMStub([ingestionMock isEnabled]).andReturn(NO);
+  __block MSACChannelUnitDefault *channel = [[MSACChannelUnitDefault alloc] initWithIngestion:ingestionMock
+                                                                                      storage:self.storageMock
+                                                                                configuration:self.configuration
+                                                                            logsDispatchQueue:queue];
+  [self initChannelEndJobExpectation];
+  id delegateMock = OCMProtocolMock(@protocol(MSACChannelDelegate));
+  __block MSACSendAsyncCompletionHandler ingestionBlock;
+  __block MSACLogContainer *logContainer;
+  __block NSString *expectedBatchId = @"1";
+  NSUInteger batchSizeLimit = 1;
+  id<MSACLog> expectedLog = [MSACAbstractLog new];
+  expectedLog.sid = MSAC_UUID_STRING;
+
+  // Init mocks.
+  id<MSACLog> enqueuedLog = [self getValidMockLog];
+
+  OCMStub([ingestionMock sendAsync:OCMOCK_ANY completionHandler:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    // Get ingestion block for later call.
+    [invocation retainArguments];
+    [invocation getArgument:&logContainer atIndex:2];
+
+    // The ingestionBlock is initialized when sendAsync is called.
+    [invocation getArgument:&ingestionBlock atIndex:3];
+  });
+  __block id responseMock = [MSACHttpTestUtil createMockResponseForStatusCode:200 headers:nil];
+
+  // Stub the storage load for that log.
+  OCMStub([self.storageMock loadLogsWithGroupId:kMSACTestGroupId
+                                          limit:batchSizeLimit
+                             excludedTargetKeys:OCMOCK_ANY
+                              completionHandler:OCMOCK_ANY])
+      .andDo(^(NSInvocation *invocation) {
+        MSACLoadDataCompletionHandler loadCallback;
+
+        // Get ingestion block for later call.
+        [invocation getArgument:&loadCallback atIndex:5];
+
+        // Mock load.
+        loadCallback(((NSArray<id<MSACLog>> *)@[ expectedLog ]), expectedBatchId);
+      });
+
+  // Configure channel.
+  channel.configuration = [[MSACChannelUnitConfiguration alloc] initWithGroupId:kMSACTestGroupId
+                                                                       priority:MSACPriorityDefault
+                                                                  flushInterval:0.0
+                                                                 batchSizeLimit:batchSizeLimit
+                                                            pendingBatchesLimit:1];
+  [channel addDelegate:delegateMock];
+  OCMReject([delegateMock channel:channel willSendLog:OCMOCK_ANY]);
+  OCMReject([delegateMock channel:channel didSucceedSendingLog:OCMOCK_ANY]);
+  OCMExpect([delegateMock channel:channel prepareLog:enqueuedLog]);
+  OCMExpect([delegateMock channel:channel didPrepareLog:enqueuedLog internalId:OCMOCK_ANY flags:MSACFlagsDefault]);
+  OCMExpect([delegateMock channel:channel didCompleteEnqueueingLog:enqueuedLog internalId:OCMOCK_ANY]);
+  OCMReject([self.storageMock deleteLogsWithBatchId:expectedBatchId groupId:kMSACTestGroupId]);
+
+  // When
+  dispatch_async(channel.logsDispatchQueue, ^{
+    // Enqueue the log
+    [channel enqueueItem:enqueuedLog flags:MSACFlagsDefault];
+    dispatch_async(channel.logsDispatchQueue, ^{
+      // Verify network is blocked and sendAsync hasn't been called.
+      XCTAssertNil(ingestionBlock);
+
+      // Check the results.
+      [self enqueueChannelEndJobExpectation];
+    });
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:kMSACTestTimeout
+                               handler:^(NSError *error) {
+                                 // Get sure it has been sent.
+                                 XCTAssertNil(logContainer.batchId);
+                                 XCTAssertNil(logContainer.logs);
+                                 OCMVerifyAll(delegateMock);
+                                 OCMVerifyAll(self.storageMock);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+  [responseMock stopMocking];
 }
 
 #pragma mark - Helper

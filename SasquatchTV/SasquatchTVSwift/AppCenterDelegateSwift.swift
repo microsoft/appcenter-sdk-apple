@@ -25,6 +25,8 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     return "Internal";
   }
   func isDebuggerAttached()->Bool { return AppCenter.isDebuggerAttached; }
+  func isNetworkRequestsAllowed()->Bool { return AppCenter.networkRequestsAllowed; }
+  func setNetworkRequestsAllowed(_ isAllowed: Bool) { AppCenter.networkRequestsAllowed = isAllowed; }
 
   // MARK: Analytics section.
   func isAnalyticsEnabled()->Bool { return Analytics.enabled; }

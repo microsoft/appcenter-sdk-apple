@@ -73,6 +73,14 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func setCountryCode(_ countryCode: String?) {
     AppCenter.countryCode = countryCode;
   }
+  
+  func isNetworkRequestsAllowed() -> Bool {
+    return AppCenter.networkRequestsAllowed
+  }
+  
+  func setNetworkRequestsAllowed(_ isAllowed: Bool) {
+    AppCenter.networkRequestsAllowed = isAllowed
+  }
 
   // Modules section.
   func isAnalyticsEnabled() -> Bool {
