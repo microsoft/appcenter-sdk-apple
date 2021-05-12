@@ -685,7 +685,6 @@ static dispatch_once_t onceToken;
 
 - (BOOL)openUrlUsingSharedApp:(NSURL *)url {
   UIApplication *sharedApp = [MSACUtility sharedApp];
-
 #pragma clang diagnostic push
 
 // Ignore "cast to smaller integer type 'BOOL' (aka 'signed char') from 'id'" for Xcode 12.5.
@@ -693,7 +692,6 @@ static dispatch_once_t onceToken;
 
   return (BOOL)[sharedApp performSelector:@selector(openURL:) withObject:url];
 #pragma clang diagnostic pop
-
 }
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
