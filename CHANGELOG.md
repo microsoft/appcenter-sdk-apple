@@ -14,6 +14,7 @@
 ### App Center Distribute
 
 * **[Fix]** Fix linking framework `AuthenticationServices`.
+* **[Fix]** Fix compiling Distribute module on Xcode 12.5.
 
 ___
 
