@@ -687,7 +687,12 @@ static dispatch_once_t onceToken;
   UIApplication *sharedApp = [MSACUtility sharedApp];
 #pragma clang diagnostic push
 
-// Ignore "cast to smaller integer type 'BOOL' (aka 'signed char') from 'id'" for Xcode 12.5.
+// The performSelector method only supports methods that return nothing or an object,
+// so cast to BOOL produces "-Wpointer-to-int-cast".
+// The reason why it works is to do with the way values are returned by methods.
+// Integer-like values (NSInteger, BOOL and object pointers) are returned in a general purpose register.
+// The compiler will always load the result from the register used for returning `id` values,
+// and then perform any action required by the cast. For integer and boolean values the cast is a no-op.
 #pragma clang diagnostic ignored "-Wpointer-to-int-cast"
 
   return (BOOL)[sharedApp performSelector:@selector(openURL:) withObject:url];
