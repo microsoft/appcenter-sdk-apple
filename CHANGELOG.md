@@ -14,7 +14,7 @@
 ### App Center Distribute
 
 * **[Fix]** Fix linking framework `AuthenticationServices`.
-* **[Fix]** Fix compiling Distribute module on Xcode 12.5.
+* **[Fix]** Fix a warning in Distribute module that prevented using SDK as a source code on Xcode 12.5.
 
 ___
 
