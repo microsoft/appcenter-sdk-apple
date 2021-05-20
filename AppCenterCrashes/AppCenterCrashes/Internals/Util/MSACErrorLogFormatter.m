@@ -765,7 +765,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   alteredDevice.liveUpdatePackageHash = device.liveUpdatePackageHash;
   alteredDevice.liveUpdateReleaseLabel = device.liveUpdateReleaseLabel;
   alteredDevice.liveUpdateDeploymentKey = device.liveUpdateDeploymentKey;
-  return device;
+  return alteredDevice;
 }
 
 + (BOOL)isCodeType64bit:(uint64_t)type {
