@@ -734,8 +734,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
 #pragma mark - Helpers
 
-+ (MSACDevice *)deviceForTimestamp:(NSDate *)timestamp
-                       crashReport:(PLCrashReport *)report {
++ (MSACDevice *)deviceForTimestamp:(NSDate *)timestamp crashReport:(PLCrashReport *)report {
   MSACDevice *device = [[MSACDeviceTracker sharedInstance] deviceForTimestamp:timestamp];
   MSACDevice *alteredDevice = [MSACDevice new];
 

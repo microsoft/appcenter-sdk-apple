@@ -417,6 +417,9 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   // If
   self.sut = OCMPartialMock(self.sut);
   OCMStub([self.sut startDelayedCrashProcessing]).andDo(nil);
+  MSACDevice *device = [MSACDevice new];
+  device.sdkVersion = @"4.1.0";
+  OCMStub([self.deviceTrackerMock deviceForTimestamp:OCMOCK_ANY]).andReturn(device);
 
   // When
   id channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
@@ -454,6 +457,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   // Then
   OCMExpect([channelUnitMock enqueueItem:validLog flags:MSACFlagsDefault]);
   [self.sut startCrashProcessing];
+  XCTAssertEqual(validLog.device.sdkVersion, device.sdkVersion);
   OCMVerifyAll(channelUnitMock);
   OCMVerify([self.deviceTrackerMock clearDevices]);
   OCMVerify([self.sessionContextMock clearSessionHistoryAndKeepCurrentSession:YES]);
