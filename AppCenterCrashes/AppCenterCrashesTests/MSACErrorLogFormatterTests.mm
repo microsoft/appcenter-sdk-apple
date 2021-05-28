@@ -487,6 +487,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
   PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
   MSACDevice *device = self.deviceMock;
   device.appBuild = @"445";
+  device.appVersion = @"1.1.1";
   device.appNamespace = @"com.microsoft.appcenter.native.ios.puppet";
   device.model = @"x86_64";
   device.osBuild = @"20e241";
@@ -513,18 +514,15 @@ static NSArray *kMacOSCrashReportsParameters = @[
   MSACAppleErrorLog *errorLog = [MSACErrorLogFormatter errorLogFromCrashReport:report];
 
   // Then
-  XCTAssertNotNil(errorLog.device.appBuild);
-  XCTAssertNotNil(errorLog.device.appVersion);
-  XCTAssertNotNil(errorLog.device.appNamespace);
-  XCTAssertNotNil(errorLog.device.osBuild);
-  XCTAssertNotNil(errorLog.device.osVersion);
-  XCTAssertNotNil(errorLog.device.model);
-  XCTAssertNotEqual(errorLog.device.appBuild, device.appBuild);
-  XCTAssertNotEqual(errorLog.device.appVersion, device.appVersion);
-  XCTAssertNotEqual(errorLog.device.appNamespace, device.appNamespace);
-  XCTAssertNotEqual(errorLog.device.osBuild, device.osBuild);
-  XCTAssertNotEqual(errorLog.device.osVersion, device.osVersion);
-  XCTAssertNotEqual(errorLog.device.model, device.model);
+  // Fields received from the PLCR crash report
+  XCTAssertEqual(errorLog.device.appBuild, report.applicationInfo.applicationVersion);
+  XCTAssertEqual(errorLog.device.appVersion, report.applicationInfo.applicationMarketingVersion);
+  XCTAssertEqual(errorLog.device.appNamespace, report.applicationInfo.applicationIdentifier);
+  XCTAssertEqual(errorLog.device.osBuild, report.systemInfo.operatingSystemBuild);
+  XCTAssertEqual(errorLog.device.osVersion, report.systemInfo.operatingSystemVersion);
+  XCTAssertEqual(errorLog.device.model, report.machineInfo.modelName);
+
+  // Fields received from the SDK's device info
   XCTAssertEqual(errorLog.device.sdkName, device.sdkName);
   XCTAssertEqual(errorLog.device.sdkVersion, device.sdkVersion);
   XCTAssertEqual(errorLog.device.oemName, device.oemName);
@@ -541,6 +539,17 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertEqual(errorLog.device.liveUpdatePackageHash, device.liveUpdatePackageHash);
   XCTAssertEqual(errorLog.device.liveUpdateReleaseLabel, device.liveUpdateReleaseLabel);
   XCTAssertEqual(errorLog.device.liveUpdateDeploymentKey, device.liveUpdateDeploymentKey);
+
+  // When
+  MSACAppleErrorLog *errorLog2 = [MSACErrorLogFormatter errorLogFromCrashReport:nil];
+
+  // Then fallback to the original device properties
+  XCTAssertEqual(errorLog2.device.appBuild, device.appBuild);
+  XCTAssertEqual(errorLog2.device.appVersion, device.appVersion);
+  XCTAssertEqual(errorLog2.device.appNamespace, device.appNamespace);
+  XCTAssertEqual(errorLog2.device.osBuild, device.osBuild);
+  XCTAssertEqual(errorLog2.device.osVersion, device.osVersion);
+  XCTAssertEqual(errorLog2.device.model, device.model);
   [defaults stopMocking];
 }
 

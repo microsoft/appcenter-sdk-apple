@@ -1307,7 +1307,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
       // Use the device information from the error log, otherwise the current device information will be used.
       for (MSACErrorAttachmentLog *attachment in attachments) {
-        if (attachment && !attachment.device) {
+        if (attachment != nil && attachment.device == nil) {
           attachment.device = log.device;
         }
       }

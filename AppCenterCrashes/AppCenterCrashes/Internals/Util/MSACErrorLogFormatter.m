@@ -740,12 +740,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // Merge PLCR system information with our device information as the PLCR report
   // is more relevant in cases when the time on the device has been manually changed.
-  alteredDevice.osVersion = report.systemInfo.operatingSystemVersion;
-  alteredDevice.osBuild = report.systemInfo.operatingSystemBuild;
-  alteredDevice.model = report.machineInfo.modelName;
-  alteredDevice.appBuild = report.applicationInfo.applicationVersion;
-  alteredDevice.appVersion = report.applicationInfo.applicationMarketingVersion;
-  alteredDevice.appNamespace = report.applicationInfo.applicationIdentifier;
+  alteredDevice.osVersion = report.systemInfo.operatingSystemVersion ? report.systemInfo.operatingSystemVersion : device.osVersion;
+  alteredDevice.osBuild = report.systemInfo.operatingSystemBuild ? report.systemInfo.operatingSystemBuild : device.osBuild;
+  alteredDevice.model = report.machineInfo.modelName ? report.machineInfo.modelName : device.model;
+  alteredDevice.appBuild = report.applicationInfo.applicationVersion ? report.applicationInfo.applicationVersion : device.appBuild;
+  alteredDevice.appVersion = report.applicationInfo.applicationMarketingVersion ? report.applicationInfo.applicationMarketingVersion : device.appVersion;
+  alteredDevice.appNamespace = report.applicationInfo.applicationIdentifier ? report.applicationInfo.applicationIdentifier : device.appNamespace;
 
   // Use the remaining fields from the found device information.
   alteredDevice.sdkName = device.sdkName;
