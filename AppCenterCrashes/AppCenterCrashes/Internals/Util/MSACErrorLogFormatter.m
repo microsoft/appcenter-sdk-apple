@@ -738,14 +738,18 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   MSACDevice *device = [[MSACDeviceTracker sharedInstance] deviceForTimestamp:timestamp];
   MSACDevice *alteredDevice = [MSACDevice new];
 
-  // Merge PLCR system information with our device information as the PLCR report
+  // Merge PLCR system information with the SDK`s device information as the PLCR report
   // is more relevant in cases when the time on the device has been manually changed.
-  alteredDevice.osVersion = report.systemInfo.operatingSystemVersion ? report.systemInfo.operatingSystemVersion : device.osVersion;
-  alteredDevice.osBuild = report.systemInfo.operatingSystemBuild ? report.systemInfo.operatingSystemBuild : device.osBuild;
-  alteredDevice.model = report.machineInfo.modelName ? report.machineInfo.modelName : device.model;
-  alteredDevice.appBuild = report.applicationInfo.applicationVersion ? report.applicationInfo.applicationVersion : device.appBuild;
-  alteredDevice.appVersion = report.applicationInfo.applicationMarketingVersion ? report.applicationInfo.applicationMarketingVersion : device.appVersion;
-  alteredDevice.appNamespace = report.applicationInfo.applicationIdentifier ? report.applicationInfo.applicationIdentifier : device.appNamespace;
+  // These fields are expected not to be empty:
+  // https://github.com/microsoft/plcrashreporter/blob/b7b88ee14bbc25ce408ae05464cb6f1cdd747948/Source/PLCrashReport.m#L135
+  // https://github.com/microsoft/plcrashreporter/blob/b7b88ee14bbc25ce408ae05464cb6f1cdd747948/Source/PLCrashReport.m#L475
+  // but still adding a fallback in case if it changes in the future.
+  alteredDevice.osVersion = report.systemInfo.operatingSystemVersion ?: device.osVersion;
+  alteredDevice.osBuild = report.systemInfo.operatingSystemBuild ?: device.osBuild;
+  alteredDevice.model = report.machineInfo.modelName ?: device.model;
+  alteredDevice.appBuild = report.applicationInfo.applicationVersion ?: device.appBuild;
+  alteredDevice.appVersion = report.applicationInfo.applicationMarketingVersion ?: device.appVersion;
+  alteredDevice.appNamespace = report.applicationInfo.applicationIdentifier ?: device.appNamespace;
 
   // Use the remaining fields from the found device information.
   alteredDevice.sdkName = device.sdkName;

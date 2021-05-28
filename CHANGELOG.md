@@ -10,7 +10,7 @@
 ### App Center Crashes
 
 * **[Fix]** Fix error nullability in crashes delegate.
-* **[Fix]** Fix the reported application information when the device time has been manually changed.
+* **[Fix]** Merge the device information from the crash report with the SDK's device information in order to fix some time sensitive cases where the reported application information was incorrect.
 
 ### App Center Distribute
 
