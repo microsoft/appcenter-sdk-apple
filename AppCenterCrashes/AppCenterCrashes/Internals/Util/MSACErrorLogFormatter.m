@@ -59,6 +59,7 @@
 #import "MSACThread.h"
 #import "MSACWrapperException.h"
 #import "MSACWrapperExceptionManagerInternal.h"
+#import "MSACWrapperSdkInternal.h"
 
 static NSString *unknownString = @"???";
 
@@ -274,7 +275,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
    * Set the device here to make sure we don't use the current device
    * information but the one from history that matches the time of our crash.
    */
-  errorLog.device = [[MSACDeviceTracker sharedInstance] deviceForTimestamp:errorLog.timestamp];
+  errorLog.device = [MSACErrorLogFormatter deviceForTimestamp:errorLog.timestamp crashReport:report];
 
   // Set the exception from the wrapper SDK.
   MSACWrapperException *wrapperException =
@@ -315,9 +316,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // Retrieve the process' id.
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
 
-  // Retrieve the device that correlates with the time of a crash.
-  MSACDevice *device = [[MSACDeviceTracker sharedInstance] deviceForTimestamp:errorLog.timestamp];
-
   // Finally create the MSACErrorReport instance.
   errorReport = [[MSACErrorReport alloc] initWithErrorId:errorId
                                              reporterKey:reporterKey
@@ -326,7 +324,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                          exceptionReason:exceptionReason
                                             appStartTime:appStartTime
                                             appErrorTime:appErrorTime
-                                                  device:device
+                                                  device:errorLog.device
                                     appProcessIdentifier:processId];
 
   return errorReport;
@@ -735,6 +733,43 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 }
 
 #pragma mark - Helpers
+
++ (MSACDevice *)deviceForTimestamp:(NSDate *)timestamp crashReport:(PLCrashReport *)report {
+  MSACDevice *device = [[MSACDeviceTracker sharedInstance] deviceForTimestamp:timestamp];
+  MSACDevice *alteredDevice = [MSACDevice new];
+
+  // Merge PLCR system information with the SDK`s device information as the PLCR report
+  // is more relevant in cases when the time on the device has been manually changed.
+  // These fields are expected not to be empty:
+  // https://github.com/microsoft/plcrashreporter/blob/b7b88ee14bbc25ce408ae05464cb6f1cdd747948/Source/PLCrashReport.m#L135
+  // https://github.com/microsoft/plcrashreporter/blob/b7b88ee14bbc25ce408ae05464cb6f1cdd747948/Source/PLCrashReport.m#L475
+  // but still adding a fallback in case if it changes in the future.
+  alteredDevice.osVersion = report.systemInfo.operatingSystemVersion ?: device.osVersion;
+  alteredDevice.osBuild = report.systemInfo.operatingSystemBuild ?: device.osBuild;
+  alteredDevice.model = report.machineInfo.modelName ?: device.model;
+  alteredDevice.appBuild = report.applicationInfo.applicationVersion ?: device.appBuild;
+  alteredDevice.appVersion = report.applicationInfo.applicationMarketingVersion ?: device.appVersion;
+  alteredDevice.appNamespace = report.applicationInfo.applicationIdentifier ?: device.appNamespace;
+
+  // Use the remaining fields from the found device information.
+  alteredDevice.sdkName = device.sdkName;
+  alteredDevice.sdkVersion = device.sdkVersion;
+  alteredDevice.oemName = device.oemName;
+  alteredDevice.osName = device.osName;
+  alteredDevice.osApiLevel = device.osApiLevel;
+  alteredDevice.locale = device.locale;
+  alteredDevice.timeZoneOffset = device.timeZoneOffset;
+  alteredDevice.screenSize = device.screenSize;
+  alteredDevice.carrierName = device.carrierName;
+  alteredDevice.carrierCountry = device.carrierCountry;
+  alteredDevice.wrapperSdkName = device.wrapperSdkName;
+  alteredDevice.wrapperSdkVersion = device.wrapperSdkVersion;
+  alteredDevice.wrapperRuntimeVersion = device.wrapperRuntimeVersion;
+  alteredDevice.liveUpdatePackageHash = device.liveUpdatePackageHash;
+  alteredDevice.liveUpdateReleaseLabel = device.liveUpdateReleaseLabel;
+  alteredDevice.liveUpdateDeploymentKey = device.liveUpdateDeploymentKey;
+  return alteredDevice;
+}
 
 + (BOOL)isCodeType64bit:(uint64_t)type {
   return type == CPU_TYPE_ARM64 || type == CPU_TYPE_X86_64;

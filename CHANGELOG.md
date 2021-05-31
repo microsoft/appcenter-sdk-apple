@@ -5,11 +5,12 @@
 ### App Center
 
 * **[Feature]** Add a `AppCenter.networkRequestsAllowed` API to block any network requests without disabling the SDK.
-* **[Fix]** Fix umbrella header warnings in Xcode 12.5
+* **[Fix]** Fix umbrella header warnings in Xcode 12.5.
 
 ### App Center Crashes
 
 * **[Fix]** Fix error nullability in crashes delegate.
+* **[Fix]** Merge the device information from the crash report with the SDK's device information in order to fix some time sensitive cases where the reported application information was incorrect.
 
 ### App Center Distribute
 

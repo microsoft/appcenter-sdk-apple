@@ -97,7 +97,6 @@ static NSArray *kMacOSCrashReportsParameters = @[
   XCTAssertEqual([errorReport.appErrorTime timeIntervalSince1970], [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
 
-  XCTAssertEqualObjects(errorReport.device, self.deviceMock);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
 
   crashData = [MSACCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
@@ -116,7 +115,6 @@ static NSArray *kMacOSCrashReportsParameters = @[
   // FIXME: PLCrashReporter doesn't support millisecond precision, here is a workaround to fill 999 for its millisecond.
   XCTAssertEqual([errorReport.appErrorTime timeIntervalSince1970], [crashReport.systemInfo.timestamp timeIntervalSince1970] + 0.999);
   assertThat(errorReport.appStartTime, equalTo(crashReport.processInfo.processStartTime));
-  XCTAssertEqualObjects(errorReport.device, self.deviceMock);
   XCTAssertEqual(errorReport.appProcessIdentifier, crashReport.processInfo.processID);
   [defaults stopMocking];
 }
@@ -470,6 +468,88 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   // Then
   XCTAssertEqualObjects(errorLog.device.wrapperSdkName, @"Wrapper SDK for iOS");
+  [defaults stopMocking];
+}
+
+- (void)testErrorLogDeviceInfoFromPLCR {
+
+  // If
+  MSACMockUserDefaults *defaults = [MSACMockUserDefaults new];
+
+  // When
+  NSData *crashData = [MSACCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception_marketing"];
+
+  // Then
+  XCTAssertNotNil(crashData);
+
+  // If
+  NSError *error = nil;
+  PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
+  MSACDevice *device = self.deviceMock;
+  device.appBuild = @"445";
+  device.appVersion = @"1.1.1";
+  device.appNamespace = @"com.microsoft.appcenter.native.ios.puppet";
+  device.model = @"x86_64";
+  device.osBuild = @"20e241";
+  device.osVersion = @"14.4";
+
+  // Properties copied from the SDKs device information
+  device.sdkName = @"appcenter.ios";
+  device.sdkVersion = @"4.1.0";
+  device.oemName = @"Apple";
+  device.osName = @"iOS";
+  device.timeZoneOffset = [NSNumber numberWithInt:400];
+  device.screenSize = @"1792x828";
+  device.carrierCountry = @"countryCode";
+  device.carrierName = @"carrierName";
+  device.locale = @"en";
+  device.wrapperSdkVersion = @"10.11.12";
+  device.wrapperSdkName = @"Wrapper SDK for iOS";
+  device.wrapperRuntimeVersion = @"13.14";
+  device.liveUpdateReleaseLabel = @"Release Label";
+  device.liveUpdateDeploymentKey = @"Deployment Key";
+  device.liveUpdatePackageHash = @"Package Hash";
+
+  // When
+  MSACAppleErrorLog *errorLog = [MSACErrorLogFormatter errorLogFromCrashReport:report];
+
+  // Then
+  // Fields received from the PLCR crash report
+  XCTAssertEqual(errorLog.device.appBuild, report.applicationInfo.applicationVersion);
+  XCTAssertEqual(errorLog.device.appVersion, report.applicationInfo.applicationMarketingVersion);
+  XCTAssertEqual(errorLog.device.appNamespace, report.applicationInfo.applicationIdentifier);
+  XCTAssertEqual(errorLog.device.osBuild, report.systemInfo.operatingSystemBuild);
+  XCTAssertEqual(errorLog.device.osVersion, report.systemInfo.operatingSystemVersion);
+  XCTAssertEqual(errorLog.device.model, report.machineInfo.modelName);
+
+  // Fields received from the SDK's device info
+  XCTAssertEqual(errorLog.device.sdkName, device.sdkName);
+  XCTAssertEqual(errorLog.device.sdkVersion, device.sdkVersion);
+  XCTAssertEqual(errorLog.device.oemName, device.oemName);
+  XCTAssertEqual(errorLog.device.osName, device.osName);
+  XCTAssertEqual(errorLog.device.timeZoneOffset, device.timeZoneOffset);
+  XCTAssertEqual(errorLog.device.screenSize, device.screenSize);
+  XCTAssertEqual(errorLog.device.carrierCountry, device.carrierCountry);
+  XCTAssertEqual(errorLog.device.carrierName, device.carrierName);
+  XCTAssertEqual(errorLog.device.locale, device.locale);
+  XCTAssertEqual(errorLog.device.osApiLevel, device.osApiLevel);
+  XCTAssertEqual(errorLog.device.wrapperSdkName, device.wrapperSdkName);
+  XCTAssertEqual(errorLog.device.wrapperSdkVersion, device.wrapperSdkVersion);
+  XCTAssertEqual(errorLog.device.wrapperRuntimeVersion, device.wrapperRuntimeVersion);
+  XCTAssertEqual(errorLog.device.liveUpdatePackageHash, device.liveUpdatePackageHash);
+  XCTAssertEqual(errorLog.device.liveUpdateReleaseLabel, device.liveUpdateReleaseLabel);
+  XCTAssertEqual(errorLog.device.liveUpdateDeploymentKey, device.liveUpdateDeploymentKey);
+
+  // When
+  MSACAppleErrorLog *errorLog2 = [MSACErrorLogFormatter errorLogFromCrashReport:nil];
+
+  // Then fallback to the original device properties
+  XCTAssertEqual(errorLog2.device.appBuild, device.appBuild);
+  XCTAssertEqual(errorLog2.device.appVersion, device.appVersion);
+  XCTAssertEqual(errorLog2.device.appNamespace, device.appNamespace);
+  XCTAssertEqual(errorLog2.device.osBuild, device.osBuild);
+  XCTAssertEqual(errorLog2.device.osVersion, device.osVersion);
+  XCTAssertEqual(errorLog2.device.model, device.model);
   [defaults stopMocking];
 }
 
