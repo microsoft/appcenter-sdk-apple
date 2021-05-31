@@ -21,19 +21,40 @@ static NSObject *const classLock;
 
 @implementation MSACEncrypter
 
+- (NSString *_Nullable)reencryptString:(NSString *)string {
+  NSString *result = nil;
+  NSData *dataToDecrypt = [[NSData alloc] initWithBase64EncodedString:string options:0];
+  if (dataToDecrypt) {
+    NSData *decryptedBytes = [self reencryptData:dataToDecrypt];
+    result = [[NSString alloc] initWithData:decryptedBytes encoding:NSUTF8StringEncoding];
+  }
+  return result;
+}
+
+- (NSData *_Nullable)reencryptData:(NSData *)data {
+  NSString *keyTag = [MSACEncrypter getCurrentKeyTag];
+  size_t metadataLocation = [self loadMetadataLocation:data];
+  NSString *metadata = [self loadMetadata:data metadataLocation:metadataLocation];
+  if ([self hasOldMetadata:metadata keyTag:keyTag]) {
+    NSData *decryptData = [self decryptData:data];
+    return [self encryptData:decryptData];
+  }
+  return nil;
+}
+
 - (NSString *_Nullable)encryptString:(NSString *)string {
   NSData *dataToEncrypt = [string dataUsingEncoding:NSUTF8StringEncoding];
   NSData *encryptedData = [self encryptData:dataToEncrypt];
   return [encryptedData base64EncodedStringWithOptions:0];
 }
 
-- (NSData *)encryptData:(NSData *)data {
+- (NSData *_Nullable)encryptData:(NSData *)data {
   NSString *keyTag = [MSACEncrypter getCurrentKeyTag];
   NSData *secretKey = [self getKeyWithKeyTag:keyTag];
 
   // Get subkeys.
-  NSData *encryptionSubkey = [self getSubkey:secretKey outputSize:encryptionSubkeyLingth];
-  NSData *authenticationSubkey = [self getSubkey:secretKey outputSize:authenticationSubkeyLength];
+  NSData *encryptionSubkey = [self getSubkey:secretKey outputSize:kMSACEncryptionSubkeyLingth];
+  NSData *authenticationSubkey = [self getSubkey:secretKey outputSize:kMSACAuthenticationSubkeyLength];
 
   // Encrypt data.
   NSData *initializationVector = [MSACEncrypter generateInitializationVector];
@@ -74,43 +95,37 @@ static NSObject *const classLock;
   return result;
 }
 
-- (NSData *_Nullable)decryptData:(NSData *_Nonnull)data {
+- (NSData *_Nullable)decryptData:(NSData *)data {
 
   // Get secret key.
   NSString *keyTag = [MSACEncrypter getCurrentKeyTag];
-  NSData *secretKey = [self getKeyWithKeyTag:keyTag];
-
-  // Get subkeys.
-  NSData *encryptionSubkey = [self getSubkey:secretKey outputSize:encryptionSubkeyLingth];
-  NSData *authenticationSubkey = [self getSubkey:secretKey outputSize:authenticationSubkeyLength];
+  NSData *secretKey;
 
   // Load metadata.
-  NSRange dataRange = NSMakeRange(0, [data length]);
-  NSData *separatorAsData = [kMSACEncryptionMetadataSeparator dataUsingEncoding:NSUTF8StringEncoding];
-  size_t metadataLocation = [data rangeOfData:separatorAsData options:0 range:dataRange].location;
-  NSString *metadata;
-  if (metadataLocation != NSNotFound) {
-    NSData *subdata = [data subdataWithRange:NSMakeRange(0, metadataLocation)];
-    metadata = [[NSString alloc] initWithData:subdata encoding:NSUTF8StringEncoding];
-  }
+  size_t metadataLocation = [self loadMetadataLocation:data];
+  NSString *metadata = [self loadMetadata:data metadataLocation:metadataLocation];
 
   // Load data.
   NSData *initializationVector;
   NSData *cipherText;
   NSData *hMac;
   if (metadata) {
-    if ([metadata isEqual:[MSACEncrypter getMetadataStringWithKeyTag:keyTag]]) {
+    NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
+    if ([self hasOldMetadata:metadata keyTag:keyTag]) {
+      secretKey = [self getKeyWithKeyTag:keyTag];
 
       // Metadata, separator, and initialization vector.
       size_t cipherTextPrefixLength = metadataLocation + 1 + kCCBlockSizeAES128;
       NSRange cipherTextRange = NSMakeRange(cipherTextPrefixLength, [data length] - cipherTextPrefixLength);
-      NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
       initializationVector = [data subdataWithRange:ivRange];
       cipherText = [data subdataWithRange:cipherTextRange];
     } else {
 
+      // Get subkeys.
+      secretKey = [self getSubkey:[self getKeyWithKeyTag:keyTag] outputSize:kMSACEncryptionSubkeyLingth];
+      NSData *authenticationSubkey = [self getSubkey:[self getKeyWithKeyTag:keyTag] outputSize:kMSACAuthenticationSubkeyLength];
+
       // Metadata, separator, initialization vector, MAC, cipher text.
-      NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
       NSRange hMacRange = NSMakeRange(metadataLocation + 1 + kCCBlockSizeAES128, kCCKeySizeAES256);
       size_t cipherTextPrefixLength = metadataLocation + 1 + kCCBlockSizeAES128 + kCCKeySizeAES256;
       NSRange cipherTextRange = NSMakeRange(cipherTextPrefixLength, [data length] - cipherTextPrefixLength);
@@ -133,7 +148,29 @@ static NSObject *const classLock;
     secretKey = [self getKeyWithKeyTag:kMSACEncryptionKeyTagOriginal];
     cipherText = data;
   }
-  return [MSACEncrypter performCryptoOperation:kCCDecrypt input:cipherText initializationVector:initializationVector key:encryptionSubkey];
+  return [MSACEncrypter performCryptoOperation:kCCDecrypt input:cipherText initializationVector:initializationVector key:secretKey];
+}
+
+- (BOOL)hasOldMetadata:(NSString *)metadata keyTag:(NSString *)keyTag {
+  NSString *oldMetadata = [[NSString alloc] initWithData:[MSACEncrypter getMetadataStringWithKeyTag:keyTag] encoding:NSUTF8StringEncoding];
+  return [metadata isEqual:oldMetadata];
+}
+
+- (size_t)loadMetadataLocation:(NSData *)data {
+  NSRange dataRange = NSMakeRange(0, [data length]);
+  NSData *separatorAsData = [kMSACEncryptionMetadataSeparator dataUsingEncoding:NSUTF8StringEncoding];
+  return [data rangeOfData:separatorAsData options:0 range:dataRange].location;
+}
+
+- (NSString *)loadMetadata:(NSData *)data metadataLocation:(size_t)metadataLocation {
+
+  // Load metadata.
+  NSString *metadata;
+  if (metadataLocation != NSNotFound) {
+    NSData *subdata = [data subdataWithRange:NSMakeRange(0, metadataLocation)];
+    metadata = [[NSString alloc] initWithData:subdata encoding:NSUTF8StringEncoding];
+  }
+  return metadata;
 }
 
 + (NSString *)getCurrentKeyTag {

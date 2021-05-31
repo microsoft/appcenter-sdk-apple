@@ -12,8 +12,8 @@ static int const kMSACEncryptionAlgorithm = kCCAlgorithmAES;
 static NSString *const kMSACEncryptionAlgorithmName = @"AES";
 static NSString *const kMSACEncryptionCipherMode = @"CBC";
 static NSString *const kMSACEncryptionAlgorithmAesAndEtmName = @"AES/HmacSHA256";
-static const int encryptionSubkeyLingth = 32;
-static const int authenticationSubkeyLength = 16;
+static const int kMSACEncryptionSubkeyLingth = 32;
+static const int kMSACAuthenticationSubkeyLength = 16;
 
 // One year.
 static NSTimeInterval const kMSACEncryptionKeyLifetimeInSeconds = 365 * 24 * 60 * 60;

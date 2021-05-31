@@ -158,7 +158,7 @@ static const NSUInteger kMSACSchemaVersion = 5;
   NSMutableArray<NSNumber *> *idsInBatches = [NSMutableArray<NSNumber *> new];
   for (NSString *batchKey in [self.batches allKeys]) {
     if ([batchKey hasPrefix:groupId]) {
-      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> * _Nonnull) self.batches[batchKey]];
+      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> *_Nonnull)self.batches[batchKey]];
     }
   }
 
@@ -306,6 +306,12 @@ static const NSUInteger kMSACSchemaVersion = 5;
     NSString *encryptedToken = row[self.targetTokenColumnIndex];
     if ([encryptedToken isKindOfClass:[NSString class]]) {
       if (encryptedToken.length > 0) {
+        NSString *reencryptedToken = [self.targetTokenEncrypter reencryptString:encryptedToken];
+        if (reencryptedToken != nil) {
+          row[self.targetTokenColumnIndex] = reencryptedToken;
+          encryptedToken = reencryptedToken;
+          MSACLogError([MSACAppCenter logTag], @"The target token was reencrypted %@.", dbId);
+        }
         NSString *targetToken = [self.targetTokenEncrypter decryptString:encryptedToken];
         if (targetToken) {
           [log addTransmissionTargetToken:targetToken];
