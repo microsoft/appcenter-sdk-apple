@@ -914,11 +914,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
                                                                                   withString:kMSACTargetTokenFileExtension];
           NSURL *targetTokenFileURL = [NSURL fileURLWithPath:targetTokenFilePath];
           NSString *targetToken = [NSString stringWithContentsOfURL:targetTokenFileURL encoding:NSUTF8StringEncoding error:nil];
-          NSString *reencryptedToken = [self.targetTokenEncrypter reencryptString:targetToken];
-          if (reencryptedToken != nil) {
-            targetToken = reencryptedToken;
-            MSACLogError([MSACAppCenter logTag], @"The target token was reencrypted.");
-          }
           if (targetToken) {
             targetToken = [self.targetTokenEncrypter decryptString:targetToken];
             if (targetToken) {

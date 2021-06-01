@@ -19,10 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSData *_Nullable)decryptData:(NSData *)data;
 
-- (NSData *_Nullable)reencryptData:(NSData *)data;
-
-- (NSString *_Nullable)reencryptString:(NSString *)string;
-
 @end
 
 NS_ASSUME_NONNULL_END

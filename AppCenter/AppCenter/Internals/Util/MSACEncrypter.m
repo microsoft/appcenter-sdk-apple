@@ -21,27 +21,6 @@ static NSObject *const classLock;
 
 @implementation MSACEncrypter
 
-- (NSString *_Nullable)reencryptString:(NSString *)string {
-  NSString *result = nil;
-  NSData *dataToDecrypt = [[NSData alloc] initWithBase64EncodedString:string options:0];
-  if (dataToDecrypt) {
-    NSData *decryptedBytes = [self reencryptData:dataToDecrypt];
-    result = [[NSString alloc] initWithData:decryptedBytes encoding:NSUTF8StringEncoding];
-  }
-  return result;
-}
-
-- (NSData *_Nullable)reencryptData:(NSData *)data {
-  NSString *keyTag = [MSACEncrypter getCurrentKeyTag];
-  size_t metadataLocation = [self loadMetadataLocation:data];
-  NSString *metadata = [self loadMetadata:data metadataLocation:metadataLocation];
-  if ([self hasOldMetadata:metadata keyTag:keyTag]) {
-    NSData *decryptData = [self decryptData:data];
-    return [self encryptData:decryptData];
-  }
-  return nil;
-}
-
 - (NSString *_Nullable)encryptString:(NSString *)string {
   NSData *dataToEncrypt = [string dataUsingEncoding:NSUTF8StringEncoding];
   NSData *encryptedData = [self encryptData:dataToEncrypt];
