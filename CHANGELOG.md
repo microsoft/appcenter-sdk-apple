@@ -4,8 +4,9 @@
 
 ### App Center
 
+* **[Feature]** Improved token encryption algorithm.
 * **[Feature]** Add a `AppCenter.networkRequestsAllowed` API to block any network requests without disabling the SDK.
-* **[Fix]** Fix umbrella header warnings in Xcode 12.5
+* **[Fix]** Fix umbrella header warnings in Xcode 12.5.
 
 ### App Center Crashes
 
