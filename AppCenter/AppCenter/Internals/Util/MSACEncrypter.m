@@ -77,13 +77,13 @@ static NSObject *const classLock;
 - (NSData *_Nullable)decryptData:(NSData *)data {
 
   // Get secret key.
-  NSString *keyTag = [MSACEncrypter getCurrentKeyTag];
   NSData *secretKey;
 
   // Load metadata.
   size_t metadataLocation = [self loadMetadataLocation:data];
   NSString *metadata = [self loadMetadata:data metadataLocation:metadataLocation];
-
+  NSString *keyTag = [metadata componentsSeparatedByString:kMSACEncryptionMetadataInternalSeparator][0];
+    
   // Load data.
   NSData *initializationVector;
   NSData *cipherText;

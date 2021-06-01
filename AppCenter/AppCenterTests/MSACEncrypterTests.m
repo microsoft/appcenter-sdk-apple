@@ -449,6 +449,7 @@
      [mutableData appendData:data];
      result = mutableData;
     
+    // Clear buffer.
     free(outputBuffer);
     return result;
 }
