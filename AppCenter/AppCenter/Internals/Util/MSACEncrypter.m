@@ -83,7 +83,7 @@ static NSObject *const classLock;
   size_t metadataLocation = [self loadMetadataLocation:data];
   NSString *metadata = [self loadMetadata:data metadataLocation:metadataLocation];
   NSString *keyTag = [metadata componentsSeparatedByString:kMSACEncryptionMetadataInternalSeparator][0];
-    
+
   // Load data.
   NSData *initializationVector;
   NSData *cipherText;
