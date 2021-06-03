@@ -75,10 +75,8 @@ static NSObject *const classLock;
 }
 
 - (NSData *_Nullable)decryptData:(NSData *)data {
-
-  // Get secret key.
   NSData *secretKey;
-
+    
   // Load metadata.
   size_t metadataLocation = [self loadMetadataLocation:data];
   NSString *metadata = [self loadMetadata:data metadataLocation:metadataLocation];
@@ -89,9 +87,12 @@ static NSObject *const classLock;
   NSData *cipherText;
   NSData *hMac;
   if (metadata) {
+      
+    // Get secret key.
+    NSData *key = [self getKeyWithKeyTag:keyTag];
     NSRange ivRange = NSMakeRange(metadataLocation + 1, kCCBlockSizeAES128);
     if ([self hasOldMetadata:metadata keyTag:keyTag]) {
-      secretKey = [self getKeyWithKeyTag:keyTag];
+      secretKey = key;
 
       // Metadata, separator, and initialization vector.
       size_t cipherTextPrefixLength = metadataLocation + 1 + kCCBlockSizeAES128;
@@ -101,8 +102,8 @@ static NSObject *const classLock;
     } else {
 
       // Get subkeys.
-      secretKey = [self getSubkey:[self getKeyWithKeyTag:keyTag] outputSize:kMSACEncryptionSubkeyLength];
-      NSData *authenticationSubkey = [self getSubkey:[self getKeyWithKeyTag:keyTag] outputSize:kMSACAuthenticationSubkeyLength];
+      secretKey = [self getSubkey:key outputSize:kMSACEncryptionSubkeyLength];
+      NSData *authenticationSubkey = [self getSubkey:key outputSize:kMSACAuthenticationSubkeyLength];
 
       // Metadata, separator, initialization vector, MAC, cipher text.
       NSRange hMacRange = NSMakeRange(metadataLocation + 1 + kCCBlockSizeAES128, kCCKeySizeAES256);
