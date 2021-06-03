@@ -383,8 +383,8 @@
   NSString *sourceText = @"Old encrypt text";
   NSData *sourceTextBytes = [sourceText dataUsingEncoding:NSUTF8StringEncoding];
   NSData *encryptedDataWithoutMac = [self prepareEncryptedText:sourceTextBytes
-                                                             metadata:[metadata dataUsingEncoding:NSUTF8StringEncoding]
-                                                            secretKey:key];
+                                                      metadata:[metadata dataUsingEncoding:NSUTF8StringEncoding]
+                                                     secretKey:key];
 
   // When
   MSACEncrypter *encrypter = [MSACEncrypter new];
@@ -414,8 +414,8 @@
   NSString *sourceText = @"Old encrypt text";
   NSData *sourceTextBytes = [sourceText dataUsingEncoding:NSUTF8StringEncoding];
   NSData *encryptedOldData = [self prepareEncryptedText:sourceTextBytes
-                                                      metadata:[oldMetadata dataUsingEncoding:NSUTF8StringEncoding]
-                                                     secretKey:key];
+                                               metadata:[oldMetadata dataUsingEncoding:NSUTF8StringEncoding]
+                                              secretKey:key];
 
   // When
   MSACEncrypter *encrypter = [MSACEncrypter new];

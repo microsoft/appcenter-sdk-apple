@@ -32,7 +32,7 @@ static NSObject *const classLock;
   NSData *secretKey = [self getKeyWithKeyTag:keyTag];
 
   // Get subkeys.
-  NSData *encryptionSubkey = [self getSubkey:secretKey outputSize:kMSACEncryptionSubkeyLingth];
+  NSData *encryptionSubkey = [self getSubkey:secretKey outputSize:kMSACEncryptionSubkeyLength];
   NSData *authenticationSubkey = [self getSubkey:secretKey outputSize:kMSACAuthenticationSubkeyLength];
 
   // Encrypt data.
@@ -101,7 +101,7 @@ static NSObject *const classLock;
     } else {
 
       // Get subkeys.
-      secretKey = [self getSubkey:[self getKeyWithKeyTag:keyTag] outputSize:kMSACEncryptionSubkeyLingth];
+      secretKey = [self getSubkey:[self getKeyWithKeyTag:keyTag] outputSize:kMSACEncryptionSubkeyLength];
       NSData *authenticationSubkey = [self getSubkey:[self getKeyWithKeyTag:keyTag] outputSize:kMSACAuthenticationSubkeyLength];
 
       // Metadata, separator, initialization vector, MAC, cipher text.
@@ -285,27 +285,35 @@ static NSObject *const classLock;
   NSArray *metadata =
       @[ keyTag, encryptionAlgorithmName, kMSACEncryptionCipherMode, kMSACEncryptionPaddingMode, @(kMSACEncryptionKeySize) ];
   NSString *metadataString = [metadata componentsJoinedByString:kMSACEncryptionMetadataInternalSeparator];
-  NSData *encodingData = [metadataString dataUsingEncoding:NSUTF8StringEncoding];
-  return encodingData;
+  return [metadataString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 + (NSData *)getMetadataStringWithKeyTag:(NSString *)keyTag {
   return [MSACEncrypter getMetadataStringWithKeyTag:keyTag encryptionAlgorithmName:kMSACEncryptionAlgorithmName];
 }
 
-- (NSData *_Nonnull)getMacBytes:(NSData *_Nonnull)key keySize:(NSData *_Nonnull)cipherText {
+- (NSData *)getMacBytes:(NSData *_Nonnull)key keySize:(NSData *_Nonnull)cipherText {
   unsigned char cHMAC[CC_SHA256_DIGEST_LENGTH];
   CCHmac(kCCHmacAlgSHA256, key.bytes, key.length, cipherText.bytes, cipherText.length, cHMAC);
   NSData *hMAC = [[NSData alloc] initWithBytes:cHMAC length:sizeof(cHMAC)];
   return hMAC;
 }
 
+/**
+ * Get subkey from the secret key.
+ * This method uses HKDF simple key derivation function (KDF) based on a hash-based message authentication code (HMAC).
+ * See more: https://en.wikipedia.org/wiki/HKDF
+ *
+ * @param secretKey Secret key.
+ * @param outputDataLength Subkey length.
+ * @return Data of the calculated subkey.
+ */
 - (NSData *_Nonnull)getSubkey:(NSData *_Nonnull)secretKey outputSize:(int)outputDataLength {
 
   // Check output data length.
   if (outputDataLength < 1) {
-    NSException *outputDataLengthException = [NSException exceptionWithName:@"Invalid output length data."
-                                                                     reason:@"Output data length must be at more than zero."
+    NSException *outputDataLengthException = [NSException exceptionWithName:@"Invalid output data length."
+                                                                     reason:@"Output data length must be greater than zero."
                                                                    userInfo:nil];
     @throw outputDataLengthException;
   }
@@ -314,14 +322,14 @@ static NSObject *const classLock;
   int iterations = (int)(ceil((double)outputDataLength / (double)CC_SHA256_DIGEST_LENGTH));
 
   // Prepare data.
-  NSData *mixin = [NSData data];
+  NSData *tempData = [NSData data];
   NSMutableData *results = [NSMutableData data];
 
   // Calculate subkey.
-  for (int i = 0; i < (iterations); i++) {
+  for (int i = 0; i < iterations; i++) {
     CCHmacContext hMacCtx;
     CCHmacInit(&hMacCtx, kCCHmacAlgSHA256, secretKey.bytes, secretKey.length);
-    CCHmacUpdate(&hMacCtx, mixin.bytes, mixin.length);
+    CCHmacUpdate(&hMacCtx, tempData.bytes, tempData.length);
     unsigned char updateData = (char)i;
     CCHmacUpdate(&hMacCtx, &updateData, 1);
 
@@ -330,7 +338,7 @@ static NSObject *const classLock;
     CCHmacFinal(&hMacCtx, outputFinal);
     NSData *tempResult = [NSData dataWithBytes:outputFinal length:sizeof(outputFinal)];
     [results appendData:tempResult];
-    mixin = [tempResult copy];
+    tempData = [tempResult copy];
   }
   return [[NSData dataWithData:results] subdataWithRange:NSMakeRange(0, outputDataLength)];
 }
