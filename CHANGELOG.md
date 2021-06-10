@@ -11,6 +11,7 @@
 
 * **[Fix]** Fix error nullability in crashes delegate.
 * **[Fix]** Merge the device information from the crash report with the SDK's device information in order to fix some time sensitive cases where the reported application information was incorrect.
+* **[Improvement]** Update PLCrashReporter to 1.9.0.
 
 ### App Center Distribute
 
