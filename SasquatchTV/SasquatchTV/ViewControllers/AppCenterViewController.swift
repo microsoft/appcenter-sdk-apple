@@ -11,7 +11,8 @@ enum AppCenterSections: Int { case actions = 0; case miscellaneous = 1; case set
   @IBOutlet weak var appSecretLabel : UILabel!
   @IBOutlet weak var logURLLabel : UILabel!
   @IBOutlet weak var statusLabel : UILabel!
-
+  @IBOutlet weak var networkRequestsLabel: UILabel!
+  
   @objc var appCenter: AppCenterDelegate!
 
   open override func viewDidLoad() {
@@ -20,6 +21,7 @@ enum AppCenterSections: Int { case actions = 0; case miscellaneous = 1; case set
     self.appSecretLabel.text = appCenter.appSecret()
     self.logURLLabel.text = appCenter.logUrl()
     self.statusLabel.text = appCenter.isAppCenterEnabled() ? "Enabled" : "Disabled"
+    self.networkRequestsLabel.text = appCenter.isNetworkRequestsAllowed() ? "Allowed" : "Forbidden"
   }
 
   open override func tableView(_ tableView : UITableView, didSelectRowAt indexPath : IndexPath) {
@@ -29,6 +31,11 @@ enum AppCenterSections: Int { case actions = 0; case miscellaneous = 1; case set
       
     }
     switch (section) {
+    case .miscellaneous:
+      let isAllowed = !appCenter.isNetworkRequestsAllowed()
+      appCenter.setNetworkRequestsAllowed(isAllowed)
+      self.networkRequestsLabel.text = appCenter.isNetworkRequestsAllowed() ? "Allowed" : "Forbidden"
+      break
     case.settings:
       appCenter.setAppCenterEnabled(!appCenter.isAppCenterEnabled())
       self.statusLabel.text = appCenter.isAppCenterEnabled() ? "Enabled" : "Disabled"

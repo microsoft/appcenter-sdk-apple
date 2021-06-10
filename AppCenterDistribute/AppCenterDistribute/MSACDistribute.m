@@ -506,7 +506,7 @@ static dispatch_once_t onceToken;
           NSError *jsonError = nil;
 
           // Success.
-          if (response.statusCode == MSACHTTPCodesNo200OK) {
+          if ([MSACHttpUtil isSuccessStatusCode:response.statusCode]) {
             MSACReleaseDetails *details = nil;
             if (data) {
               id dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&jsonError];
@@ -685,7 +685,18 @@ static dispatch_once_t onceToken;
 
 - (BOOL)openUrlUsingSharedApp:(NSURL *)url {
   UIApplication *sharedApp = [MSACUtility sharedApp];
+#pragma clang diagnostic push
+
+// The performSelector method only supports methods that return nothing or an object,
+// so cast to BOOL produces "-Wpointer-to-int-cast".
+// The reason why it works is to do with the way values are returned by methods.
+// Integer-like values (NSInteger, BOOL and object pointers) are returned in a general purpose register.
+// The compiler will always load the result from the register used for returning `id` values,
+// and then perform any action required by the cast. For integer and boolean values the cast is a no-op.
+#pragma clang diagnostic ignored "-Wpointer-to-int-cast"
+
   return (BOOL)[sharedApp performSelector:@selector(openURL:) withObject:url];
+#pragma clang diagnostic pop
 }
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {

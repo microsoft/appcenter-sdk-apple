@@ -41,23 +41,23 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   NSNumber *storageMaxSize = [[NSUserDefaults standardUserDefaults] objectForKey:kMSStorageMaxSizeKey];
   if (storageMaxSize != nil) {
     [MSACAppCenter setMaxStorageSize:storageMaxSize.integerValue
-                 completionHandler:^(BOOL success) {
-                   dispatch_async(dispatch_get_main_queue(), ^{
-                     if (success) {
-                       long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
-                       [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
-                                                                 forKey:kMSStorageMaxSizeKey];
-                     } else {
+                   completionHandler:^(BOOL success) {
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                       if (success) {
+                         long realStorageSize = (long)(ceil([storageMaxSize doubleValue] / kMSStoragePageSize) * kMSStoragePageSize);
+                         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithLong:realStorageSize]
+                                                                   forKey:kMSStorageMaxSizeKey];
+                       } else {
 
-                       // Remove invalid value.
-                       [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
-                     }
-                   });
-                 }];
+                         // Remove invalid value.
+                         [[NSUserDefaults standardUserDefaults] removeObjectForKey:kMSStorageMaxSizeKey];
+                       }
+                     });
+                   }];
   }
 
   // Start AppCenter.
-  NSArray<Class> *services = @ [[MSACAnalytics class], [MSACCrashes class]];
+  NSArray<Class> *services = @[ [MSACAnalytics class], [MSACCrashes class] ];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
   NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
   switch (startTarget) {
@@ -80,7 +80,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   if (userId) {
     [MSACAppCenter setUserId:userId];
   }
-    
+
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
   [self initUI];
   [self overrideCountryCode];
@@ -122,32 +122,33 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
   [MSACCrashes setDelegate:self];
   [MSACCrashes setUserConfirmationHandler:(^(NSArray<MSACErrorReport *> *errorReports) {
-               // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
-               NSAlert *alert = [[NSAlert alloc] init];
-               [alert setMessageText:NSLocalizedString(@"Sorry about that!", nil)];
-               [alert setInformativeText:NSLocalizedString(@"Do you want to send an anonymous crash "
-                                         @"report so we can fix the issue?", nil)];
-               [alert addButtonWithTitle:NSLocalizedString(@"Always send", nil)];
-               [alert addButtonWithTitle:NSLocalizedString(@"Send", nil)];
-               [alert addButtonWithTitle:NSLocalizedString(@"Don't send", nil)];
-               [alert setAlertStyle:NSWarningAlertStyle];
+                 // Use MSAlertViewController to show a dialog to the user where they can choose if they want to provide a crash report.
+                 NSAlert *alert = [[NSAlert alloc] init];
+                 [alert setMessageText:NSLocalizedString(@"Sorry about that!", nil)];
+                 [alert setInformativeText:NSLocalizedString(@"Do you want to send an anonymous crash "
+                                                             @"report so we can fix the issue?",
+                                                             nil)];
+                 [alert addButtonWithTitle:NSLocalizedString(@"Always send", nil)];
+                 [alert addButtonWithTitle:NSLocalizedString(@"Send", nil)];
+                 [alert addButtonWithTitle:NSLocalizedString(@"Don't send", nil)];
+                 [alert setAlertStyle:NSWarningAlertStyle];
 
-               switch ([alert runModal]) {
-               case NSAlertFirstButtonReturn:
-                 [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationAlways];
-                 break;
-               case NSAlertSecondButtonReturn:
-                 [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationSend];
-                 break;
-               case NSAlertThirdButtonReturn:
-                 [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationDontSend];
-                 break;
-               default:
-                 break;
-               }
+                 switch ([alert runModal]) {
+                 case NSAlertFirstButtonReturn:
+                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationAlways];
+                   break;
+                 case NSAlertSecondButtonReturn:
+                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationSend];
+                   break;
+                 case NSAlertThirdButtonReturn:
+                   [MSACCrashes notifyWithUserConfirmation:MSACUserConfirmationDontSend];
+                   break;
+                 default:
+                   break;
+                 }
 
-               return YES;
-             })];
+                 return YES;
+               })];
 
   // Enable catching uncaught exceptions thrown on the main thread.
   [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"NSApplicationCrashOnExceptions" : @YES}];
@@ -155,20 +156,22 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 #pragma mark - MSACCrashesDelegate
 
-- (BOOL)crashes:(MSACCrashes *)crashes shouldProcessErrorReport:(MSACErrorReport *)errorReport {
+- (BOOL)crashes:(nonnull MSACCrashes *)crashes shouldProcessErrorReport:(nonnull MSACErrorReport *)errorReport {
   NSLog(@"%@ Should process error report with: %@", kMSLogTag, errorReport.exceptionReason);
   return YES;
 }
 
-- (void)crashes:(MSACCrashes *)crashes willSendErrorReport:(MSACErrorReport *)errorReport {
+- (void)crashes:(nonnull MSACCrashes *)crashes willSendErrorReport:(nonnull MSACErrorReport *)errorReport {
   NSLog(@"%@ Will send error report with: %@", kMSLogTag, errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSACCrashes *)crashes didSucceedSendingErrorReport:(MSACErrorReport *)errorReport {
+- (void)crashes:(nonnull MSACCrashes *)crashes didSucceedSendingErrorReport:(nonnull MSACErrorReport *)errorReport {
   NSLog(@"%@ Did succeed error report sending with: %@", kMSLogTag, errorReport.exceptionReason);
 }
 
-- (void)crashes:(MSACCrashes *)crashes didFailSendingErrorReport:(MSACErrorReport *)errorReport withError:(NSError *)error {
+- (void)crashes:(nonnull MSACCrashes *)crashes
+    didFailSendingErrorReport:(nonnull MSACErrorReport *)errorReport
+                    withError:(nullable NSError *)error {
   NSLog(@"%@ Did fail sending report with: %@, and error: %@", kMSLogTag, errorReport.exceptionReason, error.localizedDescription);
 }
 
@@ -193,8 +196,8 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
       NSString *MIMEType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
       CFRelease(UTI);
       MSACErrorAttachmentLog *binaryAttachment = [MSACErrorAttachmentLog attachmentWithBinary:data
-                                                                                 filename:referenceUrl.lastPathComponent
-                                                                              contentType:MIMEType];
+                                                                                     filename:referenceUrl.lastPathComponent
+                                                                                  contentType:MIMEType];
       [attachments addObject:binaryAttachment];
       NSLog(@"Add binary attachment with %tu bytes", [data length]);
     } else {

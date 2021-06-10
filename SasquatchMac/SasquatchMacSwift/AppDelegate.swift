@@ -140,32 +140,32 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
   }
   // Crashes Delegate
 
-  func crashes(_ crashes: Crashes, shouldProcess errorReport: ErrorReport) -> Bool {
+  func crashes(_ crashes: Crashes!, shouldProcess errorReport: ErrorReport!) -> Bool {
     if errorReport.exceptionReason != nil {
       NSLog("Should process error report with: %@", errorReport.exceptionReason);
     }
     return true
   }
 
-  func crashes(_ crashes: Crashes, willSend errorReport: ErrorReport) {
+  func crashes(_ crashes: Crashes!, willSend errorReport: ErrorReport!) {
     if errorReport.exceptionReason != nil {
       NSLog("Will send error report with: %@", errorReport.exceptionReason);
     }
   }
 
-  func crashes(_ crashes: Crashes, didSucceedSending errorReport: ErrorReport) {
+  func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
     if errorReport.exceptionReason != nil {
       NSLog("Did succeed error report sending with: %@", errorReport.exceptionReason);
     }
   }
 
-  func crashes(_ crashes: Crashes, didFailSending errorReport: ErrorReport, withError error: Error) {
+  func crashes(_ crashes: Crashes!, didFailSending errorReport: ErrorReport!, withError error: Error?) {
     if errorReport.exceptionReason != nil {
-      NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+        NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error?.localizedDescription ?? "null");
     }
   }
 
-  func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
+  func attachments(with crashes: Crashes!, for errorReport: ErrorReport!) -> [ErrorAttachmentLog] {
     var attachments = [ErrorAttachmentLog]()
 
     // Text attachment.

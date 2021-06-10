@@ -207,7 +207,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
                 MSACLogWarning([MSACAppCenter logTag], @"Batch Id %@ not expected, ignore.", ingestionBatchId);
                 return;
               }
-              BOOL succeeded = response.statusCode == MSACHTTPCodesNo200OK;
+              BOOL succeeded = [MSACHttpUtil isSuccessStatusCode:response.statusCode];
               if (succeeded) {
                 MSACLogDebug([MSACAppCenter logTag], @"Log(s) sent with success, batch Id:%@.", ingestionBatchId);
 
@@ -263,7 +263,8 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
 - (void)flushQueue {
 
   // Nothing to flush if there is no ingestion.
-  if (!self.ingestion) {
+  if (!self.ingestion || !self.ingestion.isEnabled) {
+    MSACLogDebug([MSACAppCenter logTag], @"AppCenter SDK is offline, groupId:%@.", self.configuration.groupId);
     return;
   }
 
@@ -566,7 +567,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
   }
 }
 
-- (void)notifyFailureBeforeSendingForItem:(id<MSACLog>)item withError:(NSError *)error {
+- (void)notifyFailureBeforeSendingForItem:(id<MSACLog>)item withError:(nullable NSError *)error {
   NSArray *synchronizedDelegates;
   @synchronized(self.delegates) {
 

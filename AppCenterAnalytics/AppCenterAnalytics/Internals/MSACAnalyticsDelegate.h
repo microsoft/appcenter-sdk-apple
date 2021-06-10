@@ -7,6 +7,8 @@
 @class MSACEventLog;
 @class MSACPageLog;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol MSACAnalyticsDelegate <NSObject>
 
 @optional
@@ -35,7 +37,7 @@
  * @param eventLog The event log that App Center tried to send.
  * @param error The error that occurred.
  */
-- (void)analytics:(MSACAnalytics *)analytics didFailSendingEventLog:(MSACEventLog *)eventLog withError:(NSError *)error;
+- (void)analytics:(MSACAnalytics *)analytics didFailSendingEventLog:(MSACEventLog *)eventLog withError:(nullable NSError *)error;
 
 /**
  * Callback method that will be called before each page log is sent to the server.
@@ -61,6 +63,8 @@
  * @param pageLog The page log that App Center tried to send.
  * @param error The error that occurred.
  */
-- (void)analytics:(MSACAnalytics *)analytics didFailSendingPageLog:(MSACPageLog *)pageLog withError:(NSError *)error;
+- (void)analytics:(MSACAnalytics *)analytics didFailSendingPageLog:(MSACPageLog *)pageLog withError:(nullable NSError *)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

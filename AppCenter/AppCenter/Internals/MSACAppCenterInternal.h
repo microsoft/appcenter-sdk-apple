@@ -13,6 +13,7 @@
  */
 static NSString *const kMSACInstallIdKey = @"InstallId";
 static NSString *const kMSACAppCenterIsEnabledKey = @"AppCenterIsEnabled";
+static NSString *const kMSACAppCenterNetworkRequestsAllowedKey = @"NetworkRequestsAllowed";
 
 /*
  * Name of the environment variable to check for which services should be disabled.
@@ -66,6 +67,11 @@ static NSString *const kMSACTrueEnvironmentString = @"1";
  * Flag indicating if the SDK is configured From Application or not.
  */
 @property(nonatomic, getter=isConfiguredFromApplication) BOOL configuredFromApplication;
+
+/**
+ * Flag indicating whether SDK can send network requests.
+ */
+@property(nonatomic, getter=isNetworkRequestsAllowed) BOOL networkRequestsAllowed;
 
 /**
  * Flag indicating if the SDK is enabled state updating or not.

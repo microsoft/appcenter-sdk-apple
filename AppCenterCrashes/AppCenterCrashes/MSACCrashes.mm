@@ -665,7 +665,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   }
 }
 
-- (void)channel:(id<MSACChannelProtocol>)__unused channel didFailSendingLog:(id<MSACLog>)log withError:(NSError *)error {
+- (void)channel:(id<MSACChannelProtocol>)__unused channel didFailSendingLog:(id<MSACLog>)log withError:(nullable NSError *)error {
   id<MSACCrashesDelegate> delegate = self.delegate;
   if ([delegate respondsToSelector:@selector(crashes:didFailSendingErrorReport:withError:)]) {
     NSObject *logObject = static_cast<NSObject *>(log);
@@ -1304,6 +1304,13 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     id<MSACCrashesDelegate> delegate = self.delegate;
     if ([delegate respondsToSelector:@selector(attachmentsWithCrashes:forErrorReport:)]) {
       attachments = [delegate attachmentsWithCrashes:self forErrorReport:report];
+
+      // Use the device information from the error log, otherwise the current device information will be used.
+      for (MSACErrorAttachmentLog *attachment in attachments) {
+        if (attachment != nil && attachment.device == nil) {
+          attachment.device = log.device;
+        }
+      }
     } else {
       MSACLogDebug([MSACCrashes logTag], @"attachmentsWithCrashes is not implemented");
     }
