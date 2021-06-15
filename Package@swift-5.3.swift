@@ -88,9 +88,6 @@ let package = Package(
             dependencies: ["AppCenter"],
             path: "AppCenterDistribute/AppCenterDistribute",
             exclude: ["Support"],
-            resources: [
-                .process("Resources/AppCenterDistribute.strings"),
-            ],
             cSettings: [
                 .headerSearchPath("**"),
                 .headerSearchPath("../../AppCenter/AppCenter/**"),

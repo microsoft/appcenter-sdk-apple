@@ -1,5 +1,11 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.2.1
+
+### App Center Distribute
+
+- **[Fix]** Remove unnecessary resources section from Swift Package. This resolves a warning within Xcode about a missing localized strings file 'Resources/AppCenterDistribute.strings'.
+
 ## Version 4.2.0
 
 ### App Center
