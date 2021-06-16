@@ -296,8 +296,7 @@ static NSObject *const classLock;
 - (NSData *)getMacBytes:(NSData *_Nonnull)key keySize:(NSData *_Nonnull)cipherText {
   unsigned char cHMAC[CC_SHA256_DIGEST_LENGTH];
   CCHmac(kCCHmacAlgSHA256, key.bytes, key.length, cipherText.bytes, cipherText.length, cHMAC);
-  NSData *hMAC = [[NSData alloc] initWithBytes:cHMAC length:sizeof(cHMAC)];
-  return hMAC;
+  return [[NSData alloc] initWithBytes:cHMAC length:sizeof(cHMAC)];
 }
 
 /**

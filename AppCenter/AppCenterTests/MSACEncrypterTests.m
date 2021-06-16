@@ -379,7 +379,7 @@
   [MSACMockKeychainUtil storeString:currentKey forKey:keyTag];
   NSData *key = [[NSData alloc] initWithBase64EncodedString:currentKey options:0];
 
-  // Prepare encrypted test with old encryption.
+  // Prepare encrypted text with old encryption.
   NSString *sourceText = @"Old encrypt text";
   NSData *sourceTextBytes = [sourceText dataUsingEncoding:NSUTF8StringEncoding];
   NSData *encryptedDataWithoutMac = [self prepareEncryptedText:sourceTextBytes
@@ -410,7 +410,7 @@
   [MSACMockKeychainUtil storeString:currentKey forKey:keyTag];
   NSData *key = [[NSData alloc] initWithBase64EncodedString:currentKey options:0];
 
-  // Prepare encrypted test with old encryption.
+  // Prepare encrypted text with old encryption.
   NSString *sourceText = @"Old encrypt text";
   NSData *sourceTextBytes = [sourceText dataUsingEncoding:NSUTF8StringEncoding];
   NSData *encryptedOldData = [self prepareEncryptedText:sourceTextBytes
