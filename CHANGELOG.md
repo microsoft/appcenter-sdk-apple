@@ -4,7 +4,7 @@
 
 ### App Center Distribute
 
-- **[Fix]** Remove unnecessary resources section from Swift Package. This resolves a warning within Xcode about a missing localized strings file 'Resources/AppCenterDistribute.strings'.
+- **[Fix]** Fix a warning `'Resources/AppCenterDistribute.strings': file not found` when resolving swift packages using Swift 5.5.
 
 ## Version 4.2.0
 
