@@ -2008,7 +2008,7 @@
         <image name="distribute" width="23" height="23"/>
         <image name="fuel" width="23" height="23"/>
         <systemColor name="groupTableViewBackgroundColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
