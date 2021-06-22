@@ -34,7 +34,7 @@
   // If
   NSString *clearText = @"clear text";
   NSString *keyTag = kMSACEncryptionKeyTagAlternate;
-  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", keyTag];
+  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/HmacSHA256/CBC/PKCS7/32", keyTag];
 
   // Save metadata to user defaults.
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
@@ -79,7 +79,7 @@
 
   // If
   NSString *clearText = @"clear text";
-  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", kMSACEncryptionKeyTagAlternate];
+  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/HmacSHA256/CBC/PKCS7/32", kMSACEncryptionKeyTagAlternate];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -141,7 +141,7 @@
   NSString *expectedNewKeyTag = kMSACEncryptionKeyTagAlternate;
   NSString *currentKeyMetadataString = [NSString stringWithFormat:@"%@/%@", currentKeyTag, currentExpirationIso];
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:currentKeyMetadataString forKey:kMSACEncryptionKeyMetadataKey];
-  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", expectedNewKeyTag];
+  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/HmacSHA256/CBC/PKCS7/32", expectedNewKeyTag];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -205,7 +205,7 @@
   NSString *expectedNewKeyTag = kMSACEncryptionKeyTagAlternate;
   NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", oldKey, oldExpirationIso];
   [MSAC_APP_CENTER_USER_DEFAULTS setObject:keyMetadataString forKey:kMSACEncryptionKeyMetadataKey];
-  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", expectedNewKeyTag];
+  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/HmacSHA256/CBC/PKCS7/32", expectedNewKeyTag];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -281,7 +281,7 @@
 
   // If
   NSString *clearText = @"clear text";
-  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", kMSACEncryptionKeyTagAlternate];
+  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/HmacSHA256/CBC/PKCS7/32", kMSACEncryptionKeyTagAlternate];
 
   // Mock NSDate to "freeze" time.
   NSTimeInterval timeSinceReferenceDate = NSDate.timeIntervalSinceReferenceDate;
@@ -362,12 +362,103 @@
   XCTAssertEqualObjects(decryptedString, clearText);
 }
 
+- (void)testInvalideMac {
+
+  // If
+  NSString *keyTag = kMSACEncryptionKeyTagAlternate;
+
+  // Save metadata to user defaults.
+  NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
+  NSString *expirationIso = [MSACUtility dateToISO8601:expiration];
+  NSString *metadata = [NSString stringWithFormat:@"%@/AES/HmacSHA256/CBC/PKCS7/32", keyTag];
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
+  [MSAC_APP_CENTER_USER_DEFAULTS setObject:keyMetadataString forKey:kMSACEncryptionKeyMetadataKey];
+
+  // Save key to the Keychain.
+  NSString *currentKey = [self generateTestEncryptionKey];
+  [MSACMockKeychainUtil storeString:currentKey forKey:keyTag];
+  NSData *key = [[NSData alloc] initWithBase64EncodedString:currentKey options:0];
+
+  // Prepare encrypted text with old encryption.
+  NSString *sourceText = @"Old encrypt text";
+  NSData *sourceTextBytes = [sourceText dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *encryptedDataWithoutMac = [self prepareEncryptedText:sourceTextBytes
+                                                      metadata:[metadata dataUsingEncoding:NSUTF8StringEncoding]
+                                                     secretKey:key];
+
+  // When
+  MSACEncrypter *encrypter = [MSACEncrypter new];
+
+  // Then
+  XCTAssertThrows([encrypter decryptData:encryptedDataWithoutMac]);
+}
+
+- (void)testDecryptOldText {
+
+  // If
+  NSString *keyTag = kMSACEncryptionKeyTagAlternate;
+
+  // Save metadata to user defaults.
+  NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];
+  NSString *expirationIso = [MSACUtility dateToISO8601:expiration];
+  NSString *oldMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", keyTag];
+  NSString *keyMetadataString = [NSString stringWithFormat:@"%@/%@", keyTag, expirationIso];
+  [MSAC_APP_CENTER_USER_DEFAULTS setObject:keyMetadataString forKey:kMSACEncryptionKeyMetadataKey];
+
+  // Save key to the Keychain.
+  NSString *currentKey = [self generateTestEncryptionKey];
+  [MSACMockKeychainUtil storeString:currentKey forKey:keyTag];
+  NSData *key = [[NSData alloc] initWithBase64EncodedString:currentKey options:0];
+
+  // Prepare encrypted text with old encryption.
+  NSString *sourceText = @"Old encrypt text";
+  NSData *sourceTextBytes = [sourceText dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *encryptedOldData = [self prepareEncryptedText:sourceTextBytes
+                                               metadata:[oldMetadata dataUsingEncoding:NSUTF8StringEncoding]
+                                              secretKey:key];
+
+  // When
+  MSACEncrypter *encrypter = [MSACEncrypter new];
+  NSData *decryptedBytes = [encrypter decryptData:encryptedOldData];
+  NSString *decryptedString = [[NSString alloc] initWithData:decryptedBytes encoding:NSUTF8StringEncoding];
+
+  // Then
+  XCTAssertEqualObjects(decryptedString, sourceText);
+}
+
+- (NSData *)prepareEncryptedText:(NSData *)input metadata:(NSData *)metadata secretKey:(NSData *)secretKey {
+  unsigned char bytes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+  NSData *initializationVector = [[NSData alloc] initWithBytes:bytes length:16];
+  NSData *result;
+
+  // Encrypt data.
+  size_t outputBufferSize = [input length] + kCCBlockSizeAES128 + 1;
+  uint8_t *outputBuffer = malloc(outputBufferSize * sizeof(uint8_t));
+  size_t numBytesNeeded = 0;
+  CCCryptorStatus status =
+      CCCrypt(kCCEncrypt, kMSACEncryptionAlgorithm, kCCOptionPKCS7Padding, [secretKey bytes], kMSACEncryptionKeySize,
+              [initializationVector bytes], [input bytes], input.length, outputBuffer, outputBufferSize, &numBytesNeeded);
+
+  // Build data.
+  NSMutableData *mutableData = [NSMutableData new];
+  [mutableData appendData:metadata];
+  [mutableData appendBytes:(const void *)[kMSACEncryptionMetadataSeparator UTF8String] length:1];
+  [mutableData appendData:initializationVector];
+  NSData *data = [NSData dataWithBytes:outputBuffer length:numBytesNeeded];
+  [mutableData appendData:data];
+  result = mutableData;
+
+  // Clear buffer.
+  free(outputBuffer);
+  return result;
+}
+
 - (void)testEncryptWithCurrentKeyWithEmptyClearText {
 
   // If
   NSString *clearText = @"";
   NSString *keyTag = kMSACEncryptionKeyTagAlternate;
-  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/CBC/PKCS7/32", keyTag];
+  NSString *expectedMetadata = [NSString stringWithFormat:@"%@/AES/HmacSHA256/CBC/PKCS7/32", keyTag];
 
   // Save metadata to user defaults.
   NSDate *expiration = [NSDate dateWithTimeIntervalSinceNow:10000000];

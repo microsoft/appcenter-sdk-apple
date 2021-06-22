@@ -4,6 +4,7 @@
 
 ### App Center
 
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
 * **[Feature]** Add a `AppCenter.networkRequestsAllowed` API to block any network requests without disabling the SDK.
 * **[Fix]** Fix umbrella header warnings in Xcode 12.5.
 
