@@ -19,7 +19,9 @@
 enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 @implementation AppDelegate
-
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+    return YES;
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
 

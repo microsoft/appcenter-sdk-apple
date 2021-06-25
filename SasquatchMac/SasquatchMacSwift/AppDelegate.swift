@@ -19,7 +19,9 @@ enum StartupMode: Int {
 @NSApplicationMain
 @objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationManagerDelegate {
-
+  func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+         return true
+    }
   var rootController: NSWindowController!
   var locationManager: CLLocationManager = CLLocationManager()
     
