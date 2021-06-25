@@ -298,38 +298,41 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
     // Transmission target section
     if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "target"), owner: nil) as? NSTableCellView {
+        for subview in cell.subviews {
+          subview.isHidden = true
+        }
       let section = transmissionTargetSections![tableView.tag]
       switch (row) {
       case kEnabledCellRowIndex:
         let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
+        key.isHidden = false
         key.stringValue = "Set Enabled"
         let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
+        value.isHidden = false
         value.state = section.isTransmissionTargetEnabled() ? .on : .off
         value.isEnabled = tableView.tag != Section.Default.rawValue
         value.target = self
         value.action = #selector(targetEnabledSwitchValueChanged)
-        cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
         return cell     
       case kAnalyticsCellRowIndex:
         let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
+        key.isHidden = false
         key.stringValue = "Analytics Events"
         let value: NSButton = cell.subviews[cellSubviews.valueCheck.rawValue] as! NSButton
+        value.isHidden = false
         value.state = section.shouldSendAnalytics() ? .on : .off
         value.target = self
         value.action = #selector(targetShouldSendAnalyticsSwitchValueChanged)
-        cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
         return cell
       case kTokenCellRowIndex:
         let key: NSTextField = cell.subviews[cellSubviews.key.rawValue] as! NSTextField
+        key.isHidden = false
         key.stringValue = "Token"
         let value: NSTextField = cell.subviews[cellSubviews.valueText.rawValue] as! NSTextField
+        value.isHidden = false
         value.stringValue = section.token!
-        cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
         return cell
       case kPauseCellRowIndex:
-        cell.subviews[cellSubviews.key.rawValue].isHidden = true
-        cell.subviews[cellSubviews.valueCheck.rawValue].isHidden = true
-        cell.subviews[cellSubviews.valueText.rawValue].isHidden = true
         let pause: NSButton = cell.subviews[cellSubviews.pause.rawValue] as! NSButton
         pause.isHidden = false
         pause.target = self
