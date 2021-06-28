@@ -55,7 +55,6 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? .on : .off
     networkRequestsAllowed?.state = appCenter.isNetworkRequestsAllowed() ? .on : .off
     setAppSecretButton?.isEnabled = startUpModeForCurrentSession == StartupMode.AppCenter.rawValue || startUpModeForCurrentSession == StartupMode.Both.rawValue
-
   }
 
   override func viewDidLoad() {
@@ -228,26 +227,23 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
 
   @IBAction func setUserID(_ sender: NSButton) {
     let alert: NSAlert = NSAlert()
-
     alert.messageText = "User ID"
     alert.addButton(withTitle: "Save")
     alert.addButton(withTitle: "Reset")
     alert.addButton(withTitle: "Cancel")
-
     let textView: NSTextField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 25))
     textView.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
     alert.accessoryView = textView
-    alert.alertStyle = .warning
-    
+    alert.alertStyle = .warning    
     switch(alert.runModal()) {
     case .alertFirstButtonReturn:
-        let text = textView.stringValue
-        UserDefaults.standard.set(text, forKey: kMSUserIdKey)
-        appCenter.setUserId(text)
+      let text = textView.stringValue
+      UserDefaults.standard.set(text, forKey: kMSUserIdKey)
+      appCenter.setUserId(text)
       break
     case .alertSecondButtonReturn:
-        UserDefaults.standard.removeObject(forKey: kMSUserIdKey)
-        appCenter.setUserId(nil)
+      UserDefaults.standard.removeObject(forKey: kMSUserIdKey)
+      appCenter.setUserId(nil)
       break
     default:
       break
