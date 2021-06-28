@@ -298,9 +298,9 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
 
     // Transmission target section
     if let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "target"), owner: nil) as? NSTableCellView {
-        for subview in cell.subviews {
-          subview.isHidden = true
-        }
+      for subview in cell.subviews {
+        subview.isHidden = true
+      }
       let section = transmissionTargetSections![tableView.tag]
       switch (row) {
       case kEnabledCellRowIndex:

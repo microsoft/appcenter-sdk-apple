@@ -19,9 +19,12 @@
 enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 @implementation AppDelegate
+
+// Enable closing app by pressing Close button.
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
     return YES;
 }
+
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
 
