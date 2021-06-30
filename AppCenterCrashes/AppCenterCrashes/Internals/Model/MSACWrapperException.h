@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MSACException;
+@class MSACExceptionModel;
 
 /**
  * This class represents a wrapper exception that augments the data recorded when the application crashes.
@@ -13,7 +13,7 @@
 /**
  * The model exception for the corresponding crash.
  */
-@property(nonatomic) MSACException *modelException;
+@property(nonatomic) MSACExceptionModel *modelException;
 
 /**
  * Additional data that the wrapper SDK needs to save.
