@@ -22,8 +22,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
 
   // Enable closing app by pressing Close button.
   func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-         return true
-    }
+    return true
+  }
 
   var rootController: NSWindowController!
   var locationManager: CLLocationManager = CLLocationManager()
