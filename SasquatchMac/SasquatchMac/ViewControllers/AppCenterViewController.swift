@@ -231,13 +231,13 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     alert.addButton(withTitle: "Save")
     alert.addButton(withTitle: "Reset")
     alert.addButton(withTitle: "Cancel")
-    let textView: NSTextField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 25))
-    textView.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
-    alert.accessoryView = textView
+    let textField: NSTextField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 25))
+    textField.stringValue = UserDefaults.standard.string(forKey: kMSUserIdKey) ?? ""
+    alert.accessoryView = textField
     alert.alertStyle = .warning    
     switch(alert.runModal()) {
     case .alertFirstButtonReturn:
-      let text = textView.stringValue
+      let text = textField.stringValue
       UserDefaults.standard.set(text, forKey: kMSUserIdKey)
       appCenter.setUserId(text)
       break
