@@ -6,7 +6,6 @@
 #ifndef EXCEPTION_MODEL
 #define EXCEPTION_MODEL
 
-#import "AppCenter+Internal.h"
 #import "MSACSerializableObject.h"
 
 @class MSACStackFrame;
