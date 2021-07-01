@@ -4,13 +4,14 @@
 import UIKit
 import AppCenterDistribute
 
-class MSDistributeViewController: UITableViewController, AppCenterProtocol {
+@objc class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var autoCheckForUpdate: UISwitch!
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var customized: UISwitch!
   @IBOutlet weak var updateTrackField: UITextField!
   var appCenter: AppCenterDelegate!
+  @objc static var checkPressed: Bool = false
 
   enum UpdateTrackUpperCase: String, CaseIterable {
     case Public = "Public"
@@ -80,7 +81,9 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     switch (indexPath.section) {
     case 0:
         switch (indexPath.row) {
-        case 2: appCenter.checkForUpdate()
+        case 2:
+            MSDistributeViewController.checkPressed = true
+            appCenter.checkForUpdate()
         default: ()
         }
 

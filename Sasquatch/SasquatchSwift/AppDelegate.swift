@@ -136,7 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
       })
 
       // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true)
+      Utilities.topMostController()?.present(alertController, animated: true)
 
       return true
     })
@@ -310,7 +310,7 @@ extension AppDelegate: DistributeDelegate {
       })
 
       // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true)
+      Utilities.topMostController()?.present(alertController, animated: true)
       return true
     }
     return false
@@ -320,7 +320,9 @@ extension AppDelegate: DistributeDelegate {
     NSLog("distributeNoReleaseAvailable invoked");
     let alert = UIAlertController(title: nil, message: "No updates available", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-    self.window?.rootViewController?.present(alert, animated: true)
+    if MSDistributeViewController.checkPressed == true {
+    Utilities.topMostController()?.present(alert, animated: true)
+    }
   }
 
   func distributeWillExitApp(_ distribute: Distribute) {
