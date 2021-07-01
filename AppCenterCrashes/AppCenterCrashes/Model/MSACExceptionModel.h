@@ -3,10 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef EXCEPTION_MODEL
-#define EXCEPTION_MODEL
-
+#if __has_include(<AppCenter/MSACSerializableObject.h>)
+#import <AppCenter/MSACSerializableObject.h>
+#else
 #import "MSACSerializableObject.h"
+#endif
 
 @class MSACStackFrame;
 
@@ -61,5 +62,3 @@ NS_SWIFT_NAME(ExceptionModel)
 - (BOOL)isValid;
 
 @end
-
-#endif

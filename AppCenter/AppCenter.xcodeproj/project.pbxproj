@@ -706,7 +706,7 @@
 		F8936D5C230C2804006A330F /* MSACLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSACLogContainer.h */; };
 		F8936D5D230C2804006A330F /* MSACModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSACModel.h */; };
 		F8936D5E230C2804006A330F /* MSACNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSACNoAutoAssignSessionIdLog.h */; };
-		F8936D5F230C2804006A330F /* MSACSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */; };
+		F8936D5F230C2804006A330F /* MSACSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936D60230C2804006A330F /* MSACStartServiceLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D38023E71E6EFC7C00466558 /* MSACStartServiceLog.h */; };
 		F8936D61230C2804006A330F /* MSACWrapperSdkInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD745D1F22BBBB0070E7DF /* MSACWrapperSdkInternal.h */; };
 		F8936D62230C2804006A330F /* MSACLogConversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BC346C20B8CB0C00119C05 /* MSACLogConversion.h */; };
@@ -787,7 +787,7 @@
 		F8936DB4230C2805006A330F /* MSACLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSACLogContainer.h */; };
 		F8936DB5230C2805006A330F /* MSACModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSACModel.h */; };
 		F8936DB6230C2805006A330F /* MSACNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSACNoAutoAssignSessionIdLog.h */; };
-		F8936DB7230C2805006A330F /* MSACSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */; };
+		F8936DB7230C2805006A330F /* MSACSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936DB8230C2805006A330F /* MSACStartServiceLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D38023E71E6EFC7C00466558 /* MSACStartServiceLog.h */; };
 		F8936DB9230C2805006A330F /* MSACWrapperSdkInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD745D1F22BBBB0070E7DF /* MSACWrapperSdkInternal.h */; };
 		F8936DBA230C2805006A330F /* MSACLogConversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BC346C20B8CB0C00119C05 /* MSACLogConversion.h */; };
@@ -868,7 +868,7 @@
 		F8936E0C230C2805006A330F /* MSACLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSACLogContainer.h */; };
 		F8936E0D230C2805006A330F /* MSACModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSACModel.h */; };
 		F8936E0E230C2805006A330F /* MSACNoAutoAssignSessionIdLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F3613C1FE1A92000A5A6D2 /* MSACNoAutoAssignSessionIdLog.h */; };
-		F8936E0F230C2805006A330F /* MSACSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */; };
+		F8936E0F230C2805006A330F /* MSACSerializableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936E10230C2805006A330F /* MSACStartServiceLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D38023E71E6EFC7C00466558 /* MSACStartServiceLog.h */; };
 		F8936E11230C2805006A330F /* MSACWrapperSdkInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD745D1F22BBBB0070E7DF /* MSACWrapperSdkInternal.h */; };
 		F8936E12230C2805006A330F /* MSACLogConversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 38BC346C20B8CB0C00119C05 /* MSACLogConversion.h */; };
@@ -1651,6 +1651,7 @@
 				6E0401451D1C99AC0051BCFA /* MSACService.h */,
 				387C76FC1D6C9CF100D68CC1 /* MSACServiceAbstract.h */,
 				D38024051E7126F500466558 /* MSACServiceAbstract.m */,
+				E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */,
 				35D0B7511DDFABFD003EACCD /* MSACWrapperLogger.h */,
 				35D0B7521DDFABFD003EACCD /* MSACWrapperLogger.m */,
 				6E0401421D1C99AC0051BCFA /* Internals */,
@@ -1760,7 +1761,6 @@
 				E8010E671D2DD4EF0035196F /* MSACLogWithProperties.m */,
 				E7D23C6020B4EED000A47D62 /* MSACModel.h */,
 				04F3613C1FE1A92000A5A6D2 /* MSACNoAutoAssignSessionIdLog.h */,
-				E7D23C5C20B4EC3700A47D62 /* MSACSerializableObject.h */,
 				D38023E71E6EFC7C00466558 /* MSACStartServiceLog.h */,
 				D38023E61E6EFC7C00466558 /* MSACStartServiceLog.m */,
 				B2CD745D1F22BBBB0070E7DF /* MSACWrapperSdkInternal.h */,
