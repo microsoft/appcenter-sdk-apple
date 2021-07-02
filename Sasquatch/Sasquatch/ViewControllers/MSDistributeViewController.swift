@@ -11,7 +11,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var customized: UISwitch!
   @IBOutlet weak var updateTrackField: UITextField!
   var appCenter: AppCenterDelegate!
-  @objc static var checkPressed: Bool = false
 
   enum UpdateTrackUpperCase: String, CaseIterable {
     case Public = "Public"
@@ -61,6 +60,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   }
   
   override func viewWillAppear(_ animated: Bool) {
+    UserDefaults.standard.set(false, forKey: "UpdatePressed")
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isDistributeEnabled()
     
@@ -82,8 +82,8 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     case 0:
         switch (indexPath.row) {
         case 2:
-            MSDistributeViewController.checkPressed = true
-            appCenter.checkForUpdate()
+          UserDefaults.standard.set(true, forKey: "UpdatePressed")
+          appCenter.checkForUpdate()
         default: ()
         }
 

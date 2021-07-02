@@ -402,7 +402,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute {
   NSLog(@"distributeNoReleaseAvailable invoked");
-  if (MSDistributeViewController.checkPressed == true) {
+  if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"UpdatePressed"] isEqual:@true]) {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
                                                                    message:NSLocalizedString(@"No updates available", nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
