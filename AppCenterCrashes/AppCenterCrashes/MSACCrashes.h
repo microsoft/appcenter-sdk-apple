@@ -93,7 +93,7 @@ NS_SWIFT_NAME(Crashes)
  *
  * @return handled error ID.
  */
-+ (NSString *_Nonnull)trackExceptionModel:(MSACExceptionModel *_Nonnull)exceptionModel
++ (NSString *_Nonnull)trackModelException:(MSACExceptionModel *_Nonnull)exceptionModel
                            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
                           withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
 
