@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACException.h"
+#import "MSACExceptionInternal.h"
 #import "MSACTestFrameworks.h"
 #import "MSACWrapperExceptionInternal.h"
 
@@ -26,10 +26,10 @@
   MSACWrapperException *exception = [MSACWrapperException new];
   exception.processId = @4;
   exception.exceptionData = [@"data string" dataUsingEncoding:NSUTF8StringEncoding];
-  exception.modelException = [[MSACException alloc] init];
+  exception.modelException = [[MSACExceptionInternal alloc] init];
   exception.modelException.type = @"type";
   exception.modelException.message = @"message";
-  exception.modelException.wrapperSdkName = @"wrapper sdk name";
+  ((MSACExceptionInternal *)exception.modelException).wrapperSdkName = @"wrapper sdk name";
   return exception;
 }
 
@@ -50,7 +50,7 @@
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.modelException.type));
   assertThat(exceptionDictionary[@"message"], equalTo(self.sut.modelException.message));
-  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.modelException.wrapperSdkName));
+  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(((MSACExceptionInternal *)self.sut.modelException).wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -70,8 +70,9 @@
 
   // The exception field.
   assertThat(actualWrapperException.modelException.type, equalTo(self.sut.modelException.type));
-  assertThat(actualWrapperException.modelException.message, equalTo(self.sut.modelException.message));
-  assertThat(actualWrapperException.modelException.wrapperSdkName, equalTo(self.sut.modelException.wrapperSdkName));
+  assertThat(actualWrapperException.modelException.message, equalTo(((MSACExceptionInternal *)self.sut.modelException.message)));
+  assertThat(((MSACExceptionInternal *)actualWrapperException.modelException).wrapperSdkName,
+             equalTo(((MSACExceptionInternal *)self.sut.modelException).wrapperSdkName));
 }
 
 @end

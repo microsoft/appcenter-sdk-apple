@@ -102,7 +102,7 @@
 		0446DF691F3B977100C8E338 /* MSACAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSACAppleErrorLogTests.m */; };
 		0446DF6A1F3B977100C8E338 /* MSACCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSACCrashesTests.mm */; };
 		0446DF6B1F3B977100C8E338 /* MSACWrapperExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 350B29F31F1E6F1D009B91CF /* MSACWrapperExceptionTests.m */; };
-		0446DF6C1F3B977100C8E338 /* MSACExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSACExceptionTests.m */; };
+		0446DF6C1F3B977100C8E338 /* MSACExceptionInternalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSACExceptionInternalTests.m */; };
 		0446DF6D1F3B977100C8E338 /* MSACErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSACErrorReportTests.m */; };
 		0446DF6E1F3B977100C8E338 /* MSACWrapperCrashesHelperTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 352B1D6E1F27C36300684A7F /* MSACWrapperCrashesHelperTests.mm */; };
 		0446DF6F1F3B977100C8E338 /* MSACStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSACStackFrameTests.m */; };
@@ -140,7 +140,7 @@
 		0446DF961F3B977100C8E338 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
 		049327651ECA170D00D0187A /* MSACAppleErrorLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FF130B1DD12F61003DC677 /* MSACAppleErrorLogTests.m */; };
 		049327661ECA170D00D0187A /* MSACCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSACCrashesTests.mm */; };
-		049327671ECA170D00D0187A /* MSACExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSACExceptionTests.m */; };
+		049327671ECA170D00D0187A /* MSACExceptionInternalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSACExceptionInternalTests.m */; };
 		049327681ECA170D00D0187A /* MSACErrorReportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120D61D65469D0060DED7 /* MSACErrorReportTests.m */; };
 		049327691ECA170D00D0187A /* MSACStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSACStackFrameTests.m */; };
 		0493276A1ECA170D00D0187A /* MSACCrashesCXXExceptionTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = F851DAEC1E81867D00525570 /* MSACCrashesCXXExceptionTests.mm */; };
@@ -190,7 +190,7 @@
 		6E7D5C801D3EAEB5009EC9AC /* MSACBinaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C7F1D3EAEB5009EC9AC /* MSACBinaryTests.m */; };
 		6E7D5C841D3EC0F7009EC9AC /* MSACThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C831D3EC0F7009EC9AC /* MSACThreadTests.m */; };
 		6E7D5C871D3EC332009EC9AC /* MSACStackFrameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C861D3EC332009EC9AC /* MSACStackFrameTests.m */; };
-		6E7D5C8A1D3EC504009EC9AC /* MSACExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSACExceptionTests.m */; };
+		6E7D5C8A1D3EC504009EC9AC /* MSACExceptionInternalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7D5C891D3EC504009EC9AC /* MSACExceptionInternalTests.m */; };
 		6EC99A2E1D4166C50016C325 /* MSACCrashesTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6EC99A2D1D4166C50016C325 /* MSACCrashesTests.mm */; };
 		6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */; };
 		6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */ = {isa = PBXBuildFile; fileRef = 6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */; };
@@ -849,7 +849,7 @@
 		6E7D5C811D3EC06C009EC9AC /* MSACConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACConstants.h; path = ../../AppCenter/AppCenter/MSACConstants.h; sourceTree = "<group>"; };
 		6E7D5C831D3EC0F7009EC9AC /* MSACThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACThreadTests.m; sourceTree = "<group>"; };
 		6E7D5C861D3EC332009EC9AC /* MSACStackFrameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACStackFrameTests.m; sourceTree = "<group>"; };
-		6E7D5C891D3EC504009EC9AC /* MSACExceptionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACExceptionTests.m; sourceTree = "<group>"; };
+		6E7D5C891D3EC504009EC9AC /* MSACExceptionInternalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACExceptionInternalTests.m; sourceTree = "<group>"; };
 		6EC99A2D1D4166C50016C325 /* MSACCrashesTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = MSACCrashesTests.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6EC99A301D416CCF0016C325 /* live_report_empty.plcrash */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = live_report_empty.plcrash; sourceTree = "<group>"; };
 		6EC99A311D416CCF0016C325 /* live_report_exception.plcrash */ = {isa = PBXFileReference; lastKnownFileType = file; path = live_report_exception.plcrash; sourceTree = "<group>"; };
@@ -1143,7 +1143,7 @@
 				B2F120D41D6546740060DED7 /* MSACErrorAttachmentLogTests.m */,
 				B24F3F0E1D93368F00827213 /* MSACErrorLogFormatterTests.mm */,
 				B2F120D61D65469D0060DED7 /* MSACErrorReportTests.m */,
-				6E7D5C891D3EC504009EC9AC /* MSACExceptionTests.m */,
+				6E7D5C891D3EC504009EC9AC /* MSACExceptionInternalTests.m */,
 				922446851F6222EC00E4034A /* MSACHandledErrorLogTests.m */,
 				6E7D5C861D3EC332009EC9AC /* MSACStackFrameTests.m */,
 				6E7D5C831D3EC0F7009EC9AC /* MSACThreadTests.m */,
@@ -2363,7 +2363,7 @@
 				0446DF691F3B977100C8E338 /* MSACAppleErrorLogTests.m in Sources */,
 				0446DF6A1F3B977100C8E338 /* MSACCrashesTests.mm in Sources */,
 				0446DF6B1F3B977100C8E338 /* MSACWrapperExceptionTests.m in Sources */,
-				0446DF6C1F3B977100C8E338 /* MSACExceptionTests.m in Sources */,
+				0446DF6C1F3B977100C8E338 /* MSACExceptionInternalTests.m in Sources */,
 				0446DF6D1F3B977100C8E338 /* MSACErrorReportTests.m in Sources */,
 				0446DF6E1F3B977100C8E338 /* MSACWrapperCrashesHelperTests.mm in Sources */,
 				F82E4C77217F1FD700EDAB34 /* sqlite3.c in Sources */,
@@ -2390,7 +2390,7 @@
 				049327651ECA170D00D0187A /* MSACAppleErrorLogTests.m in Sources */,
 				049327661ECA170D00D0187A /* MSACCrashesTests.mm in Sources */,
 				04CC3B891F3528DA00F7D92A /* MSACWrapperExceptionTests.m in Sources */,
-				049327671ECA170D00D0187A /* MSACExceptionTests.m in Sources */,
+				049327671ECA170D00D0187A /* MSACExceptionInternalTests.m in Sources */,
 				049327681ECA170D00D0187A /* MSACErrorReportTests.m in Sources */,
 				04CC3B8A1F3528E200F7D92A /* MSACWrapperCrashesHelperTests.mm in Sources */,
 				F82E4C76217F1FD700EDAB34 /* sqlite3.c in Sources */,
@@ -2418,7 +2418,7 @@
 				B2FF130C1DD12F61003DC677 /* MSACAppleErrorLogTests.m in Sources */,
 				6EC99A2E1D4166C50016C325 /* MSACCrashesTests.mm in Sources */,
 				350B29F41F1E6F1D009B91CF /* MSACWrapperExceptionTests.m in Sources */,
-				6E7D5C8A1D3EC504009EC9AC /* MSACExceptionTests.m in Sources */,
+				6E7D5C8A1D3EC504009EC9AC /* MSACExceptionInternalTests.m in Sources */,
 				B2F120D71D65469D0060DED7 /* MSACErrorReportTests.m in Sources */,
 				352B1D6F1F27C36300684A7F /* MSACWrapperCrashesHelperTests.mm in Sources */,
 				F82E4C75217F1FD700EDAB34 /* sqlite3.c in Sources */,

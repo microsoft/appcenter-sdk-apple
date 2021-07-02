@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACCrashes.h"
-#import "MSACException.h"
+#import "MSACExceptionInternal.h"
 #import "MSACTestFrameworks.h"
 #import "MSACWrapperException.h"
 #import "MSACWrapperExceptionManagerInternal.h"
@@ -31,8 +31,8 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 
 #pragma mark - Helper
 
-- (MSACException *)getModelException {
-  MSACException *exception = [[MSACException alloc] init];
+- (MSACExceptionInternal *)getModelException {
+  MSACExceptionInternal *exception = [[MSACExceptionInternal alloc] init];
   exception.message = @"a message";
   exception.type = @"a type";
   return exception;
@@ -60,7 +60,8 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
   // The exception field.
   assertThat(other.modelException.type, equalTo(wrapperException.modelException.type));
   assertThat(other.modelException.message, equalTo(wrapperException.modelException.message));
-  assertThat(other.modelException.wrapperSdkName, equalTo(wrapperException.modelException.wrapperSdkName));
+  assertThat(((MSACExceptionInternal *)other.modelException).wrapperSdkName,
+             equalTo(((MSACExceptionInternal *)wrapperException.modelException).wrapperSdkName));
 }
 
 #pragma mark - Test

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACCrashesTestUtil.h"
-#import "MSACException.h"
+#import "MSACExceptionInternal.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACTestFrameworks.h"
 
@@ -54,7 +54,7 @@
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
   assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
-  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(((MSACExceptionInternal *)self.sut.exception).wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -75,10 +75,10 @@
   assertThat(actualLog.errorId, equalTo(self.sut.errorId));
 
   // The exception field.
-  MSACException *actualException = actualLog.exception;
+  MSACExceptionInternal *actualException = actualLog.exception;
   assertThat(actualException.type, equalTo(self.sut.exception.type));
   assertThat(actualException.message, equalTo(self.sut.exception.message));
-  assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(actualException.wrapperSdkName, equalTo(((MSACExceptionInternal *)self.sut.exception).wrapperSdkName));
 }
 
 - (void)testIsEqual {

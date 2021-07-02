@@ -19,7 +19,7 @@
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
 #import "MSACMockCrashesDelegate.h"

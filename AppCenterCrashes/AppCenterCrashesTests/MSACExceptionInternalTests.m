@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACCrashesTestUtil.h"
-#import "MSACException.h"
+#import "MSACExceptionInternal.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
 
@@ -17,7 +17,7 @@
 - (void)testSerializingBinaryToDictionaryWorks {
 
   // If
-  MSACException *sut = [MSACCrashesTestUtil exception];
+  MSACExceptionInternal *sut = [MSACCrashesTestUtil exception];
   sut.innerExceptions = @[ [MSACCrashesTestUtil exception] ];
 
   // When
@@ -34,7 +34,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  MSACException *sut = [MSACCrashesTestUtil exception];
+  MSACExceptionInternal *sut = [MSACCrashesTestUtil exception];
   sut.innerExceptions = @[ [MSACCrashesTestUtil exception] ];
 
   // When
@@ -43,9 +43,9 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([MSACException class]));
+  assertThat(actual, instanceOf([MSACExceptionInternal class]));
 
-  MSACException *actualException = actual;
+  MSACExceptionInternal *actualException = actual;
 
   assertThat(actualException, equalTo(sut));
   assertThat(actualException.type, equalTo(sut.type));
