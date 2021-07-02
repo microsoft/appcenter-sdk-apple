@@ -51,6 +51,15 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 @implementation AppDelegate
 
+- (UIViewController *)topViewControllerMethod {
+  UIWindow *keyWindow = [[[UIApplication sharedApplication] windows] firstObject];
+  UIViewController *topController = keyWindow.rootViewController;
+  while (topController.presentedViewController) {
+    topController = topController.presentedViewController;
+  }
+  return topController;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
   NSInteger startTarget = [[NSUserDefaults standardUserDefaults] integerForKey:kMSStartTargetKey];
@@ -103,7 +112,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                          [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
                                                                              style:UIAlertActionStyleDefault
                                                                            handler:nil]];
-                         [Utilities.topMostController presentViewController:alertController animated:YES completion:nil];
+                         [self.topViewControllerMethod presentViewController:alertController animated:YES completion:nil];
                        }
                      });
                    }];
@@ -241,7 +250,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                                    }]];
 
                  // Show the alert controller.
-                 [Utilities.topMostController presentViewController:alertController animated:YES completion:nil];
+                 [self.topViewControllerMethod presentViewController:alertController animated:YES completion:nil];
 
                  return YES;
                })];
@@ -385,7 +394,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                       }]];
 
     // Show the alert controller.
-    [Utilities.topMostController presentViewController:alertController animated:YES completion:nil];
+    [self.topViewControllerMethod presentViewController:alertController animated:YES completion:nil];
     return YES;
   }
   return NO;
@@ -398,7 +407,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                                    message:NSLocalizedString(@"No updates available", nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
-    [Utilities.topMostController presentViewController:alert animated:YES completion:nil];
+    [self.topViewControllerMethod presentViewController:alert animated:YES completion:nil];
   }
 }
 

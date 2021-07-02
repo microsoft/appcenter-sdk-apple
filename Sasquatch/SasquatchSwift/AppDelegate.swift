@@ -30,7 +30,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
   private var locationManager : CLLocationManager = CLLocationManager()
 
   var window: UIWindow?
-
+  func topMostController() -> UIViewController? {
+    guard
+      let window = UIApplication.shared.keyWindow, var topController = window.rootViewController else {
+        return nil
+      }
+      while let newTopController = topController.presentedViewController {
+        topController = newTopController
+      }
+    return topController
+  }
+    
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Crashes.delegate = self
 #if canImport(AppCenterDistribute)
@@ -136,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
       })
 
       // Show the alert controller.
-      Utilities.topMostController()?.present(alertController, animated: true)
+      self.topMostController()?.present(alertController, animated: true)
 
       return true
     })
@@ -310,7 +320,7 @@ extension AppDelegate: DistributeDelegate {
       })
 
       // Show the alert controller.
-      Utilities.topMostController()?.present(alertController, animated: true)
+      self.topMostController()?.present(alertController, animated: true)
       return true
     }
     return false
@@ -321,7 +331,7 @@ extension AppDelegate: DistributeDelegate {
     let alert = UIAlertController(title: nil, message: "No updates available", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     if MSDistributeViewController.checkPressed == true {
-      Utilities.topMostController()?.present(alert, animated: true)
+      self.topMostController()?.present(alert, animated: true)
     }
   }
 
