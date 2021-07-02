@@ -51,7 +51,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 @implementation AppDelegate
 
-- (UIViewController *)topViewControllerMethod {
+- (UIViewController *)topMostViewController {
   UIWindow *keyWindow = [[[UIApplication sharedApplication] windows] firstObject];
   UIViewController *topController = keyWindow.rootViewController;
   while (topController.presentedViewController) {
@@ -112,7 +112,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                          [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil)
                                                                              style:UIAlertActionStyleDefault
                                                                            handler:nil]];
-                         [self.topViewControllerMethod presentViewController:alertController animated:YES completion:nil];
+                         [self.topMostViewController presentViewController:alertController animated:YES completion:nil];
                        }
                      });
                    }];
@@ -250,7 +250,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                                    }]];
 
                  // Show the alert controller.
-                 [self.topViewControllerMethod presentViewController:alertController animated:YES completion:nil];
+                 [self.topMostViewController presentViewController:alertController animated:YES completion:nil];
 
                  return YES;
                })];
@@ -394,7 +394,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                       }]];
 
     // Show the alert controller.
-    [self.topViewControllerMethod presentViewController:alertController animated:YES completion:nil];
+    [self.topMostViewController presentViewController:alertController animated:YES completion:nil];
     return YES;
   }
   return NO;
@@ -407,7 +407,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
                                                                    message:NSLocalizedString(@"No updates available", nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
-    [self.topViewControllerMethod presentViewController:alert animated:YES completion:nil];
+    [self.topMostViewController presentViewController:alert animated:YES completion:nil];
   }
 }
 
