@@ -321,7 +321,7 @@ extension AppDelegate: DistributeDelegate {
     let alert = UIAlertController(title: nil, message: "No updates available", preferredStyle: .alert)
     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
     if MSDistributeViewController.checkPressed == true {
-    Utilities.topMostController()?.present(alert, animated: true)
+      Utilities.topMostController()?.present(alert, animated: true)
     }
   }
 

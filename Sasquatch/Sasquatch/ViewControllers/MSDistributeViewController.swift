@@ -4,7 +4,7 @@
 import UIKit
 import AppCenterDistribute
 
-@objc class MSDistributeViewController: UITableViewController, AppCenterProtocol {
+class MSDistributeViewController: UITableViewController, AppCenterProtocol {
 
   @IBOutlet weak var autoCheckForUpdate: UISwitch!
   @IBOutlet weak var enabled: UISwitch!

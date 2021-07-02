@@ -10,11 +10,9 @@ import UIKit
             let window = UIApplication.shared.keyWindow, var topController = window.rootViewController else {
             return nil
         }
-
         while let newTopController = topController.presentedViewController {
             topController = newTopController
         }
-
         return topController
     }
 }
