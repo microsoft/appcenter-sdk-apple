@@ -7,7 +7,7 @@
 #import "MSACAbstractErrorLog.h"
 #import "MSACNoAutoAssignSessionIdLog.h"
 
-@class MSACThread, MSACBinary, MSACExceptionModel;
+@class MSACThread, MSACBinary, MSACException;
 
 /**
  * Error log for Apple platforms.
@@ -93,6 +93,6 @@
 /**
  * The last exception backtrace.
  */
-@property(nonatomic) MSACExceptionModel *exception;
+@property(nonatomic) MSACException *exception;
 
 @end

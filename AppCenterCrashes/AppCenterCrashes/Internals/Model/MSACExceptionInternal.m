@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACExceptionInternal.h"
-#import "MSACExceptionModel.h"
+#import "MSACException.h"
 #import "MSACStackFrame.h"
 
 static NSString *const kMSACInnerExceptions = @"innerExceptions";

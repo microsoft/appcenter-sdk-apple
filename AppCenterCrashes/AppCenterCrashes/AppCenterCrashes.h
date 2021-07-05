@@ -9,7 +9,7 @@
 #import <AppCenterCrashes/MSACCrashesDelegate.h>
 #import <AppCenterCrashes/MSACErrorAttachmentLog+Utility.h>
 #import <AppCenterCrashes/MSACErrorAttachmentLog.h>
-#import <AppCenterCrashes/MSACExceptionModel.h>
+#import <AppCenterCrashes/MSACException.h>
 #import <AppCenterCrashes/MSACWrapperCrashesHelper.h>
 #else
 #import "MSACCrashHandlerSetupDelegate.h"
@@ -17,6 +17,6 @@
 #import "MSACCrashesDelegate.h"
 #import "MSACErrorAttachmentLog+Utility.h"
 #import "MSACErrorAttachmentLog.h"
-#import "MSACExceptionModel.h"
+#import "MSACException.h"
 #import "MSACWrapperCrashesHelper.h"
 #endif

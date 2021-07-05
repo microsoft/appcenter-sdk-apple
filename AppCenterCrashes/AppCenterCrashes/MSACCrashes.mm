@@ -29,7 +29,7 @@
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
 #import "MSACErrorReportPrivate.h"
-#import "MSACExceptionModel.h"
+#import "MSACException.h"
 #import "MSACExceptionInternal.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
@@ -221,7 +221,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 + (NSString *)trackError:(NSError *)error
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
          withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
-  return [[MSACCrashes sharedInstance] trackError:[MSACExceptionModel convertNSErrorToMSACExceptionModel:error]
+  return [[MSACCrashes sharedInstance] trackError:[MSACException convertNSErrorToMSACException:error]
                                    withProperties:properties
                                   withAttachments:attachments];
 }
@@ -235,9 +235,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
  *
  * @return handled error ID.
  */
-+ (NSString *_Nonnull)trackModelException:(MSACExceptionModel *_Nonnull)exceptionModel
-                           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                          withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
++ (NSString *_Nonnull)trackException:(MSACException *_Nonnull)exceptionModel
+                      withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                     withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties withAttachments:attachments];
 }
 
@@ -1388,7 +1388,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 #pragma mark - Handled exceptions
 
-- (NSString *)trackError:(MSACExceptionModel *_Nonnull)exception
+- (NSString *)trackError:(MSACException *_Nonnull)exception
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
          withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   @synchronized(self) {

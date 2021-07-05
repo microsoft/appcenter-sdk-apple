@@ -11,20 +11,28 @@
 
 @class MSACStackFrame;
 
-static NSString *const kMSACExceptionModelFrames = @"frames";
-static NSString *const kMSACExceptionModelType = @"type";
-static NSString *const kMSACExceptionModelMessage = @"message";
-static NSString *const kMSACExceptionModelStackTrace = @"stackTrace";
-
 NS_SWIFT_NAME(ExceptionModel)
-@interface MSACExceptionModel : NSObject <MSACSerializableObject>
+@interface MSACException : NSObject <MSACSerializableObject>
 
 /**
  * Creates an instance of exception model.
  *
+ * @param exceptionType exception type.
+ * @param exceptionMessage exception message.
+ *
  * @return A new instance of exception model.
  */
 - (instancetype)initWithTypeAndMessage:(NSString *)exceptionType exceptionMessage:(NSString *)exceptionMessage;
+
+/**
+ * Creates an instance of exception model.
+ *
+ * @exception exception.
+ *
+ * @return A new instance of exception model.
+ */
+- (instancetype)initWithException:(NSException *)exception;
+
 /**
  * Exception type.
  */
@@ -46,13 +54,13 @@ NS_SWIFT_NAME(ExceptionModel)
 @property(nonatomic) NSArray<MSACStackFrame *> *frames;
 
 /**
- * Convert NSError to MSACExceptionModel.
+ * Convert NSError to MSACException.
  *
  * @param error - NSError object.
  *
- * @return MSACExceptionModel exception.
+ * @return MSACException exception.
  */
-+ (MSACExceptionModel *)convertNSErrorToMSACExceptionModel:(NSError *)error;
++ (MSACException *)convertNSErrorToMSACException:(NSError *)error;
 
 /**
  * Checks if the object's values are valid.

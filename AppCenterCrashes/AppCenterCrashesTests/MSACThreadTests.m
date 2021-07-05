@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACExceptionModel.h"
+#import "MSACException.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
 #import "MSACThread.h"
@@ -18,7 +18,7 @@
   NSNumber *threadId = @(12);
   NSString *name = @"thread_name";
 
-  MSACExceptionModel *exception = [MSACExceptionModel new];
+  MSACException *exception = [MSACException new];
   exception.type = @"exception_type";
   exception.message = @"message";
   MSACStackFrame *frame = [self stackFrame];

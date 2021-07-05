@@ -14,7 +14,7 @@
 #endif
 
 @class MSACCrashesDelegate;
-@class MSACExceptionModel;
+@class MSACException;
 @class MSACErrorAttachmentLog;
 
 /**
@@ -93,9 +93,9 @@ NS_SWIFT_NAME(Crashes)
  *
  * @return handled error ID.
  */
-+ (NSString *_Nonnull)trackModelException:(MSACExceptionModel *_Nonnull)exceptionModel
-                           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                          withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
++ (NSString *_Nonnull)trackException:(MSACException *_Nonnull)exceptionModel
+                      withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                     withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
 
 ///-----------------------------------------------------------------------------
 /// @name Testing Crashes Feature
