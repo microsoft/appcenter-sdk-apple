@@ -13,6 +13,10 @@
 		0431217D1EE0C669007054C5 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */; };
 		04EBBEFB1F01C88D0006B8AE /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */; };
 		04EBBEFC1F01C89A0006B8AE /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */; };
+		06B5E51D268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */; };
+		06B5E51E268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */; };
+		06B5E51F268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */; };
+		06B5E520268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */; };
 		35427402201272AB00BE766F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
 		35427403201272AB00BE766F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
 		358F9BD0201963A000B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCF201963A000B9E22C /* MSEventFilter.m */; };
@@ -384,6 +388,7 @@
 		043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-iOS/tvOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		045A94811F97C863002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../Config/App.xcconfig; sourceTree = "<group>"; };
 		04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+		06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareErrorAttachments.swift; sourceTree = "<group>"; };
 		35427401201272AA00BE766F /* EventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterViewController.swift; sourceTree = "<group>"; };
 		358F9BCE201963A000B9E22C /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
 		358F9BCF201963A000B9E22C /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
@@ -632,6 +637,7 @@
 			children = (
 				D322EFDA1E8E97C800A8EDA5 /* AppDelegate.swift */,
 				5C5A41811EE5AEE800C377A7 /* AppCenterDelegateSwift.swift */,
+				06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */,
 				D322EFFF1E8E981800A8EDA5 /* Supporting Files */,
 			);
 			path = SasquatchTVSwift;
@@ -1278,6 +1284,7 @@
 				B25AE825210A79FB00CC07A9 /* MSPropertyViewCell.swift in Sources */,
 				B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */,
 				B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */,
+				06B5E51E268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				B25AE828210A79FB00CC07A9 /* MSEventFilter.m in Sources */,
 				B25AE829210A79FB00CC07A9 /* AppCenterDelegateObjC.m in Sources */,
 			);
@@ -1295,6 +1302,7 @@
 				B25AE841210A7B8A00CC07A9 /* CrashesViewController.swift in Sources */,
 				B25AE842210A7B8A00CC07A9 /* AppDelegate.swift in Sources */,
 				B25AE843210A7B8A00CC07A9 /* CrashesDetailViewController.swift in Sources */,
+				06B5E520268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				B25AE845210A7B8A00CC07A9 /* MSEventFilter.m in Sources */,
 				B25AE846210A7B8A00CC07A9 /* EventFilterViewController.swift in Sources */,
 				B25AE847210A7B8A00CC07A9 /* AppCenterProtocol.swift in Sources */,
@@ -1314,6 +1322,7 @@
 				80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
 				D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */,
 				80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
+				06B5E51F268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				35C6AE03201BCFBE009F29AE /* MSEventFilter.m in Sources */,
 				35427402201272AB00BE766F /* EventFilterViewController.swift in Sources */,
 				5C481BA71EE586D2009329DD /* AppCenterProtocol.swift in Sources */,
@@ -1336,6 +1345,7 @@
 				5C931C7B1F026688004AF9CD /* MSPropertyViewCell.swift in Sources */,
 				5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */,
 				35427403201272AB00BE766F /* EventFilterViewController.swift in Sources */,
+				06B5E51D268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				358F9BD0201963A000B9E22C /* MSEventFilter.m in Sources */,
 				5CB338A21EE59B4B0089A60B /* AppCenterDelegateObjC.m in Sources */,
 			);
