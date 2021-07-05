@@ -164,6 +164,14 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func generateTestCrash() {
     Crashes.generateTestCrash()
   }
+    
+  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?) -> Void {
+    Crashes.trackError(error, withProperties: withProperties, withAttachments: withAttachments)
+  }
+    
+  func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?) -> Void {
+    Crashes.trackException(exceptionModel, withProperties: withProperties, withAttachments: withAttachments)
+  }
 
   // Distribute section.
 
