@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AppCenterApplicationForwarderEnabled</key>
-	<false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -30,5 +28,7 @@
 	<string>SasquatchMac</string>
 	<key>NSPrincipalClass</key>
 	<string>AppCenterApplication</string>
+	<key>AppCenterApplicationForwarderEnabled</key>
+	<false/>
 </dict>
 </plist>

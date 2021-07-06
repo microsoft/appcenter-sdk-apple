@@ -13,7 +13,7 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
 #import "MSACErrorAttachmentLog.h"
 #import "MSACEventPropertiesInternal.h"
-#import "MSACExceptionModel.h"
+#import "MSACException.h"
 #import "MSEventFilter.h"
 #else
 @import AppCenter;
