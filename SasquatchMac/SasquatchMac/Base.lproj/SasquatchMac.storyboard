@@ -796,6 +796,10 @@
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VA4-N7-8nZ">
                                 <rect key="frame" x="100" y="412" width="331" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="QGv-Ur-dvG"/>
+                                    <constraint firstAttribute="width" constant="331" id="TdL-NQ-OYe"/>
+                                </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="iZb-js-xpE">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>

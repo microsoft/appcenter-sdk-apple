@@ -20,6 +20,11 @@ enum StartupMode: Int {
 @objc(AppDelegate)
 class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationManagerDelegate {
 
+  // Enable closing app by pressing Close button.
+  func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+    return true
+  }
+
   var rootController: NSWindowController!
   var locationManager: CLLocationManager = CLLocationManager()
     
