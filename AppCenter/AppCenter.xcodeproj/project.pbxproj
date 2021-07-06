@@ -2881,7 +2881,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2901,7 +2900,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2943,7 +2941,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2963,7 +2960,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3081,7 +3077,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-maccatalyst/AppCenter.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
