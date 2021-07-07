@@ -2069,7 +2069,6 @@
 			);
 			name = "Build tvOS Device Framework";
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2119,7 +2118,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2180,7 +2178,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2218,7 +2215,6 @@
 			);
 			name = "Build iOS Device Framework";
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2333,7 +2329,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-maccatalyst/AppCenterCrashes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

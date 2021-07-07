@@ -1036,7 +1036,6 @@
 			);
 			name = "Build iOS Device Framework";
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterDistribute.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1071,7 +1070,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterDistribute.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
