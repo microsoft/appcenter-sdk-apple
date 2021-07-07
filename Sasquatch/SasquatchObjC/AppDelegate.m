@@ -402,13 +402,6 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 
 - (void)distributeNoReleaseAvailable:(MSACDistribute *)distribute {
   NSLog(@"distributeNoReleaseAvailable invoked");
-  if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"UpdatePressed"] isEqual:@true]) {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
-                                                                   message:NSLocalizedString(@"No updates available", nil)
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
-    [self.topMostViewController presentViewController:alert animated:YES completion:nil];
-  }
 }
 
 - (void)distributeWillExitApp:(MSACDistribute *)distribute {

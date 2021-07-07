@@ -60,7 +60,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    UserDefaults.standard.set(false, forKey: "UpdatePressed")
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isDistributeEnabled()
     
@@ -82,7 +81,6 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     case 0:
         switch (indexPath.row) {
         case 2:
-          UserDefaults.standard.set(true, forKey: "UpdatePressed")
           appCenter.checkForUpdate()
         default: ()
         }
