@@ -31,14 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
 
   var window: UIWindow?
   func topMostViewController() -> UIViewController? {
-    guard
-      let window = UIApplication.shared.keyWindow, var topController = window.rootViewController else {
-        return nil
-      }
-      while let newTopController = topController.presentedViewController {
-        topController = newTopController
-      }
-    return topController
+    let window = UIApplication.shared.keyWindow
+    guard var topController = window?.rootViewController else {
+      return nil
+    }
+    while let newTopController = topController.presentedViewController {
+      topController = newTopController
+    }
+  return topController
   }
     
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
