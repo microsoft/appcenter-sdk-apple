@@ -80,8 +80,7 @@ class MSDistributeViewController: UITableViewController, AppCenterProtocol {
     switch (indexPath.section) {
     case 0:
         switch (indexPath.row) {
-        case 2:
-          appCenter.checkForUpdate()
+        case 2: appCenter.checkForUpdate()
         default: ()
         }
 
