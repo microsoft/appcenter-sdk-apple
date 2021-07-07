@@ -65,7 +65,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   assertThat(delegateMock, equalTo(retrievedDelegate));
 }
 
-- (void)testtrackExceptionWithExceptionOnly {
+- (void)testTrackExceptionWithExceptionOnly {
 
   // If
   __block NSString *type;
@@ -113,7 +113,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   assertThat(actualErrorId, is(errorId));
 }
 
-- (void)testtrackExceptionWithExceptionAndProperties {
+- (void)testTrackExceptionWithExceptionAndProperties {
 
   // If
   __block NSString *type;
@@ -165,7 +165,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   assertThat(actualErrorId, is(errorId));
 }
 
-- (void)testtrackExceptionWithExceptionAndAttachments {
+- (void)testTrackExceptionWithExceptionAndAttachments {
 
   // If
   __block NSString *type;
@@ -231,7 +231,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   XCTAssertEqualObjects(actualErrorId, errorId);
 }
 
-- (void)testtrackExceptionWithAllParameters {
+- (void)testTrackExceptionWithAllParameters {
 
   // If
   __block NSString *type;
