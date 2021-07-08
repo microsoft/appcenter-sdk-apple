@@ -17,19 +17,31 @@ NS_SWIFT_NAME(ExceptionModel)
 /**
  * Creates an instance of exception model.
  *
+ * @param error error.
+ *
+ * @return A new instance of exception.
+ */
+- (instancetype)initWithError:(NSError *)error;
+
+/**
+ * Creates an instance of exception model.
+ *
  * @param exceptionType exception type.
  * @param exceptionMessage exception message.
+ * @param stackTrace stack trace.
  *
- * @return A new instance of exception model.
+ * @return A new instance of exception.
  */
-- (instancetype)initWithTypeAndMessage:(NSString *)exceptionType exceptionMessage:(NSString *)exceptionMessage;
+- (instancetype)initWithType:(NSString *)exceptionType
+            exceptionMessage:(NSString *)exceptionMessage
+                  stackTrace:(NSArray<NSString *> *)stackTrace;
 
 /**
  * Creates an instance of exception model.
  *
  * @exception exception.
  *
- * @return A new instance of exception model.
+ * @return A new instance of exception.
  */
 - (instancetype)initWithException:(NSException *)exception;
 
@@ -52,15 +64,6 @@ NS_SWIFT_NAME(ExceptionModel)
  * Stack frames [optional].
  */
 @property(nonatomic) NSArray<MSACStackFrame *> *frames;
-
-/**
- * Convert NSError to MSACException.
- *
- * @param error - NSError object.
- *
- * @return MSACException exception.
- */
-+ (MSACException *)convertNSErrorToMSACException:(NSError *)error;
 
 /**
  * Checks if the object's values are valid.

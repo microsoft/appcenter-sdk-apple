@@ -101,7 +101,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:nil withAttachments:nil];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:nil attachments:nil];
 
   // Then
   assertThat(type, is(kMSACTypeHandledError));
@@ -152,7 +152,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
-  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:expectedProperties withAttachments:nil];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:expectedProperties attachments:nil];
 
   // Then
   assertThat(type, is(kMSACTypeHandledError));
@@ -216,7 +216,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:nil withAttachments:attachments];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:nil attachments:attachments];
 
   // Then
   XCTAssertEqual(type, kMSACTypeHandledError);
@@ -285,7 +285,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
-  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:expectedProperties withAttachments:attachments];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:expectedProperties attachments:attachments];
 
   // Then
   XCTAssertEqual(type, kMSACTypeHandledError);

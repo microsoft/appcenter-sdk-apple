@@ -1332,7 +1332,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
                                       fromApplication:YES];
 
   // Call trackException.
-  [MSACCrashes trackException:msacException withProperties:nil withAttachments:nil];
+  [MSACCrashes trackException:msacException withProperties:nil attachments:nil];
 }
 
 - (void)testTrackError {
@@ -1364,7 +1364,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
                                       fromApplication:YES];
 
   // Call trackError.
-  [MSACCrashes trackError:error withProperties:nil withAttachments:nil];
+  [MSACCrashes trackError:error withProperties:nil attachments:nil];
 }
 
 - (void)testTrackErrorsWithPropertiesAndAttachments {
@@ -1378,7 +1378,13 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [attachments addObject:[[MSACErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text1"]];
 
   // Init exception.
-  MSACException *msacException = [[MSACException alloc] initWithTypeAndMessage:@"exception type" exceptionMessage:@"exception message"];
+  NSArray<NSString *> *stackTrace =
+      [[NSArray alloc] initWithObjects:@"2   AppCenterCrashes                    0x0000000111986513 -[MSACCrashesTests "
+                                       @"testTrackErrorsWithPropertiesAndAttachments] + 4627",
+                                       nil];
+  MSACException *msacException = [[MSACException alloc] initWithType:@"exception type"
+                                                    exceptionMessage:@"exception message"
+                                                          stackTrace:stackTrace];
 
   // Init error.
   NSError *error = [[NSError alloc] initWithDomain:@"Some domain" code:0 userInfo:@{@"key" : @"value", @"key2" : @"value2"}];
@@ -1402,11 +1408,11 @@ static unsigned int kAttachmentsPerCrashReport = 3;
                                       fromApplication:YES];
 
   // Call trackException and verify that logs enqueue was called twice.
-  [MSACCrashes trackException:msacException withProperties:properties withAttachments:attachments];
+  [MSACCrashes trackException:msacException withProperties:properties attachments:attachments];
   XCTAssertEqual(2, numInvocations);
 
   // Call trackError and verify that logs enqueue was called four times.
-  [MSACCrashes trackError:error withProperties:properties withAttachments:attachments];
+  [MSACCrashes trackError:error withProperties:properties attachments:attachments];
   XCTAssertEqual(4, numInvocations);
 }
 
