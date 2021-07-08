@@ -101,12 +101,12 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     Crashes.generateTestCrash()
   }
     
-  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?) -> Void {
-    Crashes.trackError(error, withProperties: withProperties, withAttachments: withAttachments)
+  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) -> Void {
+    Crashes.trackError(error, withProperties: withProperties, attachments:attachments)
   }
   
-  func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?) -> Void {
-    Crashes.trackException(exceptionModel, withProperties: withProperties, withAttachments: withAttachments)
+  func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) -> Void {
+    Crashes.trackException(exceptionModel, withProperties: withProperties, attachments:attachments)
   }
 
   //MARK: Last crash report section.

@@ -44,8 +44,8 @@ import AppCenter
   // Crashes section.
   func hasCrashedInLastSession() -> Bool
   func generateTestCrash()
-  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?)
-  func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?)
+  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?)
+  func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?)
 
   // Last crash report section.
   func lastCrashReportIncidentIdentifier() -> String?

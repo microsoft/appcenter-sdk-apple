@@ -139,11 +139,10 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
         hasTrackErrorProperies = !hasTrackErrorProperies
         tableView.reloadData();
       } else if indexPath.row == 1 {
-        appCenter.trackError(AppCenterError.runtimeError("Track error"), withProperties: properties, withAttachments: attachments)
+        appCenter.trackError(AppCenterError.runtimeError("Track error"), withProperties: properties, attachments: attachments)
       } else if indexPath.row == 2 {
-        let exceptionModel = ExceptionModel(typeAndMessage: "Custom exception model", exceptionMessage: "Track error with custom exception model.")
-        exceptionModel?.stackTrace = Thread.callStackSymbols.description
-        appCenter.trackException(exceptionModel!, withProperties: properties, withAttachments: attachments)
+        let exceptionModel = ExceptionModel(type: "Custom exception model", exceptionMessage: "Track error with custom exception model.", stackTrace:Thread.callStackSymbols)
+        appCenter.trackException(exceptionModel!, withProperties: properties, attachments: attachments)
       }
     }
   }

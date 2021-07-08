@@ -52,8 +52,8 @@ import AppCenterCrashes
   func hasCrashedInLastSession() -> Bool
   func hasReceivedMemoryWarningInLastSession() -> Bool
   func generateTestCrash()
-  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?)
-  func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, withAttachments: [ErrorAttachmentLog]?)
+  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?)
+  func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?)
   
   // Distribute section.
   func showConfirmationAlert()

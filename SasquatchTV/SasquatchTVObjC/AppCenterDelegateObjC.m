@@ -107,14 +107,14 @@
 
 - (void)trackError:(NSError *)error
     withProperties:(NSDictionary<NSString *, NSString *> *)properties
-   withAttachments:(NSArray<MSACErrorAttachmentLog *> *)attachments {
-  [MSACCrashes trackError:error withProperties:properties withAttachments:attachments];
+       attachments:(NSArray<MSACErrorAttachmentLog *> *)attachments {
+  [MSACCrashes trackError:error withProperties:properties attachments:attachments];
 }
 
 - (void)trackException:(MSACException *)exceptionModel
         withProperties:(NSDictionary<NSString *, NSString *> *)properties
-       withAttachments:(NSArray<MSACErrorAttachmentLog *> *)attachments {
-  [MSACCrashes trackException:exceptionModel withProperties:properties withAttachments:attachments];
+           attachments:(NSArray<MSACErrorAttachmentLog *> *)attachments {
+  [MSACCrashes trackException:exceptionModel withProperties:properties attachments:attachments];
 }
 
 #pragma mark - Last crash report section.
