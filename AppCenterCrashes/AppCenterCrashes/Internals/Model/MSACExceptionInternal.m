@@ -34,12 +34,9 @@ static NSString *const kMSACWrapperSDKName = @"wrapperSdkName";
     return NO;
   }
   MSACExceptionInternal *exception = (MSACExceptionInternal *)object;
-  return ((!super.type && !exception.type) || [super.type isEqualToString:exception.type]) &&
+  return [super isEqual:object] &&
          ((!self.wrapperSdkName && !exception.wrapperSdkName) || [self.wrapperSdkName isEqualToString:exception.wrapperSdkName]) &&
-         ((!super.message && !exception.message) || [super.message isEqualToString:exception.message]) &&
-         ((!super.frames && !exception.frames) || [super.frames isEqualToArray:exception.frames]) &&
-         ((!self.innerExceptions && !exception.innerExceptions) || [self.innerExceptions isEqualToArray:exception.innerExceptions]) &&
-         ((!super.stackTrace && !exception.stackTrace) || [super.stackTrace isEqualToString:exception.stackTrace]);
+         ((!self.innerExceptions && !exception.innerExceptions) || [self.innerExceptions isEqualToArray:exception.innerExceptions]);
 }
 
 #pragma mark - NSCoding

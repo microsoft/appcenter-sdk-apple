@@ -6,11 +6,11 @@
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
 
-@interface MSACExceptionsTests : XCTestCase
+@interface MSACExceptionsInternalTests : XCTestCase
 
 @end
 
-@implementation MSACExceptionsTests
+@implementation MSACExceptionsInternalTests
 
 #pragma mark - Tests
 

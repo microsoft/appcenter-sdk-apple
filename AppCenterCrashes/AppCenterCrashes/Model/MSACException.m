@@ -75,6 +75,17 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
   return dict;
 }
 
+- (BOOL)isEqual:(id)object {
+  if (![(NSObject *)object isKindOfClass:[MSACException class]]) {
+    return NO;
+  }
+  MSACException *exception = (MSACException *)object;
+  return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
+         ((!self.message && !exception.message) || [self.message isEqualToString:exception.message]) &&
+         ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&
+         ((!self.stackTrace && !exception.stackTrace) || [self.stackTrace isEqualToString:exception.stackTrace]);
+}
+
 #pragma mark - NSCoding
 
 - (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
