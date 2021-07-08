@@ -52,8 +52,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 @implementation AppDelegate
 
 - (UIViewController *)topMostViewController {
-  UIWindow *keyWindow = [[[UIApplication sharedApplication] windows] firstObject];
-  UIViewController *topController = keyWindow.rootViewController;
+  UIViewController *topController = self.window.rootViewController;
   while (topController.presentedViewController) {
     topController = topController.presentedViewController;
   }

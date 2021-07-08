@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
 
   var window: UIWindow?
   func topMostViewController() -> UIViewController? {
-    let window = UIApplication.shared.keyWindow
     guard var topController = window?.rootViewController else {
       return nil
     }
