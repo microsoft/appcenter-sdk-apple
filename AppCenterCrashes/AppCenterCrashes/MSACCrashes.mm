@@ -220,10 +220,10 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
  */
 + (NSString *)trackError:(NSError *)error
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-         withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
-  return [[MSACCrashes sharedInstance] trackError:[MSACException convertNSErrorToMSACException:error]
+             attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
+  return [[MSACCrashes sharedInstance] trackError:[[MSACException alloc] initWithError:error]
                                    withProperties:properties
-                                  withAttachments:attachments];
+                                      attachments:attachments];
 }
 
 /**
@@ -237,8 +237,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
  */
 + (NSString *_Nonnull)trackException:(MSACException *_Nonnull)exceptionModel
                       withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                     withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
-  return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties withAttachments:attachments];
+                         attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
+  return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties attachments:attachments];
 }
 
 + (void)generateTestCrash {
@@ -1390,7 +1390,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 - (NSString *)trackError:(MSACException *_Nonnull)exception
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-         withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
+             attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   @synchronized(self) {
     if (![self canBeUsed] || ![self isEnabled]) {
       return nil;

@@ -13,6 +13,22 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 
 @implementation MSACException
 
+- (instancetype)initWithError:(NSError *)error {
+  self = [super init];
+  if (self) {
+    if (error.domain) {
+      self.type = error.domain;
+    }
+    if (error.userInfo && error.userInfo.count > 0) {
+      self.message = error.userInfo.description;
+    }
+    NSArray<MSACStackFrame *> *frames = [MSACException loadStackTrace:[NSThread callStackSymbols]];
+    self.stackTrace = [frames description];
+    self.frames = frames;
+  }
+  return self;
+}
+
 - (instancetype)initWithException:(NSException *)exception {
   self = [super init];
   if (self) {
@@ -22,32 +38,50 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
     if ([exception respondsToSelector:NSSelectorFromString(@"reason")]) {
       self.message = exception.reason;
     }
+    NSArray<MSACStackFrame *> *frames;
     if ([exception respondsToSelector:NSSelectorFromString(@"callStackSymbols")]) {
-      self.stackTrace = exception.callStackSymbols.description;
+      frames = [MSACException loadStackTrace:exception.callStackSymbols];
+    } else {
+      frames = [MSACException loadStackTrace:[NSThread callStackSymbols]];
     }
+    self.stackTrace = [frames description];
+    self.frames = frames;
   }
   return self;
 }
 
-- (instancetype)initWithTypeAndMessage:(NSString *)exceptionType exceptionMessage:(NSString *)exceptionMessage {
+- (instancetype)initWithType:(NSString *)exceptionType
+            exceptionMessage:(NSString *)exceptionMessage
+                  stackTrace:(NSArray<NSString *> *)stackTrace {
   self = [super init];
   if (self) {
     self.type = exceptionType;
     self.message = exceptionMessage;
+    NSArray<MSACStackFrame *> *frames = [MSACException loadStackTrace:stackTrace];
+    self.stackTrace = frames.description;
+    self.frames = frames;
   }
   return self;
 }
 
-+ (MSACException *)convertNSErrorToMSACException:(NSError *)error {
-  MSACException *msacException = [MSACException new];
-  if (error.domain) {
-    msacException.type = error.domain;
++ (NSArray<MSACStackFrame *> *)loadStackTrace:(NSArray<NSString *> *)stackTrace {
+  NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
+  for (NSString *line in stackTrace) {
+    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[line componentsSeparatedByCharactersInSet:separatorSet]];
+    [array removeObject:@""];
+    MSACStackFrame *frame = [MSACStackFrame new];
+
+    // If the stack trace line doesn't contain full information it should be ignored.
+    if (array.count > 5) {
+      frame.fileName = [array objectAtIndex:1];
+      frame.address = [array objectAtIndex:2];
+      frame.className = [array objectAtIndex:3];
+      frame.methodName = [array objectAtIndex:4];
+      [frames addObject:frame];
+    }
   }
-  if (error.userInfo && error.userInfo.count > 0) {
-    msacException.message = error.userInfo.description;
-  }
-  msacException.stackTrace = [[NSThread callStackSymbols] description];
-  return msacException;
+  return frames;
 }
 
 - (BOOL)isValid {
