@@ -29,8 +29,8 @@
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
 #import "MSACErrorReportPrivate.h"
-#import "MSACException.h"
 #import "MSACExceptionInternal.h"
+#import "MSACExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
 #import "MSACSessionContext.h"
@@ -221,7 +221,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 + (NSString *)trackError:(NSError *)error
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
              attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
-  return [[MSACCrashes sharedInstance] trackError:[[MSACException alloc] initWithError:error]
+  return [[MSACCrashes sharedInstance] trackError:[[MSACExceptionModel alloc] initWithError:error]
                                    withProperties:properties
                                       attachments:attachments];
 }
@@ -235,7 +235,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
  *
  * @return handled error ID.
  */
-+ (NSString *_Nonnull)trackException:(MSACException *_Nonnull)exceptionModel
++ (NSString *_Nonnull)trackException:(MSACExceptionModel *_Nonnull)exceptionModel
                       withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
                          attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties attachments:attachments];
@@ -1388,7 +1388,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 #pragma mark - Handled exceptions
 
-- (NSString *)trackError:(MSACException *_Nonnull)exception
+- (NSString *)trackError:(MSACExceptionModel *_Nonnull)exception
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
              attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   @synchronized(self) {

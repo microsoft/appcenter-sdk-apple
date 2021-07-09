@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MSACException;
+@class MSACExceptionModel;
 
 @interface MSACCrashesTestUtil : NSObject
 
@@ -13,6 +13,6 @@
 
 + (NSData *)dataOfFixtureCrashReportWithFileName:(NSString *)filename;
 
-+ (MSACException *)exception;
++ (MSACExceptionModel *)exception;
 
 @end

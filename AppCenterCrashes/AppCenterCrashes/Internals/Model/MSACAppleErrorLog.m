@@ -3,7 +3,7 @@
 
 #import "MSACAppleErrorLog.h"
 #import "MSACBinary.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACThread.h"
 
 static NSString *const kMSACTypeError = @"appleError";

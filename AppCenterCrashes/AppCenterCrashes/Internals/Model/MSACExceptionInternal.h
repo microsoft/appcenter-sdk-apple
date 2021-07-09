@@ -3,10 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACSerializableObject.h"
 
-@interface MSACExceptionInternal : MSACException
+@interface MSACExceptionInternal : MSACExceptionModel
 
 /*
  * Inner exceptions of this exception [optional].

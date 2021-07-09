@@ -12,7 +12,7 @@
 @class MSACStackFrame;
 
 NS_SWIFT_NAME(ExceptionModel)
-@interface MSACException : NSObject <MSACSerializableObject>
+@interface MSACExceptionModel : NSObject <MSACSerializableObject>
 
 /**
  * Creates an instance of exception model.

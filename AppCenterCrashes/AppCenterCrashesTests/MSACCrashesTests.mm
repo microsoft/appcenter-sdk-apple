@@ -19,7 +19,7 @@
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
 #import "MSACMockCrashesDelegate.h"
@@ -1306,7 +1306,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   NSException *exception = [NSException exceptionWithName:@"Custom Exception"
                                                    reason:@"Custom Reason"
                                                  userInfo:@{@"Localized key" : @"Unexpected Input"}];
-  MSACException *msacException = [[MSACException alloc] initWithException:exception];
+  MSACExceptionModel *msacException = [[MSACExceptionModel alloc] initWithException:exception];
 
   // Mock channel.
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
@@ -1376,15 +1376,9 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   NSDictionary<NSString *, NSString *> *properties = @{@"key" : @"value"};
   NSMutableArray<MSACErrorAttachmentLog *> *attachments = [[NSMutableArray alloc] init];
   [attachments addObject:[[MSACErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text1"]];
-
-  // Init exception.
-  NSArray<NSString *> *stackTrace =
-      [[NSArray alloc] initWithObjects:@"2   AppCenterCrashes                    0x0000000111986513 -[MSACCrashesTests "
-                                       @"testTrackErrorsWithPropertiesAndAttachments] + 4627",
-                                       nil];
-  MSACException *msacException = [[MSACException alloc] initWithType:@"exception type"
-                                                    exceptionMessage:@"exception message"
-                                                          stackTrace:stackTrace];
+  MSACExceptionModel *msacException = [[MSACExceptionModel alloc] initWithType:@"exception type"
+                                                              exceptionMessage:@"exception message"
+                                                                    stackTrace:[NSArray<NSString *> new]];
 
   // Init error.
   NSError *error = [[NSError alloc] initWithDomain:@"Some domain" code:0 userInfo:@{@"key" : @"value", @"key2" : @"value2"}];

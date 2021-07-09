@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class MSACErrorReport;
 @class MSACErrorAttachmentLog;
-@class MSACException;
+@class MSACExceptionModel;
 
 /**
  * This general class allows wrappers to supplement the Crashes SDK with their own behavior.
