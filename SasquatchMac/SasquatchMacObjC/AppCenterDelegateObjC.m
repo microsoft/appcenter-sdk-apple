@@ -140,7 +140,7 @@
   [MSACCrashes trackError:error withProperties:properties attachments:attachments];
 }
 
-- (void)trackException:(MSACException *)exceptionModel
+- (void)trackException:(MSACExceptionModel *)exceptionModel
         withProperties:(NSDictionary<NSString *, NSString *> *)properties
            attachments:(NSArray<MSACErrorAttachmentLog *> *)attachments {
   [MSACCrashes trackException:exceptionModel withProperties:properties attachments:attachments];
