@@ -335,7 +335,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       @"MSAbstractErrorLog" : MSACAbstractErrorLog.self,
       @"MSHandledErrorLog" : MSACHandledErrorLog.self,
       @"MSException" : MSACExceptionInternal.self,
-      @"MSACExceptionModel" : MSACExceptionInternal.self,
+      @"MSACException" : MSACExceptionInternal.self,
       @"MSStackFrame" : MSACStackFrame.self,
       @"MSBinary" : MSACBinary.self,
       @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
