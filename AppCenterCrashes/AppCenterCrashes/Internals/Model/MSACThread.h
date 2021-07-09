@@ -5,7 +5,7 @@
 
 #import "AppCenter+Internal.h"
 
-@class MSACException;
+@class MSACExceptionModel;
 @class MSACStackFrame;
 
 @interface MSACThread : NSObject <MSACSerializableObject>
@@ -28,7 +28,7 @@
 /**
  * The last exception backtrace.
  */
-@property(nonatomic) MSACException *exception;
+@property(nonatomic) MSACExceptionModel *exception;
 
 /**
  * Checks if the object's values are valid.

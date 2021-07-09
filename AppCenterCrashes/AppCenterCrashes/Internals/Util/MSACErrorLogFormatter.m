@@ -54,7 +54,7 @@
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACErrorLogFormatterPrivate.h"
 #import "MSACErrorReportPrivate.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
 #import "MSACThread.h"
 #import "MSACWrapperException.h"
@@ -385,7 +385,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                       crashedThread:(PLCrashReportThreadInfo *)crashedThread
                                             is64bit:(BOOL)is64bit {
   NSMutableArray<MSACThread *> *formattedThreads = [NSMutableArray array];
-  MSACException *lastException = nil;
+  MSACExceptionModel *lastException = nil;
 
   // If CrashReport contains Exception, add the threads that belong to the
   // exception to the list of threads.
@@ -402,7 +402,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
       [exceptionThread.frames addObject:frame];
     }
 
-    lastException = [MSACException new];
+    lastException = [MSACExceptionModel new];
     lastException.message = exception.exceptionReason;
     lastException.frames = exceptionThread.frames;
     lastException.type = report.exceptionInfo.exceptionName ?: report.signalInfo.name;

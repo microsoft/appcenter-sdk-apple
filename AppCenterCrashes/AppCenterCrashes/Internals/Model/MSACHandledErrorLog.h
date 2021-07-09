@@ -4,9 +4,9 @@
 #import <Foundation/Foundation.h>
 
 #import "MSACAbstractErrorLog.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 
-@class MSACException;
+@class MSACExceptionModel;
 
 /**
  * Handled Error log for managed platforms (such as Xamarin, Unity, Android Dalvik/ART).
@@ -21,6 +21,6 @@
 /**
  * The exception.
  */
-@property(nonatomic) MSACException *exception;
+@property(nonatomic) MSACExceptionModel *exception;
 
 @end

@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
 
 static NSString *const kMSACExceptionFrames = @"frames";
@@ -11,7 +11,7 @@ static NSString *const kMSACExceptionType = @"type";
 static NSString *const kMSACExceptionMessage = @"message";
 static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 
-@implementation MSACException
+@implementation MSACExceptionModel
 
 - (instancetype)initWithError:(NSError *)error {
   self = [super init];
@@ -22,7 +22,7 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
     if (error.userInfo && error.userInfo.count > 0) {
       self.message = error.userInfo.description;
     }
-    NSArray<MSACStackFrame *> *frames = [MSACException loadStackTrace:[NSThread callStackSymbols]];
+    NSArray<MSACStackFrame *> *frames = [MSACExceptionModel loadStackTrace:[NSThread callStackSymbols]];
     self.stackTrace = [frames description];
     self.frames = frames;
   }
@@ -40,9 +40,9 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
     }
     NSArray<MSACStackFrame *> *frames;
     if ([exception respondsToSelector:NSSelectorFromString(@"callStackSymbols")]) {
-      frames = [MSACException loadStackTrace:exception.callStackSymbols];
+      frames = [MSACExceptionModel loadStackTrace:exception.callStackSymbols];
     } else {
-      frames = [MSACException loadStackTrace:[NSThread callStackSymbols]];
+      frames = [MSACExceptionModel loadStackTrace:[NSThread callStackSymbols]];
     }
     self.stackTrace = [frames description];
     self.frames = frames;
@@ -57,7 +57,7 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
   if (self) {
     self.type = exceptionType;
     self.message = exceptionMessage;
-    NSArray<MSACStackFrame *> *frames = [MSACException loadStackTrace:stackTrace];
+    NSArray<MSACStackFrame *> *frames = [MSACExceptionModel loadStackTrace:stackTrace];
     self.stackTrace = frames.description;
     self.frames = frames;
   }
@@ -110,10 +110,10 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 }
 
 - (BOOL)isEqual:(id)object {
-  if (![(NSObject *)object isKindOfClass:[MSACException class]]) {
+  if (![(NSObject *)object isKindOfClass:[MSACExceptionModel class]]) {
     return NO;
   }
-  MSACException *exception = (MSACException *)object;
+  MSACExceptionModel *exception = (MSACExceptionModel *)object;
   return ((!self.type && !exception.type) || [self.type isEqualToString:exception.type]) &&
          ((!self.message && !exception.message) || [self.message isEqualToString:exception.message]) &&
          ((!self.frames && !exception.frames) || [self.frames isEqualToArray:exception.frames]) &&

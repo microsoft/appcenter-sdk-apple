@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACHandledErrorLog.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 
 static NSString *const kMSACTypeError = @"handledError";
 static NSString *const kMSACId = @"id";
