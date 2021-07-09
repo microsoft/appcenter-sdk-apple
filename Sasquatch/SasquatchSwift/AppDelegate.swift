@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     while let newTopController = topController.presentedViewController {
       topController = newTopController
     }
-  return topController
+    return topController
   }
     
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
