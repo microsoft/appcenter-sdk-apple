@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
                                                     message: "The maximum size of the internal storage could not be set.",
                                                     preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.window?.rootViewController?.present(alertController, animated: true)
+            self.topMostViewController()?.present(alertController, animated: true)
           }
         }
       })
