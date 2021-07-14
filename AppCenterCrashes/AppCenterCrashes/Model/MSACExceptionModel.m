@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "AppCenter+Internal.h"
 #import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
 
