@@ -295,7 +295,7 @@
 		C9EBA999230D35FE00A20F0F /* MSACWrapperExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD1601F29209000E1DF78 /* MSACWrapperExceptionInternal.h */; };
 		C9EBA99A230D35FE00A20F0F /* MSACErrorAttachmentLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 382346411E8B3DAD001C3A76 /* MSACErrorAttachmentLogInternal.h */; };
 		C9EBA99B230D35FE00A20F0F /* MSACExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3A1DD14C240030878F /* MSACExceptionInternal.h */; };
-		C9EBA99C230D35FE00A20F0F /* MSACStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSACStackFrame.h */; };
+		C9EBA99C230D35FE00A20F0F /* MSACStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSACStackFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA99D230D35FE00A20F0F /* MSACAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSACAbstractErrorLog.h */; };
 		C9EBA99E230D35FE00A20F0F /* MSACBinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* MSACBinary.h */; };
 		C9EBA99F230D35FE00A20F0F /* MSACAppleErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* MSACAppleErrorLog.h */; };
@@ -305,7 +305,7 @@
 		C9EBA9AD230D35FF00A20F0F /* MSACWrapperExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD1601F29209000E1DF78 /* MSACWrapperExceptionInternal.h */; };
 		C9EBA9AE230D35FF00A20F0F /* MSACErrorAttachmentLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 382346411E8B3DAD001C3A76 /* MSACErrorAttachmentLogInternal.h */; };
 		C9EBA9AF230D35FF00A20F0F /* MSACExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3A1DD14C240030878F /* MSACExceptionInternal.h */; };
-		C9EBA9B0230D35FF00A20F0F /* MSACStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSACStackFrame.h */; };
+		C9EBA9B0230D35FF00A20F0F /* MSACStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSACStackFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9B1230D35FF00A20F0F /* MSACAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSACAbstractErrorLog.h */; };
 		C9EBA9B2230D35FF00A20F0F /* MSACBinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* MSACBinary.h */; };
 		C9EBA9B3230D35FF00A20F0F /* MSACAppleErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* MSACAppleErrorLog.h */; };
@@ -315,7 +315,7 @@
 		C9EBA9B7230D360000A20F0F /* MSACWrapperExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD1601F29209000E1DF78 /* MSACWrapperExceptionInternal.h */; };
 		C9EBA9B8230D360000A20F0F /* MSACErrorAttachmentLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 382346411E8B3DAD001C3A76 /* MSACErrorAttachmentLogInternal.h */; };
 		C9EBA9B9230D360000A20F0F /* MSACExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3A1DD14C240030878F /* MSACExceptionInternal.h */; };
-		C9EBA9BA230D360000A20F0F /* MSACStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSACStackFrame.h */; };
+		C9EBA9BA230D360000A20F0F /* MSACStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSACStackFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9BB230D360000A20F0F /* MSACAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSACAbstractErrorLog.h */; };
 		C9EBA9BC230D360000A20F0F /* MSACBinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* MSACBinary.h */; };
 		C9EBA9BD230D360000A20F0F /* MSACAppleErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* MSACAppleErrorLog.h */; };
@@ -1203,8 +1203,6 @@
 				382346411E8B3DAD001C3A76 /* MSACErrorAttachmentLogInternal.h */,
 				3507AE3A1DD14C240030878F /* MSACExceptionInternal.h */,
 				6E7D5C6E1D3E9346009EC9AC /* MSACExceptionInternal.m */,
-				3507AE3B1DD14C240030878F /* MSACStackFrame.h */,
-				6E7D5C761D3E9395009EC9AC /* MSACStackFrame.m */,
 				B2CD3BF71D80EE49000A8A91 /* MSACAbstractErrorLog.h */,
 				B2CD3BF81D80EE49000A8A91 /* MSACAbstractErrorLog.m */,
 				6E7D5C651D3E9321009EC9AC /* MSACBinary.h */,
@@ -1332,6 +1330,8 @@
 		D38024001E7125F500466558 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3507AE3B1DD14C240030878F /* MSACStackFrame.h */,
+				6E7D5C761D3E9395009EC9AC /* MSACStackFrame.m */,
 				38BD86511E8499EF004E8D7A /* MSACErrorAttachmentLog.h */,
 				8024743A1EAE077800AEC284 /* MSACErrorAttachmentLog.m */,
 				3858A2171E93F37E00535A69 /* MSACErrorAttachmentLog+Utility.h */,
