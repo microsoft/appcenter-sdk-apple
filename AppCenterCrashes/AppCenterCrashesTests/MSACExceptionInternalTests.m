@@ -3,7 +3,7 @@
 
 #import "AppCenter+Internal.h"
 #import "MSACCrashesTestUtil.h"
-#import "MSACExceptionInternal.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
 
@@ -18,7 +18,7 @@
 - (void)testSerializingBinaryToDictionaryWorks {
 
   // If
-  MSACExceptionInternal *sut = [MSACCrashesTestUtil exception];
+  MSACWrapperExceptionModel *sut = [MSACCrashesTestUtil exception];
   sut.innerExceptions = @[ [MSACCrashesTestUtil exception] ];
 
   // When
@@ -35,7 +35,7 @@
 - (void)testNSCodingSerializationAndDeserializationWorks {
 
   // If
-  MSACExceptionInternal *sut = [MSACCrashesTestUtil exception];
+  MSACWrapperExceptionModel *sut = [MSACCrashesTestUtil exception];
   sut.innerExceptions = @[ [MSACCrashesTestUtil exception] ];
 
   // When
@@ -44,9 +44,9 @@
 
   // Then
   assertThat(actual, notNilValue());
-  assertThat(actual, instanceOf([MSACExceptionInternal class]));
+  assertThat(actual, instanceOf([MSACWrapperExceptionModel class]));
 
-  MSACExceptionInternal *actualException = actual;
+  MSACWrapperExceptionModel *actualException = actual;
 
   assertThat(actualException, equalTo(sut));
   assertThat(actualException.type, equalTo(sut.type));

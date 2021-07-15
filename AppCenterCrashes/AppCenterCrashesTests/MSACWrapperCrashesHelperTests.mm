@@ -12,7 +12,7 @@
 #import "MSACCrashesUtil.h"
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACErrorAttachmentLog.h"
-#import "MSACExceptionInternal.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACHttpClient.h"
 #import "MSACLogWithProperties.h"
@@ -71,7 +71,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACExceptionInternal *exception;
+  __block MSACWrapperExceptionModel *exception;
   NSString *expectedUserId = @"alice";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   id<MSACChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
@@ -97,7 +97,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
                                       fromApplication:YES];
 
   // When
-  MSACExceptionInternal *expectedException = [MSACExceptionInternal new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
@@ -119,7 +119,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACExceptionInternal *exception;
+  __block MSACWrapperExceptionModel *exception;
   __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedUserId = @"alice";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
@@ -147,7 +147,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
                                       fromApplication:YES];
 
   // When
-  MSACExceptionInternal *expectedException = [MSACExceptionInternal new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
@@ -171,7 +171,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACExceptionInternal *exception;
+  __block MSACWrapperExceptionModel *exception;
   __block NSMutableArray<MSACErrorAttachmentLog *> *errorAttachmentLogs = [NSMutableArray new];
   NSString *expectedUserId = @"alice";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
@@ -212,7 +212,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   NSArray<MSACErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
 
   // When
-  MSACExceptionInternal *expectedException = [MSACExceptionInternal new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
@@ -237,7 +237,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACExceptionInternal *exception;
+  __block MSACWrapperExceptionModel *exception;
   __block NSDictionary<NSString *, NSString *> *properties;
   __block NSMutableArray<MSACErrorAttachmentLog *> *errorAttachmentLogs = [NSMutableArray new];
   NSString *expectedUserId = @"alice";
@@ -280,7 +280,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   NSArray<MSACErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
 
   // When
-  MSACExceptionInternal *expectedException = [MSACExceptionInternal new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
