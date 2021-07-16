@@ -23,9 +23,9 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
     if (error.userInfo && error.userInfo.count > 0) {
       self.message = error.userInfo.description;
     }
-    NSArray<MSACStackFrame *> *frames = [MSACExceptionModel loadStackTrace:[NSThread callStackSymbols]];
-    self.stackTrace = [frames description];
-    self.frames = frames;
+    NSArray<NSString *> *stackTraceArray = [NSThread callStackSymbols];
+    self.stackTrace = stackTraceArray.description;
+    self.frames = [MSACExceptionModel loadStackTrace:stackTraceArray];
   }
   return self;
 }
@@ -41,11 +41,11 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
     }
     NSArray<MSACStackFrame *> *frames;
     if ([exception respondsToSelector:NSSelectorFromString(@"callStackSymbols")]) {
+      self.stackTrace = exception.callStackSymbols.description;
       frames = [MSACExceptionModel loadStackTrace:exception.callStackSymbols];
     } else {
       frames = [MSACExceptionModel loadStackTrace:[NSThread callStackSymbols]];
     }
-    self.stackTrace = [frames description];
     self.frames = frames;
   }
   return self;
@@ -58,9 +58,8 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
   if (self) {
     self.type = exceptionType;
     self.message = exceptionMessage;
-    NSArray<MSACStackFrame *> *frames = [MSACExceptionModel loadStackTrace:stackTrace];
-    self.stackTrace = frames.description;
-    self.frames = frames;
+    self.stackTrace = stackTrace.description;
+    self.frames = [MSACExceptionModel loadStackTrace:stackTrace];
   }
   return self;
 }
