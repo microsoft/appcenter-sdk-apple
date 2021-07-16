@@ -27,7 +27,7 @@
   // Then.
   XCTAssertEqualObjects(msacException.type, exception.name);
   XCTAssertEqualObjects(msacException.message, exception.reason);
-  XCTAssertEqualObjects(msacException.stackTrace, @"(\n)");
+  XCTAssertNil(msacException.stackTrace);
   XCTAssertEqual(msacException.frames.count, 0);
 }
 
@@ -42,7 +42,7 @@
   // Then.
   XCTAssertNil(msacException.type);
   XCTAssertNil(msacException.message);
-  XCTAssertNotNil(msacException.stackTrace);
+  XCTAssertNil(msacException.stackTrace);
   XCTAssertNotNil(msacException.frames);
 }
 
@@ -98,7 +98,7 @@
   // Then.
   XCTAssertEqualObjects(msacException.type, exceptionType);
   XCTAssertEqualObjects(msacException.message, exceptionMessage);
-  XCTAssertEqualObjects(msacException.stackTrace, @"(\n)");
+  XCTAssertTrue([msacException.stackTrace containsString:exceptionStackTrace]);
   XCTAssertEqual(msacException.frames.count, 0);
 }
 
