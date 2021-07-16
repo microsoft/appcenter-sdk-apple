@@ -29,7 +29,7 @@
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
 #import "MSACErrorReportPrivate.h"
-#import "MSACExceptionInternal.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
@@ -334,8 +334,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       @"MSWrapperException" : MSACWrapperException.self,
       @"MSAbstractErrorLog" : MSACAbstractErrorLog.self,
       @"MSHandledErrorLog" : MSACHandledErrorLog.self,
-      @"MSException" : MSACExceptionInternal.self,
-      @"MSACException" : MSACExceptionInternal.self,
+      @"MSException" : MSACWrapperExceptionModel.self,
+      @"MSACException" : MSACWrapperExceptionModel.self,
       @"MSStackFrame" : MSACStackFrame.self,
       @"MSBinary" : MSACBinary.self,
       @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,

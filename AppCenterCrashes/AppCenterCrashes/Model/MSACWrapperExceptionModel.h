@@ -4,14 +4,20 @@
 #import <Foundation/Foundation.h>
 
 #import "MSACExceptionModel.h"
-#import "MSACSerializableObject.h"
+#import "MSACWrapperExceptionModel.h"
 
-@interface MSACExceptionInternal : MSACExceptionModel
+#if __has_include(<AppCenter/MSACSerializableObject.h>)
+#import <AppCenter/MSACSerializableObject.h>
+#else
+#import "MSACSerializableObject.h"
+#endif
+
+@interface MSACWrapperExceptionModel : MSACExceptionModel
 
 /*
  * Inner exceptions of this exception [optional].
  */
-@property(nonatomic) NSArray<MSACExceptionInternal *> *innerExceptions;
+@property(nonatomic) NSArray<MSACWrapperExceptionModel *> *innerExceptions;
 
 /*
  * Name of the wrapper SDK that emitted this exception.
