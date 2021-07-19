@@ -30,7 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
   private var locationManager : CLLocationManager = CLLocationManager()
 
   var window: UIWindow?
-
+  func topMostViewController() -> UIViewController? {
+    guard var topController = window?.rootViewController else {
+      return nil
+    }
+    while let newTopController = topController.presentedViewController {
+      topController = newTopController
+    }
+    return topController
+  }
+    
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     Crashes.delegate = self
 #if canImport(AppCenterDistribute)
@@ -56,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
                                                     message: "The maximum size of the internal storage could not be set.",
                                                     preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .default))
-            self.window?.rootViewController?.present(alertController, animated: true)
+            self.topMostViewController()?.present(alertController, animated: true)
           }
         }
       })
@@ -136,7 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
       })
 
       // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true)
+      self.topMostViewController()?.present(alertController, animated: true)
 
       return true
     })
@@ -310,7 +319,7 @@ extension AppDelegate: DistributeDelegate {
       })
 
       // Show the alert controller.
-      self.window?.rootViewController?.present(alertController, animated: true)
+      self.topMostViewController()?.present(alertController, animated: true)
       return true
     }
     return false
@@ -318,9 +327,6 @@ extension AppDelegate: DistributeDelegate {
   
   func distributeNoReleaseAvailable(_ distribute: Distribute) {
     NSLog("distributeNoReleaseAvailable invoked");
-    let alert = UIAlertController(title: nil, message: "No updates available", preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-    self.window?.rootViewController?.present(alert, animated: true)
   }
 
   func distributeWillExitApp(_ distribute: Distribute) {
