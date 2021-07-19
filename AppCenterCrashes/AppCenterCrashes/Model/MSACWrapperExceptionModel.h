@@ -3,8 +3,16 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef MSAC_WRAPPER_EXCEPTION_MODEL_H
+#define MSAC_WRAPPER_EXCEPTION_MODEL_H
+
+#if __has_include(<AppCenterCrashes/MSACExceptionModel.h>)
+#import <AppCenterCrashes/MSACExceptionModel.h>
+#import <AppCenterCrashes/MSACWrapperExceptionModel.h>
+#else
 #import "MSACExceptionModel.h"
 #import "MSACWrapperExceptionModel.h"
+#endif
 
 #if __has_include(<AppCenter/MSACSerializableObject.h>)
 #import <AppCenter/MSACSerializableObject.h>
@@ -26,3 +34,5 @@
 @property(nonatomic, copy) NSString *wrapperSdkName;
 
 @end
+
+#endif
