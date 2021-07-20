@@ -82,7 +82,7 @@ NS_SWIFT_NAME(Crashes)
  */
 + (NSString *_Nonnull)trackError:(NSError *_Nonnull)error
                   withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                     attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
+                     attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments NS_SWIFT_NAME(trackError(_:properties:attachments:));
 
 /**
  * Track handled exception from custom exception model.
@@ -95,7 +95,7 @@ NS_SWIFT_NAME(Crashes)
  */
 + (NSString *_Nonnull)trackException:(MSACExceptionModel *_Nonnull)exception
                       withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                         attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
+                         attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments NS_SWIFT_NAME(trackException(_:properties:attachments:));
 
 ///-----------------------------------------------------------------------------
 /// @name Testing Crashes Feature
