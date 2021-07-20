@@ -58,6 +58,9 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
   if (self) {
     self.type = exceptionType;
     self.message = exceptionMessage;
+    if (stackTrace == nil) {
+      stackTrace = [NSThread callStackSymbols];
+    }
     self.stackTrace = stackTrace.description;
     self.frames = [MSACExceptionModel loadStackTrace:stackTrace];
   }
