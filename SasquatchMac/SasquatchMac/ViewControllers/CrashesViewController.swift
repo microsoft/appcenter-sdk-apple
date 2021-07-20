@@ -61,7 +61,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   }
   
   @IBAction func updateTrackErrorProperty(_ sender: NSButton) {
-    hasTrackErrorProperies = !hasTrackErrorProperies;
+    hasTrackErrorProperies = !hasTrackErrorProperies
   }
     
   @IBAction func setEnabled(sender : NSButton) {

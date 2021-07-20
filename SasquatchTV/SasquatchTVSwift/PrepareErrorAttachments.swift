@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import Foundation
-import AppCenterCrashes;
+import AppCenterCrashes
 
 class PrepareErrorAttachments: Any {
     

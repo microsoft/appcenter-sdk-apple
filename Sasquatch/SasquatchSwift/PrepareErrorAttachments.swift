@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import Foundation
-
 import CoreLocation
 import MobileCoreServices
 import Photos

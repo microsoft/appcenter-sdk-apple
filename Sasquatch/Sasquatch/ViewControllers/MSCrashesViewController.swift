@@ -48,17 +48,11 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    let isFirst = section == 0
-    let isSecond = section == 1
-    let isThird = section == 2
-    if isFirst {
-      return 1
-    } else if isSecond {
-      return 5
-    } else if isThird {
-      return 3
-    } else {
-      return categories[categoryForSection(section - 3)]!.count
+    switch section {
+      case 1: return 1
+      case 2: return 5
+      case 3: return 3
+      default: return categories[categoryForSection(section - 3)]!.count
     }
   }
   
@@ -152,7 +146,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
          cell.textLabel?.text = "Track error"
          cell.detailTextLabel?.text = ""
        } else if (indexPath.row == 2) {
-         cell.textLabel?.text = "Track error with model exception"
+         cell.textLabel?.text = "Track error with custom exception"
          cell.detailTextLabel?.text = ""
        }
     } else {

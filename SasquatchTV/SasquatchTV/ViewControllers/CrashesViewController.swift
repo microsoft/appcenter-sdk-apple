@@ -88,11 +88,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
     } else if isSecond {
       cellIdentifier = "breadcrumbs"
     } else if isThird {
-      if (indexPath.row == 0) {
-        cellIdentifier = "enable"
-      } else {
-        cellIdentifier = "trackerror"
-      }
+      cellIdentifier = indexPath.row == 0 ? "enable" : "trackerror"
     } else {
       cellIdentifier = "crash"
     }
@@ -103,13 +99,13 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
       cell.textLabel?.text = "Breadcrumbs"
     } else if isThird {
       if (indexPath.row == 0) {
-        cell.textLabel?.text = "Track with properties"
+        cell.textLabel?.text = "Track error with properties"
         cell.detailTextLabel?.text = hasTrackErrorProperies ? "Enabled" : "Disabled"
       } else if (indexPath.row == 1) {
         cell.textLabel?.text = "Track error"
         cell.detailTextLabel?.text = ""
       } else if (indexPath.row == 2) {
-        cell.textLabel?.text = "Track error with model exception"
+        cell.textLabel?.text = "Track error with custom exception"
         cell.detailTextLabel?.text = ""
       }
     } else {
@@ -126,7 +122,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
     let isThird = indexPath.section == 2
     if isFirst {
       appCenter.setCrashesEnabled(!appCenter.isCrashesEnabled());
-      tableView.reloadData();
+      tableView.reloadData()
     } else if isSecond {
       for index in 1...29 {
         appCenter.trackEvent("Breadcrumb \(index)")
@@ -137,7 +133,7 @@ class CrashesViewController: UITableViewController, AppCenterProtocol {
       let attachments: [ErrorAttachmentLog]? = PrepareErrorAttachments.prepareAttachments()
       if indexPath.row == 0 {
         hasTrackErrorProperies = !hasTrackErrorProperies
-        tableView.reloadData();
+        tableView.reloadData()
       } else if indexPath.row == 1 {
         appCenter.trackError(AppCenterError.runtimeError("Track error"), withProperties: properties, attachments: attachments)
       } else if indexPath.row == 2 {
