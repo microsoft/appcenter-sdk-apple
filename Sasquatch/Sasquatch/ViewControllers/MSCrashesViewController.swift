@@ -49,9 +49,9 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
-      case 1: return 1
-      case 2: return 5
-      case 3: return 3
+      case 0: return 1
+      case 1: return 5
+      case 2: return 3
       default: return categories[categoryForSection(section - 3)]!.count
     }
   }
