@@ -4,8 +4,13 @@
 import Photos
 import UIKit
 
+enum AppCenterError: Error {
+  case runtimeError(String)
+}
+
 class MSCrashesViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIDocumentPickerDelegate, AppCenterProtocol {
   
+  var hasTrackErrorProperies = false
   var categories = [String: [MSCrash]]()
   var appCenter: AppCenterDelegate!
   
@@ -43,24 +48,24 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    let isFirst = section == 0
-    let isSecond = section == 1
-    if isFirst {
-      return 1
-    } else if isSecond {
-      return 5
-    } else {
-      return categories[categoryForSection(section - 2)]!.count
+    switch section {
+      case 0: return 1
+      case 1: return 5
+      case 2: return 3
+      default: return categories[categoryForSection(section - 3)]!.count
     }
   }
   
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     let isFirst = section == 0
     let isSecond = section == 1
+    let isThird = section == 2
     if isFirst {
       return "Breadcrumbs"
     } else if isSecond {
       return "Crashes Settings"
+    } else if isThird {
+      return "Track Error Settings"
     } else {
       return categoryForSection(section - 2)
     }
@@ -69,6 +74,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let isFirst = indexPath.section == 0
     let isSecond = indexPath.section == 1
+    let isThird = indexPath.section == 2
     var cellIdentifier = "crash"
     if isFirst {
       cellIdentifier = "breadcrumbs"
@@ -78,6 +84,8 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       } else {
         cellIdentifier = "attachment"
       }
+    } else if isThird && indexPath.row == 0 {
+        cellIdentifier = "trackerror"
     }
     let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
     if isFirst {
@@ -126,6 +134,21 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         cell.textLabel?.text = "Memory warning status (last session)"
         cell.detailTextLabel?.text = appCenter.hasReceivedMemoryWarningInLastSession() ? "YES" : "NO"
       }
+    } else if isThird {
+       if (indexPath.row == 0) {
+        for view in cell.contentView.subviews {
+          if let switchView = view as? UISwitch {
+            switchView.isOn = false
+          }
+        }
+       }
+       else if (indexPath.row == 1) {
+         cell.textLabel?.text = "Track error"
+         cell.detailTextLabel?.text = ""
+       } else if (indexPath.row == 2) {
+         cell.textLabel?.text = "Track error with custom exception"
+         cell.detailTextLabel?.text = ""
+       }
     } else {
       let crash = crashByIndexPath(indexPath)
       cell.textLabel?.text = crash.title;
@@ -152,6 +175,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) -> Void {
     let isFirst = indexPath.section == 0
     let isSecond = indexPath.section == 1
+    let isThird = indexPath.section == 2
     if isFirst {
       for index in 0...29 {
         let eventName = "Breadcrumb_\(index)"
@@ -210,6 +234,15 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
         alertController.addAction(clearAction)
         self.present(alertController, animated: true, completion: nil)
       }
+    } else if isThird {
+      let properties:Dictionary<String, String>? = hasTrackErrorProperies ? ["key" :  "value"] : nil
+      let attachments: [ErrorAttachmentLog]? = PrepareErrorAttachments.prepareAttachments()
+      if indexPath.row == 1 {
+        appCenter.trackError(AppCenterError.runtimeError("Track error"), withProperties: properties, attachments: attachments)
+      } else if indexPath.row == 2 {
+        let exceptionModel = ExceptionModel(withType: "Custom exception model", exceptionMessage: "Track error with custom exception model.", stackTrace: Thread.callStackSymbols)
+        appCenter.trackException(exceptionModel!, withProperties: properties, attachments: attachments)
+      }
     } else {
       
       // Crash cell.
@@ -264,6 +297,10 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
     sender.isOn = appCenter.isCrashesEnabled()
   }
   
+  @IBAction func trackWithPropertiesUpdated(_ sender: UISwitch) {
+    hasTrackErrorProperies = sender.isOn
+  }
+    
   private func pokeAllCrashes() {
     var count = UInt32(0)
     let classList = objc_copyClassList(&count)
@@ -282,6 +319,6 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
   }
   
   private func crashByIndexPath(_ indexPath: IndexPath) -> MSCrash {
-    return categories[categoryForSection(indexPath.section - 2)]![indexPath.row]
+    return categories[categoryForSection(indexPath.section - 3)]![indexPath.row]
   }
 }
