@@ -101,7 +101,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     Crashes.generateTestCrash()
   }
     
-  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) -> Void {
+  func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) {
     Crashes.trackError(error, properties: withProperties, attachments:attachments)
   }
   
