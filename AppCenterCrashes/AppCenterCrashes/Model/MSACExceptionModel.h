@@ -24,7 +24,7 @@ NS_SWIFT_NAME(ExceptionModel)
  *
  * @return A new instance of exception.
  */
-- (instancetype)initWithError:(NSError *)error;
+- (instancetype)initWithError:(NSError *)error NS_SWIFT_NAME(init(withError:));
 
 /**
  * Creates an instance of exception model.
@@ -37,7 +37,8 @@ NS_SWIFT_NAME(ExceptionModel)
  */
 - (instancetype)initWithType:(NSString *)exceptionType
             exceptionMessage:(NSString *)exceptionMessage
-                  stackTrace:(NSArray<NSString *> *)stackTrace;
+                  stackTrace:(NSArray<NSString *> *)stackTrace
+               NS_SWIFT_NAME(init(withType:exceptionMessage:stackTrace:));
 
 /**
  * Creates an instance of exception model.
@@ -46,7 +47,7 @@ NS_SWIFT_NAME(ExceptionModel)
  *
  * @return A new instance of exception.
  */
-- (instancetype)initWithException:(NSException *)exception;
+- (instancetype)initWithException:(NSException *)exception NS_SWIFT_NAME(init(withException:));
 
 /**
  * Exception type.

@@ -209,15 +209,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 #pragma mark - Public Methods
 
-/**
- * Track handled error.
- *
- * @param error error.
- * @param properties dictionary of properties.
- * @param attachments a list of attachments.
- *
- * @return handled error ID.
- */
 + (NSString *)trackError:(NSError *)error
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
              attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
@@ -226,16 +217,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
                                       attachments:attachments];
 }
 
-/**
- * Track handled exception from custom exception model.
- *
- * @param exceptionModel custom model exception.
- * @param properties dictionary of properties.
- * @param attachments a list of attachments.
- *
- * @return handled error ID.
- */
-+ (NSString *_Nonnull)trackException:(MSACExceptionModel *_Nonnull)exceptionModel
++ (NSString *)trackException:(MSACExceptionModel *)exceptionModel
                       withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
                          attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties attachments:attachments];
@@ -1388,7 +1370,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 #pragma mark - Handled exceptions
 
-- (NSString *)trackError:(MSACExceptionModel *_Nonnull)exception
+- (NSString *)trackError:(MSACExceptionModel *)exception
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
              attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   @synchronized(self) {

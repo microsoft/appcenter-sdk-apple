@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSACAppDidReceiveMemoryWarningKey = @"AppDidReceiveMemoryWarning";
 
-@class MSACExceptionModel;
 @class MSACErrorAttachmentLog;
 
 @interface MSACCrashes () <MSACServiceInternal>
