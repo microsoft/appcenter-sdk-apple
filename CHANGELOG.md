@@ -4,7 +4,7 @@
 
 ### App Center Crashes
 
-* **[Feature]** Add support for handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
+* **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
 
 ### App Center Distribute
 
