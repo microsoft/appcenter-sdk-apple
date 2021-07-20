@@ -102,11 +102,11 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   }
     
   func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) -> Void {
-    Crashes.trackError(error, withProperties: withProperties, attachments:attachments)
+    Crashes.trackError(error, properties: withProperties, attachments:attachments)
   }
   
   func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) -> Void {
-    Crashes.trackException(exceptionModel, withProperties: withProperties, attachments:attachments)
+    Crashes.trackException(exceptionModel, properties: withProperties, attachments:attachments)
   }
 
   //MARK: Last crash report section.

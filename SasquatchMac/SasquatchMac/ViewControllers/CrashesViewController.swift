@@ -56,7 +56,7 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
   @IBAction func trackErrorWithCustomException(_ sender: NSButton) {
     let properties:Dictionary<String, String>? = hasTrackErrorProperies ? ["key" :  "value"] : nil
     let attachments: [ErrorAttachmentLog]? = PrepareErrorAttachments.prepareAttachments()
-    let exceptionModel = ExceptionModel(type: "Custom exception model", exceptionMessage: "Track error with custom exception model.", stackTrace:Thread.callStackSymbols)
+    let exceptionModel = ExceptionModel(withType: "Custom exception model", exceptionMessage: "Track error with custom exception model.", stackTrace:Thread.callStackSymbols)
     appCenter.trackException(exceptionModel!, withProperties: properties, attachments: attachments)
   }
   

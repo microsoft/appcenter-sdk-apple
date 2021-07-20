@@ -240,7 +240,7 @@ class MSCrashesViewController: UITableViewController, UIImagePickerControllerDel
       if indexPath.row == 1 {
         appCenter.trackError(AppCenterError.runtimeError("Track error"), withProperties: properties, attachments: attachments)
       } else if indexPath.row == 2 {
-        let exceptionModel = ExceptionModel(type: "Custom exception model", exceptionMessage: "Track error with custom exception model.", stackTrace: Thread.callStackSymbols)
+        let exceptionModel = ExceptionModel(withType: "Custom exception model", exceptionMessage: "Track error with custom exception model.", stackTrace: Thread.callStackSymbols)
         appCenter.trackException(exceptionModel!, withProperties: properties, attachments: attachments)
       }
     } else {
