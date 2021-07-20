@@ -11,7 +11,7 @@
 #import "MSACCrashesTestUtil.h"
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACErrorLogFormatterPrivate.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACMockUserDefaults.h"
 #import "MSACTestFrameworks.h"
 #import "MSACThread.h"
@@ -197,7 +197,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   for (MSACThread *thread in errorLog.threads) {
     if ([thread.threadId isEqualToNumber:@(crashedThread.threadNumber)]) {
-      MSACException *exception = thread.exception;
+      MSACExceptionModel *exception = thread.exception;
       XCTAssertNotNil(exception);
       XCTAssertEqual(exception.message, plExceptionInfo.exceptionReason);
       XCTAssertEqual(exception.type, plExceptionInfo.exceptionName);
@@ -263,7 +263,7 @@ static NSArray *kMacOSCrashReportsParameters = @[
 
   MSACAppleErrorLog *errorLog = [MSACErrorLogFormatter errorLogFromCrashReport:crashReport];
 
-  MSACException *lastExceptionStackTrace = nil;
+  MSACExceptionModel *lastExceptionStackTrace = nil;
 
   for (MSACThread *thread in errorLog.threads) {
     if (thread.exception) {

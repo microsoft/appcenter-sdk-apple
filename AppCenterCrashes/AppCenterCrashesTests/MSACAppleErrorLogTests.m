@@ -4,7 +4,7 @@
 #import "MSACAppleErrorLog.h"
 #import "MSACBinary.h"
 #import "MSACCrashesTestUtil.h"
-#import "MSACException.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACTestFrameworks.h"
 #import "MSACThread.h"
 
@@ -95,7 +95,7 @@
   XCTAssertNotNil(exceptionDictionary);
   assertThat(exceptionDictionary[@"type"], equalTo(self.sut.exception.type));
   assertThat(exceptionDictionary[@"message"], equalTo(self.sut.exception.message));
-  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(exceptionDictionary[@"wrapperSdkName"], equalTo(((MSACWrapperExceptionModel *)self.sut.exception).wrapperSdkName));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {
@@ -125,10 +125,10 @@
   assertThat(actualLog.selectorRegisterValue, equalTo(self.sut.selectorRegisterValue));
 
   // The exception field.
-  MSACException *actualException = actualLog.exception;
+  MSACWrapperExceptionModel *actualException = actualLog.exception;
   assertThat(actualException.type, equalTo(self.sut.exception.type));
   assertThat(actualException.message, equalTo(self.sut.exception.message));
-  assertThat(actualException.wrapperSdkName, equalTo(self.sut.exception.wrapperSdkName));
+  assertThat(actualException.wrapperSdkName, equalTo(((MSACWrapperExceptionModel *)self.sut.exception).wrapperSdkName));
 }
 
 - (void)testIsEqual {

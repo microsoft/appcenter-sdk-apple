@@ -11,7 +11,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 static NSString *const kMSACAppDidReceiveMemoryWarningKey = @"AppDidReceiveMemoryWarning";
 
-@class MSACException;
 @class MSACErrorAttachmentLog;
 
 @interface MSACCrashes () <MSACServiceInternal>
@@ -61,20 +60,6 @@ static NSString *const kMSACAppDidReceiveMemoryWarningKey = @"AppDidReceiveMemor
  * only those for the reasons mentioned in this paragraph.
  */
 - (void)configureCrashReporterWithUncaughtExceptionHandlerEnabled:(BOOL)enableUncaughtExceptionHandler;
-
-/**
- * Track handled exception directly as model form.
- * This API is used by wrapper SDKs.
- *
- * @param exception model form exception.
- * @param properties dictionary of properties.
- * @param attachments a list of attachments.
- *
- * @return handled error ID.
- */
-- (nullable NSString *)trackModelException:(MSACException *)exception
-                            withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                           withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments;
 
 /**
  * Get a generic error report representation for an handled exception.

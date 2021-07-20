@@ -19,7 +19,7 @@
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
 #import "MSACMockCrashesDelegate.h"
@@ -1298,6 +1298,116 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 
   // Clear
   [settings stopMocking];
+}
+
+- (void)testTrackException {
+
+  // Init exception.
+  NSException *exception = [NSException exceptionWithName:@"Custom Exception"
+                                                   reason:@"Custom Reason"
+                                                 userInfo:@{@"Localized key" : @"Unexpected Input"}];
+  MSACExceptionModel *msacException = [[MSACExceptionModel alloc] initWithException:exception];
+
+  // Mock channel.
+  id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
+  id<MSACChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSACChannelUnitConfiguration *configuration) {
+                              return [configuration.groupId isEqualToString:@"Crashes"];
+                            }]])
+      .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSACHandledErrorLog *log;
+    [invocation getArgument:&log atIndex:2];
+    XCTAssertEqualObjects(log.type, @"handledError");
+    XCTAssertEqualObjects(log.exception.type, msacException.type);
+    XCTAssertEqualObjects(log.exception.message, msacException.message);
+    XCTAssertEqualObjects(log.exception.stackTrace, msacException.stackTrace);
+  });
+
+  // Start services.
+  [MSACAppCenter start:@"some-secret" withServices:@[ [MSACCrashes class] ]];
+  [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // Call trackException.
+  [MSACCrashes trackException:msacException withProperties:nil attachments:nil];
+}
+
+- (void)testTrackError {
+
+  // Init error.
+  NSError *error = [[NSError alloc] initWithDomain:@"Some domain" code:0 userInfo:@{@"key" : @"value", @"key2" : @"value2"}];
+
+  // Mock channel.
+  id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
+  id<MSACChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSACChannelUnitConfiguration *configuration) {
+                              return [configuration.groupId isEqualToString:@"Crashes"];
+                            }]])
+      .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSACHandledErrorLog *log;
+    [invocation getArgument:&log atIndex:2];
+    XCTAssertEqualObjects(log.type, @"handledError");
+    XCTAssertEqualObjects(log.exception.type, error.domain);
+    XCTAssertEqualObjects(log.exception.message, error.userInfo.description);
+    XCTAssertNotNil(log.exception.stackTrace);
+  });
+
+  // Start services.
+  [MSACAppCenter start:@"some-secret" withServices:@[ [MSACCrashes class] ]];
+  [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // Call trackError.
+  [MSACCrashes trackError:error withProperties:nil attachments:nil];
+}
+
+- (void)testTrackErrorsWithPropertiesAndAttachments {
+
+  // Init counter.
+  __block NSUInteger numInvocations = 0;
+
+  // Init attachments and properties.
+  NSDictionary<NSString *, NSString *> *properties = @{@"key" : @"value"};
+  NSMutableArray<MSACErrorAttachmentLog *> *attachments = [[NSMutableArray alloc] init];
+  [attachments addObject:[[MSACErrorAttachmentLog alloc] initWithFilename:@"name" attachmentText:@"text1"]];
+  MSACExceptionModel *msacException = [[MSACExceptionModel alloc] initWithType:@"exception type"
+                                                              exceptionMessage:@"exception message"
+                                                                    stackTrace:[NSArray<NSString *> new]];
+
+  // Init error.
+  NSError *error = [[NSError alloc] initWithDomain:@"Some domain" code:0 userInfo:@{@"key" : @"value", @"key2" : @"value2"}];
+
+  // Mock channel.
+  id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
+  id<MSACChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSACChannelUnitConfiguration *configuration) {
+                              return [configuration.groupId isEqualToString:@"Crashes"];
+                            }]])
+      .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]).andDo(^(__unused NSInvocation *invocation) {
+    numInvocations++;
+  });
+
+  // Start services.
+  [MSACAppCenter start:@"some-secret" withServices:@[ [MSACCrashes class] ]];
+  [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // Call trackException and verify that logs enqueue was called twice.
+  [MSACCrashes trackException:msacException withProperties:properties attachments:attachments];
+  XCTAssertEqual(2, numInvocations);
+
+  // Call trackError and verify that logs enqueue was called four times.
+  [MSACCrashes trackError:error withProperties:properties attachments:attachments];
+  XCTAssertEqual(4, numInvocations);
 }
 
 #pragma mark Helper

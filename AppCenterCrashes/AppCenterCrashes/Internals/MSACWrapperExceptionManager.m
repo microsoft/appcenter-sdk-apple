@@ -4,7 +4,7 @@
 #import "MSACAppCenterInternal.h"
 #import "MSACCrashesInternal.h"
 #import "MSACCrashesUtil.h"
-#import "MSACException.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACLoggerInternal.h"
 #import "MSACUtility+File.h"
 #import "MSACWrapperExceptionInternal.h"

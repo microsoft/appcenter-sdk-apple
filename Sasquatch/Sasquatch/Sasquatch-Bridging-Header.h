@@ -11,9 +11,12 @@
 #import "CrashLib.h"
 
 #if GCC_PREPROCESSOR_MACRO_PUPPET
-#import "MSEventFilter.h"
+#import "MSACErrorAttachmentLog.h"
 #import "MSACEventPropertiesInternal.h"
+#import "MSACExceptionModel.h"
+#import "MSEventFilter.h"
 #else
 @import AppCenter;
 @import AppCenterAnalytics;
+@import AppCenterCrashes;
 #endif
