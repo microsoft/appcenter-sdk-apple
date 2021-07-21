@@ -17,6 +17,10 @@
 		0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */; };
 		04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
+		06B5E4F1268F52EB001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */; };
+		06B5E519268F5370001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */; };
+		06B5E51A268F5371001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */; };
+		06B5E51B268F5372001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */; };
 		353332F720126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		353332F820126200009B0946 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
@@ -451,6 +455,7 @@
 		046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchMacSwift.entitlements; sourceTree = "<group>"; };
 		04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		04ED31D41EAAC7510033BAAE /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../AppCenter-SDK-Apple/macOS/AppCenter.framework"; sourceTree = "<group>"; };
+		06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareErrorAttachments.swift; sourceTree = "<group>"; };
 		353332F620126200009B0946 /* EventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterViewController.swift; sourceTree = "<group>"; };
 		358F9BCA2019639100B9E22C /* MSEventFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSEventFilter.m; sourceTree = "<group>"; };
 		358F9BCB2019639100B9E22C /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
@@ -704,6 +709,7 @@
 				046964571F2A721100F9D31F /* SasquatchMacSwift.entitlements */,
 				D3C31C621E8E763600B288CE /* AppDelegate.swift */,
 				5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */,
+				06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */,
 				D3C31C721E8E77BE00B288CE /* Supporting Files */,
 				C29BC5E223999D7C00E5E8F7 /* AppCenterApplication.m */,
 			);
@@ -1332,6 +1338,7 @@
 				B2A4CFC2210A716E00199B4F /* AppCenterViewController.swift in Sources */,
 				B2A4CFC3210A716E00199B4F /* AnalyticsViewController.swift in Sources */,
 				4A3147532206897800B0FC8A /* AuthenticationViewController.swift in Sources */,
+				06B5E51A268F5371001283AA /* PrepareErrorAttachments.swift in Sources */,
 				B2A4CFC5210A716E00199B4F /* AppCenterDelegateObjC.m in Sources */,
 				4A0A7082220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 			);
@@ -1354,6 +1361,7 @@
 				B2A4CFDF210A77D400199B4F /* CrashesViewController.swift in Sources */,
 				B2A4CFE1210A77D400199B4F /* AnalyticsViewController.swift in Sources */,
 				4A0A708922044A37007565A6 /* TransmissionViewController.swift in Sources */,
+				06B5E51B268F5372001283AA /* PrepareErrorAttachments.swift in Sources */,
 				B2A4CFE2210A77D400199B4F /* AppCenterDelegate.swift in Sources */,
 				F8B8DCC52321210600BF7DAA /* CrashLoader.swift in Sources */,
 			);
@@ -1376,6 +1384,7 @@
 				5CD6257A1ECDA4280053DC6C /* AppCenterViewController.swift in Sources */,
 				5C6F9BAD1EB8B730009E52D8 /* AnalyticsViewController.swift in Sources */,
 				4A3147522206896100B0FC8A /* AuthenticationViewController.swift in Sources */,
+				06B5E519268F5370001283AA /* PrepareErrorAttachments.swift in Sources */,
 				0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */,
 				4A0A7081220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 			);
@@ -1398,6 +1407,7 @@
 				5C6F9BB91EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				5C6F9BB61EB8EEFC009E52D8 /* AnalyticsViewController.swift in Sources */,
 				4A0A708822044A37007565A6 /* TransmissionViewController.swift in Sources */,
+				06B5E4F1268F52EB001283AA /* PrepareErrorAttachments.swift in Sources */,
 				042496871EC3CE3500502B62 /* AppCenterDelegate.swift in Sources */,
 				F8B8DCC42321210600BF7DAA /* CrashLoader.swift in Sources */,
 			);

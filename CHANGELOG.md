@@ -1,10 +1,16 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 4.2.1
+## Version 4.2.1 (Under development)
+
+### App Center Crashes
+
+* **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
 
 ### App Center Distribute
 
 - **[Fix]** Fix a warning `'Resources/AppCenterDistribute.strings': file not found` when resolving swift packages using Swift 5.5.
+
+___
 
 ## Version 4.2.0
 

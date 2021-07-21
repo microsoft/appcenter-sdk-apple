@@ -3,6 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef SERIALIZABLE_OBJECT_H
+#define SERIALIZABLE_OBJECT_H
+
 @protocol MSACSerializableObject <NSCoding>
 
 /**
@@ -13,3 +16,4 @@
 - (NSMutableDictionary *)serializeToDictionary;
 
 @end
+#endif

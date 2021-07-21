@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACCrashesTestUtil.h"
-#import "MSACException.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACStackFrame.h"
 
 @implementation MSACCrashesTestUtil
@@ -69,7 +69,7 @@
   }
 }
 
-+ (MSACException *)exception {
++ (MSACWrapperExceptionModel *)exception {
   NSString *type = @"exceptionType";
   NSString *message = @"message";
   NSString *stackTrace = @"at (wrapper managed-to-native) UIKit.UIApplication:UIApplicationMain "
@@ -93,7 +93,7 @@
   frame.code = @"frameSymbol";
   NSArray<MSACStackFrame *> *frames = @[ frame ];
 
-  MSACException *exception = [MSACException new];
+  MSACWrapperExceptionModel *exception = [MSACWrapperExceptionModel new];
   exception.type = type;
   exception.message = message;
   exception.stackTrace = stackTrace;

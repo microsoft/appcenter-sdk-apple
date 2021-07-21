@@ -69,16 +69,6 @@
   [[MSACCrashes sharedInstance] sendErrorAttachments:errorAttachments withIncidentIdentifier:incidentIdentifier];
 }
 
-/**
- * Track handled exception directly as model form with user-defined custom properties.
- * This API is used by wrapper SDKs.
- */
-+ (NSString *)trackModelException:(MSACException *)exception
-                   withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                  withAttachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
-  return [[MSACCrashes sharedInstance] trackModelException:exception withProperties:properties withAttachments:attachments];
-}
-
 + (MSACErrorReport *)buildHandledErrorReportWithErrorID:(NSString *)errorID {
   return [[MSACCrashes sharedInstance] buildHandledErrorReportWithErrorID:errorID];
 }
