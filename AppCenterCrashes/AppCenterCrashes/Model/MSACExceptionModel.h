@@ -67,7 +67,7 @@ NS_SWIFT_NAME(ExceptionModel)
 /**
  * Stack frames [optional].
  */
-@property(nonatomic) NSArray<MSACStackFrame *> *frames;
+@property(nonatomic, copy) NSArray<MSACStackFrame *> *frames;
 
 /**
  * Checks if the object's values are valid.

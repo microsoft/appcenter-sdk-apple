@@ -25,7 +25,7 @@
 /*
  * Inner exceptions of this exception [optional].
  */
-@property(nonatomic) NSArray<MSACWrapperExceptionModel *> *innerExceptions;
+@property(nonatomic, copy) NSArray<MSACWrapperExceptionModel *> *innerExceptions;
 
 /*
  * Name of the wrapper SDK that emitted this exception.
