@@ -436,6 +436,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
+#pragma clang diagnostic push
+// Ignore warning '-Wcompletion-handler'" for XCode 13 and above
+#pragma clang diagnostic ignored "-Wcompletion-handler"
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
   int result;
   BOOL success;
@@ -451,7 +454,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
     return;
   }
-
+#pragma clang diagnostic pop
+    
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
   long currentPageCount = [MSACDBStorage getPageCountInOpenedDatabase:db];
   MSACLogDebug([MSACAppCenter logTag], @"Found %ld pages in the database.", currentPageCount);
