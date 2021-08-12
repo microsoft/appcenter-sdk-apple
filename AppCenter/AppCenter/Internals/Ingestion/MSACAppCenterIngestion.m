@@ -30,11 +30,11 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
   return self.appSecret != nil;
 }
 
-
-#pragma clang diagnostic push
-// Ignore warning '-Wcompletion-handler'" for XCode 13 and above
-#pragma clang diagnostic ignored "-Wcompletion-handler"
-- (void)sendAsync:(NSObject *)data completionHandler:(MSACSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data completionHandler:(MSACSendAsyncCompletionHandler)handler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
   MSACLogContainer *container = (MSACLogContainer *)data;
   NSString *batchId = container.batchId;
 
@@ -62,7 +62,6 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
         handler(batchId, response, responseBody, error);
       }];
 }
-#pragma clang diagnostic pop
 
 - (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data eTag:(nullable NSString *__unused)eTag {
   NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];

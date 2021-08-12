@@ -14,10 +14,11 @@
                        data:(NSData *)data
              retryIntervals:(NSArray *)retryIntervals
          compressionEnabled:(BOOL)compressionEnabled
-#pragma clang diagnostic push
-// Ignore warning '-Wcompletion-handler'" for XCode 13 and above
-#pragma clang diagnostic ignored "-Wcompletion-handler"
-          completionHandler:(MSACHttpRequestCompletionHandler)completionHandler {
+          completionHandler:(MSACHttpRequestCompletionHandler)completionHandler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
   if ((self = [super init])) {
     _url = url;
     _method = method;
@@ -42,7 +43,6 @@
   }
   return self;
 }
-#pragma clang diagnostic pop
 
 - (BOOL)hasReachedMaxRetries {
   @synchronized(self) {

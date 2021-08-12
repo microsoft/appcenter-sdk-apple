@@ -524,10 +524,11 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   }
 }
 
-#pragma clang diagnostic push
-// Ignore warning '-Wcompletion-handler'" for XCode 13 and above
-#pragma clang diagnostic ignored "-Wcompletion-handler"
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
 
   // Check if sizeInBytes is greater than minimum size.
   if (sizeInBytes < kMSACMinUpperSizeLimitInBytes) {
@@ -563,7 +564,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     completionHandler(NO);
   }
 }
-#pragma clang diagnostic pop
 
 - (void)setUserId:(NSString *)userId {
   if (!self.configuredFromApplication) {
