@@ -5,6 +5,7 @@
 ### App Center Crashes
 
 * **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
+* **[Fix]** Fix build failure on Xcode 13, because of warning `completion handler is never used`. Only observable when SDK is integrated as source code. Workaround: Set `Treat Warnings as Errors` to `No` in target's build settings.
 
 ### App Center Distribute
 
