@@ -27,4 +27,4 @@ if [ -e "${BUNDLE_PATH}" ]; then
   cp -Rv "${BUNDLE_PATH}" "${BUILT_PRODUCTS_DIR}"
 fi
 echo "Cleanup resource bundles inside frameworks"
-rm -rfv "${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/*/${PRODUCT_NAME}.framework/${BUNDLE_NAME}"
+rm -rfv ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/*/${PRODUCT_NAME}.framework/${BUNDLE_NAME}
