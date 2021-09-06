@@ -10,7 +10,7 @@
 ### App Center Distribute
 
 - **[Fix]** Fix a warning `'Resources/AppCenterDistribute.strings': file not found` when resolving swift packages using Swift 5.5.
-- **[Fix]** Fix part of the script which response cleanup the resource bundles inside frameworks
+- **[Fix]** Fix the part of the script which is responsible for cleanup the resource bundles inside the xcframework.
 
 ___
 
