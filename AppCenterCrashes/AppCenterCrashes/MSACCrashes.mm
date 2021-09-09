@@ -1420,6 +1420,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
                                   exceptionReason:nil
                                      appStartTime:self.appStartTime
                                      appErrorTime:[NSDate date]
+                                         codeType:nil
+                                         archName:nil
+                                  applicationPath:nil
+                                          threads:nil
+                                         binaries:nil
                                            device:[[MSACDeviceTracker sharedInstance] device]
                              appProcessIdentifier:0];
 }
