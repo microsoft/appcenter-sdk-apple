@@ -119,6 +119,55 @@ static NSArray *kMacOSCrashReportsParameters = @[
   [defaults stopMocking];
 }
 
+- (void)testErrorReportFromLog {
+    
+    // If.
+    NSString *errorId = @"id";
+    NSString *signal = @"Signal";
+    NSString *exceptionReason = @"Some exception eeason";
+    NSString *exceptionName = @"Exception type";
+    NSDate *appStartTime = [NSDate new];
+    NSDate *appErrorTime = [NSDate new];
+    NSNumber *codeType = @(CPU_TYPE_ARM);
+    NSNumber *archName = @(CPU_SUBTYPE_ARM_V6);
+    NSString *applicationPath = @"applicationPath";
+    NSArray<MSACThread *> *threads = [NSArray<MSACThread *> new];
+    NSArray<MSACBinary *> *binaries = [NSArray<MSACBinary *> new];
+    
+    // When.
+    MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+    errorLog.errorId = errorId;
+    errorLog.osExceptionType = signal;
+    errorLog.exceptionReason = exceptionReason;
+    errorLog.exceptionType = exceptionName;
+    errorLog.threads = threads;
+    errorLog.binaries = binaries;
+    errorLog.appLaunchTimestamp = appStartTime;
+    errorLog.timestamp = appErrorTime;
+    errorLog.applicationPath = applicationPath;
+    errorLog.primaryArchitectureId = codeType;
+    errorLog.architectureVariantId = archName;
+    errorLog.isKnownEncodingType = true;
+    
+    // Then.
+    NSString *codeTypeText = @"ARM";
+    NSString *archNameText = @"armv6";
+    MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+    
+    // Verify.
+    XCTAssertEqual(errorReport.incidentIdentifier, errorId);
+    XCTAssertEqual(errorReport.appErrorTime, appErrorTime);
+    XCTAssertEqual(errorReport.appStartTime, appStartTime);
+    XCTAssertEqual(errorReport.applicationPath, applicationPath);
+    XCTAssertEqual(errorReport.archName, archNameText);
+    XCTAssertEqual(errorReport.codeType, codeTypeText);
+    XCTAssertEqual(errorReport.threads, threads);
+    XCTAssertEqual(errorReport.binaries, binaries);
+    XCTAssertEqual(errorReport.exceptionReason, exceptionReason);
+    XCTAssertEqual(errorReport.exceptionName, exceptionName);
+    XCTAssertEqual(errorReport.signal, signal);
+}
+
 - (void)testErrorIdFromCrashReport {
   NSData *crashData = [MSACCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
