@@ -291,16 +291,16 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 #pragma mark - MSACCrashesDelegate
 
 - (BOOL)crashes:(nonnull MSACCrashes *)crashes shouldProcessErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
+  NSLog(@"Should process error report with: %@", [errorReport description]);
   return YES;
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes willSendErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
+  NSLog(@"Will send error report with: %@", [errorReport description]);
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes didSucceedSendingErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
+  NSLog(@"Did succeed error report sending with: %@", [errorReport description]);
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes
