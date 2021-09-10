@@ -62,6 +62,11 @@
   NSDate *appStartTime = [NSDate new];
   NSDate *appErrorTime = [NSDate dateWithTimeIntervalSinceNow:20];
   NSUInteger processIdentifier = 4;
+  NSString *codeTypeText = @"ARM";
+  NSString *archNameText = @"armv6";
+  NSString *applicationPath = @"applicationPath";
+  NSArray<MSACThread *> *threads = [NSArray<MSACThread *> new];
+  NSArray<MSACBinary *> *binaries = [NSArray<MSACBinary *> new];
 
   // When
   MSACErrorReport *sut = [[MSACErrorReport alloc] initWithErrorId:errorId
@@ -71,6 +76,11 @@
                                                   exceptionReason:exceptionReason
                                                      appStartTime:appStartTime
                                                      appErrorTime:appErrorTime
+                                                         codeType:codeTypeText
+                                                         archName:archNameText
+                                                  applicationPath:applicationPath
+                                                          threads:threads
+                                                         binaries:binaries
                                                            device:device
                                              appProcessIdentifier:processIdentifier];
 
@@ -84,6 +94,11 @@
   assertThat(sut.appStartTime, equalTo(appStartTime));
   assertThat(sut.appErrorTime, equalTo(appErrorTime));
   assertThat(sut.device, equalTo(device));
+  assertThat(sut.applicationPath, equalTo(applicationPath));
+  assertThat(sut.threads, equalTo(threads));
+  assertThat(sut.binaries, equalTo(binaries));
+  assertThat(sut.archName, equalTo(archNameText));
+  assertThat(sut.codeType, equalTo(codeTypeText));
   assertThatUnsignedInteger(sut.appProcessIdentifier, equalToUnsignedInteger(processIdentifier));
 }
 
@@ -103,6 +118,11 @@
                                  exceptionReason:nil
                                     appStartTime:nil
                                     appErrorTime:nil
+                                        codeType:nil
+                                        archName:nil
+                                 applicationPath:nil
+                                         threads:nil
+                                        binaries:nil
                                           device:nil
                             appProcessIdentifier:0];
 
@@ -117,6 +137,11 @@
                                  exceptionReason:nil
                                     appStartTime:nil
                                     appErrorTime:nil
+                                        codeType:nil
+                                        archName:nil
+                                 applicationPath:nil
+                                         threads:nil
+                                        binaries:nil
                                           device:nil
                             appProcessIdentifier:0];
 

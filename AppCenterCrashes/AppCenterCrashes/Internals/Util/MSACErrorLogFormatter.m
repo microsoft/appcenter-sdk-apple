@@ -325,7 +325,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                     typeEncode:errorLog.isKnownEncodingType];
     }
   }
-
   NSString *applicationPath = errorLog.applicationPath;
   NSArray<MSACThread *> *threads = errorLog.threads;
   NSArray<MSACBinary *> *binaries = errorLog.binaries;
@@ -461,7 +460,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 }
 
 + (NSString *)convertCodeTypeToString:(long)type typeEncode:(BOOL)isKnownEncodingType {
-
   NSString *codeType = nil;
   if (isKnownEncodingType) {
     switch (type) {
