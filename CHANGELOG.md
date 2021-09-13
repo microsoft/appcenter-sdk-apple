@@ -12,6 +12,7 @@
 
 - **[Fix]** Fix a warning `'Resources/AppCenterDistribute.strings': file not found` when resolving swift packages using Swift 5.5.
 - **[Fix]** Fix the part of the script which is responsible for cleanup the resource bundles inside the xcframework.
+- **[Fix]** Fix `Undefined symbols for architecture x86_64` for `ASWebAuthenticationSession` for Cocoapods (v 1.11) integration.
 
 ___
 
