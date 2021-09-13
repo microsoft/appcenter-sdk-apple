@@ -212,18 +212,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
   // Crashes Delegate
 
   func crashes(_ crashes: Crashes, shouldProcess errorReport: ErrorReport) -> Bool {
-
-    // return true if the crash report should be processed, otherwise false.
+    if errorReport.exceptionReason != nil {
+      NSLog("Should process error report with: %@", errorReport.description);
+    }
     return true
   }
 
   func crashes(_ crashes: Crashes!, willSend errorReport: ErrorReport!) {
+    if errorReport.exceptionReason != nil {
+      NSLog("Will send error report with: %@", errorReport.description);
+    }
   }
 
   func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
+    if errorReport.exceptionReason != nil {
+      NSLog("Did succeed error report sending with: %@", errorReport.description);
+    }
   }
 
   func crashes(_ crashes: Crashes, didFailSending errorReport: ErrorReport, withError error: Error?) {
+    if errorReport.exceptionReason != nil {
+      NSLog("Did fail sending report with: %@, and error: %@", errorReport.description);
+    }
   }
 
   func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {
