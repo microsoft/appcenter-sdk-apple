@@ -306,7 +306,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
 - (void)crashes:(nonnull MSACCrashes *)crashes
     didFailSendingErrorReport:(nonnull MSACErrorReport *)errorReport
                     withError:(nullable NSError *)error {
-  NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+  NSLog(@"Did fail sending report with: %@, and error: %@", [errorReport description], error.localizedDescription);
 }
 
 - (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport {
