@@ -14,7 +14,11 @@
                        data:(NSData *)data
              retryIntervals:(NSArray *)retryIntervals
          compressionEnabled:(BOOL)compressionEnabled
-          completionHandler:(MSACHttpRequestCompletionHandler)completionHandler {
+          completionHandler:(MSACHttpRequestCompletionHandler)completionHandler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
   if ((self = [super init])) {
     _url = url;
     _method = method;

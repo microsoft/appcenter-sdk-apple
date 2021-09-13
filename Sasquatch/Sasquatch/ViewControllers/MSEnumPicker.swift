@@ -80,7 +80,7 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   
   func showEnumPicker() {
     let startupModePickerView = UIPickerView()
-    startupModePickerView.backgroundColor = UIColor.white
+    startupModePickerView.backgroundColor = UIColor.groupTableViewBackground
     startupModePickerView.showsSelectionIndicator = true
     startupModePickerView.dataSource = self
     startupModePickerView.delegate = self

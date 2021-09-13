@@ -33,7 +33,7 @@
 }
 
 - (void)startAnalyticsFromLibrary {
-  [MSACAppCenter startFromLibraryWithServices:@ [[MSACAnalytics class]]];
+  [MSACAppCenter startFromLibraryWithServices:@[ [MSACAnalytics class] ]];
 }
 
 - (NSString *)installId {
@@ -132,6 +132,18 @@
 
 - (void)generateTestCrash {
   return [MSACCrashes generateTestCrash];
+}
+
+- (void)trackError:(NSError *)error
+    withProperties:(NSDictionary<NSString *, NSString *> *)properties
+       attachments:(NSArray<MSACErrorAttachmentLog *> *)attachments {
+  [MSACCrashes trackError:error withProperties:properties attachments:attachments];
+}
+
+- (void)trackException:(MSACExceptionModel *)exceptionModel
+        withProperties:(NSDictionary<NSString *, NSString *> *)properties
+           attachments:(NSArray<MSACErrorAttachmentLog *> *)attachments {
+  [MSACCrashes trackException:exceptionModel withProperties:properties attachments:attachments];
 }
 
 #pragma mark - Last crash report section.

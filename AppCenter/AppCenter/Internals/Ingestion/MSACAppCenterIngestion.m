@@ -30,7 +30,11 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
   return self.appSecret != nil;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSACSendAsyncCompletionHandler)handler {
+- (void)sendAsync:(NSObject *)data completionHandler:(MSACSendAsyncCompletionHandler)handler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
   MSACLogContainer *container = (MSACLogContainer *)data;
   NSString *batchId = container.batchId;
 

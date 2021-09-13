@@ -3,8 +3,13 @@
 
 import Cocoa
 
+enum AppCenterError: Error {
+  case runtimeError(String)
+}
+
 class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableViewDelegate, NSTextViewDelegate {
 
+  var hasTrackErrorProperies = false
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
   var crashes = [Any]()
   @IBOutlet var setEnabledButton : NSButton?
@@ -41,7 +46,24 @@ class CrashesViewController : NSViewController, NSTableViewDataSource, NSTableVi
     }
     appCenter.generateTestCrash()
   }
-
+    
+  @IBAction func trackError(_ sender: NSButton) {
+    let properties:Dictionary<String, String>? = hasTrackErrorProperies ? ["key" :  "value"] : nil
+    let attachments: [ErrorAttachmentLog]? = PrepareErrorAttachments.prepareAttachments()
+    appCenter.trackError(AppCenterError.runtimeError("Track error"), withProperties: properties, attachments: attachments)
+  }
+  
+  @IBAction func trackErrorWithCustomException(_ sender: NSButton) {
+    let properties:Dictionary<String, String>? = hasTrackErrorProperies ? ["key" :  "value"] : nil
+    let attachments: [ErrorAttachmentLog]? = PrepareErrorAttachments.prepareAttachments()
+    let exceptionModel = ExceptionModel(withType: "Custom exception model", exceptionMessage: "Track error with custom exception model.", stackTrace:Thread.callStackSymbols)
+    appCenter.trackException(exceptionModel!, withProperties: properties, attachments: attachments)
+  }
+  
+  @IBAction func updateTrackErrorProperty(_ sender: NSButton) {
+    hasTrackErrorProperies = !hasTrackErrorProperies
+  }
+    
   @IBAction func setEnabled(sender : NSButton) {
     appCenter.setCrashesEnabled(sender.state == .on)
     sender.state = appCenter.isCrashesEnabled() ? .on : .off

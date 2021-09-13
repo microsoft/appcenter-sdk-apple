@@ -471,8 +471,25 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="breadcrumbs" textLabel="kDH-lQ-J5R" style="IBUITableViewCellStyleDefault" id="uuv-bs-epE" userLabel="breadcrumbs">
+                            <tableViewCell contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="trackerror" id="Fi2-9x-YZX" userLabel="trackerror">
                                 <rect key="frame" x="388" y="240" width="1144" height="66"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fi2-9x-YZX" id="yXJ-9y-Erh">
+                                    <rect key="frame" x="0.0" y="0.0" width="1144" height="66"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eZe-gE-AAA" userLabel="Title">
+                                            <rect key="frame" x="30" y="10" width="112" height="46"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="38"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="breadcrumbs" textLabel="kDH-lQ-J5R" style="IBUITableViewCellStyleDefault" id="uuv-bs-epE" userLabel="breadcrumbs">
+                                <rect key="frame" x="388" y="320" width="1144" height="66"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uuv-bs-epE" id="hZL-e7-HWl">
                                     <rect key="frame" x="0.0" y="0.0" width="1144" height="66"/>

@@ -76,9 +76,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
   }
 
   func attachments(with crashes: Crashes!, for errorReport: ErrorReport!) -> [ErrorAttachmentLog] {
-    let attachment1 = ErrorAttachmentLog.attachment(withText: "Hello world!", filename: "hello.txt")
-    let attachment2 = ErrorAttachmentLog.attachment(withBinary: "Fake image".data(using: String.Encoding.utf8), filename: nil, contentType: "image/jpeg")
-    return [attachment1!, attachment2!]
+    return PrepareErrorAttachments.prepareAttachments()
   }
 
 }

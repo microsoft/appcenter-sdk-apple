@@ -1327,7 +1327,6 @@
 			);
 			name = "Build tvOS Device Framework";
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-appletvos/AppCenterAnalytics.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1377,7 +1376,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphonesimulator/AppCenterAnalytics.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1438,7 +1436,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-appletvsimulator/AppCenterAnalytics.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1558,7 +1555,6 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-maccatalyst/AppCenterAnalytics.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1574,7 +1570,6 @@
 			);
 			name = "Build iOS Device Framework";
 			outputPaths = (
-				"$BUILD_DIR/$CONFIGURATION-iphoneos/AppCenterAnalytics.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

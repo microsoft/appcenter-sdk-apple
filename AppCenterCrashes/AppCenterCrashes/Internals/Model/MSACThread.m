@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACThread.h"
-#import "MSACException.h"
+#import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
 
 static NSString *const kMSACThreadId = @"id";

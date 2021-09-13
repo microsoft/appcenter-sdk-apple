@@ -69,6 +69,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     super.viewDidLoad()
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
     table?.delegate = self
+    table?.sizeLastColumnToFit()
     self.countLabel.stringValue = "Count: \(Int(countSlider.intValue))"
   }
 

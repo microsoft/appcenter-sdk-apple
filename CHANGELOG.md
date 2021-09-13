@@ -1,9 +1,25 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.3.0
+
+### App Center Crashes
+
+* **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
+* **[Fix]** Fix build failure on Xcode 13, because of warning `completion handler is never used`. Only observable when SDK is integrated as source code. Workaround: Set `Treat Warnings as Errors` to `No` in target's build settings.
+* **[Improvement]** Update PLCrashReporter to 1.10.0.
+
+### App Center Distribute
+
+- **[Fix]** Fix a warning `'Resources/AppCenterDistribute.strings': file not found` when resolving swift packages using Swift 5.5.
+- **[Fix]** Fix the part of the script which is responsible for cleanup the resource bundles inside the xcframework.
+
+___
+
 ## Version 4.2.0
 
 ### App Center
 
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
 * **[Feature]** Add a `AppCenter.networkRequestsAllowed` API to block any network requests without disabling the SDK.
 * **[Fix]** Fix umbrella header warnings in Xcode 12.5.
 

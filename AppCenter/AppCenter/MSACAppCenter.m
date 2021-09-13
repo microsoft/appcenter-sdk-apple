@@ -524,7 +524,11 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   }
 }
 
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
 
   // Check if sizeInBytes is greater than minimum size.
   if (sizeInBytes < kMSACMinUpperSizeLimitInBytes) {

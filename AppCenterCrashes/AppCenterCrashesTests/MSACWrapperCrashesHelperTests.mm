@@ -5,13 +5,14 @@
 #import "MSACChannelGroupProtocol.h"
 #import "MSACChannelUnitConfiguration.h"
 #import "MSACChannelUnitProtocol.h"
+#import "MSACCrashes.h"
 #import "MSACCrashesInternal.h"
 #import "MSACCrashesPrivate.h"
 #import "MSACCrashesTestUtil.h"
 #import "MSACCrashesUtil.h"
 #import "MSACDeviceTrackerPrivate.h"
 #import "MSACErrorAttachmentLog.h"
-#import "MSACException.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACHttpClient.h"
 #import "MSACLogWithProperties.h"
@@ -64,13 +65,13 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   assertThat(delegateMock, equalTo(retrievedDelegate));
 }
 
-- (void)testTrackModelExceptionWithExceptionOnly {
+- (void)testTrackExceptionWithExceptionOnly {
 
   // If
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACException *exception;
+  __block MSACWrapperExceptionModel *exception;
   NSString *expectedUserId = @"alice";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
   id<MSACChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
@@ -96,11 +97,11 @@ static NSString *const kMSACTypeHandledError = @"handledError";
                                       fromApplication:YES];
 
   // When
-  MSACException *expectedException = [MSACException new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  NSString *actualErrorId = [MSACWrapperCrashesHelper trackModelException:expectedException withProperties:nil withAttachments:nil];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:nil attachments:nil];
 
   // Then
   assertThat(type, is(kMSACTypeHandledError));
@@ -108,17 +109,17 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   assertThat(errorId, notNilValue());
   assertThat(exception, is(expectedException));
 
-  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  // Verify the errorId returned by trackException is the same one that enqueued to the channel.
   assertThat(actualErrorId, is(errorId));
 }
 
-- (void)testTrackModelExceptionWithExceptionAndProperties {
+- (void)testTrackExceptionWithExceptionAndProperties {
 
   // If
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACException *exception;
+  __block MSACWrapperExceptionModel *exception;
   __block NSDictionary<NSString *, NSString *> *properties;
   NSString *expectedUserId = @"alice";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
@@ -146,14 +147,12 @@ static NSString *const kMSACTypeHandledError = @"handledError";
                                       fromApplication:YES];
 
   // When
-  MSACException *expectedException = [MSACException new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
-  NSString *actualErrorId = [MSACWrapperCrashesHelper trackModelException:expectedException
-                                                           withProperties:expectedProperties
-                                                          withAttachments:nil];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:expectedProperties attachments:nil];
 
   // Then
   assertThat(type, is(kMSACTypeHandledError));
@@ -162,17 +161,17 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   assertThat(exception, is(expectedException));
   assertThat(properties, is(expectedProperties));
 
-  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  // Verify the errorId returned by trackException is the same one that enqueued to the channel.
   assertThat(actualErrorId, is(errorId));
 }
 
-- (void)testTrackModelExceptionWithExceptionAndAttachments {
+- (void)testTrackExceptionWithExceptionAndAttachments {
 
   // If
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACException *exception;
+  __block MSACWrapperExceptionModel *exception;
   __block NSMutableArray<MSACErrorAttachmentLog *> *errorAttachmentLogs = [NSMutableArray new];
   NSString *expectedUserId = @"alice";
   id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
@@ -213,11 +212,11 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   NSArray<MSACErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
 
   // When
-  MSACException *expectedException = [MSACException new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
-  NSString *actualErrorId = [MSACWrapperCrashesHelper trackModelException:expectedException withProperties:nil withAttachments:attachments];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:nil attachments:attachments];
 
   // Then
   XCTAssertEqual(type, kMSACTypeHandledError);
@@ -228,17 +227,17 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   XCTAssertEqualObjects(errorAttachmentLogs[0], errorAttachmentLog1);
   XCTAssertEqualObjects(errorAttachmentLogs[1], errorAttachmentLog2);
 
-  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  // Verify the errorId returned by trackException is the same one that enqueued to the channel.
   XCTAssertEqualObjects(actualErrorId, errorId);
 }
 
-- (void)testTrackModelExceptionWithAllParameters {
+- (void)testTrackExceptionWithAllParameters {
 
   // If
   __block NSString *type;
   __block NSString *userId;
   __block NSString *errorId;
-  __block MSACException *exception;
+  __block MSACWrapperExceptionModel *exception;
   __block NSDictionary<NSString *, NSString *> *properties;
   __block NSMutableArray<MSACErrorAttachmentLog *> *errorAttachmentLogs = [NSMutableArray new];
   NSString *expectedUserId = @"alice";
@@ -281,14 +280,12 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   NSArray<MSACErrorAttachmentLog *> *attachments = @[ errorAttachmentLog1, errorAttachmentLog2 ];
 
   // When
-  MSACException *expectedException = [MSACException new];
+  MSACWrapperExceptionModel *expectedException = [MSACWrapperExceptionModel new];
   expectedException.message = @"Oh this is wrong...";
   expectedException.stackTrace = @"mock stacktrace";
   expectedException.type = @"Some.Exception";
   NSDictionary *expectedProperties = @{@"milk" : @"yes", @"cookie" : @"of course"};
-  NSString *actualErrorId = [MSACWrapperCrashesHelper trackModelException:expectedException
-                                                           withProperties:expectedProperties
-                                                          withAttachments:attachments];
+  NSString *actualErrorId = [MSACCrashes trackException:expectedException withProperties:expectedProperties attachments:attachments];
 
   // Then
   XCTAssertEqual(type, kMSACTypeHandledError);
@@ -300,7 +297,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   XCTAssertEqualObjects(errorAttachmentLogs[0], errorAttachmentLog1);
   XCTAssertEqualObjects(errorAttachmentLogs[1], errorAttachmentLog2);
 
-  // Verify the errorId returned by trackModelException is the same one that enqueued to the channel.
+  // Verify the errorId returned by trackException is the same one that enqueued to the channel.
   XCTAssertEqualObjects(actualErrorId, errorId);
 }
 

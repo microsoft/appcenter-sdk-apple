@@ -56,7 +56,11 @@ static int kMSRefreshThreshold = 10 * 60;
 
 - (void)handleTokenUpdateWithToken:(NSString *)token
                         expiryDate:(NSDate *)expiryDate
-             withCompletionHandler:(MSACAnalyticsAuthenticationProviderCompletionBlock)completionHandler {
+             withCompletionHandler:(MSACAnalyticsAuthenticationProviderCompletionBlock)completionHandler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
   @synchronized(self) {
     if (self.completionHandler == completionHandler) {
       self.completionHandler = nil;

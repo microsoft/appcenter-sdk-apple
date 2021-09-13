@@ -158,7 +158,7 @@ static const NSUInteger kMSACSchemaVersion = 5;
   NSMutableArray<NSNumber *> *idsInBatches = [NSMutableArray<NSNumber *> new];
   for (NSString *batchKey in [self.batches allKeys]) {
     if ([batchKey hasPrefix:groupId]) {
-      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> * _Nonnull) self.batches[batchKey]];
+      [idsInBatches addObjectsFromArray:(NSArray<NSNumber *> *_Nonnull)self.batches[batchKey]];
     }
   }
 

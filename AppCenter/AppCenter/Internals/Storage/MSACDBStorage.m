@@ -436,7 +436,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler
+#if defined(__IPHONE_15_0)
+NS_SWIFT_DISABLE_ASYNC
+#endif
+{
   int result;
   BOOL success;
   sqlite3 *db = [MSACDBStorage openDatabaseAtFileURL:self.dbFileURL withResult:&result];
@@ -451,7 +455,7 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
     }
     return;
   }
-
+    
   // Check the current number of pages in the database to determine whether the requested size will shrink the database.
   long currentPageCount = [MSACDBStorage getPageCountInOpenedDatabase:db];
   MSACLogDebug([MSACAppCenter logTag], @"Found %ld pages in the database.", currentPageCount);

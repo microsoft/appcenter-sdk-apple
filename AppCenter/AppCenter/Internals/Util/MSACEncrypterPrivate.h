@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 static int const kMSACEncryptionAlgorithm = kCCAlgorithmAES;
 static NSString *const kMSACEncryptionAlgorithmName = @"AES";
 static NSString *const kMSACEncryptionCipherMode = @"CBC";
+static NSString *const kMSACEncryptionAlgorithmAesAndEtmName = @"AES/HmacSHA256";
+static const int kMSACEncryptionSubkeyLength = 32;
+static const int kMSACAuthenticationSubkeyLength = 16;
 
 // One year.
 static NSTimeInterval const kMSACEncryptionKeyLifetimeInSeconds = 365 * 24 * 60 * 60;
