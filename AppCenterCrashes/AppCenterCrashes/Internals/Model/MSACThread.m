@@ -81,7 +81,7 @@ static NSString *const kMSACException = @"exception";
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@", [self serializeToDictionary]];
+  return [NSString stringWithFormat:@"%@", [self serializeToDictionary]];
 }
 
 @end

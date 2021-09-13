@@ -4,7 +4,7 @@
 
 ### App Center Crashes
 
-* **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to string and additional useful information about sent error.
+* **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to a string and additional useful information about sending error.
 
 ___
 

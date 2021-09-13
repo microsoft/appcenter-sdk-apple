@@ -317,12 +317,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSDate *appErrorTime = errorLog.timestamp;
   NSString *codeType = unknownString;
   NSString *archName = unknownString;
-  if (errorLog.primaryArchitectureId != nil) {
-    codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue typeEncode:errorLog.isKnownEncodingType];
-    if (errorLog.architectureVariantId != nil) {
-      archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue
-                                       subtype:errorLog.architectureVariantId.intValue
-                                    typeEncode:errorLog.isKnownEncodingType];
+  if (errorLog.isKnownEncodingType && errorLog.primaryArchitectureId != nil) {
+    if (errorLog.primaryArchitectureId != nil) {
+      codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue];
+      if (errorLog.architectureVariantId != nil) {
+        archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue subtype:errorLog.architectureVariantId.intValue];
+      }
     }
   }
   NSString *applicationPath = errorLog.applicationPath;
@@ -394,102 +394,95 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   return errorLog;
 }
 
-+ (NSString *)convertArchNameToString:(long)type subtype:(int)subtype typeEncode:(BOOL)isKnownEncodingType {
++ (NSString *)convertArchNameToString:(long)type subtype:(int)subtype {
   NSString *archName = @"???";
-  if (isKnownEncodingType) {
-    switch (type) {
-    case CPU_TYPE_ARM:
-      switch (subtype & ~CPU_SUBTYPE_MASK) {
-      case CPU_SUBTYPE_ARM_V6:
-        archName = @"armv6";
-        break;
-
-      case CPU_SUBTYPE_ARM_V7:
-        archName = @"armv7";
-        break;
-
-      case CPU_SUBTYPE_ARM_V7S:
-        archName = @"armv7s";
-        break;
-
-      default:
-        archName = @"arm-unknown";
-        break;
-      }
+  switch (type) {
+  case CPU_TYPE_ARM:
+    switch (subtype & ~CPU_SUBTYPE_MASK) {
+    case CPU_SUBTYPE_ARM_V6:
+      archName = @"armv6";
       break;
 
-    case CPU_TYPE_ARM64:
-      /* Apple includes subtype for ARM64 binaries. */
-      switch (subtype & ~CPU_SUBTYPE_MASK) {
-      case CPU_SUBTYPE_ARM64_ALL:
-        archName = @"arm64";
-        break;
-
-      case CPU_SUBTYPE_ARM64_V8:
-        archName = @"armv8";
-        break;
-
-      case CPU_SUBTYPE_ARM64E:
-        archName = @"arm64e";
-        break;
-
-      default:
-        archName = @"arm64-unknown";
-        break;
-      }
+    case CPU_SUBTYPE_ARM_V7:
+      archName = @"armv7";
       break;
 
-    case CPU_TYPE_X86:
-      archName = @"i386";
-      break;
-
-    case CPU_TYPE_X86_64:
-      archName = @"x86_64";
-      break;
-
-    case CPU_TYPE_POWERPC:
-      archName = @"powerpc";
+    case CPU_SUBTYPE_ARM_V7S:
+      archName = @"armv7s";
       break;
 
     default:
-      // Use the default archName value (initialized above).
+      archName = @"arm-unknown";
       break;
     }
+    break;
+
+  case CPU_TYPE_ARM64:
+    /* Apple includes subtype for ARM64 binaries. */
+    switch (subtype & ~CPU_SUBTYPE_MASK) {
+    case CPU_SUBTYPE_ARM64_ALL:
+      archName = @"arm64";
+      break;
+
+    case CPU_SUBTYPE_ARM64_V8:
+      archName = @"armv8";
+      break;
+
+    case CPU_SUBTYPE_ARM64E:
+      archName = @"arm64e";
+      break;
+
+    default:
+      archName = @"arm64-unknown";
+      break;
+    }
+    break;
+
+  case CPU_TYPE_X86:
+    archName = @"i386";
+    break;
+
+  case CPU_TYPE_X86_64:
+    archName = @"x86_64";
+    break;
+
+  case CPU_TYPE_POWERPC:
+    archName = @"powerpc";
+    break;
+
+  default:
+    // Use the default archName value (initialized above).
+    break;
   }
   return archName;
 }
 
-+ (NSString *)convertCodeTypeToString:(long)type typeEncode:(BOOL)isKnownEncodingType {
++ (NSString *)convertCodeTypeToString:(long)type {
   NSString *codeType = nil;
-  if (isKnownEncodingType) {
-    switch (type) {
-    case CPU_TYPE_ARM:
-      codeType = @"ARM";
-      break;
+  switch (type) {
+  case CPU_TYPE_ARM:
+    codeType = @"ARM";
+    break;
 
-    case CPU_TYPE_ARM64:
-      codeType = @"ARM-64";
-      break;
+  case CPU_TYPE_ARM64:
+    codeType = @"ARM-64";
+    break;
 
-    case CPU_TYPE_X86:
-      codeType = @"X86";
-      break;
+  case CPU_TYPE_X86:
+    codeType = @"X86";
+    break;
 
-    case CPU_TYPE_X86_64:
-      codeType = @"X86-64";
-      break;
+  case CPU_TYPE_X86_64:
+    codeType = @"X86-64";
+    break;
 
-    case CPU_TYPE_POWERPC:
-      codeType = @"PPC";
-      break;
+  case CPU_TYPE_POWERPC:
+    codeType = @"PPC";
+    break;
 
-    default:
-      codeType = [NSString stringWithFormat:@"Unknown (%lu)", type];
-      break;
-    }
-  }
-  if (codeType == nil) {
-    codeType = @"Unknown";
+  default:
+    codeType = [NSString stringWithFormat:@"Unknown (%lu)", type];
+    break;
   }
   return codeType;
 }

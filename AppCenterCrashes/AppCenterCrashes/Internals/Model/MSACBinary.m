@@ -96,7 +96,7 @@ static NSString *const kMSACArchitectureVariantId = @"architectureVariantId";
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@", [self serializeToDictionary]];
+  return [NSString stringWithFormat:@"%@", [self serializeToDictionary]];
 }
 
 @end

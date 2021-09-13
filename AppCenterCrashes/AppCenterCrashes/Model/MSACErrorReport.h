@@ -59,12 +59,12 @@ NS_SWIFT_NAME(ErrorReport)
 @property(nonatomic, copy) NSString *applicationPath;
 
 /**
- * Thread stack frames associated to the error.
+ * Thread stack frames associated with the error.
  */
 @property(nonatomic) NSArray<MSACThread *> *threads;
 
 /**
- * Binaries associated to the error.
+ * Binaries associated with the error.
  */
 @property(nonatomic) NSArray<MSACBinary *> *binaries;
 
