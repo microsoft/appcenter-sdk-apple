@@ -230,7 +230,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // CPU Type and Subtype for the crash. We need to query the binary images for that.
   uint64_t type = report.machineInfo.processorInfo.type;
   uint64_t subtype = report.machineInfo.processorInfo.subtype;
-  BOOL isKnownEncodingType = NO;
+  BOOL isKnownEncodingType = report.systemInfo.processorInfo.typeEncoding == PLCrashReportProcessorTypeEncodingMach;
   for (PLCrashReportBinaryImageInfo *image in report.images) {
     isKnownEncodingType = image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach;
     if (image.codeType != nil && isKnownEncodingType) {
@@ -318,11 +318,9 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *codeType = unknownString;
   NSString *archName = unknownString;
   if (errorLog.isKnownEncodingType && errorLog.primaryArchitectureId != nil) {
-    if (errorLog.primaryArchitectureId != nil) {
-      codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue];
-      if (errorLog.architectureVariantId != nil) {
-        archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue subtype:errorLog.architectureVariantId.intValue];
-      }
+    codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue];
+    if (errorLog.architectureVariantId != nil) {
+      archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue subtype:errorLog.architectureVariantId.intValue];
     }
   }
   NSString *applicationPath = errorLog.applicationPath;
