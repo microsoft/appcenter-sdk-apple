@@ -30,6 +30,7 @@
   assertThat(actual[@"architecture"], equalTo(sut.architecture));
   assertThat(actual[@"primaryArchitectureId"], equalTo(sut.primaryArchitectureId));
   assertThat(actual[@"architectureVariantId"], equalTo(sut.architectureVariantId));
+  assertThat(actual.description, equalTo([sut description]));
 }
 
 - (void)testNSCodingSerializationAndDeserializationWorks {

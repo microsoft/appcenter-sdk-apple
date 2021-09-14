@@ -736,4 +736,138 @@ static NSArray *kMacOSCrashReportsParameters = @[
 }
 #endif
 
+- (void)convertCodeTypeToStringHelper:(NSNumber *)codeType expectedType:(NSString *)expectedType {
+
+  // Init apple error log with codeType and acrhName.
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.primaryArchitectureId = codeType;
+  errorLog.isKnownEncodingType = TRUE;
+    
+  // Convert apple error log to error report.
+  MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+
+  // Verify that codeType was converted as excpected.
+  XCTAssertEqual(errorReport.codeType, expectedType);
+}
+
+- (void)convertArchNameToStringHelper:(NSNumber *)codeType archName:(NSNumber *)archName expectedName:(NSString *)expectedName {
+
+  // Init apple error log with codeType and acrhName.
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.primaryArchitectureId = codeType;
+  errorLog.architectureVariantId = archName;
+  errorLog.isKnownEncodingType = TRUE;
+    
+  // Convert apple error log to error report.
+  MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+
+  // Verify that archName was converted as excpected.
+  XCTAssertEqual(errorReport.archName, expectedName);
+}
+
+- (void)testConvertCodeTypeToString {
+  [self convertCodeTypeToStringHelper:@(CPU_TYPE_ARM) expectedType:@"ARM"];
+  [self convertCodeTypeToStringHelper:@(CPU_TYPE_ARM64) expectedType:@"ARM-64"];
+  [self convertCodeTypeToStringHelper:@(CPU_TYPE_X86) expectedType:@"X86"];
+  [self convertCodeTypeToStringHelper:@(CPU_TYPE_X86_64) expectedType:@"X86-64"];
+  [self convertCodeTypeToStringHelper:@(CPU_TYPE_POWERPC) expectedType:@"PPC"];
+}
+
+- (void)testConvertArchNameToString {
+  [self convertArchNameToStringHelper:@(CPU_TYPE_ARM)
+                             archName:@(CPU_SUBTYPE_ARM_V6)
+                         expectedName:@"armv6"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_ARM)
+                             archName:@(CPU_SUBTYPE_ARM_V7)
+                         expectedName:@"armv7"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_ARM)
+                             archName:@(CPU_SUBTYPE_ARM_V7S)
+                         expectedName:@"armv7s"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_ARM64)
+                             archName:@(CPU_SUBTYPE_ARM64_ALL)
+                         expectedName:@"arm64"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_ARM64)
+                             archName:@(CPU_SUBTYPE_ARM64_V8)
+                         expectedName:@"armv8"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_ARM64)
+                             archName:@(CPU_SUBTYPE_ARM64E)
+                         expectedName:@"arm64e"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_X86)
+                             archName:@(CPU_TYPE_X86)
+                         expectedName:@"i386"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_X86_64)
+                             archName:@(CPU_TYPE_X86_64)
+                         expectedName:@"x86_64"];
+  [self convertArchNameToStringHelper:@(CPU_TYPE_POWERPC)
+                             archName:@(CPU_TYPE_POWERPC)
+                         expectedName:@"powerpc"];
+}
+
+- (void)convertCodeTypeUnknownEncodingTypeToStringHelper:(NSNumber *)codeType expectedType:(NSString *)expectedType {
+
+  // Init apple error log with codeType and acrhName.
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.primaryArchitectureId = codeType;
+  errorLog.isKnownEncodingType = FALSE;
+    
+  // Convert apple error log to error report.
+  MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+
+  // Verify that codeType was converted as excpected.
+  XCTAssertEqual(errorReport.codeType, expectedType);
+}
+
+- (void)testConvertCodeTypeUnknownEncodingTypeToString {
+  [self convertCodeTypeUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM) expectedType:@"???"];
+  [self convertCodeTypeUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM64) expectedType:@"???"];
+  [self convertCodeTypeUnknownEncodingTypeToStringHelper:@(CPU_TYPE_X86) expectedType:@"???"];
+  [self convertCodeTypeUnknownEncodingTypeToStringHelper:@(CPU_TYPE_X86_64) expectedType:@"???"];
+  [self convertCodeTypeUnknownEncodingTypeToStringHelper:@(CPU_TYPE_POWERPC) expectedType:@"???"];
+}
+
+- (void)convertArchNameUnknownEncodingTypeToStringHelper:(NSNumber *)codeType archName:(NSNumber *)archName expectedName:(NSString *)expectedName {
+
+  // Init apple error log with codeType and acrhName.
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.primaryArchitectureId = codeType;
+  errorLog.architectureVariantId = archName;
+  errorLog.isKnownEncodingType = FALSE;
+    
+  // Convert apple error log to error report.
+  MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+
+  // Verify that archName was converted as excpected.
+  XCTAssertEqual(errorReport.archName, expectedName);
+}
+
+- (void)testConvertArchNameUnknownEncodingTypeToString {
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM)
+                                                archName:@(CPU_SUBTYPE_ARM_V6)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM)
+                                                archName:@(CPU_SUBTYPE_ARM_V7)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM)
+                                                archName:@(CPU_SUBTYPE_ARM_V7S)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM64)
+                                                archName:@(CPU_SUBTYPE_ARM64_ALL)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM64)
+                                                archName:@(CPU_SUBTYPE_ARM64_V8)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_ARM64)
+                                                archName:@(CPU_SUBTYPE_ARM64E)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_X86)
+                                                archName:@(CPU_TYPE_X86)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_X86_64)
+                                                archName:@(CPU_TYPE_X86_64)
+                                            expectedName:@"???"];
+  [self convertArchNameUnknownEncodingTypeToStringHelper:@(CPU_TYPE_POWERPC)
+                                                archName:@(CPU_TYPE_POWERPC)
+                                            expectedName:@"???"];
+}
+
 @end
