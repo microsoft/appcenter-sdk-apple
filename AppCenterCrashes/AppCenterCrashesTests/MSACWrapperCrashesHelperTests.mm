@@ -301,4 +301,19 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   XCTAssertEqualObjects(actualErrorId, errorId);
 }
 
+- (void)testBuildHandledErrorReportWithErrorID {
+  MSACErrorReport *report = [MSACWrapperCrashesHelper buildHandledErrorReportWithErrorID:@"errorID"];
+  XCTAssertNil(report.codeType);
+  XCTAssertNil(report.archName);
+  XCTAssertNil(report.applicationPath);
+  XCTAssertNil(report.threads);
+  XCTAssertNil(report.binaries);
+  XCTAssertNil(report.reporterKey);
+  XCTAssertNil(report.signal);
+  XCTAssertNil(report.exceptionName);
+  XCTAssertNil(report.exceptionReason);
+  XCTAssertEqualObjects(report.appStartTime, [MSACCrashes sharedInstance].appStartTime);
+  XCTAssertNotNil(report.appErrorTime);
+}
+
 @end
