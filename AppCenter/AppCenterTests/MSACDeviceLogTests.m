@@ -224,6 +224,10 @@
 
   // Then
   XCTAssertFalse([self.sut isEqual:actualDevice]);
+
+  // Check description method result.
+  NSMutableDictionary *serializeResult = [self.sut serializeToDictionary];
+  assertThat(serializeResult.description, equalTo([self.sut description]));
 }
 
 - (void)testIsNotEqualToNil {
