@@ -313,6 +313,7 @@ static NSString *const kMSACTypeHandledError = @"handledError";
   XCTAssertNil(report.exceptionName);
   XCTAssertNil(report.exceptionReason);
   XCTAssertEqualObjects(report.appStartTime, [MSACCrashes sharedInstance].appStartTime);
+  XCTAssertEqualObjects(report.device, [MSACDeviceTracker sharedInstance].device);
   XCTAssertNotNil(report.appErrorTime);
 }
 
