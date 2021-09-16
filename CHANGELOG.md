@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 4.3.0 (Under development)
+## Version 4.3.1 (Under development)
 
 ### App Center Crashes
 
@@ -8,17 +8,19 @@
 
 ___
 
-## Version 4.2.1
+## Version 4.3.0
 
 ### App Center Crashes
 
 * **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
 * **[Fix]** Fix build failure on Xcode 13, because of warning `completion handler is never used`. Only observable when SDK is integrated as source code. Workaround: Set `Treat Warnings as Errors` to `No` in target's build settings.
+* **[Improvement]** Update PLCrashReporter to 1.10.0.
 
 ### App Center Distribute
 
 - **[Fix]** Fix a warning `'Resources/AppCenterDistribute.strings': file not found` when resolving swift packages using Swift 5.5.
 - **[Fix]** Fix the part of the script which is responsible for cleanup the resource bundles inside the xcframework.
+- **[Fix]** Fix `Undefined symbols for architecture x86_64` for `ASWebAuthenticationSession` for Cocoapods (v 1.11) integration.
 
 ___
 

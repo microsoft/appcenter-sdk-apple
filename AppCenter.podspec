@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name              = 'AppCenter'
-  s.version           = '4.2.1'
+  s.version           = '4.3.1'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
@@ -65,8 +65,7 @@ Pod::Spec.new do |s|
     ss.dependency 'AppCenter/Core'
     ss.frameworks = 'Foundation'
     ss.ios.frameworks = 'UIKit'
-    ss.ios.weak_frameworks = 'AuthenticationServices'
-    ss.ios.weak_frameworks = 'SafariServices'
+    ss.ios.weak_frameworks = 'SafariServices', 'AuthenticationServices'
     ss.ios.resource_bundle = { 'AppCenterDistributeResources' => ['AppCenter-SDK-Apple/AppCenterDistributeResources.bundle/*.lproj'] }
     ss.ios.vendored_frameworks = "AppCenter-SDK-Apple/AppCenterDistribute.xcframework"
  end
