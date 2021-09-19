@@ -230,8 +230,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // CPU Type and Subtype for the crash. We need to query the binary images for that.
   uint64_t type = report.machineInfo.processorInfo.type;
   uint64_t subtype = report.machineInfo.processorInfo.subtype;
+  BOOL isKnownEncodingType = report.systemInfo.processorInfo.typeEncoding == PLCrashReportProcessorTypeEncodingMach;
   for (PLCrashReportBinaryImageInfo *image in report.images) {
-    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
+    isKnownEncodingType = image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach;
+    if (image.codeType != nil && isKnownEncodingType) {
       type = image.codeType.type;
       subtype = image.codeType.subtype;
       break;
@@ -240,6 +242,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   BOOL is64bit = [self isCodeType64bit:type];
   errorLog.primaryArchitectureId = @(type);
   errorLog.architectureVariantId = @(subtype);
+  errorLog.isKnownEncodingType = isKnownEncodingType;
 
   /*
    * errorLog.architecture is an optional. The Android SDK will set it while for
@@ -312,6 +315,17 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *exceptionName = errorLog.exceptionType;
   NSDate *appStartTime = errorLog.appLaunchTimestamp;
   NSDate *appErrorTime = errorLog.timestamp;
+  NSString *codeType = unknownString;
+  NSString *archName = unknownString;
+  if (errorLog.isKnownEncodingType && errorLog.primaryArchitectureId != nil) {
+    codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue];
+    if (errorLog.architectureVariantId != nil) {
+      archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue subtype:errorLog.architectureVariantId.intValue];
+    }
+  }
+  NSString *applicationPath = errorLog.applicationPath;
+  NSArray<MSACThread *> *threads = errorLog.threads;
+  NSArray<MSACBinary *> *binaries = errorLog.binaries;
 
   // Retrieve the process' id.
   NSUInteger processId = [errorLog.processId unsignedIntegerValue];
@@ -324,6 +338,11 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
                                          exceptionReason:exceptionReason
                                             appStartTime:appStartTime
                                             appErrorTime:appErrorTime
+                                                codeType:codeType
+                                                archName:archName
+                                         applicationPath:applicationPath
+                                                 threads:threads
+                                                binaries:binaries
                                                   device:errorLog.device
                                     appProcessIdentifier:processId];
 
@@ -371,6 +390,99 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
     errorLog.parentProcessId = @(crashReport.processInfo.parentProcessID);
   }
   return errorLog;
+}
+
++ (NSString *)convertArchNameToString:(long)type subtype:(int)subtype {
+  NSString *archName = @"???";
+  switch (type) {
+  case CPU_TYPE_ARM:
+    switch (subtype & ~CPU_SUBTYPE_MASK) {
+    case CPU_SUBTYPE_ARM_V6:
+      archName = @"armv6";
+      break;
+
+    case CPU_SUBTYPE_ARM_V7:
+      archName = @"armv7";
+      break;
+
+    case CPU_SUBTYPE_ARM_V7S:
+      archName = @"armv7s";
+      break;
+
+    default:
+      archName = @"arm-unknown";
+      break;
+    }
+    break;
+
+  case CPU_TYPE_ARM64:
+    /* Apple includes subtype for ARM64 binaries. */
+    switch (subtype & ~CPU_SUBTYPE_MASK) {
+    case CPU_SUBTYPE_ARM64_ALL:
+      archName = @"arm64";
+      break;
+
+    case CPU_SUBTYPE_ARM64_V8:
+      archName = @"armv8";
+      break;
+
+    case CPU_SUBTYPE_ARM64E:
+      archName = @"arm64e";
+      break;
+
+    default:
+      archName = @"arm64-unknown";
+      break;
+    }
+    break;
+
+  case CPU_TYPE_X86:
+    archName = @"i386";
+    break;
+
+  case CPU_TYPE_X86_64:
+    archName = @"x86_64";
+    break;
+
+  case CPU_TYPE_POWERPC:
+    archName = @"powerpc";
+    break;
+
+  default:
+    // Use the default archName value (initialized above).
+    break;
+  }
+  return archName;
+}
+
++ (NSString *)convertCodeTypeToString:(long)type {
+  NSString *codeType = nil;
+  switch (type) {
+  case CPU_TYPE_ARM:
+    codeType = @"ARM";
+    break;
+
+  case CPU_TYPE_ARM64:
+    codeType = @"ARM-64";
+    break;
+
+  case CPU_TYPE_X86:
+    codeType = @"X86";
+    break;
+
+  case CPU_TYPE_X86_64:
+    codeType = @"X86-64";
+    break;
+
+  case CPU_TYPE_POWERPC:
+    codeType = @"PPC";
+    break;
+
+  default:
+    codeType = [NSString stringWithFormat:@"Unknown (%lu)", type];
+    break;
+  }
+  return codeType;
 }
 
 + (NSDate *)getAppLaunchTimeFromReport:(PLCrashReport *)report {

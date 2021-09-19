@@ -1,6 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 4.3.1
+## Version 4.3.1 (Under development)
+
+### App Center Crashes
+
+* **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to a string and additional useful information about sending error.
 
 ___
 

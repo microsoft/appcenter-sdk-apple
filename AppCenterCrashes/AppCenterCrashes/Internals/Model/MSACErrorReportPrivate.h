@@ -5,6 +5,8 @@
 
 static NSString *const kMSACErrorReportKillSignal = @"SIGKILL";
 
+@class MSACThread, MSACBinary;
+
 @interface MSACErrorReport ()
 
 - (instancetype)initWithErrorId:(NSString *)errorId
@@ -14,6 +16,11 @@ static NSString *const kMSACErrorReportKillSignal = @"SIGKILL";
                 exceptionReason:(NSString *)exceptionReason
                    appStartTime:(NSDate *)appStartTime
                    appErrorTime:(NSDate *)appErrorTime
+                       codeType:(NSString *)codeType
+                       archName:(NSString *)archName
+                applicationPath:(NSString *)applicationPath
+                        threads:(NSArray<MSACThread *> *)threads
+                       binaries:(NSArray<MSACBinary *> *)binaries
                          device:(MSACDevice *)device
            appProcessIdentifier:(NSUInteger)appProcessIdentifier;
 

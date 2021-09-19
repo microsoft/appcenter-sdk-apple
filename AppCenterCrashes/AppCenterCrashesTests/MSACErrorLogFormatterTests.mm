@@ -119,6 +119,55 @@ static NSArray *kMacOSCrashReportsParameters = @[
   [defaults stopMocking];
 }
 
+- (void)testErrorReportFromLog {
+
+  // If.
+  NSString *errorId = @"id";
+  NSString *signal = @"Signal";
+  NSString *exceptionReason = @"Some exception reason";
+  NSString *exceptionName = @"Exception name";
+  NSDate *appStartTime = [NSDate new];
+  NSDate *appErrorTime = [NSDate new];
+  NSNumber *codeType = @(CPU_TYPE_ARM);
+  NSNumber *archName = @(CPU_SUBTYPE_ARM_V6);
+  NSString *applicationPath = @"applicationPath";
+  NSArray<MSACThread *> *threads = [NSArray<MSACThread *> new];
+  NSArray<MSACBinary *> *binaries = [NSArray<MSACBinary *> new];
+
+  // When.
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.errorId = errorId;
+  errorLog.osExceptionType = signal;
+  errorLog.exceptionReason = exceptionReason;
+  errorLog.exceptionType = exceptionName;
+  errorLog.threads = threads;
+  errorLog.binaries = binaries;
+  errorLog.appLaunchTimestamp = appStartTime;
+  errorLog.timestamp = appErrorTime;
+  errorLog.applicationPath = applicationPath;
+  errorLog.primaryArchitectureId = codeType;
+  errorLog.architectureVariantId = archName;
+  errorLog.isKnownEncodingType = true;
+
+  // Then.
+  NSString *codeTypeText = @"ARM";
+  NSString *archNameText = @"armv6";
+  MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+
+  // Verify.
+  XCTAssertEqual(errorReport.incidentIdentifier, errorId);
+  XCTAssertEqual(errorReport.appErrorTime, appErrorTime);
+  XCTAssertEqual(errorReport.appStartTime, appStartTime);
+  XCTAssertEqual(errorReport.applicationPath, applicationPath);
+  XCTAssertEqual(errorReport.archName, archNameText);
+  XCTAssertEqual(errorReport.codeType, codeTypeText);
+  XCTAssertEqual(errorReport.threads, threads);
+  XCTAssertEqual(errorReport.binaries, binaries);
+  XCTAssertEqual(errorReport.exceptionReason, exceptionReason);
+  XCTAssertEqual(errorReport.exceptionName, exceptionName);
+  XCTAssertEqual(errorReport.signal, signal);
+}
+
 - (void)testErrorIdFromCrashReport {
   NSData *crashData = [MSACCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
   XCTAssertNotNil(crashData);
@@ -686,5 +735,128 @@ static NSArray *kMacOSCrashReportsParameters = @[
   }
 }
 #endif
+
+- (void)checkIfCodeTypeConvertedCorrectly:(NSNumber *)codeType isKnownEncodingType:(BOOL)isKnownEncodingType expectedType:(NSString *)expectedType {
+
+  // Init apple error log with codeType and acrhName.
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.primaryArchitectureId = codeType;
+  errorLog.isKnownEncodingType = isKnownEncodingType;
+    
+  // Convert apple error log to error report.
+  MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+
+  // Verify that codeType was converted as excpected.
+  XCTAssertEqual(errorReport.codeType, expectedType);
+}
+
+- (void)checkIfArchNameConvertedCorrectly:(NSNumber *)codeType archName:(NSNumber *)archName isKnownEncodingType:(BOOL)isKnownEncodingType expectedName:(NSString *)expectedName {
+
+  // Init apple error log with codeType and acrhName.
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.primaryArchitectureId = codeType;
+  errorLog.architectureVariantId = archName;
+  errorLog.isKnownEncodingType = isKnownEncodingType;
+    
+  // Convert apple error log to error report.
+  MSACErrorReport *errorReport = [MSACErrorLogFormatter errorReportFromLog:errorLog];
+
+  // Verify that archName was converted as excpected.
+  XCTAssertEqual(errorReport.archName, expectedName);
+}
+
+- (void)testConvertCodeTypeToString {
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_ARM) isKnownEncodingType:YES expectedType:@"ARM"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_ARM64) isKnownEncodingType:YES expectedType:@"ARM-64"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_X86) isKnownEncodingType:YES expectedType:@"X86"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_X86_64) isKnownEncodingType:YES expectedType:@"X86-64"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_POWERPC) isKnownEncodingType:YES expectedType:@"PPC"];
+}
+
+- (void)testConvertArchNameToString {
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM)
+                             archName:@(CPU_SUBTYPE_ARM_V6)
+                  isKnownEncodingType:YES
+                         expectedName:@"armv6"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM)
+                             archName:@(CPU_SUBTYPE_ARM_V7)
+                  isKnownEncodingType:YES
+                         expectedName:@"armv7"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM)
+                             archName:@(CPU_SUBTYPE_ARM_V7S)
+                  isKnownEncodingType:YES
+                         expectedName:@"armv7s"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64)
+                             archName:@(CPU_SUBTYPE_ARM64_ALL)
+                  isKnownEncodingType:YES
+                         expectedName:@"arm64"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64)
+                             archName:@(CPU_SUBTYPE_ARM64_V8)
+                  isKnownEncodingType:YES
+                         expectedName:@"armv8"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64)
+                             archName:@(CPU_SUBTYPE_ARM64E)
+                  isKnownEncodingType:YES
+                         expectedName:@"arm64e"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_X86)
+                             archName:@(CPU_TYPE_X86)
+                  isKnownEncodingType:YES
+                         expectedName:@"i386"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_X86_64)
+                             archName:@(CPU_TYPE_X86_64)
+                  isKnownEncodingType:YES
+                         expectedName:@"x86_64"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_POWERPC)
+                             archName:@(CPU_TYPE_POWERPC)
+                  isKnownEncodingType:YES
+                         expectedName:@"powerpc"];
+}
+
+- (void)testConvertCodeTypeUnknownEncodingTypeToString {
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_ARM) isKnownEncodingType:NO expectedType:@"???"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_ARM64) isKnownEncodingType:NO expectedType:@"???"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_X86) isKnownEncodingType:NO expectedType:@"???"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_X86_64) isKnownEncodingType:NO expectedType:@"???"];
+  [self checkIfCodeTypeConvertedCorrectly:@(CPU_TYPE_POWERPC) isKnownEncodingType:NO expectedType:@"???"];
+}
+
+- (void)testConvertArchNameUnknownEncodingTypeToString {
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM)
+                                 archName:@(CPU_SUBTYPE_ARM_V6)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM)
+                                 archName:@(CPU_SUBTYPE_ARM_V7)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM)
+                                 archName:@(CPU_SUBTYPE_ARM_V7S)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64)
+                                 archName:@(CPU_SUBTYPE_ARM64_ALL)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64)
+                                 archName:@(CPU_SUBTYPE_ARM64_V8)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64)
+                                 archName:@(CPU_SUBTYPE_ARM64E)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_X86)
+                                 archName:@(CPU_TYPE_X86)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_X86_64)
+                                 archName:@(CPU_TYPE_X86_64)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_POWERPC)
+                                 archName:@(CPU_TYPE_POWERPC)
+                      isKnownEncodingType:NO
+                             expectedName:@"???"];
+}
 
 @end

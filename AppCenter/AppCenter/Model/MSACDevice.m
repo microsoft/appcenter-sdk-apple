@@ -135,4 +135,8 @@
   [coder encodeObject:self.appNamespace forKey:kMSACAppNamespace];
 }
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"%@", [self serializeToDictionary]];
+}
+
 @end

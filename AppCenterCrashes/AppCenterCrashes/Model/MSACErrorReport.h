@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MSACDevice;
+@class MSACThread, MSACBinary, MSACDevice;
 
 NS_SWIFT_NAME(ErrorReport)
 @interface MSACErrorReport : NSObject
@@ -42,6 +42,31 @@ NS_SWIFT_NAME(ErrorReport)
  * Date and time the error occurred, nil if unknown
  */
 @property(nonatomic, readonly, strong) NSDate *appErrorTime;
+
+/**
+ * CPU architecture variant.
+ */
+@property(nonatomic) NSString *archName;
+
+/**
+ * CPU primary architecture.
+ */
+@property(nonatomic) NSString *codeType;
+
+/**
+ * Path to the application.
+ */
+@property(nonatomic, copy) NSString *applicationPath;
+
+/**
+ * Thread stack frames associated with the error.
+ */
+@property(nonatomic) NSArray<MSACThread *> *threads;
+
+/**
+ * Binaries associated with the error.
+ */
+@property(nonatomic) NSArray<MSACBinary *> *binaries;
 
 /**
  * Device information of the app when it crashed.

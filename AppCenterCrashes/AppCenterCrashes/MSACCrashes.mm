@@ -29,7 +29,6 @@
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACErrorLogFormatter.h"
 #import "MSACErrorReportPrivate.h"
-#import "MSACWrapperExceptionModel.h"
 #import "MSACExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACLoggerInternal.h"
@@ -41,6 +40,7 @@
 #import "MSACWrapperCrashesHelper.h"
 #import "MSACWrapperException.h"
 #import "MSACWrapperExceptionManagerInternal.h"
+#import "MSACWrapperExceptionModel.h"
 
 /**
  * Service name for initialization.
@@ -218,8 +218,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 }
 
 + (NSString *)trackException:(MSACExceptionModel *)exceptionModel
-                      withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
-                         attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
+              withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                 attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties attachments:attachments];
 }
 
@@ -1420,6 +1420,11 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
                                   exceptionReason:nil
                                      appStartTime:self.appStartTime
                                      appErrorTime:[NSDate date]
+                                         codeType:nil
+                                         archName:nil
+                                  applicationPath:nil
+                                          threads:nil
+                                         binaries:nil
                                            device:[[MSACDeviceTracker sharedInstance] device]
                              appProcessIdentifier:0];
 }
