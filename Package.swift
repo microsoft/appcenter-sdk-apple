@@ -42,7 +42,7 @@ let package = Package(
                 .linkedFramework("SystemConfiguration"),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
-                .linkedFramework("CoreTelephony", .when(platforms: [.iOS, .macOS])),
+                .linkedFramework("CoreTelephony", .when(platforms: [.iOS])),
             ]
         ),
         .target(
