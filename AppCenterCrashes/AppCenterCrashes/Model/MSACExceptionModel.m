@@ -70,19 +70,9 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 + (NSArray<MSACStackFrame *> *)loadStackTrace:(NSArray<NSString *> *)stackTrace {
   NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
   for (NSString *line in stackTrace) {
-    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
-    NSMutableArray *array = [NSMutableArray arrayWithArray:[line componentsSeparatedByCharactersInSet:separatorSet]];
-    [array removeObject:@""];
     MSACStackFrame *frame = [MSACStackFrame new];
-
-    // If the stack trace line doesn't contain full information it should be ignored.
-    if (array.count > 5) {
-      frame.fileName = [array objectAtIndex:1];
-      frame.address = [array objectAtIndex:2];
-      frame.className = [array objectAtIndex:3];
-      frame.methodName = [array objectAtIndex:4];
-      [frames addObject:frame];
-    }
+    frame.fileName = line;
+    [frames addObject:frame];
   }
   return frames;
 }
