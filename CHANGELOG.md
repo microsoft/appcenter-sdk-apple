@@ -2,13 +2,13 @@
 
 ## Version 4.3.1
 
-___
-
-## Version 4.3.0
-
 ### App Center
 
 * **[Improvement]** Specified minimum cocoapods version in podspec to 1.10.0.
+
+___
+
+## Version 4.3.0
 
 ### App Center Crashes
 
