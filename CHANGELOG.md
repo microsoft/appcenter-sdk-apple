@@ -6,6 +6,10 @@ ___
 
 ## Version 4.3.0
 
+### App Center
+
+* **[Improvement]** Specified minimum cocoapods version in Appcenter 1.10 -> in podspec to 1.10.0
+
 ### App Center Crashes
 
 * **[Feature]** Add support for tracking handled errors with `Crashes.trackError` and `Crashes.trackException` APIs.
