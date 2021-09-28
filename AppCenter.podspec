@@ -1,4 +1,5 @@
 Pod::Spec.new do |s|
+  s.cocoapods_version = '>= 1.10'
   s.name              = 'AppCenter'
   s.version           = '4.3.1'
 

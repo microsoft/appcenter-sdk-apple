@@ -6,6 +6,10 @@
 
 * **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to a string and additional useful information about sending error.
 
+### App Center
+
+* **[Improvement]** Specified minimum cocoapods version in podspec to 1.10.0.
+
 ___
 
 ## Version 4.3.0
