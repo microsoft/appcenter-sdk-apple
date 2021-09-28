@@ -8,7 +8,7 @@ ___
 
 ### App Center
 
-* **[Improvement]** Specified minimum cocoapods version in Appcenter 1.10 -> in podspec to 1.10.0
+* **[Improvement]** Specified minimum cocoapods version in podspec to 1.10.0.
 
 ### App Center Crashes
 
