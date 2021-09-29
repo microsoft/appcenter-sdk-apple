@@ -213,7 +213,7 @@ static NSString *const kMSACDeviceManufacturerTest = @"Apple";
   assertThatInteger([screenSize length], greaterThan(@(0)));
 }
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testCarrierName {
 
   // If
@@ -230,7 +230,7 @@ static NSString *const kMSACDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testNoCarrierName {
 
   // If
@@ -246,7 +246,7 @@ static NSString *const kMSACDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testNonValidCarrierName {
 
   // If
@@ -262,7 +262,7 @@ static NSString *const kMSACDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testCarrierCountry {
 
   // If
@@ -279,7 +279,7 @@ static NSString *const kMSACDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testNoCarrierCountry {
 
   // If
@@ -295,7 +295,7 @@ static NSString *const kMSACDeviceManufacturerTest = @"Apple";
 }
 #endif
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)testCarrierCountryNotOverridden {
 
   // If
