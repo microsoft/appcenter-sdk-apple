@@ -3,11 +3,6 @@
 
 #include <Foundation/Foundation.h>
 
-#if !TARGET_OS_TV
-#import "MSACCustomProperties.h"
-#import "MSACCustomPropertiesLog.h"
-#endif
-
 #import "MSACAppCenter.h"
 #import "MSACAppCenterIngestion.h"
 #import "MSACAppCenterInternal.h"
@@ -573,51 +568,6 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   // Then
   XCTAssertFalse([MSACAppCenter isRunningInAppCenterTestCloud]);
 }
-
-#if !TARGET_OS_TV
-- (void)testSetCustomPropertiesWithEmptyPropertiesDoesNotEnqueueCustomPropertiesLog {
-
-  // If
-  [MSACAppCenter start:MSAC_UUID_STRING withServices:nil];
-  id channelUnit = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
-  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSACCustomPropertiesLog class]] flags:MSACFlagsDefault]).andDo(nil);
-  [MSACAppCenter sharedInstance].channelUnit = channelUnit;
-
-  // When
-  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSACCustomPropertiesLog class]] flags:MSACFlagsDefault]);
-  MSACCustomProperties *customProperties = [MSACCustomProperties new];
-  [MSACAppCenter setCustomProperties:customProperties];
-
-  // Then
-  OCMVerifyAll(channelUnit);
-}
-
-- (void)testSetCustomProperties {
-
-  // If
-  [MSACAppCenter start:MSAC_UUID_STRING withServices:nil];
-  id channelUnit = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
-  OCMStub([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSACCustomPropertiesLog class]] flags:MSACFlagsDefault]).andDo(nil);
-  [MSACAppCenter sharedInstance].channelUnit = channelUnit;
-
-  // When
-  MSACCustomProperties *customProperties = [MSACCustomProperties new];
-  [customProperties setString:@"test" forKey:@"test"];
-  [MSACAppCenter setCustomProperties:customProperties];
-
-  // Then
-  OCMVerify([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSACCustomPropertiesLog class]] flags:MSACFlagsDefault]);
-
-  // When
-  // Not allow processLog more
-  OCMReject([channelUnit enqueueItem:[OCMArg isKindOfClass:[MSACCustomPropertiesLog class]] flags:MSACFlagsDefault]);
-  [MSACAppCenter setCustomProperties:nil];
-  [MSACAppCenter setCustomProperties:[MSACCustomProperties new]];
-
-  // Then
-  OCMVerifyAll(channelUnit);
-}
-#endif
 
 - (void)testConfigureWithAppSecret {
   [MSACAppCenter configureWithAppSecret:@"App-Secret"];

@@ -137,7 +137,6 @@
 		046AEAE31ECA562A00CBE511 /* MSACKeychainUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD126A1E4103CC007ABFE7 /* MSACKeychainUtilTests.m */; };
 		046AEAE41ECA562A00CBE511 /* MSACStartServiceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D38024111E7130C700466558 /* MSACStartServiceLogTests.m */; };
 		046AEAE61ECA562A00CBE511 /* MSACChannelUnitConfigurationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A31D3831FE006E8B5F /* MSACChannelUnitConfigurationTests.m */; };
-		046AEAE81ECA562A00CBE511 /* MSACCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSACCustomPropertiesTests.m */; };
 		046AEAE91ECA562A00CBE511 /* MSACHttpUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04B7BBEE1E5FAD4D001A0CE1 /* MSACHttpUtilTests.m */; };
 		046AEAEB1ECA562A00CBE511 /* MSACMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* MSACMockLog.m */; };
 		046AEAEC1ECA562A00CBE511 /* MSACChannelGroupDefaultTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E48A5A61D383893006E8B5F /* MSACChannelGroupDefaultTests.m */; };
@@ -160,7 +159,6 @@
 		04A79A4B20C6F63F006D0072 /* MSACOneCollectorIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A79A4720C6F635006D0072 /* MSACOneCollectorIngestionTests.m */; };
 		04B45C4B21E90E4000FE6746 /* MSACAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSACAbstractLogTests.m */; };
 		04B45C4C21E90E4600FE6746 /* MSACCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */; };
-		04B45C4E21E90E7900FE6746 /* MSACCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSACCustomPropertiesTests.m */; };
 		04B45C4F21E90E8D00FE6746 /* MSACOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSACOneCollectorChannelDelegateTests.m */; };
 		04B45C5021E90E8E00FE6746 /* MSACOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSACOneCollectorChannelDelegateTests.m */; };
 		04B45C5121E90F2000FE6746 /* MSACStorageTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B4126214C939D007CAE9C /* MSACStorageTestUtil.m */; };
@@ -304,7 +302,6 @@
 		C9A9210C230C61820068070D /* MSACSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSACSDKExtension.m */; };
 		C9A9210D230C61820068070D /* MSACUserExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A120B36AAB002C0183 /* MSACUserExtension.m */; };
 		C9A9210E230C61820068070D /* MSACAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSACAbstractLog.m */; };
-		C9A9210F230C61820068070D /* MSACCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSACCustomPropertiesLog.m */; };
 		C9A92110230C61820068070D /* MSACLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSACLogContainer.m */; };
 		C9A92111230C61820068070D /* MSACLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSACLogWithProperties.m */; };
 		C9A92112230C61820068070D /* MSACStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSACStartServiceLog.m */; };
@@ -330,7 +327,6 @@
 		C9A92126230C61820068070D /* MSACUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSACUtility+StringFormatting.m */; };
 		C9A92127230C61820068070D /* MSACCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSACCompression.m */; };
 		C9A92128230C61820068070D /* MSAC_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MSAC_Reachability.m */; };
-		C9A92129230C61820068070D /* MSACCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSACCustomProperties.m */; };
 		C9A9212A230C61820068070D /* MSACDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSACDevice.m */; };
 		C9A9212B230C61820068070D /* MSACWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSACWrapperSdk.m */; };
 		C9A9212C230C61830068070D /* MSACAppCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E0401561D1C9AAA0051BCFA /* MSACAppCenter.m */; };
@@ -370,7 +366,6 @@
 		C9A92152230C61830068070D /* MSACSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSACSDKExtension.m */; };
 		C9A92153230C61830068070D /* MSACUserExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A120B36AAB002C0183 /* MSACUserExtension.m */; };
 		C9A92154230C61830068070D /* MSACAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSACAbstractLog.m */; };
-		C9A92155230C61830068070D /* MSACCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSACCustomPropertiesLog.m */; };
 		C9A92156230C61830068070D /* MSACLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSACLogContainer.m */; };
 		C9A92157230C61830068070D /* MSACLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSACLogWithProperties.m */; };
 		C9A92158230C61830068070D /* MSACStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSACStartServiceLog.m */; };
@@ -396,7 +391,6 @@
 		C9A9216C230C61830068070D /* MSACUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSACUtility+StringFormatting.m */; };
 		C9A9216D230C61830068070D /* MSACCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSACCompression.m */; };
 		C9A9216E230C61830068070D /* MSAC_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MSAC_Reachability.m */; };
-		C9A9216F230C61830068070D /* MSACCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSACCustomProperties.m */; };
 		C9A92170230C61830068070D /* MSACDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSACDevice.m */; };
 		C9A92171230C61830068070D /* MSACWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSACWrapperSdk.m */; };
 		D36136831E7BB338004AE043 /* MSACStoragePerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D36136821E7BB338004AE043 /* MSACStoragePerformanceTests.m */; };
@@ -472,7 +466,6 @@
 		E7D23C7120B6412300A47D62 /* MSACCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSACCSExtensionsTests.m */; };
 		E88D17061D35B6B500A5EA57 /* MSACMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* MSACMockLog.m */; };
 		E88EBBFB1D2C8CC7007E7785 /* MSACLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* MSACLogContainerTests.m */; };
-		F803BC381E8E6927004B1E7A /* MSACCustomPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC371E8E6927004B1E7A /* MSACCustomPropertiesTests.m */; };
 		F803BC3A1E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */; };
 		F82E4C6D217F159A00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C6C217F159A00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C6E217F159A00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C6C217F159A00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -514,7 +507,6 @@
 		F8936C92230C23F0006A330F /* MSACSDKExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14E920B3711F002C0183 /* MSACSDKExtension.m */; };
 		F8936C93230C23F0006A330F /* MSACUserExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = E74B14A120B36AAB002C0183 /* MSACUserExtension.m */; };
 		F8936C94230C23F0006A330F /* MSACAbstractLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBEB1D2C612E007E7785 /* MSACAbstractLog.m */; };
-		F8936C95230C23F0006A330F /* MSACCustomPropertiesLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF81E8E3989004B1E7A /* MSACCustomPropertiesLog.m */; };
 		F8936C96230C23F0006A330F /* MSACLogContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E171B591D234717000DC480 /* MSACLogContainer.m */; };
 		F8936C97230C23F0006A330F /* MSACLogWithProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = E8010E671D2DD4EF0035196F /* MSACLogWithProperties.m */; };
 		F8936C98230C23F0006A330F /* MSACStartServiceLog.m in Sources */ = {isa = PBXBuildFile; fileRef = D38023E61E6EFC7C00466558 /* MSACStartServiceLog.m */; };
@@ -540,7 +532,6 @@
 		F8936CAC230C23F0006A330F /* MSACUtility+StringFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD749C1F22BE270070E7DF /* MSACUtility+StringFormatting.m */; };
 		F8936CAD230C23F0006A330F /* MSACCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 38148D8520D07FB70046257E /* MSACCompression.m */; };
 		F8936CAE230C23F0006A330F /* MSAC_Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E83283C51D46C62E000B029E /* MSAC_Reachability.m */; };
-		F8936CAF230C23F0006A330F /* MSACCustomProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BBF21E8E3677004B1E7A /* MSACCustomProperties.m */; };
 		F8936CB0230C23F0006A330F /* MSACDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3844FF1A1E8C2716003E9194 /* MSACDevice.m */; };
 		F8936CB1230C23F0006A330F /* MSACWrapperSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD74561F22BB710070E7DF /* MSACWrapperSdk.m */; };
 		F8936CB2230C24D9006A330F /* AppCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401401D1C99AC0051BCFA /* AppCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -579,26 +570,22 @@
 		F8936CD3230C24DA006A330F /* MSACService.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401451D1C99AC0051BCFA /* MSACService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CD4230C24DA006A330F /* MSACServiceAbstract.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C76FC1D6C9CF100D68CC1 /* MSACServiceAbstract.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CD5230C24DA006A330F /* MSACWrapperLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 35D0B7511DDFABFD003EACCD /* MSACWrapperLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8936CD6230C25A3006A330F /* MSACCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSACCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CD7230C25A3006A330F /* MSACDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSACDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CD8230C25A3006A330F /* MSACLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2C9D1D35701000B1EE50 /* MSACLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CD9230C25A3006A330F /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSACLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CDA230C25A3006A330F /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1C1E8C2716003E9194 /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CDB230C25A3006A330F /* MSACWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSACWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8936CDC230C25A4006A330F /* MSACCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSACCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CDD230C25A4006A330F /* MSACDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSACDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CDE230C25A4006A330F /* MSACLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2C9D1D35701000B1EE50 /* MSACLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CDF230C25A4006A330F /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSACLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE0230C25A4006A330F /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1C1E8C2716003E9194 /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE1230C25A4006A330F /* MSACWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSACWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8936CE2230C25A5006A330F /* MSACCustomProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF11E8E3677004B1E7A /* MSACCustomProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE3230C25A5006A330F /* MSACDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1B1E8C2716003E9194 /* MSACDevice.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE4230C25A5006A330F /* MSACLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E3E2C9D1D35701000B1EE50 /* MSACLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE5230C25A5006A330F /* MSACLogWithProperties.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF191E8C2716003E9194 /* MSACLogWithProperties.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE6230C25A5006A330F /* MSACAbstractLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF1C1E8C2716003E9194 /* MSACAbstractLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE7230C25A5006A330F /* MSACWrapperSdk.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74551F22BB710070E7DF /* MSACWrapperSdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8936CE8230C2603006A330F /* MSACAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSACAppCenterPrivate.h */; };
-		F8936CE9230C2603006A330F /* MSACCustomPropertiesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED9D2BA796BA0329F4FC7 /* MSACCustomPropertiesPrivate.h */; };
 		F8936CEA230C2603006A330F /* MSACDelegateForwarderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3803208D217E8BD40089772A /* MSACDelegateForwarderPrivate.h */; };
 		F8936CEB230C2603006A330F /* MSACChannelGroupDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AB676220E18A74002828AA /* MSACChannelGroupDefaultPrivate.h */; };
 		F8936CEC230C2603006A330F /* MSACChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSACChannelUnitDefaultPrivate.h */; };
@@ -617,7 +604,6 @@
 		F8936CFA230C2603006A330F /* MSACKeychainUtilPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 386A69EC1FD8843D0057B316 /* MSACKeychainUtilPrivate.h */; };
 		F8936CFB230C2603006A330F /* MSACUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74941F22BE270070E7DF /* MSACUtility+ApplicationPrivate.h */; };
 		F8936CFC230C2604006A330F /* MSACAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSACAppCenterPrivate.h */; };
-		F8936CFD230C2604006A330F /* MSACCustomPropertiesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED9D2BA796BA0329F4FC7 /* MSACCustomPropertiesPrivate.h */; };
 		F8936CFE230C2604006A330F /* MSACDelegateForwarderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3803208D217E8BD40089772A /* MSACDelegateForwarderPrivate.h */; };
 		F8936CFF230C2604006A330F /* MSACChannelGroupDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AB676220E18A74002828AA /* MSACChannelGroupDefaultPrivate.h */; };
 		F8936D00230C2604006A330F /* MSACChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSACChannelUnitDefaultPrivate.h */; };
@@ -636,7 +622,6 @@
 		F8936D0E230C2604006A330F /* MSACKeychainUtilPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 386A69EC1FD8843D0057B316 /* MSACKeychainUtilPrivate.h */; };
 		F8936D0F230C2604006A330F /* MSACUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74941F22BE270070E7DF /* MSACUtility+ApplicationPrivate.h */; };
 		F8936D10230C2604006A330F /* MSACAppCenterPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 38E1B6791DDE3FDF000EFED1 /* MSACAppCenterPrivate.h */; };
-		F8936D11230C2604006A330F /* MSACCustomPropertiesPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 266ED9D2BA796BA0329F4FC7 /* MSACCustomPropertiesPrivate.h */; };
 		F8936D12230C2604006A330F /* MSACDelegateForwarderPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3803208D217E8BD40089772A /* MSACDelegateForwarderPrivate.h */; };
 		F8936D13230C2604006A330F /* MSACChannelGroupDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 04AB676220E18A74002828AA /* MSACChannelGroupDefaultPrivate.h */; };
 		F8936D14230C2604006A330F /* MSACChannelUnitDefaultPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DA030B94CD3D38725671A79 /* MSACChannelUnitDefaultPrivate.h */; };
@@ -656,7 +641,6 @@
 		F8936D23230C2604006A330F /* MSACUtility+ApplicationPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD74941F22BE270070E7DF /* MSACUtility+ApplicationPrivate.h */; };
 		F8936D24230C2804006A330F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* AppCenter+Internal.h */; };
 		F8936D25230C2804006A330F /* MSACAppCenterInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* MSACAppCenterInternal.h */; };
-		F8936D26230C2804006A330F /* MSACCustomPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF51E8E383E004B1E7A /* MSACCustomPropertiesInternal.h */; };
 		F8936D27230C2804006A330F /* MSACLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSACLoggerInternal.h */; };
 		F8936D28230C2804006A330F /* MSACServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSACServiceAbstractInternal.h */; };
 		F8936D29230C2804006A330F /* MSACServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSACServiceCommon.h */; };
@@ -701,7 +685,6 @@
 		F8936D57230C2804006A330F /* MSACSDKExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSACSDKExtension.h */; };
 		F8936D58230C2804006A330F /* MSACUserExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E420B370A5002C0183 /* MSACUserExtension.h */; };
 		F8936D59230C2804006A330F /* MSACAbstractLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF121E8C22CC003E9194 /* MSACAbstractLogInternal.h */; };
-		F8936D5A230C2804006A330F /* MSACCustomPropertiesLog.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBFA1E8E39AB004B1E7A /* MSACCustomPropertiesLog.h */; };
 		F8936D5B230C2804006A330F /* MSACDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSACDeviceInternal.h */; };
 		F8936D5C230C2804006A330F /* MSACLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSACLogContainer.h */; };
 		F8936D5D230C2804006A330F /* MSACModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSACModel.h */; };
@@ -737,7 +720,6 @@
 		F8936D7B230C2804006A330F /* MSAC_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* MSAC_Reachability.h */; };
 		F8936D7C230C2805006A330F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* AppCenter+Internal.h */; };
 		F8936D7D230C2805006A330F /* MSACAppCenterInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* MSACAppCenterInternal.h */; };
-		F8936D7E230C2805006A330F /* MSACCustomPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF51E8E383E004B1E7A /* MSACCustomPropertiesInternal.h */; };
 		F8936D7F230C2805006A330F /* MSACLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSACLoggerInternal.h */; };
 		F8936D80230C2805006A330F /* MSACServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSACServiceAbstractInternal.h */; };
 		F8936D81230C2805006A330F /* MSACServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSACServiceCommon.h */; };
@@ -782,7 +764,6 @@
 		F8936DAF230C2805006A330F /* MSACSDKExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSACSDKExtension.h */; };
 		F8936DB0230C2805006A330F /* MSACUserExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E420B370A5002C0183 /* MSACUserExtension.h */; };
 		F8936DB1230C2805006A330F /* MSACAbstractLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF121E8C22CC003E9194 /* MSACAbstractLogInternal.h */; };
-		F8936DB2230C2805006A330F /* MSACCustomPropertiesLog.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBFA1E8E39AB004B1E7A /* MSACCustomPropertiesLog.h */; };
 		F8936DB3230C2805006A330F /* MSACDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSACDeviceInternal.h */; };
 		F8936DB4230C2805006A330F /* MSACLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSACLogContainer.h */; };
 		F8936DB5230C2805006A330F /* MSACModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSACModel.h */; };
@@ -818,7 +799,6 @@
 		F8936DD3230C2805006A330F /* MSAC_Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E83283C41D46C62E000B029E /* MSAC_Reachability.h */; };
 		F8936DD4230C2805006A330F /* AppCenter+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401581D1C9CFB0051BCFA /* AppCenter+Internal.h */; };
 		F8936DD5230C2805006A330F /* MSACAppCenterInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E0401441D1C99AC0051BCFA /* MSACAppCenterInternal.h */; };
-		F8936DD6230C2805006A330F /* MSACCustomPropertiesInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBF51E8E383E004B1E7A /* MSACCustomPropertiesInternal.h */; };
 		F8936DD7230C2805006A330F /* MSACLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3592ABA51DC90E3600EF4592 /* MSACLoggerInternal.h */; };
 		F8936DD8230C2805006A330F /* MSACServiceAbstractInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C757F1D6270A300D68CC1 /* MSACServiceAbstractInternal.h */; };
 		F8936DD9230C2805006A330F /* MSACServiceCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 387C758D1D64DF2500D68CC1 /* MSACServiceCommon.h */; };
@@ -863,7 +843,6 @@
 		F8936E07230C2805006A330F /* MSACSDKExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E820B3711F002C0183 /* MSACSDKExtension.h */; };
 		F8936E08230C2805006A330F /* MSACUserExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = E74B14E420B370A5002C0183 /* MSACUserExtension.h */; };
 		F8936E09230C2805006A330F /* MSACAbstractLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 3844FF121E8C22CC003E9194 /* MSACAbstractLogInternal.h */; };
-		F8936E0A230C2805006A330F /* MSACCustomPropertiesLog.h in Headers */ = {isa = PBXBuildFile; fileRef = F803BBFA1E8E39AB004B1E7A /* MSACCustomPropertiesLog.h */; };
 		F8936E0B230C2805006A330F /* MSACDeviceInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = B2C3C1831DB83A3E00CB83F7 /* MSACDeviceInternal.h */; };
 		F8936E0C230C2805006A330F /* MSACLogContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E171B581D234717000DC480 /* MSACLogContainer.h */; };
 		F8936E0D230C2805006A330F /* MSACModel.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D23C6020B4EED000A47D62 /* MSACModel.h */; };
@@ -1160,7 +1139,6 @@
 		244CC1F72399CA5A00A58F51 /* MSACDependencyConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDependencyConfiguration.m; sourceTree = "<group>"; };
 		24D44B402395DBBE003CC224 /* MSACTestUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACTestUtil.h; sourceTree = "<group>"; };
 		24D44B412395DBBE003CC224 /* MSACTestUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACTestUtil.m; sourceTree = "<group>"; };
-		266ED9D2BA796BA0329F4FC7 /* MSACCustomPropertiesPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACCustomPropertiesPrivate.h; sourceTree = "<group>"; };
 		2DA030746930EE3DCB6A21B3 /* MSACMetadataExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACMetadataExtension.m; sourceTree = "<group>"; };
 		2DA030B94CD3D38725671A79 /* MSACChannelUnitDefaultPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACChannelUnitDefaultPrivate.h; sourceTree = "<group>"; };
 		2DA03260792C64C0290E6E41 /* MSACHttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACHttpClient.h; sourceTree = "<group>"; };
@@ -1409,12 +1387,6 @@
 		E88EBBFA1D2C8CC7007E7785 /* MSACLogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACLogContainerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8A8D1E91D3057A90022931E /* MSACAppCenterUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACAppCenterUserDefaults.h; path = ../Model/Util/MSACAppCenterUserDefaults.h; sourceTree = "<group>"; };
 		E8A8D1EA1D3057A90022931E /* MSACAppCenterUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACAppCenterUserDefaults.m; path = ../Model/Util/MSACAppCenterUserDefaults.m; sourceTree = "<group>"; };
-		F803BBF11E8E3677004B1E7A /* MSACCustomProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACCustomProperties.h; sourceTree = "<group>"; };
-		F803BBF21E8E3677004B1E7A /* MSACCustomProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACCustomProperties.m; sourceTree = "<group>"; };
-		F803BBF51E8E383E004B1E7A /* MSACCustomPropertiesInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACCustomPropertiesInternal.h; sourceTree = "<group>"; };
-		F803BBF81E8E3989004B1E7A /* MSACCustomPropertiesLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACCustomPropertiesLog.m; sourceTree = "<group>"; };
-		F803BBFA1E8E39AB004B1E7A /* MSACCustomPropertiesLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACCustomPropertiesLog.h; sourceTree = "<group>"; };
-		F803BC371E8E6927004B1E7A /* MSACCustomPropertiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACCustomPropertiesTests.m; sourceTree = "<group>"; };
 		F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACCustomPropertiesLogTests.m; sourceTree = "<group>"; };
 		F82E4C6C217F159A00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F898179E2433327C008D92E1 /* MSACAppCenterUserDefaultsPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAppCenterUserDefaultsPrivate.h; sourceTree = "<group>"; };
@@ -1583,8 +1555,6 @@
 		3844FF161E8C261D003E9194 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				F803BBF11E8E3677004B1E7A /* MSACCustomProperties.h */,
-				F803BBF21E8E3677004B1E7A /* MSACCustomProperties.m */,
 				3844FF1B1E8C2716003E9194 /* MSACDevice.h */,
 				3844FF1A1E8C2716003E9194 /* MSACDevice.m */,
 				6E3E2C9D1D35701000B1EE50 /* MSACLog.h */,
@@ -1667,8 +1637,6 @@
 				6E0401581D1C9CFB0051BCFA /* AppCenter+Internal.h */,
 				6E0401441D1C99AC0051BCFA /* MSACAppCenterInternal.h */,
 				38E1B6791DDE3FDF000EFED1 /* MSACAppCenterPrivate.h */,
-				F803BBF51E8E383E004B1E7A /* MSACCustomPropertiesInternal.h */,
-				266ED9D2BA796BA0329F4FC7 /* MSACCustomPropertiesPrivate.h */,
 				244CC1F62399CA5A00A58F51 /* MSACDependencyConfiguration.h */,
 				244CC1F72399CA5A00A58F51 /* MSACDependencyConfiguration.m */,
 				3592ABA51DC90E3600EF4592 /* MSACLoggerInternal.h */,
@@ -1753,8 +1721,6 @@
 				3844FF121E8C22CC003E9194 /* MSACAbstractLogInternal.h */,
 				E88EBBEB1D2C612E007E7785 /* MSACAbstractLog.m */,
 				3513432D2056FF9000E6DC7D /* MSACAbstractLogPrivate.h */,
-				F803BBFA1E8E39AB004B1E7A /* MSACCustomPropertiesLog.h */,
-				F803BBF81E8E3989004B1E7A /* MSACCustomPropertiesLog.m */,
 				B2C3C1831DB83A3E00CB83F7 /* MSACDeviceInternal.h */,
 				6E171B581D234717000DC480 /* MSACLogContainer.h */,
 				6E171B591D234717000DC480 /* MSACLogContainer.m */,
@@ -1781,7 +1747,6 @@
 				6E48A5A61D383893006E8B5F /* MSACChannelGroupDefaultTests.m */,
 				6E48A5A31D3831FE006E8B5F /* MSACChannelUnitConfigurationTests.m */,
 				6EB1F40D1D2443B7005F9F99 /* MSACChannelUnitDefaultTests.m */,
-				F803BC371E8E6927004B1E7A /* MSACCustomPropertiesTests.m */,
 				3849BA7D1EF3489D0072E3E0 /* MSACDBStorageTests.m */,
 				38A3891B212B6E3C00F1C0D8 /* MSACDeadLockTests.m */,
 				2434213123A456C900EDFA83 /* MSACDependencyConfigurationTests.m */,
@@ -2147,7 +2112,6 @@
 				F8936CE8230C2603006A330F /* MSACAppCenterPrivate.h in Headers */,
 				F8936D7B230C2804006A330F /* MSAC_Reachability.h in Headers */,
 				F8DC50D723AA828D00BF8839 /* MSACStorageNumberType.h in Headers */,
-				F8936D5A230C2804006A330F /* MSACCustomPropertiesLog.h in Headers */,
 				F8936D2A230C2804006A330F /* MSACServiceInternal.h in Headers */,
 				F8936CBC230C24D9006A330F /* MSACServiceAbstract.h in Headers */,
 				F8936CEB230C2603006A330F /* MSACChannelGroupDefaultPrivate.h in Headers */,
@@ -2156,16 +2120,13 @@
 				F8936D3F230C2804006A330F /* MSACUserIdContext.h in Headers */,
 				F8936D70230C2804006A330F /* MSACEncrypter.h in Headers */,
 				F8936D4C230C2804006A330F /* MSACOneCollectorIngestion.h in Headers */,
-				F8936CD6230C25A3006A330F /* MSACCustomProperties.h in Headers */,
 				F8936D73230C2804006A330F /* MSACUtility.h in Headers */,
 				F8936D2F230C2804006A330F /* MSACCustomDelegate.h in Headers */,
-				F8936D26230C2804006A330F /* MSACCustomPropertiesInternal.h in Headers */,
 				DFE9554B244D96590061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
 				DFE95544244D96520061E3FA /* HTTPStubsMethodSwizzling.h in Headers */,
 				F8936D74230C2804006A330F /* MSACUtility+Application.h in Headers */,
 				F8936D32230C2804006A330F /* MSACChannelUnitDefault.h in Headers */,
 				F8936D2C230C2804006A330F /* MSACAppDelegateForwarder.h in Headers */,
-				F8936CE9230C2603006A330F /* MSACCustomPropertiesPrivate.h in Headers */,
 				F8936D67230C2804006A330F /* MSACStringTypedProperty.h in Headers */,
 				F8936D25230C2804006A330F /* MSACAppCenterInternal.h in Headers */,
 				F8936D69230C2804006A330F /* MSACStorage.h in Headers */,
@@ -2283,7 +2244,6 @@
 				F8936DB4230C2805006A330F /* MSACLogContainer.h in Headers */,
 				F8936CFC230C2604006A330F /* MSACAppCenterPrivate.h in Headers */,
 				F8936DD3230C2805006A330F /* MSAC_Reachability.h in Headers */,
-				F8936DB2230C2805006A330F /* MSACCustomPropertiesLog.h in Headers */,
 				F8936D82230C2805006A330F /* MSACServiceInternal.h in Headers */,
 				F8DC50DE23AA828E00BF8839 /* MSACStorageNumberType.h in Headers */,
 				F8936CC8230C24DA006A330F /* MSACServiceAbstract.h in Headers */,
@@ -2294,17 +2254,14 @@
 				F8936DC8230C2805006A330F /* MSACEncrypter.h in Headers */,
 				F8936D9B230C2805006A330F /* MSACHttpClient.h in Headers */,
 				F8936DA4230C2805006A330F /* MSACOneCollectorIngestion.h in Headers */,
-				F8936CDC230C25A4006A330F /* MSACCustomProperties.h in Headers */,
 				244CC1F92399CA5A00A58F51 /* MSACDependencyConfiguration.h in Headers */,
 				F8936DCB230C2805006A330F /* MSACUtility.h in Headers */,
 				F8936D87230C2805006A330F /* MSACCustomDelegate.h in Headers */,
-				F8936D7E230C2805006A330F /* MSACCustomPropertiesInternal.h in Headers */,
 				F8936DCC230C2805006A330F /* MSACUtility+Application.h in Headers */,
 				DFE95551244D965A0061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
 				DFE95545244D96540061E3FA /* HTTPStubsMethodSwizzling.h in Headers */,
 				F8936D8A230C2805006A330F /* MSACChannelUnitDefault.h in Headers */,
 				F8936D84230C2805006A330F /* MSACAppDelegateForwarder.h in Headers */,
-				F8936CFD230C2604006A330F /* MSACCustomPropertiesPrivate.h in Headers */,
 				F8936DBF230C2805006A330F /* MSACStringTypedProperty.h in Headers */,
 				F8936D7D230C2805006A330F /* MSACAppCenterInternal.h in Headers */,
 				F8936DC1230C2805006A330F /* MSACStorage.h in Headers */,
@@ -2423,7 +2380,6 @@
 				F8936E0C230C2805006A330F /* MSACLogContainer.h in Headers */,
 				F8936D10230C2604006A330F /* MSACAppCenterPrivate.h in Headers */,
 				F8936E2B230C2805006A330F /* MSAC_Reachability.h in Headers */,
-				F8936E0A230C2805006A330F /* MSACCustomPropertiesLog.h in Headers */,
 				F8936DDA230C2805006A330F /* MSACServiceInternal.h in Headers */,
 				F8DC50E523AA828F00BF8839 /* MSACStorageNumberType.h in Headers */,
 				F8936CD4230C24DA006A330F /* MSACServiceAbstract.h in Headers */,
@@ -2434,17 +2390,14 @@
 				F8936E20230C2805006A330F /* MSACEncrypter.h in Headers */,
 				F8936DF3230C2805006A330F /* MSACHttpClient.h in Headers */,
 				F8936DFC230C2805006A330F /* MSACOneCollectorIngestion.h in Headers */,
-				F8936CE2230C25A5006A330F /* MSACCustomProperties.h in Headers */,
 				244CC1FA2399CA5A00A58F51 /* MSACDependencyConfiguration.h in Headers */,
 				F8936E23230C2805006A330F /* MSACUtility.h in Headers */,
 				F8936DDF230C2805006A330F /* MSACCustomDelegate.h in Headers */,
-				F8936DD6230C2805006A330F /* MSACCustomPropertiesInternal.h in Headers */,
 				F8936E24230C2805006A330F /* MSACUtility+Application.h in Headers */,
 				DFE95557244D965B0061E3FA /* NSURLRequest+HTTPBodyTesting.h in Headers */,
 				DFE95546244D96550061E3FA /* HTTPStubsMethodSwizzling.h in Headers */,
 				F8936DE2230C2805006A330F /* MSACChannelUnitDefault.h in Headers */,
 				F8936DDC230C2805006A330F /* MSACAppDelegateForwarder.h in Headers */,
-				F8936D11230C2604006A330F /* MSACCustomPropertiesPrivate.h in Headers */,
 				F8936E17230C2805006A330F /* MSACStringTypedProperty.h in Headers */,
 				F8936DD5230C2805006A330F /* MSACAppCenterInternal.h in Headers */,
 				F8936E19230C2805006A330F /* MSACStorage.h in Headers */,
@@ -3155,7 +3108,6 @@
 				0446DF1C1F3B864600C8E338 /* MSACMockLog.m in Sources */,
 				35DFC23E2170052D00455589 /* MSACTypedPropertyTests.m in Sources */,
 				0446DF1D1F3B864600C8E338 /* MSACChannelGroupDefaultTests.m in Sources */,
-				04B45C4E21E90E7900FE6746 /* MSACCustomPropertiesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3211,7 +3163,6 @@
 				38EDBCBD212CBB4B00C39B1E /* MSACDeadLockTests.m in Sources */,
 				04B59A4522050381008DA079 /* MSACHttpIngestionTests.m in Sources */,
 				9237B60C2244407000C273D8 /* MSACHttpClientTests.m in Sources */,
-				046AEAE81ECA562A00CBE511 /* MSACCustomPropertiesTests.m in Sources */,
 				38AE131220C1B54000FAB2AD /* MSACModelTestsUtililty.m in Sources */,
 				04A140861ECE60C6001CEE94 /* MSACUtilityTests.m in Sources */,
 				046AEAE91ECA562A00CBE511 /* MSACHttpUtilTests.m in Sources */,
@@ -3287,7 +3238,6 @@
 				6E48A5A41D3831FE006E8B5F /* MSACChannelUnitConfigurationTests.m in Sources */,
 				B24F3F171D93A3FF00827213 /* MSACLoggerTests.m in Sources */,
 				35DFC23B2170052600455589 /* MSACStringTypedPropertyTests.m in Sources */,
-				F803BC381E8E6927004B1E7A /* MSACCustomPropertiesTests.m in Sources */,
 				04B7BBEF1E5FAD4D001A0CE1 /* MSACHttpUtilTests.m in Sources */,
 				E88D17061D35B6B500A5EA57 /* MSACMockLog.m in Sources */,
 				049378411FE4914B000ADBAF /* MSACSessionContextTests.m in Sources */,
@@ -3350,7 +3300,6 @@
 				F8936C92230C23F0006A330F /* MSACSDKExtension.m in Sources */,
 				F8936C93230C23F0006A330F /* MSACUserExtension.m in Sources */,
 				F8936C94230C23F0006A330F /* MSACAbstractLog.m in Sources */,
-				F8936C95230C23F0006A330F /* MSACCustomPropertiesLog.m in Sources */,
 				F8936C96230C23F0006A330F /* MSACLogContainer.m in Sources */,
 				F8936C97230C23F0006A330F /* MSACLogWithProperties.m in Sources */,
 				DF5DA1FD23A0E57B00DE695C /* MSACDispatcherUtil.m in Sources */,
@@ -3378,7 +3327,6 @@
 				F8936CAC230C23F0006A330F /* MSACUtility+StringFormatting.m in Sources */,
 				F8936CAD230C23F0006A330F /* MSACCompression.m in Sources */,
 				F8936CAE230C23F0006A330F /* MSAC_Reachability.m in Sources */,
-				F8936CAF230C23F0006A330F /* MSACCustomProperties.m in Sources */,
 				F8936CB0230C23F0006A330F /* MSACDevice.m in Sources */,
 				F8936CB1230C23F0006A330F /* MSACWrapperSdk.m in Sources */,
 			);
@@ -3420,9 +3368,7 @@
 				C9A920F5230C61820068070D /* MSACDeviceTracker.m in Sources */,
 				C9A9211F230C61820068070D /* MSACKeychainUtil.m in Sources */,
 				C9A920EC230C61820068070D /* MSACChannelGroupDefault.m in Sources */,
-				C9A9210F230C61820068070D /* MSACCustomPropertiesLog.m in Sources */,
 				C9A92105230C61820068070D /* MSACCSExtensions.m in Sources */,
-				C9A92129230C61820068070D /* MSACCustomProperties.m in Sources */,
 				C9A92121230C61820068070D /* MSACUtility+Application.m in Sources */,
 				C9A92117230C61820068070D /* MSACStringTypedProperty.m in Sources */,
 				C9A92111230C61820068070D /* MSACLogWithProperties.m in Sources */,
@@ -3499,9 +3445,7 @@
 				C9A9213B230C61830068070D /* MSACDeviceTracker.m in Sources */,
 				C9A92165230C61830068070D /* MSACKeychainUtil.m in Sources */,
 				C9A92132230C61830068070D /* MSACChannelGroupDefault.m in Sources */,
-				C9A92155230C61830068070D /* MSACCustomPropertiesLog.m in Sources */,
 				C9A9214B230C61830068070D /* MSACCSExtensions.m in Sources */,
-				C9A9216F230C61830068070D /* MSACCustomProperties.m in Sources */,
 				C9A92167230C61830068070D /* MSACUtility+Application.m in Sources */,
 				C9A9215D230C61830068070D /* MSACStringTypedProperty.m in Sources */,
 				C9A92157230C61830068070D /* MSACLogWithProperties.m in Sources */,
