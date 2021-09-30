@@ -9,6 +9,7 @@
 ### App Center
 
 * **[Improvement]** Specified minimum cocoapods version in podspec to 1.10.0.
+* **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
 
 ___
 
