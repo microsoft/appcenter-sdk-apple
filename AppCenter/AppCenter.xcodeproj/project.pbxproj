@@ -127,7 +127,6 @@
 		0446DF321F3B870700C8E338 /* MSACDBStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3849BA7D1EF3489D0072E3E0 /* MSACDBStorageTests.m */; };
 		0446DF331F3B870A00C8E338 /* MSACLogDBStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C7877911EA0CFF3002263CC /* MSACLogDBStorageTests.m */; };
 		045660FB1D99EEEB002F7055 /* MSACLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSACLogWithPropertiesTests.m */; };
-		046AEAD31ECA562A00CBE511 /* MSACCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */; };
 		046AEAD41ECA562A00CBE511 /* MSACMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = D377A30C1E83A05900B2C97A /* MSACMockUserDefaults.m */; };
 		046AEAD71ECA562A00CBE511 /* MSACLogWithPropertiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 045660FA1D99EEEB002F7055 /* MSACLogWithPropertiesTests.m */; };
 		046AEAD81ECA562A00CBE511 /* MSACDeviceLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CC01D3596AE00B1EE50 /* MSACDeviceLogTests.m */; };
@@ -158,7 +157,6 @@
 		04A79A4A20C6F63E006D0072 /* MSACOneCollectorIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A79A4720C6F635006D0072 /* MSACOneCollectorIngestionTests.m */; };
 		04A79A4B20C6F63F006D0072 /* MSACOneCollectorIngestionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A79A4720C6F635006D0072 /* MSACOneCollectorIngestionTests.m */; };
 		04B45C4B21E90E4000FE6746 /* MSACAbstractLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58603EA088552D6FBB8EBE6C /* MSACAbstractLogTests.m */; };
-		04B45C4C21E90E4600FE6746 /* MSACCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */; };
 		04B45C4F21E90E8D00FE6746 /* MSACOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSACOneCollectorChannelDelegateTests.m */; };
 		04B45C5021E90E8E00FE6746 /* MSACOneCollectorChannelDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E79750EA20A50BF400E3EAE8 /* MSACOneCollectorChannelDelegateTests.m */; };
 		04B45C5121E90F2000FE6746 /* MSACStorageTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B27B4126214C939D007CAE9C /* MSACStorageTestUtil.m */; };
@@ -466,7 +464,6 @@
 		E7D23C7120B6412300A47D62 /* MSACCSExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E7D23C6E20B6412300A47D62 /* MSACCSExtensionsTests.m */; };
 		E88D17061D35B6B500A5EA57 /* MSACMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D17051D35B6B500A5EA57 /* MSACMockLog.m */; };
 		E88EBBFB1D2C8CC7007E7785 /* MSACLogContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E88EBBFA1D2C8CC7007E7785 /* MSACLogContainerTests.m */; };
-		F803BC3A1E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */; };
 		F82E4C6D217F159A00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C6C217F159A00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C6E217F159A00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C6C217F159A00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		F82E4C6F217F159A00EDAB34 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = F82E4C6C217F159A00EDAB34 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -1387,7 +1384,6 @@
 		E88EBBFA1D2C8CC7007E7785 /* MSACLogContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACLogContainerTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E8A8D1E91D3057A90022931E /* MSACAppCenterUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACAppCenterUserDefaults.h; path = ../Model/Util/MSACAppCenterUserDefaults.h; sourceTree = "<group>"; };
 		E8A8D1EA1D3057A90022931E /* MSACAppCenterUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACAppCenterUserDefaults.m; path = ../Model/Util/MSACAppCenterUserDefaults.m; sourceTree = "<group>"; };
-		F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACCustomPropertiesLogTests.m; sourceTree = "<group>"; };
 		F82E4C6C217F159A00EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
 		F898179E2433327C008D92E1 /* MSACAppCenterUserDefaultsPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAppCenterUserDefaultsPrivate.h; sourceTree = "<group>"; };
 		F8BA7A2823AA8A26009FBCCF /* MSACStorageBindableArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACStorageBindableArray.h; sourceTree = "<group>"; };
@@ -1920,7 +1916,6 @@
 				E7D23C6D20B640A000A47D62 /* CommonSchema */,
 				58603EA088552D6FBB8EBE6C /* MSACAbstractLogTests.m */,
 				35DFC2172170044500455589 /* MSACBooleanTypedPropertyTests.m */,
-				F803BC391E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m */,
 				35DFC2192170044600455589 /* MSACDateTimeTypedPropertyTests.m */,
 				6E3E2CC01D3596AE00B1EE50 /* MSACDeviceLogTests.m */,
 				35DFC2182170044600455589 /* MSACDoubleTypedPropertyTests.m */,
@@ -3081,7 +3076,6 @@
 				DFE95540244D96170061E3FA /* HTTPStubsPathHelpers.m in Sources */,
 				DFE95534244D96170061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */,
 				DFE9553A244D96170061E3FA /* HTTPStubsMethodSwizzling.m in Sources */,
-				04B45C4C21E90E4600FE6746 /* MSACCustomPropertiesLogTests.m in Sources */,
 				D5812F372423C5E100C5F5C5 /* MSACUserDefaultsTests.m in Sources */,
 				0446DF111F3B864600C8E338 /* MSACDBStorageTests.m in Sources */,
 				0446DF121F3B864600C8E338 /* MSACAppCenterIngestionTests.m in Sources */,
@@ -3115,7 +3109,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				046AEAD31ECA562A00CBE511 /* MSACCustomPropertiesLogTests.m in Sources */,
 				0446DF321F3B870700C8E338 /* MSACDBStorageTests.m in Sources */,
 				E7D23C7020B6412300A47D62 /* MSACCSExtensionsTests.m in Sources */,
 				04A140871ECE63BB001CEE94 /* MSACServiceAbstractTests.m in Sources */,
@@ -3190,7 +3183,6 @@
 				E7D23C6F20B6412300A47D62 /* MSACCSExtensionsTests.m in Sources */,
 				38AE131120C1B54000FAB2AD /* MSACModelTestsUtililty.m in Sources */,
 				E7D23C5120B4E0CA00A47D62 /* MSACCommonSchemaLogTests.m in Sources */,
-				F803BC3A1E8E6963004B1E7A /* MSACCustomPropertiesLogTests.m in Sources */,
 				D377A30D1E83A05900B2C97A /* MSACMockUserDefaults.m in Sources */,
 				045660FB1D99EEEB002F7055 /* MSACLogWithPropertiesTests.m in Sources */,
 				B29D884721E9286100EAF084 /* MSACOrderedDictionaryTest.m in Sources */,
