@@ -20,9 +20,6 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setCountryCode(_ countryCode: String?) {
     AppCenter.countryCode = countryCode
   }
-  func setCustomProperties(_ customProperties: CustomProperties){
-    AppCenter.setCustomProperties(customProperties)
-  }
   func installId() -> String {
     return AppCenter.installId.uuidString
   }
