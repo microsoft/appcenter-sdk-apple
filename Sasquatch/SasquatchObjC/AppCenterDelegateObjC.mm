@@ -66,10 +66,6 @@
   return [MSACAppCenter isDebuggerAttached];
 }
 
-- (void)setCustomProperties:(MSACCustomProperties *)customProperties {
-  [MSACAppCenter setCustomProperties:customProperties];
-}
-
 - (void)startAnalyticsFromLibrary {
   [MSACAppCenter startFromLibraryWithServices:@[ [MSACAnalytics class] ]];
 }

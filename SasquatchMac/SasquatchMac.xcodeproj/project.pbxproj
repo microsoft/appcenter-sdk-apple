@@ -47,7 +47,6 @@
 		B2A4CFBA210A716E00199B4F /* AppCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* AppCenterProvider.swift */; };
 		B2A4CFBB210A716E00199B4F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		B2A4CFBC210A716E00199B4F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
-		B2A4CFBD210A716E00199B4F /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		B2A4CFBE210A716E00199B4F /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */; };
 		B2A4CFBF210A716E00199B4F /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496831EC3CE2F00502B62 /* AppCenterDelegate.swift */; };
 		B2A4CFC0210A716E00199B4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C281E8E75B300B288CE /* main.m */; };
@@ -63,7 +62,6 @@
 		B2A4CFD8210A77D400199B4F /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9BBC801EC4829200CA77A3 /* AppCenterDelegateSwift.swift */; };
 		B2A4CFD9210A77D400199B4F /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCA2019639100B9E22C /* MSEventFilter.m */; };
 		B2A4CFDA210A77D400199B4F /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */; };
-		B2A4CFDB210A77D400199B4F /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		B2A4CFDC210A77D400199B4F /* AppCenterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042496841EC3CE2F00502B62 /* AppCenterProvider.swift */; };
 		B2A4CFDD210A77D400199B4F /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353332F620126200009B0946 /* EventFilterViewController.swift */; };
 		B2A4CFDE210A77D400199B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3C31C621E8E763600B288CE /* AppDelegate.swift */; };
@@ -101,8 +99,6 @@
 		F8B8DCCB232121C900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCCE2321815900BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
 		F8B8DCCF2321815A00BF7DAA /* CrashLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8DCC32321210600BF7DAA /* CrashLoader.swift */; };
-		F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
-		F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */; };
 		F8EE645D231E6F8E0007A52E /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8EE645C231E6F8E0007A52E /* NotificationCenter.framework */; };
 		F8EE6463231E6F8E0007A52E /* TodayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F8EE6461231E6F8E0007A52E /* TodayViewController.xib */; };
 		F8EE6467231E6F8E0007A52E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F8EE6465231E6F8E0007A52E /* InfoPlist.strings */; };
@@ -490,7 +486,6 @@
 		F84BA0B721133A740020F13B /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F84BA0B821133A740020F13B /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F8B8DCC32321210600BF7DAA /* CrashLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashLoader.swift; sourceTree = "<group>"; };
-		F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPropertiesViewControler.swift; sourceTree = "<group>"; };
 		F8EE645B231E6F8E0007A52E /* SasquatchMacSwift-Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SasquatchMacSwift-Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8EE645C231E6F8E0007A52E /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		F8EE645F231E6F8E0007A52E /* TodayViewController.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -738,7 +733,6 @@
 				5C6F9BAC1EB8B730009E52D8 /* AnalyticsViewController.swift */,
 				5CD625791ECDA4280053DC6C /* AppCenterViewController.swift */,
 				5C6F9BB71EB8F2E9009E52D8 /* CrashesViewController.swift */,
-				F8B8EC721FD853E800445BD4 /* CustomPropertiesViewControler.swift */,
 				353332F620126200009B0946 /* EventFilterViewController.swift */,
 				4A3147512206896100B0FC8A /* AuthenticationViewController.swift */,
 				4A0A708522044A37007565A6 /* TransmissionViewController.swift */,
@@ -1330,7 +1324,6 @@
 				4A0A708722044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				B2A4CFBC210A716E00199B4F /* MSEventFilter.m in Sources */,
 				F8B8DCCF2321815A00BF7DAA /* CrashLoader.swift in Sources */,
-				B2A4CFBD210A716E00199B4F /* CustomPropertiesViewControler.swift in Sources */,
 				B2A4CFBE210A716E00199B4F /* CrashesViewController.swift in Sources */,
 				B2A4CFBF210A716E00199B4F /* AppCenterDelegate.swift in Sources */,
 				B2A4CFC0210A716E00199B4F /* main.m in Sources */,
@@ -1352,7 +1345,6 @@
 				B2A4CFD8210A77D400199B4F /* AppCenterDelegateSwift.swift in Sources */,
 				B2A4CFD9210A77D400199B4F /* MSEventFilter.m in Sources */,
 				B2A4CFDA210A77D400199B4F /* AppCenterViewController.swift in Sources */,
-				B2A4CFDB210A77D400199B4F /* CustomPropertiesViewControler.swift in Sources */,
 				4A3147552206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				B2A4CFDC210A77D400199B4F /* AppCenterProvider.swift in Sources */,
 				C29BC5E423999D7C00E5E8F7 /* AppCenterApplication.m in Sources */,
@@ -1376,7 +1368,6 @@
 				4A0A708622044A37007565A6 /* TransmissionViewController.swift in Sources */,
 				358F9BCC2019639100B9E22C /* MSEventFilter.m in Sources */,
 				F8B8DCCE2321815900BF7DAA /* CrashLoader.swift in Sources */,
-				F8B8EC731FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				5C6F9BB81EB8F2E9009E52D8 /* CrashesViewController.swift in Sources */,
 				042496851EC3CE2F00502B62 /* AppCenterDelegate.swift in Sources */,
 				D3C31C291E8E75B300B288CE /* main.m in Sources */,
@@ -1398,7 +1389,6 @@
 				5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */,
 				358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */,
 				C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */,
-				F8B8EC741FD853E800445BD4 /* CustomPropertiesViewControler.swift in Sources */,
 				4A3147542206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,
 				C29BC5E323999D7C00E5E8F7 /* AppCenterApplication.m in Sources */,

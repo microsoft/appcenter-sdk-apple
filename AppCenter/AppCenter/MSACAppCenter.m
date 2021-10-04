@@ -22,11 +22,6 @@
 #import "MSACUserIdContext.h"
 #import "MSACUtility+StringFormatting.h"
 
-#if !TARGET_OS_TV
-#import "MSACCustomPropertiesInternal.h"
-#import "MSACCustomPropertiesLog.h"
-#endif
-
 /**
  * Singleton.
  */
@@ -202,12 +197,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   return MSACLogger.logHandler;
 }
 
-#if !TARGET_OS_TV
-+ (void)setCustomProperties:(MSACCustomProperties *)customProperties {
-  [[MSACAppCenter sharedInstance] setCustomProperties:customProperties];
-}
-#endif
-
 /**
  * Check if the debugger is attached
  *
@@ -310,9 +299,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     @"MSWrapperSdk" : MSACWrapperSdk.self,
     @"MSAbstractLog" : MSACAbstractLog.self,
   }];
-#if !TARGET_OS_TV
-  [MSACUtility addMigrationClasses:@{@"MSCustomProperties" : MSACCustomProperties.self}];
-#endif
   return self;
 }
 
@@ -585,17 +571,6 @@ NS_SWIFT_DISABLE_ASYNC
   [[MSACUserIdContext sharedInstance] setUserId:userId];
 }
 
-#if !TARGET_OS_TV
-- (void)setCustomProperties:(MSACCustomProperties *)customProperties {
-  NSDictionary<NSString *, NSObject *> *propertiesCopy = [customProperties propertiesImmutableCopy];
-  if (!customProperties || (propertiesCopy.count == 0)) {
-    MSACLogError([MSACAppCenter logTag], @"Custom properties may not be null or empty");
-    return;
-  }
-  [self sendCustomPropertiesLog:propertiesCopy];
-}
-#endif
-
 - (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
   @synchronized(self) {
     MSACLogInfo([MSACAppCenter logTag], @"App Center SDK network requests are %@.", isAllowed ? @"allowed" : @"forbidden");
@@ -780,14 +755,6 @@ NS_SWIFT_DISABLE_ASYNC
     }
   }
 }
-
-#if !TARGET_OS_TV
-- (void)sendCustomPropertiesLog:(NSDictionary<NSString *, NSObject *> *)properties {
-  MSACCustomPropertiesLog *customPropertiesLog = [MSACCustomPropertiesLog new];
-  customPropertiesLog.properties = properties;
-  [self.channelUnit enqueueItem:customPropertiesLog flags:MSACFlagsDefault];
-}
-#endif
 
 + (void)resetSharedInstance {
   onceToken = 0; // resets the once_token so dispatch_once will run again

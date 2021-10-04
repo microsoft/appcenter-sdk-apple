@@ -13,7 +13,6 @@ import AppCenter
   // AppCenter section.
   func isAppCenterEnabled() -> Bool
   func setAppCenterEnabled(_ isEnabled: Bool)
-  func setCustomProperties(_ customProperties: CustomProperties)
   func installId() -> String
   func appSecret() -> String
   func isDebuggerAttached() -> Bool
