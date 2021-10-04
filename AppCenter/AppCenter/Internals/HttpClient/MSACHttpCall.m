@@ -8,6 +8,9 @@
 
 @implementation MSACHttpCall
 
+#pragma clang diagnostic push
+
+#pragma clang diagnostic ignored "-Wcompletion-handler"
 - (instancetype)initWithUrl:(NSURL *)url
                      method:(NSString *)method
                     headers:(NSDictionary<NSString *, NSString *> *)headers
@@ -43,6 +46,8 @@ NS_SWIFT_DISABLE_ASYNC
   }
   return self;
 }
+#pragma clang diagnostic pop
+
 
 - (BOOL)hasReachedMaxRetries {
   @synchronized(self) {
@@ -83,5 +88,5 @@ NS_SWIFT_DISABLE_ASYNC
   millisecondsDelay += arc4random_uniform(millisecondsDelay);
   return millisecondsDelay;
 }
-
 @end
+
