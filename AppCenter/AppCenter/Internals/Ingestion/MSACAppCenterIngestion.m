@@ -31,7 +31,9 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
 }
 
 #pragma clang diagnostic push
+#if __has_warning("-Wcompletion-handler")
 #pragma clang diagnostic ignored "-Wcompletion-handler"
+#endif
 - (void)sendAsync:(NSObject *)data completionHandler:(MSACSendAsyncCompletionHandler)handler
 {
   MSACLogContainer *container = (MSACLogContainer *)data;

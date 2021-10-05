@@ -55,7 +55,9 @@ static int kMSRefreshThreshold = 10 * 60;
 }
 
 #pragma clang diagnostic push
+#if __has_warning("-Wcompletion-handler")
 #pragma clang diagnostic ignored "-Wcompletion-handler"
+#endif
 - (void)handleTokenUpdateWithToken:(NSString *)token
                         expiryDate:(NSDate *)expiryDate
              withCompletionHandler:(MSACAnalyticsAuthenticationProviderCompletionBlock)completionHandler

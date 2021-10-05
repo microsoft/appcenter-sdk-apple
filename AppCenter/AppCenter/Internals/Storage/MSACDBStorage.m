@@ -437,7 +437,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 }
 
 #pragma clang diagnostic push
+#if __has_warning("-Wcompletion-handler")
 #pragma clang diagnostic ignored "-Wcompletion-handler"
+#endif
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler
 {
   int result;

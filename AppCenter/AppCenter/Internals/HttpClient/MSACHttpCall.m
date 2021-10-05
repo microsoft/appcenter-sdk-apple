@@ -9,8 +9,9 @@
 @implementation MSACHttpCall
 
 #pragma clang diagnostic push
-
+#if __has_warning("-Wcompletion-handler")
 #pragma clang diagnostic ignored "-Wcompletion-handler"
+#endif
 - (instancetype)initWithUrl:(NSURL *)url
                      method:(NSString *)method
                     headers:(NSDictionary<NSString *, NSString *> *)headers
@@ -18,9 +19,6 @@
              retryIntervals:(NSArray *)retryIntervals
          compressionEnabled:(BOOL)compressionEnabled
           completionHandler:(MSACHttpRequestCompletionHandler)completionHandler
-#if defined(__IPHONE_15_0)
-NS_SWIFT_DISABLE_ASYNC
-#endif
 {
   if ((self = [super init])) {
     _url = url;

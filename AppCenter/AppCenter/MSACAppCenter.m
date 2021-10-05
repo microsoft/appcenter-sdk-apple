@@ -513,7 +513,9 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 #pragma clang diagnostic push
+#if __has_warning("-Wcompletion-handler")
 #pragma clang diagnostic ignored "-Wcompletion-handler"
+#endif
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler
 {
     
