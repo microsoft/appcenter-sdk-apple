@@ -406,8 +406,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 // Ignore "Unknown warning group '-Wobjc-messaging-id'" for old XCode
 #pragma clang diagnostic ignored "-Wunknown-pragmas"
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
-#pragma clang diagnostic ignored "-Wcompletion-handler"
-
 
 // Ignore "Messaging unqualified id" for XCode 10
 #pragma clang diagnostic ignored "-Wobjc-messaging-id"
@@ -518,7 +516,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 #endif
 - (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler
 {
-    
+
   // Check if sizeInBytes is greater than minimum size.
   if (sizeInBytes < kMSACMinUpperSizeLimitInBytes) {
     if (completionHandler) {

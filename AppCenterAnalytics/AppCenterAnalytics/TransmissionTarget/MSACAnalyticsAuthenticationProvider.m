@@ -90,7 +90,6 @@ static int kMSRefreshThreshold = 10 * 60;
 }
 #pragma clang diagnostic pop
 
-
 - (void)checkTokenExpiry {
   @synchronized(self) {
     if (self.expiryDate &&

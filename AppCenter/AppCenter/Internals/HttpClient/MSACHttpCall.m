@@ -46,7 +46,6 @@
 }
 #pragma clang diagnostic pop
 
-
 - (BOOL)hasReachedMaxRetries {
   @synchronized(self) {
     return self.retryCount >= (int)[self.retryIntervals count];
@@ -86,5 +85,5 @@
   millisecondsDelay += arc4random_uniform(millisecondsDelay);
   return millisecondsDelay;
 }
-@end
 
+@end
