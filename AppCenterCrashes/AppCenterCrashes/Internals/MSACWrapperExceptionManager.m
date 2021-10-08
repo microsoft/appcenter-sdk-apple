@@ -99,6 +99,10 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   [MSACUtility deleteItemForPathComponent:pathComponent];
 }
 
++ (MSACWrapperException *)loadWrapperExceptionMacOS {
+  return [self loadWrapperExceptionWithBaseFilename:kMSACLastWrapperExceptionFileName];
+}
+
 /**
  * Loads a wrapper exception with a given filename.
  */
@@ -107,6 +111,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   // For some reason, unarchiving directly from a file fails in some cases, so load data from a file and unarchive it after.
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSACCrashesUtil wrapperExceptionsDir], baseFilename];
   if (![MSACUtility fileExistsForPathComponent:pathComponent]) {
+    MSACLogError([MSACCrashes logTag], @"Exception data report on disk doesn't exist %@", baseFilename);
     return nil;
   }
   NSData *data = [MSACUtility loadDataForPathComponent:pathComponent];
