@@ -39,4 +39,9 @@
  */
 + (MSACWrapperException *)loadWrapperExceptionMacOS;
 
+/**
+ * Saved wrapper exception as crash. This method is used to handle crashes from the wrapper.
+ */
++ (void)saveWrapperExceptionAsCrashLog:(MSACWrapperException *)wrapperException;
+
 @end

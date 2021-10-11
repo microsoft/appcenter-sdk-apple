@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 #import "MSACAppCenterInternal.h"
+#import "MSACAppleErrorLog.h"
+#import "MSACCrashes.h"
 #import "MSACCrashesInternal.h"
 #import "MSACCrashesUtil.h"
-#import "MSACWrapperExceptionModel.h"
+#import "MSACDeviceTracker.h"
+#import "MSACErrorLogFormatter.h"
 #import "MSACLoggerInternal.h"
 #import "MSACUtility+File.h"
 #import "MSACWrapperExceptionInternal.h"
 #import "MSACWrapperExceptionManagerInternal.h"
+#import "MSACWrapperExceptionModel.h"
 
 @implementation MSACWrapperExceptionManager : NSObject
 
@@ -101,6 +105,27 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
 
 + (MSACWrapperException *)loadWrapperExceptionMacOS {
   return [self loadWrapperExceptionWithBaseFilename:kMSACLastWrapperExceptionFileName];
+}
+
++ (void)saveWrapperExceptionAsCrashLog:(MSACWrapperException *)wrapperException {
+  NSString *unknown = @"Unknown";
+  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
+  errorLog.applicationPath = unknown;
+  errorLog.processName = unknown;
+  errorLog.osExceptionAddress = unknown;
+  errorLog.fatal = YES;
+  errorLog.errorId = MSAC_UUID_STRING;
+  errorLog.processId = wrapperException.processId;
+  errorLog.appLaunchTimestamp = [NSDate date];
+  errorLog.primaryArchitectureId = [NSNumber numberWithInt:0];
+  errorLog.osExceptionType = wrapperException.modelException.type;
+  errorLog.osExceptionCode = wrapperException.modelException.message;
+  errorLog.exceptionReason = wrapperException.modelException.message;
+  errorLog.exceptionType = wrapperException.modelException.type;
+  errorLog.timestamp = [NSDate date];
+  errorLog.device = [[MSACDeviceTracker sharedInstance] device];
+  errorLog.exception = wrapperException.modelException;
+  [MSACCrashes saveLog:errorLog];
 }
 
 /**
