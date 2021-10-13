@@ -486,7 +486,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 }
 
 + (void)createCrashReport {
-  PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeMach
+  PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD
                                                                      symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
   PLCrashReporter *crashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
 
