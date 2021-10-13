@@ -9,6 +9,7 @@
 ### App Center Crashes
 
 * **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to a string and additional useful information about sending error.
+* **[Feature]** Add saving a crash report from the Xamarin Mac OS platform.
 
 ### App Center
 
