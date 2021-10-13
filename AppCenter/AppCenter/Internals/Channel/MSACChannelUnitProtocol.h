@@ -36,15 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)enqueueItem:(id<MSACLog>)item flags:(MSACFlags)flags;
 
 /**
- * Enqueue a new log item.
- *
- * @param item The log item that should be enqueued.
- * @param flags Options for the item being enqueued.
- * @param groupId Options for the item being enqueued.
- */
-- (void)saveLogToStorage:(id<MSACLog>)item flags:(MSACFlags)flags groupId:(NSString *)groupId;
-
-/**
  * Pause sending logs with the given transmission target token.
  *
  * @param token The transmission target token.

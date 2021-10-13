@@ -893,10 +893,6 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   }
 }
 
-+ (void)saveLog:(id<MSACLog>)item {
-  [[MSACCrashes sharedInstance].channelUnit saveLogToStorage:item flags:MSACFlagsCritical groupId:kMSACGroupId];
-}
-
 - (void)processLogBufferAfterCrash {
 
   // Initialize a dedicated channel for log buffer.

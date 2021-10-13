@@ -34,12 +34,6 @@
 + (MSACWrapperException *)loadWrapperExceptionWithUUIDString:(NSString *)uuidString;
 
 /**
- * This should only be used by a wrapper Xamarin Mac OS SDK due to some restrictions with catching C# exceptions.
- * Load a "last_saved_wrapper_exception" report from disk.
- */
-+ (MSACWrapperException *)loadWrapperExceptionMacOS;
-
-/**
  * Saved wrapper exception as crash. This method is used to handle crashes from the wrapper.
  */
 + (void)saveWrapperExceptionAsCrashLog:(MSACWrapperException *)wrapperException;

@@ -2,18 +2,13 @@
 // Licensed under the MIT License.
 
 #import "MSACAppCenterInternal.h"
-#import "MSACAppleErrorLog.h"
-#import "MSACCrashes.h"
 #import "MSACCrashesInternal.h"
 #import "MSACCrashesUtil.h"
-#import "MSACDeviceTracker.h"
 #import "MSACErrorLogFormatter.h"
 #import "MSACLoggerInternal.h"
 #import "MSACUtility+File.h"
 #import "MSACWrapperExceptionInternal.h"
 #import "MSACWrapperExceptionManagerInternal.h"
-#import "MSACWrapperExceptionModel.h"
-#import <sys/sysctl.h>
 
 @implementation MSACWrapperExceptionManager : NSObject
 
@@ -104,43 +99,9 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   [MSACUtility deleteItemForPathComponent:pathComponent];
 }
 
-+ (MSACWrapperException *)loadWrapperExceptionMacOS {
-  return [self loadWrapperExceptionWithBaseFilename:kMSACLastWrapperExceptionFileName];
-}
-
 + (void)saveWrapperExceptionAsCrashLog:(MSACWrapperException *)wrapperException {
-  NSString *unknownString = @"Unknown";
-  size_t size;
-  int type;
-  int subtype;
-    
-  // Get CPU primary architecture.
-  size = sizeof(type);
-  sysctlbyname("hw.cputype", &type, &size, NULL, 0);
-
-  // Get CPU architecture variant.
-  size = sizeof(subtype);
-  sysctlbyname("hw.cpusubtype", &subtype, &size, NULL, 0);
-    
-  // Init apple error log.
-  MSACAppleErrorLog *errorLog = [MSACAppleErrorLog new];
-  errorLog.applicationPath = unknownString;
-  errorLog.processName = unknownString;
-  errorLog.osExceptionAddress = unknownString;
-  errorLog.fatal = YES;
-  errorLog.errorId = MSAC_UUID_STRING;
-  errorLog.appLaunchTimestamp = [NSDate date];
-  errorLog.timestamp = [NSDate date];
-  errorLog.primaryArchitectureId = [NSNumber numberWithInt:type];
-  errorLog.architectureVariantId = [NSNumber numberWithUnsignedInteger:subtype];
-  errorLog.device = [[MSACDeviceTracker sharedInstance] device];
-  errorLog.processId = wrapperException.processId;
-  errorLog.osExceptionType = wrapperException.modelException.type;
-  errorLog.osExceptionCode = wrapperException.modelException.message;
-  errorLog.exceptionReason = wrapperException.modelException.message;
-  errorLog.exceptionType = wrapperException.modelException.type;
-  errorLog.exception = wrapperException.modelException;
-  [MSACCrashes saveLog:errorLog];
+  [MSACErrorLogFormatter createCrashReport];
+  [self saveWrapperException:wrapperException];
 }
 
 /**

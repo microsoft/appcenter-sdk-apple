@@ -170,11 +170,6 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
   });
 }
 
-- (void)saveLogToStorage:(id<MSACLog>)item flags:(MSACFlags)flags groupId:(NSString *)groupId {
-  MSACLogDebug([MSACAppCenter logTag], @"Saving log, type: %@, flags: %u.", item.type, (unsigned int)flags);
-  [self.storage saveLog:item withGroupId:groupId flags:flags];
-}
-
 - (void)sendLogContainer:(MSACLogContainer *__nonnull)container {
 
   // Add to pending batches.

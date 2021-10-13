@@ -13,7 +13,6 @@
 #import "MSACErrorReport.h"
 #endif
 
-@protocol MSACLog;
 @class MSACCrashesDelegate;
 @class MSACExceptionModel;
 @class MSACErrorAttachmentLog;
@@ -116,8 +115,6 @@ NS_SWIFT_NAME(Crashes)
  * If the SDK detects an App Store environment, it will _NOT_ cause the app to crash!
  */
 + (void)generateTestCrash;
-
-+ (void)saveLog:(id<MSACLog> _Nonnull)item;
 
 ///-----------------------------------------------------------------------------
 /// @name Helpers
