@@ -113,14 +113,14 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   if ([MSACUtility createDirectoryAtPath:dirPath withIntermediateDirectories:true attributes:nil error:nil]) {
 
     // Create the file.
-    NSData *theData = [crashReporter generateLiveReport];
-    if ([MSACUtility createFileAtPath:filePath contents:theData attributes:nil]) {
+    NSData *crashReport = [crashReporter generateLiveReport];
+    if ([MSACUtility createFileAtPath:filePath contents:crashReport attributes:nil]) {
       MSACLogError([MSACAppCenter logTag], @"Crash report was saved successfully at path %@", filePath);
     } else {
-      MSACLogError([MSACAppCenter logTag], @"Couldn't create new crash report at path %@", filePath);
+      MSACLogError([MSACAppCenter logTag], @"Couldn't save crash report at path %@", filePath);
     }
   } else {
-    MSACLogError([MSACAppCenter logTag], @"Couldn't create folder at path %@", dirPath);
+    MSACLogError([MSACAppCenter logTag], @"Couldn't create a directory at path %@", dirPath);
   }
 }
 
@@ -132,7 +132,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   // For some reason, unarchiving directly from a file fails in some cases, so load data from a file and unarchive it after.
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSACCrashesUtil wrapperExceptionsDir], baseFilename];
   if (![MSACUtility fileExistsForPathComponent:pathComponent]) {
-    MSACLogError([MSACCrashes logTag], @"Exception data report on disk doesn't exist %@", baseFilename);
+    MSACLogError([MSACCrashes logTag], @"Exception data report doesn't exist on disk. File name: %@", baseFilename);
     return nil;
   }
   NSData *data = [MSACUtility loadDataForPathComponent:pathComponent];

@@ -34,7 +34,7 @@
 + (MSACWrapperException *)loadWrapperExceptionWithUUIDString:(NSString *)uuidString;
 
 /**
- * Saved wrapper exception as crash. This method is used to handle crashes from the wrapper.
+ * Save wrapper exception and associated native crash report. This method is used to handle crashes from the wrapper.
  */
 + (void)saveWrapperExceptionAndCrashReport:(MSACWrapperException *)wrapperException;
 

@@ -106,7 +106,7 @@ extern NSString *MSACUtilityFileCategory;
  * @param attributes A directory attributes.
  * @param error An error.
  *
- * @return True - if directory was saved successfully, false - otherwise.
+ * @return True - if directory was created successfully, false - otherwise.
  */
 + (BOOL)createDirectoryAtPath:(NSString *)dirPath
   withIntermediateDirectories:(BOOL)withIntermediateDirectories
@@ -117,8 +117,8 @@ extern NSString *MSACUtilityFileCategory;
  * Save a file by path.
  *
  * @param filePath A path to file.
- * @param data A file contents.
- * @param attr A file attributes.
+ * @param data File contents.
+ * @param attr File attributes.
  *
  * @return True - if file was saved successfully, false - otherwise.
  */
