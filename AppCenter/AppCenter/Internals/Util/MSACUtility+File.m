@@ -127,6 +127,19 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
   }
 }
 
++ (BOOL)createDirectoryAtPath:(NSString *)dirPath
+  withIntermediateDirectories:(BOOL)withIntermediateDirectories
+                   attributes:(NSDictionary<NSFileAttributeKey, id> *)attributes
+                        error:(NSError *)error {
+  NSFileManager *fm = [NSFileManager defaultManager];
+  return [fm createDirectoryAtPath:dirPath withIntermediateDirectories:withIntermediateDirectories attributes:attributes error:&error];
+}
+
++ (BOOL)createFileAtPath:(NSString *)filePath contents:(NSData *)data attributes:(NSDictionary<NSFileAttributeKey, id> *)attr {
+  NSFileManager *fm = [NSFileManager defaultManager];
+  return [fm createFileAtPath:filePath contents:data attributes:attr];
+}
+
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent {
   {
     NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];

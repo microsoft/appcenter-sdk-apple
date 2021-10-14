@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 #import "MSACAppCenterInternal.h"
+#import "MSACCrashReporter.h"
 #import "MSACCrashesInternal.h"
 #import "MSACCrashesUtil.h"
-#import "MSACErrorLogFormatter.h"
 #import "MSACLoggerInternal.h"
 #import "MSACUtility+File.h"
 #import "MSACWrapperExceptionInternal.h"
@@ -99,9 +99,29 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   [MSACUtility deleteItemForPathComponent:pathComponent];
 }
 
-+ (void)saveWrapperExceptionAsCrashLog:(MSACWrapperException *)wrapperException {
-  [MSACErrorLogFormatter createCrashReport];
++ (void)saveWrapperExceptionAndCrashReport:(MSACWrapperException *)wrapperException {
   [self saveWrapperException:wrapperException];
+
+  // Save crash report.
+  PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD
+                                                                     symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
+  PLCrashReporter *crashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
+
+  // Create parent directories.
+  NSString *filePath = [crashReporter crashReportPath];
+  NSString *dirPath = [[filePath stringByReplacingOccurrencesOfString:[filePath lastPathComponent] withString:@""] mutableCopy];
+  if ([MSACUtility createDirectoryAtPath:dirPath withIntermediateDirectories:true attributes:nil error:nil]) {
+
+    // Create the file.
+    NSData *theData = [crashReporter generateLiveReport];
+    if ([MSACUtility createFileAtPath:filePath contents:theData attributes:nil]) {
+      MSACLogError([MSACAppCenter logTag], @"Crash report was saved successfully at path %@", filePath);
+    } else {
+      MSACLogError([MSACAppCenter logTag], @"Couldn't create new crash report at path %@", filePath);
+    }
+  } else {
+    MSACLogError([MSACAppCenter logTag], @"Couldn't create folder at path %@", dirPath);
+  }
 }
 
 /**

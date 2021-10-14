@@ -36,9 +36,4 @@ typedef NS_ENUM(NSInteger, MSACBinaryImageType) {
 
 + (MSACErrorReport *)errorReportFromLog:(MSACAppleErrorLog *)errorLog;
 
-/**
- * Creates a crash report file.
- */
-+ (void)createCrashReport;
-
 @end
