@@ -38,4 +38,9 @@
  */
 + (void)saveWrapperExceptionAndCrashReport:(MSACWrapperException *)wrapperException;
 
+/**
+ * Set crash reporter instance.
+ */
++ (void)setCrashReporter:(PLCrashReporter *)crashReporter;
+
 @end

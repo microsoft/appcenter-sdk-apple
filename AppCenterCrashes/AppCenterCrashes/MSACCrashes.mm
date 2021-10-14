@@ -722,6 +722,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
                                                                      symbolicationStrategy:symbolicationStrategy
                                                     shouldRegisterUncaughtExceptionHandler:enableUncaughtExceptionHandler];
   self.plCrashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
+  [MSACWrapperExceptionManager setCrashReporter:self.plCrashReporter];
 
   /*
    * The actual signal and mach handlers are only registered when invoking `enableCrashReporterAndReturnError`, so it is safe enough to only

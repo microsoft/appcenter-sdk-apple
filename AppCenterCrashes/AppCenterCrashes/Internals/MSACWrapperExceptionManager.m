@@ -14,12 +14,17 @@
 
 static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 static NSMutableDictionary *unprocessedWrapperExceptions;
+static PLCrashReporter *_crashReporter = nil;
 
 + (void)load {
   unprocessedWrapperExceptions = [NSMutableDictionary new];
 }
 
 #pragma mark Public Methods
+
++ (void)setCrashReporter:(PLCrashReporter *)crashReporter {
+  _crashReporter = crashReporter;
+}
 
 /**
  * Gets a wrapper exception with a given UUID.
@@ -100,20 +105,19 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
 }
 
 + (void)saveWrapperExceptionAndCrashReport:(MSACWrapperException *)wrapperException {
+  if (_crashReporter == nil) {
+    MSACLogError([MSACAppCenter logTag], @"Failed to save the crash report. CrashReporter wasn't initialized.");
+    return;
+  }
   [self saveWrapperException:wrapperException];
 
-  // Save crash report.
-  PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD
-                                                                     symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
-  PLCrashReporter *crashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
-
   // Create parent directories.
-  NSString *filePath = [crashReporter crashReportPath];
+  NSString *filePath = [_crashReporter crashReportPath];
   NSString *dirPath = [[filePath stringByReplacingOccurrencesOfString:[filePath lastPathComponent] withString:@""] mutableCopy];
   if ([MSACUtility createDirectoryAtPath:dirPath withIntermediateDirectories:true attributes:nil error:nil]) {
 
     // Create the file.
-    NSData *crashReport = [crashReporter generateLiveReport];
+    NSData *crashReport = [_crashReporter generateLiveReport];
     if ([MSACUtility createFileAtPath:filePath contents:crashReport attributes:nil]) {
       MSACLogError([MSACAppCenter logTag], @"Crash report was saved successfully at path %@", filePath);
     } else {
