@@ -436,10 +436,11 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 - (void)migrateDatabase:(void *)__unused db fromVersion:(NSUInteger)__unused version {
 }
 
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler
-#if defined(__IPHONE_15_0)
-NS_SWIFT_DISABLE_ASYNC
+#pragma clang diagnostic push
+#if __has_warning("-Wcompletion-handler")
+#pragma clang diagnostic ignored "-Wcompletion-handler"
 #endif
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(nullable void (^)(BOOL))completionHandler
 {
   int result;
   BOOL success;
@@ -497,6 +498,7 @@ NS_SWIFT_DISABLE_ASYNC
     completionHandler(success);
   }
 }
+#pragma clang diagnostic pop
 
 + (sqlite3 *)openDatabaseAtFileURL:(NSURL *)fileURL withResult:(int *)result {
   sqlite3 *db = NULL;

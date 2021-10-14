@@ -10,6 +10,7 @@
 
 * **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to a string and additional useful information about sending error.
 * **[Feature]** Add saving a crash report from the Xamarin Mac OS platform.
+* **[Fix]** Fix build failure on Xcode 13, because of warning `Сompletion handler is never used`. Only observable when SDK is integrated as source code. Continuation of the previous fix that fixed the issue on the beta version.
 
 ### App Center
 
