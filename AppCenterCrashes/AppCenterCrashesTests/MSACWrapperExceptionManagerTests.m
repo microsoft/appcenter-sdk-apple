@@ -2,10 +2,14 @@
 // Licensed under the MIT License.
 
 #import "MSACCrashes.h"
-#import "MSACWrapperExceptionModel.h"
+#import "MSACCrashesUtil.h"
 #import "MSACTestFrameworks.h"
+#import "MSACUtility+File.h"
+#import "MSACUtility.h"
 #import "MSACWrapperException.h"
 #import "MSACWrapperExceptionManagerInternal.h"
+#import "MSACWrapperExceptionModel.h"
+#import "PLCrashReporter.h"
 
 // Copied from MSACWrapperExceptionManager.m
 static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
@@ -79,6 +83,43 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
   // Then
   XCTAssertNotNil(loadedException);
   [self assertWrapperException:wrapperException isEqualToOther:loadedException];
+}
+
+- (void)testSaveWrapperExceptionAndCrashReport {
+
+  // If.
+  id mockUtility = OCMClassMock([MSACUtility class]);
+  OCMStub(ClassMethod([mockUtility createDirectoryAtPath:OCMOCK_ANY
+                             withIntermediateDirectories:OCMOCK_ANY
+                                              attributes:OCMOCK_ANY
+                                                   error:nil]))
+      .andReturn(YES);
+
+  // Verify create directory was not called.
+  MSACWrapperException *wrapperException = [self getWrapperException];
+  [MSACWrapperExceptionManager saveWrapperExceptionAndCrashReport:wrapperException];
+  OCMReject([mockUtility createDirectoryAtPath:OCMOCK_ANY withIntermediateDirectories:true attributes:nil error:nil]);
+
+  // Mock crashReporter.
+  id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
+  NSString *mockPath = @"file://mock/live_report.plcrash";
+  NSData *mockData = [NSData new];
+  OCMStub([mockCrashReporter crashReportPath]).andReturn(mockPath);
+  OCMStub([mockCrashReporter generateLiveReport]).andReturn(mockData);
+  [MSACWrapperExceptionManager setCrashReporter:mockCrashReporter];
+
+  // When.
+  // Call save wrapper exception again.
+  [MSACWrapperExceptionManager saveWrapperExceptionAndCrashReport:wrapperException];
+
+  // Then.
+  // Verify that file was created.
+  OCMVerify([mockUtility createFileAtPath:mockPath contents:mockData attributes:nil]);
+  OCMVerify([mockUtility createFileAtPathComponent:OCMOCK_ANY withData:OCMOCK_ANY atomically:YES forceOverwrite:YES]);
+
+  // Stop mocking.
+  [mockUtility stopMocking];
+  [mockCrashReporter stopMocking];
 }
 
 - (void)testSaveCorrelateWrapperExceptionWhenExists {
