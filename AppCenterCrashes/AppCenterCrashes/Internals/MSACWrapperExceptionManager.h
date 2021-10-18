@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import <Foundation/Foundation.h>
 #import "MSACCrashReporter.h"
+#import <Foundation/Foundation.h>
 
 @class MSACWrapperException;
 

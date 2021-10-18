@@ -85,6 +85,58 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
   [self assertWrapperException:wrapperException isEqualToOther:loadedException];
 }
 
+- (void)testSaveWrapperExceptionAndCrashReportWhenCrashReporterIsNull {
+
+  // If.
+  id mockUtility = OCMClassMock([MSACUtility class]);
+  OCMStub(ClassMethod([mockUtility createDirectoryAtPath:OCMOCK_ANY
+                             withIntermediateDirectories:OCMOCK_ANY
+                                              attributes:OCMOCK_ANY
+                                                   error:nil]))
+      .andReturn(YES);
+
+  // Then.
+  [MSACWrapperExceptionManager setCrashReporter:nil];
+  MSACWrapperException *wrapperException = [self getWrapperException];
+  [MSACWrapperExceptionManager saveWrapperExceptionAndCrashReport:wrapperException];
+
+  // When.
+  OCMReject([mockUtility createDirectoryAtPath:OCMOCK_ANY withIntermediateDirectories:true attributes:nil error:nil]);
+
+  // Stop mocking.
+  [mockUtility stopMocking];
+}
+
+- (void)testSaveWrapperExceptionAndCrashReportWhenDirectoryWasNotCreated {
+
+  // If.
+  id mockUtility = OCMClassMock([MSACUtility class]);
+  OCMStub(ClassMethod([mockUtility createDirectoryAtPath:OCMOCK_ANY
+                             withIntermediateDirectories:OCMOCK_ANY
+                                              attributes:OCMOCK_ANY
+                                                   error:nil]))
+      .andReturn(NO);
+
+  // Mock crashReporter.
+  id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
+  NSString *mockPath = @"file://mock/live_report.plcrash";
+  NSData *mockData = [NSData new];
+  OCMStub([mockCrashReporter crashReportPath]).andReturn(mockPath);
+  OCMStub([mockCrashReporter generateLiveReport]).andReturn(mockData);
+
+  // When.
+  [MSACWrapperExceptionManager setCrashReporter:mockCrashReporter];
+  MSACWrapperException *wrapperException = [self getWrapperException];
+  [MSACWrapperExceptionManager saveWrapperExceptionAndCrashReport:wrapperException];
+
+  // Then.
+  OCMReject([mockUtility createFileAtPathComponent:OCMOCK_ANY withData:OCMOCK_ANY atomically:YES forceOverwrite:YES]);
+
+  // Stop mocking.
+  [mockUtility stopMocking];
+  [mockCrashReporter stopMocking];
+}
+
 - (void)testSaveWrapperExceptionAndCrashReport {
 
   // If.
@@ -95,25 +147,19 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
                                                    error:nil]))
       .andReturn(YES);
 
-  // Verify create directory was not called.
-  MSACWrapperException *wrapperException = [self getWrapperException];
-  [MSACWrapperExceptionManager saveWrapperExceptionAndCrashReport:wrapperException];
-  OCMReject([mockUtility createDirectoryAtPath:OCMOCK_ANY withIntermediateDirectories:true attributes:nil error:nil]);
-
   // Mock crashReporter.
   id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
   NSString *mockPath = @"file://mock/live_report.plcrash";
   NSData *mockData = [NSData new];
   OCMStub([mockCrashReporter crashReportPath]).andReturn(mockPath);
   OCMStub([mockCrashReporter generateLiveReport]).andReturn(mockData);
-  [MSACWrapperExceptionManager setCrashReporter:mockCrashReporter];
 
   // When.
-  // Call save wrapper exception again.
+  [MSACWrapperExceptionManager setCrashReporter:mockCrashReporter];
+  MSACWrapperException *wrapperException = [self getWrapperException];
   [MSACWrapperExceptionManager saveWrapperExceptionAndCrashReport:wrapperException];
 
   // Then.
-  // Verify that file was created.
   OCMVerify([mockUtility createFileAtPath:mockPath contents:mockData attributes:nil]);
   OCMVerify([mockUtility createFileAtPathComponent:OCMOCK_ANY withData:OCMOCK_ANY atomically:YES forceOverwrite:YES]);
 
