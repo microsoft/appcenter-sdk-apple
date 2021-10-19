@@ -1948,6 +1948,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
                                                                                       storage:self.storageMock
                                                                                 configuration:self.configuration
                                                                             logsDispatchQueue:queue];
+  OCMVerify([self.storageMock countLogs]);
   [self initChannelEndJobExpectation];
   id delegateMock = OCMProtocolMock(@protocol(MSACChannelDelegate));
   __block MSACSendAsyncCompletionHandler ingestionBlock;
