@@ -39,7 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Automatic session generator.
  */
-@property(nonatomic) BOOL *isDisabled;
+@property BOOL *isDisabled;
+
+/**
+ * Automatic session generator.
+ */
+@property BOOL *hasAutomaticSessionGeneratorDisabled;
 
 /**
  * Start session tracking.
@@ -55,6 +60,21 @@ NS_ASSUME_NONNULL_BEGIN
  * Automatic session tracking checking.
  */
 - (void)isAutomaticSessionGeneratorDisable;
+
+/**
+ * Start manual session tracking.
+ */
+- (void)startSession;
+
+/**
+ * Stop manual session tracking.
+ */
+- (void)stopSession;
+
+/**
+ * Send start session request.
+ */
+- (void)sendStartSession;
 
 @end
 
