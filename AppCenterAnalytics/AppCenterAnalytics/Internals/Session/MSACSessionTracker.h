@@ -37,6 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
 
 /**
+ * Automatic session generator.
+ */
+@property(nonatomic) BOOL *isDisabled;
+
+/**
  * Start session tracking.
  */
 - (void)start;
@@ -45,6 +50,11 @@ NS_ASSUME_NONNULL_BEGIN
  * Stop session tracking.
  */
 - (void)stop;
+
+/**
+ * Automatic session tracking checking.
+ */
+- (void)isAutomaticSessionGeneratorDisable;
 
 @end
 

@@ -20,6 +20,8 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
  */
 - (BOOL)hasSessionTimedOut;
 
+- (BOOL)hasAutomaticSessionGeneratorDisabled;
+
 @end
 
 @implementation MSACSessionTracker
@@ -41,17 +43,10 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)renewSessionId {
   @synchronized(self) {
     if (self.started) {
-
-      // Check if new session id is required.
-      if ([self.context sessionId] == nil || [self hasSessionTimedOut]) {
-        NSString *sessionId = MSAC_UUID_STRING;
-        [self.context setSessionId:sessionId];
-        MSACLogInfo([MSACAnalytics logTag], @"New session ID: %@", sessionId);
-
-        // Create a start session log.
-        MSACStartSessionLog *log = [[MSACStartSessionLog alloc] init];
-        log.sid = sessionId;
-        [self.delegate sessionTracker:self processLog:log];
+        // Check if new session id is required.
+        if ([self.context sessionId] == nil || [self hasSessionTimedOut]) {
+            [self sendStartSession];
+        }
       }
     }
   }
@@ -64,7 +59,9 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
     // Request a new session id depending on the application state.
     MSACApplicationState state = [MSACUtility applicationState];
     if (state == MSACApplicationStateInactive || state == MSACApplicationStateActive) {
-      [self renewSessionId];
+        if (!hasAutomaticSessionGeneratorDisabled) {
+        [self renewSessionId];
+        }
     }
 
     // Hookup to application events.
@@ -99,6 +96,34 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
   [MSAC_NOTIFICATION_CENTER removeObserver:self];
 }
 
+- (void)isAutomaticSessionGeneratorDisable {
+    self.hasAutomaticSessionGeneratorDisabled == _isDisabled;
+    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
+}
+
+- (void)sendStartSession {
+    NSString *sessionId = MSAC_UUID_STRING;
+    [self.context setSessionId:sessionId];
+    MSACLogInfo([MSACAnalytics logTag], @"New session ID: %@", sessionId);
+
+    // Create a start session log.
+    MSACStartSessionLog *log = [[MSACStartSessionLog alloc] init];
+    log.sid = sessionId;
+    [self.delegate sessionTracker:self processLog:log];
+}
+
+- (void)startSession {
+    if (hasAutomaticSessionGeneratorDisabled) {
+        MSACLogInfo([MSACAnalytics logTag], @"Was generated new startSession " +  sessionId);
+        [self sendStartSession];
+    }
+}
+
+- (void)endSession {
+    if (hasAutomaticSessionGeneratorDisabled) {
+        [self.context setSessionId:nil];
+    }
+}
 #pragma mark - private methods
 
 - (BOOL)hasSessionTimedOut {
@@ -128,14 +153,20 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)applicationDidEnterBackground {
+    if (!hasAutomaticSessionGeneratorDisabled) {
   self.lastEnteredBackgroundTime = [NSDate date];
+    }
 }
 
 - (void)applicationWillEnterForeground {
-  self.lastEnteredForegroundTime = [NSDate date];
-
-  // Trigger session renewal.
-  [self renewSessionId];
+    if (!hasAutomaticSessionGeneratorDisabled) {
+        self.lastEnteredForegroundTime = [NSDate date];
+        
+        // Trigger session renewal.
+        [self renewSessionId];
+    } else {
+    MSACLogInfo([MSACAnalytics logTag], @"The automatic session generation was disabled. Skip check on timeout session.");
+    }
 }
 
 #pragma mark - MSACChannelDelegate
