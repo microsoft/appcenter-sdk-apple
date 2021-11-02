@@ -56,7 +56,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
     // Request a new session id depending on the application state.
     MSACApplicationState state = [MSACUtility applicationState];
     if (state == MSACApplicationStateInactive || state == MSACApplicationStateActive) {
-      if (!self.hasAutomaticSessionGeneratorDisabled) {
+      if (!self.automaticSessionGeneratorEnabled) {
         [self renewSessionId];
       }
     }
@@ -93,8 +93,8 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
   [MSAC_NOTIFICATION_CENTER removeObserver:self];
 }
 
-- (void)isAutomaticSessionGeneratorDisable {
-  self.hasAutomaticSessionGeneratorDisabled = self.isDisabled;
+- (void)isAutomaticSessionGeneratorEnabled:(BOOL)isEnabled {
+  automaticSessionGeneratorEnabled = isEnabled;
   MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
 }
 
@@ -110,14 +110,14 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)startSession {
-  if (!self.hasAutomaticSessionGeneratorDisabled) {
+  if (self.automaticSessionGeneratorEnabled) {
     [self sendStartSession];
     MSACLogInfo([MSACAnalytics logTag], @"Was generated new startSession");
   }
 }
 
 - (void)endSession {
-  if (self.hasAutomaticSessionGeneratorDisabled) {
+  if (self.automaticSessionGeneratorEnabled) {
     [self.context setSessionId:nil];
   }
 }
@@ -150,13 +150,13 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)applicationDidEnterBackground {
-  if (!self.hasAutomaticSessionGeneratorDisabled) {
+  if (self.automaticSessionGeneratorEnabled) {
     self.lastEnteredBackgroundTime = [NSDate date];
   }
 }
 
 - (void)applicationWillEnterForeground {
-  if (!self.hasAutomaticSessionGeneratorDisabled) {
+  if (self.automaticSessionGeneratorEnabled) {
     self.lastEnteredForegroundTime = [NSDate date];
 
     // Trigger session renewal.

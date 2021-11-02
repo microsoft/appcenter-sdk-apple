@@ -81,6 +81,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     // Init session tracker.
     _sessionTracker = [[MSACSessionTracker alloc] init];
     _sessionTracker.delegate = self;
+    _sessionTracker.automaticSessionGeneratorEnabled = YES;
 
     // Set up transmission target dictionary.
     _transmissionTargets = [NSMutableDictionary<NSString *, MSACAnalyticsTransmissionTarget *> new];

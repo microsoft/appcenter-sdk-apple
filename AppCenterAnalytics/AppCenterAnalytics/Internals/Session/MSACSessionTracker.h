@@ -39,12 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Automatic session generator.
  */
-@property BOOL *isDisabled;
-
-/**
- * Automatic session generator.
- */
-@property BOOL *hasAutomaticSessionGeneratorDisabled;
+@property BOOL *automaticSessionGeneratorEnabled;
 
 /**
  * Start session tracking.
