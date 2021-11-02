@@ -147,6 +147,18 @@ class AppCenterDelegateSwift: AppCenterDelegate {
   func pause() {
     Analytics.pause()
   }
+  
+  func startSession() {
+    Analytics.startSession()
+  }
+  
+  func stopSession() {
+    Analytics.stopSession()
+  }
+  
+  func setAutomaticSessionGenerator(_ isEnabled: Bool) {
+    Analytics.setAutomaticSessionGenerator(isEnabled)
+  }
 
   // Crashes section.
   func hasCrashedInLastSession() -> Bool {

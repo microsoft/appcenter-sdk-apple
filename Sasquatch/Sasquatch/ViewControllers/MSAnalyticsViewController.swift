@@ -38,6 +38,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     static let allTimeValues = [3, 10*60, 1*60*60, 8*60*60, 24*60*60]
   }
 
+  @IBOutlet weak var enableAutomaticSession: UISwitch!
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
@@ -145,6 +146,23 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       }
     }
   }
+  
+  @IBAction func startSession(_ sender: Any) {
+    appCenter.startSession()
+  }
+  
+  @IBAction func stopSession(_ sender: Any) {
+    appCenter.stopSession()
+  }
+  
+  @IBAction func switchAutomaticSessionGenerator(_ sender: Any) {
+    if enableAutomaticSession.isOn {
+      appCenter.setAutomaticSessionGenerator(true)
+    } else {
+      appCenter.setAutomaticSessionGenerator(false)
+    }
+  }
+  
 
   @IBAction func trackPage() {
     guard let name = eventName.text else {

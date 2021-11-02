@@ -56,7 +56,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
     // Request a new session id depending on the application state.
     MSACApplicationState state = [MSACUtility applicationState];
     if (state == MSACApplicationStateInactive || state == MSACApplicationStateActive) {
-      if (!self.automaticSessionGeneratorEnabled) {
+      if (self.automaticSessionGeneratorEnabled) {
         [self renewSessionId];
       }
     }
@@ -95,8 +95,11 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 
 - (void)automaticSessionGeneratorEnabled:(BOOL)isEnabled {
   self.automaticSessionGeneratorEnabled = isEnabled;
-
-  MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
+  if (isEnabled == TRUE) {
+    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is enabled.");
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
+  }
 }
 
 - (void)sendStartSession {
@@ -111,14 +114,14 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)startSession {
-  if (self.automaticSessionGeneratorEnabled) {
+  if (!self.automaticSessionGeneratorEnabled) {
     [self sendStartSession];
     MSACLogInfo([MSACAnalytics logTag], @"Was generated new startSession");
   }
 }
 
 - (void)stopSession {
-  if (self.automaticSessionGeneratorEnabled) {
+  if (!self.automaticSessionGeneratorEnabled) {
     [self.context setSessionId:nil];
     MSACLogInfo([MSACAnalytics logTag], @"Session has been terminated");
   }
