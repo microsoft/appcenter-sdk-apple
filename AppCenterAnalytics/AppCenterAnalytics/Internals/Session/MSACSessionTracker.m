@@ -94,7 +94,8 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)isAutomaticSessionGeneratorEnabled:(BOOL)isEnabled {
-  automaticSessionGeneratorEnabled = isEnabled;
+  self.automaticSessionGeneratorEnabled = isEnabled;
+  
   MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
 }
 
@@ -116,7 +117,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
   }
 }
 
-- (void)endSession {
+- (void)stopSession {
   if (self.automaticSessionGeneratorEnabled) {
     [self.context setSessionId:nil];
   }
