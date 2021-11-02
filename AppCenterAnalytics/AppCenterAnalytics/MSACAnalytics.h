@@ -198,6 +198,24 @@ NS_SWIFT_NAME(Analytics)
 + (void)resume;
 
 /**
+ * Manual start of session creation process.
+ *
+ */
++ (void)startSession;
+
+/**
+ * Manual stop of session creation process.
+ *
+ */
++ (void)stopSession;
+
+/**
+ * Setting the state of automated session generation process.
+ *
+ */
++ (void)setAutomaticSessionGenerator:(BOOL)isEnabled;
+
+/**
  * Get a transmission target.
  *
  * @param token The token of the transmission target to retrieve.

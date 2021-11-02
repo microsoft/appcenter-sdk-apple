@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Automatic session tracking checking.
  */
-- (void)isAutomaticSessionGeneratorEnabled:(BOOL)isEnabled;
+- (void)automaticSessionGeneratorEnabled:(BOOL)isEnabled;
 
 /**
  * Start manual session tracking.

@@ -81,7 +81,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
     // Init session tracker.
     _sessionTracker = [[MSACSessionTracker alloc] init];
     _sessionTracker.delegate = self;
-    _sessionTracker.automaticSessionGeneratorEnabled = YES;
 
     // Set up transmission target dictionary.
     _transmissionTargets = [NSMutableDictionary<NSString *, MSACAnalyticsTransmissionTarget *> new];
@@ -260,6 +259,18 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 + (void)resume {
   [[MSACAnalytics sharedInstance] resume];
+}
+
++ (void)startSession {
+  [[MSACAnalytics sharedInstance].sessionTracker startSession];
+}
+
++ (void)stopSession {
+  [[MSACAnalytics sharedInstance].sessionTracker stopSession];
+}
+
++ (void)setAutomaticSessionGenerator:(BOOL)isEnabled {
+  [[MSACAnalytics sharedInstance].sessionTracker automaticSessionGeneratorEnabled:isEnabled];
 }
 
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
