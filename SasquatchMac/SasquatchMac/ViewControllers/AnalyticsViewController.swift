@@ -50,7 +50,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
-  @IBOutlet var enableAutomaticSession: NSButton!
+  @IBOutlet weak var enableAutomaticSession: NSButton!
   @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var table : NSTableView?
@@ -184,8 +184,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
     
   @IBAction func switchAutomaticSessionGenerator(sender : NSButton) {
-    
-    if enableAutomaticSession.isEnabled {
+    if enableAutomaticSession.state == .on {
         NSLog("Enabled");
          appCenter.setAutomaticSessionGenerator(true)
        } else {
