@@ -39,6 +39,9 @@ import AppCenter
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   func resume()
   func pause()
+  func startSession()
+  func stopSession()
+  func setAutomaticSessionGenerator(_ isEnabled: Bool)
 
   // Crashes section.
   func hasCrashedInLastSession() -> Bool

@@ -78,9 +78,25 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func resume() {
     Analytics.resume()
   }
+    
   func pause() {
     Analytics.pause()
   }
+    
+  func startSession() {
+    Analytics.startSession()
+  }
+
+  func stopSession() {
+    Analytics.stopSession()
+  }
+
+  func setAutomaticSessionGenerator(_ isEnabled: Bool) {
+    Analytics.setAutomaticSessionGenerator(isEnabled)
+  }
+  
+ 
+  
   #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String) {
     // Analytics.trackPage(pageName)

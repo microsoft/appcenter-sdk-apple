@@ -50,6 +50,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
+  @IBOutlet var enableAutomaticSession: NSButton!
   @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var table : NSTableView?
@@ -174,7 +175,23 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     sender.state = appCenter.isAnalyticsEnabled() ? .on : .off
   }
   
-  func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+  @IBAction func startSession(_ sender: Any) {
+    appCenter.startSession()
+  }
+    
+  @IBAction func stopSession(_ sender: Any) {
+    appCenter.stopSession()
+  }
+    
+  @IBAction func switchAutomaticSessionGenerator(sender : NSButton) {
+    if enableAutomaticSession.isEnabled {
+         appCenter.setAutomaticSessionGenerator(true)
+       } else {
+         appCenter.setAutomaticSessionGenerator(false)
+       }
+  }
+
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     guard let identifier = tableColumn?.identifier else {
       return nil
     }
