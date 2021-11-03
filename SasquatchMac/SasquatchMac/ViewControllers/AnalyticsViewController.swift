@@ -185,10 +185,8 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     
   @IBAction func switchAutomaticSessionGenerator(sender : NSButton) {
     if enableAutomaticSession.state == .on {
-        NSLog("Enabled");
          appCenter.setAutomaticSessionGenerator(true)
        } else {
-        NSLog("Disabled");
          appCenter.setAutomaticSessionGenerator(false)
        }
   }
