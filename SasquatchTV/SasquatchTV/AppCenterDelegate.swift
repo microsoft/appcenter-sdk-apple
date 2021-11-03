@@ -33,6 +33,9 @@ import AppCenterCrashes;
   func trackEvent(_ eventName : String, withProperties : Dictionary<String, String>);
   func trackPage(_ pageName : String);
   func trackPage(_ pageName : String, withProperties : Dictionary<String, String>);
+  func startSession()
+  func stopSession()
+  func setAutomaticSessionGenerator(_ isEnabled: Bool)
 
   // MARK: Crashes section.
   func hasCrashedInLastSession() -> Bool

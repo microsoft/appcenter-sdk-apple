@@ -184,11 +184,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
     
   @IBAction func switchAutomaticSessionGenerator(sender : NSButton) {
-    if enableAutomaticSession.state == .on {
-         appCenter.setAutomaticSessionGenerator(true)
-       } else {
-         appCenter.setAutomaticSessionGenerator(false)
-       }
+    appCenter.setAutomaticSessionGenerator(enableAutomaticSession.state == .on)
   }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

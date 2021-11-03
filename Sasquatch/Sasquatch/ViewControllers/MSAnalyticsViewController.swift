@@ -156,11 +156,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   @IBAction func switchAutomaticSessionGenerator(_ sender: Any) {
-    if enableAutomaticSession.isOn {
-      appCenter.setAutomaticSessionGenerator(true)
-    } else {
-      appCenter.setAutomaticSessionGenerator(false)
-    }
+    appCenter.setAutomaticSessionGenerator(enableAutomaticSession.isOn)
   }
   
 

@@ -95,6 +95,18 @@
   // [MSACAnalytics trackPage:pageName withProperties:properties];
 }
 
+- (void)startSession {
+  [MSACAnalytics startSession];
+}
+
+- (void)stopSession {
+  [MSACAnalytics stopSession];
+}
+
+- (void)setAutomaticSessionGenerator:(BOOL)isEnabled {
+  [MSACAnalytics setAutomaticSessionGenerator:isEnabled];
+}
+
 #pragma mark - MSACCrashes section.
 
 - (BOOL)hasCrashedInLastSession {

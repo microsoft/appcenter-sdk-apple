@@ -38,6 +38,18 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func trackEvent(_ eventName : String, withProperties properties : Dictionary<String, String>) {
     Analytics.trackEvent(eventName, withProperties : properties);
   }
+  
+  func startSession() {
+    Analytics.startSession()
+  }
+
+  func stopSession() {
+    Analytics.stopSession()
+  }
+
+  func setAutomaticSessionGenerator(_ isEnabled: Bool) {
+    Analytics.setAutomaticSessionGenerator(isEnabled)
+  }
 
   #warning("TODO: Uncomment when trackPage is moved from internal to public.")
   func trackPage(_ pageName : String) {

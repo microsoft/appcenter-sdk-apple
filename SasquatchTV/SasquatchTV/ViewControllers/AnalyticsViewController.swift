@@ -11,6 +11,7 @@ enum AnalyticsActionsRows : Int {
 
 class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCenterProtocol {
 
+  @IBOutlet weak var enableAutomaticSessionGenerator : UISegmentedControl?;
   @IBOutlet weak var serviceStatus : UISegmentedControl?;
   @IBOutlet weak var table : UITableView?;
 
@@ -23,6 +24,7 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     table?.allowsSelection = true;
     serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
     serviceStatus?.addTarget(self, action: #selector(self.switchAnalyticsStatus), for: .valueChanged);
+    enableAutomaticSessionGenerator?.addTarget(self, action: #selector(self.switchAutomaticSessionGenerator), for: .valueChanged)
   }
 
   @IBAction func trackEvent(_ : Any) {
@@ -49,7 +51,22 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     appCenter.setAnalyticsEnabled(serviceStatus?.selectedSegmentIndex == 0);
     serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
   }
-
+  
+  @IBAction func startSession(_ sender: Any) {
+    appCenter.startSession()
+  }
+  
+  @IBAction func stopSession(_ sender: Any) {
+    appCenter.stopSession()
+  }
+  
+  @objc func switchAutomaticSessionGenerator(_ : Any) {
+    let isEnabled = enableAutomaticSessionGenerator?.selectedSegmentIndex == 0;
+    print(appCenter.setAutomaticSessionGenerator(isEnabled));
+    appCenter.setAutomaticSessionGenerator(isEnabled);
+  }
+  
+  
   //MARK: Table view data source
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
