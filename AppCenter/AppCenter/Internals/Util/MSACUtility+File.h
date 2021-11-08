@@ -99,7 +99,7 @@ extern NSString *MSACUtilityFileCategory;
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent;
 
 /**
- * Create directory by path.
+ * Create directory at path.
  *
  * @param dirPath A path to the directory.
  * @param withIntermediateDirectories Сreate folders in path if they don't exist
@@ -114,7 +114,7 @@ extern NSString *MSACUtilityFileCategory;
                         error:(NSError *)error;
 
 /**
- * Save a file by path.
+ * Save a file at path.
  *
  * @param filePath A path to file.
  * @param data File contents.
