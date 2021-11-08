@@ -94,13 +94,36 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)automaticSessionGeneratorEnabled:(BOOL)isEnabled {
-  self.automaticSessionGeneratorEnabled = isEnabled;
-  if (isEnabled == TRUE) {
-    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is enabled.");
-  } else {
-    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
+  @synchronized(self) {
+    MSACLogInfo([MSACAppCenter logTag], @"App Center SDK automatic session generation is %@.", isEnabled ? @"enabled" : @"disabled");
+    
+    [MSAC_APP_CENTER_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSACAppCenterSessionGeneratorKey];
+    self.automaticSessionGeneratorEnabled = isEnabled;
+
+         if (isEnabled) {
+           MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is enabled.");
+         } else {
+           MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
+         }
   }
+
 }
+
+//- (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
+//  @synchronized(self) {
+//    MSACLogInfo([MSACAppCenter logTag], @"App Center SDK network requests are %@.", isAllowed ? @"allowed" : @"forbidden");
+//
+//    // Persist the network permission status.
+//    [MSAC_APP_CENTER_USER_DEFAULTS setObject:@(isAllowed) forKey:kMSACAppCenterNetworkRequestsAllowedKey];
+//    if ([self canBeUsed]) {
+//      if (isAllowed) {
+//        [self.channelGroup resumeWithIdentifyingObject:self.channelGroup];
+//      } else {
+//        [self.channelGroup pauseWithIdentifyingObject:self.channelGroup];
+//      }
+//    }
+//  }
+//}
 
 - (void)sendStartSession {
   NSString *sessionId = MSAC_UUID_STRING;
