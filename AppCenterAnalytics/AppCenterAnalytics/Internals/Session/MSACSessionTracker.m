@@ -101,6 +101,11 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
   }
 }
 
+- (void)isSessionGeneratorEnabled:(BOOL)isEnabled {
+  @synchronized(self) {
+    self.automaticSessionGeneratorEnabled = isEnabled;
+}
+}
 - (void)sendStartSession {
   NSString *sessionId = MSAC_UUID_STRING;
   [self.context setSessionId:sessionId];

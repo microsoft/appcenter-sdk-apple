@@ -35,6 +35,7 @@ import AppCenterCrashes
   func setAnalyticsEnabled(_ isEnabled: Bool)
   func setCrashesEnabled(_ isEnabled: Bool)
   func setDistributeEnabled(_ isEnabled: Bool)
+  func isSessionGeneratorEnabled() -> Bool
 
   // Analytics section.
   func trackEvent(_ eventName: String)

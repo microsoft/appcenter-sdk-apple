@@ -108,6 +108,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     Distribute.enabled = isEnabled
 #endif
   }
+  
+  func isSessionGeneratorEnabled(_ isEnabled: Bool) {
+    return Analytics.automaticSessionGeneratorEnabled.isEnabled
+  }
 
   // Analytics section.
   func trackEvent(_ eventName: String) {

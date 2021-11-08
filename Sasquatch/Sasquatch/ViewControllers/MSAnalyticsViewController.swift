@@ -88,6 +88,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
+    self.enableAutomaticSession.isOn = appCenter.isSessionGeneratorEnabled()
     
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
