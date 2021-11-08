@@ -15,9 +15,8 @@ static NSString *const kMSACInstallIdKey = @"InstallId";
 static NSString *const kMSACAppCenterIsEnabledKey = @"AppCenterIsEnabled";
 static NSString *const kMSACAppCenterNetworkRequestsAllowedKey = @"NetworkRequestsAllowed";
 
-
 /*
- * Automatic session
+ * Automatic session generation
  */
 static NSString *const kMSACAppCenterSessionGeneratorKey = @"SessionGeneratorEnabled";
 
