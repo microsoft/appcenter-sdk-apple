@@ -71,8 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)sendStartSession;
 
-- (void)isSessionGeneratorEnabled:(BOOL)isEnabled;
-
 @end
 
 NS_ASSUME_NONNULL_END

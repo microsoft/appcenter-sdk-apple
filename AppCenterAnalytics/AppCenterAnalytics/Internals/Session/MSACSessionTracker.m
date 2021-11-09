@@ -94,18 +94,14 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)automaticSessionGeneratorEnabled:(BOOL)isEnabled {
-  @synchronized(self) {
-    MSACLogInfo([MSACAppCenter logTag], @"App Center SDK automatic session generation is %@.", isEnabled ? @"enabled" : @"disabled");
-    [MSAC_APP_CENTER_USER_DEFAULTS setObject:@(isEnabled) forKey:kMSACAppCenterSessionGeneratorKey];
-    self.automaticSessionGeneratorEnabled = isEnabled;
+  self.automaticSessionGeneratorEnabled = isEnabled;
+  if (isEnabled == TRUE) {
+    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is enabled.");
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
   }
 }
 
-- (void)isSessionGeneratorEnabled:(BOOL)isEnabled {
-  @synchronized(self) {
-    self.automaticSessionGeneratorEnabled = isEnabled;
-}
-}
 - (void)sendStartSession {
   NSString *sessionId = MSAC_UUID_STRING;
   [self.context setSessionId:sessionId];

@@ -118,10 +118,6 @@
 #endif
 }
 
-- (void)isSessionGeneratorEnabled:(BOOL)isEnabled {
-  return [MSACAnalytics setAutomaticSessionGenerator:isEnabled];
-}
-
 #pragma mark - MSACAnalytics section.
 
 - (void)trackEvent:(NSString *)eventName {
