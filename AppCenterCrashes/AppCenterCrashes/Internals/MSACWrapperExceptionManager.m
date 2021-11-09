@@ -113,8 +113,8 @@ static PLCrashReporter *_crashReporter = nil;
 
   // Create parent directories.
   NSString *filePath = [_crashReporter crashReportPath];
-  NSString *dirPath = [filePath stringByReplacingOccurrencesOfString:[filePath lastPathComponent] withString:@""];
-  if ([MSACUtility createDirectoryAtPath:dirPath withIntermediateDirectories:true attributes:nil error:nil]) {
+  NSURL *dirPath = [NSURL fileURLWithPath:[filePath stringByReplacingOccurrencesOfString:[filePath lastPathComponent] withString:@""]];
+  if ([MSACUtility createDirectoryAtURL:dirPath]) {
 
     // Create the file.
     NSData *crashReport = [_crashReporter generateLiveReport];

@@ -99,21 +99,6 @@ extern NSString *MSACUtilityFileCategory;
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent;
 
 /**
- * Create directory at path.
- *
- * @param dirPath A path to the directory.
- * @param withIntermediateDirectories Сreate folders in path if they don't exist
- * @param attributes A directory attributes.
- * @param error An error.
- *
- * @return True - if directory was created successfully, false - otherwise.
- */
-+ (BOOL)createDirectoryAtPath:(NSString *)dirPath
-  withIntermediateDirectories:(BOOL)withIntermediateDirectories
-                   attributes:(NSDictionary<NSFileAttributeKey, id> *)attributes
-                        error:(NSError *)error;
-
-/**
  * Save a file at path.
  *
  * @param filePath A path to file.
@@ -123,5 +108,12 @@ extern NSString *MSACUtilityFileCategory;
  * @return True - if file was saved successfully, false - otherwise.
  */
 + (BOOL)createFileAtPath:(NSString *)filePath contents:(NSData *)data attributes:(NSDictionary<NSFileAttributeKey, id> *)attr;
+
+/**
+ * Create directory at path.
+ *
+ * @param fullDirURL A path to the directory.
+ */
++ (BOOL)createDirectoryAtURL:(NSURL *)fullDirURL;
 
 @end

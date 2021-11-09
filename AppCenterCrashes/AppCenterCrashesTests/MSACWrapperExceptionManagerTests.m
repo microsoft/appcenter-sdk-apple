@@ -89,11 +89,7 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 
   // If.
   id mockUtility = OCMClassMock([MSACUtility class]);
-  OCMStub(ClassMethod([mockUtility createDirectoryAtPath:OCMOCK_ANY
-                             withIntermediateDirectories:OCMOCK_ANY
-                                              attributes:OCMOCK_ANY
-                                                   error:nil]))
-      .andReturn(YES);
+  OCMStub(ClassMethod([mockUtility createDirectoryAtURL:OCMOCK_ANY])).andReturn(YES);
 
   // Then.
   [MSACWrapperExceptionManager setCrashReporter:nil];
@@ -101,7 +97,7 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
   [MSACWrapperExceptionManager saveWrapperExceptionAndCrashReport:wrapperException];
 
   // When.
-  OCMReject([mockUtility createDirectoryAtPath:OCMOCK_ANY withIntermediateDirectories:true attributes:nil error:nil]);
+  OCMReject([mockUtility createDirectoryAtURL:OCMOCK_ANY]);
 
   // Stop mocking.
   [mockUtility stopMocking];
@@ -111,11 +107,7 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 
   // If.
   id mockUtility = OCMClassMock([MSACUtility class]);
-  OCMStub(ClassMethod([mockUtility createDirectoryAtPath:OCMOCK_ANY
-                             withIntermediateDirectories:OCMOCK_ANY
-                                              attributes:OCMOCK_ANY
-                                                   error:nil]))
-      .andReturn(NO);
+  OCMStub(ClassMethod([mockUtility createDirectoryAtURL:OCMOCK_ANY])).andReturn(NO);
 
   // Mock crashReporter.
   id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
@@ -141,11 +133,8 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 
   // If.
   id mockUtility = OCMClassMock([MSACUtility class]);
-  OCMStub(ClassMethod([mockUtility createDirectoryAtPath:OCMOCK_ANY
-                             withIntermediateDirectories:OCMOCK_ANY
-                                              attributes:OCMOCK_ANY
-                                                   error:nil]))
-      .andReturn(YES);
+  OCMStub(ClassMethod([mockUtility createDirectoryAtURL:OCMOCK_ANY])).andReturn(YES);
+  OCMStub(ClassMethod([mockUtility createFileAtPath:OCMOCK_ANY contents:OCMOCK_ANY attributes:OCMOCK_ANY])).andReturn(YES);
 
   // Mock crashReporter.
   id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
