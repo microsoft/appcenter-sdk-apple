@@ -43,10 +43,6 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     Analytics.startSession()
   }
 
-  func stopSession() {
-    Analytics.stopSession()
-  }
-
   func setAutomaticSessionGenerator(_ isEnabled: Bool) {
     Analytics.setAutomaticSessionGenerator(isEnabled)
   }

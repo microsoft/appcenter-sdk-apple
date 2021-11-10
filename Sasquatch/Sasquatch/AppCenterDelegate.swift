@@ -47,7 +47,6 @@ import AppCenterCrashes
   func resume()
   func pause()
   func startSession()
-  func stopSession()
   func setAutomaticSessionGenerator(_ isEnabled: Bool)
 
   

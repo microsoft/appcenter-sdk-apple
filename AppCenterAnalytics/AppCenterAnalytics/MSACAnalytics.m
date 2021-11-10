@@ -265,10 +265,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   [[MSACAnalytics sharedInstance].sessionTracker startSession];
 }
 
-+ (void)stopSession {
-  [[MSACAnalytics sharedInstance].sessionTracker stopSession];
-}
-
 + (void)setAutomaticSessionGenerator:(BOOL)isEnabled {
   [[MSACAnalytics sharedInstance].sessionTracker automaticSessionGeneratorEnabled:isEnabled];
 }

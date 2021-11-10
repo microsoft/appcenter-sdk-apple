@@ -56,10 +56,6 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     appCenter.startSession()
   }
   
-  @IBAction func stopSession(_ sender: Any) {
-    appCenter.stopSession()
-  }
-  
   @objc func switchAutomaticSessionGenerator(_ : Any) {
     let isEnabled = enableAutomaticSessionGenerator?.selectedSegmentIndex == 0;
     print(appCenter.setAutomaticSessionGenerator(isEnabled));

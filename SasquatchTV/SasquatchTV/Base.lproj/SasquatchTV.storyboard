@@ -286,15 +286,6 @@
                                     <action selector="startSession:" destination="gle-ii-s7s" eventType="primaryActionTriggered" id="cFx-Dp-Fdx"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JU-T4-BqN">
-                                <rect key="frame" x="1022" y="774" width="388" height="86"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Stop session"/>
-                                <connections>
-                                    <action selector="stopSession:" destination="gle-ii-s7s" eventType="primaryActionTriggered" id="Za6-Ej-Wlj"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="400" placeholderIntrinsicHeight="86" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RQq-zl-F8k">
                                 <rect key="frame" x="760" y="20" width="400" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -382,7 +373,7 @@
                                 </segments>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="p1H-dB-Koq">
-                                <rect key="frame" x="1022" y="868" width="388" height="70"/>
+                                <rect key="frame" x="1022" y="783" width="388" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                 <segments>

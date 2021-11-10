@@ -164,10 +164,6 @@
   [MSACAnalytics startSession];
 }
 
-- (void)stopSession {
-  [MSACAnalytics stopSession];
-}
-
 - (void)setAutomaticSessionGenerator:(BOOL)isEnabled {
   [MSACAnalytics setAutomaticSessionGenerator:isEnabled];
 }

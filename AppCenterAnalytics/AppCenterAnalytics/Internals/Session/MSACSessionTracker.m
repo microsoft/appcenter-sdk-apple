@@ -120,12 +120,6 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
   }
 }
 
-- (void)stopSession {
-  if (!self.automaticSessionGeneratorEnabled) {
-    [self.context setSessionId:nil];
-    MSACLogInfo([MSACAnalytics logTag], @"Session has been terminated");
-  }
-}
 #pragma mark - private methods
 
 - (BOOL)hasSessionTimedOut {

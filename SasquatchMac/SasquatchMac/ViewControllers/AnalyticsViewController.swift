@@ -179,10 +179,6 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     appCenter.startSession()
   }
     
-  @IBAction func stopSession(_ sender: Any) {
-    appCenter.stopSession()
-  }
-    
   @IBAction func switchAutomaticSessionGenerator(sender : NSButton) {
     appCenter.setAutomaticSessionGenerator(enableAutomaticSession.state == .on)
   }

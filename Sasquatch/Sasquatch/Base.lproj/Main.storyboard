@@ -291,43 +291,14 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="StartSession API" id="5dq-ge-OTY">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="A79-3y-pAy">
-                                        <rect key="frame" x="0.0" y="733.5" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="A79-3y-pAy" id="PrP-y2-hpE">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8HN-Kb-Zd9">
-                                                    <rect key="frame" x="0.0" y="-1" width="150" height="45"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <state key="normal" title="Start session"/>
-                                                    <connections>
-                                                        <action selector="startSession:" destination="GhP-bn-tCW" eventType="touchUpInside" id="INu-Ne-UFY"/>
-                                                        <action selector="trackPage" destination="GhP-bn-tCW" eventType="touchUpInside" id="sSl-9F-gud"/>
-                                                    </connections>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="JFQ-LR-m1I">
-                                                    <rect key="frame" x="225" y="0.0" width="150" height="38"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" title="Stop session"/>
-                                                    <connections>
-                                                        <action selector="stopSession:" destination="GhP-bn-tCW" eventType="touchUpInside" id="psw-WL-Wck"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="XoB-g6-9fF">
-                                        <rect key="frame" x="0.0" y="777.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="733.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XoB-g6-9fF" id="mdX-qG-7OM">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Automatic session generation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hi1-ep-ICn">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Automatic session generation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hi1-ep-ICn">
                                                     <rect key="frame" x="15" y="-1" width="239" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -341,6 +312,25 @@
                                                         <action selector="switchAutomaticSessionGenerator:" destination="GhP-bn-tCW" eventType="valueChanged" id="J0Z-ov-PpY"/>
                                                     </connections>
                                                 </switch>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="A79-3y-pAy">
+                                        <rect key="frame" x="0.0" y="777.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="A79-3y-pAy" id="PrP-y2-hpE">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8HN-Kb-Zd9">
+                                                    <rect key="frame" x="112" y="0.0" width="150" height="45"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <state key="normal" title="Start session"/>
+                                                    <connections>
+                                                        <action selector="startSession:" destination="GhP-bn-tCW" eventType="touchUpInside" id="INu-Ne-UFY"/>
+                                                        <action selector="trackPage" destination="GhP-bn-tCW" eventType="touchUpInside" id="sSl-9F-gud"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1218,14 +1208,14 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="Install ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xz8-oV-h4u">
-                                                    <rect key="frame" x="8" y="12" width="65" height="20.5"/>
+                                                    <rect key="frame" x="16" y="12" width="65" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="NtN-Tm-B6i" userLabel="Install ID">
-                                                    <rect key="frame" x="358.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1242,14 +1232,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="SDK Version" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d0B-bb-lji" userLabel="SDK Version">
-                                                    <rect key="frame" x="8" y="12" width="94.5" height="20.5"/>
+                                                    <rect key="frame" x="16" y="12" width="94.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="mii-om-0Af" userLabel="SDK Version">
-                                                    <rect key="frame" x="358.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1266,14 +1256,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="Device ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PKd-yJ-AWH" userLabel="Device ID">
-                                                    <rect key="frame" x="8" y="12" width="72.5" height="20.5"/>
+                                                    <rect key="frame" x="16" y="12" width="72.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="eS2-cR-m6j" userLabel="Device ID">
-                                                    <rect key="frame" x="358.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -1290,14 +1280,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="User ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wy0-gQ-Cog" userLabel="User ID">
-                                                    <rect key="frame" x="8" y="12" width="56.5" height="20.5"/>
+                                                    <rect key="frame" x="16" y="12" width="56.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" ambiguous="YES" text="?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" id="zae-7D-qHL" userLabel="User ID">
-                                                    <rect key="frame" x="358.5" y="12" width="8.5" height="20.5"/>
+                                                    <rect key="frame" x="350.5" y="12" width="8.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>

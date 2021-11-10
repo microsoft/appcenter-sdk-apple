@@ -62,11 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startSession;
 
 /**
- * Stop manual session tracking.
- */
-- (void)stopSession;
-
-/**
  * Send start session request.
  */
 - (void)sendStartSession;

@@ -204,12 +204,6 @@ NS_SWIFT_NAME(Analytics)
 + (void)startSession;
 
 /**
- * Manual stop of session creation process.
- *
- */
-+ (void)stopSession;
-
-/**
  * Setting the state of automated session generation process.
  *
  */

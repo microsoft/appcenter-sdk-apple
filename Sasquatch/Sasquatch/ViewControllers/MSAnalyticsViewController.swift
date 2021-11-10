@@ -152,10 +152,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     appCenter.startSession()
   }
   
-  @IBAction func stopSession(_ sender: Any) {
-    appCenter.stopSession()
-  }
-  
   @IBAction func switchAutomaticSessionGenerator(_ sender: UISwitch) {
     UserDefaults.standard.set(sender.isOn, forKey: kMSAutomaticSessionGenerator)
     appCenter.setAutomaticSessionGenerator(sender.isOn)
