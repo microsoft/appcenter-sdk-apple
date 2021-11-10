@@ -127,6 +127,10 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
   }
 }
 
++ (BOOL)createFileAtPath:(NSString *)filePath contents:(NSData *)data attributes:(NSDictionary<NSFileAttributeKey, id> *)attr {
+  return [[NSFileManager defaultManager] createFileAtPath:filePath contents:data attributes:attr];
+}
+
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent {
   {
     NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];

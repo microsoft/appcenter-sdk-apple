@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 #import "MSACAppCenterInternal.h"
+#import "MSACCrashReporter.h"
 #import "MSACCrashesInternal.h"
 #import "MSACCrashesUtil.h"
-#import "MSACWrapperExceptionModel.h"
 #import "MSACLoggerInternal.h"
 #import "MSACUtility+File.h"
 #import "MSACWrapperExceptionInternal.h"
@@ -14,12 +14,17 @@
 
 static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
 static NSMutableDictionary *unprocessedWrapperExceptions;
+static PLCrashReporter *_crashReporter = nil;
 
 + (void)load {
   unprocessedWrapperExceptions = [NSMutableDictionary new];
 }
 
 #pragma mark Public Methods
+
++ (void)setCrashReporter:(PLCrashReporter *)crashReporter {
+  _crashReporter = crashReporter;
+}
 
 /**
  * Gets a wrapper exception with a given UUID.
@@ -99,6 +104,30 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   [MSACUtility deleteItemForPathComponent:pathComponent];
 }
 
++ (void)saveWrapperExceptionAndCrashReport:(MSACWrapperException *)wrapperException {
+  if (_crashReporter == nil) {
+    MSACLogError([MSACAppCenter logTag], @"Failed to save the crash report. CrashReporter wasn't initialized.");
+    return;
+  }
+  [self saveWrapperException:wrapperException];
+
+  // Create parent directories.
+  NSString *filePath = [_crashReporter crashReportPath];
+  NSURL *dirPath = [NSURL fileURLWithPath:[filePath stringByReplacingOccurrencesOfString:[filePath lastPathComponent] withString:@""]];
+  if ([MSACUtility createDirectoryAtURL:dirPath]) {
+
+    // Create the file.
+    NSData *crashReport = [_crashReporter generateLiveReport];
+    if ([MSACUtility createFileAtPath:filePath contents:crashReport attributes:nil]) {
+      MSACLogError([MSACAppCenter logTag], @"Crash report was saved successfully at path %@", filePath);
+    } else {
+      MSACLogError([MSACAppCenter logTag], @"Couldn't save crash report at path %@", filePath);
+    }
+  } else {
+    MSACLogError([MSACAppCenter logTag], @"Couldn't create a directory at path %@", dirPath);
+  }
+}
+
 /**
  * Loads a wrapper exception with a given filename.
  */
@@ -107,6 +136,7 @@ static NSMutableDictionary *unprocessedWrapperExceptions;
   // For some reason, unarchiving directly from a file fails in some cases, so load data from a file and unarchive it after.
   NSString *pathComponent = [NSString stringWithFormat:@"%@/%@", [MSACCrashesUtil wrapperExceptionsDir], baseFilename];
   if (![MSACUtility fileExistsForPathComponent:pathComponent]) {
+    MSACLogError([MSACCrashes logTag], @"Exception data report doesn't exist on disk. File name: %@", baseFilename);
     return nil;
   }
   NSData *data = [MSACUtility loadDataForPathComponent:pathComponent];

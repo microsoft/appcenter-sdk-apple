@@ -1217,4 +1217,16 @@ static NSTimeInterval const kMSACTestTimeout = 1.0;
   XCTAssertTrue([expectedString isEqualToString:MSAC_CLASS_NAME_WITHOUT_PREFIX]);
 }
 
+- (void)testCreateDirectoryAtURL {
+  NSString *expectedDirectory = @"/Library/Caches/com.microsoft.appcenter/testing/testdir";
+  BOOL result = [MSACUtility createDirectoryAtURL:[NSURL fileURLWithPath:expectedDirectory]];
+  XCTAssertTrue(result);
+}
+
+- (void)testCreateFileAtPath {
+  NSString *expectedFile = @"/Library/Caches/com.microsoft.appcenter/testing/anotherfile.test";
+  BOOL result = [MSACUtility createFileAtPath:expectedFile contents:[NSData new] attributes:nil];
+  XCTAssertTrue(result);
+}
+
 @end
