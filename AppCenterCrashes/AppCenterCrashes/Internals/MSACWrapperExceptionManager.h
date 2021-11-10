@@ -35,7 +35,7 @@
 + (MSACWrapperException *)loadWrapperExceptionWithUUIDString:(NSString *)uuidString;
 
 /**
- * Save wrapper exception and associated native crash report. This method is used to handle crashes from the wrapper.
+ * Save wrapper exception and associated native crash report. This method is used to handle crashes from the Xamarin.Mac wrapper only.
  */
 + (void)saveWrapperExceptionAndCrashReport:(MSACWrapperException *)wrapperException;
 
