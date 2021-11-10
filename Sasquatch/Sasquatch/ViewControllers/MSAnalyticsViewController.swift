@@ -88,7 +88,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
-    
+    self.enableAutomaticSession.isOn = UserDefaults.standard.bool(forKey: kMSAutomaticSessionGenerator)
+
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
   }
@@ -155,10 +156,10 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     appCenter.stopSession()
   }
   
-  @IBAction func switchAutomaticSessionGenerator(_ sender: Any) {
-    appCenter.setAutomaticSessionGenerator(enableAutomaticSession.isOn)
+  @IBAction func switchAutomaticSessionGenerator(_ sender: UISwitch) {
+    UserDefaults.standard.set(sender.isOn, forKey: kMSAutomaticSessionGenerator)
+    appCenter.setAutomaticSessionGenerator(sender.isOn)
   }
-  
 
   @IBAction func trackPage() {
     guard let name = eventName.text else {

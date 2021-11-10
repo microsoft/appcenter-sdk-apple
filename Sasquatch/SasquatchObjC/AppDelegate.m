@@ -121,6 +121,10 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (logUrl) {
     [MSACAppCenter setLogUrl:logUrl];
   }
+  bool generatorState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSAutomaticSessionGenerator];
+  if (!generatorState) {
+    [MSACAnalytics setAutomaticSessionGenerator:generatorState];
+  }
   int latencyTimeValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
   if (latencyTimeValue) {
     [MSACAnalytics setTransmissionInterval:latencyTimeValue];
