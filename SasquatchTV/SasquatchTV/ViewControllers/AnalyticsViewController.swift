@@ -26,6 +26,13 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     serviceStatus?.addTarget(self, action: #selector(self.switchAnalyticsStatus), for: .valueChanged);
     enableAutomaticSessionGenerator?.addTarget(self, action: #selector(self.switchAutomaticSessionGenerator), for: .valueChanged)
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    if let value = UserDefaults.standard.value(forKey: kMSAutomaticSessionGenerator) {
+      let selectedIndex = value as! Int
+      enableAutomaticSessionGenerator?.selectedSegmentIndex = selectedIndex
+      }
+  }
 
   @IBAction func trackEvent(_ : Any) {
     appCenter.trackEvent("tvOS Event", withProperties : properties);
@@ -56,10 +63,9 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     appCenter.startSession()
   }
   
-  @objc func switchAutomaticSessionGenerator(_ : Any) {
-    let isEnabled = enableAutomaticSessionGenerator?.selectedSegmentIndex == 0;
-    print(appCenter.setAutomaticSessionGenerator(isEnabled));
-    appCenter.setAutomaticSessionGenerator(isEnabled);
+  @objc func switchAutomaticSessionGenerator(_ sender: UISegmentedControl) {
+    UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: kMSAutomaticSessionGenerator)
+    appCenter.setAutomaticSessionGenerator(sender.selectedSegmentIndex != 0)
   }
   
   

@@ -37,6 +37,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
       return true
     })
 
+      let generatorState = UserDefaults.standard.bool(forKey: kMSAutomaticSessionGenerator)
+    if (!generatorState) {
+          Analytics.setAutomaticSessionGenerator(generatorState)
+      }
+    
     setAppCenterDelegate();
     return true;
   }

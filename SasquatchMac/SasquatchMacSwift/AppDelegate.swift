@@ -69,6 +69,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
       AppCenter.logUrl = logUrl
     }
     
+    let generatorState = UserDefaults.standard.bool(forKey: kMSAutomaticSessionGenerator)
+    if (!generatorState) {
+      Analytics.setAutomaticSessionGenerator(generatorState)
+    }
+    
     // Set location manager.
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyKilometer

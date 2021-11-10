@@ -22,7 +22,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 // Enable closing app by pressing Close button.
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-    return YES;
+  return YES;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
@@ -37,6 +37,11 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
   if (logUrl) {
     [MSACAppCenter setLogUrl:logUrl];
+  }
+
+  bool generatorState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSAutomaticSessionGenerator];
+  if (!generatorState) {
+    [MSACAnalytics setAutomaticSessionGenerator:generatorState];
   }
 
   // Customize services.

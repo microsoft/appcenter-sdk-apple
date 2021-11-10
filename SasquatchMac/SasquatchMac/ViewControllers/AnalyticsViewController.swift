@@ -76,6 +76,9 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
+    UserDefaults.standard.register(defaults: [kMSAutomaticSessionGenerator: NSControl.StateValue.on.rawValue])
+    let state = NSControl.StateValue(UserDefaults.standard.integer(forKey:kMSAutomaticSessionGenerator))
+    enableAutomaticSession.state = state
   }
 
   override func viewDidDisappear() {
@@ -180,7 +183,8 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
     
   @IBAction func switchAutomaticSessionGenerator(sender : NSButton) {
-    appCenter.setAutomaticSessionGenerator(enableAutomaticSession.state == .on)
+    UserDefaults.standard.set(enableAutomaticSession.state.rawValue, forKey: kMSAutomaticSessionGenerator)
+    appCenter.setAutomaticSessionGenerator(enableAutomaticSession.state.rawValue != 0)
   }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
