@@ -56,7 +56,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
     // Request a new session id depending on the application state.
     MSACApplicationState state = [MSACUtility applicationState];
     if (state == MSACApplicationStateInactive || state == MSACApplicationStateActive) {
-      if (self.automaticSessionGeneratorEnabled) {
+      if (self.isManualSessionTrackerEnabled) {
         [self renewSessionId];
       }
     }
@@ -93,12 +93,12 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
   [MSAC_NOTIFICATION_CENTER removeObserver:self];
 }
 
-- (void)automaticSessionGeneratorEnabled:(BOOL)isEnabled {
-  self.automaticSessionGeneratorEnabled = isEnabled;
-  if (isEnabled && !self.started) {
-    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is enabled.");
+- (void)enableManualSessionTracker {
+  if (!self.started) {
+    self.isManualSessionTrackerEnabled = YES;
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session generation is enabled.");
   } else {
-    MSACLogInfo([MSACAnalytics logTag], @"Automatic session generation is disabled.");
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session generation should be set before the MSACAnalytics service is started ");
   }
 }
 
@@ -114,9 +114,11 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)startSession {
-  if (!self.automaticSessionGeneratorEnabled) {
+  if (self.isManualSessionTrackerEnabled) {
     [self sendStartSession];
     MSACLogInfo([MSACAnalytics logTag], @"Was generated new startSession");
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Can't start new session because manual session is disabled");
   }
 }
 
@@ -149,13 +151,13 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)applicationDidEnterBackground {
-  if (self.automaticSessionGeneratorEnabled) {
+  if (self.isManualSessionTrackerEnabled) {
     self.lastEnteredBackgroundTime = [NSDate date];
   }
 }
 
 - (void)applicationWillEnterForeground {
-  if (self.automaticSessionGeneratorEnabled) {
+  if (self.isManualSessionTrackerEnabled) {
     self.lastEnteredForegroundTime = [NSDate date];
 
     // Trigger session renewal.

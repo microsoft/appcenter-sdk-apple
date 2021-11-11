@@ -3,4 +3,4 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const kMSAutomaticSessionGenerator = @"kMSAutomaticSessionGenerator";
+static NSString *const kMSManualSessionTracker = @"kMSManualSessionTracker";

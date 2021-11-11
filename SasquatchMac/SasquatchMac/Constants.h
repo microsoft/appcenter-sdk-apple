@@ -8,7 +8,7 @@ static NSString *const kMSUserIdKey = @"userId";
 static NSString *const kMSLogUrl = @"logUrl";
 static NSString *const kMSAppSecret = @"appSecret";
 static NSString *const kMSLogTag = @"[SasquatchMac]";
-static NSString *const kMSAutomaticSessionGenerator = @"kMSAutomaticSessionGenerator";
+static NSString *const kMSManualSessionTracker = @"kMSManualSessionTracker";
 static NSString *const kMSUserConfirmationKey = @"MSAppCenterCrashesUserConfirmation";
 
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";

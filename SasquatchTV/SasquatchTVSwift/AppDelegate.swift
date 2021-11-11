@@ -14,6 +14,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
+    // Set manual session tracker before start app center.
+    let sessionTrackerState = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
+  if (sessionTrackerState) {
+        Analytics.enableManualSessionTracker()
+    }
     // Override point for customization after application launch.
     AppCenter.logLevel = LogLevel.verbose;
     AppCenter.start(withAppSecret: "e57f6975-9167-4b3b-b450-bbb87b717b82", services : [Analytics.self, Crashes.self]);
@@ -36,11 +41,6 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
       self.window?.rootViewController?.present(alertController, animated: true)
       return true
     })
-
-      let generatorState = UserDefaults.standard.bool(forKey: kMSAutomaticSessionGenerator)
-    if (!generatorState) {
-          Analytics.setAutomaticSessionGenerator(generatorState)
-      }
     
     setAppCenterDelegate();
     return true;

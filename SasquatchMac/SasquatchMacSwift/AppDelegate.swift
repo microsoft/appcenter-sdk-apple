@@ -69,9 +69,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
       AppCenter.logUrl = logUrl
     }
     
-    let generatorState = UserDefaults.standard.bool(forKey: kMSAutomaticSessionGenerator)
-    if (!generatorState) {
-      Analytics.setAutomaticSessionGenerator(generatorState)
+    // Set manual session tracker before start app center.
+    let sessionTrackerState = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
+    if (sessionTrackerState) {
+      Analytics.enableManualSessionTracker()
     }
     
     // Set location manager.

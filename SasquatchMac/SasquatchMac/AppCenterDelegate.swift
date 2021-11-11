@@ -40,7 +40,7 @@ import AppCenter
   func resume()
   func pause()
   func startSession()
-  func setAutomaticSessionGenerator(_ isEnabled: Bool)
+  func enableManualSessionTracker()
 
   // Crashes section.
   func hasCrashedInLastSession() -> Bool

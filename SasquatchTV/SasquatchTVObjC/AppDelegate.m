@@ -18,14 +18,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+  // Set manual session tracker before start app center.
+  bool sessionTrackerState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker];
+  if (sessionTrackerState) {
+    [MSACAnalytics enableManualSessionTracker];
+  }
+
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
-  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@[ [MSACAnalytics class], [MSACCrashes class]]];
+  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@[ [MSACAnalytics class], [MSACCrashes class] ]];
   [self crashes];
   [self setAppCenterCenterDelegate];
-  bool generatorState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSAutomaticSessionGenerator];
-  if (!generatorState) {
-    [MSACAnalytics setAutomaticSessionGenerator:generatorState];
-  }
   return YES;
 }
 

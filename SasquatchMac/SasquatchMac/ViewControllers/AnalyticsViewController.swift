@@ -50,7 +50,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
-  @IBOutlet weak var enableAutomaticSession: NSButton!
+  @IBOutlet weak var enableManualSession: NSButton!
   @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var table : NSTableView?
@@ -76,9 +76,9 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
-    UserDefaults.standard.register(defaults: [kMSAutomaticSessionGenerator: NSControl.StateValue.on.rawValue])
-    let state = NSControl.StateValue(UserDefaults.standard.integer(forKey:kMSAutomaticSessionGenerator))
-    enableAutomaticSession.state = state
+    UserDefaults.standard.register(defaults: [kMSManualSessionTracker: NSControl.StateValue.on.rawValue])
+    let state = NSControl.StateValue(UserDefaults.standard.integer(forKey:kMSManualSessionTracker))
+    enableManualSession.state = state
   }
 
   override func viewDidDisappear() {
@@ -179,12 +179,26 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
   
   @IBAction func startSession(_ sender: Any) {
+    if appCenter.isAnalyticsEnabled() {
     appCenter.startSession()
+    }
   }
-    
-  @IBAction func switchAutomaticSessionGenerator(sender : NSButton) {
-    UserDefaults.standard.set(enableAutomaticSession.state.rawValue, forKey: kMSAutomaticSessionGenerator)
-    appCenter.setAutomaticSessionGenerator(enableAutomaticSession.state.rawValue != 0)
+  
+  @IBAction func switchManualSessionTracker(_ sender: Any) {
+    UserDefaults.standard.set(enableManualSession.state.rawValue, forKey: kMSManualSessionTracker)
+    let alert: NSAlert = NSAlert()
+    alert.informativeText = "Please exit and manually reopen the application to take changes effect."
+    alert.messageText = "Exit application"
+    alert.addButton(withTitle: "Exit")
+    alert.addButton(withTitle: "Cancel")
+    alert.alertStyle = .warning
+    switch(alert.runModal()) {
+    case .alertFirstButtonReturn:
+      exit(0)
+      break
+    default:
+        break
+    }
   }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {

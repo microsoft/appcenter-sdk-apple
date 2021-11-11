@@ -164,8 +164,8 @@
   [MSACAnalytics startSession];
 }
 
-- (void)setAutomaticSessionGenerator:(BOOL)isEnabled {
-  [MSACAnalytics setAutomaticSessionGenerator:isEnabled];
+- (void)enableManualSessionTracker {
+  [MSACAnalytics enableManualSessionTracker];
 }
 
 #pragma mark - MSACCrashes section.

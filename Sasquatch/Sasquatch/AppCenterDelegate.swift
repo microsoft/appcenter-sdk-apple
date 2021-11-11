@@ -47,7 +47,7 @@ import AppCenterCrashes
   func resume()
   func pause()
   func startSession()
-  func setAutomaticSessionGenerator(_ isEnabled: Bool)
+  func enableManualSessionTracker()
 
   
   // Crashes section.

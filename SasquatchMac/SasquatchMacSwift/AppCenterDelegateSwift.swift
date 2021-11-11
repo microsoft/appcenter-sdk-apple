@@ -87,8 +87,8 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     Analytics.startSession()
   }
 
-  func setAutomaticSessionGenerator(_ isEnabled: Bool) {
-    Analytics.setAutomaticSessionGenerator(isEnabled)
+  func enableManualSessionTracker() {
+    Analytics.enableManualSessionTracker()
   }
   
  

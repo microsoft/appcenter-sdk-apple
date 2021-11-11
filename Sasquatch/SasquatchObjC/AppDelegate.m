@@ -121,9 +121,11 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   if (logUrl) {
     [MSACAppCenter setLogUrl:logUrl];
   }
-  bool generatorState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSAutomaticSessionGenerator];
-  if (!generatorState) {
-    [MSACAnalytics setAutomaticSessionGenerator:generatorState];
+
+  // Set manual session tracker before start app center.
+  bool sessionTrackerState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker];
+  if (sessionTrackerState) {
+    [MSACAnalytics enableManualSessionTracker];
   }
   int latencyTimeValue = [[[NSUserDefaults standardUserDefaults] objectForKey:kMSTransmissionIterval] intValue];
   if (latencyTimeValue) {

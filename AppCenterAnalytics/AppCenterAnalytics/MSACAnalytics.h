@@ -207,7 +207,7 @@ NS_SWIFT_NAME(Analytics)
  * Setting the state of automated session generation process.
  *
  */
-+ (void)setAutomaticSessionGenerator:(BOOL)isEnabled;
++ (void)enableManualSessionTracker;
 
 /**
  * Get a transmission target.

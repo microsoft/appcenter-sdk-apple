@@ -39,9 +39,10 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
     [MSACAppCenter setLogUrl:logUrl];
   }
 
-  bool generatorState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSAutomaticSessionGenerator];
-  if (!generatorState) {
-    [MSACAnalytics setAutomaticSessionGenerator:generatorState];
+  // Set manual session tracker before start app center.
+  bool sessionTrackerState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker];
+  if (sessionTrackerState) {
+    [MSACAnalytics enableManualSessionTracker];
   }
 
   // Customize services.

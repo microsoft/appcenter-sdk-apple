@@ -11,7 +11,7 @@ enum AnalyticsActionsRows : Int {
 
 class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCenterProtocol {
 
-  @IBOutlet weak var enableAutomaticSessionGenerator : UISegmentedControl?;
+  @IBOutlet weak var enableManualSessionTracker : UISegmentedControl?;
   @IBOutlet weak var serviceStatus : UISegmentedControl?;
   @IBOutlet weak var table : UITableView?;
 
@@ -24,14 +24,13 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     table?.allowsSelection = true;
     serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
     serviceStatus?.addTarget(self, action: #selector(self.switchAnalyticsStatus), for: .valueChanged);
-    enableAutomaticSessionGenerator?.addTarget(self, action: #selector(self.switchAutomaticSessionGenerator), for: .valueChanged)
+    enableManualSessionTracker?.addTarget(self, action: #selector(self.switchManualSessionTracker), for: .valueChanged)
   }
   
   override func viewWillAppear(_ animated: Bool) {
-    if let value = UserDefaults.standard.value(forKey: kMSAutomaticSessionGenerator) {
-      let selectedIndex = value as! Int
-      enableAutomaticSessionGenerator?.selectedSegmentIndex = selectedIndex
-      }
+      let value = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
+      let selectedIndex = value ? 0 : 1
+      enableManualSessionTracker?.selectedSegmentIndex = selectedIndex
   }
 
   @IBAction func trackEvent(_ : Any) {
@@ -60,12 +59,14 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
   }
   
   @IBAction func startSession(_ sender: Any) {
+    if appCenter.isAnalyticsEnabled() {
     appCenter.startSession()
+    }
   }
   
-  @objc func switchAutomaticSessionGenerator(_ sender: UISegmentedControl) {
-    UserDefaults.standard.set(sender.selectedSegmentIndex, forKey: kMSAutomaticSessionGenerator)
-    appCenter.setAutomaticSessionGenerator(sender.selectedSegmentIndex != 0)
+  @objc func switchManualSessionTracker(_ sender: UISegmentedControl) {
+    UserDefaults.standard.set(sender.selectedSegmentIndex == 0, forKey: kMSManualSessionTracker);
+    present(initRebootAlert(sender), animated: true);
   }
   
   
@@ -100,5 +101,16 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     editPropertyViewController.oldValue = value;
     editPropertyViewController.properties = properties;
     editPropertyViewController.appCenter = appCenter;
+  }
+  
+  func initRebootAlert(_ sender: UISegmentedControl) -> UIAlertController {
+    let alert = UIAlertController(title: "Exit application", message: "Please exit and manually reopen the application to take changes effect.", preferredStyle: .alert)
+    let rebootAction = UIAlertAction(title: "Exit", style: .default) { _ in
+      exit(0)
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    alert.addAction(rebootAction)
+    alert.addAction(cancelAction)
+    return alert
   }
 }
