@@ -15,8 +15,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     // Set manual session tracker before start app center.
-  if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
-        Analytics.enableManualSessionTracker()
+    if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
+      Analytics.enableManualSessionTracker()
     }
     // Override point for customization after application launch.
     AppCenter.logLevel = LogLevel.verbose;
@@ -26,16 +26,16 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
     Crashes.delegate = self
     Crashes.userConfirmationHandler = ({ (errorReports: [ErrorReport]) in
       let alertController = UIAlertController(title: "Sorry about that!",
-              message: "Do you want to send an anonymous crash report so we can fix the issue?",
-              preferredStyle: .alert)
+                                              message: "Do you want to send an anonymous crash report so we can fix the issue?",
+                                              preferredStyle: .alert)
       alertController.addAction(UIAlertAction(title: "Send", style: .default) { _ in
-          Crashes.notify(with: .send)
+        Crashes.notify(with: .send)
       })
       alertController.addAction(UIAlertAction(title: "Always send", style: .default) { _ in
-          Crashes.notify(with: .always)
+        Crashes.notify(with: .always)
       })
       alertController.addAction(UIAlertAction(title: "Don't send", style: .cancel) { _ in
-          Crashes.notify(with: .dontSend)
+        Crashes.notify(with: .dontSend)
       })
       self.window?.rootViewController?.present(alertController, animated: true)
       return true

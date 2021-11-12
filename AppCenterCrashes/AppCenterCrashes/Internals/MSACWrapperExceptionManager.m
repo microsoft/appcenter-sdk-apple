@@ -9,6 +9,7 @@
 #import "MSACUtility+File.h"
 #import "MSACWrapperExceptionInternal.h"
 #import "MSACWrapperExceptionManagerInternal.h"
+#import "MSACWrapperExceptionModel.h"
 
 @implementation MSACWrapperExceptionManager : NSObject
 

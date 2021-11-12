@@ -37,11 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic) NSDate *lastEnteredBackgroundTime;
 
 /**
- * Automatic session generator.
- */
-@property BOOL isManualSessionTrackerEnabled;
-
-/**
  * Start session tracking.
  */
 - (void)start;

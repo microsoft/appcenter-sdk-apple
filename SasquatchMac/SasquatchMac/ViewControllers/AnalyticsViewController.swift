@@ -50,7 +50,6 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
-
   @IBOutlet weak var enableManualSession: NSButton!
   @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
@@ -77,8 +76,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
-    let value = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
-    enableManualSession.state = value ? .on : .off
+    enableManualSession.state = UserDefaults.standard.bool(forKey: kMSManualSessionTracker) ? .on : .off
   }
 
   override func viewDidDisappear() {
@@ -187,7 +185,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     showExitAlert()
   }
 
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+  func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     guard let identifier = tableColumn?.identifier else {
       return nil
     }
@@ -272,7 +270,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       exit(0)
       break
     default:
-        break
+      break
     }
   }
 }

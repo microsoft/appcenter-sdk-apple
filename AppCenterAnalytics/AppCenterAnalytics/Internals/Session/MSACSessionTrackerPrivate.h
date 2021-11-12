@@ -21,4 +21,9 @@
  */
 - (void)renewSessionId;
 
+/**
+ * Automatic session generator.
+ */
+@property BOOL isManualSessionTrackerEnabled;
+
 @end

@@ -28,8 +28,7 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
   }
   
   override func viewWillAppear(_ animated: Bool) {
-      let value = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
-      let selectedIndex = value ? 0 : 1
+      let selectedIndex = UserDefaults.standard.bool(forKey: kMSManualSessionTracker) ? 0 : 1
       enableManualSessionTracker?.selectedSegmentIndex = selectedIndex
   }
 
@@ -66,8 +65,7 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     UserDefaults.standard.set(sender.selectedSegmentIndex == 0, forKey: kMSManualSessionTracker);
     present(showExitAlert(sender), animated: true);
   }
-  
-  
+
   //MARK: Table view data source
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
