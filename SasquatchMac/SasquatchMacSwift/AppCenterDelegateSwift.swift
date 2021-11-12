@@ -91,8 +91,6 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     Analytics.enableManualSessionTracker()
   }
   
- 
-  
   #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String) {
     // Analytics.trackPage(pageName)

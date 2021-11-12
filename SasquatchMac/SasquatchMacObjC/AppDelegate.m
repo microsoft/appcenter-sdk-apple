@@ -40,8 +40,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   }
 
   // Set manual session tracker before start app center.
-  bool sessionTrackerState = [[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker];
-  if (sessionTrackerState) {
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker]) {
     [MSACAnalytics enableManualSessionTracker];
   }
 

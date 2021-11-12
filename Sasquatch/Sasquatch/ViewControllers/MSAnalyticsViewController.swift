@@ -150,14 +150,12 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   @IBAction func startSession(_ sender: Any) {
-    if appCenter.isAnalyticsEnabled() {
     appCenter.startSession()
-    }
   }
   
   @IBAction func switchManualSessionTracker(_ sender: UISwitch) {
     UserDefaults.standard.set(sender.isOn, forKey: kMSManualSessionTracker)
-    present(initRebootAlert(sender), animated: true)
+    present(showExitAlert(sender), animated: true)
   }
 
   @IBAction func trackPage() {
@@ -289,7 +287,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     return alert
   }
   
-  func initRebootAlert(_ sender: UISwitch) -> UIAlertController {
+  func showExitAlert(_ sender: UISwitch) -> UIAlertController {
     let alert = UIAlertController(title: "Exit application", message: "Please exit and manually reopen the application to take changes effect.", preferredStyle: .alert)
     let rebootAction = UIAlertAction(title: "Exit", style: .default) { _ in
       exit(0)

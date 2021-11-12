@@ -50,6 +50,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
+
   @IBOutlet weak var enableManualSession: NSButton!
   @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
@@ -76,9 +77,8 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
-    UserDefaults.standard.register(defaults: [kMSManualSessionTracker: NSControl.StateValue.on.rawValue])
-    let state = NSControl.StateValue(UserDefaults.standard.integer(forKey:kMSManualSessionTracker))
-    enableManualSession.state = state
+    let value = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
+    enableManualSession.state = value ? .on : .off
   }
 
   override func viewDidDisappear() {
@@ -179,26 +179,12 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   }
   
   @IBAction func startSession(_ sender: Any) {
-    if appCenter.isAnalyticsEnabled() {
     appCenter.startSession()
-    }
   }
   
-  @IBAction func switchManualSessionTracker(_ sender: Any) {
-    UserDefaults.standard.set(enableManualSession.state.rawValue, forKey: kMSManualSessionTracker)
-    let alert: NSAlert = NSAlert()
-    alert.informativeText = "Please exit and manually reopen the application to take changes effect."
-    alert.messageText = "Exit application"
-    alert.addButton(withTitle: "Exit")
-    alert.addButton(withTitle: "Cancel")
-    alert.alertStyle = .warning
-    switch(alert.runModal()) {
-    case .alertFirstButtonReturn:
-      exit(0)
-      break
-    default:
-        break
-    }
+  @IBAction func switchManualSessionTracker(_ sender: NSButton) {
+    UserDefaults.standard.set(enableManualSession.state == .on, forKey: kMSManualSessionTracker)
+    showExitAlert()
   }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -272,5 +258,21 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       }
     }
     return onlyStrings ? propertyDictionary : properties
+  }
+  
+  func showExitAlert() {
+    let alert: NSAlert = NSAlert()
+    alert.informativeText = "Please exit and manually reopen the application to take changes effect."
+    alert.messageText = "Exit application"
+    alert.addButton(withTitle: "Exit")
+    alert.addButton(withTitle: "Cancel")
+    alert.alertStyle = .warning
+    switch(alert.runModal()) {
+    case .alertFirstButtonReturn:
+      exit(0)
+      break
+    default:
+        break
+    }
   }
 }

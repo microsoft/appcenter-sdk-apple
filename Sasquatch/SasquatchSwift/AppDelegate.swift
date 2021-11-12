@@ -77,8 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     }
     
     // Set manual session tracker before start app center.
-    let sessionTrackerState = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
-    if (sessionTrackerState) {
+    if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
       Analytics.enableManualSessionTracker()
     }
 #if canImport(AppCenterDistribute)

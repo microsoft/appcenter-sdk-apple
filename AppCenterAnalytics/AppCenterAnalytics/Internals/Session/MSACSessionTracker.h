@@ -61,11 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)startSession;
 
-/**
- * Send start session request.
- */
-- (void)sendStartSession;
-
 @end
 
 NS_ASSUME_NONNULL_END

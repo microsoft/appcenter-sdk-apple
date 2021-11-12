@@ -56,7 +56,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
     // Request a new session id depending on the application state.
     MSACApplicationState state = [MSACUtility applicationState];
     if (state == MSACApplicationStateInactive || state == MSACApplicationStateActive) {
-      if (self.isManualSessionTrackerEnabled) {
+      if (!self.isManualSessionTrackerEnabled) {
         [self renewSessionId];
       }
     }
@@ -96,9 +96,9 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)enableManualSessionTracker {
   if (!self.started) {
     self.isManualSessionTrackerEnabled = YES;
-    MSACLogInfo([MSACAnalytics logTag], @"Manual session generation is enabled.");
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker is enabled.");
   } else {
-    MSACLogInfo([MSACAnalytics logTag], @"Manual session generation should be set before the MSACAnalytics service is started ");
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker should be set before the MSACAnalytics service is started.");
   }
 }
 
@@ -116,9 +116,9 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)startSession {
   if (self.isManualSessionTrackerEnabled) {
     [self sendStartSession];
-    MSACLogInfo([MSACAnalytics logTag], @"Was generated new startSession");
+    MSACLogInfo([MSACAnalytics logTag], @"Started a new session.");
   } else {
-    MSACLogInfo([MSACAnalytics logTag], @"Can't start new session because manual session is disabled");
+    MSACLogInfo([MSACAnalytics logTag], @"Can't start new session because manual session tracker is disabled.");
   }
 }
 
@@ -151,19 +151,17 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)applicationDidEnterBackground {
-  if (self.isManualSessionTrackerEnabled) {
+  if (!self.isManualSessionTrackerEnabled) {
     self.lastEnteredBackgroundTime = [NSDate date];
   }
 }
 
 - (void)applicationWillEnterForeground {
-  if (self.isManualSessionTrackerEnabled) {
+  if (!self.isManualSessionTrackerEnabled) {
     self.lastEnteredForegroundTime = [NSDate date];
 
     // Trigger session renewal.
     [self renewSessionId];
-  } else {
-    MSACLogInfo([MSACAnalytics logTag], @"The automatic session generation was disabled. Skip check on timeout session.");
   }
 }
 

@@ -11,7 +11,7 @@ enum AnalyticsActionsRows : Int {
 
 class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCenterProtocol {
 
-  @IBOutlet weak var enableManualSessionTracker : UISegmentedControl?;
+  @IBOutlet weak var enableManualSessionTracker : UISegmentedControl!;
   @IBOutlet weak var serviceStatus : UISegmentedControl?;
   @IBOutlet weak var table : UITableView?;
 
@@ -59,14 +59,12 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
   }
   
   @IBAction func startSession(_ sender: Any) {
-    if appCenter.isAnalyticsEnabled() {
     appCenter.startSession()
-    }
   }
   
   @objc func switchManualSessionTracker(_ sender: UISegmentedControl) {
     UserDefaults.standard.set(sender.selectedSegmentIndex == 0, forKey: kMSManualSessionTracker);
-    present(initRebootAlert(sender), animated: true);
+    present(showExitAlert(sender), animated: true);
   }
   
   
@@ -103,13 +101,13 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     editPropertyViewController.appCenter = appCenter;
   }
   
-  func initRebootAlert(_ sender: UISegmentedControl) -> UIAlertController {
+  func showExitAlert(_ sender: UISegmentedControl) -> UIAlertController {
     let alert = UIAlertController(title: "Exit application", message: "Please exit and manually reopen the application to take changes effect.", preferredStyle: .alert)
-    let rebootAction = UIAlertAction(title: "Exit", style: .default) { _ in
+    let exitAction = UIAlertAction(title: "Exit", style: .default) { _ in
       exit(0)
     }
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    alert.addAction(rebootAction)
+    alert.addAction(exitAction)
     alert.addAction(cancelAction)
     return alert
   }
