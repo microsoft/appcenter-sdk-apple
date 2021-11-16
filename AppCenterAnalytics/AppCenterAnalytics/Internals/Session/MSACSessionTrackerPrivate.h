@@ -17,13 +17,13 @@
 @property(nonatomic, getter=isStarted) BOOL started;
 
 /**
- *  Renew session Id.
- */
-- (void)renewSessionId;
-
-/**
  * Automatic session generator.
  */
 @property BOOL isManualSessionTrackerEnabled;
+
+/**
+ *  Renew session Id.
+ */
+- (void)renewSessionId;
 
 @end

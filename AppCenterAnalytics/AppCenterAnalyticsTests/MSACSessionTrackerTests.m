@@ -142,6 +142,82 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
   XCTAssertNotEqual(expectedSid, sid);
 }
 
+- (void)testStartSessionWhenManualSessionTrackerEnabled {
+
+  // Stop session.
+  [self.sut stop];
+
+  // When.
+  [self.sut enableManualSessionTracker];
+
+  // Start new manual session.
+  [self.sut startSession];
+  MSACLogWithProperties *firstManualLog = [MSACLogWithProperties new];
+  [self.sut channel:nil prepareLog:firstManualLog];
+  NSString *previousSid = firstManualLog.sid;
+  XCTAssertNotNil(firstManualLog.sid);
+
+  // Renew manual session.
+  [self.sut startSession];
+  MSACLogWithProperties *secondManualLog = [MSACLogWithProperties new];
+  [self.sut channel:nil prepareLog:secondManualLog];
+
+  // Then.
+  XCTAssertNotNil(secondManualLog.sid);
+  XCTAssertNotEqual(secondManualLog.sid, previousSid);
+  previousSid = secondManualLog.sid;
+
+  // Start session.
+  [self.sut start];
+  MSACLogWithProperties *thirdManualLog = [MSACLogWithProperties new];
+  [self.sut channel:nil prepareLog:thirdManualLog];
+
+  // Then.
+  XCTAssertNotNil(thirdManualLog.sid);
+  XCTAssertEqual(thirdManualLog.sid, previousSid);
+}
+
+- (void)testManualSessionTrackerAfterCallWillEnterForeground {
+
+  // Stop session.
+  [self.sut stop];
+
+  // Enable manual session.
+  [self.sut enableManualSessionTracker];
+
+  // Emulate lifecycle behavior.
+  self.sut.lastCreatedLogTime = [NSDate date];
+  [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
+  [NSThread sleepForTimeInterval:kMSACTestSessionTimeout - 1];
+  [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
+
+  // Call prepare log.
+  MSACLogWithProperties *log = [MSACLogWithProperties new];
+  [self.sut channel:nil prepareLog:log];
+
+  // Verify that log has nil session.
+  XCTAssertNil(log.sid);
+}
+
+- (void)testStartSessionWhenManualSessionTrackerDisable {
+
+  // If.
+  [self.sut start];
+  MSACLogWithProperties *automaticSessionLog = [MSACLogWithProperties new];
+  [self.sut channel:nil prepareLog:automaticSessionLog];
+
+  // Then.
+  XCTAssertNotNil(automaticSessionLog.sid);
+
+  // When.
+  [self.sut startSession];
+  MSACLogWithProperties *manualSessionLog = [MSACLogWithProperties new];
+  [self.sut channel:nil prepareLog:manualSessionLog];
+
+  // Then.
+  XCTAssertEqual(automaticSessionLog.sid, manualSessionLog.sid);
+}
+
 - (void)testLongBackgroundSessionWithSessionTrackingStopped {
 
   // If

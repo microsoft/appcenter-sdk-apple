@@ -50,15 +50,13 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)start {
-  if (!self.started) {
+  if (!self.started && !self.isManualSessionTrackerEnabled) {
     self.started = YES;
 
     // Request a new session id depending on the application state.
     MSACApplicationState state = [MSACUtility applicationState];
     if (state == MSACApplicationStateInactive || state == MSACApplicationStateActive) {
-      if (!self.isManualSessionTrackerEnabled) {
-        [self renewSessionId];
-      }
+      [self renewSessionId];
     }
 
     // Hookup to application events.
@@ -82,7 +80,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)stop {
-  if (self.started) {
+  if (self.started && !self.isManualSessionTrackerEnabled) {
     [MSAC_NOTIFICATION_CENTER removeObserver:self];
     self.started = NO;
     [self.context setSessionId:nil];

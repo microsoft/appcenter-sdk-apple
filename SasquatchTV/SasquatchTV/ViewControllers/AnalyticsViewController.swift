@@ -28,8 +28,7 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
   }
   
   override func viewWillAppear(_ animated: Bool) {
-      let selectedIndex = UserDefaults.standard.bool(forKey: kMSManualSessionTracker) ? 0 : 1
-      enableManualSessionTracker?.selectedSegmentIndex = selectedIndex
+      enableManualSessionTracker?.selectedSegmentIndex = UserDefaults.standard.bool(forKey: kMSManualSessionTracker) ? 0 : 1
   }
 
   @IBAction func trackEvent(_ : Any) {
