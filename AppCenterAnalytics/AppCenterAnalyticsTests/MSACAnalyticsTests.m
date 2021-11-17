@@ -1337,9 +1337,11 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
 - (void)testEnableManualSessionTrackerBeforeAppCenterStart {
 
+  // If.
   // Verify that manual sessionTracker is disable by default.
   XCTAssertFalse([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);
 
+  // When.
   // Call enableManualSessionTracker and verify that manual session tracker was enabled.
   [MSACAnalytics enableManualSessionTracker];
   XCTAssertTrue([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);
@@ -1355,6 +1357,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                         fromApplication:YES];
   OCMVerify([self.sessionContextMock setSessionId:OCMOCK_ANY]);
 
+  // Then.
   // Call start session and verify set session was called.
   [MSACAnalytics startSession];
   OCMVerify(times(2), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
@@ -1374,6 +1377,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 
 - (void)testEnableManualSessionTrackerAfterAppCenterStart {
 
+  // If.
   // Verify that manual sessionTracker is disable by default.
   XCTAssertFalse([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);
 
@@ -1381,6 +1385,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
   OCMVerify([self.sessionContextMock setSessionId:nil]);
 
+  // When.
   // Verify that session was set after analytic start.
   [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
                                               appSecret:kMSACTestAppSecret
@@ -1388,6 +1393,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                         fromApplication:YES];
   OCMVerify(times(2), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
 
+  // Then.
   // Call enableManualSessionTracker and verify that manual session tracker wasn't enabled.
   [MSACAnalytics enableManualSessionTracker];
   XCTAssertFalse([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);

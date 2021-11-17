@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop;
 
 /**
- * Automatic session tracking checking.
+ * Manual session tracking checking.
  */
 - (void)enableManualSessionTracker;
 

@@ -41,6 +41,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)renewSessionId {
   @synchronized(self) {
     if (self.started) {
+      
       // Check if new session id is required.
       if ([self.context sessionId] == nil || [self hasSessionTimedOut]) {
         [self sendStartSession];
@@ -114,7 +115,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)startSession {
   if (self.isManualSessionTrackerEnabled) {
     [self sendStartSession];
-    MSACLogInfo([MSACAnalytics logTag], @"Started a new session.");
+    MSACLogInfo([MSACAnalytics logTag], @"Started a new session: %@", [self.context sessionId]);
   } else {
     MSACLogInfo([MSACAnalytics logTag], @"Can't start new session because manual session tracker is disabled.");
   }
@@ -151,6 +152,8 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)applicationDidEnterBackground {
   if (!self.isManualSessionTrackerEnabled) {
     self.lastEnteredBackgroundTime = [NSDate date];
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker is enabled. Skip tracking a session status request after enter background.");
   }
 }
 
@@ -160,6 +163,8 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 
     // Trigger session renewal.
     [self renewSessionId];
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker is enabled. Skip tracking a session status request after enter foreground.");
   }
 }
 

@@ -17,7 +17,7 @@
 @property(nonatomic, getter=isStarted) BOOL started;
 
 /**
- * Automatic session generator.
+ * Manual session tracking flag.
  */
 @property BOOL isManualSessionTrackerEnabled;
 

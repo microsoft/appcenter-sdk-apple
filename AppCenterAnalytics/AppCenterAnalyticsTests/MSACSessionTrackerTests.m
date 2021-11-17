@@ -144,17 +144,18 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
 
 - (void)testStartSessionWhenManualSessionTrackerEnabled {
 
+  // If.
   // Stop session.
   [self.sut stop];
 
   // When.
+  // Enable manual session tracker.
   [self.sut enableManualSessionTracker];
 
   // Start new manual session.
   [self.sut startSession];
   MSACLogWithProperties *firstManualLog = [MSACLogWithProperties new];
   [self.sut channel:nil prepareLog:firstManualLog];
-  NSString *previousSid = firstManualLog.sid;
   XCTAssertNotNil(firstManualLog.sid);
 
   // Renew manual session.
@@ -163,9 +164,10 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
   [self.sut channel:nil prepareLog:secondManualLog];
 
   // Then.
+  // Verify that session id was set.
   XCTAssertNotNil(secondManualLog.sid);
-  XCTAssertNotEqual(secondManualLog.sid, previousSid);
-  previousSid = secondManualLog.sid;
+  XCTAssertNotEqual(secondManualLog.sid, firstManualLog.sid);
+  firstManualLog.sid = secondManualLog.sid;
 
   // Start session.
   [self.sut start];
@@ -173,15 +175,18 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
   [self.sut channel:nil prepareLog:thirdManualLog];
 
   // Then.
+  // Verify that session id wasn't changed.
   XCTAssertNotNil(thirdManualLog.sid);
-  XCTAssertEqual(thirdManualLog.sid, previousSid);
+  XCTAssertEqual(thirdManualLog.sid, firstManualLog.sid);
 }
 
 - (void)testManualSessionTrackerAfterCallWillEnterForeground {
 
+  // If.
   // Stop session.
   [self.sut stop];
 
+  // When.
   // Enable manual session.
   [self.sut enableManualSessionTracker];
 
@@ -195,26 +200,31 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
   MSACLogWithProperties *log = [MSACLogWithProperties new];
   [self.sut channel:nil prepareLog:log];
 
-  // Verify that log has nil session.
+  // Then.
+  // Verify that session id is nil in the log.
   XCTAssertNil(log.sid);
 }
 
-- (void)testStartSessionWhenManualSessionTrackerDisable {
+- (void)testStartSessionWhenManualSessionTrackerDisabled {
 
   // If.
+  // Call prepare automatic log.
   [self.sut start];
   MSACLogWithProperties *automaticSessionLog = [MSACLogWithProperties new];
   [self.sut channel:nil prepareLog:automaticSessionLog];
 
   // Then.
+  // Verify that session id wasn't equeal nil.
   XCTAssertNotNil(automaticSessionLog.sid);
 
   // When.
+  // Call prepare manual log.
   [self.sut startSession];
   MSACLogWithProperties *manualSessionLog = [MSACLogWithProperties new];
   [self.sut channel:nil prepareLog:manualSessionLog];
 
   // Then.
+  // Verify that session wasn't changed.
   XCTAssertEqual(automaticSessionLog.sid, manualSessionLog.sid);
 }
 
