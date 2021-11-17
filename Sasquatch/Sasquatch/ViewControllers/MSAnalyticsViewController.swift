@@ -288,7 +288,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   }
   
   func showExitAlert(_ sender: UISwitch) -> UIAlertController {
-    let alert = UIAlertController(title: "Exit application", message: "Please exit and manually reopen the application to take changes effect.", preferredStyle: .alert)
+    let alert = UIAlertController(title: "Exit application", message: "Please exit and manually reopen the application for the changes to take effect.", preferredStyle: .alert)
     let rebootAction = UIAlertAction(title: "Exit", style: .default) { _ in
       exit(0)
     }

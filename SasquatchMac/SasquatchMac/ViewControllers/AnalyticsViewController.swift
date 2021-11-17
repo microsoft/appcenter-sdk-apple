@@ -260,7 +260,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   
   func showExitAlert() {
     let alert: NSAlert = NSAlert()
-    alert.informativeText = "Please exit and manually reopen the application to take changes effect."
+    alert.informativeText = "Please exit and manually reopen the application for the changes to take effect."
     alert.messageText = "Exit application"
     alert.addButton(withTitle: "Exit")
     alert.addButton(withTitle: "Cancel")

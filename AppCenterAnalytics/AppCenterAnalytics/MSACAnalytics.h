@@ -198,13 +198,13 @@ NS_SWIFT_NAME(Analytics)
 + (void)resume;
 
 /**
- * Manual start of session creation process.
+ Start session manually.
  *
  */
 + (void)startSession;
 
 /**
- * Setting the state of automated session generation process.
+ * Setting the state of manually session generation process.
  *
  */
 + (void)enableManualSessionTracker;
