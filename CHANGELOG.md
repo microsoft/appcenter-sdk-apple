@@ -5,6 +5,7 @@
 ### App Center 
 
 * **[Fix]** Fix `Undefined symbol: OBJC_CLASS$_CTTelephonyNetworkInfo` error for Mac Catalyst platform when integrating the SDK via Swift Package Manager with Swift 5.5 and higher.
+* **[Fix]** Fix throw an exception when checking to authenticate MAC value during decryption.
 
 ### App Center Crashes
 
@@ -21,6 +22,10 @@
 ___
 
 ## Version 4.3.0
+
+### App Center
+
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
 
 ### App Center Crashes
 

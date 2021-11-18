@@ -116,10 +116,7 @@ static NSObject *const classLock;
       // Calculate hMac.
       NSData *expectedMac = [self getMacBytes:authenticationSubkey keySize:cipherText];
       if (![expectedMac isEqual:hMac]) {
-        NSException *macAuthenticateException = [NSException exceptionWithName:@"Authenticate MAC exception."
-                                                                        reason:@"Could not authenticate MAC value."
-                                                                      userInfo:nil];
-        @throw macAuthenticateException;
+        MSACLogError([MSACAppCenter logTag], @"Could not authenticate MAC value.");
       }
     }
   } else {
