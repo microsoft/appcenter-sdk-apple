@@ -390,7 +390,7 @@
   MSACEncrypter *encrypter = [MSACEncrypter new];
 
   // Then
-  XCTAssertThrows([encrypter decryptData:encryptedDataWithoutMac]);
+  XCTAssertEqual([[encrypter decryptData:encryptedDataWithoutMac] length], 0);
 }
 
 - (void)testDecryptOldText {
