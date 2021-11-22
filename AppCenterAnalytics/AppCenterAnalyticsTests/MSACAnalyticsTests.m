@@ -160,7 +160,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 - (void)testSetTransmissionIntervalApplied {
 
   // If
-  NSUInteger testInterval = 5;
+  NSUInteger testInterval = 8;
 
   // When
   [MSACAnalytics setTransmissionInterval:testInterval];
@@ -191,7 +191,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                         fromApplication:YES];
 
   // Then
-  OCMVerify([self.channelGroupMock addChannelUnitWithConfiguration:allOf(hasProperty(@"flushInterval", equalToUnsignedInteger(3)),
+  OCMVerify([self.channelGroupMock addChannelUnitWithConfiguration:allOf(hasProperty(@"flushInterval", equalToUnsignedInteger(6)),
                                                                          hasProperty(@"groupId", equalTo(kMSACAnalyticsGroupId)), nil)]);
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.
@@ -211,7 +211,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                         fromApplication:YES];
 
   // Then
-  OCMVerify([self.channelGroupMock addChannelUnitWithConfiguration:allOf(hasProperty(@"flushInterval", equalToUnsignedInteger(3)),
+  OCMVerify([self.channelGroupMock addChannelUnitWithConfiguration:allOf(hasProperty(@"flushInterval", equalToUnsignedInteger(6)),
                                                                          hasProperty(@"groupId", equalTo(kMSACAnalyticsGroupId)), nil)]);
 
   // FIXME: logManager holds session tracker somehow and it causes other test failures. Stop it for hack.

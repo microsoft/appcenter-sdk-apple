@@ -53,7 +53,7 @@
   XCTAssertTrue(sut.priority == MSACPriorityDefault);
   assertThatUnsignedInteger(sut.batchSizeLimit, equalToUnsignedInteger(50));
   assertThatUnsignedInteger(sut.pendingBatchesLimit, equalToUnsignedInteger(3));
-  assertThatUnsignedInteger(sut.flushInterval, equalToUnsignedInteger(3));
+  assertThatUnsignedInteger(sut.flushInterval, equalToUnsignedInteger(6));
 }
 
 @end
