@@ -91,4 +91,4 @@ static NSString *const kMSACCommonSchemaPrefixSeparator = @":";
 /**
  * Default flush interval for channel.
  */
-static NSUInteger const kMSACFlushIntervalDefault = 3;
+static NSUInteger const kMSACFlushIntervalDefault = 6;
