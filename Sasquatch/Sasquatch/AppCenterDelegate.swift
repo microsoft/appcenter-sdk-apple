@@ -48,7 +48,6 @@ import AppCenterCrashes
   func pause()
   func startSession()
   func enableManualSessionTracker()
-
   
   // Crashes section.
   func hasCrashedInLastSession() -> Bool

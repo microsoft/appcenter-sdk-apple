@@ -122,7 +122,7 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
     [MSACAppCenter setLogUrl:logUrl];
   }
 
-  // Set manual session tracker before start app center.
+  // Set manual session tracker before App Center start.
   if ([[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker]) {
     [MSACAnalytics enableManualSessionTracker];
   }

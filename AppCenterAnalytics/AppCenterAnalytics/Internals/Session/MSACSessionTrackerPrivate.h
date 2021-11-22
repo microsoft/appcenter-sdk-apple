@@ -17,7 +17,7 @@
 @property(nonatomic, getter=isStarted) BOOL started;
 
 /**
- * Manual session tracking flag.
+ * Stores the value of whether manual session tracker is enabled, false by default.
  */
 @property BOOL isManualSessionTrackerEnabled;
 

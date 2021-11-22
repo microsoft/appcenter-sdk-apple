@@ -198,14 +198,12 @@ NS_SWIFT_NAME(Analytics)
 + (void)resume;
 
 /**
- Start session manually.
- *
+ * Start a new session if manual session tracker is enabled, otherwise do nothing.
  */
 + (void)startSession;
 
 /**
- * Setting the state of manually session generation process.
- *
+ * Enable manual session tracker.
  */
 + (void)enableManualSessionTracker;
 

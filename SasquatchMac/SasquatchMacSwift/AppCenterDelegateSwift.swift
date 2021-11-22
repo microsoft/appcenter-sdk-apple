@@ -104,6 +104,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func generateTestCrash() {
     Crashes.generateTestCrash()
   }
+  
   func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) {
     Crashes.trackError(error, properties: withProperties, attachments:attachments)
   }

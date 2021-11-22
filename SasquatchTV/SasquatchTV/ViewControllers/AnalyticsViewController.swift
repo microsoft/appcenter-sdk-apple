@@ -62,7 +62,7 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
   
   @objc func switchManualSessionTracker(_ sender: UISegmentedControl) {
     UserDefaults.standard.set(sender.selectedSegmentIndex == 0, forKey: kMSManualSessionTracker);
-    present(showExitAlert(sender), animated: true);
+    print("Restart the app for the changes to take effect.")
   }
 
   //MARK: Table view data source
@@ -96,16 +96,5 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     editPropertyViewController.oldValue = value;
     editPropertyViewController.properties = properties;
     editPropertyViewController.appCenter = appCenter;
-  }
-  
-  func showExitAlert(_ sender: UISegmentedControl) -> UIAlertController {
-    let alert = UIAlertController(title: "Exit application", message: "Please exit and manually reopen the application for the changes to take effect.", preferredStyle: .alert)
-    let exitAction = UIAlertAction(title: "Exit", style: .default) { _ in
-      exit(0)
-    }
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    alert.addAction(exitAction)
-    alert.addAction(cancelAction)
-    return alert
   }
 }

@@ -155,7 +155,7 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   
   @IBAction func switchManualSessionTracker(_ sender: UISwitch) {
     UserDefaults.standard.set(sender.isOn, forKey: kMSManualSessionTracker)
-    present(showExitAlert(sender), animated: true)
+    print("Restart the app for the changes to take effect.")
   }
 
   @IBAction func trackPage() {
@@ -284,17 +284,6 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
       textField.text = String(UserDefaults.standard.integer(forKey: kMSTransmissionIterval))
       textField.keyboardType = UIKeyboardType.numberPad
     })
-    return alert
-  }
-  
-  func showExitAlert(_ sender: UISwitch) -> UIAlertController {
-    let alert = UIAlertController(title: "Exit application", message: "Please exit and manually reopen the application for the changes to take effect.", preferredStyle: .alert)
-    let rebootAction = UIAlertAction(title: "Exit", style: .default) { _ in
-      exit(0)
-    }
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    alert.addAction(rebootAction)
-    alert.addAction(cancelAction)
     return alert
   }
 }

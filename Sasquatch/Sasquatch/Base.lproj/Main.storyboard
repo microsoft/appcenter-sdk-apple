@@ -298,7 +298,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manual session generation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hi1-ep-ICn">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Manual session tracker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hi1-ep-ICn">
                                                     <rect key="frame" x="15" y="-1" width="239" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -328,7 +328,6 @@
                                                     <state key="normal" title="Start session"/>
                                                     <connections>
                                                         <action selector="startSession:" destination="GhP-bn-tCW" eventType="touchUpInside" id="INu-Ne-UFY"/>
-                                                        <action selector="trackPage" destination="GhP-bn-tCW" eventType="touchUpInside" id="sSl-9F-gud"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

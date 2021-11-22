@@ -69,7 +69,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
       AppCenter.logUrl = logUrl
     }
     
-    // Set manual session tracker before start app center.
+    // Set manual session tracker before App Center start.
     if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
       Analytics.enableManualSessionTracker()
     }

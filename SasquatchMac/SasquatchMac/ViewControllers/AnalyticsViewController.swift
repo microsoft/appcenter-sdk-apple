@@ -182,7 +182,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
   
   @IBAction func switchManualSessionTracker(_ sender: NSButton) {
     UserDefaults.standard.set(enableManualSession.state == .on, forKey: kMSManualSessionTracker)
-    showExitAlert()
+    print("Restart the app for the changes to take effect.")
   }
 
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -256,21 +256,5 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
       }
     }
     return onlyStrings ? propertyDictionary : properties
-  }
-  
-  func showExitAlert() {
-    let alert: NSAlert = NSAlert()
-    alert.informativeText = "Please exit and manually reopen the application for the changes to take effect."
-    alert.messageText = "Exit application"
-    alert.addButton(withTitle: "Exit")
-    alert.addButton(withTitle: "Cancel")
-    alert.alertStyle = .warning
-    switch(alert.runModal()) {
-    case .alertFirstButtonReturn:
-      exit(0)
-      break
-    default:
-      break
-    }
   }
 }

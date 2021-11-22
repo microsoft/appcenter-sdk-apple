@@ -14,7 +14,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    // Set manual session tracker before start app center.
+    // Set manual session tracker before App Center start.
     if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
       Analytics.enableManualSessionTracker()
     }

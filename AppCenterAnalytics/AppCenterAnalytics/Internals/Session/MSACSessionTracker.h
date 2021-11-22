@@ -47,12 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)stop;
 
 /**
- * Manual session tracking checking.
+ * Enable manual session tracker.
  */
 - (void)enableManualSessionTracker;
 
 /**
- * Start manual session tracking.
+ * Start a new session if manual session tracker is enabled, otherwise do nothing.
  */
 - (void)startSession;
 
