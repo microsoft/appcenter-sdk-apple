@@ -17,6 +17,11 @@
 @property(nonatomic, getter=isStarted) BOOL started;
 
 /**
+ * Stores the value of whether manual session tracker is enabled, false by default.
+ */
+@property BOOL isManualSessionTrackerEnabled;
+
+/**
  *  Renew session Id.
  */
 - (void)renewSessionId;

@@ -160,6 +160,14 @@
   [MSACAnalytics pause];
 }
 
+- (void)startSession {
+  [MSACAnalytics startSession];
+}
+
+- (void)enableManualSessionTracker {
+  [MSACAnalytics enableManualSessionTracker];
+}
+
 #pragma mark - MSACCrashes section.
 
 - (BOOL)hasCrashedInLastSession {

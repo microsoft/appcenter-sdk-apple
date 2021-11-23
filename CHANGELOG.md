@@ -7,6 +7,10 @@
 * **[Fix]** Fix `Undefined symbol: OBJC_CLASS$_CTTelephonyNetworkInfo` error for Mac Catalyst platform when integrating the SDK via Swift Package Manager with Swift 5.5 and higher.
 * **[Fix]** Fix throw an exception when checking to authenticate MAC value during decryption.
 
+### App Center Analytics
+
+* **[Feature]** Add `Analytics.enableManualSessionTracker` and `Analytics.startSession` APIs for tracking session manually.
+
 ### App Center Crashes
 
 * **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to a string and additional useful information about sending error.

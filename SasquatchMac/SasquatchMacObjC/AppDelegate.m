@@ -22,7 +22,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 // Enable closing app by pressing Close button.
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-    return YES;
+  return YES;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
@@ -37,6 +37,11 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
   if (logUrl) {
     [MSACAppCenter setLogUrl:logUrl];
+  }
+
+  // Set manual session tracker before App Center start.
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker]) {
+    [MSACAnalytics enableManualSessionTracker];
   }
 
   // Customize services.

@@ -38,6 +38,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
     static let allTimeValues = [3, 10*60, 1*60*60, 8*60*60, 24*60*60]
   }
 
+  @IBOutlet weak var startSessionButton: UIButton!
+  @IBOutlet weak var enableManualSession: UISwitch!
   @IBOutlet weak var enabled: UISwitch!
   @IBOutlet weak var eventName: UITextField!
   @IBOutlet weak var pageName: UITextField!
@@ -87,7 +89,8 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     self.enabled.isOn = appCenter.isAnalyticsEnabled()
-    
+    self.enableManualSession.isOn = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
+
     // Make sure the UITabBarController does not cut off the last cell.
     self.edgesForExtendedLayout = []
   }
@@ -144,6 +147,15 @@ class MSAnalyticsViewController: UITableViewController, AppCenterProtocol {
         }
       }
     }
+  }
+  
+  @IBAction func startSession(_ sender: Any) {
+    appCenter.startSession()
+  }
+  
+  @IBAction func switchManualSessionTracker(_ sender: UISwitch) {
+    UserDefaults.standard.set(sender.isOn, forKey: kMSManualSessionTracker)
+    print("Restart the app for the changes to take effect.")
   }
 
   @IBAction func trackPage() {

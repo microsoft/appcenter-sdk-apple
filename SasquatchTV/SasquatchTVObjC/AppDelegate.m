@@ -4,6 +4,8 @@
 #import "AppDelegate.h"
 #import "AppCenterDelegateObjC.h"
 
+#import "Constants.h"
+
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
@@ -16,8 +18,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+  // Set manual session tracker before App Center start.
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker]) {
+    [MSACAnalytics enableManualSessionTracker];
+  }
+
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
-  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@[ [MSACAnalytics class], [MSACCrashes class]]];
+  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@[ [MSACAnalytics class], [MSACCrashes class] ]];
   [self crashes];
   [self setAppCenterCenterDelegate];
   return YES;
@@ -97,7 +104,7 @@
 #pragma mark - MSACCrashesDelegate
 
 - (BOOL)crashes:(nonnull MSACCrashes *)crashes shouldProcessErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"Should process error report with description: %@", [errorReport description] );
+  NSLog(@"Should process error report with description: %@", [errorReport description]);
   return YES;
 }
 
