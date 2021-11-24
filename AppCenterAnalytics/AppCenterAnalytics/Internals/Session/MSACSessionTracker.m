@@ -41,24 +41,17 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)renewSessionId {
   @synchronized(self) {
     if (self.started) {
-
+      
       // Check if new session id is required.
       if ([self.context sessionId] == nil || [self hasSessionTimedOut]) {
-        NSString *sessionId = MSAC_UUID_STRING;
-        [self.context setSessionId:sessionId];
-        MSACLogInfo([MSACAnalytics logTag], @"New session ID: %@", sessionId);
-
-        // Create a start session log.
-        MSACStartSessionLog *log = [[MSACStartSessionLog alloc] init];
-        log.sid = sessionId;
-        [self.delegate sessionTracker:self processLog:log];
+        [self sendStartSession];
       }
     }
   }
 }
 
 - (void)start {
-  if (!self.started) {
+  if (!self.started && !self.isManualSessionTrackerEnabled) {
     self.started = YES;
 
     // Request a new session id depending on the application state.
@@ -88,7 +81,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)stop {
-  if (self.started) {
+  if (self.started && !self.isManualSessionTrackerEnabled) {
     [MSAC_NOTIFICATION_CENTER removeObserver:self];
     self.started = NO;
     [self.context setSessionId:nil];
@@ -97,6 +90,35 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 
 - (void)dealloc {
   [MSAC_NOTIFICATION_CENTER removeObserver:self];
+}
+
+- (void)enableManualSessionTracker {
+  if (!self.started) {
+    self.isManualSessionTrackerEnabled = YES;
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker is enabled.");
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker should be set before the MSACAnalytics service is started.");
+  }
+}
+
+- (void)sendStartSession {
+  NSString *sessionId = MSAC_UUID_STRING;
+  [self.context setSessionId:sessionId];
+  MSACLogInfo([MSACAnalytics logTag], @"New session ID: %@", sessionId);
+
+  // Create a start session log.
+  MSACStartSessionLog *log = [[MSACStartSessionLog alloc] init];
+  log.sid = sessionId;
+  [self.delegate sessionTracker:self processLog:log];
+}
+
+- (void)startSession {
+  if (self.isManualSessionTrackerEnabled) {
+    [self sendStartSession];
+    MSACLogInfo([MSACAnalytics logTag], @"Started a new session: %@", [self.context sessionId]);
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Can't start new session because manual session tracker is disabled.");
+  }
 }
 
 #pragma mark - private methods
@@ -128,14 +150,22 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 }
 
 - (void)applicationDidEnterBackground {
-  self.lastEnteredBackgroundTime = [NSDate date];
+  if (!self.isManualSessionTrackerEnabled) {
+    self.lastEnteredBackgroundTime = [NSDate date];
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker is enabled. Skip tracking a session status request after enter background.");
+  }
 }
 
 - (void)applicationWillEnterForeground {
-  self.lastEnteredForegroundTime = [NSDate date];
+  if (!self.isManualSessionTrackerEnabled) {
+    self.lastEnteredForegroundTime = [NSDate date];
 
-  // Trigger session renewal.
-  [self renewSessionId];
+    // Trigger session renewal.
+    [self renewSessionId];
+  } else {
+    MSACLogInfo([MSACAnalytics logTag], @"Manual session tracker is enabled. Skip tracking a session status request after enter foreground.");
+  }
 }
 
 #pragma mark - MSACChannelDelegate

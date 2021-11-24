@@ -10,6 +10,7 @@
 ### App Center Analytics
 
 * **[Feature]** Increase the interval between sending logs from 3 to 6 seconds for the backend load optimization.
+* **[Feature]** Add `Analytics.enableManualSessionTracker` and `Analytics.startSession` APIs for tracking session manually.
 
 ### App Center Crashes
 

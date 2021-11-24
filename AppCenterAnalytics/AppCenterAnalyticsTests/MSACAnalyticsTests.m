@@ -1323,22 +1323,90 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
 - (void)testSessionTrackerStarted {
 
   // When
-  [MSACAppCenter startFromLibraryWithServices:@ [[MSACAnalytics class]]];
+  [MSACAppCenter startFromLibraryWithServices:@[ [MSACAnalytics class] ]];
 
   // Then
   XCTAssertFalse([MSACAnalytics sharedInstance].sessionTracker.started);
 
   // When
-  [MSACAppCenter start:MSAC_UUID_STRING withServices:@ [[MSACAnalytics class]]];
+  [MSACAppCenter start:MSAC_UUID_STRING withServices:@[ [MSACAnalytics class] ]];
 
   // Then
   XCTAssertTrue([MSACAnalytics sharedInstance].sessionTracker.started);
 }
 
+- (void)testEnableManualSessionTrackerBeforeAppCenterStart {
+
+  // If.
+  // Verify that manual sessionTracker is disable by default.
+  XCTAssertFalse([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);
+
+  // When.
+  // Call enableManualSessionTracker and verify that manual session tracker was enabled.
+  [MSACAnalytics enableManualSessionTracker];
+  XCTAssertTrue([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);
+
+  // Configure App Center and verify that session was reset.
+  [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
+  OCMVerify([self.sessionContextMock setSessionId:nil]);
+
+  // Verify that session wasn't set after analytic start.
+  [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
+  OCMVerify([self.sessionContextMock setSessionId:OCMOCK_ANY]);
+
+  // Then.
+  // Call start session and verify set session was called.
+  [MSACAnalytics startSession];
+  OCMVerify(times(2), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
+
+  // Call start session again and verify set session was called.
+  [MSACAnalytics startSession];
+  OCMVerify(times(3), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
+
+  // Call sessionTracker start and verify that session wasn't set.
+  [[MSACAnalytics sharedInstance].sessionTracker start];
+  OCMVerify(times(3), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
+
+  // Call sessionTracker stop and verify that session wasn't set.
+  [[MSACAnalytics sharedInstance].sessionTracker stop];
+  OCMVerify(times(3), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
+}
+
+- (void)testEnableManualSessionTrackerAfterAppCenterStart {
+
+  // If.
+  // Verify that manual sessionTracker is disable by default.
+  XCTAssertFalse([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);
+
+  // Configure App Center and verify that session was reset.
+  [MSACAppCenter configureWithAppSecret:kMSACTestAppSecret];
+  OCMVerify([self.sessionContextMock setSessionId:nil]);
+
+  // When.
+  // Verify that session was set after analytic start.
+  [[MSACAnalytics sharedInstance] startWithChannelGroup:self.channelGroupMock
+                                              appSecret:kMSACTestAppSecret
+                                transmissionTargetToken:nil
+                                        fromApplication:YES];
+  OCMVerify(times(2), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
+
+  // Then.
+  // Call enableManualSessionTracker and verify that manual session tracker wasn't enabled.
+  [MSACAnalytics enableManualSessionTracker];
+  XCTAssertFalse([[MSACAnalytics sharedInstance].sessionTracker isManualSessionTrackerEnabled]);
+
+  // Call start session and verify set session wasn't called.
+  [MSACAnalytics startSession];
+  OCMVerify(times(2), [self.sessionContextMock setSessionId:OCMOCK_ANY]);
+}
+
 - (void)testSessionTrackerStartedWithToken {
 
   // When
-  [MSACAppCenter startFromLibraryWithServices:@ [[MSACAnalytics class]]];
+  [MSACAppCenter startFromLibraryWithServices:@[ [MSACAnalytics class] ]];
 
   // Then
   XCTAssertNil([MSACAnalytics sharedInstance].defaultTransmissionTarget);
@@ -1411,7 +1479,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
   XCTAssertTrue(result.count == 1);
 }
 
-- (void)testremoveInvalidPropertiesWithNonStringKey {
+- (void)testRemoveInvalidPropertiesWithNonStringKey {
 
   // If
   NSDictionary *numberAsKeyProperties = @{@(42) : @"aValidValue"};

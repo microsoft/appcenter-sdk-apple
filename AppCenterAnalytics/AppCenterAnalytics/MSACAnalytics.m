@@ -261,6 +261,14 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
   [[MSACAnalytics sharedInstance] resume];
 }
 
++ (void)startSession {
+  [[MSACAnalytics sharedInstance].sessionTracker startSession];
+}
+
++ (void)enableManualSessionTracker {
+  [[MSACAnalytics sharedInstance].sessionTracker enableManualSessionTracker];
+}
+
 + (void)setAutoPageTrackingEnabled:(BOOL)isEnabled {
   [MSACAnalytics sharedInstance].autoPageTrackingEnabled = isEnabled;
 }

@@ -50,6 +50,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   var appCenter: AppCenterDelegate = AppCenterProvider.shared().appCenter!
 
+  @IBOutlet weak var enableManualSession: NSButton!
   @IBOutlet weak var name: NSTextField!
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var table : NSTableView?
@@ -75,6 +76,7 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
 
   override func viewWillAppear() {
     setEnabledButton?.state = appCenter.isAnalyticsEnabled() ? .on : .off
+    enableManualSession.state = UserDefaults.standard.bool(forKey: kMSManualSessionTracker) ? .on : .off
   }
 
   override func viewDidDisappear() {
@@ -174,6 +176,15 @@ class AnalyticsViewController : NSViewController, NSTableViewDataSource, NSTable
     sender.state = appCenter.isAnalyticsEnabled() ? .on : .off
   }
   
+  @IBAction func startSession(_ sender: Any) {
+    appCenter.startSession()
+  }
+  
+  @IBAction func switchManualSessionTracker(_ sender: NSButton) {
+    UserDefaults.standard.set(enableManualSession.state == .on, forKey: kMSManualSessionTracker)
+    print("Restart the app for the changes to take effect.")
+  }
+
   func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
     guard let identifier = tableColumn?.identifier else {
       return nil

@@ -75,6 +75,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     if logUrl != nil {
       AppCenter.logUrl = logUrl
     }
+    
+    // Set manual session tracker before App Center start.
+    if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
+      Analytics.enableManualSessionTracker()
+    }
 #if canImport(AppCenterDistribute)
     if let updateTrackValue = UserDefaults.standard.value(forKey: kMSUpdateTrackKey) as? Int,
        let updateTrack = UpdateTrack(rawValue: updateTrackValue) {
