@@ -657,6 +657,38 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   OCMVerify([self.channelGroupMock setEnabled:NO andDeleteDataOnDisabled:YES]);
 }
 
+- (void)testStartServiceLogDisabledWithOneCollector {
+
+  // If
+  OCMStub([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACStartServiceLog class]] flags:MSACFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSACStartServiceLog *log = nil;
+        [invocation getArgument:&log atIndex:2];
+
+        // Then.
+        XCTAssertFalse(log.isOneCollectorEnabled);
+      });
+
+  // When
+  [MSACAppCenter start:MSAC_UUID_STRING withServices:@[ MSACMockService.class ]];
+}
+
+- (void)testStartServiceLogWithEnabledOneCollector {
+
+  // If
+  OCMStub([self.channelUnitMock enqueueItem:[OCMArg isKindOfClass:[MSACStartServiceLog class]] flags:MSACFlagsDefault])
+      .andDo(^(NSInvocation *invocation) {
+        MSACStartServiceLog *log = nil;
+        [invocation getArgument:&log atIndex:2];
+
+        // Then.
+        XCTAssertTrue(log.isOneCollectorEnabled);
+      });
+
+  // When
+  [MSACAppCenter start:@"target=transmissionTargetToken" withServices:@[ MSACMockService.class ]];
+}
+
 - (void)testStartServiceLogWithDisabledCore {
 
   // If

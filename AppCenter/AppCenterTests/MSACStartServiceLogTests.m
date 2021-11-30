@@ -29,6 +29,7 @@
   // If
   NSArray<NSString *> *services = @[ @"Service0", @"Service1", @"Service2" ];
   self.sut.services = services;
+  self.sut.isOneCollectorEnabled = true;
 
   // When
   NSMutableDictionary *actual = [self.sut serializeToDictionary];
@@ -36,7 +37,9 @@
   // Then
   assertThat(actual, notNilValue());
   NSArray *actualServices = actual[@"services"];
+  NSArray *actualIsOneCollectorEnabled = actual[@"isOneCollectorEnabled"];
   XCTAssertEqual(actualServices.count, services.count);
+  XCTAssertTrue(actualIsOneCollectorEnabled);
   for (NSUInteger i = 0; i < actualServices.count; ++i) {
     assertThat(actualServices[i], equalTo(services[i]));
   }
@@ -59,7 +62,9 @@
 
   MSACStartServiceLog *log = actual;
   NSArray *actualServices = log.services;
+  BOOL *actualIsOneCollectorEnabled = log.isOneCollectorEnabled;
   XCTAssertEqual(actualServices.count, services.count);
+  XCTAssertFalse(actualIsOneCollectorEnabled);
   for (NSUInteger i = 0; i < actualServices.count; ++i) {
     assertThat(actualServices[i], equalTo(services[i]));
   }
