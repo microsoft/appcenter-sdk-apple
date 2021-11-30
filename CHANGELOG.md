@@ -4,8 +4,10 @@
 
 ### App Center 
 
+* **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
 * **[Fix]** Fix `Undefined symbol: OBJC_CLASS$_CTTelephonyNetworkInfo` error for Mac Catalyst platform when integrating the SDK via Swift Package Manager with Swift 5.5 and higher.
 * **[Fix]** Fix throw an exception when checking to authenticate MAC value during decryption.
+* **[Improvement]** Specified minimum cocoapods version in podspec to 1.10.0.
 
 ### App Center Analytics
 
@@ -19,10 +21,9 @@
 * **[Fix]** Fix build failure on Xcode 13, because of warning `Сompletion handler is never used`. Only observable when SDK is integrated as source code. Continuation of the previous fix that fixed the issue on the beta version.
 * **[Fix]** Fix sending `Crashes.trackError` logs after allowing network requests after the launch app.
 
-### App Center
+### App Center Distribute
 
-* **[Improvement]** Specified minimum cocoapods version in podspec to 1.10.0.
-* **[Breaking change]** Remove `AppCenter.SetCustomProperties` API.
+* **[Fix]** Cancel authorization process if application is not active, otherwise ASWebAuthenticationSession will fail opening browswer and update flow will end up being in a broken state. This only affects updating from a private distribution group.
 
 ___
 
