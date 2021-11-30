@@ -25,7 +25,7 @@
                                  [NSString stringWithFormat:kMSACOneCollectorClientVersionFormat, [MSACUtility sdkVersion]]
                            }
                       queryStrings:nil
-                    retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]
+                    retryIntervals:DEFAULT_RETRY_INTERVALS
             maxNumberOfConnections:2];
   return self;
 }

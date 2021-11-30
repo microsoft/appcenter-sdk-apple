@@ -11,8 +11,6 @@
 #import "MSACHttpUtil.h"
 #import "MSAC_Reachability.h"
 
-#define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
-
 @implementation MSACHttpClient
 
 @synthesize delegate = _delegate;

@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define DEFAULT_RETRY_INTERVALS @[ @10, @(5 * 60), @(20 * 60) ]
+
 static short const kMSACMaxCharactersDisplayedForAppSecret = 8;
 static NSString *const kMSACHidingStringForAppSecret = @"*";
 
