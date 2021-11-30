@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACDistributeUtil.h"
+#import <Foundation/Foundation.h>
+
 #import "MSACBasicMachOParser.h"
+#import "MSACDispatcherUtil.h"
 #import "MSACDistributeInternal.h"
 #import "MSACDistributePrivate.h"
+#import "MSACDistributeUtil.h"
 #import "MSACLogger.h"
 #import "MSACSemVer.h"
 #import "MSACUtility+StringFormatting.h"
@@ -130,6 +133,25 @@ NSString *MSACPackageHash(void) {
 
 + (BOOL)isValidUpdateTrack:(MSACUpdateTrack)updateTrack {
   return updateTrack == MSACUpdateTrackPublic || updateTrack == MSACUpdateTrackPrivate;
+}
+
++ (ASPresentationAnchor)getPresentationAnchor API_AVAILABLE(ios(13)) {
+  UIApplication *application = MSAC_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
+  NSSet *scenes = MSAC_DISPATCH_SELECTOR((NSSet * (*)(id, SEL)), application, connectedScenes);
+  NSObject *windowScene;
+  for (NSObject *scene in scenes) {
+    NSInteger activationState = MSAC_DISPATCH_SELECTOR((NSInteger(*)(id, SEL)), scene, activationState);
+    if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
+      windowScene = scene;
+    }
+  }
+  if (!windowScene) {
+    MSACLogError([MSACDistribute logTag], @"Could not find an active scene to be used as a presentation anchor");
+    return nil;
+  }
+  NSArray *windows = MSAC_DISPATCH_SELECTOR((NSArray * (*)(id, SEL)), windowScene, windows);
+  ASPresentationAnchor anchor = windows.firstObject;
+  return anchor;
 }
 
 @end

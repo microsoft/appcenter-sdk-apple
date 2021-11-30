@@ -701,6 +701,18 @@ static dispatch_once_t onceToken;
 
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
 
+  if (@available(iOS 13, *)) {
+    if ([MSACDistributeUtil getPresentationAnchor] == nil) {
+
+      // Presentation anchor is not available. This means ASWebAuthenticationSession will not be able to open a session.
+      // Skipping the update process. It will be resterted once the "applicationDidBecomeActive" is called.
+      MSACLogVerbose([MSACDistribute logTag], @"Could not find an application anchor. Skipping the authorization process.");
+      self.updateFlowInProgress = NO;
+      [MSAC_APP_CENTER_USER_DEFAULTS removeObjectForKey:kMSACUpdateTokenRequestIdKey];
+      return;
+    }
+  }
+
   /*
    * Only iOS 9.x and 10.x will download the update after users click the "Install" button. We need to force-exit the application for other
    * versions or for any versions when the update is mandatory.
@@ -1376,22 +1388,7 @@ static dispatch_once_t onceToken;
 
 - (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)__unused session
     API_AVAILABLE(ios(13)) {
-  UIApplication *application = MSAC_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
-  NSSet *scenes = MSAC_DISPATCH_SELECTOR((NSSet * (*)(id, SEL)), application, connectedScenes);
-  NSObject *windowScene = nil;
-  for (NSObject *scene in scenes) {
-    NSInteger activationState = MSAC_DISPATCH_SELECTOR((NSInteger(*)(id, SEL)), scene, activationState);
-    if (activationState == 0 /* UISceneActivationStateForegroundActive */) {
-      windowScene = scene;
-      break;
-    }
-  }
-  if (!windowScene) {
-    windowScene = scenes.anyObject;
-  }
-  NSArray *windows = MSAC_DISPATCH_SELECTOR((NSArray * (*)(id, SEL)), windowScene, windows);
-  ASPresentationAnchor anchor = windows.firstObject;
-  return anchor;
+  return [MSACDistributeUtil getPresentationAnchor];
 }
 
 @end
