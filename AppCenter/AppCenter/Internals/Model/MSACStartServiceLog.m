@@ -5,10 +5,12 @@
 
 static NSString *const kMSACStartService = @"startService";
 static NSString *const kMSACServices = @"services";
+static NSString *const kMSACIsOneCollectorEnabled = @"isOneCollectorEnabled";
 
 @implementation MSACStartServiceLog
 
 @synthesize services = _services;
+@synthesize isOneCollectorEnabled = _isOneCollectorEnabled;
 
 - (instancetype)init {
   if ((self = [super init])) {
@@ -31,6 +33,7 @@ static NSString *const kMSACServices = @"services";
   NSMutableDictionary *dict = [super serializeToDictionary];
   if (self.services) {
     dict[kMSACServices] = self.services;
+    dict[kMSACIsOneCollectorEnabled] = @(self.isOneCollectorEnabled);
   }
   return dict;
 }
@@ -40,6 +43,7 @@ static NSString *const kMSACServices = @"services";
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super initWithCoder:coder])) {
     self.services = [coder decodeObjectForKey:kMSACServices];
+    self.isOneCollectorEnabled = [coder decodeBoolForKey:kMSACIsOneCollectorEnabled];
   }
   return self;
 }
@@ -47,6 +51,7 @@ static NSString *const kMSACServices = @"services";
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.services forKey:kMSACServices];
+  [coder encodeBool:self.isOneCollectorEnabled forKey:kMSACIsOneCollectorEnabled];
 }
 
 @end
