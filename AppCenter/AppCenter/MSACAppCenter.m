@@ -748,6 +748,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     if (self.isEnabled) {
       MSACStartServiceLog *serviceLog = [MSACStartServiceLog new];
       serviceLog.services = servicesNames;
+      serviceLog.isOneCollectorEnabled = self.defaultTransmissionTargetToken != nil;
       [self.channelUnit enqueueItem:serviceLog flags:MSACFlagsDefault];
     } else {
       if (self.startedServiceNames == nil) {
