@@ -1769,6 +1769,82 @@ static NSURL *sfURL;
   [guidedAccessMock stopMocking];
 }
 
+- (void)testBrowserNotOpenedWhenApplicationIsNotActive API_AVAILABLE(ios(13)) {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id distributeUtilMock = OCMClassMock([MSACDistributeUtil class]);
+  OCMStub(ClassMethod([distributeUtilMock getPresentationAnchor])).andReturn(nil);
+  OCMReject([distributeMock openURLInAuthenticationSessionWith:OCMOCK_ANY usePresentationContext:OCMOCK_ANY]);
+  OCMStub([distributeMock openURLInAuthenticationSessionWith:OCMOCK_ANY usePresentationContext:OCMOCK_ANY]).andDo(nil);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Web authorization canceled"];
+
+  // When
+  [MSAC_APP_CENTER_USER_DEFAULTS setObject:@"requestId" forKey:kMSACUpdateTokenRequestIdKey];
+  [self.sut setUpdateFlowInProgress:YES];
+  [self.sut openUrlInAuthenticationSessionOrSafari:[NSURL URLWithString:@"some_url://"]];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+    
+                                 // Then
+                                 OCMVerify([distributeUtilMock getPresentationAnchor]);
+                                 XCTAssertNil([MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACUpdateTokenRequestIdKey]);
+                                 XCTAssertFalse([distributeMock updateFlowInProgress]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clear
+  [distributeMock stopMocking];
+  [distributeUtilMock stopMocking];
+}
+
+- (void)testBrowserOpenedWhenApplicationIsActive API_AVAILABLE(ios(13)) {
+
+  // If
+  id distributeMock = OCMPartialMock(self.sut);
+  id distributeUtilMock = OCMClassMock([MSACDistributeUtil class]);
+  id presentationAnchorMock = OCMClassMock([UIWindow class]);
+  OCMStub(ClassMethod([distributeUtilMock getPresentationAnchor])).andReturn(presentationAnchorMock);
+  OCMStub([distributeMock openURLInAuthenticationSessionWith:OCMOCK_ANY usePresentationContext:OCMOCK_ANY]).andDo(nil);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Web authorization opened"];
+
+  // When
+  [MSAC_APP_CENTER_USER_DEFAULTS setObject:@"requestId" forKey:kMSACUpdateTokenRequestIdKey];
+  [self.sut setUpdateFlowInProgress:YES];
+  [self.sut openUrlInAuthenticationSessionOrSafari:[NSURL URLWithString:@"some_url://"]];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+
+  // Then
+  [self waitForExpectationsWithTimeout:1
+                               handler:^(NSError *error) {
+    
+                                 // Then
+                                 OCMVerify([distributeUtilMock getPresentationAnchor]);
+                                 XCTAssertEqual([MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACUpdateTokenRequestIdKey],
+                                                @"requestId");
+                                 XCTAssertTrue([distributeMock updateFlowInProgress]);
+                                 OCMVerify([distributeMock openURLInAuthenticationSessionWith:OCMOCK_ANY
+                                                                       usePresentationContext:OCMOCK_ANY]);
+                                 if (error) {
+                                   XCTFail(@"Expectation Failed with error: %@", error);
+                                 }
+                               }];
+
+  // Clear
+  [distributeMock stopMocking];
+  [distributeUtilMock stopMocking];
+  [presentationAnchorMock stopMocking];
+}
+
 - (void)testNotDeleteUpdateToken {
 
   // If
@@ -2676,15 +2752,15 @@ static NSURL *sfURL;
 }
 
 - (void)testCheckLatestFirstNewDistributionGroupIdWithStatus200 {
-    [self checkLatestFirstNewDistributionGroupId:200];
+  [self checkLatestFirstNewDistributionGroupId:200];
 }
 
 - (void)testCheckLatestFirstNewDistributionGroupIdWithStatus201 {
-    [self checkLatestFirstNewDistributionGroupId:201];
+  [self checkLatestFirstNewDistributionGroupId:201];
 }
 
 - (void)testCheckLatestFirstNewDistributionGroupIdWithStatus299 {
-    [self checkLatestFirstNewDistributionGroupId:299];
+  [self checkLatestFirstNewDistributionGroupId:299];
 }
 
 - (void)testCheckLatestReleaseReportReleaseInstall {
