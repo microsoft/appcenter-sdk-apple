@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 4.3.1 (Under development)
+## Version 4.4.0
 
 ### App Center 
 
@@ -20,7 +20,7 @@
 * **[Feature]** Save a crash report from the Xamarin.Mac platform.
 * **[Fix]** Fix build failure on Xcode 13, because of warning `Сompletion handler is never used`. Only observable when SDK is integrated as source code. Continuation of the previous fix that fixed the issue on the beta version.
 * **[Fix]** Fix sending `Crashes.trackError` logs after allowing network requests after the launch app.
- **[Improvement]** Update PLCrashReporter to 1.10.1.
+* **[Improvement]** Update PLCrashReporter to 1.10.1.
 
 ### App Center Distribute
 
