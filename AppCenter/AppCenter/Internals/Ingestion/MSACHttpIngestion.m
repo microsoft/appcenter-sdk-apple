@@ -30,7 +30,7 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
                           apiPath:apiPath
                           headers:headers
                      queryStrings:queryStrings
-                   retryIntervals:@[ @(10), @(5 * 60), @(20 * 60) ]];
+                   retryIntervals:DEFAULT_RETRY_INTERVALS];
 }
 
 - (id)initWithHttpClient:(id<MSACHttpClientProtocol>)httpClient
