@@ -54,12 +54,13 @@ static int kMSRefreshThreshold = 10 * 60;
   }
 }
 
+#pragma clang diagnostic push
+#if __has_warning("-Wcompletion-handler")
+#pragma clang diagnostic ignored "-Wcompletion-handler"
+#endif
 - (void)handleTokenUpdateWithToken:(NSString *)token
                         expiryDate:(NSDate *)expiryDate
              withCompletionHandler:(MSACAnalyticsAuthenticationProviderCompletionBlock)completionHandler
-#if defined(__IPHONE_15_0)
-NS_SWIFT_DISABLE_ASYNC
-#endif
 {
   @synchronized(self) {
     if (self.completionHandler == completionHandler) {
@@ -87,6 +88,7 @@ NS_SWIFT_DISABLE_ASYNC
     }
   }
 }
+#pragma clang diagnostic pop
 
 - (void)checkTokenExpiry {
   @synchronized(self) {

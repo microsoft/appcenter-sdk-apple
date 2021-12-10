@@ -60,6 +60,7 @@
   assertThat(actual[@"name"], equalTo(sut.name));
   assertThat([actual[@"exception"] valueForKey:@"type"], equalTo(sut.exception.type));
   assertThat([actual[@"exception"] valueForKey:@"message"], equalTo(sut.exception.message));
+  assertThat(actual.description, equalTo([sut description]));
 
   NSArray *actualFrames = [actual[@"exception"] valueForKey:@"frames"];
   XCTAssertEqual(actualFrames.count, sut.exception.frames.count);

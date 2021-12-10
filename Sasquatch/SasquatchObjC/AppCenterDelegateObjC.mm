@@ -66,10 +66,6 @@
   return [MSACAppCenter isDebuggerAttached];
 }
 
-- (void)setCustomProperties:(MSACCustomProperties *)customProperties {
-  [MSACAppCenter setCustomProperties:customProperties];
-}
-
 - (void)startAnalyticsFromLibrary {
   [MSACAppCenter startFromLibraryWithServices:@[ [MSACAnalytics class] ]];
 }
@@ -162,6 +158,14 @@
 
 - (void)pause {
   [MSACAnalytics pause];
+}
+
+- (void)startSession {
+  [MSACAnalytics startSession];
+}
+
+- (void)enableManualSessionTracker {
+  [MSACAnalytics enableManualSessionTracker];
 }
 
 #pragma mark - MSACCrashes section.

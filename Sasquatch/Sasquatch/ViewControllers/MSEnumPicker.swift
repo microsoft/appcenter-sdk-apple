@@ -11,7 +11,6 @@ class MSEnumPicker<E: RawRepresentable & Equatable> : NSObject, UIPickerViewData
   
   // In some cases, we may want to override the controller that
   // shows alert for mac catalyst (when the controller is not the root one).
-  // Example: MSCustomPropertiesViewController.
   private var viewController: UIViewController?
   
   init(textField: UITextField!, allValues: [E], onChange: @escaping (Int) -> Void) {

@@ -6,7 +6,7 @@
                 "git": {
                     "name": "PLCrashReporter",
                     "repositoryUrl": "https://github.com/microsoft/plcrashreporter.git",
-                    "commitHash": "274f1bad559c4f7ad9f754ee8007d837f136b1bc"
+                    "commitHash": "fb99815e78f8acf05e61504d5ea008a288ad7d09"
                 }
             }
         },        

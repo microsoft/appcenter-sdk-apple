@@ -13,7 +13,6 @@ import AppCenter
   // AppCenter section.
   func isAppCenterEnabled() -> Bool
   func setAppCenterEnabled(_ isEnabled: Bool)
-  func setCustomProperties(_ customProperties: CustomProperties)
   func installId() -> String
   func appSecret() -> String
   func isDebuggerAttached() -> Bool
@@ -40,6 +39,8 @@ import AppCenter
   func trackPage(_ pageName: String, withProperties: Dictionary<String, String>)
   func resume()
   func pause()
+  func startSession()
+  func enableManualSessionTracker()
 
   // Crashes section.
   func hasCrashedInLastSession() -> Bool

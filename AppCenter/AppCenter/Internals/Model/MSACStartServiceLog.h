@@ -9,8 +9,13 @@
 @interface MSACStartServiceLog : MSACAbstractLog <MSACNoAutoAssignSessionIdLog>
 
 /**
- * Services which started with SDK
+ * Services which started with SDK.
  */
 @property(nonatomic) NSArray<NSString *> *services;
+
+/**
+ * OneCollector usage status.
+ */
+@property(nonatomic) BOOL isOneCollectorEnabled;
 
 @end

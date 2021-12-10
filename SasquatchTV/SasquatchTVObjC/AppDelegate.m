@@ -4,6 +4,8 @@
 #import "AppDelegate.h"
 #import "AppCenterDelegateObjC.h"
 
+#import "Constants.h"
+
 @import AppCenter;
 @import AppCenterAnalytics;
 @import AppCenterCrashes;
@@ -16,8 +18,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+  // Set manual session tracker before App Center start.
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker]) {
+    [MSACAnalytics enableManualSessionTracker];
+  }
+
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
-  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@[ [MSACAnalytics class], [MSACCrashes class]]];
+  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@[ [MSACAnalytics class], [MSACCrashes class] ]];
   [self crashes];
   [self setAppCenterCenterDelegate];
   return YES;
@@ -97,22 +104,22 @@
 #pragma mark - MSACCrashesDelegate
 
 - (BOOL)crashes:(nonnull MSACCrashes *)crashes shouldProcessErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"Should process error report with: %@", errorReport.exceptionReason);
+  NSLog(@"Should process error report with description: %@", [errorReport description]);
   return YES;
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes willSendErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"Will send error report with: %@", errorReport.exceptionReason);
+  NSLog(@"Will send error report: %@", [errorReport description]);
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes didSucceedSendingErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"Did succeed error report sending with: %@", errorReport.exceptionReason);
+  NSLog(@"Did succeed sending error report: %@", [errorReport description]);
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes
     didFailSendingErrorReport:(nonnull MSACErrorReport *)errorReport
                     withError:(nullable NSError *)error {
-  NSLog(@"Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error.localizedDescription);
+  NSLog(@"Did fail sending error report: %@, with error: %@", [errorReport description], error.localizedDescription);
 }
 
 - (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport {

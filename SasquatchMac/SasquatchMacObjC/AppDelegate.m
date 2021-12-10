@@ -22,7 +22,7 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 
 // Enable closing app by pressing Close button.
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
-    return YES;
+  return YES;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
@@ -37,6 +37,11 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
   NSString *logUrl = [[NSUserDefaults standardUserDefaults] objectForKey:kMSLogUrl];
   if (logUrl) {
     [MSACAppCenter setLogUrl:logUrl];
+  }
+
+  // Set manual session tracker before App Center start.
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:kMSManualSessionTracker]) {
+    [MSACAnalytics enableManualSessionTracker];
   }
 
   // Customize services.
@@ -162,22 +167,22 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
 #pragma mark - MSACCrashesDelegate
 
 - (BOOL)crashes:(nonnull MSACCrashes *)crashes shouldProcessErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"%@ Should process error report with: %@", kMSLogTag, errorReport.exceptionReason);
+  NSLog(@"%@ Should process error report with description: %@", kMSLogTag, [errorReport description]);
   return YES;
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes willSendErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"%@ Will send error report with: %@", kMSLogTag, errorReport.exceptionReason);
+  NSLog(@"%@ Will send error report: %@", kMSLogTag, [errorReport description]);
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes didSucceedSendingErrorReport:(nonnull MSACErrorReport *)errorReport {
-  NSLog(@"%@ Did succeed error report sending with: %@", kMSLogTag, errorReport.exceptionReason);
+  NSLog(@"%@ Did succeed sending error report: %@", kMSLogTag, [errorReport description]);
 }
 
 - (void)crashes:(nonnull MSACCrashes *)crashes
     didFailSendingErrorReport:(nonnull MSACErrorReport *)errorReport
                     withError:(nullable NSError *)error {
-  NSLog(@"%@ Did fail sending report with: %@, and error: %@", kMSLogTag, errorReport.exceptionReason, error.localizedDescription);
+  NSLog(@"%@ Did fail sending error report: %@, with error: %@", kMSLogTag, [errorReport description], error.localizedDescription);
 }
 
 - (NSArray<MSACErrorAttachmentLog *> *)attachmentsWithCrashes:(MSACCrashes *)crashes forErrorReport:(MSACErrorReport *)errorReport {

@@ -49,6 +49,7 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
     _storage = storage;
     _configuration = configuration;
     _logsDispatchQueue = logsDispatchQueue;
+    _itemsCount = [_storage countLogs];
   }
   return self;
 }

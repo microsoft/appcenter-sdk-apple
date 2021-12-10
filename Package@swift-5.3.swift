@@ -28,7 +28,7 @@ let package = Package(
             targets: ["AppCenterDistribute"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.10.0")),
+        .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.10.1")),
     ],
     targets: [
         .target(
@@ -36,7 +36,7 @@ let package = Package(
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
             cSettings: [
-                .define("APP_CENTER_C_VERSION", to:"\"4.3.0\""),
+                .define("APP_CENTER_C_VERSION", to:"\"4.4.0\""),
                 .define("APP_CENTER_C_BUILD", to:"\"1\""),
                 .headerSearchPath("**"),
             ],
@@ -47,7 +47,7 @@ let package = Package(
                 .linkedFramework("SystemConfiguration"),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
-                .linkedFramework("CoreTelephony", .when(platforms: [.iOS, .macOS])),
+                .linkedFramework("CoreTelephony", .when(platforms: [.iOS])),
             ]
         ),
         .target(

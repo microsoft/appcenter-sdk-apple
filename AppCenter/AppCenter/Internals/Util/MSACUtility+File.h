@@ -98,4 +98,22 @@ extern NSString *MSACUtilityFileCategory;
  */
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent;
 
+/**
+ * Save a file at path.
+ *
+ * @param filePath A path to file.
+ * @param data File contents.
+ * @param attr File attributes.
+ *
+ * @return True - if file was saved successfully, false - otherwise.
+ */
++ (BOOL)createFileAtPath:(NSString *)filePath contents:(NSData *)data attributes:(NSDictionary<NSFileAttributeKey, id> *)attr;
+
+/**
+ * Create directory at path.
+ *
+ * @param fullDirURL A path to the directory.
+ */
++ (BOOL)createDirectoryAtURL:(NSURL *)fullDirURL;
+
 @end

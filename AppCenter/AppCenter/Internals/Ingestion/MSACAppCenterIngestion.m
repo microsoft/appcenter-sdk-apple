@@ -30,10 +30,11 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
   return self.appSecret != nil;
 }
 
-- (void)sendAsync:(NSObject *)data completionHandler:(MSACSendAsyncCompletionHandler)handler
-#if defined(__IPHONE_15_0)
-NS_SWIFT_DISABLE_ASYNC
+#pragma clang diagnostic push
+#if __has_warning("-Wcompletion-handler")
+#pragma clang diagnostic ignored "-Wcompletion-handler"
 #endif
+- (void)sendAsync:(NSObject *)data completionHandler:(MSACSendAsyncCompletionHandler)handler
 {
   MSACLogContainer *container = (MSACLogContainer *)data;
   NSString *batchId = container.batchId;
@@ -62,6 +63,7 @@ NS_SWIFT_DISABLE_ASYNC
         handler(batchId, response, responseBody, error);
       }];
 }
+#pragma clang diagnostic pop
 
 - (NSDictionary *)getHeadersWithData:(nullable NSObject *__unused)data eTag:(nullable NSString *__unused)eTag {
   NSMutableDictionary *httpHeaders = [self.httpHeaders mutableCopy];

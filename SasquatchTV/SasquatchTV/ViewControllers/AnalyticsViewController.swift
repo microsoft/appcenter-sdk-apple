@@ -11,6 +11,7 @@ enum AnalyticsActionsRows : Int {
 
 class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCenterProtocol {
 
+  @IBOutlet weak var enableManualSessionTracker : UISegmentedControl!;
   @IBOutlet weak var serviceStatus : UISegmentedControl?;
   @IBOutlet weak var table : UITableView?;
 
@@ -23,6 +24,11 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
     table?.allowsSelection = true;
     serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
     serviceStatus?.addTarget(self, action: #selector(self.switchAnalyticsStatus), for: .valueChanged);
+    enableManualSessionTracker?.addTarget(self, action: #selector(self.switchManualSessionTracker), for: .valueChanged)
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+      enableManualSessionTracker?.selectedSegmentIndex = UserDefaults.standard.bool(forKey: kMSManualSessionTracker) ? 0 : 1
   }
 
   @IBAction func trackEvent(_ : Any) {
@@ -48,6 +54,15 @@ class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCent
   @objc func switchAnalyticsStatus(_ : Any) {
     appCenter.setAnalyticsEnabled(serviceStatus?.selectedSegmentIndex == 0);
     serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
+  }
+  
+  @IBAction func startSession(_ sender: Any) {
+    appCenter.startSession()
+  }
+  
+  @objc func switchManualSessionTracker(_ sender: UISegmentedControl) {
+    UserDefaults.standard.set(sender.selectedSegmentIndex == 0, forKey: kMSManualSessionTracker);
+    print("Restart the app for the changes to take effect.")
   }
 
   //MARK: Table view data source

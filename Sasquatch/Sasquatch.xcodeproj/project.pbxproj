@@ -95,7 +95,6 @@
 		B20AE38B21027D6200A1A195 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		B20AE38C21027D6200A1A195 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B20AE38D21027D6200A1A195 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
-		B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B20AE38F21027D6200A1A195 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; platformFilter = ios; };
@@ -133,7 +132,6 @@
 		B27D54B3210A5E7E004E82C9 /* MSCrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */; };
 		B27D54B4210A5E7E004E82C9 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B203FF4B20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift */; };
 		B27D54B5210A5E7E004E82C9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4D1E88FF4A00798417 /* AppDelegate.m */; };
-		B27D54B6210A5E7E004E82C9 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B27D54B7210A5E7E004E82C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84226C4A1E88FF4A00798417 /* main.m */; };
 		B27D54B8210A5E7E004E82C9 /* PropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359171F620F7F80800F3DDE6 /* PropertiesTableSection.swift */; };
 		B27D54B9210A5E7E004E82C9 /* MSDistributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */; };
@@ -160,7 +158,6 @@
 		B2A4CF92210A6E6900199B4F /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		B2A4CF93210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */; };
 		B2A4CF94210A6E6900199B4F /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
-		B2A4CF95210A6E6900199B4F /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2A4CF96210A6E6900199B4F /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		B2A4CF97210A6E6900199B4F /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
 		B2A4CF98210A6E6900199B4F /* MSMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */; };
@@ -181,8 +178,6 @@
 		B2A4CFAC210A6E6900199B4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 845964A91E8A7E6600BABA51 /* Main.storyboard */; };
 		B2A4CFAD210A6E6900199B4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84226C1C1E88FEFC00798417 /* Assets.xcassets */; };
 		B2A4CFAE210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E011EF21091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.xib */; };
-		B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
-		B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		B2C97B8B2106535500042A03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C97B8A2106535500042A03 /* Assets.xcassets */; };
 		B2E011F121091EF2003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */; };
 		B2E011F221091EF2003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
@@ -262,7 +257,6 @@
 		DF4D2DC324768E40004A12DC /* MSCustomPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */; };
 		DF4D2DC424768E40004A12DC /* MSAnalyticsPropertyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E011F021091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift */; };
 		DF4D2DC524768E40004A12DC /* CommonSchemaPropertiesTableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C80210A478500664A43 /* CommonSchemaPropertiesTableSection.swift */; };
-		DF4D2DC624768E40004A12DC /* MSCustomPropertiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */; };
 		DF4D2DC724768E40004A12DC /* MSTransmissionTargets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */; };
 		DF4D2DC824768E40004A12DC /* MSAAnalyticsAuthenticationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */; };
 		DF4D2DC924768E40004A12DC /* MSAnalyticsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2586C88210A485300664A43 /* MSAnalyticsResultViewController.swift */; };
@@ -1045,7 +1039,6 @@
 		B2A888EB2102B2C5001ACFDF /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B2A888ED2102B2C5001ACFDF /* DistributeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributeUITests.swift; sourceTree = "<group>"; };
 		B2A888EE2102B2C5001ACFDF /* CrashesUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesUITests.swift; sourceTree = "<group>"; };
-		B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSCustomPropertiesViewController.swift; sourceTree = "<group>"; };
 		B2C97B8A2106535500042A03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B2E011EC21091EF1003F4A5B /* MSAnalyticsTransmissionTargetSelectorViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSAnalyticsTransmissionTargetSelectorViewCell.swift; path = Cells/MSAnalyticsTransmissionTargetSelectorViewCell.swift; sourceTree = "<group>"; };
 		B2E011ED21091EF1003F4A5B /* MSCustomPropertyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSCustomPropertyTableViewCell.swift; path = Cells/MSCustomPropertyTableViewCell.swift; sourceTree = "<group>"; };
@@ -1410,7 +1403,6 @@
 				84A0FF681E8A87C9000E7A28 /* MSAnalyticsViewController.swift */,
 				80B3CAD9211B2686007C332E /* MSAuthenticationViewController.swift */,
 				84A0FF651E8A87B4000E7A28 /* MSCrashesViewController.swift */,
-				B2B36CE11EEF49B700230341 /* MSCustomPropertiesViewController.swift */,
 				84A0FF6B1E8A87E1000E7A28 /* MSDistributeViewController.swift */,
 				845964AC1E8A7E9700BABA51 /* MSMainViewController.swift */,
 				807DB551212164E000F35E03 /* MSSignInViewController.swift */,
@@ -2804,7 +2796,6 @@
 				B203FF4C20E57A5B002AD536 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				84226C4E1E88FF4A00798417 /* AppDelegate.m in Sources */,
 				807DB553212164E000F35E03 /* MSSignInViewController.swift in Sources */,
-				B2B36CE21EEF49B700230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				84226C4B1E88FF4A00798417 /* main.m in Sources */,
 				359171F720F7F80800F3DDE6 /* PropertiesTableSection.swift in Sources */,
 				84A0FF6C1E8A87E1000E7A28 /* MSDistributeViewController.swift in Sources */,
@@ -2835,7 +2826,6 @@
 				B2E011FE21091F0E003F4A5B /* MSCustomPropertyTableViewCell.swift in Sources */,
 				B2E011F621091EF6003F4A5B /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				B2586C82210A478500664A43 /* CommonSchemaPropertiesTableSection.swift in Sources */,
-				B2B36CE31EEF49C400230341 /* MSCustomPropertiesViewController.swift in Sources */,
 				35FBE78220FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				F83587CA242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B2586C8A210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */,
@@ -2881,7 +2871,6 @@
 				B26D4DEC2122041A00AB4E28 /* MSSignInViewController.swift in Sources */,
 				B20AE38D21027D6200A1A195 /* AppDelegate.m in Sources */,
 				F83587CB242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
-				B20AE38E21027D6200A1A195 /* MSCustomPropertiesViewController.swift in Sources */,
 				B20AE38F21027D6200A1A195 /* main.m in Sources */,
 				B20AE39021027D6200A1A195 /* PropertiesTableSection.swift in Sources */,
 				B20AE39221027D6200A1A195 /* MSDistributeViewController.swift in Sources */,
@@ -2919,7 +2908,6 @@
 				B27D54B4210A5E7E004E82C9 /* MSAnalyticsChildTransmissionTargetTableViewController.swift in Sources */,
 				B27D54B5210A5E7E004E82C9 /* AppDelegate.m in Sources */,
 				807DB552212164E000F35E03 /* MSSignInViewController.swift in Sources */,
-				B27D54B6210A5E7E004E82C9 /* MSCustomPropertiesViewController.swift in Sources */,
 				B27D54B7210A5E7E004E82C9 /* main.m in Sources */,
 				B27D54B8210A5E7E004E82C9 /* PropertiesTableSection.swift in Sources */,
 				B27D54B9210A5E7E004E82C9 /* MSDistributeViewController.swift in Sources */,
@@ -2950,7 +2938,6 @@
 				B2A4CF92210A6E6900199B4F /* MSCustomPropertyTableViewCell.swift in Sources */,
 				B2A4CF93210A6E6900199B4F /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				B2A4CF94210A6E6900199B4F /* CommonSchemaPropertiesTableSection.swift in Sources */,
-				B2A4CF95210A6E6900199B4F /* MSCustomPropertiesViewController.swift in Sources */,
 				B2A4CF96210A6E6900199B4F /* MSTransmissionTargets.swift in Sources */,
 				84D067A224486415000B708B /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				B2A4CF97210A6E6900199B4F /* MSAnalyticsResultViewController.swift in Sources */,
@@ -3035,7 +3022,6 @@
 				DF4D2DC324768E40004A12DC /* MSCustomPropertyTableViewCell.swift in Sources */,
 				DF4D2DC424768E40004A12DC /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
 				DF4D2DC524768E40004A12DC /* CommonSchemaPropertiesTableSection.swift in Sources */,
-				DF4D2DC624768E40004A12DC /* MSCustomPropertiesViewController.swift in Sources */,
 				DF4D2DC724768E40004A12DC /* MSTransmissionTargets.swift in Sources */,
 				DF4D2DC824768E40004A12DC /* MSAAnalyticsAuthenticationProvider.swift in Sources */,
 				DF4D2DC924768E40004A12DC /* MSAnalyticsResultViewController.swift in Sources */,

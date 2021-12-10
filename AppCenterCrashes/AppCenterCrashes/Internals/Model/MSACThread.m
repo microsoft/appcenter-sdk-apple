@@ -80,4 +80,8 @@ static NSString *const kMSACException = @"exception";
   [coder encodeObject:self.exception forKey:kMSACException];
 }
 
+- (NSString *)description {
+  return [NSString stringWithFormat:@"%@", [self serializeToDictionary]];
+}
+
 @end

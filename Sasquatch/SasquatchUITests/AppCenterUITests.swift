@@ -125,46 +125,6 @@ class AppCenterUITests: XCTestCase {
     }
   }
 
-  func testCustomProperties() {
-    guard let `app` = app else {
-      return
-    }
-    
-    // Go to custom properties page.
-    app.tables["App Center"].staticTexts["Custom Properties"].tap()
-    let customPropertiesTable = app.tables["Custom Properties"]
-    
-    // Add string property.
-    customPropertiesTable.staticTexts["Add Property"].tap()
-    let stringPropertyCell = customPropertiesTable.cells.element(boundBy: 1)
-    XCTAssertEqual("String", stringPropertyCell.textFields["Type"].value as! String)
-    stringPropertyCell.textFields["Key"].clearAndTypeText("key0")
-    stringPropertyCell.textFields["Value"].clearAndTypeText("test0")
-    
-    // Add clear property.
-    customPropertiesTable.staticTexts["Add Property"].tap()
-    let clearPropertyCell = customPropertiesTable.cells.element(boundBy: 1)
-    stringPropertyCell.textFields["Type"].tap()
-    app.pickerWheels.element.adjust(toPickerWheelValue: "Clear")
-    app.toolbars.buttons["Done"].tap()
-    XCTAssertEqual("Clear", clearPropertyCell.textFields["Type"].value as! String)
-    clearPropertyCell.textFields["Key"].clearAndTypeText("key1")
-
-    // Add number property.
-    customPropertiesTable.staticTexts["Add Property"].tap()
-    let numbarPropertyCell = customPropertiesTable.cells.element(boundBy: 1)
-    numbarPropertyCell.textFields["Type"].tap()
-    app.pickerWheels.element.adjust(toPickerWheelValue: "Number")
-    app.toolbars.buttons["Done"].tap()
-    XCTAssertEqual("Number", numbarPropertyCell.textFields["Type"].value as! String)
-    numbarPropertyCell.textFields["Key"].clearAndTypeText("key2")
-    numbarPropertyCell.textFields["Value"].clearAndTypeText("-42.42")
-    
-    // Send properties.
-    customPropertiesTable.buttons["Send Custom Properties"].tap()
-    app.alerts.element.buttons["OK"].tap()
-  }
-
   func testMiscellaneousInfo() {
     guard let `app` = app else {
       XCTFail()

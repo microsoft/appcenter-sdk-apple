@@ -69,6 +69,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
       AppCenter.logUrl = logUrl
     }
     
+    // Set manual session tracker before App Center start.
+    if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
+      Analytics.enableManualSessionTracker()
+    }
+    
     // Set location manager.
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
@@ -147,26 +152,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
 
   func crashes(_ crashes: Crashes!, shouldProcess errorReport: ErrorReport!) -> Bool {
     if errorReport.exceptionReason != nil {
-      NSLog("Should process error report with: %@", errorReport.exceptionReason);
+      NSLog("Should process error report with description: %@", errorReport.description);
     }
     return true
   }
 
   func crashes(_ crashes: Crashes!, willSend errorReport: ErrorReport!) {
     if errorReport.exceptionReason != nil {
-      NSLog("Will send error report with: %@", errorReport.exceptionReason);
+      NSLog("Will send error report: %@", errorReport.description);
     }
   }
 
   func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
     if errorReport.exceptionReason != nil {
-      NSLog("Did succeed error report sending with: %@", errorReport.exceptionReason);
+      NSLog("Did succeed sending error report: %@", errorReport.description);
     }
   }
 
   func crashes(_ crashes: Crashes!, didFailSending errorReport: ErrorReport!, withError error: Error?) {
     if errorReport.exceptionReason != nil {
-        NSLog("Did fail sending report with: %@, and error: %@", errorReport.exceptionReason, error?.localizedDescription ?? "null");
+        NSLog("Did fail sending error report: %@, with error: %@", errorReport.description, error?.localizedDescription ?? "null");
     }
   }
 

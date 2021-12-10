@@ -155,7 +155,7 @@ static MSACDeviceTracker *sharedInstance = nil;
 - (MSACDevice *)updatedDevice {
   @synchronized(self) {
     MSACDevice *newDevice = [MSACDevice new];
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
     CTTelephonyNetworkInfo *telephonyNetworkInfo = [CTTelephonyNetworkInfo new];
     CTCarrier *carrier;
 
@@ -198,7 +198,7 @@ static MSACDeviceTracker *sharedInstance = nil;
     newDevice.timeZoneOffset = [self timeZoneOffset:[NSTimeZone localTimeZone]];
     newDevice.screenSize = [self screenSize];
     newDevice.appVersion = [self appVersion:MSAC_APP_MAIN_BUNDLE];
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
     newDevice.carrierCountry = [self carrierCountry:carrier] ?: overriddenCountryCode;
     newDevice.carrierName = [self carrierName:carrier];
 #else
@@ -414,7 +414,7 @@ static MSACDeviceTracker *sharedInstance = nil;
 #endif
 }
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (NSString *)carrierName:(CTCarrier *)carrier {
   return [self isValidCarrierName:carrier.carrierName] ? carrier.carrierName : nil;
 }

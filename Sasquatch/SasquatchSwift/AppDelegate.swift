@@ -75,6 +75,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     if logUrl != nil {
       AppCenter.logUrl = logUrl
     }
+    
+    // Set manual session tracker before App Center start.
+    if UserDefaults.standard.bool(forKey: kMSManualSessionTracker) {
+      Analytics.enableManualSessionTracker()
+    }
 #if canImport(AppCenterDistribute)
     if let updateTrackValue = UserDefaults.standard.value(forKey: kMSUpdateTrackKey) as? Int,
        let updateTrack = UpdateTrack(rawValue: updateTrackValue) {
@@ -212,18 +217,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
   // Crashes Delegate
 
   func crashes(_ crashes: Crashes, shouldProcess errorReport: ErrorReport) -> Bool {
-
-    // return true if the crash report should be processed, otherwise false.
+    if errorReport.exceptionReason != nil {
+      NSLog("Should process error report with description: %@", errorReport.description);
+    }
     return true
   }
 
   func crashes(_ crashes: Crashes!, willSend errorReport: ErrorReport!) {
+    if errorReport.exceptionReason != nil {
+      NSLog("Will send error report: %@", errorReport.description);
+    }
   }
 
   func crashes(_ crashes: Crashes!, didSucceedSending errorReport: ErrorReport!) {
+    if errorReport.exceptionReason != nil {
+      NSLog("Did succeed sending error report: %@", errorReport.description);
+    }
   }
 
   func crashes(_ crashes: Crashes, didFailSending errorReport: ErrorReport, withError error: Error?) {
+    if errorReport.exceptionReason != nil {
+      NSLog("Did fail sending error report: %@, with error: %@", errorReport.description, error?.localizedDescription ?? "null");
+    }
   }
 
   func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {

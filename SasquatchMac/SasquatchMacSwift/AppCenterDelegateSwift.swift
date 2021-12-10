@@ -20,9 +20,6 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setCountryCode(_ countryCode: String?) {
     AppCenter.countryCode = countryCode
   }
-  func setCustomProperties(_ customProperties: CustomProperties){
-    AppCenter.setCustomProperties(customProperties)
-  }
   func installId() -> String {
     return AppCenter.installId.uuidString
   }
@@ -84,6 +81,13 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func pause() {
     Analytics.pause()
   }
+  func startSession() {
+    Analytics.startSession()
+  }
+  func enableManualSessionTracker() {
+    Analytics.enableManualSessionTracker()
+  }
+  
   #warning("TODO: Uncomment when trackPage is moved from internal to public")
   func trackPage(_ pageName: String) {
     // Analytics.trackPage(pageName)
@@ -100,11 +104,10 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func generateTestCrash() {
     Crashes.generateTestCrash()
   }
-    
+  
   func trackError(_ error: Error, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) {
     Crashes.trackError(error, properties: withProperties, attachments:attachments)
   }
-  
   func trackException(_ exceptionModel: ExceptionModel, withProperties: Dictionary<String, String>?, attachments: [ErrorAttachmentLog]?) -> Void {
     Crashes.trackException(exceptionModel, properties: withProperties, attachments:attachments)
   }

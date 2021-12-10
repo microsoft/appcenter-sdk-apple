@@ -34,10 +34,6 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     AppCenter.enabled = isEnabled
   }
 
-  func setCustomProperties(_ customProperties: CustomProperties) {
-    AppCenter.setCustomProperties(customProperties)
-  }
-
   func installId() -> String {
     return AppCenter.installId.uuidString
   }
@@ -150,6 +146,14 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func pause() {
     Analytics.pause()
+  }
+  
+  func startSession() {
+    Analytics.startSession()
+  }
+  
+  func enableManualSessionTracker() {
+    Analytics.enableManualSessionTracker()
   }
 
   // Crashes section.

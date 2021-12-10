@@ -1,6 +1,38 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.4.0
+
+### App Center 
+
+* **[Breaking change]** Remove `AppCenter.setCustomProperties` API.
+* **[Fix]** Fix `Undefined symbol: OBJC_CLASS$_CTTelephonyNetworkInfo` error for Mac Catalyst platform when integrating the SDK via Swift Package Manager with Swift 5.5 and higher.
+* **[Fix]** Fix throw an exception when checking to authenticate MAC value during decryption.
+* **[Improvement]** Specified minimum cocoapods version in podspec to 1.10.0.
+
+### App Center Analytics
+
+* **[Feature]** Increase the interval between sending logs from 3 to 6 seconds for the backend load optimization.
+* **[Feature]** Add `Analytics.enableManualSessionTracker` and `Analytics.startSession` APIs for tracking session manually.
+
+### App Center Crashes
+
+* **[Feature]** Add `(NSString *)description` method to convert `MSACErrorReport` to a string and additional useful information about sending error.
+* **[Feature]** Save a crash report from the Xamarin.Mac platform.
+* **[Fix]** Fix build failure on Xcode 13, because of warning `Сompletion handler is never used`. Only observable when SDK is integrated as source code. Continuation of the previous fix that fixed the issue on the beta version.
+* **[Fix]** Fix sending `Crashes.trackError` logs after allowing network requests after the launch app.
+* **[Improvement]** Update PLCrashReporter to 1.10.1.
+
+### App Center Distribute
+
+* **[Fix]** Cancel authorization process if application is not active, otherwise ASWebAuthenticationSession will fail opening browswer and update flow will end up being in a broken state. This only affects updating from a private distribution group.
+
+___
+
 ## Version 4.3.0
+
+### App Center
+
+* **[Feature]** Improved `AES` token encryption algorithm using `Encrypt-then-MAC` data authentication approach.
 
 ### App Center Crashes
 

@@ -61,4 +61,11 @@ NSString *MSACPackageHash(void);
  */
 + (BOOL)isValidUpdateTrack:(MSACUpdateTrack)updateTrack;
 
+/**
+ * Finds and returns an active window to be used as a presentation anchor.
+ *
+ * @return Presentation anchor.
+ */
++ (ASPresentationAnchor)getPresentationAnchor API_AVAILABLE(ios(13));
+
 @end
