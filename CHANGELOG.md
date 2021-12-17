@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Fix]** Fix warning about broken symlink MSACCustomProperties.h when integrating via Swift Package Manager.
+* **[Fix]** Fix warning about broken symlink `MSACCustomProperties.h` when integrating via Swift Package Manager.
 
 ___
 
