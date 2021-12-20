@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.4.1
+
+### App Center
+
+* **[Fix]** Fix warning about broken symlink `MSACCustomProperties.h` when integrating via Swift Package Manager.
+
+___
+
 ## Version 4.4.0
 
 ### App Center 
