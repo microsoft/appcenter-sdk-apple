@@ -241,8 +241,8 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 }
 
 + (MSACErrorReport *_Nullable)generateLiveReport {
-  if ([MSACCrashes sharedInstance].plCrashReporter == nil) {
-    MSACLogWarning([MSACCrashes logTag], @"Generate live report should be called only after App Center start.");
+  if (![MSACCrashes sharedInstance].plCrashReporter) {
+    MSACLogWarning([MSACCrashes logTag], @"Cannot generate a live crash report. Crashes module is not initialized yet.");
     return nil;
   }
   NSData *crashData = [[MSACCrashes sharedInstance].plCrashReporter generateLiveReport];

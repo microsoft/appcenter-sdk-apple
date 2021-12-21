@@ -4,7 +4,7 @@
 
 ### App Center Crashes
 
-* **[Feature]** Add `Crashes.generateLiveReport()` API for generate live report.
+* **[Feature]** Add `Crashes.generateLiveReport()` API for generating a live report based on the current process state.
 
 ___
 
