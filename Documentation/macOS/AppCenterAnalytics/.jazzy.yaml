@@ -5,7 +5,7 @@ sdk: macosx
 theme: ../../Themes/apple
 
 module: AppCenterAnalytics
-module_version: 4.4.1
+module_version: 4.4.2
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 
