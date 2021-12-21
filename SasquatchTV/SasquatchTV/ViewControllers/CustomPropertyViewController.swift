@@ -60,9 +60,9 @@ class CustomPropertyViewController : UIViewController, UITableViewDataSource, Ap
     guard let indexPath = table?.indexPathForSelectedRow else {
       return;
     }
-    
-    let key : String = Array(properties.keys)[indexPath.row];
-    let value : String = properties[key] ?? "";
+
+    let key = Array(properties.keys)[indexPath.row];
+    let value = properties[key] ?? "";
     
     editPropertyViewController.oldKey = key;
     editPropertyViewController.oldValue = value;
