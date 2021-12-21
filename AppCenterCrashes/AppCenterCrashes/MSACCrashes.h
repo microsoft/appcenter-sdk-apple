@@ -116,6 +116,15 @@ NS_SWIFT_NAME(Crashes)
  */
 + (void)generateTestCrash;
 
+/**
+ * Generate a live crash report, without triggering an actual crash condition. This may be used to log
+ * current process state without actually crashing. The crash report data will be returned on
+ * success.
+ *
+ * @return Returns nil if the crash report data could not be loaded.
+ */
++ (MSACErrorReport *_Nullable)generateLiveReport;
+
 ///-----------------------------------------------------------------------------
 /// @name Helpers
 ///-----------------------------------------------------------------------------

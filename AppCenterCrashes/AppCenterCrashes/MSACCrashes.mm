@@ -240,6 +240,26 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   }
 }
 
++ (MSACErrorReport *_Nullable)generateLiveReport {
+  if ([MSACCrashes sharedInstance].plCrashReporter == nil) {
+    MSACLogWarning([MSACCrashes logTag], @"Generate live report should be called only after App Center start.");
+    return nil;
+  }
+  NSData *crashData = [[MSACCrashes sharedInstance].plCrashReporter generateLiveReport];
+  if ([crashData length] > 0) {
+    NSError *error = nil;
+    PLCrashReport *report = [[PLCrashReport alloc] initWithData:crashData error:&error];
+    if (report) {
+      return [MSACErrorLogFormatter errorReportFromCrashReport:report];
+    } else {
+      MSACLogWarning([MSACCrashes logTag], @"Crash report couldn't be generated due to error: %@.", error);
+    }
+  } else {
+    MSACLogWarning([MSACCrashes logTag], @"No available data for generating a crash report.");
+  }
+  return nil;
+}
+
 + (BOOL)hasCrashedInLastSession {
   return [[MSACCrashes sharedInstance] didCrashInLastSession];
 }

@@ -1367,6 +1367,57 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [MSACCrashes trackError:error withProperties:nil attachments:nil];
 }
 
+- (void)testGenerateLiveReportWhenCrashReporterIsNull {
+
+  // When.
+  [MSACCrashes sharedInstance].plCrashReporter = nil;
+
+  // Then.
+  XCTAssertNil([MSACCrashes generateLiveReport]);
+}
+
+- (void)testGenerateLiveReportWhenDataIsEmpty {
+
+  // If.
+  id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
+  NSData *mockData = [NSData new];
+  OCMStub([mockCrashReporter generateLiveReport]).andReturn(mockData);
+
+  // When.
+  [MSACCrashes sharedInstance].plCrashReporter = mockCrashReporter;
+
+  // Then.
+  XCTAssertNil([MSACCrashes generateLiveReport]);
+}
+
+- (void)testGenerateLiveReportWithError {
+
+  // If.
+  id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
+  NSData *mockData = [@"wrong-data" dataUsingEncoding:NSUTF8StringEncoding];
+  OCMStub([mockCrashReporter generateLiveReport]).andReturn(mockData);
+
+  // When.
+  [MSACCrashes sharedInstance].plCrashReporter = mockCrashReporter;
+
+  // Then.
+  XCTAssertNil([MSACCrashes generateLiveReport]);
+}
+
+- (void)testGenerateLiveReport {
+
+  // If.
+  id mockCrashReporter = OCMClassMock([PLCrashReporter class]);
+  NSData *mockData = [MSACCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_signal"];
+  OCMStub([mockCrashReporter generateLiveReport]).andReturn(mockData);
+
+  // When.
+  [MSACCrashes sharedInstance].plCrashReporter = mockCrashReporter;
+
+  // Then.
+  XCTAssertNotNil([MSACCrashes generateLiveReport]);
+}
+
 - (void)testTrackErrorsWithPropertiesAndAttachments {
 
   // Init counter.

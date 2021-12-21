@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.4.2 (Under active development)
+
+### App Center Crashes
+
+* **[Feature]** Add `Crashes.generateLiveReport()` API for generate live report.
+
+___
+
 ## Version 4.4.1
 
 ### App Center
