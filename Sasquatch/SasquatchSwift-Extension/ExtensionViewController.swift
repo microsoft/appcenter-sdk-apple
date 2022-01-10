@@ -23,7 +23,7 @@ class ExtensionViewController: UIViewController, NCWidgetProviding, CrashesDeleg
     extensionLabel.text = "Run #\(dateString)"
     AppCenter.logLevel = .verbose
     Crashes.delegate = self
-    AppCenter.start(withAppSecret: "238d7788-8e63-478f-a747-33444bdadbda", services: [Crashes.self])
+    AppCenter.start(withAppSecret: "IOS_SWIFT_EXTENTION", services: [Crashes.self])
   }
   
   func attachments(with crashes: Crashes, for errorReport: ErrorReport) -> [ErrorAttachmentLog] {

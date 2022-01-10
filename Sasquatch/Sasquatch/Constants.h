@@ -9,38 +9,25 @@ static NSString *const kMSUpdateTrackKey = @"kMSUpdateTrackKey";
 static NSString *const kMSChildTransmissionTargetTokenKey = @"kMSChildTransmissionTargetToken";
 static NSString *const kMSTransmissionIterval = @"kMSTransmissionIterval";
 static NSString *const kMSManualSessionTracker = @"kMSManualSessionTracker";
-static NSString *const kMSTargetToken1 = @"602c2d529a824339bef93a7b9a035e6a-"
-                                         @"a0189496-cc3a-41c6-9214-"
-                                         @"b479e5f44912-6819";
-static NSString *const kMSTargetToken2 = @"902923ebd7a34552bd7a0c33207611ab-"
-                                         @"a48969f4-4823-428f-a88c-"
-                                         @"eff15e474137-7039";
-static NSString *const kMSSwiftTargetToken = @"1dd3a9a64e144fcbbd4ce31c5def22e0"
-                                             @"-e57d4574-c5e7-4f89-a745-"
-                                             @"b2e850b54185-7090";
-static NSString *const kMSSwiftRuntimeTargetToken = @"238db5abfbaa4c299b78dd539f78b829-cd10afb7-0ec2-496f-ac8a-c21974fbb82c-"
-                                                    @"7564";
+static NSString *const kMSTargetToken1 = @"IOS_TARGET_TOKEN1";
+static NSString *const kMSTargetToken2 = @"IOS_TARGET_TOKEN2";
+static NSString *const kMSSwiftTargetToken = @"IOS_SWIFT_TARGET_TOKEN";
+static NSString *const kMSSwiftRuntimeTargetToken = @"IOS_SWIFT_RUNTIME_TARGET_TOKEN";
 #if ACTIVE_COMPILATION_CONDITION_PUPPET
-static NSString *const kMSObjCTargetToken = @"09855e8251634d618c1d8ef3325e3530-"
-                                            @"8c17b252-f3c1-41e1-af64-"
-                                            @"78a72d13ac22-6684";
-static NSString *const kMSObjCRuntimeTargetToken = @"b9bb5bcb40f24830aa12f681e6462292-10b4c5da-67be-49ce-936b-8b2b80a83a80-"
-                                                   @"7868";
+static NSString *const kMSObjCTargetToken = @"IOS_OBJC_TARGET_TOKEN_PUPPET";
+static NSString *const kMSObjCRuntimeTargetToken = @"IOS_OBJC_RUNTIME_TARGET_TOKEN_PUPPET";
 #else
-static NSString *const kMSObjCTargetToken = @"5a06bf4972a44a059d59c757e6d0b595-"
-                                            @"cb71af5d-2d79-4fb4-b969-"
-                                            @"01840f1543e9-6845";
-static NSString *const kMSObjCRuntimeTargetToken = @"1aa046cfdc8f49bdbd64190290caf7dd-ba041023-af4d-4432-a87e-eb2431150797-"
-                                                   @"7361";
+static NSString *const kMSObjCTargetToken = @"IOS_OBJC_TARGET_TOKEN";
+static NSString *const kMSObjCRuntimeTargetToken = @"IOS_OBJC_RUNTIME_TARGET_TOKEN";
 #endif
 
-static NSString *const kMSPuppetAppSecret = @"ios=65dc3680-7325-4000-a0e7-dbd2276eafd1;"
-                                            @"macos=5aa84728-2b28-468d-81bc-0aefafcf2f67";
-static NSString *const kMSObjcAppSecret = @"3ccfe7f5-ec01-4de5-883c-f563bbbe147a";
-static NSString *const kMSSwiftCombinedAppSecret = @"ios=0dbca56b-b9ae-4d53-856a-7c2856137d85;"
-                                                   @"macos=2d34dd5c-38c1-4791-b271-f2444c12292b";
-static NSString *const kMSSwiftAppSecret = @"0dbca56b-b9ae-4d53-856a-7c2856137d85";
-static NSString *const kMSSwiftCatalystAppSecret = @"2d34dd5c-38c1-4791-b271-f2444c12292b";
+static NSString *const kMSPuppetAppSecret = @"ios=PUPPET_IOS_PROD;"
+                                            @"macos=PUPPET_MACOS_PROD";
+static NSString *const kMSObjcAppSecret = @"IOS_OBJC_APP_SECRET";
+static NSString *const kMSSwiftCombinedAppSecret = @"ios=IOS_SWIFT_APP_SECRET;"
+                                                   @"macos=CATALYST_APP_SECRET";
+static NSString *const kMSSwiftAppSecret = @"IOS_SWIFT_APP_SECRET";
+static NSString *const kMSSwiftCatalystAppSecret = @"CATALYST_APP_SECRET";
 static NSString *const kMSStartTargetKey = @"startTarget";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
