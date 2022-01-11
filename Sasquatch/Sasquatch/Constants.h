@@ -9,25 +9,7 @@ static NSString *const kMSUpdateTrackKey = @"kMSUpdateTrackKey";
 static NSString *const kMSChildTransmissionTargetTokenKey = @"kMSChildTransmissionTargetToken";
 static NSString *const kMSTransmissionIterval = @"kMSTransmissionIterval";
 static NSString *const kMSManualSessionTracker = @"kMSManualSessionTracker";
-static NSString *const kMSTargetToken1 = @"IOS_TARGET_TOKEN1";
-static NSString *const kMSTargetToken2 = @"IOS_TARGET_TOKEN2";
-static NSString *const kMSSwiftTargetToken = @"IOS_SWIFT_TARGET_TOKEN";
-static NSString *const kMSSwiftRuntimeTargetToken = @"IOS_SWIFT_RUNTIME_TARGET_TOKEN";
-#if ACTIVE_COMPILATION_CONDITION_PUPPET
-static NSString *const kMSObjCTargetToken = @"IOS_OBJC_TARGET_TOKEN_PUPPET";
-static NSString *const kMSObjCRuntimeTargetToken = @"IOS_OBJC_RUNTIME_TARGET_TOKEN_PUPPET";
-#else
-static NSString *const kMSObjCTargetToken = @"IOS_OBJC_TARGET_TOKEN";
-static NSString *const kMSObjCRuntimeTargetToken = @"IOS_OBJC_RUNTIME_TARGET_TOKEN";
-#endif
 
-static NSString *const kMSPuppetAppSecret = @"ios=PUPPET_IOS_PROD;"
-                                            @"macos=PUPPET_MACOS_PROD";
-static NSString *const kMSObjcAppSecret = @"IOS_OBJC_APP_SECRET";
-static NSString *const kMSSwiftCombinedAppSecret = @"ios=IOS_SWIFT_APP_SECRET;"
-                                                   @"macos=CATALYST_APP_SECRET";
-static NSString *const kMSSwiftAppSecret = @"IOS_SWIFT_APP_SECRET";
-static NSString *const kMSSwiftCatalystAppSecret = @"CATALYST_APP_SECRET";
 static NSString *const kMSStartTargetKey = @"startTarget";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
 static NSNotificationName const kUpdateAnalyticsResultNotification = @"updateAnalyticsResult";
@@ -59,3 +41,19 @@ static NSString *const kMSASignOutEndpoint = @"logout.srf";
 static NSString *const kMSARefreshParam = @"&grant_type=refresh_token&refresh_token=";
 static NSString *const kMSARefreshTokenParam = @"refresh_token";
 static NSString *const kMSAScopeParam = @"&scope=service::events.data.microsoft.com::MBI_SSL";
+
+@interface Constants : NSObject
+
+@property(class, readonly, nonnull) NSString *kMSTargetToken1;
+@property(class, readonly, nonnull) NSString *kMSTargetToken2;
+@property(class, readonly, nonnull) NSString *kMSSwiftTargetToken;
+@property(class, readonly, nonnull) NSString *kMSSwiftRuntimeTargetToken;
+@property(class, readonly, nonnull) NSString *kMSObjCTargetToken;
+@property(class, readonly, nonnull) NSString *kMSObjCRuntimeTargetToken;
+@property(class, readonly, nonnull) NSString *kMSPuppetAppSecret;
+@property(class, readonly, nonnull) NSString *kMSObjcAppSecret;
+@property(class, readonly, nonnull) NSString *kMSSwiftCombinedAppSecret;
+@property(class, readonly, nonnull) NSString *kMSSwiftAppSecret;
+@property(class, readonly, nonnull) NSString *kMSSwiftCatalystAppSecret;
+
+@end

@@ -63,6 +63,33 @@
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "IOS_OBJC_TARGET_TOKEN"
+            value = "$(IOS_OBJC_TARGET_TOKEN)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "IOS_OBJC_RUNTIME_TARGET_TOKEN"
+            value = "$(IOS_OBJC_RUNTIME_TARGET_TOKEN)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "IOS_TARGET_TOKEN1"
+            value = "$(IOS_TARGET_TOKEN1)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "IOS_TARGET_TOKEN2"
+            value = "$(IOS_TARGET_TOKEN2)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "IOS_OBJC_APP_SECRET"
+            value = "$(IOS_OBJC_APP_SECRET)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

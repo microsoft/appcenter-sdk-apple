@@ -25,7 +25,7 @@
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appcenter-IOS_OBJC_APP_SECRET</string>
+				<string>appcenter-$(IOS_OBJC_APP_SECRET)</string>
 			</array>
 		</dict>
 	</array>

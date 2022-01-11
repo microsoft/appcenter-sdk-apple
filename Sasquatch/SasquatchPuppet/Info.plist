@@ -25,8 +25,7 @@
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appcenter-65dc3680-7325-4000-a0e7-dbd2276eafd1</string>
-				<string>appcenter-66957d63-b484-43e6-bb8d-b89bf37a1c08</string>
+				<string>appcenter-$(PUPPET_IOS_PROD)</string>
 			</array>
 		</dict>
 	</array>

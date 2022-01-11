@@ -20,7 +20,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate, CrashesDelegate {
     }
     // Override point for customization after application launch.
     AppCenter.logLevel = LogLevel.verbose;
-    AppCenter.start(withAppSecret: "TVOS_SWIFT_PROD", services : [Analytics.self, Crashes.self]);
+    AppCenter.start(withAppSecret:Constants.kMSSwiftAppSecret, services : [Analytics.self, Crashes.self]);
 
     // Crashes Delegate.
     Crashes.delegate = self
