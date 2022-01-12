@@ -28,6 +28,7 @@ xcuserdata/
 .build_config
 *.moved-aside
 *.xcuserstate
+Config/AppCenterSecrets.xcconfig
 
 ## Obj-C/Swift specific
 *.hmap
