@@ -50,7 +50,7 @@
 #if GCC_PREPROCESSOR_MACRO_PUPPET
   return [[MSACAppCenter sharedInstance] appSecret];
 #else
-  return kMSObjcAppSecret;
+  return Constants.kMSObjcAppSecret;
 #endif
 }
 

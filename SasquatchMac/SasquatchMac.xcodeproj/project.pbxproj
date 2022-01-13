@@ -17,6 +17,9 @@
 		0424968B1EC3D29900502B62 /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0424968A1EC3D29900502B62 /* AppCenterDelegateObjC.m */; };
 		04ED31E61EAAD1B30033BAAE /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D31EAAC7510033BAAE /* AppCenterAnalytics.framework */; };
 		04ED31E71EAAD1B30033BAAE /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04ED31D41EAAC7510033BAAE /* AppCenter.framework */; };
+		0630CA4E278FFA9100934521 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D84F278EFFA0009EF06E /* Constants.m */; };
+		0630CA76278FFA9200934521 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D84F278EFFA0009EF06E /* Constants.m */; };
+		0630CA77278FFA9300934521 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D84F278EFFA0009EF06E /* Constants.m */; };
 		0650D850278EFFA0009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D84F278EFFA0009EF06E /* Constants.m */; };
 		06B5E4F1268F52EB001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */; };
 		06B5E519268F5370001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E4F0268F52EB001283AA /* PrepareErrorAttachments.swift */; };
@@ -1325,6 +1328,7 @@
 				B2A4CFBA210A716E00199B4F /* AppCenterProvider.swift in Sources */,
 				B2A4CFBB210A716E00199B4F /* EventFilterViewController.swift in Sources */,
 				4A0A708722044A37007565A6 /* TransmissionViewController.swift in Sources */,
+				0630CA4E278FFA9100934521 /* Constants.m in Sources */,
 				B2A4CFBC210A716E00199B4F /* MSEventFilter.m in Sources */,
 				F8B8DCCF2321815A00BF7DAA /* CrashLoader.swift in Sources */,
 				B2A4CFBE210A716E00199B4F /* CrashesViewController.swift in Sources */,
@@ -1347,6 +1351,7 @@
 				4A0A7084220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 				B2A4CFD8210A77D400199B4F /* AppCenterDelegateSwift.swift in Sources */,
 				B2A4CFD9210A77D400199B4F /* MSEventFilter.m in Sources */,
+				0630CA77278FFA9300934521 /* Constants.m in Sources */,
 				B2A4CFDA210A77D400199B4F /* AppCenterViewController.swift in Sources */,
 				4A3147552206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				B2A4CFDC210A77D400199B4F /* AppCenterProvider.swift in Sources */,
@@ -1392,6 +1397,7 @@
 				4A0A7083220449C7007565A6 /* TransmissionTargets.swift in Sources */,
 				5C9BBC811EC4829200CA77A3 /* AppCenterDelegateSwift.swift in Sources */,
 				358F9BCD2019639100B9E22C /* MSEventFilter.m in Sources */,
+				0630CA76278FFA9200934521 /* Constants.m in Sources */,
 				C2A4A2691EE7684A0080FD22 /* AppCenterViewController.swift in Sources */,
 				4A3147542206897900B0FC8A /* AuthenticationViewController.swift in Sources */,
 				042496881EC3CE3700502B62 /* AppCenterProvider.swift in Sources */,

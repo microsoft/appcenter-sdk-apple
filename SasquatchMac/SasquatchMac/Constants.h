@@ -13,7 +13,7 @@ static NSString *const kMSUserConfirmationKey = @"MSAppCenterCrashesUserConfirma
 static NSString *const kSASCustomizedUpdateAlertKey = @"kSASCustomizedUpdateAlertKey";
 static NSString *const kMSChildTransmissionTargetTokenKey = @"kMSChildTransmissionTargetToken";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";
-static NSString *const *kMSStartTargetKey = @"startTarget";
+static NSString *const kMSStartTargetKey = @"startTarget";
 
 #ifdef SQLITE_DEFAULT_PAGE_SIZE
 static int const kMSStoragePageSize = SQLITE_DEFAULT_PAGE_SIZE;
