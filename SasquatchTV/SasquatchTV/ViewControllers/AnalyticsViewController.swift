@@ -11,7 +11,6 @@ enum AnalyticsSections: Int { case settings = 0; case trackEvent = 1; case track
   @IBOutlet weak var manualSessionTrackerStatus: UILabel!
   
   var appCenter: AppCenterDelegate!
-  var properties : [String : String] = ["key" : "value"]
   
   var isManualSessionTrackerEnabled = true
 
@@ -32,13 +31,13 @@ enum AnalyticsSections: Int { case settings = 0; case trackEvent = 1; case track
       break
     case .trackEvent:
       if indexPath.row == 0 {
-        appCenter.trackEvent("tvOS Event")
+        appCenter.trackEvent("tvOS event")
       } else if indexPath.row == 1 {
-        appCenter.trackEvent("Custom tvOs Event", withProperties: properties)
+        appCenter.trackEvent("tvOS event with properties", withProperties: ["key1" : "value1", "key2": "value2"])
       }
       break
     case .trackPage:
-      appCenter.trackPage("tvOS Page")
+      appCenter.trackPage("tvOS page")
       break
     case .manualSessionTracker:
       if indexPath.row == 0 {
