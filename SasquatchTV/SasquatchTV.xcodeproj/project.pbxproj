@@ -35,8 +35,6 @@
 		5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
 		5CB338A21EE59B4B0089A60B /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* AppCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
-		5CBE5F511F02BC89001ABD15 /* CustomPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* CustomPropertyViewController.swift */; };
-		5CBE5F521F02BC89001ABD15 /* CustomPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* CustomPropertyViewController.swift */; };
 		80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
@@ -47,7 +45,6 @@
 		B25AE820210A79FB00CC07A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
 		B25AE821210A79FB00CC07A9 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		B25AE822210A79FB00CC07A9 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
-		B25AE824210A79FB00CC07A9 /* CustomPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* CustomPropertyViewController.swift */; };
 		B25AE825210A79FB00CC07A9 /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
 		B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
 		B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
@@ -60,7 +57,6 @@
 		B25AE831210A79FB00CC07A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */; };
 		B25AE83C210A7B8A00CC07A9 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
 		B25AE83D210A7B8A00CC07A9 /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
-		B25AE83E210A7B8A00CC07A9 /* CustomPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* CustomPropertyViewController.swift */; };
 		B25AE83F210A7B8A00CC07A9 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* AppCenterDelegateSwift.swift */; };
 		B25AE840210A7B8A00CC07A9 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
 		B25AE841210A7B8A00CC07A9 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
@@ -93,10 +89,6 @@
 		F8442AF9276B8286002F71F0 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */; };
 		F8442AFA276B8286002F71F0 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */; };
 		F8442AFB276B8286002F71F0 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */; };
-		F8FC5799276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FC5798276CCBB20078AE03 /* EditPropertyViewController.swift */; };
-		F8FC579A276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FC5798276CCBB20078AE03 /* EditPropertyViewController.swift */; };
-		F8FC579B276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FC5798276CCBB20078AE03 /* EditPropertyViewController.swift */; };
-		F8FC579C276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8FC5798276CCBB20078AE03 /* EditPropertyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -409,7 +401,6 @@
 		5CB338A01EE59B250089A60B /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegate.swift; sourceTree = "<group>"; };
-		5CBE5F501F02BC89001ABD15 /* CustomPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPropertyViewController.swift; sourceTree = "<group>"; };
 		801C25641F040F3C00F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
@@ -436,7 +427,6 @@
 		F84BA0C3211340540020F13B /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F84BA103211343B70020F13B /* UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UITests.xcconfig; sourceTree = "<group>"; };
 		F89F9015273C0D9200745930 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		F8FC5798276CCBB20078AE03 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPropertyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -698,8 +688,6 @@
 				80F991611F0267B40040FAD7 /* CrashesViewController.swift */,
 				80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */,
 				35427401201272AA00BE766F /* EventFilterViewController.swift */,
-				5CBE5F501F02BC89001ABD15 /* CustomPropertyViewController.swift */,
-				F8FC5798276CCBB20078AE03 /* EditPropertyViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1288,9 +1276,7 @@
 				B25AE820210A79FB00CC07A9 /* main.m in Sources */,
 				B25AE821210A79FB00CC07A9 /* CrashesDetailViewController.swift in Sources */,
 				B25AE822210A79FB00CC07A9 /* AppCenterViewController.swift in Sources */,
-				B25AE824210A79FB00CC07A9 /* CustomPropertyViewController.swift in Sources */,
 				B25AE825210A79FB00CC07A9 /* MSPropertyViewCell.swift in Sources */,
-				F8FC579A276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */,
 				B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */,
 				B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */,
 				06B5E51E268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
@@ -1305,7 +1291,6 @@
 			files = (
 				B25AE83C210A7B8A00CC07A9 /* AppCenterViewController.swift in Sources */,
 				B25AE83D210A7B8A00CC07A9 /* MSPropertyViewCell.swift in Sources */,
-				B25AE83E210A7B8A00CC07A9 /* CustomPropertyViewController.swift in Sources */,
 				B25AE83F210A7B8A00CC07A9 /* AppCenterDelegateSwift.swift in Sources */,
 				B25AE840210A7B8A00CC07A9 /* AppCenterDelegate.swift in Sources */,
 				B25AE841210A7B8A00CC07A9 /* CrashesViewController.swift in Sources */,
@@ -1314,7 +1299,6 @@
 				B25AE843210A7B8A00CC07A9 /* CrashesDetailViewController.swift in Sources */,
 				06B5E520268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				B25AE845210A7B8A00CC07A9 /* MSEventFilter.m in Sources */,
-				F8FC579C276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */,
 				B25AE846210A7B8A00CC07A9 /* EventFilterViewController.swift in Sources */,
 				B25AE847210A7B8A00CC07A9 /* AppCenterProtocol.swift in Sources */,
 			);
@@ -1326,7 +1310,6 @@
 			files = (
 				5C481B9F1EE5794A009329DD /* AppCenterViewController.swift in Sources */,
 				5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */,
-				5CBE5F521F02BC89001ABD15 /* CustomPropertyViewController.swift in Sources */,
 				5C5A41881EE5B07D00C377A7 /* AppCenterDelegateSwift.swift in Sources */,
 				5C5A41801EE5AE7500C377A7 /* AppCenterDelegate.swift in Sources */,
 				80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
@@ -1335,7 +1318,6 @@
 				80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				06B5E51F268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				35C6AE03201BCFBE009F29AE /* MSEventFilter.m in Sources */,
-				F8FC579B276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */,
 				35427402201272AB00BE766F /* EventFilterViewController.swift in Sources */,
 				5C481BA71EE586D2009329DD /* AppCenterProtocol.swift in Sources */,
 			);
@@ -1352,9 +1334,7 @@
 				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
 				80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				5C481B9E1EE5794A009329DD /* AppCenterViewController.swift in Sources */,
-				5CBE5F511F02BC89001ABD15 /* CustomPropertyViewController.swift in Sources */,
 				5C931C7B1F026688004AF9CD /* MSPropertyViewCell.swift in Sources */,
-				F8FC5799276CCBB20078AE03 /* EditPropertyViewController.swift in Sources */,
 				5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */,
 				35427403201272AB00BE766F /* EventFilterViewController.swift in Sources */,
 				06B5E51D268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
