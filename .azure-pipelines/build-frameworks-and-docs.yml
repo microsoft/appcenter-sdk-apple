@@ -13,6 +13,8 @@ pool:
 variables:
   Configuration: Release
   SDK:
+  - name: EOCompliance-Mac
+    value: true
 
   # Xcode 11.3.1 version is the last one that has compatible bitcode with Xcode 11.0 (minimal supported).
   XCODE_PATH: '/Applications/Xcode_11.3.1.app/Contents/Developer'
