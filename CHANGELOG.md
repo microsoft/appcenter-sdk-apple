@@ -1,6 +1,8 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
 ## Version 4.4.2 (Under development)
+
+* **[Fix]** It is now possible to build the project using the command line `swift build`.
 ___
 
 ## Version 4.4.1
