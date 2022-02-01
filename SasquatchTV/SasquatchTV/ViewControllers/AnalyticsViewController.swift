@@ -3,98 +3,52 @@
 
 import UIKit;
 
-enum AnalyticsSections : Int { case actions = 0; case settings = 1; }
+enum AnalyticsSections: Int { case settings = 0; case trackEvent = 1; case trackPage = 2; case manualSessionTracker = 3; }
 
-enum AnalyticsActionsRows : Int {
-  case trackEvent = 0; case trackPage = 1; case addProperty = 2; case clearProperty = 3;
-}
+@objc open class AnalyticsViewController: UITableViewController, AppCenterProtocol {
 
-class AnalyticsViewController : UIViewController, UITableViewDataSource, AppCenterProtocol {
+  @IBOutlet weak var analyticsStatus: UILabel!
+  @IBOutlet weak var manualSessionTrackerStatus: UILabel!
+  
+  var appCenter: AppCenterDelegate!
+  
+  var isManualSessionTrackerEnabled = true
 
-  @IBOutlet weak var enableManualSessionTracker : UISegmentedControl!;
-  @IBOutlet weak var serviceStatus : UISegmentedControl?;
-  @IBOutlet weak var table : UITableView?;
-
-  var appCenter : AppCenterDelegate!;
-  var properties : [String : String] = [String : String]();
-
-  override func viewDidLoad() {
-    super.viewDidLoad();
-    table?.dataSource = self;
-    table?.allowsSelection = true;
-    serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
-    serviceStatus?.addTarget(self, action: #selector(self.switchAnalyticsStatus), for: .valueChanged);
-    enableManualSessionTracker?.addTarget(self, action: #selector(self.switchManualSessionTracker), for: .valueChanged)
+  open override func viewDidLoad() {
+    super.viewDidLoad()
+    isManualSessionTrackerEnabled = UserDefaults.standard.bool(forKey: kMSManualSessionTracker)
+    manualSessionTrackerStatus.text = isManualSessionTrackerEnabled ? "Enabled" : "Disabled"
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-      enableManualSessionTracker?.selectedSegmentIndex = UserDefaults.standard.bool(forKey: kMSManualSessionTracker) ? 0 : 1
-  }
-
-  @IBAction func trackEvent(_ : Any) {
-    appCenter.trackEvent("tvOS Event", withProperties : properties);
-  }
-
-  @IBAction func trackPage(_ : Any) {
-    appCenter.trackPage("tvOS Page", withProperties : properties);
-  }
-
-  @IBAction func addProperty(_ : Any) {
-    let propKey : String = String(format : "key%d", properties.count + 1);
-    let propValue : String = String(format : "value%d", properties.count + 1);
-    properties.updateValue(propValue, forKey: propKey);
-    table?.reloadData();
-  }
-
-  @IBAction func deleteProperty(_ : Any) {
-    properties.removeAll();
-    table?.reloadData();
-  }
-
-  @objc func switchAnalyticsStatus(_ : Any) {
-    appCenter.setAnalyticsEnabled(serviceStatus?.selectedSegmentIndex == 0);
-    serviceStatus?.selectedSegmentIndex = appCenter.isAnalyticsEnabled() ? 0 : 1;
-  }
-  
-  @IBAction func startSession(_ sender: Any) {
-    appCenter.startSession()
-  }
-  
-  @objc func switchManualSessionTracker(_ sender: UISegmentedControl) {
-    UserDefaults.standard.set(sender.selectedSegmentIndex == 0, forKey: kMSManualSessionTracker);
-    print("Restart the app for the changes to take effect.")
-  }
-
-  //MARK: Table view data source
-
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return properties.count;
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell : MSPropertyViewCell = tableView.dequeueReusableCell(withIdentifier: "propertyViewCell", for: indexPath) as? MSPropertyViewCell else {
-      return UITableViewCell();
+  open override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    guard let section = AnalyticsSections.init(rawValue : indexPath.section) else {
+      return
     }
-    let propKey : String = Array(properties.keys)[indexPath.row];
-    cell.propertyKey?.text = propKey;
-    cell.propertyValue?.text = properties[propKey];
-    return cell;
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    guard let editPropertyViewController = segue.destination as? EditPropertyViewController else {
-      return;
+    switch (section) {
+    case .settings:
+      appCenter.setAnalyticsEnabled(!appCenter.isAnalyticsEnabled())
+      self.analyticsStatus.text = appCenter.isAnalyticsEnabled() ? "Enabled" : "Disabled"
+      break
+    case .trackEvent:
+      if indexPath.row == 0 {
+        appCenter.trackEvent("tvOS event")
+      } else if indexPath.row == 1 {
+        appCenter.trackEvent("tvOS event with properties", withProperties: ["key1" : "value1", "key2": "value2"])
+      }
+      break
+    case .trackPage:
+      appCenter.trackPage("tvOS page")
+      break
+    case .manualSessionTracker:
+      if indexPath.row == 0 {
+        isManualSessionTrackerEnabled = !isManualSessionTrackerEnabled
+        UserDefaults.standard.set(isManualSessionTrackerEnabled , forKey: kMSManualSessionTracker);
+        self.manualSessionTrackerStatus.text = isManualSessionTrackerEnabled ? "Enabled" : "Disabled"
+        print("Restart the app for the changes to take effect.")
+      } else if indexPath.row == 1 {
+        appCenter.startSession()
+      }
+      break
     }
-    guard let indexPath = table?.indexPathForSelectedRow else {
-      return;
-    }
-
-    let key : String = Array(properties.keys)[indexPath.row];
-    let value : String = properties[key] ?? "";
-
-    editPropertyViewController.oldKey = key;
-    editPropertyViewController.oldValue = value;
-    editPropertyViewController.properties = properties;
-    editPropertyViewController.appCenter = appCenter;
   }
 }
