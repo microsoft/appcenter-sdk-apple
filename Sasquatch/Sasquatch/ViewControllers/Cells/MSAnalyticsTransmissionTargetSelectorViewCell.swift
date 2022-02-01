@@ -13,8 +13,8 @@ import UIKit
   override func awakeFromNib() {
     super.awakeFromNib()
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    let runtimeToken: String = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
-    transmissionTargetMapping = [kMSTargetToken1, kMSTargetToken2, runtimeToken]
+    let runtimeToken: String = appName.contains("SasquatchSwift") ? Constants.kMSSwiftRuntimeTargetToken : Constants.kMSObjCRuntimeTargetToken
+    transmissionTargetMapping = [Constants.kMSTargetToken1, Constants.kMSTargetToken2, runtimeToken]
     didSelectTransmissionTarget = {() in}
     transmissionTargetSelector.addTarget(self, action: #selector(onSegmentSelected), for: .valueChanged)
   }

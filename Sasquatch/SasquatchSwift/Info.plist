@@ -29,8 +29,7 @@
 			<string>com.microsoft.appcenter.sasquatchswift</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appcenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
-				<string>appcenter-f9854e3a-0c8a-4774-9bf1-68f6dff8eb98</string>
+				<string>appcenter-$(IOS_SWIFT_APP_SECRET)</string>
 			</array>
 		</dict>
 	</array>

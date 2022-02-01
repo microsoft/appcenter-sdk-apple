@@ -10,6 +10,12 @@
 		041A4BB11F8C28A3009E1B6C /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		048933631F8D395A00C38A87 /* Sasquatch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 041A4BAF1F8C28A3009E1B6C /* Sasquatch.strings */; };
 		04A1DB34223B65EB006A48D6 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0650D83D278DAC57009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D83C278DAC57009EF06E /* Constants.m */; };
+		0650D83E278DAC57009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D83C278DAC57009EF06E /* Constants.m */; };
+		0650D83F278DAC57009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D83C278DAC57009EF06E /* Constants.m */; };
+		0650D840278DAC57009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D83C278DAC57009EF06E /* Constants.m */; };
+		0650D841278DAC57009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D83C278DAC57009EF06E /* Constants.m */; };
+		0650D842278DAC57009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D83C278DAC57009EF06E /* Constants.m */; };
 		06B5E407268DC078001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E406268DC078001283AA /* PrepareErrorAttachments.swift */; };
 		06B5E42F268DC088001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E406268DC078001283AA /* PrepareErrorAttachments.swift */; };
 		06B5E430268DC089001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E406268DC078001283AA /* PrepareErrorAttachments.swift */; };
@@ -978,6 +984,7 @@
 		046790451E8DA8DD0033FDEC /* SasquatchObjC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SasquatchObjC.entitlements; sourceTree = "<group>"; };
 		0482105C1FD0B611006824F7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Sasquatch.strings; sourceTree = "<group>"; };
 		04A1DB33223B65EB006A48D6 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		0650D83C278DAC57009EF06E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		06B5E406268DC078001283AA /* PrepareErrorAttachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareErrorAttachments.swift; sourceTree = "<group>"; };
 		352A3E7320F801A900D09CF0 /* EventPropertiesTableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPropertiesTableSection.swift; sourceTree = "<group>"; };
 		35396A7720F95A9C00A091E0 /* MSTransmissionTargetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSTransmissionTargetsViewController.swift; sourceTree = "<group>"; };
@@ -1350,6 +1357,7 @@
 				B2586C84210A47A800664A43 /* MSAnalyticsResult.swift */,
 				35FBE78020FD095200F7B05C /* MSTransmissionTargets.swift */,
 				041E2BEE1FB6465000793316 /* Constants.h */,
+				0650D83C278DAC57009EF06E /* Constants.m */,
 				F83587C7242B6B6F007D83F3 /* MSAAnalyticsAuthenticationProvider.swift */,
 				84226CB11E8909F700798417 /* Storyboards */,
 				84226CB01E8909EA00798417 /* ViewControllers */,
@@ -2778,6 +2786,7 @@
 				352A3E7420F801A900D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				35FBE78120FD095200F7B05C /* MSTransmissionTargets.swift in Sources */,
 				B2586C85210A47A800664A43 /* MSAnalyticsResult.swift in Sources */,
+				0650D83F278DAC57009EF06E /* Constants.m in Sources */,
 				359171FA20F8001A00F3DDE6 /* TargetPropertiesTableSection.swift in Sources */,
 				849A3E721E8A9922008711CB /* AppCenterProtocol.swift in Sources */,
 				B2E011F521091EF2003F4A5B /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
@@ -2816,6 +2825,7 @@
 				84A0FF671E8A87B4000E7A28 /* MSCrashesViewController.swift in Sources */,
 				06B5E407268DC078001283AA /* PrepareErrorAttachments.swift in Sources */,
 				F8AA9F362164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
+				0650D842278DAC57009EF06E /* Constants.m in Sources */,
 				352A3E7520F80C8600D09CF0 /* EventPropertiesTableSection.swift in Sources */,
 				35CAA2272143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 				84A0FF6A1E8A87C9000E7A28 /* MSAnalyticsViewController.swift in Sources */,
@@ -2858,6 +2868,7 @@
 				B20AE38321027D6200A1A195 /* MSEventFilter.m in Sources */,
 				B20AE38521027D6200A1A195 /* TargetPropertiesTableSection.swift in Sources */,
 				B20AE38621027D6200A1A195 /* AppCenterProtocol.swift in Sources */,
+				0650D83D278DAC57009EF06E /* Constants.m in Sources */,
 				B2586C8B210A485300664A43 /* MSAnalyticsResultViewController.swift in Sources */,
 				F8AA9F4D21650C04009104E3 /* SimplePropertiesTableSection.swift in Sources */,
 				B20AE38721027D6200A1A195 /* MSMainViewController.swift in Sources */,
@@ -2890,6 +2901,7 @@
 				B27D54A4210A5E7E004E82C9 /* EventPropertiesTableSection.swift in Sources */,
 				B27D54A5210A5E7E004E82C9 /* MSTransmissionTargets.swift in Sources */,
 				B27D54A7210A5E7E004E82C9 /* MSAnalyticsResult.swift in Sources */,
+				0650D83E278DAC57009EF06E /* Constants.m in Sources */,
 				B27D54A8210A5E7E004E82C9 /* TargetPropertiesTableSection.swift in Sources */,
 				B27D54A9210A5E7E004E82C9 /* AppCenterProtocol.swift in Sources */,
 				B27D54AA210A5E7E004E82C9 /* MSAnalyticsPropertyTableViewCell.swift in Sources */,
@@ -2928,6 +2940,7 @@
 				B2A4CF8B210A6E6900199B4F /* MSCrashesViewController.swift in Sources */,
 				06B5E42F268DC088001283AA /* PrepareErrorAttachments.swift in Sources */,
 				F8AA9F352164F994009104E3 /* MSAnalyticsTypedPropertyTableViewCell.swift in Sources */,
+				0650D841278DAC57009EF06E /* Constants.m in Sources */,
 				B2A4CF8C210A6E6900199B4F /* EventPropertiesTableSection.swift in Sources */,
 				35CAA2252143229300A8BED2 /* MSTableViewCellExtension.swift in Sources */,
 				B2A4CF8E210A6E6900199B4F /* MSAnalyticsViewController.swift in Sources */,
@@ -3018,6 +3031,7 @@
 				DF4D2DBF24768E40004A12DC /* MSSignInViewController.swift in Sources */,
 				DF4D2DC024768E40004A12DC /* MSTransmissionTargetsViewController.swift in Sources */,
 				DF4D2DC124768E40004A12DC /* MSAnalyticsTransmissionTargetSelectorViewCell.swift in Sources */,
+				0650D840278DAC57009EF06E /* Constants.m in Sources */,
 				DF4D2DC224768E40004A12DC /* AppCenterDelegate.swift in Sources */,
 				DF4D2DC324768E40004A12DC /* MSCustomPropertyTableViewCell.swift in Sources */,
 				DF4D2DC424768E40004A12DC /* MSAnalyticsPropertyTableViewCell.swift in Sources */,

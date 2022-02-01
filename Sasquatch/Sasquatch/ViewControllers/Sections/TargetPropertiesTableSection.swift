@@ -13,10 +13,10 @@ class TargetPropertiesTableSection : PropertiesTableSection {
   override init(tableSection: Int, tableView: UITableView) {
     super.init(tableSection: tableSection, tableView: tableView)
     let appName = Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    let parentTargetToken = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    let parentTargetToken = appName.contains("SasquatchSwift") ? Constants.kMSSwiftRuntimeTargetToken : Constants.kMSObjCRuntimeTargetToken
     targetProperties[parentTargetToken] = [PropertyState]()
-    targetProperties[kMSTargetToken1] = [PropertyState]()
-    targetProperties[kMSTargetToken2] = [PropertyState]()
+    targetProperties[Constants.kMSTargetToken1] = [PropertyState]()
+    targetProperties[Constants.kMSTargetToken2] = [PropertyState]()
     transmissionTargetSelectorCell = loadCellFromNib()
     transmissionTargetSelectorCell?.didSelectTransmissionTarget = reloadSection
   }

@@ -27,11 +27,11 @@ class MSAnalyticsChildTransmissionTargetTableViewController: UITableViewControll
       self.navigationController?.popViewController(animated: true)
       break
     case 1:
-      UserDefaults.standard.setValue(kMSTargetToken1, forKey: kMSChildTransmissionTargetTokenKey)
+      UserDefaults.standard.setValue(Constants.kMSTargetToken1, forKey: kMSChildTransmissionTargetTokenKey)
       self.navigationController?.popViewController(animated: true)
       break
     case 2:
-      UserDefaults.standard.setValue(kMSTargetToken2, forKey: kMSChildTransmissionTargetTokenKey)
+      UserDefaults.standard.setValue(Constants.kMSTargetToken2, forKey: kMSChildTransmissionTargetTokenKey)
       self.navigationController?.popViewController(animated: true)
     default:
       break

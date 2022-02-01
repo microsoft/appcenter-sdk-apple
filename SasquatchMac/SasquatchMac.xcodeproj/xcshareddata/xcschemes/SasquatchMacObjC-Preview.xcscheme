@@ -63,6 +63,33 @@
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "MAC_TARGET_TOKEN2"
+            value = "$(MAC_TARGET_TOKEN2)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "MAC_TARGET_TOKEN1"
+            value = "$(MAC_TARGET_TOKEN1)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "MAC_OBJC_RUNTIME_TARGET_TOKEN"
+            value = "$(MAC_OBJC_RUNTIME_TARGET_TOKEN)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "MAC_OBJC_TARGET_TOKEN"
+            value = "$(MAC_OBJC_TARGET_TOKEN)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "MAC_OBJC_APP_SECRET"
+            value = "$(MAC_OBJC_APP_SECRET)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

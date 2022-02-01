@@ -79,6 +79,13 @@
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "MAC_SWIFT_EXTENTION"
+            value = "$(MAC_SWIFT_EXTENTION)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

@@ -176,31 +176,31 @@ class TransmissionViewController: NSViewController, NSTableViewDataSource, NSTab
     // Default target section.
     let defaultTargetSection = TransmissionTargetSection()
     defaultTargetSection.isDefault = true
-    defaultTargetSection.token = appName.contains("SasquatchMacSwift") ? kMSSwiftTargetToken : kMSObjCTargetToken
+    defaultTargetSection.token = appName.contains("SasquatchMacSwift") ? Constants.kMSSwiftTargetToken : Constants.kMSObjCTargetToken
 
     // Runtime target section.
     let runtimeTargetSection = TransmissionTargetSection()
-    runtimeTargetSection.token = appName.contains("SasquatchMacSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    runtimeTargetSection.token = appName.contains("SasquatchMacSwift") ? Constants.kMSSwiftRuntimeTargetToken : Constants.kMSObjCRuntimeTargetToken
 
     // Child 1.
     let child1TargetSection = TransmissionTargetSection()
-    child1TargetSection.token = kMSTargetToken1
+    child1TargetSection.token = Constants.kMSTargetToken1
 
     // Child 2.
     let child2TargetSection = TransmissionTargetSection()
-    child2TargetSection.token = kMSTargetToken2
+    child2TargetSection.token = Constants.kMSTargetToken2
 
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]
 
     // Common schema properties section
     propertyValues = [String: [String]]()
     collectDeviceIdStates = [String: Bool]()
-    let parentTargetToken = appName.contains("SasquatchMacSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
-    for token in [parentTargetToken, kMSTargetToken1, kMSTargetToken2] {
+    let parentTargetToken = appName.contains("SasquatchMacSwift") ? Constants.kMSSwiftRuntimeTargetToken : Constants.kMSObjCRuntimeTargetToken
+    for token in [parentTargetToken, Constants.kMSTargetToken1, Constants.kMSTargetToken2] {
       propertyValues[token] = Array(repeating: "", count: propertyKeys.count)
       collectDeviceIdStates[token] = false
     }
-    transmissionTargetMapping = [kMSTargetToken1, kMSTargetToken2, parentTargetToken]
+    transmissionTargetMapping = [Constants.kMSTargetToken1, Constants.kMSTargetToken2, parentTargetToken]
     commonSelector.target = self
     commonSelector.action = #selector(onSegmentSelected)
 
