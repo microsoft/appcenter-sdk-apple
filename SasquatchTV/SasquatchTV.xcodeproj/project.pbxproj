@@ -813,7 +813,6 @@
 			buildConfigurationList = D322EFE41E8E97C800A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVSwift" */;
 			buildPhases = (
 				F84BA0BB21133F4C0020F13B /* Verify no buildSettings */,
-				F83D7A7F2317C4DC00E7E8F4 /* Remove the wrong framework */,
 				D322EFD41E8E97C800A8EDA5 /* Sources */,
 				D322EFD51E8E97C800A8EDA5 /* Frameworks */,
 				D322EFD61E8E97C800A8EDA5 /* Resources */,
@@ -837,7 +836,6 @@
 			buildConfigurationList = D322EFFC1E8E97DF00A8EDA5 /* Build configuration list for PBXNativeTarget "SasquatchTVObjC" */;
 			buildPhases = (
 				F84BA0B921133F3F0020F13B /* Verify no buildSettings */,
-				F86943B32317445B006F2753 /* Remove the wrong framework */,
 				D322EFE71E8E97DF00A8EDA5 /* Sources */,
 				D322EFE81E8E97DF00A8EDA5 /* Frameworks */,
 				D322EFE91E8E97DF00A8EDA5 /* Resources */,
@@ -1152,25 +1150,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F83D7A7F2317C4DC00E7E8F4 /* Remove the wrong framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove the wrong framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
-			showEnvVarsInLog = 0;
-		};
 		F84BA0B921133F3F0020F13B /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1229,25 +1208,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Scripts/VerifyNoBuildSettings.swift\" ${PROJECT_NAME}.xcodeproj/project.pbxproj";
-			showEnvVarsInLog = 0;
-		};
-		F86943B32317445B006F2753 /* Remove the wrong framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove the wrong framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

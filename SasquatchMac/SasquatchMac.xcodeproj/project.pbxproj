@@ -837,7 +837,6 @@
 			buildConfigurationList = D3C31C331E8E75B300B288CE /* Build configuration list for PBXNativeTarget "SasquatchMacObjC" */;
 			buildPhases = (
 				F849248B2112FDE900E14DBE /* Verify no buildSettings */,
-				F845068B2317D7E600A959D6 /* Remove the wrong framework */,
 				D3C31C1E1E8E75B300B288CE /* Sources */,
 				D3C31C1F1E8E75B300B288CE /* Frameworks */,
 				D3C31C201E8E75B300B288CE /* Resources */,
@@ -862,7 +861,6 @@
 			buildPhases = (
 				F849248D2112FDFA00E14DBE /* Verify no buildSettings */,
 				D3C31C5C1E8E763600B288CE /* Sources */,
-				F845068C2317D7FC00A959D6 /* Remove the wrong framework */,
 				D3C31C5D1E8E763600B288CE /* Frameworks */,
 				D3C31C5E1E8E763600B288CE /* Resources */,
 				F8EE646F231E6F8F0007A52E /* Embed App Extensions */,
@@ -1201,44 +1199,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F845068B2317D7E600A959D6 /* Remove the wrong framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove the wrong framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
-			showEnvVarsInLog = 0;
-		};
-		F845068C2317D7FC00A959D6 /* Remove the wrong framework */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Remove the wrong framework";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# We test the app on the fat fake framework produced by our script. \n# In order for linker to not pick up the simple static framework\n# (which it does by default), we need to remove it.\nrm -rf \"${BUILT_PRODUCTS_DIR}\"/AppCenter*.framework\n";
-			showEnvVarsInLog = 0;
-		};
 		F849248B2112FDE900E14DBE /* Verify no buildSettings */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
