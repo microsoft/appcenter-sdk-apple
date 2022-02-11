@@ -6,6 +6,7 @@
 import PackageDescription
 
 let projectHeaderSearchPaths = [
+    "**",
     "../../AppCenter/AppCenter/Internals",
     "../../AppCenter/AppCenter/Internals/Channel",
     "../../AppCenter/AppCenter/Internals/Context/Device",
