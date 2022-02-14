@@ -2,7 +2,7 @@
 
 ## Version 4.4.2 (Under development)
 
-* **[Fix]** It is now possible to build the project using the command line `swift build`.
+* **[Fix]** It is now possible to build the project using the AppCenterAnalytics and AppCenterCrashes targets on the command line via `swift build`.
 ___
 
 ## Version 4.4.1
