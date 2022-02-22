@@ -2,7 +2,15 @@
 
 ## Version 4.4.2 (Under development)
 
-* **[Fix]** It is now possible to build the project using the AppCenterAnalytics and AppCenterCrashes targets on the command line via `swift build`.
+### App Center Analytics
+
+* **[Feature]** Support build via the command line `swift build`.
+
+### App Center Crashes
+
+* **[Feature]** Support build via the command line `swift build`.
+* **[Fix]** Add exception null check for `Crashes.trackError` API.
+
 ___
 
 ## Version 4.4.1
