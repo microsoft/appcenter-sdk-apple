@@ -59,33 +59,6 @@
             ReferencedContainer = "container:SasquatchMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "MAC_TARGET_TOKEN2"
-            value = "$(MAC_TARGET_TOKEN2)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "MAC_SWIFT_RUNTIME_TARGET_TOKEN"
-            value = "$(MAC_SWIFT_RUNTIME_TARGET_TOKEN)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "MAC_SWIFT_TARGET_TOKEN"
-            value = "$(MAC_SWIFT_TARGET_TOKEN)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "MAC_SWIFT_APP_SECRET"
-            value = "$(MAC_SWIFT_APP_SECRET)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "MAC_TARGET_TOKEN1"
-            value = "$(MAC_TARGET_TOKEN1)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

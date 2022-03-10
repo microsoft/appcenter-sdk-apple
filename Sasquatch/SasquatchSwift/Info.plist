@@ -6,6 +6,8 @@
 	<false/>
 	<key>AppCenterUserNotificationCenterDelegateForwarderEnabled</key>
 	<false/>
+	<key>CATALYST_APP_SECRET</key>
+	<string>$(CATALYST_APP_SECRET)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -35,6 +37,16 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>${BUILD_NUMBER}</string>
+	<key>IOS_SWIFT_APP_SECRET</key>
+	<string>$(IOS_SWIFT_APP_SECRET)</string>
+	<key>IOS_SWIFT_RUNTIME_TARGET_TOKEN</key>
+	<string>$(IOS_SWIFT_RUNTIME_TARGET_TOKEN)</string>
+	<key>IOS_SWIFT_TARGET_TOKEN</key>
+	<string>$(IOS_SWIFT_TARGET_TOKEN)</string>
+	<key>IOS_TARGET_TOKEN1</key>
+	<string>$(IOS_TARGET_TOKEN1)</string>
+	<key>IOS_TARGET_TOKEN2</key>
+	<string>$(IOS_TARGET_TOKEN2)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>

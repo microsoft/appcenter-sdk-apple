@@ -71,50 +71,6 @@
             ReferencedContainer = "container:Sasquatch.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <AdditionalOptions>
-      </AdditionalOptions>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "PUPPET_IOS_PROD"
-            value = "$(PUPPET_IOS_PROD)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "IOS_OBJC_TARGET_TOKEN"
-            value = "$(IOS_OBJC_TARGET_TOKEN)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "IOS_OBJC_RUNTIME_TARGET_TOKEN"
-            value = "$(IOS_OBJC_RUNTIME_TARGET_TOKEN)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "IOS_TARGET_TOKEN1"
-            value = "$(IOS_TARGET_TOKEN1)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "IOS_TARGET_TOKEN2"
-            value = "$(IOS_TARGET_TOKEN2)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "IOS_OBJC_RUNTIME_TARGET_TOKEN_PUPPET"
-            value = "$(IOS_OBJC_RUNTIME_TARGET_TOKEN_PUPPET)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "IOS_OBJC_TARGET_TOKEN_PUPPET"
-            value = "$(IOS_OBJC_TARGET_TOKEN_PUPPET)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "PUPPET_MACOS_PROD"
-            value = "$(PUPPET_MACOS_PROD)"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Debug"

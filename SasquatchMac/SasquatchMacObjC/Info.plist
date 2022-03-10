@@ -22,6 +22,16 @@
 	<string>${BUILD_NUMBER}</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>MAC_OBJC_APP_SECRET</key>
+	<string>$(MAC_OBJC_APP_SECRET)</string>
+	<key>MAC_OBJC_RUNTIME_TARGET_TOKEN</key>
+	<string>$(MAC_OBJC_RUNTIME_TARGET_TOKEN)</string>
+	<key>MAC_OBJC_TARGET_TOKEN</key>
+	<string>$(MAC_OBJC_TARGET_TOKEN)</string>
+	<key>MAC_TARGET_TOKEN1</key>
+	<string>$(MAC_TARGET_TOKEN1)</string>
+	<key>MAC_TARGET_TOKEN2</key>
+	<string>$(MAC_TARGET_TOKEN2)</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2017 Microsoft. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>

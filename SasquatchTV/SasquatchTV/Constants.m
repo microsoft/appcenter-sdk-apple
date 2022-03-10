@@ -7,11 +7,11 @@
 @implementation Constants
 
 + (NSString *)kMSSwiftAppSecret {
-  return [[[NSProcessInfo processInfo] environment] objectForKey:@"TVOS_SWIFT_APP_SECRET"];
+  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TVOS_SWIFT_APP_SECRET"];
 }
 
 + (NSString *)kMSObjcAppSecret {
-  return [[[NSProcessInfo processInfo] environment] objectForKey:@"TVOS_OBJC_APP_SECRET"];
+  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TVOS_OBJC_APP_SECRET"];
 }
 
 @end
