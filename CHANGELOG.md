@@ -1,5 +1,18 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.4.2
+
+### App Center Analytics
+
+* **[Feature]** Support build via the command line `swift build`.
+
+### App Center Crashes
+
+* **[Feature]** Support build via the command line `swift build`.
+* **[Fix]** Add exception null check for `Crashes.trackError` API.
+
+___
+
 ## Version 4.4.1
 
 ### App Center

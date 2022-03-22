@@ -209,7 +209,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
 #pragma mark - Public Methods
 
-+ (NSString *)trackError:(NSError *)error
++ (NSString *)trackError:(NSError *_Nonnull)error
           withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
              attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   return [[MSACCrashes sharedInstance] trackError:[[MSACExceptionModel alloc] initWithError:error]
@@ -217,7 +217,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
                                       attachments:attachments];
 }
 
-+ (NSString *)trackException:(MSACExceptionModel *)exceptionModel
++ (NSString *)trackException:(MSACExceptionModel *_Nonnull)exceptionModel
               withProperties:(nullable NSDictionary<NSString *, NSString *> *)properties
                  attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
   return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties attachments:attachments];

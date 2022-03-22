@@ -6,6 +6,7 @@ pr:
 variables:
   Configuration: Debug
   SDK:
+  EOCompliance-Mac: true
 
 jobs:
 - template: analyze-and-test-template.yml

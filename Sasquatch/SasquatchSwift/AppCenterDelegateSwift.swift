@@ -40,7 +40,7 @@ class AppCenterDelegateSwift: AppCenterDelegate {
 
   func appSecret() -> String {
 #if !targetEnvironment(macCatalyst)
-    return kMSSwiftAppSecret
+    return Constants.kMSSwiftAppSecret
 #else
     return kMSSwiftCatalystAppSecret
 #endif

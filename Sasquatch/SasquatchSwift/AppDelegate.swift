@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
 #if canImport(AppCenterDistribute)
     services.append(Distribute.self)
 #endif
-    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? kMSSwiftCombinedAppSecret
+    let appSecret = UserDefaults.standard.string(forKey: kMSAppSecret) ?? Constants.kMSSwiftCombinedAppSecret
     let startTarget = StartupMode(rawValue: UserDefaults.standard.integer(forKey: kMSStartTargetKey))!
     let latencyTimeValue = UserDefaults.standard.integer(forKey: kMSTransmissionIterval);
     Analytics.transmissionInterval = UInt(latencyTimeValue);
@@ -104,10 +104,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
       AppCenter.start(withAppSecret: appSecret, services: services)
       break
     case .ONECOLLECTOR:
-      AppCenter.start(withAppSecret: "target=\(kMSSwiftTargetToken)", services: services)
+      AppCenter.start(withAppSecret: "target=\(Constants.kMSSwiftTargetToken)", services: services)
       break
     case .BOTH:
-      AppCenter.start(withAppSecret: "\(appSecret);target=\(kMSSwiftTargetToken)", services: services)
+      AppCenter.start(withAppSecret: "\(appSecret);target=\(Constants.kMSSwiftTargetToken)", services: services)
       break
     case .NONE:
       AppCenter.start(services: services)

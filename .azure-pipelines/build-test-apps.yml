@@ -9,6 +9,7 @@ pool:
 variables:
   Configuration: Release
   SDK:
+  EOCompliance-Mac: true
 
 jobs:
 - job:

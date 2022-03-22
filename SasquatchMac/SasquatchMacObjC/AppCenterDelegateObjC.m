@@ -37,7 +37,7 @@
 }
 
 - (NSString *)appSecret {
-  return kMSObjcAppSecret;
+  return Constants.kMSObjcAppSecret;
 }
 
 - (BOOL)isDebuggerAttached {

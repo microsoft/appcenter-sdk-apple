@@ -32,6 +32,9 @@
       location = "group:Config"
       name = "Config">
       <FileRef
+         location = "group:AppCenterSecrets.xcconfig">
+      </FileRef>
+      <FileRef
          location = "group:App.xcconfig">
       </FileRef>
       <FileRef

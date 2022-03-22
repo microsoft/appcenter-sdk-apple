@@ -147,19 +147,19 @@ enum StartupMode { APPCENTER, ONECOLLECTOR, BOTH, NONE, SKIP };
   NSArray<Class> *services = @[ [MSACAnalytics class], [MSACCrashes class] ];
 #endif
 #if GCC_PREPROCESSOR_MACRO_PUPPET
-  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSPuppetAppSecret;
+  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: Constants.kMSPuppetAppSecret;
 #else
-  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: kMSObjcAppSecret;
+  NSString *appSecret = [[NSUserDefaults standardUserDefaults] objectForKey:kMSAppSecret] ?: Constants.kMSObjcAppSecret;
 #endif
   switch (startTarget) {
   case APPCENTER:
     [MSACAppCenter start:appSecret withServices:services];
     break;
   case ONECOLLECTOR:
-    [MSACAppCenter start:[NSString stringWithFormat:@"target=%@", kMSObjCTargetToken] withServices:services];
+    [MSACAppCenter start:[NSString stringWithFormat:@"target=%@", Constants.kMSObjCTargetToken] withServices:services];
     break;
   case BOTH:
-    [MSACAppCenter start:[NSString stringWithFormat:@"%@;target=%@", appSecret, kMSObjCTargetToken] withServices:services];
+    [MSACAppCenter start:[NSString stringWithFormat:@"%@;target=%@", appSecret, Constants.kMSObjCTargetToken] withServices:services];
     break;
   case NONE:
     [MSACAppCenter startWithServices:services];
