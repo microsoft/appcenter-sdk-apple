@@ -4,3 +4,10 @@
 #import <Foundation/Foundation.h>
 
 static NSString *const kMSManualSessionTracker = @"kMSManualSessionTracker";
+
+@interface Constants : NSObject
+
+@property(class, atomic, copy) NSString *kMSSwiftAppSecret;
+@property(class, atomic, copy) NSString *kMSObjcAppSecret;
+
+@end

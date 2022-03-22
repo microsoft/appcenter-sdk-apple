@@ -6,6 +6,8 @@
 	<false/>
 	<key>AppCenterUserNotificationCenterDelegateForwarderEnabled</key>
 	<false/>
+	<key>CATALYST_APP_SECRET</key>
+	<string>$(CATALYST_APP_SECRET)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -29,13 +31,22 @@
 			<string>com.microsoft.appcenter.sasquatchswift</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appcenter-0dbca56b-b9ae-4d53-856a-7c2856137d85</string>
-				<string>appcenter-f9854e3a-0c8a-4774-9bf1-68f6dff8eb98</string>
+				<string>appcenter-$(IOS_SWIFT_APP_SECRET)</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>${BUILD_NUMBER}</string>
+	<key>IOS_SWIFT_APP_SECRET</key>
+	<string>$(IOS_SWIFT_APP_SECRET)</string>
+	<key>IOS_SWIFT_RUNTIME_TARGET_TOKEN</key>
+	<string>$(IOS_SWIFT_RUNTIME_TARGET_TOKEN)</string>
+	<key>IOS_SWIFT_TARGET_TOKEN</key>
+	<string>$(IOS_SWIFT_TARGET_TOKEN)</string>
+	<key>IOS_TARGET_TOKEN1</key>
+	<string>$(IOS_TARGET_TOKEN1)</string>
+	<key>IOS_TARGET_TOKEN2</key>
+	<string>$(IOS_TARGET_TOKEN2)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>

@@ -20,6 +20,8 @@
 	<string>${BUILD_NUMBER}</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>TVOS_SWIFT_APP_SECRET</key>
+	<string>$(TVOS_SWIFT_APP_SECRET)</string>
 	<key>UIMainStoryboardFile</key>
 	<string>SasquatchTV</string>
 	<key>UIRequiredDeviceCapabilities</key>

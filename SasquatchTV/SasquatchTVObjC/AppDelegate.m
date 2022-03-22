@@ -24,7 +24,7 @@
   }
 
   [MSACAppCenter setLogLevel:MSACLogLevelVerbose];
-  [MSACAppCenter start:@"84cb4635-1666-46f6-abc7-1a1ce9be8fef" withServices:@[ [MSACAnalytics class], [MSACCrashes class] ]];
+  [MSACAppCenter start:Constants.kMSObjcAppSecret withServices:@[ [MSACAnalytics class], [MSACCrashes class] ]];
   [self crashes];
   [self setAppCenterCenterDelegate];
   return YES;

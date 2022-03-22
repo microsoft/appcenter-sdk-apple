@@ -13,6 +13,10 @@
 		0431217D1EE0C669007054C5 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */; };
 		04EBBEFB1F01C88D0006B8AE /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */; };
 		04EBBEFC1F01C89A0006B8AE /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */; };
+		0650D852278F0137009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D851278F0137009EF06E /* Constants.m */; };
+		0650D853278F0138009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D851278F0137009EF06E /* Constants.m */; };
+		0650D854278F0138009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D851278F0137009EF06E /* Constants.m */; };
+		0650D855278F0138009EF06E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0650D851278F0137009EF06E /* Constants.m */; };
 		06B5E51D268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */; };
 		06B5E51E268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */; };
 		06B5E51F268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */; };
@@ -23,8 +27,6 @@
 		35C6AE03201BCFBE009F29AE /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCF201963A000B9E22C /* MSEventFilter.m */; };
 		5C2CC70A1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
 		5C2CC70B1EE6C0B600E2BDA4 /* AnalyticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */; };
-		5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
-		5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
 		5C481B9E1EE5794A009329DD /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
 		5C481B9F1EE5794A009329DD /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
 		5C481BA61EE586D2009329DD /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */; };
@@ -37,8 +39,6 @@
 		5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
 		5CB338A21EE59B4B0089A60B /* AppCenterDelegateObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A11EE59B4B0089A60B /* AppCenterDelegateObjC.m */; };
 		5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
-		5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
-		5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
 		80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
@@ -49,8 +49,6 @@
 		B25AE820210A79FB00CC07A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D322EFEE1E8E97DF00A8EDA5 /* main.m */; };
 		B25AE821210A79FB00CC07A9 /* CrashesDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */; };
 		B25AE822210A79FB00CC07A9 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
-		B25AE823210A79FB00CC07A9 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
-		B25AE824210A79FB00CC07A9 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		B25AE825210A79FB00CC07A9 /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
 		B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
 		B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
@@ -63,7 +61,6 @@
 		B25AE831210A79FB00CC07A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */; };
 		B25AE83C210A7B8A00CC07A9 /* AppCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */; };
 		B25AE83D210A7B8A00CC07A9 /* MSPropertyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C931C7A1F026688004AF9CD /* MSPropertyViewCell.swift */; };
-		B25AE83E210A7B8A00CC07A9 /* EditPropertyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */; };
 		B25AE83F210A7B8A00CC07A9 /* AppCenterDelegateSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5A41811EE5AEE800C377A7 /* AppCenterDelegateSwift.swift */; };
 		B25AE840210A7B8A00CC07A9 /* AppCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */; };
 		B25AE841210A7B8A00CC07A9 /* CrashesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F991611F0267B40040FAD7 /* CrashesViewController.swift */; };
@@ -72,7 +69,6 @@
 		B25AE845210A7B8A00CC07A9 /* MSEventFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 358F9BCF201963A000B9E22C /* MSEventFilter.m */; };
 		B25AE846210A7B8A00CC07A9 /* EventFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35427401201272AA00BE766F /* EventFilterViewController.swift */; };
 		B25AE847210A7B8A00CC07A9 /* AppCenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */; };
-		B25AE848210A7B8A00CC07A9 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C481B991EE5794A009329DD /* AnalyticsViewController.swift */; };
 		B25AE84B210A7B8A00CC07A9 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121781EE0C65B007054C5 /* AppCenter.framework */; };
 		B25AE84C210A7B8A00CC07A9 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */; };
 		B25AE84D210A7B8A00CC07A9 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */; };
@@ -93,6 +89,10 @@
 		D322EFFA1E8E97DF00A8EDA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */; };
 		D322F0041E8E98D000A8EDA5 /* SasquatchTV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */; };
 		D322F0051E8E98D500A8EDA5 /* SasquatchTV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D322EFC91E8E97A100A8EDA5 /* SasquatchTV.storyboard */; };
+		F8442AF8276B8286002F71F0 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */; };
+		F8442AF9276B8286002F71F0 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */; };
+		F8442AFA276B8286002F71F0 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */; };
+		F8442AFB276B8286002F71F0 /* AnalyticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -388,6 +388,7 @@
 		043121791EE0C65B007054C5 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../AppCenter-SDK-iOS/tvOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
 		045A94811F97C863002B7CB1 /* App.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = App.xcconfig; path = ../../Config/App.xcconfig; sourceTree = "<group>"; };
 		04EBBEFA1F01C88D0006B8AE /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../AppCenter-SDK-Apple/tvOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+		0650D851278F0137009EF06E /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		06B5E51C268F53E9001283AA /* PrepareErrorAttachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareErrorAttachments.swift; sourceTree = "<group>"; };
 		35427401201272AA00BE766F /* EventFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilterViewController.swift; sourceTree = "<group>"; };
 		358F9BCE201963A000B9E22C /* MSEventFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSEventFilter.h; sourceTree = "<group>"; };
@@ -396,7 +397,6 @@
 		5C2CC6FB1EE6BEE000E2BDA4 /* SasquatchTVSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SasquatchTVSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C2CC7051EE6C08600E2BDA4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5C2CC7061EE6C08600E2BDA4 /* AnalyticsUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsUITests.swift; sourceTree = "<group>"; };
-		5C481B991EE5794A009329DD /* AnalyticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterViewController.swift; sourceTree = "<group>"; };
 		5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterProtocol.swift; sourceTree = "<group>"; };
 		5C4F92611EE83E08003140BF /* AppCenterUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterUITests.swift; sourceTree = "<group>"; };
@@ -406,7 +406,6 @@
 		5CB338A01EE59B250089A60B /* AppCenterDelegateObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppCenterDelegateObjC.h; sourceTree = "<group>"; };
 		5CB338A11EE59B4B0089A60B /* AppCenterDelegateObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppCenterDelegateObjC.m; sourceTree = "<group>"; };
 		5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterDelegate.swift; sourceTree = "<group>"; };
-		5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPropertyViewController.swift; sourceTree = "<group>"; };
 		801C25641F040F3C00F4859B /* CrashLibTV.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashLibTV.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80F991611F0267B40040FAD7 /* CrashesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CrashesViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashesDetailViewController.swift; sourceTree = "<group>"; };
@@ -428,6 +427,7 @@
 		D322EFF11E8E97DF00A8EDA5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D322EFF91E8E97DF00A8EDA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D322EFFB1E8E97DF00A8EDA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsViewController.swift; sourceTree = "<group>"; };
 		F84BA0C2211340540020F13B /* Sasquatch Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Sasquatch Debug.xcconfig"; sourceTree = "<group>"; };
 		F84BA0C3211340540020F13B /* Sasquatch.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Sasquatch.xcconfig; sourceTree = "<group>"; };
 		F84BA103211343B70020F13B /* UITests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = UITests.xcconfig; sourceTree = "<group>"; };
@@ -624,6 +624,7 @@
 			isa = PBXGroup;
 			children = (
 				F89F9015273C0D9200745930 /* Constants.h */,
+				0650D851278F0137009EF06E /* Constants.m */,
 				3577094D2017FBEF00E465B6 /* EventFilter */,
 				5CB338A31EE59C0F0089A60B /* AppCenterDelegate.swift */,
 				5C481BA31EE586D2009329DD /* AppCenterProtocol.swift */,
@@ -689,11 +690,10 @@
 			children = (
 				5C931C791F02666A004AF9CD /* Utils */,
 				5C481B9A1EE5794A009329DD /* AppCenterViewController.swift */,
-				5C481B991EE5794A009329DD /* AnalyticsViewController.swift */,
+				F8442AF7276B8286002F71F0 /* AnalyticsViewController.swift */,
 				80F991611F0267B40040FAD7 /* CrashesViewController.swift */,
 				80F9916A1F027D250040FAD7 /* CrashesDetailViewController.swift */,
 				35427401201272AA00BE766F /* EventFilterViewController.swift */,
-				5CBE5F501F02BC89001ABD15 /* EditPropertyViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1275,14 +1275,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8442AF9276B8286002F71F0 /* AnalyticsViewController.swift in Sources */,
 				B25AE81C210A79FB00CC07A9 /* AppCenterProtocol.swift in Sources */,
 				B25AE81D210A79FB00CC07A9 /* CrashesViewController.swift in Sources */,
 				B25AE81E210A79FB00CC07A9 /* AppDelegate.m in Sources */,
 				B25AE820210A79FB00CC07A9 /* main.m in Sources */,
 				B25AE821210A79FB00CC07A9 /* CrashesDetailViewController.swift in Sources */,
+				0650D853278F0138009EF06E /* Constants.m in Sources */,
 				B25AE822210A79FB00CC07A9 /* AppCenterViewController.swift in Sources */,
-				B25AE823210A79FB00CC07A9 /* AnalyticsViewController.swift in Sources */,
-				B25AE824210A79FB00CC07A9 /* EditPropertyViewController.swift in Sources */,
 				B25AE825210A79FB00CC07A9 /* MSPropertyViewCell.swift in Sources */,
 				B25AE826210A79FB00CC07A9 /* AppCenterDelegate.swift in Sources */,
 				B25AE827210A79FB00CC07A9 /* EventFilterViewController.swift in Sources */,
@@ -1298,17 +1298,17 @@
 			files = (
 				B25AE83C210A7B8A00CC07A9 /* AppCenterViewController.swift in Sources */,
 				B25AE83D210A7B8A00CC07A9 /* MSPropertyViewCell.swift in Sources */,
-				B25AE83E210A7B8A00CC07A9 /* EditPropertyViewController.swift in Sources */,
 				B25AE83F210A7B8A00CC07A9 /* AppCenterDelegateSwift.swift in Sources */,
 				B25AE840210A7B8A00CC07A9 /* AppCenterDelegate.swift in Sources */,
+				0650D855278F0138009EF06E /* Constants.m in Sources */,
 				B25AE841210A7B8A00CC07A9 /* CrashesViewController.swift in Sources */,
+				F8442AFB276B8286002F71F0 /* AnalyticsViewController.swift in Sources */,
 				B25AE842210A7B8A00CC07A9 /* AppDelegate.swift in Sources */,
 				B25AE843210A7B8A00CC07A9 /* CrashesDetailViewController.swift in Sources */,
 				06B5E520268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				B25AE845210A7B8A00CC07A9 /* MSEventFilter.m in Sources */,
 				B25AE846210A7B8A00CC07A9 /* EventFilterViewController.swift in Sources */,
 				B25AE847210A7B8A00CC07A9 /* AppCenterProtocol.swift in Sources */,
-				B25AE848210A7B8A00CC07A9 /* AnalyticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1318,17 +1318,17 @@
 			files = (
 				5C481B9F1EE5794A009329DD /* AppCenterViewController.swift in Sources */,
 				5C931C7C1F0269BD004AF9CD /* MSPropertyViewCell.swift in Sources */,
-				5CBE5F521F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */,
 				5C5A41881EE5B07D00C377A7 /* AppCenterDelegateSwift.swift in Sources */,
 				5C5A41801EE5AE7500C377A7 /* AppCenterDelegate.swift in Sources */,
+				0650D854278F0138009EF06E /* Constants.m in Sources */,
 				80F991631F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
+				F8442AFA276B8286002F71F0 /* AnalyticsViewController.swift in Sources */,
 				D322EFDB1E8E97C800A8EDA5 /* AppDelegate.swift in Sources */,
 				80F9916C1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
 				06B5E51F268F53E9001283AA /* PrepareErrorAttachments.swift in Sources */,
 				35C6AE03201BCFBE009F29AE /* MSEventFilter.m in Sources */,
 				35427402201272AB00BE766F /* EventFilterViewController.swift in Sources */,
 				5C481BA71EE586D2009329DD /* AppCenterProtocol.swift in Sources */,
-				5C481B9D1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1336,14 +1336,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8442AF8276B8286002F71F0 /* AnalyticsViewController.swift in Sources */,
 				5C481BA61EE586D2009329DD /* AppCenterProtocol.swift in Sources */,
 				80F991621F0267B40040FAD7 /* CrashesViewController.swift in Sources */,
 				D322EFF21E8E97DF00A8EDA5 /* AppDelegate.m in Sources */,
 				D322EFEF1E8E97DF00A8EDA5 /* main.m in Sources */,
 				80F9916B1F027D250040FAD7 /* CrashesDetailViewController.swift in Sources */,
+				0650D852278F0137009EF06E /* Constants.m in Sources */,
 				5C481B9E1EE5794A009329DD /* AppCenterViewController.swift in Sources */,
-				5C481B9C1EE5794A009329DD /* AnalyticsViewController.swift in Sources */,
-				5CBE5F511F02BC89001ABD15 /* EditPropertyViewController.swift in Sources */,
 				5C931C7B1F026688004AF9CD /* MSPropertyViewCell.swift in Sources */,
 				5CB338A41EE59C0F0089A60B /* AppCenterDelegate.swift in Sources */,
 				35427403201272AB00BE766F /* EventFilterViewController.swift in Sources */,

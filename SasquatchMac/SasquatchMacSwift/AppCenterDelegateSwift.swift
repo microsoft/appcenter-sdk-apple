@@ -24,7 +24,7 @@ class AppCenterDelegateSwift : AppCenterDelegate {
     return AppCenter.installId.uuidString
   }
   func appSecret() -> String {
-    return kMSSwiftAppSecret
+    return Constants.kMSSwiftAppSecret
   }
   func isDebuggerAttached() -> Bool {
     return AppCenter.isDebuggerAttached

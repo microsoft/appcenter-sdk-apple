@@ -99,23 +99,23 @@ class MSTransmissionTargetsViewController: UITableViewController, AppCenterProto
     defaultTargetSection.headerText = "Default Transmission Target"
     defaultTargetSection.footerText = "You need to change startup mode and restart the app to get update this target's enabled state."
     defaultTargetSection.isDefault = true
-    defaultTargetSection.token = appName.contains("SasquatchSwift") ? kMSSwiftTargetToken : kMSObjCTargetToken
+    defaultTargetSection.token = appName.contains("SasquatchSwift") ? Constants.kMSSwiftTargetToken : Constants.kMSObjCTargetToken
 
     // Runtime target section.
     let runtimeTargetSection = MSTransmissionTargetSection()
     runtimeTargetSection.headerText = "Runtime Transmission Target"
     runtimeTargetSection.footerText = "This transmission target is the parent of the two transmission targets below."
-    runtimeTargetSection.token = appName.contains("SasquatchSwift") ? kMSSwiftRuntimeTargetToken : kMSObjCRuntimeTargetToken
+    runtimeTargetSection.token = appName.contains("SasquatchSwift") ? Constants.kMSSwiftRuntimeTargetToken : Constants.kMSObjCRuntimeTargetToken
 
     // Child 1.
     let child1TargetSection = MSTransmissionTargetSection()
     child1TargetSection.headerText = "Child Transmission Target 1"
-    child1TargetSection.token = kMSTargetToken1
+    child1TargetSection.token = Constants.kMSTargetToken1
 
     // Child 2.
     let child2TargetSection = MSTransmissionTargetSection()
     child2TargetSection.headerText = "Child Transmission Target 2"
-    child2TargetSection.token = kMSTargetToken2
+    child2TargetSection.token = Constants.kMSTargetToken2
 
     // The ordering of these target sections is important so they are displayed in the right order.
     transmissionTargetSections = [defaultTargetSection, runtimeTargetSection, child1TargetSection, child2TargetSection]

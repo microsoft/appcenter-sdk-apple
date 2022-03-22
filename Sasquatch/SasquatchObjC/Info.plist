@@ -25,12 +25,22 @@
 			<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>appcenter-3ccfe7f5-ec01-4de5-883c-f563bbbe147a</string>
+				<string>appcenter-$(IOS_OBJC_APP_SECRET)</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>${BUILD_NUMBER}</string>
+	<key>IOS_OBJC_APP_SECRET</key>
+	<string>$(IOS_OBJC_APP_SECRET)</string>
+	<key>IOS_OBJC_RUNTIME_TARGET_TOKEN</key>
+	<string>$(IOS_OBJC_RUNTIME_TARGET_TOKEN)</string>
+	<key>IOS_OBJC_TARGET_TOKEN</key>
+	<string>$(IOS_OBJC_TARGET_TOKEN)</string>
+	<key>IOS_TARGET_TOKEN1</key>
+	<string>$(IOS_TARGET_TOKEN1)</string>
+	<key>IOS_TARGET_TOKEN2</key>
+	<string>$(IOS_TARGET_TOKEN2)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
