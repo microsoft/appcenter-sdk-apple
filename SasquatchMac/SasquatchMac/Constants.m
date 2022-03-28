@@ -32,17 +32,17 @@
 
 + (NSString *_Nonnull)kMSObjCTargetToken {
 #if ACTIVE_COMPILATION_CONDITION_PUPPET
-  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"IOS_OBJC_TARGET_TOKEN_PUPPET"] ?: @"";
+  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"MAC_OBJC_TARGET_TOKEN_PUPPET"] ?: @"";
 #else
-  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"IOS_OBJC_TARGET_TOKEN"] ?: @"";
+  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"MAC_OBJC_TARGET_TOKEN"] ?: @"";
 #endif
 }
 
 + (NSString *_Nonnull)kMSObjCRuntimeTargetToken {
 #if ACTIVE_COMPILATION_CONDITION_PUPPET
-  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"IOS_OBJC_RUNTIME_TARGET_TOKEN_PUPPET"] ?: @"";
+  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"MAC_OBJC_RUNTIME_TARGET_TOKEN_PUPPET"] ?: @"";
 #else
-  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"IOS_OBJC_RUNTIME_TARGET_TOKEN"] ?: @"";
+  return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"MAC_OBJC_RUNTIME_TARGET_TOKEN"] ?: @"";
 #endif
 }
 
