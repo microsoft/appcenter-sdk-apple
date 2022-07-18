@@ -73,7 +73,7 @@ let package = Package(
             targets: ["AppCenterDistribute"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.10.1")),
+        .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.10.2")),
     ],
     targets: [
         .target(
@@ -82,7 +82,7 @@ let package = Package(
             exclude: ["Support"],
             cSettings: {
                 var settings: [CSetting] = [
-                    .define("APP_CENTER_C_VERSION", to: "\"4.4.2\""),
+                    .define("APP_CENTER_C_VERSION", to: "\"4.4.3\""),
                     .define("APP_CENTER_C_BUILD", to: "\"1\"")
                 ]
                 settings.append(contentsOf: cHeaderSearchPaths)

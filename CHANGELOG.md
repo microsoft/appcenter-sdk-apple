@@ -1,5 +1,13 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.4.3
+
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.10.2.
+
+___
+
 ## Version 4.4.2
 
 ### App Center Analytics
