@@ -19,9 +19,9 @@
 
 typedef std::vector<MSACCrashesUncaughtCXXExceptionHandler> MSACCrashesUncaughtCXXExceptionHandlerList;
 typedef struct {
-  void *exception_object;
   uintptr_t call_stack[128];
   uint32_t num_frames;
+  uint32_t offset;
 } MSACCrashesCXXExceptionTSInfo;
 
 static bool _MSACCrashesIsOurTerminateHandlerInstalled = false;
@@ -31,6 +31,24 @@ static OSSpinLock _MSACCrashesCXXExceptionHandlingLock = OS_SPINLOCK_INIT;
 static pthread_key_t _MSACCrashesCXXExceptionInfoTSDKey = 0;
 
 @implementation MSACCrashesUncaughtCXXExceptionHandlerManager
+
+static void register_cxx_exception_stacktrace(uint32_t offset) {
+  
+  // Invariant: If the terminate handler is installed, the TSD key must also be initialized.
+  if (_MSACCrashesIsOurTerminateHandlerInstalled) {
+    MSACCrashesCXXExceptionTSInfo *info =
+        static_cast<MSACCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSACCrashesCXXExceptionInfoTSDKey));
+
+    if (!info) {
+      info = reinterpret_cast<MSACCrashesCXXExceptionTSInfo *>(calloc(1, sizeof(MSACCrashesCXXExceptionTSInfo)));
+      pthread_setspecific(_MSACCrashesCXXExceptionInfoTSDKey, info);
+    }
+    // XXX: All significant time in this call is spent right here.
+    info->num_frames = static_cast<uint32_t>(
+        backtrace(reinterpret_cast<void **>(&info->call_stack[0]), sizeof(info->call_stack) / sizeof(info->call_stack[0])));
+    info->offset = offset;
+  }
+}
 
 extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, std::type_info *tinfo, void (*dest)(void *)) {
 
@@ -62,21 +80,8 @@ extern "C" void __attribute__((noreturn)) __cxa_throw(void *exception_object, st
   /*
    * Any other exception that came here has to be C++, since Objective-C is the only (known) runtime that hijacks the C++ ABI this way. We
    * need to save off a backtrace.
-   * Invariant: If the terminate handler is installed, the TSD key must also be initialized.
    */
-  if (_MSACCrashesIsOurTerminateHandlerInstalled) {
-    MSACCrashesCXXExceptionTSInfo *info =
-        static_cast<MSACCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSACCrashesCXXExceptionInfoTSDKey));
-
-    if (!info) {
-      info = reinterpret_cast<MSACCrashesCXXExceptionTSInfo *>(calloc(1, sizeof(MSACCrashesCXXExceptionTSInfo)));
-      pthread_setspecific(_MSACCrashesCXXExceptionInfoTSDKey, info);
-    }
-    info->exception_object = exception_object;
-    // XXX: All significant time in this call is spent right here.
-    info->num_frames = static_cast<uint32_t>(
-        backtrace(reinterpret_cast<void **>(&info->call_stack[0]), sizeof(info->call_stack) / sizeof(info->call_stack[0])));
-  }
+  register_cxx_exception_stacktrace(2);
 
 callthrough:
   if (__original__cxa_throw) {
@@ -117,8 +122,8 @@ static void MSACCrashesUncaughtCXXTerminateHandler(void) {
           reinterpret_cast<MSACCrashesCXXExceptionTSInfo *>(pthread_getspecific(_MSACCrashesCXXExceptionInfoTSDKey));
 
       if (recorded_info) {
-        info.exception_frames_count = recorded_info->num_frames - 1;
-        info.exception_frames = &recorded_info->call_stack[1];
+        info.exception_frames_count = recorded_info->num_frames - recorded_info->offset;
+        info.exception_frames = &recorded_info->call_stack[recorded_info->offset];
       } else {
 
         // There's no backtrace, grab this function's trace instead. Probably means the exception came from a dynamically loaded library.
@@ -228,6 +233,10 @@ static void MSACCrashesUncaughtCXXTerminateHandler(void) {
   { count = _MSACCrashesUncaughtExceptionHandlerList.size(); }
   OSSpinLockUnlock(&_MSACCrashesCXXExceptionHandlingLock);
   return count;
+}
+
++ (void) registerCXXExceptionStackTrace {
+  register_cxx_exception_stacktrace(3);
 }
 
 #pragma GCC diagnostic pop

@@ -37,4 +37,6 @@ typedef void (*MSACCrashesUncaughtCXXExceptionHandler)(const MSACCrashesUncaught
  */
 + (NSUInteger)countCXXExceptionHandler;
 
++ (void)registerCXXExceptionStackTrace;
+
 @end
