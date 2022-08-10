@@ -2078,8 +2078,6 @@
 					};
 					C9E7E4E4231E9A5D007D96DC = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = 9KBH5RKYEW;
-						ProvisioningStyle = Manual;
 					};
 					D31EF9281E9517B500450162 = {
 						CreatedOnToolsVersion = 8.3;
@@ -3558,12 +3556,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9KBH5RKYEW;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T2XE7UYPKM;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension.anatoly;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3571,12 +3569,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C237A695232BACB50081153F /* Sasquatch Extension.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9KBH5RKYEW;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T2XE7UYPKM;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension.anatoly;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
