@@ -2024,8 +2024,6 @@
 					};
 					84226C461E88FF4A00798417 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 9KBH5RKYEW;
-						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -3377,12 +3375,12 @@
 			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9KBH5RKYEW;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T2XE7UYPKM;
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch IOS objc Dogfood Distribution";
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc.anatoly;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3391,12 +3389,12 @@
 			baseConfigurationReference = C27AD55C234C961C00A2576F /* Sasquatch ObjC.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchObjC/SasquatchObjC.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = 9KBH5RKYEW;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SasquatchObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.objc;
-				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch IOS objc Dogfood Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
