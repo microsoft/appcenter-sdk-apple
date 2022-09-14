@@ -15,6 +15,9 @@ static dispatch_once_t swizzlingOnceToken;
 
 @implementation MSACAppDelegateForwarder
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-load-method"
+
 + (void)load {
 
   /*
@@ -25,6 +28,8 @@ static dispatch_once_t swizzlingOnceToken;
    */
   [[MSACAppDelegateForwarder sharedInstance] setEnabledFromPlistForKey:kMSACAppDelegateForwarderEnabledKey];
 }
+
+#pragma clang diagnostic pop
 
 - (instancetype)init {
   if ((self = [super init])) {

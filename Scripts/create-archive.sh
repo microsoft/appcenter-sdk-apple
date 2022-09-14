@@ -97,10 +97,10 @@ function verify_architectures() {
     verify_framework_architectures "$framework" ${@:2} || return $?
   done
 }
-verify_architectures "iOS/*.framework" armv7 armv7s arm64 arm64e i386 x86_64 || exit $?
+verify_architectures "iOS/*.framework" armv7 arm64 arm64e i386 x86_64 || exit $?
 verify_architectures "macOS/*.framework" arm64 x86_64 || exit $?
 verify_architectures "tvOS/*.framework" arm64 x86_64 || exit $?
-verify_architectures "XCFramework/*.xcframework/ios-!(*-*)/*.framework" armv7 armv7s arm64 arm64e || exit $?
+verify_architectures "XCFramework/*.xcframework/ios-!(*-*)/*.framework" armv7 arm64 arm64e || exit $?
 verify_architectures "XCFramework/*.xcframework/ios-*-maccatalyst/*.framework" arm64 x86_64 || exit $?
 verify_architectures "XCFramework/*.xcframework/ios-*-simulator/*.framework" arm64 i386 x86_64 || exit $?
 verify_architectures "XCFramework/*.xcframework/macos-*/*.framework" arm64 x86_64 || exit $?

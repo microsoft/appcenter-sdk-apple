@@ -53,7 +53,7 @@ let cHeaderSearchPaths: [CSetting] = projectHeaderSearchPaths.map { .headerSearc
 let package = Package(
     name: "AppCenter",
     platforms: [
-        .iOS(.v9),
+        .iOS(.v11),
         .macOS(.v10_10),
         .tvOS(.v11)
     ],

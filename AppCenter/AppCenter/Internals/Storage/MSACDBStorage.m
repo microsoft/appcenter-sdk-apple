@@ -13,6 +13,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 
 @implementation MSACDBStorage
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-load-method"
+
 + (void)load {
 
   /*
@@ -21,6 +24,8 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
    */
   sqliteConfigurationResult = [self configureSQLite];
 }
+
+#pragma clang diagnostic pop
 
 - (instancetype)initWithSchema:(MSACDBSchema *)schema version:(NSUInteger)version filename:(NSString *)filename {
   _schema = schema;
