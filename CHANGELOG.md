@@ -14,7 +14,7 @@
 
 ### App Center
 
-* **[Fix]** Fix throw exceptions when SwiftUI Preview is used in Xcode 14 when adding AppCenter through SPM.
+* **[Fix]** Fix SwiftUI Preview in Xcode 14 when adding App Center SDK through SwiftPM.
 
 ### App Center Crashes
 
