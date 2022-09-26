@@ -12,6 +12,10 @@
 
 ## Version 4.4.3
 
+### App Center
+
+* **[Fix]** Fix throw exceptions when SwiftUI Preview is used in Xcode 14 when adding AppCenter through SPM.
+
 ### App Center Crashes
 
 * **[Improvement]** Update PLCrashReporter to 1.10.2.
