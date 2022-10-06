@@ -312,8 +312,14 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSString *exceptionName = errorLog.exceptionType;
   NSDate *appStartTime = errorLog.appLaunchTimestamp;
   NSDate *appErrorTime = errorLog.timestamp;
-  NSString *codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue];
-  NSString *archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue subtype:errorLog.architectureVariantId.intValue];
+  NSString *codeType = unknownString;
+  NSString *archName = unknownString;
+  if (errorLog.primaryArchitectureId != nil) {
+    codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue];
+    if (errorLog.architectureVariantId != nil) {
+      archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue subtype:errorLog.architectureVariantId.intValue];
+    }
+  }
   NSString *applicationPath = errorLog.applicationPath;
   NSArray<MSACThread *> *threads = errorLog.threads;
   NSArray<MSACBinary *> *binaries = errorLog.binaries;
@@ -384,7 +390,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 }
 
 + (NSString *)convertArchNameToString:(long)type subtype:(int)subtype {
-  NSString *archName = @"???";
+  NSString *archName = unknownString;
   switch (type) {
   case CPU_TYPE_ARM:
     switch (subtype & ~CPU_SUBTYPE_MASK) {
