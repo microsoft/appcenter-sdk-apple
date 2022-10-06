@@ -147,7 +147,6 @@ static NSArray *kMacOSCrashReportsParameters = @[
   errorLog.applicationPath = applicationPath;
   errorLog.primaryArchitectureId = codeType;
   errorLog.architectureVariantId = archName;
-  errorLog.isKnownEncodingType = true;
 
   // Then.
   NSString *codeTypeText = @"ARM";
