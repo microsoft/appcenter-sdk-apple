@@ -774,12 +774,15 @@ static NSArray *kMacOSCrashReportsParameters = @[
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM) archName:@(CPU_SUBTYPE_ARM_V6) expectedName:@"armv6"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM) archName:@(CPU_SUBTYPE_ARM_V7) expectedName:@"armv7"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM) archName:@(CPU_SUBTYPE_ARM_V7S) expectedName:@"armv7s"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM) archName:@(-1) expectedName:@"arm-unknown"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64) archName:@(CPU_SUBTYPE_ARM64_ALL) expectedName:@"arm64"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64) archName:@(CPU_SUBTYPE_ARM64_V8) expectedName:@"armv8"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64) archName:@(CPU_SUBTYPE_ARM64E) expectedName:@"arm64e"];
+  [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_ARM64) archName:@(-1) expectedName:@"arm64-unknown"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_X86) archName:@(CPU_TYPE_X86) expectedName:@"i386"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_X86_64) archName:@(CPU_TYPE_X86_64) expectedName:@"x86_64"];
   [self checkIfArchNameConvertedCorrectly:@(CPU_TYPE_POWERPC) archName:@(CPU_TYPE_POWERPC) expectedName:@"powerpc"];
+  [self checkIfArchNameConvertedCorrectly:@(-1) archName:@(-1) expectedName:@"???"];
 }
 
 @end
