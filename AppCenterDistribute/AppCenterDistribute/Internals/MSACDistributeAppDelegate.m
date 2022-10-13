@@ -40,7 +40,9 @@
 @implementation MSACAppDelegateForwarder (MSACDistribute)
 
 #pragma clang diagnostic push
+#if __has_warning("-Wobjc-load-method")
 #pragma clang diagnostic ignored "-Wobjc-load-method"
+#endif
 
 + (void)load {
 

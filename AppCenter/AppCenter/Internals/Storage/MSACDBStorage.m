@@ -14,7 +14,9 @@ static int sqliteConfigurationResult = SQLITE_ERROR;
 @implementation MSACDBStorage
 
 #pragma clang diagnostic push
+#if __has_warning("-Wobjc-load-method")
 #pragma clang diagnostic ignored "-Wobjc-load-method"
+#endif
 
 + (void)load {
 
