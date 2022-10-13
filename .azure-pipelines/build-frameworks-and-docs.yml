@@ -8,16 +8,15 @@ pr:
 - feature/*
 
 pool:
-  vmImage: internal-macos-10.15
+  vmImage: macos-12
 
 variables:
   Configuration: Release
   SDK:
   EOCompliance-Mac: true
 
-  # Xcode 11.3.1 version is the last one that has compatible bitcode with Xcode 11.0 (minimal supported).
-  XCODE_PATH: '/Applications/Xcode_11.3.1.app/Contents/Developer'
-  APPLE_SILICON_XCODE_PATH: '/Applications/Xcode_12.2.app/Contents/Developer'
+  # Xcode 13.2.1 version is the last one that has compatible bitcode with Xcode 13.0 (minimal supported).
+  XCODE_PATH: '/Applications/Xcode_13.2.1.app/Contents/Developer'
 
 jobs:
 - job:
@@ -45,10 +44,6 @@ jobs:
       xcodeDeveloperDir: '$(XCODE_PATH)'
       args: 'SYMROOT="$(Build.BinariesDirectory)"'
     timeoutInMinutes: 15
-
-  - template: build-apple-silicon-framework-template.yml
-    parameters:
-      modules: [ AppCenter, AppCenterAnalytics, AppCenterCrashes, AppCenterDistribute ]
 
   - task: Xcode@5
     displayName: Generate App Center Documentation

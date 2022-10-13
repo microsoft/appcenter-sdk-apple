@@ -10,7 +10,7 @@ jobs:
   - job:
     displayName: ${{ format('{0} {1}', parameters.platform, module) }}
     pool:
-      vmImage: internal-macos-10.15
+      vmImage: macos-12
     steps:
     - checkout: self
       submodules: recursive
@@ -27,7 +27,7 @@ jobs:
           scheme: '${{ module }} ${{ parameters.platform }} Framework'
           destinationPlatformOption: ${{ parameters.platform }}
         ${{ if eq(parameters.platform, 'iOS') }}:
-          destinationSimulators: 'iPhone 11'
+          destinationSimulators: 'iPhone 13'
         ${{ if eq(parameters.platform, 'tvOS') }}:
           destinationSimulators: 'Apple TV'
 
@@ -43,7 +43,7 @@ jobs:
           scheme: '${{ module }} ${{ parameters.platform }} Framework'
           destinationPlatformOption: ${{ parameters.platform }}
         ${{ if eq(parameters.platform, 'iOS') }}:
-          destinationSimulators: 'iPhone 11'
+          destinationSimulators: 'iPhone 13'
         ${{ if eq(parameters.platform, 'tvOS') }}:
           destinationSimulators: 'Apple TV'
         publishJUnitResults: true
