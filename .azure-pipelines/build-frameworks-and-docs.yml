@@ -43,7 +43,7 @@ jobs:
       xcodeVersion: specifyPath
       xcodeDeveloperDir: '$(XCODE_PATH)'
       args: 'SYMROOT="$(Build.BinariesDirectory)"'
-    timeoutInMinutes: 15
+    timeoutInMinutes: 50
 
   - task: Xcode@5
     displayName: Generate App Center Documentation
