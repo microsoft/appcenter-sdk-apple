@@ -1,5 +1,15 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 4.4.4 (Under development)
+
+### App Center
+
+[Feature] Add Xcode 14 support. Xcode 11 and Xcode 12 are out of support now. Bump minumum supported iOS version to iOS 11.
+
+### App Center Crashes
+
+* **[Improvement]** Update PLCrashReporter to 1.11.0.
+
 ## Version 4.4.3
 
 ### App Center Crashes
