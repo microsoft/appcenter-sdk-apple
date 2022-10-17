@@ -16,7 +16,7 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 static NSMutableDictionary *unprocessedWrapperExceptions;
 static PLCrashReporter *_crashReporter = nil;
 
-+ (void)load {
++ (void)initialize {
   unprocessedWrapperExceptions = [NSMutableDictionary new];
 }
 

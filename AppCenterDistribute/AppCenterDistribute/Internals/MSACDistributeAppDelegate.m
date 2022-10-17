@@ -39,11 +39,18 @@
 
 @implementation MSACAppDelegateForwarder (MSACDistribute)
 
+#pragma clang diagnostic push
+#if __has_warning("-Wobjc-load-method")
+#pragma clang diagnostic ignored "-Wobjc-load-method"
+#endif
+
 + (void)load {
 
   // Register selectors to swizzle for Distribute.
   [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:openURL:options:)];
   [[MSACAppDelegateForwarder sharedInstance] addDelegateSelectorToSwizzle:@selector(application:openURL:sourceApplication:annotation:)];
 }
+
+#pragma clang diagnostic pop
 
 @end

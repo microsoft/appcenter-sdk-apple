@@ -53,7 +53,7 @@ let cHeaderSearchPaths: [CSetting] = projectHeaderSearchPaths.map { .headerSearc
 let package = Package(
     name: "AppCenter",
     platforms: [
-        .iOS(.v9),
+        .iOS(.v11),
         .macOS(.v10_10),
         .tvOS(.v11)
     ],
@@ -68,7 +68,7 @@ let package = Package(
             targets: ["AppCenterCrashes"])
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.10.2")),
+        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.11.0")),
     ],
     targets: [
         .target(

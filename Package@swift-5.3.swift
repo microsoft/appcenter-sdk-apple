@@ -54,7 +54,7 @@ let package = Package(
     name: "AppCenter",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v9),
+        .iOS(.v11),
         .macOS(.v10_10),
         .tvOS(.v11)
     ],
@@ -73,7 +73,7 @@ let package = Package(
             targets: ["AppCenterDistribute"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.10.2")),
+        .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.11.0")),
     ],
     targets: [
         .target(
