@@ -12,6 +12,10 @@
 
 ## Version 4.4.3
 
+### App Center
+
+* **[Fix]** Fix SwiftUI Preview in Xcode 14 when adding App Center SDK through SwiftPM.
+
 ### App Center Crashes
 
 * **[Improvement]** Update PLCrashReporter to 1.10.2.
