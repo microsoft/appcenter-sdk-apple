@@ -95,9 +95,4 @@
  */
 @property(nonatomic) MSACExceptionModel *exception;
 
-/**
- * Is current CPU type encoding known.
- */
-@property(nonatomic) BOOL isKnownEncodingType;
-
 @end

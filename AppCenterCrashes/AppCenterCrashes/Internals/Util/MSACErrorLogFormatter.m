@@ -230,10 +230,8 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   // CPU Type and Subtype for the crash. We need to query the binary images for that.
   uint64_t type = report.machineInfo.processorInfo.type;
   uint64_t subtype = report.machineInfo.processorInfo.subtype;
-  BOOL isKnownEncodingType = report.systemInfo.processorInfo.typeEncoding == PLCrashReportProcessorTypeEncodingMach;
   for (PLCrashReportBinaryImageInfo *image in report.images) {
-    isKnownEncodingType = image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach;
-    if (image.codeType != nil && isKnownEncodingType) {
+    if (image.codeType != nil && image.codeType.typeEncoding == PLCrashReportProcessorTypeEncodingMach) {
       type = image.codeType.type;
       subtype = image.codeType.subtype;
       break;
@@ -242,7 +240,6 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   BOOL is64bit = [self isCodeType64bit:type];
   errorLog.primaryArchitectureId = @(type);
   errorLog.architectureVariantId = @(subtype);
-  errorLog.isKnownEncodingType = isKnownEncodingType;
 
   /*
    * errorLog.architecture is an optional. The Android SDK will set it while for
@@ -317,7 +314,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
   NSDate *appErrorTime = errorLog.timestamp;
   NSString *codeType = unknownString;
   NSString *archName = unknownString;
-  if (errorLog.isKnownEncodingType && errorLog.primaryArchitectureId != nil) {
+  if (errorLog.primaryArchitectureId != nil) {
     codeType = [self convertCodeTypeToString:errorLog.primaryArchitectureId.longValue];
     if (errorLog.architectureVariantId != nil) {
       archName = [self convertArchNameToString:errorLog.primaryArchitectureId.longValue subtype:errorLog.architectureVariantId.intValue];
@@ -393,7 +390,7 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 }
 
 + (NSString *)convertArchNameToString:(long)type subtype:(int)subtype {
-  NSString *archName = @"???";
+  NSString *archName = unknownString;
   switch (type) {
   case CPU_TYPE_ARM:
     switch (subtype & ~CPU_SUBTYPE_MASK) {

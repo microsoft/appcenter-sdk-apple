@@ -68,8 +68,10 @@ static NSUInteger const kMSACBytesToRead = 10;
 
   // Then
   XCTAssertNotNil(parserForMainBundle);
-  XCTAssertNotNil(parserForMainBundle.uuid);
-  XCTAssertTrue([parserForBundle.uuid isEqual:parserForMainBundle.uuid]);
+    
+  // In test environment [NSBundle mainBundle] does not always return a valid bundle.
+  // In such case uuid will be nil, and we should check that it is also nil when we call [MSACBasicMachOParser machOParserForMainBundle].
+  XCTAssertTrue((!parserForBundle.uuid && !parserForMainBundle.uuid) || [parserForBundle.uuid isEqual:parserForMainBundle.uuid]);
 }
 
 - (void)testReadDataFromFileReturnsNOIfCannotRead {
