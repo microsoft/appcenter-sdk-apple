@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '11.0'
   s.osx.deployment_target = '10.9'
   s.tvos.deployment_target = '11.0'
-  s.source = { :http => "https://mobilecentersdkdev.blob.core.windows.net/sdk?#{ ENV['BLOB_SAS_TOKEN'] }"
+  s.source = { :http => "https://mobilecentersdkdev.blob.core.windows.net/sdk/AppCenter-SDK-Apple-XCFramework-#{s.version}.zip?#{ ENV['BLOB_SAS_TOKEN'] }"
 
   s.preserve_path = 'AppCenter-SDK-Apple/README.md'
 
