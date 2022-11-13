@@ -318,7 +318,22 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
   [self.sut start];
 
   // Then
-  OCMVerify([delegateMock sessionTracker:self.sut processLog:[OCMArg isKindOfClass:[MSACStartSessionLog class]]]);
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [expectation fulfill];
+  });
+
+  [self waitForExpectationsWithTimeout:1
+            handler:^(NSError *error)
+            {
+                if (error)
+                {
+                    XCTFail(@"Expectation Failed with error: %@", error);
+                }
+
+                // Then
+                OCMVerify([delegateMock sessionTracker:self.sut processLog:[OCMArg isKindOfClass:[MSACStartSessionLog class]]]);
+            }];
 }
 
 - (void)testStartSessionOnAppForegrounded {
