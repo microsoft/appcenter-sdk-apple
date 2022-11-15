@@ -78,11 +78,9 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
               file:(const char *)file
           function:(const char *)function
               line:(uint)line {
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        if (currentLogHandler) {
-            currentLogHandler(messageProvider, loglevel, tag, file, function, line);
-        }
-    });
+    if (currentLogHandler) {
+        currentLogHandler(messageProvider, loglevel, tag, file, function, line);
+    }
 }
 
 + (BOOL)isUserDefinedLogLevel {
