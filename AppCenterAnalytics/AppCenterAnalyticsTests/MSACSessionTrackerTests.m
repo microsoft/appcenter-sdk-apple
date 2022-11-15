@@ -40,14 +40,39 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
 - (void)testSession {
 
   // When
-  [self.sut renewSessionId];
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+  dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
+
+  [self waitForExpectationsWithTimeout:1
+            handler:^(NSError *error)
+            {
+                if (error)
+                {
+                    XCTFail(@"Expectation Failed with error: %@", error);
+                }
+                // Get a session
+                [self.sut renewSessionId];
+  }];
+      
   NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
   XCTAssertNotNil(expectedSid);
 
   // When
-  [self.sut renewSessionId];
+  XCTestExpectation *expectation2 = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+  dispatch_async(dispatch_get_main_queue(), ^{[expectation2 fulfill];});
+
+  [self waitForExpectationsWithTimeout:1
+            handler:^(NSError *error)
+            {
+                if (error)
+                {
+                    XCTFail(@"Expectation Failed with error: %@", error);
+                }
+                // Get a session
+                [self.sut renewSessionId];
+  }];
   NSString *sid = [self.sut.context sessionId];
 
   // Then
@@ -56,160 +81,177 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
 
 // Apps is in foreground for longer than the timeout time, still same session
 - (void)testLongForegroundSession {
+    // If
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+    dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
 
-  // If
-  [self.sut renewSessionId];
-  NSString *expectedSid = [self.sut.context sessionId];
+    [self waitForExpectationsWithTimeout:1
+            handler:^(NSError *error)
+            {
+                if (error)
+                {
+                    XCTFail(@"Expectation Failed with error: %@", error);
+                }
+                // Get A session
+                [self.sut renewSessionId];
+    }];
+    NSString *expectedSid = [self.sut.context sessionId];
 
-  // Then
-  XCTAssertNotNil(expectedSid);
+    // Then
+    XCTAssertNotNil(expectedSid);
 
-  // When
+    // When
 
-  // Mock a log creation
-  self.sut.lastCreatedLogTime = [NSDate date];
+    // Mock a log creation
+    self.sut.lastCreatedLogTime = [NSDate date];
 
-  // Wait for longer than timeout in foreground
-  [NSThread sleepForTimeInterval:kMSACTestSessionTimeout + 1];
+    // Wait for longer than timeout in foreground
+    [NSThread sleepForTimeInterval:kMSACTestSessionTimeout + 1];
 
-  // Get a session
-  [self.sut renewSessionId];
-  NSString *sid = [self.sut.context sessionId];
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+    dispatch_async(dispatch_get_main_queue(), ^{[expectation2 fulfill];});
 
-  // Then
-  XCTAssertEqual(expectedSid, sid);
+    [self waitForExpectationsWithTimeout:1
+              handler:^(NSError *error)
+              {
+                  if (error)
+                  {
+                      XCTFail(@"Expectation Failed with error: %@", error);
+                  }
+                  // Get A session
+                  [self.sut renewSessionId];
+    }];
+    NSString *sid = [self.sut.context sessionId];
+
+    // Then
+    XCTAssertEqual(expectedSid, sid);
 }
 
 - (void)testShortBackgroundSession {
+    // If
+        XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+        dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
 
-  // If
-  [self.sut renewSessionId];
-  NSString *expectedSid = [self.sut.context sessionId];
+        [self waitForExpectationsWithTimeout:1
+                handler:^(NSError *error)
+                {
+                    if (error)
+                    {
+                        XCTFail(@"Expectation Failed with error: %@", error);
+                    }
+                    // Get A session
+                    [self.sut renewSessionId];
+        }];
+      NSString *expectedSid = [self.sut.context sessionId];
 
-  // Then
-  XCTAssertNotNil(expectedSid);
+      // Then
+      XCTAssertNotNil(expectedSid);
 
-  // When
+      // When
 
-  // Mock a log creation
-  self.sut.lastCreatedLogTime = [NSDate date];
+      // Mock a log creation
+      self.sut.lastCreatedLogTime = [NSDate date];
 
-  // Enter background
-  [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
+      // Enter background
+      [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
-  // Wait for shorter than the timeout time in background
-  [NSThread sleepForTimeInterval:kMSACTestSessionTimeout - 1];
+      // Wait for shorter than the timeout time in background
+      [NSThread sleepForTimeInterval:kMSACTestSessionTimeout - 1];
 
-  // Enter foreground
-  [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
+      // Enter foreground
+      [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
 
-  // Get a session
-  [self.sut renewSessionId];
-  NSString *sid = [self.sut.context sessionId];
+      // Get a session
+        XCTestExpectation *expectation2 = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+        dispatch_async(dispatch_get_main_queue(), ^{[expectation2 fulfill];});
 
-  // Then
-  XCTAssertEqual(expectedSid, sid);
+        [self waitForExpectationsWithTimeout:1
+                handler:^(NSError *error)
+                {
+                    if (error)
+                    {
+                        XCTFail(@"Expectation Failed with error: %@", error);
+                    }
+                    // Get A session
+                    [self.sut renewSessionId];
+        }];
+      NSString *sid = [self.sut.context sessionId];
+
+      // Then
+      XCTAssertEqual(expectedSid, sid);
+
 }
 
 - (void)testLongBackgroundSession {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+      dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
 
-  // If
-  [self.sut renewSessionId];
-  NSString *expectedSid = [self.sut.context sessionId];
+      [self waitForExpectationsWithTimeout:1
+                handler:^(NSError *error)
+                {
+                    if (error)
+                    {
+                        XCTFail(@"Expectation Failed with error: %@", error);
+                    }
+                    // If
+                    [self.sut renewSessionId];
+      }];
+      NSString *expectedSid = [self.sut.context sessionId];
 
-  // Then
-  XCTAssertNotNil(expectedSid);
+      // Then
+      XCTAssertNotNil(expectedSid);
 
-  // When
+      // When
 
-  // Mock a log creation
-  self.sut.lastCreatedLogTime = [NSDate date];
+      // Mock a log creation
+      self.sut.lastCreatedLogTime = [NSDate date];
 
-  // Enter background
-  [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
+      // Enter background
+      [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
-  // Wait for longer than the timeout time in background
-  [NSThread sleepForTimeInterval:kMSACTestSessionTimeout + 1];
+      // Wait for longer than the timeout time in background
+      [NSThread sleepForTimeInterval:kMSACTestSessionTimeout + 1];
 
-  // Enter foreground
-  [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
+      // Enter foreground
+      [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
 
-  // Get a session
-  [self.sut renewSessionId];
-  NSString *sid = [self.sut.context sessionId];
+      XCTestExpectation *expectation2 = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+      dispatch_async(dispatch_get_main_queue(), ^{[expectation2 fulfill];});
 
-  // Then
-  XCTAssertNotEqual(expectedSid, sid);
-}
+      [self waitForExpectationsWithTimeout:1
+                handler:^(NSError *error)
+                {
+                    if (error)
+                    {
+                        XCTFail(@"Expectation Failed with error: %@", error);
+                    }
+                    // Get a session
+                    [self.sut renewSessionId];
+      }];
+      NSString *sid = [self.sut.context sessionId];
 
-- (void)testStartSessionWhenManualSessionTrackerEnabled {
-
-  // If.
-  // Stop session.
-  [self.sut stop];
-
-  // When.
-  // Enable manual session tracker.
-  [self.sut enableManualSessionTracker];
-
-  // Start new manual session.
-  [self.sut startSession];
-  MSACLogWithProperties *firstManualLog = [MSACLogWithProperties new];
-  [self.sut channel:nil prepareLog:firstManualLog];
-  XCTAssertNotNil(firstManualLog.sid);
-
-  // Renew manual session.
-  [self.sut startSession];
-  MSACLogWithProperties *secondManualLog = [MSACLogWithProperties new];
-  [self.sut channel:nil prepareLog:secondManualLog];
-
-  // Then.
-  // Verify that session id was set.
-  XCTAssertNotNil(secondManualLog.sid);
-  XCTAssertNotEqual(secondManualLog.sid, firstManualLog.sid);
-  firstManualLog.sid = secondManualLog.sid;
-
-  // Start session.
-  [self.sut start];
-  MSACLogWithProperties *thirdManualLog = [MSACLogWithProperties new];
-  [self.sut channel:nil prepareLog:thirdManualLog];
-
-  // Then.
-  // Verify that session id wasn't changed.
-  XCTAssertNotNil(thirdManualLog.sid);
-  XCTAssertEqual(thirdManualLog.sid, firstManualLog.sid);
-}
-
-- (void)testManualSessionTrackerAfterCallWillEnterForeground {
-
-  // If.
-  // Stop session.
-  [self.sut stop];
-
-  // When.
-  // Enable manual session.
-  [self.sut enableManualSessionTracker];
-
-  // Emulate lifecycle behavior.
-  self.sut.lastCreatedLogTime = [NSDate date];
-  [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
-  [NSThread sleepForTimeInterval:kMSACTestSessionTimeout - 1];
-  [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
-
-  // Call prepare log.
-  MSACLogWithProperties *log = [MSACLogWithProperties new];
-  [self.sut channel:nil prepareLog:log];
-
-  // Then.
-  // Verify that session id is nil in the log.
-  XCTAssertNil(log.sid);
+      // Then
+      XCTAssertNotEqual(expectedSid, sid);
 }
 
 - (void)testStartSessionWhenManualSessionTrackerDisabled {
 
   // If.
   // Call prepare automatic log.
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+  // When.
   [self.sut start];
+  dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
+  [self waitForExpectationsWithTimeout:1
+                      handler:^(NSError *error)
+                      {
+                          if (error)
+                          {
+                              XCTFail(@"Expectation Failed with error: %@", error);
+                          }
+                  
+  }];
+  
   MSACLogWithProperties *automaticSessionLog = [MSACLogWithProperties new];
   [self.sut channel:nil prepareLog:automaticSessionLog];
 
@@ -237,9 +279,21 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
 
   // Mock a log creation
   self.sut.lastCreatedLogTime = [NSDate date];
-
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+  // When.
   // Get a session
   [self.sut renewSessionId];
+  dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
+  [self waitForExpectationsWithTimeout:1
+                      handler:^(NSError *error)
+                      {
+                          if (error)
+                          {
+                              XCTFail(@"Expectation Failed with error: %@", error);
+                          }
+                  
+  }];
+
   NSString *expectedSid = [self.sut.context sessionId];
 
   // Then
@@ -271,54 +325,54 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
 
 - (void)testTooLongInBackground {
 
-  // If
-  [self.sut renewSessionId];
-  NSString *expectedSid = [self.sut.context sessionId];
+    // If
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+    // Get a session
+    [self.sut renewSessionId];
+    dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
+    [self waitForExpectationsWithTimeout:1
+            handler:^(NSError *error)
+            {
+                if (error)
+                {
+                    XCTFail(@"Expectation Failed with error: %@", error);
+                }
+    }];
+    NSString *expectedSid = [self.sut.context sessionId];
 
-  // Then
-  XCTAssertNotNil(expectedSid);
+    // Then
+    XCTAssertNotNil(expectedSid);
 
-  // When
-  [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
-  [NSThread sleepForTimeInterval:1];
+    // When
+    [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
+    [NSThread sleepForTimeInterval:1];
 
-  // Enter background
-  [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
+    // Enter background
+    [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
 
-  // Mock a log creation while app is in background
-  self.sut.lastCreatedLogTime = [NSDate date];
+    // Mock a log creation while app is in background
+    self.sut.lastCreatedLogTime = [NSDate date];
 
-  // Wait for longer than timeout in background
-  [NSThread sleepForTimeInterval:kMSACTestSessionTimeout + 1];
+    // Wait for longer than timeout in background
+    [NSThread sleepForTimeInterval:kMSACTestSessionTimeout + 1];
 
-  // Get a session
-  [self.sut renewSessionId];
-  NSString *sid = [self.sut.context sessionId];
+    // Get a session
+    XCTestExpectation *expectation2 = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+    [self.sut renewSessionId];
+    dispatch_async(dispatch_get_main_queue(), ^{[expectation2 fulfill];});
+    [self waitForExpectationsWithTimeout:1
+            handler:^(NSError *error)
+            {
+                if (error)
+                {
+                    XCTFail(@"Expectation Failed with error: %@", error);
+                }
+    }];
+    NSString *sid = [self.sut.context sessionId];
 
-  // Then
-  XCTAssertNotNil(sid);
-  XCTAssertNotEqual(expectedSid, sid);
-}
-
-- (void)testStartSessionOnStart {
-
-  // Clean up session context and stop session tracker which is initialized in setUp.
-  [MSACSessionContext resetSharedInstance];
-  [self.sut stop];
-
-  // If
-  id analyticsMock = OCMClassMock([MSACAnalytics class]);
-  OCMStub([analyticsMock isAvailable]).andReturn(YES);
-  OCMStub([analyticsMock sharedInstance]).andReturn(analyticsMock);
-  [self.sut setSessionTimeout:kMSACTestSessionTimeout];
-  id<MSACSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSACSessionTrackerDelegate));
-  self.sut.delegate = delegateMock;
-
-  // When
-  [self.sut start];
-
-  // Then
-  OCMVerify([delegateMock sessionTracker:self.sut processLog:[OCMArg isKindOfClass:[MSACStartSessionLog class]]]);
+    // Then
+    XCTAssertNotNil(sid);
+    XCTAssertNotEqual(expectedSid, sid);
 }
 
 - (void)testStartSessionOnAppForegrounded {
@@ -330,7 +384,21 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
   MSACSessionTracker *sut = [[MSACSessionTracker alloc] init];
   [sut setSessionTimeout:0];
   id<MSACSessionTrackerDelegate> delegateMock = OCMProtocolMock(@protocol(MSACSessionTrackerDelegate));
-  [sut start];
+    
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
+  // When.
+  dispatch_async(dispatch_get_main_queue(), ^{[expectation fulfill];});
+  [self waitForExpectationsWithTimeout:1
+                      handler:^(NSError *error)
+                      {
+                          if (error)
+                          {
+                              XCTFail(@"Expectation Failed with error: %@", error);
+                          }
+      [sut start];
+                  
+  }];
+ 
 
   // When
   [MSACSessionTrackerUtil simulateDidEnterBackgroundNotification];
