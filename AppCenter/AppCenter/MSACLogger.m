@@ -38,9 +38,7 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
     case MSACLogLevelNone:
       return;
     }
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-          NSLog(@"[%@] %@: %@/%d %@", tag, level, [NSString stringWithCString:function encoding:NSUTF8StringEncoding], line, messageProvider());
-    });
+    NSLog(@"[%@] %@: %@/%d %@", tag, level, [NSString stringWithCString:function encoding:NSUTF8StringEncoding], line, messageProvider());
   }
 };
 
