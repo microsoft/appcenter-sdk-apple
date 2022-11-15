@@ -105,7 +105,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
   NSString *sessionId = MSAC_UUID_STRING;
   [self.context setSessionId:sessionId];
   MSACLogInfo([MSACAnalytics logTag], @"New session ID: %@", sessionId);
-    
+  
   // Create a start session log.
   MSACStartSessionLog *log = [[MSACStartSessionLog alloc] init];
   log.sid = sessionId;

@@ -338,7 +338,7 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
   sut.delegate = delegateMock;
   [MSACSessionTrackerUtil simulateWillEnterForegroundNotification];
 
-  //Then
+  // Then
   OCMVerify([delegateMock sessionTracker:sut processLog:[OCMArg isKindOfClass:[MSACStartSessionLog class]]]);
 }
 
