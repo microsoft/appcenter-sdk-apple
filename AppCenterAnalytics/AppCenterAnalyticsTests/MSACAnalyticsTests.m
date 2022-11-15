@@ -425,24 +425,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                               appSecret:kMSACTestAppSecret
                                 transmissionTargetToken:nil
                                         fromApplication:YES];
-
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
-  dispatch_async(dispatch_get_main_queue(), ^{
-        [expectation fulfill];
-  });
-
-  [self waitForExpectationsWithTimeout:1
-        handler:^(NSError *error)
-        {
-            if (error)
-            {
-                XCTFail(@"Expectation Failed with error: %@", error);
-            }
-        
-            // When
-            OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
-         
-  }];
+  OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
   [[MSACAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:nil flags:MSACFlagsDefault];
 
   // Then
@@ -457,25 +440,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                               appSecret:kMSACTestAppSecret
                                 transmissionTargetToken:nil
                                         fromApplication:YES];
-
-    
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
-  dispatch_async(dispatch_get_main_queue(), ^{
-      [expectation fulfill];
-  });
-
-  [self waitForExpectationsWithTimeout:1
-      handler:^(NSError *error)
-      {
-          if (error)
-          {
-              XCTFail(@"Expectation Failed with error: %@", error);
-          }
-      
-          // When
-          OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
-       
-  }];
+  OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
   MSACAnalyticsTransmissionTarget *target = [MSACAnalytics transmissionTargetForToken:@"test"];
   [target setEnabled:NO];
   [[MSACAnalytics sharedInstance] trackEvent:@"Some event" withProperties:nil forTransmissionTarget:target flags:MSACFlagsDefault];
@@ -570,23 +535,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                               appSecret:kMSACTestAppSecret
                                 transmissionTargetToken:nil
                                         fromApplication:YES];
-  XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
-  dispatch_async(dispatch_get_main_queue(), ^{
-      [expectation fulfill];
-  });
-
-  [self waitForExpectationsWithTimeout:1
-      handler:^(NSError *error)
-      {
-          if (error)
-          {
-              XCTFail(@"Expectation Failed with error: %@", error);
-          }
-        
-      // When
-      OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
-         
-  }];
+  OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
 
   MSACAnalyticsTransmissionTarget *target = [MSACAnalytics transmissionTargetForToken:@"test"];
   [target setEnabled:NO];

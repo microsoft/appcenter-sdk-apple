@@ -104,14 +104,11 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
 - (void)sendStartSession {
   NSString *sessionId = MSAC_UUID_STRING;
   [self.context setSessionId:sessionId];
-  dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        //Background Thread
-        MSACLogInfo([MSACAnalytics logTag], @"New session ID: %@", sessionId);
-        // Create a start session log.
-        MSACStartSessionLog *log = [[MSACStartSessionLog alloc] init];
-        log.sid = sessionId;
-        [self.delegate sessionTracker:self processLog:log];
-    });
+  MSACLogInfo([MSACAnalytics logTag], @"New session ID: %@", sessionId);
+  // Create a start session log.
+  MSACStartSessionLog *log = [[MSACStartSessionLog alloc] init];
+  log.sid = sessionId;
+  [self.delegate sessionTracker:self processLog:log];
 }
 
 - (void)startSession {
