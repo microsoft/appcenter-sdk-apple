@@ -316,8 +316,8 @@ static NSTimeInterval const kMSACTestSessionTimeout = 1.5;
 
   // When
   [self.sut start];
-    
-  //Then
+
+  // Then
   OCMVerify([delegateMock sessionTracker:self.sut processLog:[OCMArg isKindOfClass:[MSACStartSessionLog class]]]);
 }
 

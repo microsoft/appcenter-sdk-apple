@@ -425,7 +425,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                               appSecret:kMSACTestAppSecret
                                 transmissionTargetToken:nil
                                         fromApplication:YES];
-    
+
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
   [[MSACAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:nil flags:MSACFlagsDefault];
@@ -442,7 +442,7 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                               appSecret:kMSACTestAppSecret
                                 transmissionTargetToken:nil
                                         fromApplication:YES];
-    
+
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
   MSACAnalyticsTransmissionTarget *target = [MSACAnalytics transmissionTargetForToken:@"test"];
@@ -539,10 +539,9 @@ static NSString *const kMSACAnalyticsServiceName = @"Analytics";
                                               appSecret:kMSACTestAppSecret
                                 transmissionTargetToken:nil
                                         fromApplication:YES];
-    
+
   // When
   OCMReject([self.channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]);
-
   MSACAnalyticsTransmissionTarget *target = [MSACAnalytics transmissionTargetForToken:@"test"];
   [target setEnabled:NO];
   [[MSACAnalytics sharedInstance] trackEvent:@"Some event" withTypedProperties:nil forTransmissionTarget:target flags:MSACFlagsDefault];
