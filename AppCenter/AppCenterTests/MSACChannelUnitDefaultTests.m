@@ -1565,7 +1565,8 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 - (void)testResumeWhenOnlyPausedObjectIsDeallocated {
 
   // If
-  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  [self initChannelEndJobExpectation];
   __weak NSObject *weakObject = nil;
   @autoreleasepool {
 
@@ -1581,7 +1582,14 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   }
 
   // Then
-  XCTAssertTrue(channel.paused);
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSACTestTimeout
+                                 handler:^(NSError *error) {
+                                   if (error) {
+                                     XCTFail(@"Expectation Failed with error: %@", error);
+                                   }
+                                   XCTAssertTrue(channel.paused);
+                                 }];
 
   // When
   [channel resumeWithIdentifyingObjectSync:[NSObject new]];
@@ -1616,32 +1624,50 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 - (void)testResumeWithObjectThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
 
   // When
-  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  [self initChannelEndJobExpectation];
   [channel resumeWithIdentifyingObjectSync:[NSObject new]];
 
-  // Then
-  XCTAssertFalse(channel.paused);
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSACTestTimeout
+                                 handler:^(NSError *error) {
+                                   if (error) {
+                                     XCTFail(@"Expectation Failed with error: %@", error);
+                                   }
+                                  // Then
+                                  XCTAssertFalse(channel.paused);
+                                 }];
+  
 }
 
 - (void)testResumeTwiceInARowResumesWhenPaused {
 
   // If
-  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  [self initChannelEndJobExpectation];
   NSObject *object = [NSObject new];
   [channel pauseWithIdentifyingObjectSync:object];
 
   // When
   [channel resumeWithIdentifyingObjectSync:object];
   [channel resumeWithIdentifyingObjectSync:object];
-
-  // Then
-  XCTAssertFalse(channel.paused);
+    
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSACTestTimeout
+                                   handler:^(NSError *error) {
+                                     if (error) {
+                                       XCTFail(@"Expectation Failed with error: %@", error);
+                                     }
+                                    // Then
+                                    XCTAssertFalse(channel.paused);
+                                   }];
 }
 
 - (void)testResumeOnceResumesWhenPausedTwiceWithSingleObject {
 
   // If
-  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
+  [self initChannelEndJobExpectation];
   NSObject *object = [NSObject new];
   [channel pauseWithIdentifyingObjectSync:object];
   [channel pauseWithIdentifyingObjectSync:object];
@@ -1649,8 +1675,15 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   // When
   [channel resumeWithIdentifyingObjectSync:object];
 
-  // Then
-  XCTAssertFalse(channel.paused);
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSACTestTimeout
+                                     handler:^(NSError *error) {
+                                       if (error) {
+                                         XCTFail(@"Expectation Failed with error: %@", error);
+                                       }
+                                      // Then
+                                      XCTAssertFalse(channel.paused);
+                                     }];
 }
 
 - (void)testPausedTargetKeysNotAlteredWhenChannelUnitPaused {
