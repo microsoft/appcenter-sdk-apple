@@ -1169,12 +1169,9 @@ static NSString *const kMSACTestGroupId = @"GroupId";
       });
   [channel addDelegate:delegateMock];
 
-  dispatch_async(channel.logsDispatchQueue, ^{
-        // When
-        [channel setEnabled:NO andDeleteDataOnDisabled:YES];
-        [channel enqueueItem:mockLog flags:MSACFlagsDefault];
-  });
-  
+  // When
+  [channel setEnabled:NO andDeleteDataOnDisabled:YES];
+  [channel enqueueItem:mockLog flags:MSACFlagsDefault];
 
   // Then
   [self waitForExpectationsWithTimeout:kMSACTestTimeout
