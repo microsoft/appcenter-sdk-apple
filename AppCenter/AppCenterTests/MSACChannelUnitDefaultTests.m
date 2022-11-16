@@ -78,7 +78,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
           [expectation fulfill];
     });
 
-    [self waitForExpectationsWithTimeout:5
+    [self waitForExpectationsWithTimeout:1
                 handler:^(NSError *error)
                 {
                     if (error)
