@@ -67,17 +67,28 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 
 - (void)tearDown {
 
-  // Stop mocks.
-  [self.storageMock stopMocking];
-  [self.ingestionMock stopMocking];
-  [self.settingsMock stopMocking];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
 
-  /*
-   * Make sure that dispatch queue has been deallocated.
-   * Note: the check should be done after `stopMocking` calls because it clears list of invocations that
-   * keeps references to all arguments including blocks (that implicitly keeps channel "self" reference).
-   */
-  XCTAssertNil(self.dispatchQueue);
+    // Stop mocks.
+    [self.storageMock stopMocking];
+    [self.ingestionMock stopMocking];
+    [self.settingsMock stopMocking];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+          [expectation fulfill];
+    });
+
+    [self waitForExpectationsWithTimeout:1
+                handler:^(NSError *error)
+                {
+                    if (error)
+                    {
+                        XCTFail(@"Expectation Failed with error: %@", error);
+                    }
+
+                    // Then
+                    XCTAssertNil(self.dispatchQueue);
+                }];
 
   [super tearDown];
 }
