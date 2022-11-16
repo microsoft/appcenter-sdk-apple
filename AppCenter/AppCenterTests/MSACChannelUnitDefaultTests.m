@@ -68,12 +68,12 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 - (void)tearDown {
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
-
+    
     // Stop mocks.
     [self.storageMock stopMocking];
     [self.ingestionMock stopMocking];
     [self.settingsMock stopMocking];
-
+    
     dispatch_async(dispatch_get_main_queue(), ^{
           [expectation fulfill];
     });
@@ -86,10 +86,10 @@ static NSString *const kMSACTestGroupId = @"GroupId";
                         XCTFail(@"Expectation Failed with error: %@", error);
                     }
 
-                    // Then
-                    XCTAssertNil(self.dispatchQueue);
+                   
                 }];
-
+  // Then
+  XCTAssertNil(self.dispatchQueue);
   [super tearDown];
 }
 
