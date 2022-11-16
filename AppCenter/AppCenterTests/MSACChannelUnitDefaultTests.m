@@ -1306,12 +1306,12 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   id delegateMock = OCMProtocolMock(@protocol(MSACChannelDelegate));
   id mockLog = [self getValidMockLog];
 
-  // When
+    // When
   [channel addDelegate:delegateMock];
-  [channel setEnabled:NO andDeleteDataOnDisabled:YES];
 
   // Enqueue now that the delegate is set.
   dispatch_async(channel.logsDispatchQueue, ^{
+    [channel setEnabled:NO andDeleteDataOnDisabled:YES];
     [channel enqueueItem:mockLog flags:MSACFlagsDefault];
     [self enqueueChannelEndJobExpectation];
   });
