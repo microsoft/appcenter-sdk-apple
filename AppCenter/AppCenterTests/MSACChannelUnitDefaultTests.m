@@ -1591,11 +1591,20 @@ static NSString *const kMSACTestGroupId = @"GroupId";
                                    XCTAssertTrue(channel.paused);
                                  }];
 
+  [self initChannelEndJobExpectation];
   // When
   [channel resumeWithIdentifyingObjectSync:[NSObject new]];
+  [self enqueueChannelEndJobExpectation];
+  [self waitForExpectationsWithTimeout:kMSACTestTimeout
+                                   handler:^(NSError *error) {
+                                     if (error) {
+                                       XCTFail(@"Expectation Failed with error: %@", error);
+                                     }
+                                    // Then
+                                    XCTAssertFalse(channel.paused);
+                                }];
 
-  // Then
-  XCTAssertFalse(channel.paused);
+  
 }
 
 - (void)testResumeWithObjectThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
