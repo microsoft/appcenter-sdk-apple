@@ -44,9 +44,7 @@ static NSString *const kMSACPastSessionsKey = @"PastSessions";
       
       // Check if new session id is required.
       if ([self.context sessionId] == nil || [self hasSessionTimedOut]) {
-          dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-              [self sendStartSession];
-          });
+        [self sendStartSession];
       }
     }
   }
