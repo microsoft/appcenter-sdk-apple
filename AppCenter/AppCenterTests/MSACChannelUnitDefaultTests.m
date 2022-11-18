@@ -66,26 +66,6 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 }
 
 - (void)tearDown {
-
-    XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
-    
-  
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-          [expectation fulfill];
-    });
-
-    [self waitForExpectationsWithTimeout:1
-                handler:^(NSError *error)
-                {
-                    if (error)
-                    {
-                        XCTFail(@"Expectation Failed with error: %@", error);
-                    }
-
-                   
-                }];
-    
     // Stop mocks.
     [self.storageMock stopMocking];
     [self.ingestionMock stopMocking];
@@ -1181,10 +1161,18 @@ static NSString *const kMSACTestGroupId = @"GroupId";
         [self enqueueChannelEndJobExpectation];
       });
   [channel addDelegate:delegateMock];
-
+    
+  // When
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Logs dispatch queue"];
   // When
   [channel setEnabled:NO andDeleteDataOnDisabled:YES];
   [channel enqueueItem:mockLog flags:MSACFlagsDefault];
+  dispatch_async(dispatch_get_main_queue(), ^{
+      [expectation fulfill];
+  });
+  [self waitForExpectations:@[ expectation ] timeout:1];
+
+ 
 
   // Then
   [self waitForExpectationsWithTimeout:kMSACTestTimeout
