@@ -69,10 +69,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 
     XCTestExpectation *expectation = [self expectationWithDescription:@"Wait for block in sendStartSession to be dispatched"];
     
-    // Stop mocks.
-    [self.storageMock stopMocking];
-    [self.ingestionMock stopMocking];
-    [self.settingsMock stopMocking];
+  
     
     dispatch_async(dispatch_get_main_queue(), ^{
           [expectation fulfill];
@@ -88,9 +85,14 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 
                    
                 }];
-  // Then
-  XCTAssertNil(self.dispatchQueue);
-  [super tearDown];
+    
+    // Stop mocks.
+    [self.storageMock stopMocking];
+    [self.ingestionMock stopMocking];
+    [self.settingsMock stopMocking];
+    // Then
+    XCTAssertNil(self.dispatchQueue);
+    [super tearDown];
 }
 
 #pragma mark - Tests
