@@ -66,13 +66,24 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 }
 
 - (void)tearDown {
-    // Stop mocks.
-    [self.storageMock stopMocking];
-    [self.ingestionMock stopMocking];
-    [self.settingsMock stopMocking];
-    // Then
-    XCTAssertNil(self.dispatchQueue);
-    [super tearDown];
+  // Stop mocks.
+  [self.storageMock stopMocking];
+  [self.ingestionMock stopMocking];
+  [self.settingsMock stopMocking];
+
+  /*
+   * Make sure that dispatch queue has been deallocated.
+   * Note: the check should be done after `stopMocking` calls because it clears list of invocations that
+   * keeps references to all arguments including blocks (that implicitly keeps channel "self" reference).
+   * and it should be done after adding a delay to wait for all NSLogs dispatched to the background to be done
+   */
+  NSTimeInterval delayInSeconds = 2.0;
+  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+      XCTAssertNil(self.dispatchQueue);
+  });
+  
+  [super tearDown];
 }
 
 #pragma mark - Tests
@@ -1299,12 +1310,12 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   id delegateMock = OCMProtocolMock(@protocol(MSACChannelDelegate));
   id mockLog = [self getValidMockLog];
 
-    // When
+  // When
   [channel addDelegate:delegateMock];
+  [channel setEnabled:NO andDeleteDataOnDisabled:YES];
 
   // Enqueue now that the delegate is set.
   dispatch_async(channel.logsDispatchQueue, ^{
-    [channel setEnabled:NO andDeleteDataOnDisabled:YES];
     [channel enqueueItem:mockLog flags:MSACFlagsDefault];
     [self enqueueChannelEndJobExpectation];
   });
@@ -1558,8 +1569,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 - (void)testResumeWhenOnlyPausedObjectIsDeallocated {
 
   // If
-  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
-  [self initChannelEndJobExpectation];
+  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
   __weak NSObject *weakObject = nil;
   @autoreleasepool {
 
@@ -1575,29 +1585,13 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   }
 
   // Then
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSACTestTimeout
-                                 handler:^(NSError *error) {
-                                   if (error) {
-                                     XCTFail(@"Expectation Failed with error: %@", error);
-                                   }
-                                   XCTAssertTrue(channel.paused);
-                                 }];
+  XCTAssertTrue(channel.paused);
 
-  [self initChannelEndJobExpectation];
   // When
   [channel resumeWithIdentifyingObjectSync:[NSObject new]];
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSACTestTimeout
-                                   handler:^(NSError *error) {
-                                     if (error) {
-                                       XCTFail(@"Expectation Failed with error: %@", error);
-                                     }
-                                    // Then
-                                    XCTAssertFalse(channel.paused);
-                                }];
 
-  
+  // Then
+  XCTAssertFalse(channel.paused);
 }
 
 - (void)testResumeWithObjectThatDoesNotExistDoesNotResumeIfCurrentlyPaused {
@@ -1626,50 +1620,32 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 - (void)testResumeWithObjectThatDoesNotExistDoesNotPauseIfPreviouslyResumed {
 
   // When
-  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
-  [self initChannelEndJobExpectation];
+  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
   [channel resumeWithIdentifyingObjectSync:[NSObject new]];
 
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSACTestTimeout
-                                 handler:^(NSError *error) {
-                                   if (error) {
-                                     XCTFail(@"Expectation Failed with error: %@", error);
-                                   }
-                                  // Then
-                                  XCTAssertFalse(channel.paused);
-                                 }];
-  
+  // Then
+  XCTAssertFalse(channel.paused);
 }
 
 - (void)testResumeTwiceInARowResumesWhenPaused {
 
   // If
-  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
-  [self initChannelEndJobExpectation];
+  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
   NSObject *object = [NSObject new];
   [channel pauseWithIdentifyingObjectSync:object];
 
   // When
   [channel resumeWithIdentifyingObjectSync:object];
   [channel resumeWithIdentifyingObjectSync:object];
-    
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSACTestTimeout
-                                   handler:^(NSError *error) {
-                                     if (error) {
-                                       XCTFail(@"Expectation Failed with error: %@", error);
-                                     }
-                                    // Then
-                                    XCTAssertFalse(channel.paused);
-                                   }];
+
+  // Then
+  XCTAssertFalse(channel.paused);
 }
 
 - (void)testResumeOnceResumesWhenPausedTwiceWithSingleObject {
 
   // If
-  __block MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
-  [self initChannelEndJobExpectation];
+  MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
   NSObject *object = [NSObject new];
   [channel pauseWithIdentifyingObjectSync:object];
   [channel pauseWithIdentifyingObjectSync:object];
@@ -1677,15 +1653,8 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   // When
   [channel resumeWithIdentifyingObjectSync:object];
 
-  [self enqueueChannelEndJobExpectation];
-  [self waitForExpectationsWithTimeout:kMSACTestTimeout
-                                     handler:^(NSError *error) {
-                                       if (error) {
-                                         XCTFail(@"Expectation Failed with error: %@", error);
-                                       }
-                                      // Then
-                                      XCTAssertFalse(channel.paused);
-                                     }];
+  // Then
+  XCTAssertFalse(channel.paused);
 }
 
 - (void)testPausedTargetKeysNotAlteredWhenChannelUnitPaused {
