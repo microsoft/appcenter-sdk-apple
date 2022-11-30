@@ -262,4 +262,39 @@
   [parserMock stopMocking];
 }
 
+- (void)testIsValidUpdateTrackPulic {
+    //When
+    MSACUpdateTrack updateTrack = 1;
+    
+    //Then
+    XCTAssertTrue([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
+}
+
+
+- (void)testIsValidUpdateTrackPrivate {
+    //When
+    MSACUpdateTrack updateTrack = 2;
+    
+    //Then
+    XCTAssertTrue([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
+}
+
+
+- (void)testIsValidUpdateTrackPulicInvalid {
+    //When
+    MSACUpdateTrack updateTrack = 0;
+    
+    //Then
+    XCTAssertFalse([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
+}
+
+
+- (void)testIsValidUpdateTrackPrivateInvalid {
+    //When
+    MSACUpdateTrack updateTrack = 3;
+    
+    //Then
+    XCTAssertFalse([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
+}
+
 @end
