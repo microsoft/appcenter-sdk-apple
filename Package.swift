@@ -54,7 +54,7 @@ let package = Package(
     name: "AppCenter",
     platforms: [
         .iOS(.v11),
-        .macOS(.v10_10),
+        .macOS(.v10_13),
         .tvOS(.v11)
     ],
     products: [
