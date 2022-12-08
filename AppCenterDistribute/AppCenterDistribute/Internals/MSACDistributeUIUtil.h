@@ -1,10 +1,6 @@
-//
-//  MSACDistributeUIUtil.h
-//  AppCenterDistribute
-//
-//  Created by Shadya Barada on 06.12.2022.
-//  Copyright © 2022 Microsoft. All rights reserved.
-//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 #import "MSACDistribute.h"
 
 @interface MSACDistributeUIUtil : NSObject
@@ -17,4 +13,3 @@
 + (ASPresentationAnchor)getPresentationAnchor API_AVAILABLE(ios(13));
 
 @end
-

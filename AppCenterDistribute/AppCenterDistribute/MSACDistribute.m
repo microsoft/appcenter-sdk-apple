@@ -1384,3 +1384,12 @@ static dispatch_once_t onceToken;
 }
 
 @end
+
+@implementation MSACDistribute (ContextProviding)
+
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)__unused session
+    API_AVAILABLE(ios(13)) {
+  return [MSACDistributeUIUtil getPresentationAnchor];
+}
+
+@end

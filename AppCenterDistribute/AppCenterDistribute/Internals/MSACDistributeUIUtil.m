@@ -1,22 +1,14 @@
-//
-//  MSACDistributeUIUtil.m
-//  AppCenterDistribute iOS Framework
-//
-//  Created by Shadya Barada on 06.12.2022.
-//  Copyright © 2022 Microsoft. All rights reserved.
-//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
 #import "MSACDistributeUIUtil.h"
-#import "MSACDistribute.h"
+#import "MSACLogger.h"
 
-#import "MSACBasicMachOParser.h"
 #import "MSACDispatcherUtil.h"
 #import "MSACDistributeInternal.h"
-#import "MSACDistributePrivate.h"
 
 @implementation MSACDistributeUIUtil
-
 
 + (ASPresentationAnchor)getPresentationAnchor API_AVAILABLE(ios(13)) {
   UIApplication *application = MSAC_DISPATCH_SELECTOR((UIApplication * (*)(id, SEL)), [UIApplication class], sharedApplication);
@@ -37,6 +29,4 @@
   return anchor;
 }
 
-
 @end
-

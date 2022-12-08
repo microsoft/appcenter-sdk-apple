@@ -2,6 +2,9 @@
 
 ## Version 5.0.1 (Under development)
 
+### App Center Distribute
+
+* **[Fix]** Fix crash in getPresentationAnchor function if the active scene is not an instance of UIWindowScene.
  ___
 
 ## Version 5.0.0

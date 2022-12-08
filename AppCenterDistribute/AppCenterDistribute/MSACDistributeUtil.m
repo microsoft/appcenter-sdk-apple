@@ -135,6 +135,4 @@ NSString *MSACPackageHash(void) {
   return updateTrack == MSACUpdateTrackPublic || updateTrack == MSACUpdateTrackPrivate;
 }
 
-
-
 @end

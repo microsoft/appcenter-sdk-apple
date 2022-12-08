@@ -262,39 +262,35 @@
   [parserMock stopMocking];
 }
 
-- (void)testIsValidUpdateTrackPulic {
+- (void) testUpdateTrack {
+    
+    //Test Valid Public
     //When
-    MSACUpdateTrack updateTrack = 1;
+    MSACUpdateTrack publicUpdateTrack = 1;
     
     //Then
-    XCTAssertTrue([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
-}
-
-
-- (void)testIsValidUpdateTrackPrivate {
+    XCTAssertTrue([MSACDistributeUtil isValidUpdateTrack:(publicUpdateTrack)]);
+    
+    //Test Valid Private
     //When
-    MSACUpdateTrack updateTrack = 2;
+    MSACUpdateTrack privateUpdateTrack = 2;
     
     //Then
-    XCTAssertTrue([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
-}
-
-
-- (void)testIsValidUpdateTrackPulicInvalid {
+    XCTAssertTrue([MSACDistributeUtil isValidUpdateTrack:(privateUpdateTrack)]);
+    
+    //Test Invalid Public
     //When
-    MSACUpdateTrack updateTrack = 0;
+    MSACUpdateTrack inavlidPublicUpdateTrack = 0;
     
     //Then
-    XCTAssertFalse([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
-}
-
-
-- (void)testIsValidUpdateTrackPrivateInvalid {
+    XCTAssertFalse([MSACDistributeUtil isValidUpdateTrack:(inavlidPublicUpdateTrack)]);
+    
+    //Test Invalid Private
     //When
-    MSACUpdateTrack updateTrack = 3;
+    MSACUpdateTrack invalidPrivateUpdateTrack = 3;
     
     //Then
-    XCTAssertFalse([MSACDistributeUtil isValidUpdateTrack:(updateTrack)]);
+    XCTAssertFalse([MSACDistributeUtil isValidUpdateTrack:(invalidPrivateUpdateTrack)]);
 }
 
 @end
