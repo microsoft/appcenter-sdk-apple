@@ -806,7 +806,7 @@ static NSTimeInterval const kMSACTestTimeout = 5.0;
 
                                  // Then
                                  // Retry must be stopped.
-                                 if (@available(macOS 10.10, tvOS 9.0, watchOS 2.0, *)) {
+                                 if (@available(tvOS 9.0, watchOS 2.0, *)) {
                                    XCTAssertNotEqual(0, dispatch_testcancel(httpCall.timerSource));
                                  }
                                  XCTAssertEqual(httpCall.retryCount, 0);

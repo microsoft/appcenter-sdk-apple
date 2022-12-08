@@ -316,25 +316,9 @@ static MSACDeviceTracker *sharedInstance = nil;
 
 #if TARGET_OS_OSX
 - (NSString *)osVersion {
-  NSString *osVersion = nil;
-
-  if (@available(macOS 10.10, *)) {
-    NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
-    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion, (long)osSystemVersion.minorVersion,
-                                           (long)osSystemVersion.patchVersion];
-  } else {
-    SInt32 major, minor, bugfix;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-    OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
-    OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
-    OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
-    if ((!err1) && (!err2) && (!err3)) {
-      osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
-    }
-#pragma clang diagnostic pop
-  }
-  return osVersion;
+  NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+  return [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion, (long)osSystemVersion.minorVersion,
+          (long)osSystemVersion.patchVersion];
 }
 #else
 - (NSString *)osVersion:(UIDevice *)device {
