@@ -31,6 +31,7 @@
 #import "MSACTestFrameworks.h"
 #import "MSACUtility+StringFormatting.h"
 #import "MSAC_Reachability.h"
+#import "MSACDistributeUIUtil.h"
 
 static NSString *const kMSACTestAppSecret = @"IAMSACECRET";
 static NSString *const kMSACTestReleaseHash = @"RELEASEHASH";
@@ -1774,7 +1775,8 @@ static NSURL *sfURL;
   // If
   id distributeMock = OCMPartialMock(self.sut);
   id distributeUtilMock = OCMClassMock([MSACDistributeUtil class]);
-  OCMStub(ClassMethod([distributeUtilMock getPresentationAnchor])).andReturn(nil);
+  id distributeUIUtilMock = OCMClassMock([MSACDistributeUIUtil class]);
+  OCMStub(ClassMethod([distributeUIUtilMock getPresentationAnchor])).andReturn(nil);
   OCMReject([distributeMock openURLInAuthenticationSessionWith:OCMOCK_ANY usePresentationContext:OCMOCK_ANY]);
   OCMStub([distributeMock openURLInAuthenticationSessionWith:OCMOCK_ANY usePresentationContext:OCMOCK_ANY]).andDo(nil);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Web authorization canceled"];
@@ -1792,7 +1794,7 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
     
                                  // Then
-                                 OCMVerify([distributeUtilMock getPresentationAnchor]);
+                                 OCMVerify([distributeUIUtilMock getPresentationAnchor]);
                                  XCTAssertNil([MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACUpdateTokenRequestIdKey]);
                                  XCTAssertFalse([distributeMock updateFlowInProgress]);
                                  if (error) {
@@ -1810,8 +1812,9 @@ static NSURL *sfURL;
   // If
   id distributeMock = OCMPartialMock(self.sut);
   id distributeUtilMock = OCMClassMock([MSACDistributeUtil class]);
+    id distributeUIUtilMock = OCMClassMock([MSACDistributeUIUtil class]);
   id presentationAnchorMock = OCMClassMock([UIWindow class]);
-  OCMStub(ClassMethod([distributeUtilMock getPresentationAnchor])).andReturn(presentationAnchorMock);
+  OCMStub(ClassMethod([distributeUIUtilMock getPresentationAnchor])).andReturn(presentationAnchorMock);
   OCMStub([distributeMock openURLInAuthenticationSessionWith:OCMOCK_ANY usePresentationContext:OCMOCK_ANY]).andDo(nil);
   XCTestExpectation *expectation = [self expectationWithDescription:@"Web authorization opened"];
 
@@ -1828,7 +1831,7 @@ static NSURL *sfURL;
                                handler:^(NSError *error) {
     
                                  // Then
-                                 OCMVerify([distributeUtilMock getPresentationAnchor]);
+                                 OCMVerify([distributeUIUtilMock getPresentationAnchor]);
                                  XCTAssertEqual([MSAC_APP_CENTER_USER_DEFAULTS objectForKey:kMSACUpdateTokenRequestIdKey],
                                                 @"requestId");
                                  XCTAssertTrue([distributeMock updateFlowInProgress]);
