@@ -2,6 +2,10 @@
 
 ## Version 5.0.1 (Under development)
 
+### App Center
+
+* **[Fix]** Fix Unsafe Object Deseralization in App Center SDK.
+
 ### App Center Distribute
 
 * **[Fix]** Fix crash in getPresentationAnchor function if the active scene is not an instance of UIWindowScene.
