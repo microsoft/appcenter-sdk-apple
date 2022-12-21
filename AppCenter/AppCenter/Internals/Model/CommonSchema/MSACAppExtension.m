@@ -51,6 +51,10 @@
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
     _appId = [coder decodeObjectForKey:kMSACAppId];

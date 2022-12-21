@@ -11,7 +11,7 @@ static NSString *const kMSACDeviceLocalId = @"localId";
 /**
  * Device extension contains device information.
  */
-@interface MSACDeviceExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACDeviceExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 @property(nonatomic, copy) NSString *localId;
 

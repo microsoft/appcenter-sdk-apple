@@ -15,7 +15,7 @@ static NSString *const kMSACAppUserId = @"userId";
 /**
  * The App extension contains data specified by the application.
  */
-@interface MSACAppExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACAppExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * The application's bundle identifier.

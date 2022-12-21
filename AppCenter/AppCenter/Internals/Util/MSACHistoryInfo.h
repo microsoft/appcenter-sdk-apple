@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MSACHistoryInfo : NSObject <NSCoding>
+@interface MSACHistoryInfo : NSObject <NSSecureCoding>
 
 /**
  * Timestamp.

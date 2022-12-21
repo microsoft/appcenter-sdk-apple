@@ -5,7 +5,7 @@
 
 static NSString *const kMSACTypedPropertyValue = @"value";
 
-@interface MSACTypedProperty : NSObject <MSACSerializableObject>
+@interface MSACTypedProperty : NSObject <MSACSerializableObject, NSSecureCoding>
 
 /**
  * Property type.

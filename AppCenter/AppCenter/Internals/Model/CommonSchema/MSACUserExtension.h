@@ -12,7 +12,7 @@ static NSString *const kMSACUserLocalId = @"localId";
 /**
  * The “user” extension tracks common user elements that are not available in the core envelope.
  */
-@interface MSACUserExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACUserExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * Local Id.

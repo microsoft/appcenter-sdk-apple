@@ -40,6 +40,10 @@ static NSString *const kMSACIsOneCollectorEnabled = @"isOneCollectorEnabled";
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super initWithCoder:coder])) {
     self.services = [coder decodeObjectForKey:kMSACServices];

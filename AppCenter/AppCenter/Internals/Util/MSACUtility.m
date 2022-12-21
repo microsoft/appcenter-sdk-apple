@@ -9,6 +9,32 @@
 #import "MSACUtility+File.h"
 #import "MSACUtility+PropertyValidation.h"
 #import "MSACUtility+StringFormatting.h"
+#import "MSACDeviceHistoryInfo.h"
+#import "MSACUserIdHistoryInfo.h"
+#import "MSACSessionHistoryInfo.h"
+#import "MSACAppExtension.h"
+#import "MSACCommonSchemaLog.h"
+#import "MSACCSData.h"
+#import "MSACDeviceExtension.h"
+#import "MSACLocExtension.h"
+#import "MSACCSExtensions.h"
+#import "MSACMetadataExtension.h"
+#import "MSACNetExtension.h"
+#import "MSACOSExtension.h"
+#import "MSACSDKExtension.h"
+#import "MSACProtocolExtension.h"
+#import "MSACUserExtension.h"
+#import "MSACStartServiceLog.h"
+#import "MSACBooleanTypedProperty.h"
+#import "MSACDoubleTypedProperty.h"
+#import "MSACDateTimeTypedProperty.h"
+#import "MSACStringTypedProperty.h"
+#import "MSACLongTypedProperty.h"
+#import "MSACTypedProperty.h"
+#import "MSACWrapperSdk.h"
+#import "MSACLogWithProperties.h"
+
+
 
 // SDK versioning struct. Needs to be big enough to hold the info.
 typedef struct {
@@ -54,13 +80,12 @@ __attribute__((used)) static void importCategories() {
   NSObject *unarchivedData;
   NSException *exception;
   @try {
-    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
-      for (NSString *key in targetClasses) {
-        [unarchiver setClass:targetClasses[key] forClassName:key];
-      }
-      unarchiver.requiresSecureCoding = NO;
-      unarchivedData = [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:&error];
+    if (@available(macos 10.8, ios 6.0, watchos 2.0, *)) {
+      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+      unarchiver.requiresSecureCoding = YES;
+      NSArray *allowedClassesArray = @[[MSACAbstractLog class], [NSDate class], [MSACDevice class], [MSACDeviceHistoryInfo class], [MSACSessionHistoryInfo class], [MSACUserIdHistoryInfo class], [MSACAppExtension class], [MSACCommonSchemaLog class], [MSACCSData class], [MSACCSExtensions class], [MSACDeviceExtension class], [MSACLocExtension class], [MSACMetadataExtension class], [MSACNetExtension class], [MSACOSExtension class], [MSACProtocolExtension class], [MSACSDKExtension class], [MSACUserExtension class], [MSACStartServiceLog class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACHistoryInfo class], [MSACLogWithProperties class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class]];
+      NSSet *allowedClassesSet = [NSSet setWithArray:allowedClassesArray];
+      unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey ];
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -71,7 +96,6 @@ __attribute__((used)) static void importCategories() {
     exception = ex;
   }
   if (!unarchivedData || exception) {
-
     // Unarchiving process failed.
     MSACLogError([MSACAppCenter logTag], @"Unarchiving NSData failed with error: %@",
                  exception ? exception.reason : error.localizedDescription);
@@ -79,20 +103,25 @@ __attribute__((used)) static void importCategories() {
   return unarchivedData;
 }
 
-+ (NSData *)archiveKeyedData:(id)data {
-  if (!data) {
++ (NSData *)archiveKeyedData:(id)myData {
+  if (!myData) {
     return nil;
   }
   NSError *error;
   NSData *archivedData;
   NSException *exception;
   @try {
-    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:&error];
+    if (@available(macos 10.8, ios 6.0, watchos 2.0, *)) {
+        NSMutableData *data = [NSMutableData data];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        archiver.requiresSecureCoding = YES;
+        [archiver encodeObject:myData forKey:NSKeyedArchiveRootObjectKey];
+        [archiver finishEncoding];
+        archivedData = [data copy];
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data];
+      archivedData = [NSKeyedArchiver archivedDataWithRootObject:myData];
 #pragma clang diagnostic pop
     }
   } @catch (NSException *ex) {

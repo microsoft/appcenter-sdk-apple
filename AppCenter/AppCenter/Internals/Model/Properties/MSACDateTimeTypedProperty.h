@@ -5,7 +5,7 @@
 
 static NSString *const kMSACDateTimeTypedPropertyType = @"dateTime";
 
-@interface MSACDateTimeTypedProperty : MSACTypedProperty
+@interface MSACDateTimeTypedProperty : MSACTypedProperty<NSSecureCoding>
 
 /**
  * Date and time property value.
