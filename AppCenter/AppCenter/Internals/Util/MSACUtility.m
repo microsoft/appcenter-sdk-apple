@@ -81,11 +81,14 @@ __attribute__((used)) static void importCategories() {
   NSException *exception;
   @try {
     if (@available(macos 10.8, ios 6.0, watchos 2.0, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
       NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
       unarchiver.requiresSecureCoding = YES;
       NSArray *allowedClassesArray = @[[MSACAbstractLog class], [NSDate class], [MSACDevice class], [MSACDeviceHistoryInfo class], [MSACSessionHistoryInfo class], [MSACUserIdHistoryInfo class], [MSACAppExtension class], [MSACCommonSchemaLog class], [MSACCSData class], [MSACCSExtensions class], [MSACDeviceExtension class], [MSACLocExtension class], [MSACMetadataExtension class], [MSACNetExtension class], [MSACOSExtension class], [MSACProtocolExtension class], [MSACSDKExtension class], [MSACUserExtension class], [MSACStartServiceLog class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACHistoryInfo class], [MSACLogWithProperties class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class]];
       NSSet *allowedClassesSet = [NSSet setWithArray:allowedClassesArray];
       unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey ];
+#pragma clang diagnostic pop
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -112,12 +115,15 @@ __attribute__((used)) static void importCategories() {
   NSException *exception;
   @try {
     if (@available(macos 10.8, ios 6.0, watchos 2.0, *)) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         NSMutableData *data = [NSMutableData data];
         NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
         archiver.requiresSecureCoding = YES;
         [archiver encodeObject:myData forKey:NSKeyedArchiveRootObjectKey];
         [archiver finishEncoding];
         archivedData = [data copy];
+#pragma clang diagnostic pop
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
