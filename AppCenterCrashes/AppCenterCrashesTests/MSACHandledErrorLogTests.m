@@ -5,6 +5,21 @@
 #import "MSACWrapperExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACTestFrameworks.h"
+#import "MSACExceptionModel.h"
+#import "MSACStackFrame.h"
+#import "MSACDevice.h"
+#import "MSACErrorAttachmentLog+Utility.h"
+#import "MSACErrorAttachmentLogInternal.h"
+#import "MSACUtility.h"
+#import "MSACAppleErrorLog.h"
+#import "MSACBinary.h"
+#import "MSACThread.h"
+#import "MSACUserIdContext.h"
+#import "MSACUtility+File.h"
+#import "MSACWrapperCrashesHelper.h"
+#import "MSACWrapperException.h"
+#import "MSACErrorAttachmentLog.h"
+#import "MSACErrorReport.h"
 
 @interface MSACHandledErrorLogTests : XCTestCase
 
@@ -19,6 +34,9 @@
 - (void)setUp {
   [super setUp];
   self.sut = [self handledErrorLog];
+    NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [NSMutableData class], [MSACExceptionModel class]];
+              
+    [MSACUtility addAllowedClasses: allowedClassesArray];
 }
 
 - (void)tearDown {

@@ -51,6 +51,10 @@ static NSString *const kMSACFileName = @"fileName";
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {

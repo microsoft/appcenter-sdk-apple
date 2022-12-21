@@ -125,6 +125,10 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (nullable instancetype)initWithCoder:(nonnull NSCoder *)coder {
   self = [super init];
   if (self) {

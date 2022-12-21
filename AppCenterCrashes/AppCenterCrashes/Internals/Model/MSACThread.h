@@ -8,7 +8,7 @@
 @class MSACExceptionModel;
 @class MSACStackFrame;
 
-@interface MSACThread : NSObject <MSACSerializableObject>
+@interface MSACThread : NSObject <MSACSerializableObject, NSSecureCoding>
 
 /**
  * Thread identifier.

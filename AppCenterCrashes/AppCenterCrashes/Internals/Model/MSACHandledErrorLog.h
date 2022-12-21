@@ -11,7 +11,7 @@
 /**
  * Handled Error log for managed platforms (such as Xamarin, Unity, Android Dalvik/ART).
  */
-@interface MSACHandledErrorLog : MSACLogWithProperties
+@interface MSACHandledErrorLog : MSACLogWithProperties<NSSecureCoding>
 
 /**
  * Unique identifier for this error.

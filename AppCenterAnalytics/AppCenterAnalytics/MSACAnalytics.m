@@ -73,6 +73,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       @"MSTypedProperty" : MSACTypedProperty.self,
       @"MSStartSessionLog" : MSACStartSessionLog.self
     }];
+      
+    NSArray *allowedClassesArray = @[[MSACSessionHistoryInfo class], [NSDate class], [MSACDevice class], [MSACAbstractLog class], [MSACEventLog class], [MSACPageLog class], [MSACEventProperties class], [MSACLogWithNameAndProperties class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACStartSessionLog class], [NSDictionary class], [MSACStartSessionLog class]];
+          
+    [MSACUtility addAllowedClasses: allowedClassesArray];
 
     // Set defaults.
     _autoPageTrackingEnabled = NO;

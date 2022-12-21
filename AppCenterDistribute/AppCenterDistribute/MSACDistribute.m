@@ -115,6 +115,10 @@ static dispatch_once_t onceToken;
       @"MSErrorDetails" : MSACErrorDetails.self,
       @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
     }];
+      
+    NSArray *allowedClassesArray = @[[MSACReleaseDetails class], [MSACErrorDetails class], [MSACDistributionStartSessionLog class], [NSDictionary class], [NSArray class], [NSNull class], [NSMutableData class]];
+            
+    [MSACUtility addAllowedClasses: allowedClassesArray];
 
     // Init.
     _apiUrl = kMSACDefaultApiUrl;

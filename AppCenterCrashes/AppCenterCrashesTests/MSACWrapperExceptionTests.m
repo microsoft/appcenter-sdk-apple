@@ -5,6 +5,18 @@
 #import "MSACWrapperExceptionModel.h"
 #import "MSACTestFrameworks.h"
 #import "MSACWrapperExceptionInternal.h"
+#import "MSACWrapperExceptionModel.h"
+#import "MSACHandledErrorLog.h"
+#import "MSACExceptionModel.h"
+#import "MSACStackFrame.h"
+#import "MSACDevice.h"
+#import "MSACUtility.h"
+#import "MSACAppleErrorLog.h"
+#import "MSACBinary.h"
+#import "MSACThread.h"
+#import "MSACWrapperException.h"
+#import "MSACErrorAttachmentLog.h"
+#import "MSACErrorReport.h"
 
 @interface MSACWrapperExceptionTests : XCTestCase
 
@@ -19,6 +31,9 @@
 - (void)setUp {
   [super setUp];
   self.sut = [self wrapperException];
+  NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [MSACThread class], [NSMutableData class], [MSACExceptionModel class]];
+                
+  [MSACUtility addAllowedClasses: allowedClassesArray];
 }
 
 #pragma mark - Helper

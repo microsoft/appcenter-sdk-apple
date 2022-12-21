@@ -9,32 +9,6 @@
 #import "MSACUtility+File.h"
 #import "MSACUtility+PropertyValidation.h"
 #import "MSACUtility+StringFormatting.h"
-#import "MSACDeviceHistoryInfo.h"
-#import "MSACUserIdHistoryInfo.h"
-#import "MSACSessionHistoryInfo.h"
-#import "MSACAppExtension.h"
-#import "MSACCommonSchemaLog.h"
-#import "MSACCSData.h"
-#import "MSACDeviceExtension.h"
-#import "MSACLocExtension.h"
-#import "MSACCSExtensions.h"
-#import "MSACMetadataExtension.h"
-#import "MSACNetExtension.h"
-#import "MSACOSExtension.h"
-#import "MSACSDKExtension.h"
-#import "MSACProtocolExtension.h"
-#import "MSACUserExtension.h"
-#import "MSACStartServiceLog.h"
-#import "MSACBooleanTypedProperty.h"
-#import "MSACDoubleTypedProperty.h"
-#import "MSACDateTimeTypedProperty.h"
-#import "MSACStringTypedProperty.h"
-#import "MSACLongTypedProperty.h"
-#import "MSACTypedProperty.h"
-#import "MSACWrapperSdk.h"
-#import "MSACLogWithProperties.h"
-
-
 
 // SDK versioning struct. Needs to be big enough to hold the info.
 typedef struct {
@@ -54,6 +28,11 @@ static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,
  * Dictionary for migration classes, where key - old class name, value - new class type.
  */
 static NSMutableDictionary<NSString *, id> *targetClasses;
+
+/**
+ * Array of classes that are allowed to be serialized securely using the archiver.
+ */
+static NSArray *allowedClasses;
 
 /**
  * @discussion Workaround for exporting symbols from category object files. See article
@@ -85,8 +64,7 @@ __attribute__((used)) static void importCategories() {
 #pragma clang diagnostic ignored "-Wdeprecated"
       NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
       unarchiver.requiresSecureCoding = YES;
-      NSArray *allowedClassesArray = @[[MSACAbstractLog class], [NSDate class], [MSACDevice class], [MSACDeviceHistoryInfo class], [MSACSessionHistoryInfo class], [MSACUserIdHistoryInfo class], [MSACAppExtension class], [MSACCommonSchemaLog class], [MSACCSData class], [MSACCSExtensions class], [MSACDeviceExtension class], [MSACLocExtension class], [MSACMetadataExtension class], [MSACNetExtension class], [MSACOSExtension class], [MSACProtocolExtension class], [MSACSDKExtension class], [MSACUserExtension class], [MSACStartServiceLog class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACHistoryInfo class], [MSACLogWithProperties class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class]];
-      NSSet *allowedClassesSet = [NSSet setWithArray:allowedClassesArray];
+      NSSet *allowedClassesSet = [NSSet setWithArray:allowedClasses];
       unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey ];
 #pragma clang diagnostic pop
     } else {
@@ -147,5 +125,9 @@ __attribute__((used)) static void importCategories() {
     targetClasses = [NSMutableDictionary new];
   }
   [targetClasses addEntriesFromDictionary:data];
+}
+
++ (void)addAllowedClasses:( NSArray *)allowedClassesArray {
+    allowedClasses = allowedClassesArray;
 }
 @end
