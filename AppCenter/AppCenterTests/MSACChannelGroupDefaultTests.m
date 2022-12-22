@@ -229,6 +229,46 @@
   OCMVerify([channelMock pauseWithIdentifyingObject:identifyingObject]);
 }
 
+- (void)testResumeWithConcurrentChannelsModification {
+
+  // If
+  for (int i = 0; i < 1000; i++) {
+    id<MSACChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
+    [self.sut.channels addObject:channelMock];
+  }
+  NSObject *token = [NSObject new];
+
+  // When
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      for (int i = 0; i < 1000; i++) {
+        [self.sut.channels removeLastObject];
+      }
+  });
+
+  // Then
+  XCTAssertNoThrow([self.sut resumeWithIdentifyingObject:token]);
+}
+
+- (void)testPauseWithConcurrentChannelsModification {
+
+    // If
+    for (int i = 0; i < 1000; i++) {
+        id<MSACChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
+        [self.sut.channels addObject:channelMock];
+    }
+    NSObject *token = [NSObject new];
+
+    // When
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        for (int i = 0; i < 1000; i++) {
+            [self.sut.channels removeLastObject];
+        }
+    });
+
+    // Then
+    XCTAssertNoThrow([self.sut pauseWithIdentifyingObject:token]);
+}
+
 - (void)testChannelUnitIsCorrectlyInitialized {
 
   // If
