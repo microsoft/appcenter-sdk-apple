@@ -229,8 +229,8 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
   // Disable ingestion, sending log will not be possible but they'll still be stored.
   [self.ingestion setEnabled:NO andDeleteDataOnDisabled:NO];
 
-  // Pause each channel asynchronously.
-  for (id<MSACChannelProtocol> channel in self.channels) {
+  NSArray *copyArray = [self.channels copy];
+  for (id<MSACChannelProtocol> channel in copyArray) {
     [channel pauseWithIdentifyingObject:identifyingObject];
   }
 }
@@ -240,8 +240,8 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
   // Resume ingestion, logs can be sent again. Pending logs are sent.
   [self.ingestion setEnabled:YES andDeleteDataOnDisabled:NO];
 
-  // Resume each channel asynchronously.
-  for (id<MSACChannelProtocol> channel in self.channels) {
+  NSArray *copyArray = [self.channels copy];
+  for (id<MSACChannelProtocol> channel in copyArray) {
     [channel resumeWithIdentifyingObject:identifyingObject];
   }
 }
