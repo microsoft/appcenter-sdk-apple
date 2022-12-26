@@ -75,20 +75,20 @@ static char *const kMSACLogsDispatchQueue = "com.microsoft.appcenter.ChannelGrou
 #pragma mark - Delegate
 
 - (void)addDelegate:(id<MSACChannelDelegate>)delegate {
-  @synchronized(self) {
+  @synchronized(self.delegates) {
     [self.delegates addObject:delegate];
   }
 }
 
 - (void)removeDelegate:(id<MSACChannelDelegate>)delegate {
-  @synchronized(self) {
+  @synchronized(self.delegates) {
     [self.delegates removeObject:delegate];
   }
 }
 
 - (void)enumerateDelegatesForSelector:(SEL)selector withBlock:(void (^)(id<MSACChannelDelegate> delegate))block {
   NSArray *synchronizedDelegates;
-  @synchronized(self) {
+  @synchronized(self.delegates) {
 
     // Don't execute the block while locking; it might be locking too and deadlock ourselves.
     synchronizedDelegates = [self.delegates allObjects];
