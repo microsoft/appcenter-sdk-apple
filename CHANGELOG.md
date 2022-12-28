@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Fix]** Fix "Collection was mutated while being enumerated" exception in MSACChannelGroupDefault.
+* **[Fix]** Disable "TREAT_WARNINGS_AS_ERRORS"
 
 ### App Center Distribute
 
