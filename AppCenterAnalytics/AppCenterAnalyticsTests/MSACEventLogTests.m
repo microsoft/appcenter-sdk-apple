@@ -48,7 +48,7 @@
 - (void)setUp {
   [super setUp];
   self.sut = [MSACEventLog new];
-  NSArray *allowedClassesArray = @[[MSACSessionHistoryInfo class], [NSDate class], [MSACDevice class], [MSACAbstractLog class], [MSACEventLog class], [MSACPageLog class], [MSACEventProperties class], [MSACLogWithNameAndProperties class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACStartSessionLog class], [NSDictionary class], [MSACStartSessionLog class]];
+  NSArray *allowedClassesArray = @[[MSACSessionHistoryInfo class], [NSDate class], [MSACDevice class], [MSACAbstractLog class], [MSACEventLog class], [MSACPageLog class], [MSACEventProperties class], [MSACLogWithNameAndProperties class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACStartSessionLog class], [NSDictionary class], [MSACStartSessionLog class], [NSString class], [NSNumber class]];
 
    [MSACUtility addAllowedClasses: allowedClassesArray];
 }

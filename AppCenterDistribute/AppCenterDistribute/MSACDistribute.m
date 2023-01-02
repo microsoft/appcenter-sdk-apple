@@ -116,7 +116,7 @@ static dispatch_once_t onceToken;
       @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
     }];
       
-    NSArray *allowedClassesArray = @[[MSACReleaseDetails class], [MSACErrorDetails class], [MSACDistributionStartSessionLog class], [NSDictionary class], [NSArray class], [NSNull class], [NSMutableData class]];
+    NSArray *allowedClassesArray = @[[MSACReleaseDetails class], [MSACErrorDetails class], [MSACDistributionStartSessionLog class], [NSDictionary class], [NSArray class], [NSNull class], [NSMutableData class], [NSString class], [NSNumber class]];
             
     [MSACUtility addAllowedClasses: allowedClassesArray];
 

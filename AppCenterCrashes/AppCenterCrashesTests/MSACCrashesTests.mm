@@ -85,7 +85,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [MSACSessionContext resetSharedInstance];
   self.sessionContextMock = OCMClassMock([MSACSessionContext class]);
   OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
-  NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [MSACThread class], [MSACLogWithProperties class], [MSACCommonSchemaLog class]];
+  NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [MSACThread class], [MSACLogWithProperties class], [MSACCommonSchemaLog class], [NSString class], [NSNumber class]];
             
   [MSACUtility addAllowedClasses: allowedClassesArray];
     
