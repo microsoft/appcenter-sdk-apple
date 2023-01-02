@@ -5,6 +5,7 @@
 ### App Center
 
 * **[Fix]** Fix Unsafe Object Deseralization in App Center SDK.
+* **[Fix]** Fix "Collection was mutated while being enumerated" exception in MSACChannelGroupDefault.
 
 ### App Center Distribute
 
