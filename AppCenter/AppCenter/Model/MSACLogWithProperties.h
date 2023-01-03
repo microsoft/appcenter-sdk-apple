@@ -13,7 +13,7 @@
 #endif
 
 NS_SWIFT_NAME(LogWithProperties)
-@interface MSACLogWithProperties : MSACAbstractLog<NSSecureCoding>
+@interface MSACLogWithProperties : MSACAbstractLog <NSSecureCoding>
 
 /**
  * Additional key/value pair parameters. [optional]
