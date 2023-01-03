@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 #import "AppCenter+Internal.h"
+#import "MSACAnalyticsArchiverUtil.h"
 #import "MSACPageLog.h"
 #import "MSACTestFrameworks.h"
 #import "MSACUtility.h"
-#import "MSACAnalyticsArchiverUtil.h"
 
 @interface MSACPageLogTests : XCTestCase
 

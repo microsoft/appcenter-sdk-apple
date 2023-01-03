@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 #import "AppCenter+Internal.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
-#import "MSACCrashesArchiverUtil.h"
 
 @interface MSACStackFrameTests : XCTestCase
 

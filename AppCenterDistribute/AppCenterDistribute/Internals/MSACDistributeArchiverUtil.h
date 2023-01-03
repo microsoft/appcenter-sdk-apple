@@ -8,11 +8,10 @@
 #ifndef MSACDistributeArchiverUtil_h
 #define MSACDistributeArchiverUtil_h
 
-
 #endif /* MSACDistributeArchiverUtil_h */
 
 @interface MSACDistributeArchiverUtil : NSObject
 
-+ (void) addAllowedDistributeModuleClasses;
++ (void)addAllowedDistributeModuleClasses;
 
 @end

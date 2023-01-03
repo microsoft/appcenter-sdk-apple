@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACAppExtension.h"
+#import "MSACArchiverUtil.h"
 #import "MSACCSData.h"
 #import "MSACCSExtensions.h"
 #import "MSACCommonSchemaLog.h"
@@ -17,7 +18,6 @@
 #import "MSACTestFrameworks.h"
 #import "MSACUserExtension.h"
 #import "MSACUtility+Date.h"
-#import "MSACArchiverUtil.h"
 
 @interface MSACCommonSchemaLogTests : XCTestCase
 @property(nonatomic) MSACCommonSchemaLog *commonSchemaLog;
@@ -42,7 +42,7 @@
   } mutableCopy];
   [self.csLogDummyValues addEntriesFromDictionary:abstractDummies];
   self.commonSchemaLog = [self csLogWithDummyValues:self.csLogDummyValues];
-  //Set Allowed Classes
+  // Set Allowed Classes
   [MSACArchiverUtil addAllowedAppCenterModuleClasses];
 }
 

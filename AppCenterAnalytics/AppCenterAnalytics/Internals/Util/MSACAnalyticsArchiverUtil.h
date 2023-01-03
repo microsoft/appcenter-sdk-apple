@@ -4,11 +4,10 @@
 #ifndef MSACAnalyticsArchiverUtil_h
 #define MSACAnalyticsArchiverUtil_h
 
-
 #endif /* MSACAnalyticsArchiverUtil_h */
 
 @interface MSACAnalyticsArchiverUtil : NSObject
 
-+ (void) addAllowedAnalyitcsModuleClasses;
++ (void)addAllowedAnalyitcsModuleClasses;
 
 @end

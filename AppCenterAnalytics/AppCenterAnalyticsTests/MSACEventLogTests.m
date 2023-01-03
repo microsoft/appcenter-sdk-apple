@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACAbstractLogInternal.h"
+#import "MSACAnalyticsArchiverUtil.h"
 #import "MSACAnalyticsConstants.h"
 #import "MSACAppExtension.h"
 #import "MSACCSData.h"
@@ -21,7 +22,6 @@
 #import "MSACUserIdContext.h"
 #import "MSACUtility+Date.h"
 #import "MSACUtility.h"
-#import "MSACAnalyticsArchiverUtil.h"
 
 @interface MSACEventLogTests : XCTestCase
 

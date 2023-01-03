@@ -10,6 +10,7 @@
 #import "MSACChannelUnitDefault.h"
 #import "MSACCrashHandlerSetupDelegate.h"
 #import "MSACCrashReporter.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesBufferedLog.hpp"
 #import "MSACCrashesCXXExceptionHandler.h"
 #import "MSACCrashesInternal.h"
@@ -29,7 +30,6 @@
 #import "MSACUserIdContextPrivate.h"
 #import "MSACUtility+File.h"
 #import "MSACWrapperCrashesHelper.h"
-#import "MSACCrashesArchiverUtil.h"
 
 @class MSACMockCrashesDelegate;
 

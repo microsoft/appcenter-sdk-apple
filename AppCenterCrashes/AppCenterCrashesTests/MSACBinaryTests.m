@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 #import "MSACBinary.h"
-#import "MSACTestFrameworks.h"
 #import "MSACCrashesArchiverUtil.h"
-
+#import "MSACTestFrameworks.h"
 
 @interface MSACBinaryTests : XCTestCase
 
@@ -16,7 +15,7 @@
 
 - (void)setUp {
   [super setUp];
-    
+
   [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 

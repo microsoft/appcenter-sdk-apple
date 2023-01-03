@@ -4,11 +4,10 @@
 #ifndef MSACCrashesArchiverUtil_h
 #define MSACCrashesArchiverUtil_h
 
-
 #endif /* MSACCrashesArchiverUtil_h */
 
 @interface MSACCrashesArchiverUtil : NSObject
 
-+ (void) addAllowedCrashesModuleClasses;
++ (void)addAllowedCrashesModuleClasses;
 
 @end
