@@ -62,7 +62,7 @@ __attribute__((used)) static void importCategories() {
     NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
     unarchiver.requiresSecureCoding = YES;
     NSSet *allowedClassesSet = [NSSet setWithArray:allowedClasses];
-    unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey];
+    unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey ];
   } @catch (NSException *ex) {
     exception = ex;
   }
@@ -105,10 +105,11 @@ __attribute__((used)) static void importCategories() {
   [targetClasses addEntriesFromDictionary:data];
 }
 
-+ (void)addAllowedClasses:(NSArray *)allowedClassesArray {
-  if (allowedClasses == nil) {
-    allowedClasses = [NSMutableArray new];
-  }
-  allowedClasses = [allowedClasses arrayByAddingObjectsFromArray:allowedClassesArray];
++ (void)addAllowedClasses:( NSArray *)allowedClassesArray {
+    if(allowedClasses == nil)
+    {
+        allowedClasses = [NSMutableArray new];
+    }
+    allowedClasses = [allowedClasses arrayByAddingObjectsFromArray:allowedClassesArray];
 }
 @end

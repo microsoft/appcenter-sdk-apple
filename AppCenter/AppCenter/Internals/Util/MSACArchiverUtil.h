@@ -4,6 +4,7 @@
 #ifndef MSACArchiverUtil_h
 #define MSACArchiverUtil_h
 
+
 #endif /* MSACArchiverUtil_h */
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -13,6 +14,7 @@
 
 @interface MSACArchiverUtil : NSObject
 
-+ (void)addAllowedAppCenterModuleClasses;
++ (void) addAllowedAppCenterModuleClasses;
 
 @end
+

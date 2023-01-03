@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACCrashesArchiverUtil.h"
 #import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
 #import "MSACThread.h"
+#import "MSACCrashesArchiverUtil.h"
 
 @interface MSACThreadTests : XCTestCase
 

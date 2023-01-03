@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACCrashesArchiverUtil.h"
 #import "MSACDevice.h"
 #import "MSACErrorAttachmentLog+Utility.h"
 #import "MSACErrorAttachmentLogInternal.h"
 #import "MSACTestFrameworks.h"
 #import "MSACUtility.h"
+#import "MSACCrashesArchiverUtil.h"
 
 @interface MSACErrorAttachmentLogTests : XCTestCase
 

@@ -6,7 +6,7 @@
 /**
  * Model class that is intended to be used to correlate sessionId to a crash at app relaunch.
  */
-@interface MSACSessionHistoryInfo : MSACHistoryInfo <NSSecureCoding>
+@interface MSACSessionHistoryInfo : MSACHistoryInfo<NSSecureCoding>
 
 /**
  * Session Id.

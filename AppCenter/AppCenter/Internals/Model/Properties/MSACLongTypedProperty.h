@@ -7,7 +7,7 @@
 
 static NSString *const kMSACLongTypedPropertyType = @"long";
 
-@interface MSACLongTypedProperty : MSACTypedProperty <NSSecureCoding>
+@interface MSACLongTypedProperty : MSACTypedProperty<NSSecureCoding>
 
 /**
  * Long property value (64-bit signed integer).

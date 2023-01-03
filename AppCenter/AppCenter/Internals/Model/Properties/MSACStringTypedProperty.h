@@ -7,7 +7,7 @@
 
 static NSString *const kMSACStringTypedPropertyType = @"string";
 
-@interface MSACStringTypedProperty : MSACTypedProperty <NSSecureCoding>
+@interface MSACStringTypedProperty : MSACTypedProperty<NSSecureCoding>
 
 /**
  * String property value.

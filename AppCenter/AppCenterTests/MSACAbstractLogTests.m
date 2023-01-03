@@ -4,7 +4,6 @@
 #import "MSACAbstractLogInternal.h"
 #import "MSACAbstractLogPrivate.h"
 #import "MSACAppExtension.h"
-#import "MSACArchiverUtil.h"
 #import "MSACCSExtensions.h"
 #import "MSACDevice.h"
 #import "MSACLocExtension.h"
@@ -15,6 +14,7 @@
 #import "MSACTestFrameworks.h"
 #import "MSACUserExtension.h"
 #import "MSACUtility.h"
+#import "MSACArchiverUtil.h"
 
 @interface MSACAbstractLogTests : XCTestCase
 
@@ -35,8 +35,8 @@
   self.sut.distributionGroupId = @"FAKE-GROUP-ID";
   self.sut.userId = @"FAKE-USER-ID";
   self.sut.device = OCMPartialMock([MSACDevice new]);
-
-  // Set Allowed Classes
+  
+  //Set Allowed Classes
   [MSACArchiverUtil addAllowedAppCenterModuleClasses];
 }
 
