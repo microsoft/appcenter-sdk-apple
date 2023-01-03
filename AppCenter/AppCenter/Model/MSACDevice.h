@@ -13,7 +13,7 @@
 #endif
 
 NS_SWIFT_NAME(Device)
-@interface MSACDevice : MSACWrapperSdk<NSSecureCoding>
+@interface MSACDevice : MSACWrapperSdk <NSSecureCoding>
 
 /*
  * Name of the SDK. Consists of the name of the SDK and the platform, e.g. "appcenter.ios", "appcenter.android"

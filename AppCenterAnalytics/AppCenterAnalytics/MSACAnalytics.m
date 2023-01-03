@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACAnalytics+Validation.h"
+#import "MSACAnalyticsArchiverUtil.h"
 #import "MSACAnalyticsCategory.h"
 #import "MSACAnalyticsConstants.h"
 #import "MSACAnalyticsPrivate.h"
@@ -25,7 +26,6 @@
 #import "MSACTypedProperty.h"
 #import "MSACUserIdContext.h"
 #import "MSACUtility+StringFormatting.h"
-#import "MSACAnalyticsArchiverUtil.h"
 
 // Service name for initialization.
 static NSString *const kMSACServiceName = @"Analytics";
@@ -74,7 +74,7 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       @"MSTypedProperty" : MSACTypedProperty.self,
       @"MSStartSessionLog" : MSACStartSessionLog.self
     }];
-      
+
     [MSACAnalyticsArchiverUtil addAllowedAnalyitcsModuleClasses];
 
     // Set defaults.

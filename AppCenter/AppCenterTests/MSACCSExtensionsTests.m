@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACAppExtension.h"
+#import "MSACArchiverUtil.h"
 #import "MSACCSData.h"
 #import "MSACCSExtensions.h"
 #import "MSACDeviceExtension.h"
@@ -16,7 +17,6 @@
 #import "MSACTestFrameworks.h"
 #import "MSACUserExtension.h"
 #import "MSACUtility.h"
-#import "MSACArchiverUtil.h"
 
 @interface MSACCSExtensionsTests : XCTestCase
 @property(nonatomic) MSACCSExtensions *ext;
@@ -75,8 +75,8 @@
   self.data = [MSACModelTestsUtililty dataWithDummyValues:self.unorderedDummyValues];
   self.extDummyValues = [MSACModelTestsUtililty extensionDummies];
   self.ext = [MSACModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
-    
-  //Set Allowed Classes
+
+  // Set Allowed Classes
   [MSACArchiverUtil addAllowedAppCenterModuleClasses];
 }
 

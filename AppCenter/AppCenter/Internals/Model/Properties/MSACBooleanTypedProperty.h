@@ -7,7 +7,7 @@
 
 static NSString *const kMSACBooleanTypedPropertyType = @"boolean";
 
-@interface MSACBooleanTypedProperty : MSACTypedProperty<NSObject, NSSecureCoding>
+@interface MSACBooleanTypedProperty : MSACTypedProperty <NSObject, NSSecureCoding>
 
 /**
  * Boolean property value.

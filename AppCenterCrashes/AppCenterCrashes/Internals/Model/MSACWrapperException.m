@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACWrapperExceptionModel.h"
 #import "MSACWrapperExceptionInternal.h"
+#import "MSACWrapperExceptionModel.h"
 
 @implementation MSACWrapperException
 
