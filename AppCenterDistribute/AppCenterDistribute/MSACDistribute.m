@@ -23,6 +23,7 @@
 #import "MSACHttpClient.h"
 #import "MSACKeychainUtil.h"
 #import "MSACSessionContext.h"
+#import "MSACDistributeArchiverUtil.h"
 
 @interface MSACDistribute (ContextProviding) <ASWebAuthenticationPresentationContextProviding>
 @end
@@ -116,9 +117,7 @@ static dispatch_once_t onceToken;
       @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
     }];
       
-    NSArray *allowedClassesArray = @[[MSACReleaseDetails class], [MSACErrorDetails class], [MSACDistributionStartSessionLog class], [NSDictionary class], [NSArray class], [NSNull class], [NSMutableData class], [NSString class], [NSNumber class], [NSMutableArray class]];
-            
-    [MSACUtility addAllowedClasses: allowedClassesArray];
+    [MSACDistributeArchiverUtil addAllowedDistributeModuleClasses];
 
     // Init.
     _apiUrl = kMSACDefaultApiUrl;

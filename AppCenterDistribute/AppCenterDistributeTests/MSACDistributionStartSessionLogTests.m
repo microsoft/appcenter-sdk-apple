@@ -5,6 +5,10 @@
 #import "MSACDevice.h"
 #import "MSACDistributionStartSessionLog.h"
 #import "MSACTestFrameworks.h"
+#import "MSACReleaseDetails.h"
+#import "MSACErrorDetails.h"
+#import "MSACDistributeArchiverUtil.h"
+
 
 @interface MSACDistributionStartSessionLogTests : XCTestCase
 
@@ -19,6 +23,7 @@
 - (void)setUp {
   [super setUp];
   self.startSessionLog = [[MSACDistributionStartSessionLog alloc] init];
+  [MSACDistributeArchiverUtil addAllowedDistributeModuleClasses];
 }
 
 - (void)tearDown {
