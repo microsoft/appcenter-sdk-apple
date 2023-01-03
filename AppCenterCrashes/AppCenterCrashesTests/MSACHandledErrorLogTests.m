@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesTestUtil.h"
+#import "MSACWrapperExceptionModel.h"
 #import "MSACHandledErrorLog.h"
 #import "MSACTestFrameworks.h"
-#import "MSACWrapperExceptionModel.h"
+#import "MSACCrashesArchiverUtil.h"
 
 @interface MSACHandledErrorLogTests : XCTestCase
 

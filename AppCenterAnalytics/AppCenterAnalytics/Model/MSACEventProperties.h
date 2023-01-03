@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Contains typed event properties.
  */
 NS_SWIFT_NAME(EventProperties)
-@interface MSACEventProperties : NSObject <NSSecureCoding>
+@interface MSACEventProperties : NSObject<NSSecureCoding>
 
 /**
  * Set a string property.

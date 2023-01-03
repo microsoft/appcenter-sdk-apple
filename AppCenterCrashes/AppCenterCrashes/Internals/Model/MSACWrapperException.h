@@ -8,7 +8,7 @@
 /**
  * This class represents a wrapper exception that augments the data recorded when the application crashes.
  */
-@interface MSACWrapperException : NSObject <NSSecureCoding>
+@interface MSACWrapperException : NSObject<NSSecureCoding>
 
 /**
  * The model exception for the corresponding crash.

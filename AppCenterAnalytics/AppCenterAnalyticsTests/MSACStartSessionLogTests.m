@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACAnalyticsArchiverUtil.h"
 #import "MSACStartSessionLog.h"
 #import "MSACTestFrameworks.h"
 #import "MSACUtility.h"
+#import "MSACAnalyticsArchiverUtil.h"
 
 @interface MSACStartSessionLogTests : XCTestCase
 

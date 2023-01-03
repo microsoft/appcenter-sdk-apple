@@ -3,11 +3,12 @@
 
 #import "MSACAbstractLogInternal.h"
 #import "MSACDevice.h"
-#import "MSACDistributeArchiverUtil.h"
 #import "MSACDistributionStartSessionLog.h"
-#import "MSACErrorDetails.h"
-#import "MSACReleaseDetails.h"
 #import "MSACTestFrameworks.h"
+#import "MSACReleaseDetails.h"
+#import "MSACErrorDetails.h"
+#import "MSACDistributeArchiverUtil.h"
+
 
 @interface MSACDistributionStartSessionLogTests : XCTestCase
 
@@ -68,7 +69,7 @@
   // When
   NSData *serializedEvent = [MSACUtility archiveKeyedData:self.startSessionLog];
   id actual = [MSACUtility unarchiveKeyedData:serializedEvent];
-
+    
   // Then
   assertThat(actual, notNilValue());
   MSACDistributionStartSessionLog *actualLog = actual;

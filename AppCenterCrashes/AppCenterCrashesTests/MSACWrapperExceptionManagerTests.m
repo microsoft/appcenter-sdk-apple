@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 #import "MSACCrashes.h"
-#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesUtil.h"
 #import "MSACLogger.h"
 #import "MSACTestFrameworks.h"
@@ -12,6 +11,7 @@
 #import "MSACWrapperExceptionManagerInternal.h"
 #import "MSACWrapperExceptionModel.h"
 #import "PLCrashReporter.h"
+#import "MSACCrashesArchiverUtil.h"
 
 // Copied from MSACWrapperExceptionManager.m
 static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_exception";

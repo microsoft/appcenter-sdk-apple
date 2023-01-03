@@ -6,7 +6,7 @@
 /**
  * Model class that is intended to be used to correlate userId to a crash at app relaunch.
  */
-@interface MSACUserIdHistoryInfo : MSACHistoryInfo <NSSecureCoding>
+@interface MSACUserIdHistoryInfo : MSACHistoryInfo<NSSecureCoding>
 
 /**
  * User Id.

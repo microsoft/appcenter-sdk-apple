@@ -13,17 +13,17 @@
 #import "MSACDispatcherUtil.h"
 #import "MSACDistribute.h"
 #import "MSACDistributeAppDelegate.h"
-#import "MSACDistributeArchiverUtil.h"
 #import "MSACDistributeInternal.h"
 #import "MSACDistributePrivate.h"
-#import "MSACDistributeUIUtil.h"
 #import "MSACDistributeUtil.h"
+#import "MSACDistributeUIUtil.h"
 #import "MSACDistributionStartSessionLog.h"
 #import "MSACErrorDetails.h"
 #import "MSACGuidedAccessUtil.h"
 #import "MSACHttpClient.h"
 #import "MSACKeychainUtil.h"
 #import "MSACSessionContext.h"
+#import "MSACDistributeArchiverUtil.h"
 
 @interface MSACDistribute (ContextProviding) <ASWebAuthenticationPresentationContextProviding>
 @end
@@ -116,7 +116,7 @@ static dispatch_once_t onceToken;
       @"MSErrorDetails" : MSACErrorDetails.self,
       @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
     }];
-
+      
     [MSACDistributeArchiverUtil addAllowedDistributeModuleClasses];
 
     // Init.
@@ -294,7 +294,7 @@ static dispatch_once_t onceToken;
     // Start Ingestion.
     self.ingestion = [[MSACDistributeIngestion alloc] initWithHttpClient:httpClient
                                                                  baseUrl:self.apiUrl
-                                                               appSecret:(NSString *_Nonnull)appSecret];
+                                                               appSecret:(NSString * _Nonnull) appSecret];
 
     // Channel group should be started after Ingestion is ready.
     [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];

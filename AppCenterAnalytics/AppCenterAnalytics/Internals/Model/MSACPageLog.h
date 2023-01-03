@@ -3,6 +3,6 @@
 
 #import "MSACLogWithNameAndProperties.h"
 
-@interface MSACPageLog : MSACLogWithNameAndProperties <NSSecureCoding>
+@interface MSACPageLog : MSACLogWithNameAndProperties<NSSecureCoding>
 
 @end

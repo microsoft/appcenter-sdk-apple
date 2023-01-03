@@ -7,7 +7,6 @@
 #import "MSACAppCenterInternal.h"
 #import "MSACAppCenterPrivate.h"
 #import "MSACAppDelegateForwarder.h"
-#import "MSACArchiverUtil.h"
 #import "MSACChannelGroupDefault.h"
 #import "MSACChannelGroupDefaultPrivate.h"
 #import "MSACChannelUnitConfiguration.h"
@@ -22,6 +21,7 @@
 #import "MSACStartServiceLog.h"
 #import "MSACUserIdContext.h"
 #import "MSACUtility+StringFormatting.h"
+#import "MSACArchiverUtil.h"
 
 /**
  * Singleton.
@@ -300,7 +300,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     @"MSWrapperSdk" : MSACWrapperSdk.self,
     @"MSAbstractLog" : MSACAbstractLog.self,
   }];
-  // Set Allowed Classes
+  //Set Allowed Classes
   [MSACArchiverUtil addAllowedAppCenterModuleClasses];
   return self;
 }
@@ -517,7 +517,8 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 #if __has_warning("-Wcompletion-handler")
 #pragma clang diagnostic ignored "-Wcompletion-handler"
 #endif
-- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
+- (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler
+{
 
   // Check if sizeInBytes is greater than minimum size.
   if (sizeInBytes < kMSACMinUpperSizeLimitInBytes) {

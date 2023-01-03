@@ -16,7 +16,6 @@
 #import "MSACChannelUnitProtocol.h"
 #import "MSACCrashHandlerSetupDelegate.h"
 #import "MSACCrashReporter.h"
-#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesBufferedLog.hpp"
 #import "MSACCrashesCXXExceptionWrapperException.h"
 #import "MSACCrashesDelegate.h"
@@ -42,6 +41,7 @@
 #import "MSACWrapperException.h"
 #import "MSACWrapperExceptionManagerInternal.h"
 #import "MSACWrapperExceptionModel.h"
+#import "MSACCrashesArchiverUtil.h"
 
 /**
  * Service name for initialization.
