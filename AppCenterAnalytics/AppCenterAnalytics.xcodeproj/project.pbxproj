@@ -124,6 +124,9 @@
 		38C215E320E692C700191F3C /* MSACMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 38C215DF20E692C700191F3C /* MSACMockUserDefaults.m */; };
 		6E3E2CD31D359F3300B1EE50 /* MSACEventLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD01D359F3300B1EE50 /* MSACEventLogTests.m */; };
 		6E3E2CD41D359F3300B1EE50 /* MSACPageLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E3E2CD11D359F3300B1EE50 /* MSACPageLogTests.m */; };
+		AFB5AB4929645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB4829645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m */; };
+		AFB5AB4A29645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB4829645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m */; };
+		AFB5AB4B29645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB4829645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m */; };
 		B25E21CD214044A400CAA156 /* MSACPropertyConfiguratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B25E21CC214044A400CAA156 /* MSACPropertyConfiguratorTests.m */; };
 		B25E21CE214044A400CAA156 /* MSACPropertyConfiguratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B25E21CC214044A400CAA156 /* MSACPropertyConfiguratorTests.m */; };
 		B26D4DDF211BA99E00AB4E28 /* MSACAnalyticsAuthenticationProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DDE211BA99E00AB4E28 /* MSACAnalyticsAuthenticationProviderTests.m */; };
@@ -375,48 +378,6 @@
 			remoteGlobalIDString = C9A91F2B230BFB8A0068070D;
 			remoteInfo = "AppCenterAnalytics tvOS Framework";
 		};
-		D55735C6254AAE6100B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91FB6230C01140068070D;
-			remoteInfo = "AppCenter iOS Framework";
-		};
-		D55735C8254AAE6100B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
-			remoteInfo = "AppCenter iOS Tests";
-		};
-		D55735CA254AAE6100B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A92007230C05D70068070D;
-			remoteInfo = "AppCenter macOS Framework";
-		};
-		D55735CC254AAE6100B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
-			remoteInfo = "AppCenter macOS Tests";
-		};
-		D55735CE254AAE6100B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A92024230C07A50068070D;
-			remoteInfo = "AppCenter tvOS Framework";
-		};
-		D55735D0254AAE6100B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
-			remoteInfo = "AppCenter tvOS Tests";
-		};
 		D559CA092477ECFA00CF60D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;
@@ -549,6 +510,8 @@
 		6E3E2CC81D359D5E00B1EE50 /* MSACPageLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACPageLog.m; sourceTree = "<group>"; };
 		6E3E2CD01D359F3300B1EE50 /* MSACEventLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACEventLogTests.m; sourceTree = "<group>"; };
 		6E3E2CD11D359F3300B1EE50 /* MSACPageLogTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACPageLogTests.m; sourceTree = "<group>"; };
+		AFB5AB3F29645CCA002EBC38 /* MSACAnalyticsArchiverUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAnalyticsArchiverUtil.h; sourceTree = "<group>"; };
+		AFB5AB4829645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACAnalyticsArchiverUtil.m; sourceTree = "<group>"; };
 		B2350985211A69AA00F98D4F /* MSACAnalyticsAuthenticationProviderInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAnalyticsAuthenticationProviderInternal.h; sourceTree = "<group>"; };
 		B25E21CC214044A400CAA156 /* MSACPropertyConfiguratorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACPropertyConfiguratorTests.m; sourceTree = "<group>"; };
 		B26D4DDE211BA99E00AB4E28 /* MSACAnalyticsAuthenticationProviderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACAnalyticsAuthenticationProviderTests.m; sourceTree = "<group>"; };
@@ -658,6 +621,8 @@
 				0485AF8D1EAA852A00C10CAF /* MSACAnalyticsCategory.h */,
 				0485AF8E1EAA852A00C10CAF /* MSACAnalyticsCategory.m */,
 				2DA03D5D8EA1FEA1DC687CEF /* MSACAnalyticsConstants.h */,
+				AFB5AB3F29645CCA002EBC38 /* MSACAnalyticsArchiverUtil.h */,
+				AFB5AB4829645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1646,6 +1611,7 @@
 				C9EBAA7C230D39CA00A20F0F /* MSACAnalyticsAuthenticationProvider.m in Sources */,
 				C9EBAA7A230D39CA00A20F0F /* MSACEventLog.m in Sources */,
 				C9EBAA79230D39CA00A20F0F /* MSACEventProperties.m in Sources */,
+				AFB5AB4B29645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m in Sources */,
 				C9EBAA7B230D39CA00A20F0F /* MSACLogWithNameAndProperties.m in Sources */,
 				C9EBAA77230D39CA00A20F0F /* MSACSessionTracker.m in Sources */,
 				C9EBAA78230D39CA00A20F0F /* MSACAnalyticsCategory.m in Sources */,
@@ -1665,6 +1631,7 @@
 				C9EBAA88230D39CA00A20F0F /* MSACAnalyticsAuthenticationProvider.m in Sources */,
 				C9EBAA86230D39CA00A20F0F /* MSACEventLog.m in Sources */,
 				C9EBAA85230D39CA00A20F0F /* MSACEventProperties.m in Sources */,
+				AFB5AB4A29645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m in Sources */,
 				C9EBAA87230D39CA00A20F0F /* MSACLogWithNameAndProperties.m in Sources */,
 				C9EBAA83230D39CA00A20F0F /* MSACSessionTracker.m in Sources */,
 				C9EBAA84230D39CA00A20F0F /* MSACAnalyticsCategory.m in Sources */,
@@ -1684,6 +1651,7 @@
 				C9EBAA70230D39C900A20F0F /* MSACAnalyticsAuthenticationProvider.m in Sources */,
 				C9EBAA6E230D39C900A20F0F /* MSACEventLog.m in Sources */,
 				C9EBAA6D230D39C900A20F0F /* MSACEventProperties.m in Sources */,
+				AFB5AB4929645DA8002EBC38 /* MSACAnalyticsArchiverUtil.m in Sources */,
 				C9EBAA6F230D39C900A20F0F /* MSACLogWithNameAndProperties.m in Sources */,
 				C9EBAA6B230D39C900A20F0F /* MSACSessionTracker.m in Sources */,
 				C9EBAA6C230D39C900A20F0F /* MSACAnalyticsCategory.m in Sources */,

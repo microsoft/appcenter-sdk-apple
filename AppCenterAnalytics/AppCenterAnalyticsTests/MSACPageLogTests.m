@@ -5,19 +5,7 @@
 #import "MSACPageLog.h"
 #import "MSACTestFrameworks.h"
 #import "MSACUtility.h"
-#import "MSACDateTimeTypedProperty.h"
-#import "MSACDeviceHistoryInfo.h"
-#import "MSACDoubleTypedProperty.h"
-#import "MSACEventLog.h"
-#import "MSACEventProperties.h"
-#import "MSACEventPropertiesInternal.h"
-#import "MSACLongTypedProperty.h"
-#import "MSACPageLog.h"
-#import "MSACSessionContext.h"
-#import "MSACStartSessionLog.h"
-#import "MSACStringTypedProperty.h"
-#import "MSACTypedProperty.h"
-#import "MSACBooleanTypedProperty.h"
+#import "MSACAnalyticsArchiverUtil.h"
 
 @interface MSACPageLogTests : XCTestCase
 
@@ -32,9 +20,7 @@
 - (void)setUp {
   [super setUp];
   self.sut = [MSACPageLog new];
-  NSArray *allowedClassesArray = @[[MSACSessionHistoryInfo class], [NSDate class], [MSACDevice class], [MSACAbstractLog class], [MSACEventLog class], [MSACPageLog class], [MSACEventProperties class], [MSACLogWithNameAndProperties class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACStartSessionLog class], [NSDictionary class], [MSACStartSessionLog class], [NSString class], [NSNumber class]];
-          
-  [MSACUtility addAllowedClasses: allowedClassesArray];
+  [MSACAnalyticsArchiverUtil addAllowedAnalyitcsModuleClasses];
 }
 
 - (void)tearDown {

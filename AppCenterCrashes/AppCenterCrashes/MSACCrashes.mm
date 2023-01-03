@@ -41,6 +41,7 @@
 #import "MSACWrapperException.h"
 #import "MSACWrapperExceptionManagerInternal.h"
 #import "MSACWrapperExceptionModel.h"
+#import "MSACCrashesArchiverUtil.h"
 
 /**
  * Service name for initialization.
@@ -323,9 +324,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
       @"MSErrorReport" : MSACErrorReport.self
     }];
-    NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [MSACLogWithProperties class], [MSACCommonSchemaLog class], [NSMutableData class], [MSACExceptionModel class], [NSString class], [NSNumber class]];
-          
-    [MSACUtility addAllowedClasses: allowedClassesArray];
+    [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSACCrashesUtil crashesDir];

@@ -59,17 +59,10 @@ __attribute__((used)) static void importCategories() {
   NSObject *unarchivedData;
   NSException *exception;
   @try {
-    if (@available(macos 10.13, ios 11.0, watchos 4.0, tvOS 11.0, *)) {
-      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
-      unarchiver.requiresSecureCoding = YES;
-      NSSet *allowedClassesSet = [NSSet setWithArray:allowedClasses];
-      unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey ];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-#pragma clang diagnostic pop
-    }
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
+    unarchiver.requiresSecureCoding = YES;
+    NSSet *allowedClassesSet = [NSSet setWithArray:allowedClasses];
+    unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey ];
   } @catch (NSException *ex) {
     exception = ex;
   }
@@ -89,17 +82,10 @@ __attribute__((used)) static void importCategories() {
   NSData *archivedData;
   NSException *exception;
   @try {
-    if (@available(macos 10.13, ios 11.0, watchos 4.0, tvOS 11.0, *)) {
-        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
-        [archiver encodeObject:myData forKey:NSKeyedArchiveRootObjectKey];
-        [archiver finishEncoding];
-        archivedData = archiver.encodedData;
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archivedData = [NSKeyedArchiver archivedDataWithRootObject:myData];
-#pragma clang diagnostic pop
-    }
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
+    [archiver encodeObject:myData forKey:NSKeyedArchiveRootObjectKey];
+    [archiver finishEncoding];
+    archivedData = archiver.encodedData;
   } @catch (NSException *ex) {
     exception = ex;
   }
@@ -120,6 +106,10 @@ __attribute__((used)) static void importCategories() {
 }
 
 + (void)addAllowedClasses:( NSArray *)allowedClassesArray {
-    allowedClasses = allowedClassesArray;
+    if(allowedClasses == nil)
+    {
+        allowedClasses = [NSMutableArray new];
+    }
+    allowedClasses = [allowedClasses arrayByAddingObjectsFromArray:allowedClassesArray];
 }
 @end

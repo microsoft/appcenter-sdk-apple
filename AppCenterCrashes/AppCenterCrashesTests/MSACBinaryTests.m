@@ -3,16 +3,8 @@
 
 #import "MSACBinary.h"
 #import "MSACTestFrameworks.h"
-#import "MSACAppleErrorLog.h"
-#import "MSACThread.h"
-#import "MSACStackFrame.h"
-#import "MSACUtility+File.h"
-#import "MSACWrapperException.h"
-#import "MSACWrapperExceptionModel.h"
-#import "MSACDevice.h"
-#import "MSACErrorAttachmentLog.h"
-#import "MSACErrorReport.h"
-#import "MSACHandledErrorLog.h"
+#import "MSACCrashesArchiverUtil.h"
+
 
 @interface MSACBinaryTests : XCTestCase
 
@@ -25,9 +17,7 @@
 - (void)setUp {
   [super setUp];
     
-  NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [MSACThread class], [NSString class], [NSNumber class]];
-          
-  [MSACUtility addAllowedClasses: allowedClassesArray];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
 - (void)testSerializingBinaryToDictionaryWorks {

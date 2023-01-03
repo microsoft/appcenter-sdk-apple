@@ -21,30 +21,7 @@
 #import "MSACStartServiceLog.h"
 #import "MSACUserIdContext.h"
 #import "MSACUtility+StringFormatting.h"
-#import "MSACDeviceHistoryInfo.h"
-#import "MSACUserIdHistoryInfo.h"
-#import "MSACSessionHistoryInfo.h"
-#import "MSACAppExtension.h"
-#import "MSACCommonSchemaLog.h"
-#import "MSACCSData.h"
-#import "MSACDeviceExtension.h"
-#import "MSACLocExtension.h"
-#import "MSACCSExtensions.h"
-#import "MSACMetadataExtension.h"
-#import "MSACNetExtension.h"
-#import "MSACOSExtension.h"
-#import "MSACSDKExtension.h"
-#import "MSACProtocolExtension.h"
-#import "MSACUserExtension.h"
-#import "MSACStartServiceLog.h"
-#import "MSACBooleanTypedProperty.h"
-#import "MSACDoubleTypedProperty.h"
-#import "MSACDateTimeTypedProperty.h"
-#import "MSACStringTypedProperty.h"
-#import "MSACLongTypedProperty.h"
-#import "MSACTypedProperty.h"
-#import "MSACWrapperSdk.h"
-#import "MSACLogWithProperties.h"
+#import "MSACArchiverUtil.h"
 
 /**
  * Singleton.
@@ -323,9 +300,8 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     @"MSWrapperSdk" : MSACWrapperSdk.self,
     @"MSAbstractLog" : MSACAbstractLog.self,
   }];
-  NSArray *allowedClassesArray = @[[MSACAbstractLog class], [NSDate class], [MSACDevice class], [MSACDeviceHistoryInfo class], [MSACSessionHistoryInfo class], [MSACUserIdHistoryInfo class], [MSACCSExtensions class], [MSACCommonSchemaLog class], [MSACCSData class], [MSACCSExtensions class], [MSACDeviceExtension class], [MSACLocExtension class], [MSACMetadataExtension class], [MSACNetExtension class], [MSACOSExtension class], [MSACProtocolExtension class], [MSACSDKExtension class], [MSACUserExtension class], [MSACStartServiceLog class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACHistoryInfo class], [MSACLogWithProperties class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [NSString class], [NSNumber class]];
-      
-  [MSACUtility addAllowedClasses: allowedClassesArray];
+  //Set Allowed Classes
+  [MSACArchiverUtil addAllowedAppCenterModuleClasses];
   return self;
 }
 

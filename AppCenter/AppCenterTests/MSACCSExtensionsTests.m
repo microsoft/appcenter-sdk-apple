@@ -16,19 +16,7 @@
 #import "MSACTestFrameworks.h"
 #import "MSACUserExtension.h"
 #import "MSACUtility.h"
-#import "MSACDeviceHistoryInfo.h"
-#import "MSACUserIdHistoryInfo.h"
-#import "MSACSessionHistoryInfo.h"
-#import "MSACCommonSchemaLog.h"
-#import "MSACStartServiceLog.h"
-#import "MSACBooleanTypedProperty.h"
-#import "MSACDoubleTypedProperty.h"
-#import "MSACDateTimeTypedProperty.h"
-#import "MSACStringTypedProperty.h"
-#import "MSACLongTypedProperty.h"
-#import "MSACTypedProperty.h"
-#import "MSACWrapperSdk.h"
-#import "MSACLogWithProperties.h"
+#import "MSACArchiverUtil.h"
 
 @interface MSACCSExtensionsTests : XCTestCase
 @property(nonatomic) MSACCSExtensions *ext;
@@ -88,9 +76,8 @@
   self.extDummyValues = [MSACModelTestsUtililty extensionDummies];
   self.ext = [MSACModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
     
-  NSArray *allowedClassesArray = @[[MSACAbstractLog class], [NSDate class], [MSACDevice class], [MSACDeviceHistoryInfo class], [MSACSessionHistoryInfo class], [MSACUserIdHistoryInfo class], [MSACAppExtension class], [MSACCommonSchemaLog class], [MSACCSData class], [MSACCSExtensions class], [MSACDeviceExtension class], [MSACLocExtension class], [MSACMetadataExtension class], [MSACNetExtension class], [MSACOSExtension class], [MSACProtocolExtension class], [MSACSDKExtension class], [MSACUserExtension class], [MSACStartServiceLog class], [MSACBooleanTypedProperty class], [MSACDateTimeTypedProperty class], [MSACDoubleTypedProperty class], [MSACLongTypedProperty class], [MSACStringTypedProperty class], [MSACTypedProperty class], [MSACHistoryInfo class], [MSACLogWithProperties class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [NSString class], [NSNumber class]];
-        
-  [MSACUtility addAllowedClasses: allowedClassesArray];
+  //Set Allowed Classes
+  [MSACArchiverUtil addAllowedAppCenterModuleClasses];
 }
 
 - (void)tearDown {

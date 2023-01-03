@@ -11,18 +11,7 @@
 #import "MSACWrapperExceptionManagerInternal.h"
 #import "MSACWrapperExceptionModel.h"
 #import "PLCrashReporter.h"
-#import "MSACWrapperExceptionModel.h"
-#import "MSACHandledErrorLog.h"
-#import "MSACExceptionModel.h"
-#import "MSACStackFrame.h"
-#import "MSACDevice.h"
-#import "MSACUtility.h"
-#import "MSACAppleErrorLog.h"
-#import "MSACBinary.h"
-#import "MSACThread.h"
-#import "MSACWrapperException.h"
-#import "MSACErrorAttachmentLog.h"
-#import "MSACErrorReport.h"
+#import "MSACCrashesArchiverUtil.h"
 
 // Copied from MSACWrapperExceptionManager.m
 static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_exception";
@@ -41,9 +30,7 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 
 - (void)setUp {
   [super setUp];
-  NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [MSACThread class], [NSMutableData class], [MSACExceptionModel class], [NSString class], [NSNumber class]];
-              
-  [MSACUtility addAllowedClasses: allowedClassesArray];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
 #pragma mark - Housekeeping

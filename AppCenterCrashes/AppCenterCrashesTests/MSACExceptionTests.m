@@ -7,19 +7,7 @@
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
 #import <Foundation/Foundation.h>
-#import "MSACDevice.h"
-#import "MSACErrorAttachmentLog+Utility.h"
-#import "MSACErrorAttachmentLogInternal.h"
-#import "MSACUtility.h"
-#import "MSACAppleErrorLog.h"
-#import "MSACBinary.h"
-#import "MSACWrapperExceptionModel.h"
-#import "MSACThread.h"
-#import "MSACUtility+File.h"
-#import "MSACWrapperException.h"
-#import "MSACErrorAttachmentLog.h"
-#import "MSACErrorReport.h"
-#import "MSACHandledErrorLog.h"
+#import "MSACCrashesArchiverUtil.h"
 
 @interface MSACExceptionsTests : XCTestCase
 
@@ -29,9 +17,7 @@
 
 - (void)setUp {
   [super setUp];
-  NSArray *allowedClassesArray = @[[MSACAppleErrorLog class], [NSDate class], [MSACDevice class], [MSACThread class], [MSACWrapperException class], [MSACAbstractErrorLog class], [MSACHandledErrorLog class], [MSACWrapperExceptionModel class], [MSACStackFrame class], [MSACBinary class], [MSACErrorAttachmentLog class], [MSACErrorReport class], [MSACWrapperSdk class], [NSUUID class], [NSDictionary class], [NSArray class], [NSNull class], [NSMutableData class], [MSACExceptionModel class], [NSString class], [NSNumber class]];
-            
-  [MSACUtility addAllowedClasses: allowedClassesArray];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
 - (void)testInitWithException {

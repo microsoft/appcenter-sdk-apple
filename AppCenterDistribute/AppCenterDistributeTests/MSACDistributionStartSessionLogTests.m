@@ -62,9 +62,9 @@
   self.startSessionLog.sid = sessionId;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
-
+  NSData *serializedEvent = [MSACUtility archiveKeyedData:self.startSessionLog];
+  id actual = [MSACUtility unarchiveKeyedData:serializedEvent];
+    
   // Then
   assertThat(actual, notNilValue());
   MSACDistributionStartSessionLog *actualLog = actual;
