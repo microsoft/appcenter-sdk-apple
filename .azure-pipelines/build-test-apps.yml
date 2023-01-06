@@ -10,6 +10,7 @@ variables:
   Configuration: Release
   SDK:
   EOCompliance-Mac: true
+  GCC_TREAT_WARNINGS_AS_ERRORS : true
 
 jobs:
 - job:
@@ -24,7 +25,6 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchPuppet
-      args: GCC_TREAT_WARNINGS_AS_ERRORS = true
 
 - job:
   displayName: Puppet Mac Catalyst
