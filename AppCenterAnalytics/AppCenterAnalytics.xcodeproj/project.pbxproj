@@ -371,6 +371,48 @@
 			remoteGlobalIDString = C9A91F36230BFB970068070D;
 			remoteInfo = "AppCenterAnalytics macOS Framework";
 		};
+        D55735C6254AAE6100B64478 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+            proxyType = 2;
+            remoteGlobalIDString = C9A91FB6230C01140068070D;
+            remoteInfo = "AppCenter iOS Framework";
+         };
+         D55735C8254AAE6100B64478 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+            proxyType = 2;
+            remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
+            remoteInfo = "AppCenter iOS Tests";
+         };
+         D55735CA254AAE6100B64478 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+            proxyType = 2;
+            remoteGlobalIDString = C9A92007230C05D70068070D;
+            remoteInfo = "AppCenter macOS Framework";
+         };
+         D55735CC254AAE6100B64478 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+            proxyType = 2;
+            remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
+            remoteInfo = "AppCenter macOS Tests";
+         };
+         D55735CE254AAE6100B64478 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+            proxyType = 2;
+            remoteGlobalIDString = C9A92024230C07A50068070D;
+            remoteInfo = "AppCenter tvOS Framework";
+         };
+         D55735D0254AAE6100B64478 /* PBXContainerItemProxy */ = {
+            isa = PBXContainerItemProxy;
+            containerPortal = D55735B6254AAE6100B64478 /* AppCenter.xcodeproj */;
+            proxyType = 2;
+            remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
+            remoteInfo = "AppCenter tvOS Tests";
+        };
 		C2D73CDE230FC7C700390198 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E85547B81D2D6253002DF6E2 /* Project object */;

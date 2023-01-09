@@ -1,9 +1,5 @@
-//
-//  MSACDistributeArchiverUtil.h
-//  AppCenterDistribute iOS Framework
-//
-//  Copyright © 2023 Microsoft. All rights reserved.
-//
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
 

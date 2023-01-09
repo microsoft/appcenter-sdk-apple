@@ -450,13 +450,6 @@
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
 		};
-		AFB5AB71296461FC002EBC38 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 32CF777F26DFBB080087748A;
-			remoteInfo = "CrashReporter macOS Static Framework";
-		};
 		C2392F5124642CEA00425640 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C2392F4724642CEA00425640 /* OCMock.xcodeproj */;
@@ -1741,13 +1734,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AFB5AB72296461FC002EBC38 /* CrashReporter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CrashReporter.framework;
-			remoteRef = AFB5AB71296461FC002EBC38 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C2392F5224642CEA00425640 /* OCMock.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

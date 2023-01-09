@@ -300,6 +300,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     @"MSWrapperSdk" : MSACWrapperSdk.self,
     @"MSAbstractLog" : MSACAbstractLog.self,
   }];
+
   // Set Allowed Classes
   [MSACArchiverUtil addAllowedAppCenterModuleClasses];
   return self;

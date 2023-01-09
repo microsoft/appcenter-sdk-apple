@@ -42,6 +42,7 @@
   } mutableCopy];
   [self.csLogDummyValues addEntriesFromDictionary:abstractDummies];
   self.commonSchemaLog = [self csLogWithDummyValues:self.csLogDummyValues];
+
   // Set Allowed Classes
   [MSACArchiverUtil addAllowedAppCenterModuleClasses];
 }
