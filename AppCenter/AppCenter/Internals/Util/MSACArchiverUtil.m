@@ -33,7 +33,6 @@
 @implementation MSACArchiverUtil
 
 + (void)addAllowedAppCenterModuleClasses {
-
   NSArray *allowedClasses = @[
     [MSACAbstractLog class],
     [NSDate class],
@@ -71,7 +70,6 @@
     [NSNumber class],
     [NSMutableArray class]
   ];
-
   [MSACUtility addAllowedClasses:allowedClasses];
 }
 

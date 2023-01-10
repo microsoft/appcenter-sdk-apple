@@ -116,7 +116,6 @@ static dispatch_once_t onceToken;
       @"MSErrorDetails" : MSACErrorDetails.self,
       @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
     }];
-
     [MSACDistributeArchiverUtil addAllowedDistributeModuleClasses];
 
     // Init.

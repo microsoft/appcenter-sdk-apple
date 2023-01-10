@@ -15,7 +15,6 @@
 
 - (void)setUp {
   [super setUp];
-
   [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 

@@ -47,7 +47,6 @@
     [NSNumber class],
     [NSMutableArray class]
   ];
-
   [MSACUtility addAllowedClasses:allowedClassesArray];
 }
 

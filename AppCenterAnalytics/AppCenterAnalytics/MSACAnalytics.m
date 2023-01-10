@@ -74,7 +74,6 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
       @"MSTypedProperty" : MSACTypedProperty.self,
       @"MSStartSessionLog" : MSACStartSessionLog.self
     }];
-
     [MSACAnalyticsArchiverUtil addAllowedAnalyitcsModuleClasses];
 
     // Set defaults.

@@ -2,10 +2,6 @@
 // Licensed under the MIT License.
 
 #import <Foundation/Foundation.h>
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 #import "MSACAnalyticsArchiverUtil.h"
 #import "MSACBooleanTypedProperty.h"
 #import "MSACDateTimeTypedProperty.h"
@@ -50,7 +46,6 @@
     [NSNumber class],
     [NSMutableArray class]
   ];
-
   [MSACUtility addAllowedClasses:allowedClassesArray];
 }
 

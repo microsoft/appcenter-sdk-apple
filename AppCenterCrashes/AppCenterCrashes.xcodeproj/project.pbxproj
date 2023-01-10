@@ -1305,7 +1305,6 @@
 			isa = PBXGroup;
 			children = (
 				C24C9CED2472B3C30072C35D /* CrashReporter.framework */,
-				AFB5AB72296461FC002EBC38 /* CrashReporter.framework */,
 				C24C9CF12472B3C30072C35D /* CrashReporter.framework */,
 				C24C9CF72472B3C30072C35D /* CrashReporter.framework */,
 				C24C9CEF2472B3C30072C35D /* libCrashReporter.a */,
@@ -1846,10 +1845,10 @@
 			remoteRef = C24C9D022472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C24C9D072472B3C30072C35D /* CrashReporter tvOS Tests.xctest */ = {
+		C24C9D072472B3C30072C35D /* Tests tvOS.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "CrashReporter tvOS Tests.xctest";
+			path = "Tests tvOS.xctest";
 			remoteRef = C24C9D062472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

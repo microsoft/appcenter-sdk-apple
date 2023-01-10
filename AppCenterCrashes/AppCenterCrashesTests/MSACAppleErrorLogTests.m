@@ -23,7 +23,6 @@
   [super setUp];
 
   self.sut = [self appleErrorLog];
-
   [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
