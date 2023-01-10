@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACDevice.h"
 #import "MSACErrorAttachmentLog+Utility.h"
 #import "MSACErrorAttachmentLogInternal.h"
@@ -22,6 +23,7 @@
   NSString *expectedText = @"Please attach me, I am a nice text.";
   NSString *expectedFilename = @"niceFile.txt";
   self.sut = [[MSACErrorAttachmentLog alloc] initWithFilename:expectedFilename attachmentText:expectedText];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
 - (void)testInitializationWorks {

@@ -13,7 +13,7 @@ static NSString *const kMSACDataBaseType = @"baseType";
 /**
  * The data object contains Part B and Part C properties.
  */
-@interface MSACCSData : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACCSData : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 @property(atomic, copy) NSDictionary *properties;
 

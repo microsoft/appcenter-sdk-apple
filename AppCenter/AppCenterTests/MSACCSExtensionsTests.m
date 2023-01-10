@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACAppExtension.h"
+#import "MSACArchiverUtil.h"
 #import "MSACCSData.h"
 #import "MSACCSExtensions.h"
 #import "MSACDeviceExtension.h"
@@ -74,6 +75,9 @@
   self.data = [MSACModelTestsUtililty dataWithDummyValues:self.unorderedDummyValues];
   self.extDummyValues = [MSACModelTestsUtililty extensionDummies];
   self.ext = [MSACModelTestsUtililty extensionsWithDummyValues:self.extDummyValues];
+
+  // Set Allowed Classes
+  [MSACArchiverUtil addAllowedAppCenterModuleClasses];
 }
 
 - (void)tearDown {

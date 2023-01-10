@@ -90,6 +90,10 @@
          ((!self.appNamespace && !device.appNamespace) || [self.appNamespace isEqualToString:device.appNamespace]);
 }
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 #pragma mark - NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)coder {

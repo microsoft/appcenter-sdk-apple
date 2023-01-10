@@ -12,7 +12,7 @@ static NSString *const kMSACOSVer = @"ver";
 /**
  * The OS extension tracks common os elements that are not available in the core envelope.
  */
-@interface MSACOSExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACOSExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * The OS name.

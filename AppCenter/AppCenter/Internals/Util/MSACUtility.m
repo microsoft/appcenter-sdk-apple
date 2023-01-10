@@ -30,6 +30,11 @@ static ms_info_t appcenter_library_info __attribute__((section("__TEXT,__ms_ios,
 static NSMutableDictionary<NSString *, id> *targetClasses;
 
 /**
+ * Array of classes that are allowed to be serialized securely using the archiver.
+ */
+static NSArray *allowedClasses;
+
+/**
  * @discussion Workaround for exporting symbols from category object files. See article
  * https://medium.com/ios-os-x-development/categories-in-static-libraries-78e41f8ddb96#.aedfl1kl0
  */
@@ -54,24 +59,14 @@ __attribute__((used)) static void importCategories() {
   NSObject *unarchivedData;
   NSException *exception;
   @try {
-    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-      NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
-      for (NSString *key in targetClasses) {
-        [unarchiver setClass:targetClasses[key] forClassName:key];
-      }
-      unarchiver.requiresSecureCoding = NO;
-      unarchivedData = [unarchiver decodeTopLevelObjectForKey:NSKeyedArchiveRootObjectKey error:&error];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-#pragma clang diagnostic pop
-    }
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
+    unarchiver.requiresSecureCoding = YES;
+    NSSet *allowedClassesSet = [NSSet setWithArray:allowedClasses];
+    unarchivedData = [unarchiver decodeObjectOfClasses:allowedClassesSet forKey:NSKeyedArchiveRootObjectKey];
   } @catch (NSException *ex) {
     exception = ex;
   }
   if (!unarchivedData || exception) {
-
     // Unarchiving process failed.
     MSACLogError([MSACAppCenter logTag], @"Unarchiving NSData failed with error: %@",
                  exception ? exception.reason : error.localizedDescription);
@@ -79,22 +74,18 @@ __attribute__((used)) static void importCategories() {
   return unarchivedData;
 }
 
-+ (NSData *)archiveKeyedData:(id)data {
-  if (!data) {
++ (NSData *)archiveKeyedData:(id)myData {
+  if (!myData) {
     return nil;
   }
   NSError *error;
   NSData *archivedData;
   NSException *exception;
   @try {
-    if (@available(iOS 11.0, macOS 10.13, watchOS 4.0, *)) {
-      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data requiringSecureCoding:NO error:&error];
-    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-      archivedData = [NSKeyedArchiver archivedDataWithRootObject:data];
-#pragma clang diagnostic pop
-    }
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:YES];
+    [archiver encodeObject:myData forKey:NSKeyedArchiveRootObjectKey];
+    [archiver finishEncoding];
+    archivedData = archiver.encodedData;
   } @catch (NSException *ex) {
     exception = ex;
   }
@@ -112,5 +103,12 @@ __attribute__((used)) static void importCategories() {
     targetClasses = [NSMutableDictionary new];
   }
   [targetClasses addEntriesFromDictionary:data];
+}
+
++ (void)addAllowedClasses:(NSArray *)allowedClassesArray {
+  if (allowedClasses == nil) {
+    allowedClasses = [NSMutableArray new];
+  }
+  allowedClasses = [allowedClasses arrayByAddingObjectsFromArray:allowedClassesArray];
 }
 @end

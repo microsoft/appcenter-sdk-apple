@@ -25,7 +25,7 @@ static NSString *const kMSACCSVerValue = @"3.0";
 /**
  * Common schema has one event type with extensions, everything is called an event.
  */
-@interface MSACCommonSchemaLog : MSACAbstractLog <MSACSerializableObject, MSACModel>
+@interface MSACCommonSchemaLog : MSACAbstractLog <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * The version of the schema. The format is a string with major and minor such as 3.0.

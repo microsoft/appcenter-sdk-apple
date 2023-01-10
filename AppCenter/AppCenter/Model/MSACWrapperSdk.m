@@ -24,6 +24,10 @@
   return self;
 }
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (NSMutableDictionary *)serializeToDictionary {
   NSMutableDictionary *dict = [NSMutableDictionary new];
 

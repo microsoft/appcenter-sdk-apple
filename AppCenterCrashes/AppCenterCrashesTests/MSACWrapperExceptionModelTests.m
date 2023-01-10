@@ -2,16 +2,22 @@
 // Licensed under the MIT License.
 
 #import "AppCenter+Internal.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesTestUtil.h"
-#import "MSACWrapperExceptionModel.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
+#import "MSACWrapperExceptionModel.h"
 
 @interface MSACExceptionsInternalTests : XCTestCase
 
 @end
 
 @implementation MSACExceptionsInternalTests
+
+- (void)setUp {
+  [super setUp];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
+}
 
 #pragma mark - Tests
 

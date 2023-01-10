@@ -7,7 +7,7 @@
 
 static NSString *const kMSACDoubleTypedPropertyType = @"double";
 
-@interface MSACDoubleTypedProperty : MSACTypedProperty
+@interface MSACDoubleTypedProperty : MSACTypedProperty <NSSecureCoding>
 
 /**
  * Double property value.

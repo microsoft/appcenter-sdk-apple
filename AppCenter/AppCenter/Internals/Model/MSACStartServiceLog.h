@@ -6,7 +6,7 @@
 #import "MSACAbstractLogInternal.h"
 #import "MSACNoAutoAssignSessionIdLog.h"
 
-@interface MSACStartServiceLog : MSACAbstractLog <MSACNoAutoAssignSessionIdLog>
+@interface MSACStartServiceLog : MSACAbstractLog <MSACNoAutoAssignSessionIdLog, NSSecureCoding>
 
 /**
  * Services which started with SDK.

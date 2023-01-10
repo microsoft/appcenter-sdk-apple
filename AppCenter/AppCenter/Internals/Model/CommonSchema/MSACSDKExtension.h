@@ -14,7 +14,7 @@ static NSString *const kMSACSDKSeq = @"seq";
 /**
  * The SDK extension is used by platform specific library to record field that are specifically required for a specific SDK.
  */
-@interface MSACSDKExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACSDKExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * The SDK version.

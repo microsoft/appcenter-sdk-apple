@@ -41,6 +41,10 @@ static NSString *const kMSACWrapperSDKName = @"wrapperSdkName";
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {
