@@ -4,7 +4,7 @@
 
 ### App Center
 
-* **[Fix]** Fix Unsafe Object Deserialization.
+* **[Fix]** Fix Unsafe Object Deserialization, here's a [link](https://dev.azure.com/msmobilecenter/Mobile-Center/_boards/board/t/SDK/Backlog%20Items/?workitem=95662) to the vulnerability.
 * **[Fix]** Fix "Collection was mutated while being enumerated" exception in MSACChannelGroupDefault.
 
 ### App Center Distribute
