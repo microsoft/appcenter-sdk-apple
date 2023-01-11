@@ -24,6 +24,7 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchPuppet
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
 
 - job:
   displayName: Puppet Mac Catalyst
@@ -37,6 +38,7 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchPuppet
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
       destinationPlatformOption: macOS
 
 - job:
@@ -51,6 +53,7 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchObjC
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
 
   - task: Xcode@5
     displayName: 'Sasquatch iOS Swift Archive'
@@ -58,6 +61,7 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchSwift
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
 
 - job:
   displayName: Sasquatch macOS
@@ -71,6 +75,7 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchMacObjC
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
 
   - task: Xcode@5
     displayName: 'Sasquatch macOS Swift Archive'
@@ -78,6 +83,7 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchMacSwift
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
 
 - job:
   displayName: Sasquatch tvOS
@@ -91,6 +97,7 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchTVObjC
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
 
   - task: Xcode@5
     displayName: 'Sasquatch tvOS Swift Archive'
@@ -98,3 +105,4 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchTVSwift
+      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
