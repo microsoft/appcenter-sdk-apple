@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -2970,6 +2970,7 @@
 		};
 		C2CB276A230EDE990076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2989,6 +2990,7 @@
 		};
 		C2CB276B230EDEC30076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3008,6 +3010,7 @@
 		};
 		C2CB276C230EDEC60076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
