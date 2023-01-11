@@ -13,7 +13,7 @@ static NSString *const kMSACTicketKeys = @"ticketKeys";
 /**
  * The Protocol extension contains device specific information.
  */
-@interface MSACProtocolExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACProtocolExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * Ticket keys.

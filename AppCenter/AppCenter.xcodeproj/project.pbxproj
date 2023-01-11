@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -245,6 +245,12 @@
 		9CE97B2B21A4C0B900A1B160 /* MSACUserIdContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */; };
 		9CE97B2C21A4C0BA00A1B160 /* MSACUserIdContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */; };
 		9CE97B2D21A4C0BC00A1B160 /* MSACUserIdContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */; };
+		AFB5AB0629644BB2002EBC38 /* MSACArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */; };
+		AFB5AB4C29645DCB002EBC38 /* MSACArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */; };
+		AFB5AB4D29645DCD002EBC38 /* MSACArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */; };
+		AFB5AB7B29646236002EBC38 /* MSACArchiverUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = AFB5AB3E296456B2002EBC38 /* MSACArchiverUtil.h */; };
+		AFB5AB7C29646238002EBC38 /* MSACArchiverUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = AFB5AB3E296456B2002EBC38 /* MSACArchiverUtil.h */; };
+		AFB5AB7D29646239002EBC38 /* MSACArchiverUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = AFB5AB3E296456B2002EBC38 /* MSACArchiverUtil.h */; };
 		B24F3F171D93A3FF00827213 /* MSACLoggerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B24F3F161D93A3FF00827213 /* MSACLoggerTests.m */; };
 		B26D4DBA211B5BE300AB4E28 /* MSACMockCommonSchemaLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DB9211B5BE300AB4E28 /* MSACMockCommonSchemaLog.m */; };
 		B26D4DBB211B5BE300AB4E28 /* MSACMockCommonSchemaLog.m in Sources */ = {isa = PBXBuildFile; fileRef = B26D4DB9211B5BE300AB4E28 /* MSACMockCommonSchemaLog.m */; };
@@ -1265,6 +1271,8 @@
 		80B7EA2020CA9C9C00DF524C /* MSACEncrypterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACEncrypterPrivate.h; sourceTree = "<group>"; };
 		9237B60B2244407000C273D8 /* MSACHttpClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACHttpClientTests.m; sourceTree = "<group>"; };
 		9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACUserIdContextTests.m; sourceTree = "<group>"; };
+		AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACArchiverUtil.m; sourceTree = "<group>"; };
+		AFB5AB3E296456B2002EBC38 /* MSACArchiverUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACArchiverUtil.h; sourceTree = "<group>"; };
 		B23507B32118D22800F98D4F /* MSACTicketCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACTicketCache.m; sourceTree = "<group>"; };
 		B23507B42118D22800F98D4F /* MSACTicketCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACTicketCache.h; sourceTree = "<group>"; };
 		B24F3F161D93A3FF00827213 /* MSACLoggerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACLoggerTests.m; sourceTree = "<group>"; };
@@ -1686,6 +1694,8 @@
 				38148D8520D07FB70046257E /* MSACCompression.m */,
 				DF5DA1F823A0E55500DE695C /* MSACDispatcherUtil.h */,
 				DF5DA1FC23A0E57B00DE695C /* MSACDispatcherUtil.m */,
+				AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */,
+				AFB5AB3E296456B2002EBC38 /* MSACArchiverUtil.h */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -2057,6 +2067,7 @@
 				F8936D4F230C2804006A330F /* MSACCSData.h in Headers */,
 				F8936D4B230C2804006A330F /* MSACAppCenterIngestion.h in Headers */,
 				F8936CED230C2603006A330F /* MSACOneCollectorChannelDelegatePrivate.h in Headers */,
+				AFB5AB7B29646236002EBC38 /* MSACArchiverUtil.h in Headers */,
 				F8936CB8230C24D9006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936D5D230C2804006A330F /* MSACModel.h in Headers */,
 				F8936D76230C2804006A330F /* MSACUtility+Environment.h in Headers */,
@@ -2193,6 +2204,7 @@
 				F8936DB5230C2805006A330F /* MSACModel.h in Headers */,
 				F8936DCE230C2805006A330F /* MSACUtility+Environment.h in Headers */,
 				F8936D88230C2805006A330F /* MSACChannelGroupDefault.h in Headers */,
+				AFB5AB7C29646238002EBC38 /* MSACArchiverUtil.h in Headers */,
 				F8936DA6230C2805006A330F /* MSACCommonSchemaLog.h in Headers */,
 				F8936D9D230C2805006A330F /* MSACTicketCache.h in Headers */,
 				F8936DC0230C2805006A330F /* MSACTypedProperty.h in Headers */,
@@ -2329,6 +2341,7 @@
 				F8936E0D230C2805006A330F /* MSACModel.h in Headers */,
 				F8936E26230C2805006A330F /* MSACUtility+Environment.h in Headers */,
 				F8936DE0230C2805006A330F /* MSACChannelGroupDefault.h in Headers */,
+				AFB5AB7D29646239002EBC38 /* MSACArchiverUtil.h in Headers */,
 				F8936DFE230C2805006A330F /* MSACCommonSchemaLog.h in Headers */,
 				F8936DF5230C2805006A330F /* MSACTicketCache.h in Headers */,
 				F8936E18230C2805006A330F /* MSACTypedProperty.h in Headers */,
@@ -2957,6 +2970,7 @@
 		};
 		C2CB276A230EDE990076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2976,6 +2990,7 @@
 		};
 		C2CB276B230EDEC30076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2995,6 +3010,7 @@
 		};
 		C2CB276C230EDEC60076A4E0 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -3283,6 +3299,7 @@
 				F8936C89230C23F0006A330F /* MSACCommonSchemaLog.m in Sources */,
 				F8936C8A230C23F0006A330F /* MSACCSData.m in Sources */,
 				F8936C8B230C23F0006A330F /* MSACCSExtensions.m in Sources */,
+				AFB5AB0629644BB2002EBC38 /* MSACArchiverUtil.m in Sources */,
 				F8936C8C230C23F0006A330F /* MSACDeviceExtension.m in Sources */,
 				F8936C8D230C23F0006A330F /* MSACLocExtension.m in Sources */,
 				F8936C8E230C23F0006A330F /* MSACMetadataExtension.m in Sources */,
@@ -3360,6 +3377,7 @@
 				C9A920F5230C61820068070D /* MSACDeviceTracker.m in Sources */,
 				C9A9211F230C61820068070D /* MSACKeychainUtil.m in Sources */,
 				C9A920EC230C61820068070D /* MSACChannelGroupDefault.m in Sources */,
+				AFB5AB4C29645DCB002EBC38 /* MSACArchiverUtil.m in Sources */,
 				C9A92105230C61820068070D /* MSACCSExtensions.m in Sources */,
 				C9A92121230C61820068070D /* MSACUtility+Application.m in Sources */,
 				C9A92117230C61820068070D /* MSACStringTypedProperty.m in Sources */,
@@ -3437,6 +3455,7 @@
 				C9A9213B230C61830068070D /* MSACDeviceTracker.m in Sources */,
 				C9A92165230C61830068070D /* MSACKeychainUtil.m in Sources */,
 				C9A92132230C61830068070D /* MSACChannelGroupDefault.m in Sources */,
+				AFB5AB4D29645DCD002EBC38 /* MSACArchiverUtil.m in Sources */,
 				C9A9214B230C61830068070D /* MSACCSExtensions.m in Sources */,
 				C9A92167230C61830068070D /* MSACUtility+Application.m in Sources */,
 				C9A9215D230C61830068070D /* MSACStringTypedProperty.m in Sources */,

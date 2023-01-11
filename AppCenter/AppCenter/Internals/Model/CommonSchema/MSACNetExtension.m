@@ -26,6 +26,10 @@
 
 #pragma mark - NSObject
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (BOOL)isEqual:(id)object {
   if (![(NSObject *)object isKindOfClass:[MSACNetExtension class]]) {
     return NO;

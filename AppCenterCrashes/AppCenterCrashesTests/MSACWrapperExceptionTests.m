@@ -2,9 +2,15 @@
 // Licensed under the MIT License.
 
 #import "AppCenter+Internal.h"
-#import "MSACWrapperExceptionModel.h"
+#import "MSACCrashesArchiverUtil.h"
+#import "MSACDevice.h"
+#import "MSACExceptionModel.h"
+#import "MSACHandledErrorLog.h"
+#import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
+#import "MSACUtility.h"
 #import "MSACWrapperExceptionInternal.h"
+#import "MSACWrapperExceptionModel.h"
 
 @interface MSACWrapperExceptionTests : XCTestCase
 
@@ -19,6 +25,7 @@
 - (void)setUp {
   [super setUp];
   self.sut = [self wrapperException];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
 #pragma mark - Helper

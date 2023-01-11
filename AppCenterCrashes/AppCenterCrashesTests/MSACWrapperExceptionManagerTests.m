@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACCrashes.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesUtil.h"
 #import "MSACLogger.h"
 #import "MSACTestFrameworks.h"
@@ -26,6 +27,11 @@ static NSString *const kMSACLastWrapperExceptionFileName = @"last_saved_wrapper_
 @end
 
 @implementation MSACWrapperExceptionManagerTests
+
+- (void)setUp {
+  [super setUp];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
+}
 
 #pragma mark - Housekeeping
 

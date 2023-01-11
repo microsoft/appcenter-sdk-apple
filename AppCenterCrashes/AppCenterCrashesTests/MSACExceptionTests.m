@@ -3,6 +3,7 @@
 
 #import "AppCenter+Internal.h"
 #import "MSACCrashes.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
@@ -13,6 +14,11 @@
 @end
 
 @implementation MSACExceptionsTests
+
+- (void)setUp {
+  [super setUp];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
+}
 
 - (void)testInitWithException {
 

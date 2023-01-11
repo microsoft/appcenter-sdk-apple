@@ -4,8 +4,10 @@
 
 ### App Center
 
+* **[Fix]** Fix Unsafe Object Deserialization.
 * **[Fix]** Fix "Collection was mutated while being enumerated" exception in MSACChannelGroupDefault.
 * **[Fix]** Disable "TREAT_WARNINGS_AS_ERRORS"
+* **[Fix]** Fix crash channel:didPrepareLog in MSACChannelGroupDefault
 
 ### App Center Distribute
 

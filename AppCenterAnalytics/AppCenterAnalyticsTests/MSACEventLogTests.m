@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACAbstractLogInternal.h"
+#import "MSACAnalyticsArchiverUtil.h"
 #import "MSACAnalyticsConstants.h"
 #import "MSACAppExtension.h"
 #import "MSACCSData.h"
@@ -35,6 +36,7 @@
 - (void)setUp {
   [super setUp];
   self.sut = [MSACEventLog new];
+  [MSACAnalyticsArchiverUtil addAllowedAnalyitcsModuleClasses];
 }
 
 - (void)tearDown {

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "AppCenter+Internal.h"
+#import "MSACAnalyticsArchiverUtil.h"
 #import "MSACPageLog.h"
 #import "MSACTestFrameworks.h"
 #import "MSACUtility.h"
@@ -19,6 +20,7 @@
 - (void)setUp {
   [super setUp];
   self.sut = [MSACPageLog new];
+  [MSACAnalyticsArchiverUtil addAllowedAnalyitcsModuleClasses];
 }
 
 - (void)tearDown {

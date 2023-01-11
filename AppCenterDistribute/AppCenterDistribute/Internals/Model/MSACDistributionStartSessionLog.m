@@ -18,6 +18,10 @@ static NSString *const kMSACTypeDistributionStartSessionLog = @"distributionStar
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   return self;

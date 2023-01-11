@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-#import "MSACWrapperExceptionModel.h"
 #import "MSACWrapperExceptionInternal.h"
+#import "MSACWrapperExceptionModel.h"
 
 @implementation MSACWrapperException
 
@@ -25,6 +25,10 @@ static NSString *const KMSACProcessId = @"processId";
 }
 
 #pragma mark - NSCoding
+
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];

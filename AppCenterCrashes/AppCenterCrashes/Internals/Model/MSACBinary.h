@@ -9,7 +9,7 @@
 /**
  * Binary (library) definition for any platform.
  */
-@interface MSACBinary : NSObject <MSACSerializableObject>
+@interface MSACBinary : NSObject <MSACSerializableObject, NSSecureCoding>
 
 /**
  * The binary id as UUID string.

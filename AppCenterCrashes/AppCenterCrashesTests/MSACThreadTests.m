@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
 #import "MSACTestFrameworks.h"
@@ -11,6 +12,11 @@
 @end
 
 @implementation MSACThreadTests
+
+- (void)setUp {
+  [super setUp];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
+}
 
 #pragma mark - Helper
 

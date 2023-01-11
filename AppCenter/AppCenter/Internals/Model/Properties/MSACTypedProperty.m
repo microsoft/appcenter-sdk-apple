@@ -19,6 +19,10 @@ static NSString *const kMSACTypedPropertyName = @"name";
   return self;
 }
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 // Subclasses need to encode "value" since the type might be saved as a primitive.
 - (void)encodeWithCoder:(NSCoder *)coder {
   [coder encodeObject:self.type forKey:kMSACTypedPropertyType];

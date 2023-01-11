@@ -29,7 +29,7 @@ static NSString *const kMSACCSSDKExt = @"sdk";
 /**
  * Part A extensions.
  */
-@interface MSACCSExtensions : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACCSExtensions : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * The Metadata extension.

@@ -45,6 +45,10 @@
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
     _properties = [coder decodeObject];

@@ -16,6 +16,7 @@
 #import "MSACChannelUnitProtocol.h"
 #import "MSACCrashHandlerSetupDelegate.h"
 #import "MSACCrashReporter.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesBufferedLog.hpp"
 #import "MSACCrashesCXXExceptionWrapperException.h"
 #import "MSACCrashesDelegate.h"
@@ -323,6 +324,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       @"MSErrorAttachmentLog" : MSACErrorAttachmentLog.self,
       @"MSErrorReport" : MSACErrorReport.self
     }];
+    [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
     _appStartTime = [NSDate date];
     _crashFiles = [NSMutableArray new];
     _crashesPathComponent = [MSACCrashesUtil crashesDir];

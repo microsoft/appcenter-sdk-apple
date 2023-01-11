@@ -10,6 +10,7 @@
 #import "MSACChannelUnitDefault.h"
 #import "MSACCrashHandlerSetupDelegate.h"
 #import "MSACCrashReporter.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesBufferedLog.hpp"
 #import "MSACCrashesCXXExceptionHandler.h"
 #import "MSACCrashesInternal.h"
@@ -80,6 +81,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [MSACSessionContext resetSharedInstance];
   self.sessionContextMock = OCMClassMock([MSACSessionContext class]);
   OCMStub([self.sessionContextMock sharedInstance]).andReturn(self.sessionContextMock);
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
 - (void)tearDown {

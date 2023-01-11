@@ -3,7 +3,10 @@
 
 #import "MSACAbstractLogInternal.h"
 #import "MSACDevice.h"
+#import "MSACDistributeArchiverUtil.h"
 #import "MSACDistributionStartSessionLog.h"
+#import "MSACErrorDetails.h"
+#import "MSACReleaseDetails.h"
 #import "MSACTestFrameworks.h"
 
 @interface MSACDistributionStartSessionLogTests : XCTestCase
@@ -19,6 +22,7 @@
 - (void)setUp {
   [super setUp];
   self.startSessionLog = [[MSACDistributionStartSessionLog alloc] init];
+  [MSACDistributeArchiverUtil addAllowedDistributeModuleClasses];
 }
 
 - (void)tearDown {
@@ -62,8 +66,8 @@
   self.startSessionLog.sid = sessionId;
 
   // When
-  NSData *serializedEvent = [NSKeyedArchiver archivedDataWithRootObject:self.startSessionLog];
-  id actual = [NSKeyedUnarchiver unarchiveObjectWithData:serializedEvent];
+  NSData *serializedEvent = [MSACUtility archiveKeyedData:self.startSessionLog];
+  id actual = [MSACUtility unarchiveKeyedData:serializedEvent];
 
   // Then
   assertThat(actual, notNilValue());

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACBinary.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACTestFrameworks.h"
 
 @interface MSACBinaryTests : XCTestCase
@@ -11,6 +12,11 @@
 @implementation MSACBinaryTests
 
 #pragma mark - Tests
+
+- (void)setUp {
+  [super setUp];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
+}
 
 - (void)testSerializingBinaryToDictionaryWorks {
 

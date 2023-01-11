@@ -20,6 +20,10 @@
   return self;
 }
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder {
   [super encodeWithCoder:coder];
   [coder encodeObject:self.value forKey:kMSACTypedPropertyValue];

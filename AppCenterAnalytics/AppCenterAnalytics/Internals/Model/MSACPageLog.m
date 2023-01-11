@@ -8,6 +8,10 @@ static NSString *const kMSACTypePage = @"page";
 
 @implementation MSACPageLog
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)init {
   if ((self = [super init])) {
     self.type = kMSACTypePage;
