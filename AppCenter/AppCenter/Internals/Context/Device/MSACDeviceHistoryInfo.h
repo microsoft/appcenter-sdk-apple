@@ -8,7 +8,7 @@
 /**
  * Model class that correlates MSACDevice to a crash at app relaunch.
  */
-@interface MSACDeviceHistoryInfo : MSACHistoryInfo
+@interface MSACDeviceHistoryInfo : MSACHistoryInfo <NSSecureCoding>
 
 /**
  * Instance of MSACDevice.

@@ -12,6 +12,10 @@
   return self;
 }
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {

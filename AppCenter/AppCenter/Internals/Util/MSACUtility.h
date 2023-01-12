@@ -66,4 +66,12 @@
  */
 + (void)addMigrationClasses:(NSDictionary<NSString *, id> *)data;
 
+/**
+ * Add classes for secure serialization.
+ *
+ * @param allowedClassesArray Array for allowed classes for serialization
+ *
+ */
++ (void)addAllowedClasses:(NSArray *)allowedClassesArray;
+
 @end

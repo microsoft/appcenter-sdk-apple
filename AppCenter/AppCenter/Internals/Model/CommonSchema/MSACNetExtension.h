@@ -11,7 +11,7 @@ static NSString *const kMSACNetProvider = @"provider";
 /**
  * The network extension contains network properties.
  */
-@interface MSACNetExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACNetExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * The network provider.

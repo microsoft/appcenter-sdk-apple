@@ -4,3 +4,4 @@ ignore:
   - "Vendor/**/*"
   - "AppCenter/AppCenterTests"
   - "AppCenter*/AppCenter*Tests"
+  - "**/MSACDistributeUIUtil.m"

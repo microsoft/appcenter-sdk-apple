@@ -36,6 +36,10 @@
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super init])) {
     _tz = [coder decodeObjectForKey:kMSACTimezone];

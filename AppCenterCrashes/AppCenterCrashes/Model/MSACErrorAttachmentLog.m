@@ -88,6 +88,10 @@ __attribute__((used)) static void importCategories() { [NSString stringWithForma
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
   if (self) {

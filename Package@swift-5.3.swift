@@ -55,7 +55,7 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [
         .iOS(.v11),
-        .macOS(.v10_10),
+        .macOS(.v10_13),
         .tvOS(.v11)
     ],
     products: [
@@ -79,7 +79,7 @@ let package = Package(
             exclude: ["Support"],
             cSettings: {
                 var settings: [CSetting] = [
-                    .define("APP_CENTER_C_VERSION", to:"\"5.0.0\""),
+                    .define("APP_CENTER_C_VERSION", to:"\"5.0.1\""),
                     .define("APP_CENTER_C_BUILD", to: "\"1\"")
                 ]
                 settings.append(contentsOf: cHeaderSearchPaths)

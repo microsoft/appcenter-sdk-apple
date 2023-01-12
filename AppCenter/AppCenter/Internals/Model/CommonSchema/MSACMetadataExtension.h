@@ -10,7 +10,7 @@ static NSString *const kMSACFieldDelimiter = @"f";
 /**
  * The metadata section contains additional typing/schema-related information for each field in the Part B or Part C payload.
  */
-@interface MSACMetadataExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACMetadataExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * Additional typing/schema-related information for each field in the Part B or Part C payload.

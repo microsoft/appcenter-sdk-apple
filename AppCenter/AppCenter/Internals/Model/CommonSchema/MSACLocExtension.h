@@ -11,7 +11,7 @@ static NSString *const kMSACTimezone = @"tz";
 /**
  * Describes the location from which the event was logged.
  */
-@interface MSACLocExtension : NSObject <MSACSerializableObject, MSACModel>
+@interface MSACLocExtension : NSObject <MSACSerializableObject, MSACModel, NSSecureCoding>
 
 /**
  * Time zone on the device.

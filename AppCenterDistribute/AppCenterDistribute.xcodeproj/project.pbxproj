@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -80,6 +80,9 @@
 		80324E301F4DC81F005F4E11 /* MSACDistributeAppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80324E2F1F4DC81E005F4E11 /* MSACDistributeAppDelegateTests.m */; };
 		848860451E6EC32B003A9B96 /* MSACBasicMachOParserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 848860441E6EC32B003A9B96 /* MSACBasicMachOParserTests.m */; };
 		9E8E3A39203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m */; };
+		AF06ACAA29647CF600EB85D6 /* MSACDistributeArchiverUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = AF06ACA929647CF600EB85D6 /* MSACDistributeArchiverUtil.h */; };
+		AF06ACB829647D4B00EB85D6 /* MSACDistributeArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AF06ACB729647D4B00EB85D6 /* MSACDistributeArchiverUtil.m */; };
+		AFD599A2293F580200F74844 /* MSACDistributeUIUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD599A1293F580200F74844 /* MSACDistributeUIUtil.m */; };
 		B20DE7B71E5F97330023075C /* MSACDistributeUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B20DE7B61E5F97330023075C /* MSACDistributeUtilTests.m */; };
 		B270108D1E5FA2E4008552EF /* release_details.json in Resources */ = {isa = PBXBuildFile; fileRef = 040AF0111E523AC2005C1174 /* release_details.json */; };
 		B2C070C01E5E69AD0076D6A9 /* AppCenterDistributeResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2C070B81E5E68540076D6A9 /* AppCenterDistributeResources.bundle */; };
@@ -363,6 +366,10 @@
 		9E4ADB15203D37FB00172256 /* MSACDistributionStartSessionLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDistributionStartSessionLog.m; sourceTree = "<group>"; };
 		9E4ADB17203D383D00172256 /* MSACDistributionStartSessionLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDistributionStartSessionLog.h; sourceTree = "<group>"; };
 		9E8E3A38203E68B4001A23FD /* MSACDistributionStartSessionLogTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDistributionStartSessionLogTests.m; sourceTree = "<group>"; };
+		AF06ACA929647CF600EB85D6 /* MSACDistributeArchiverUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDistributeArchiverUtil.h; sourceTree = "<group>"; };
+		AF06ACB729647D4B00EB85D6 /* MSACDistributeArchiverUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeArchiverUtil.m; sourceTree = "<group>"; };
+		AFD599A1293F580200F74844 /* MSACDistributeUIUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeUIUtil.m; sourceTree = "<group>"; };
+		AFD599AF293F587800F74844 /* MSACDistributeUIUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDistributeUIUtil.h; sourceTree = "<group>"; };
 		B20DE7B61E5F97330023075C /* MSACDistributeUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeUtilTests.m; sourceTree = "<group>"; };
 		B25895A91E4E9BA100123632 /* MSACDistributeInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDistributeInternal.h; sourceTree = "<group>"; };
 		B29CE3481E5E5F9A00CEB04D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = AppCenterDistribute/Resources/en.lproj/AppCenterDistribute.strings; sourceTree = SOURCE_ROOT; };
@@ -651,6 +658,10 @@
 				B2C070A41E5E62330076D6A9 /* MSACDistributeUtil.m */,
 				389A3DB8226138B200741755 /* MSACGuidedAccessUtil.h */,
 				389A3DB9226138B200741755 /* MSACGuidedAccessUtil.m */,
+				AFD599A1293F580200F74844 /* MSACDistributeUIUtil.m */,
+				AFD599AF293F587800F74844 /* MSACDistributeUIUtil.h */,
+				AF06ACA929647CF600EB85D6 /* MSACDistributeArchiverUtil.h */,
+				AF06ACB729647D4B00EB85D6 /* MSACDistributeArchiverUtil.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -746,6 +757,7 @@
 				C9EBAA31230D380C00A20F0F /* MSACErrorDetails.h in Headers */,
 				C9EBAA33230D380C00A20F0F /* MSACDistributionStartSessionLog.h in Headers */,
 				C9EBAA34230D382200A20F0F /* MSACReleaseDetailsPrivate.h in Headers */,
+				AF06ACAA29647CF600EB85D6 /* MSACDistributeArchiverUtil.h in Headers */,
 				C9EBAA3B230D384C00A20F0F /* MSACBasicMachOParserPrivate.h in Headers */,
 				C9EBAA37230D384900A20F0F /* MSACSemVer.h in Headers */,
 				C9EBAA3C230D385400A20F0F /* MSACDistributeInternal.h in Headers */,
@@ -1132,6 +1144,7 @@
 		};
 		C2200602230FDEA100848D5B /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1202,6 +1215,7 @@
 				C9EBAAE5230D3A9B00A20F0F /* MSACDistributionGroup.m in Sources */,
 				C9EBAAEB230D3A9B00A20F0F /* MSACDistributeUtil.m in Sources */,
 				C9EBAAE3230D3A9B00A20F0F /* MSACDistribute.m in Sources */,
+				AFD599A2293F580200F74844 /* MSACDistributeUIUtil.m in Sources */,
 				C9EBAAE8230D3A9B00A20F0F /* MSACSemVerPreReleaseId.m in Sources */,
 				C9EBAAE6230D3A9B00A20F0F /* MSACDistributionStartSessionLog.m in Sources */,
 				C9EBAAEF230D3A9B00A20F0F /* MSACDistributeInfoTracker.m in Sources */,
@@ -1210,6 +1224,7 @@
 				C9EBAAEA230D3A9B00A20F0F /* MSACBasicMachOParser.m in Sources */,
 				C9EBAAED230D3A9B00A20F0F /* MSACDistributeAppDelegate.m in Sources */,
 				C9EBAAE7230D3A9B00A20F0F /* MSACDistributeIngestion.m in Sources */,
+				AF06ACB829647D4B00EB85D6 /* MSACDistributeArchiverUtil.m in Sources */,
 				78B7D8BA23D5849600E08D9B /* MSACAlertController.m in Sources */,
 				C9EBAAF0230D3A9B00A20F0F /* MSACReleaseDetails.m in Sources */,
 				C9EBAAEC230D3A9B00A20F0F /* MSACGuidedAccessUtil.m in Sources */,

@@ -3,10 +3,11 @@
 
 #import "MSACAppleErrorLog.h"
 #import "MSACBinary.h"
+#import "MSACCrashesArchiverUtil.h"
 #import "MSACCrashesTestUtil.h"
-#import "MSACWrapperExceptionModel.h"
 #import "MSACTestFrameworks.h"
 #import "MSACThread.h"
+#import "MSACWrapperExceptionModel.h"
 
 @interface MSACAppleErrorLogTests : XCTestCase
 
@@ -22,6 +23,7 @@
   [super setUp];
 
   self.sut = [self appleErrorLog];
+  [MSACCrashesArchiverUtil addAllowedCrashesModuleClasses];
 }
 
 - (void)tearDown {
@@ -43,8 +45,8 @@
   appleLog.exceptionType = @"NSExceptionType";
   appleLog.exceptionReason = @"Trying to access array[12]";
   appleLog.selectorRegisterValue = @"release()";
-  appleLog.threads = @ [[MSACThread new]];
-  appleLog.binaries = @ [[MSACBinary new]];
+  appleLog.threads = @[ [MSACThread new] ];
+  appleLog.binaries = @[ [MSACBinary new] ];
   appleLog.exception = [MSACCrashesTestUtil exception];
   appleLog.errorId = @"123";
   appleLog.processId = @123;

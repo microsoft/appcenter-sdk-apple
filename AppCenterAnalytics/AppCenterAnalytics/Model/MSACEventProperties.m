@@ -34,6 +34,10 @@
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder {
   @synchronized(self.properties) {
     [coder encodeObject:self.properties];

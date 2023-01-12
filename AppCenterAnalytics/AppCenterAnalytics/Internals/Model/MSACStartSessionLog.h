@@ -6,6 +6,6 @@
 #import "AppCenter+Internal.h"
 #import "MSACNoAutoAssignSessionIdLog.h"
 
-@interface MSACStartSessionLog : MSACAbstractLog <MSACNoAutoAssignSessionIdLog>
+@interface MSACStartSessionLog : MSACAbstractLog <MSACNoAutoAssignSessionIdLog, NSSecureCoding>
 
 @end

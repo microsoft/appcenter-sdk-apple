@@ -62,6 +62,10 @@ static NSString *const kMSACException = @"exception";
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super init];
   if (self) {

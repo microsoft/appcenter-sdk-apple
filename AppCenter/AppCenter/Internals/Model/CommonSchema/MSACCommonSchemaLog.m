@@ -70,6 +70,10 @@
 
 #pragma mark - NSCoding
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
   if ((self = [super initWithCoder:coder])) {
     _ver = [coder decodeObjectForKey:kMSACCSVer];

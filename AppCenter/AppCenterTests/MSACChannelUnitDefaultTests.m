@@ -66,7 +66,6 @@ static NSString *const kMSACTestGroupId = @"GroupId";
 }
 
 - (void)tearDown {
-
   // Stop mocks.
   [self.storageMock stopMocking];
   [self.ingestionMock stopMocking];
@@ -76,9 +75,14 @@ static NSString *const kMSACTestGroupId = @"GroupId";
    * Make sure that dispatch queue has been deallocated.
    * Note: the check should be done after `stopMocking` calls because it clears list of invocations that
    * keeps references to all arguments including blocks (that implicitly keeps channel "self" reference).
+   * and it should be done after adding a delay to wait for all NSLogs dispatched to the background to be done
    */
-  XCTAssertNil(self.dispatchQueue);
-
+  NSTimeInterval delayInSeconds = 2.0;
+  dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+  dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+      XCTAssertNil(self.dispatchQueue);
+  });
+  
   [super tearDown];
 }
 

@@ -148,8 +148,13 @@ static NSString *const kMSACTestAppSecret = @"TestAppSecret";
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kMSACDefaultApiUrl, kMSACTestAppSecret]];
 
   // When
+  XCTestExpectation *expectation = [self expectationWithDescription:@"Logs dispatch queue"];
   [self.sut willSendHTTPRequestToURL:url withHeaders:headers];
-
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [expectation fulfill];
+  });
+  [self waitForExpectations:@[ expectation ] timeout:3];
+    
   // Then
   OCMVerify([mockHttpUtil hideSecretInString:OCMOCK_ANY secret:appSecret]);
 

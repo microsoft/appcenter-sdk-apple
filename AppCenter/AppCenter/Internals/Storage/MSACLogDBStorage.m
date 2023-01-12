@@ -18,6 +18,10 @@ static const NSUInteger kMSACSchemaVersion = 5;
 
 #pragma mark - Initialization
 
++ (BOOL)supportsSecureCoding {
+  return YES;
+}
+
 - (instancetype)init {
 
   /*

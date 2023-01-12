@@ -13,8 +13,10 @@
 #import "MSACDispatcherUtil.h"
 #import "MSACDistribute.h"
 #import "MSACDistributeAppDelegate.h"
+#import "MSACDistributeArchiverUtil.h"
 #import "MSACDistributeInternal.h"
 #import "MSACDistributePrivate.h"
+#import "MSACDistributeUIUtil.h"
 #import "MSACDistributeUtil.h"
 #import "MSACDistributionStartSessionLog.h"
 #import "MSACErrorDetails.h"
@@ -114,6 +116,7 @@ static dispatch_once_t onceToken;
       @"MSErrorDetails" : MSACErrorDetails.self,
       @"MSDistributionStartSessionLog" : MSACDistributionStartSessionLog.self
     }];
+    [MSACDistributeArchiverUtil addAllowedDistributeModuleClasses];
 
     // Init.
     _apiUrl = kMSACDefaultApiUrl;
@@ -290,7 +293,7 @@ static dispatch_once_t onceToken;
     // Start Ingestion.
     self.ingestion = [[MSACDistributeIngestion alloc] initWithHttpClient:httpClient
                                                                  baseUrl:self.apiUrl
-                                                               appSecret:(NSString * _Nonnull) appSecret];
+                                                               appSecret:(NSString *_Nonnull)appSecret];
 
     // Channel group should be started after Ingestion is ready.
     [super startWithChannelGroup:channelGroup appSecret:appSecret transmissionTargetToken:token fromApplication:fromApplication];
@@ -702,7 +705,7 @@ static dispatch_once_t onceToken;
 - (void)openUrlInAuthenticationSessionOrSafari:(NSURL *)url {
 
   if (@available(iOS 13, *)) {
-    if ([MSACDistributeUtil getPresentationAnchor] == nil) {
+    if ([MSACDistributeUIUtil getPresentationAnchor] == nil) {
 
       // Presentation anchor is not available. This means ASWebAuthenticationSession will not be able to open a session.
       // Skipping the update process. It will be resterted once the "applicationDidBecomeActive" is called.
@@ -1388,7 +1391,7 @@ static dispatch_once_t onceToken;
 
 - (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)__unused session
     API_AVAILABLE(ios(13)) {
-  return [MSACDistributeUtil getPresentationAnchor];
+  return [MSACDistributeUIUtil getPresentationAnchor];
 }
 
 @end
