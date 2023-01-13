@@ -3540,6 +3540,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
 			};
@@ -3553,6 +3554,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Distribution";
 			};
@@ -3566,6 +3568,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Development";
 			};
@@ -3579,6 +3582,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 9KBH5RKYEW;
 				INFOPLIST_FILE = "SasquatchSwift-Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.ios.sasquatch.swift.extension;
 				PROVISIONING_PROFILE_SPECIFIER = "Sasquatch ios swift extension Development";
 			};
