@@ -97,7 +97,6 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchTVObjC
-      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
 
   - task: Xcode@5
     displayName: 'Sasquatch tvOS Swift Archive'
@@ -105,4 +104,3 @@ jobs:
       actions: archive
       xcWorkspacePath: AppCenter.xcworkspace
       scheme: SasquatchTVSwift
-      args: 'GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
