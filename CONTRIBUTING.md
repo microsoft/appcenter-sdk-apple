@@ -24,6 +24,7 @@ Please make sure the following is done when submitting a pull request:
 1. Make sure all tests have passed and your code is covered.
 1. If your change includes a fix or feature related to the changelog of the next release, you have to update the **CHANGELOG.md**.
 1. After creating a pull request, sign the CLA, if you haven't already.
+1. Make sure that tge git history is clean, either by using squash merge of a PR or by doing ammend commits during development.
 
 ### Code formatting
 
