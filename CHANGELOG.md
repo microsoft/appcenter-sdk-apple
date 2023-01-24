@@ -6,6 +6,7 @@
 
 * **[Fix]** Fix Unsafe Object Deserialization.
 * **[Fix]** Fix "Collection was mutated while being enumerated" exception in MSACChannelGroupDefault.
+* **[Improvement]** Disable treating warnings as errors in code to avoid blockers when new Xcode warnings are introduced.
 * **[Fix]** Fix crash channel:didPrepareLog in MSACChannelGroupDefault
 
 ### App Center Distribute
