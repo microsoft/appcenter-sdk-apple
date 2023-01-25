@@ -1,5 +1,12 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.0.2 (Under Development)
+
+### App Center
+
+* **[Fix]** Fix NSLog congestion on Apple's Framework Thread.
+ ___
+
 ## Version 5.0.1
 
 ### App Center
