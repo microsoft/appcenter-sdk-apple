@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACLoggerInternal.h"
+#import "MSACNSLogQueueManager.h"
 
 @implementation MSACLogger
 
@@ -78,12 +79,12 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
               file:(const char *)file
           function:(const char *)function
               line:(uint)line {
-    
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        if (currentLogHandler) {
-            currentLogHandler(messageProvider, loglevel, tag, file, function, line);
-        }
-    });
+
+  dispatch_async([[MSACNSLogQueueManager sharedManager] mySerialQueue], ^{
+    if (currentLogHandler) {
+      currentLogHandler(messageProvider, loglevel, tag, file, function, line);
+    }
+  });
 }
 
 + (BOOL)isUserDefinedLogLevel {

@@ -245,6 +245,12 @@
 		9CE97B2B21A4C0B900A1B160 /* MSACUserIdContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */; };
 		9CE97B2C21A4C0BA00A1B160 /* MSACUserIdContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */; };
 		9CE97B2D21A4C0BC00A1B160 /* MSACUserIdContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */; };
+		AF06ADFB29805B8700EB85D6 /* MSACNSLogQueueManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AF06ADFA29805B8700EB85D6 /* MSACNSLogQueueManager.h */; };
+		AF06ADFD29805C4400EB85D6 /* MSACNSLogQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF06ADFC29805C4400EB85D6 /* MSACNSLogQueueManager.m */; };
+		AF06ADFF2981437A00EB85D6 /* MSACNSLogQueueManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AF06ADFA29805B8700EB85D6 /* MSACNSLogQueueManager.h */; };
+		AF06AE002981437C00EB85D6 /* MSACNSLogQueueManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AF06ADFA29805B8700EB85D6 /* MSACNSLogQueueManager.h */; };
+		AF06AE012981438500EB85D6 /* MSACNSLogQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF06ADFC29805C4400EB85D6 /* MSACNSLogQueueManager.m */; };
+		AF06AE022981438600EB85D6 /* MSACNSLogQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF06ADFC29805C4400EB85D6 /* MSACNSLogQueueManager.m */; };
 		AFB5AB0629644BB2002EBC38 /* MSACArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */; };
 		AFB5AB4C29645DCB002EBC38 /* MSACArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */; };
 		AFB5AB4D29645DCD002EBC38 /* MSACArchiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */; };
@@ -1271,6 +1277,8 @@
 		80B7EA2020CA9C9C00DF524C /* MSACEncrypterPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACEncrypterPrivate.h; sourceTree = "<group>"; };
 		9237B60B2244407000C273D8 /* MSACHttpClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACHttpClientTests.m; sourceTree = "<group>"; };
 		9C02498021A4BF3800C7B887 /* MSACUserIdContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACUserIdContextTests.m; sourceTree = "<group>"; };
+		AF06ADFA29805B8700EB85D6 /* MSACNSLogQueueManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACNSLogQueueManager.h; sourceTree = "<group>"; };
+		AF06ADFC29805C4400EB85D6 /* MSACNSLogQueueManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACNSLogQueueManager.m; sourceTree = "<group>"; };
 		AFB5AB0529644BB2002EBC38 /* MSACArchiverUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACArchiverUtil.m; sourceTree = "<group>"; };
 		AFB5AB3E296456B2002EBC38 /* MSACArchiverUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACArchiverUtil.h; sourceTree = "<group>"; };
 		B23507B32118D22800F98D4F /* MSACTicketCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACTicketCache.m; sourceTree = "<group>"; };
@@ -1381,7 +1389,7 @@
 		E83283C41D46C62E000B029E /* MSAC_Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAC_Reachability.h; sourceTree = "<group>"; };
 		E83283C51D46C62E000B029E /* MSAC_Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAC_Reachability.m; sourceTree = "<group>"; };
 		E84B8E2C1D2351DB006FD231 /* MSACChannelGroupDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACChannelGroupDefault.h; sourceTree = "<group>"; };
-		E84B8E2D1D2351DB006FD231 /* MSACChannelGroupDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACChannelGroupDefault.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		E84B8E2D1D2351DB006FD231 /* MSACChannelGroupDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACChannelGroupDefault.m; sourceTree = "<group>"; };
 		E84B8E311D235209006FD231 /* MSACIngestionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSACIngestionProtocol.h; sourceTree = "<group>"; };
 		E84B8E331D235226006FD231 /* MSACHttpIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACHttpIngestion.h; sourceTree = "<group>"; };
 		E84B8E341D235226006FD231 /* MSACHttpIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACHttpIngestion.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1631,6 +1639,8 @@
 				6E0401421D1C99AC0051BCFA /* Internals */,
 				3844FF161E8C261D003E9194 /* Model */,
 				6E0401821D1CAD810051BCFA /* Support */,
+				AF06ADFA29805B8700EB85D6 /* MSACNSLogQueueManager.h */,
+				AF06ADFC29805C4400EB85D6 /* MSACNSLogQueueManager.m */,
 			);
 			path = AppCenter;
 			sourceTree = "<group>";
@@ -2075,6 +2085,7 @@
 				F8936D4E230C2804006A330F /* MSACCommonSchemaLog.h in Headers */,
 				F8936D45230C2804006A330F /* MSACTicketCache.h in Headers */,
 				F8936D68230C2804006A330F /* MSACTypedProperty.h in Headers */,
+				AF06ADFB29805B8700EB85D6 /* MSACNSLogQueueManager.h in Headers */,
 				F8936D6B230C2804006A330F /* MSACAppCenterUserDefaults.h in Headers */,
 				F8936D36230C2804006A330F /* MSACCSEpochAndSeq.h in Headers */,
 				F8936D6F230C2804006A330F /* MSACConstants+Internal.h in Headers */,
@@ -2212,6 +2223,7 @@
 				F8936D8E230C2805006A330F /* MSACCSEpochAndSeq.h in Headers */,
 				F8936DC7230C2805006A330F /* MSACConstants+Internal.h in Headers */,
 				F8936DB1230C2805006A330F /* MSACAbstractLogInternal.h in Headers */,
+				AF06ADFF2981437A00EB85D6 /* MSACNSLogQueueManager.h in Headers */,
 				F8936D0C230C2604006A330F /* MSACOrderedDictionaryPrivate.h in Headers */,
 				F8936CC4230C24D9006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936D0D230C2604006A330F /* MSACEncrypterPrivate.h in Headers */,
@@ -2349,6 +2361,7 @@
 				F8936DE6230C2805006A330F /* MSACCSEpochAndSeq.h in Headers */,
 				F8936E1F230C2805006A330F /* MSACConstants+Internal.h in Headers */,
 				F8936E09230C2805006A330F /* MSACAbstractLogInternal.h in Headers */,
+				AF06AE002981437C00EB85D6 /* MSACNSLogQueueManager.h in Headers */,
 				F8936D20230C2604006A330F /* MSACOrderedDictionaryPrivate.h in Headers */,
 				F8936CD0230C24DA006A330F /* MSACConstants+Flags.h in Headers */,
 				F8936D21230C2604006A330F /* MSACEncrypterPrivate.h in Headers */,
@@ -3284,6 +3297,7 @@
 				F8936C7B230C23F0006A330F /* MSACDeviceTracker.m in Sources */,
 				F8936C7C230C23F0006A330F /* MSACSessionContext.m in Sources */,
 				F8936C7D230C23F0006A330F /* MSACSessionHistoryInfo.m in Sources */,
+				AF06ADFD29805C4400EB85D6 /* MSACNSLogQueueManager.m in Sources */,
 				F8936C7E230C23F0006A330F /* MSACUserIdContext.m in Sources */,
 				244CC1FB2399CA5A00A58F51 /* MSACDependencyConfiguration.m in Sources */,
 				F8936C7F230C23F0006A330F /* MSACUserIdHistoryInfo.m in Sources */,
@@ -3362,6 +3376,7 @@
 				C9A92109230C61820068070D /* MSACNetExtension.m in Sources */,
 				C9A9211C230C61820068070D /* MSACOrderedDictionary.m in Sources */,
 				C9A92108230C61820068070D /* MSACMetadataExtension.m in Sources */,
+				AF06AE012981438500EB85D6 /* MSACNSLogQueueManager.m in Sources */,
 				C9A92112230C61820068070D /* MSACStartServiceLog.m in Sources */,
 				C9A920FA230C61820068070D /* MSACHttpUtil.m in Sources */,
 				C9A92113230C61820068070D /* MSACBooleanTypedProperty.m in Sources */,
@@ -3440,6 +3455,7 @@
 				C9A9214F230C61830068070D /* MSACNetExtension.m in Sources */,
 				C9A92162230C61830068070D /* MSACOrderedDictionary.m in Sources */,
 				C9A9214E230C61830068070D /* MSACMetadataExtension.m in Sources */,
+				AF06AE022981438600EB85D6 /* MSACNSLogQueueManager.m in Sources */,
 				C9A92158230C61830068070D /* MSACStartServiceLog.m in Sources */,
 				C9A92140230C61830068070D /* MSACHttpUtil.m in Sources */,
 				C9A92159230C61830068070D /* MSACBooleanTypedProperty.m in Sources */,
