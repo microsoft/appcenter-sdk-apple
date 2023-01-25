@@ -1389,7 +1389,7 @@
 		E83283C41D46C62E000B029E /* MSAC_Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAC_Reachability.h; sourceTree = "<group>"; };
 		E83283C51D46C62E000B029E /* MSAC_Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAC_Reachability.m; sourceTree = "<group>"; };
 		E84B8E2C1D2351DB006FD231 /* MSACChannelGroupDefault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACChannelGroupDefault.h; sourceTree = "<group>"; };
-		E84B8E2D1D2351DB006FD231 /* MSACChannelGroupDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACChannelGroupDefault.m; sourceTree = "<group>"; };
+		E84B8E2D1D2351DB006FD231 /* MSACChannelGroupDefault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACChannelGroupDefault.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		E84B8E311D235209006FD231 /* MSACIngestionProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MSACIngestionProtocol.h; sourceTree = "<group>"; };
 		E84B8E331D235226006FD231 /* MSACHttpIngestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACHttpIngestion.h; sourceTree = "<group>"; };
 		E84B8E341D235226006FD231 /* MSACHttpIngestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MSACHttpIngestion.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
