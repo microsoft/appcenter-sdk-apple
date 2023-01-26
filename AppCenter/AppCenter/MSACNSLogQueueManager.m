@@ -17,7 +17,7 @@
 
 - (id)init {
   if ((self = [super init])) {
-    _mySerialQueue = dispatch_queue_create("com.microsoft.MSACLogQueueManager", DISPATCH_QUEUE_SERIAL);
+    _loggerDispatchQueue = dispatch_queue_create("com.microsoft.MSACLogQueueManager", DISPATCH_QUEUE_SERIAL);
   }
   return self;
 }

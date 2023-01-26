@@ -6,6 +6,6 @@
 @interface MSACNSLogQueueManager : NSObject
 
 + (MSACNSLogQueueManager *)sharedManager;
-@property(nonatomic, strong) dispatch_queue_t mySerialQueue;
+@property(nonatomic, strong) dispatch_queue_t loggerDispatchQueue;
 
 @end

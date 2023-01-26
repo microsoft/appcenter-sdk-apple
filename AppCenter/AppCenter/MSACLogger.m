@@ -79,12 +79,11 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
               file:(const char *)file
           function:(const char *)function
               line:(uint)line {
-
-  dispatch_async([[MSACNSLogQueueManager sharedManager] mySerialQueue], ^{
-    if (currentLogHandler) {
+  if (currentLogHandler) {
+    dispatch_async([[MSACNSLogQueueManager sharedManager] loggerDispatchQueue], ^{
       currentLogHandler(messageProvider, loglevel, tag, file, function, line);
-    }
-  });
+    });
+  }
 }
 
 + (BOOL)isUserDefinedLogLevel {
