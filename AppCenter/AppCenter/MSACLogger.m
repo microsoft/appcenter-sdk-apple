@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 #import "MSACLoggerInternal.h"
-#import "MSACNSLogQueueManager.h"
 
 @implementation MSACLogger
 
 static MSACLogLevel _currentLogLevel = MSACLogLevelAssert;
 static MSACLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
+static dispatch_queue_t loggerDispatchQueue;
 
 MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvider, MSACLogLevel logLevel, NSString *tag,
                                              __attribute__((unused)) const char *file, const char *function, uint line) {
@@ -45,6 +45,7 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
 
 + (void)initialize {
   currentLogHandler = msDefaultLogHandler;
+  loggerDispatchQueue = dispatch_queue_create("com.example.mySerialQueue", DISPATCH_QUEUE_SERIAL);
 }
 
 + (MSACLogLevel)currentLogLevel {
@@ -80,7 +81,7 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
           function:(const char *)function
               line:(uint)line {
   if (currentLogHandler) {
-    dispatch_async([[MSACNSLogQueueManager sharedManager] loggerDispatchQueue], ^{
+    dispatch_async(loggerDispatchQueue, ^{
       currentLogHandler(messageProvider, loglevel, tag, file, function, line);
     });
   }
