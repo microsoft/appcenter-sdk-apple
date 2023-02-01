@@ -45,7 +45,7 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
 
 + (void)initialize {
   currentLogHandler = msDefaultLogHandler;
-  loggerDispatchQueue = dispatch_queue_create("com.example.mySerialQueue", DISPATCH_QUEUE_SERIAL);
+  loggerDispatchQueue = dispatch_queue_create("com.microsoft.appcenter.loggerQueue", DISPATCH_QUEUE_SERIAL);
 }
 
 + (MSACLogLevel)currentLogLevel {
