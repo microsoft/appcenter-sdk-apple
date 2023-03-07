@@ -25,7 +25,7 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
                       forceOverwrite:(BOOL)forceOverwrite {
   @synchronized(self) {
     if (filePathComponent) {
-      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent isDirectory:NO];
 
       // Check if item already exists. We need to check this as writeToURL:atomically: can override an existing file.
       if (!forceOverwrite && [fileURL checkResourceIsReachableAndReturnError:nil]) {
@@ -51,7 +51,7 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
 + (BOOL)deleteItemForPathComponent:(NSString *)itemPathComponent {
   @synchronized(self) {
     if (itemPathComponent) {
-      NSURL *itemURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:itemPathComponent];
+      NSURL *itemURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:itemPathComponent isDirectory:YES];
       NSError *error = nil;
       BOOL succeeded;
       succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
@@ -89,7 +89,7 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
 + (NSURL *)createDirectoryForPathComponent:(NSString *)directoryPathComponent {
   @synchronized(self) {
     if (directoryPathComponent) {
-      NSURL *subDirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directoryPathComponent];
+      NSURL *subDirURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:directoryPathComponent isDirectory:YES];
       BOOL success = [self createDirectoryAtURL:subDirURL];
       return success ? subDirURL : nil;
     }
@@ -100,7 +100,7 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
 + (NSData *)loadDataForPathComponent:(NSString *)filePathComponent {
   @synchronized(self) {
     if (filePathComponent) {
-      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+      NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent isDirectory:NO];
       return [NSData dataWithContentsOfURL:fileURL];
     }
     return nil;
@@ -133,7 +133,7 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
 
 + (BOOL)fileExistsForPathComponent:(NSString *)filePathComponent {
   {
-    NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+    NSURL *fileURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent isDirectory:NO];
     return [fileURL checkResourceIsReachableAndReturnError:nil];
   }
 }
@@ -141,7 +141,7 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
 + (NSURL *)fullURLForPathComponent:(NSString *)filePathComponent {
   {
     if (filePathComponent) {
-      return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent];
+      return [[self appCenterDirectoryURL] URLByAppendingPathComponent:filePathComponent isDirectory:NO];
     }
     return nil;
   }
@@ -168,9 +168,9 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
 
     // Use the application's bundle identifier for macOS to make sure to use separate directories for each app.
     NSString *bundleIdentifier = [NSString stringWithFormat:@"%@/", [MSAC_APP_MAIN_BUNDLE bundleIdentifier]];
-    dirURL = [[baseDirUrl URLByAppendingPathComponent:bundleIdentifier] URLByAppendingPathComponent:kMSACAppCenterBundleIdentifier];
+    dirURL = [[baseDirUrl URLByAppendingPathComponent:bundleIdentifier isDirectory:YES] URLByAppendingPathComponent:kMSACAppCenterBundleIdentifier isDirectory:YES];
 #else
-    dirURL = [baseDirUrl URLByAppendingPathComponent:kMSACAppCenterBundleIdentifier];
+    dirURL = [baseDirUrl URLByAppendingPathComponent:kMSACAppCenterBundleIdentifier isDirectory:YES];
 #endif
     [self createDirectoryAtURL:dirURL];
   });
