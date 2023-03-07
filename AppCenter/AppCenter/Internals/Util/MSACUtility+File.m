@@ -51,7 +51,7 @@ static NSString *const kMSACAppCenterBundleIdentifier = @"com.microsoft.appcente
 + (BOOL)deleteItemForPathComponent:(NSString *)itemPathComponent {
   @synchronized(self) {
     if (itemPathComponent) {
-      NSURL *itemURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:itemPathComponent isDirectory:YES];
+      NSURL *itemURL = [[self appCenterDirectoryURL] URLByAppendingPathComponent:itemPathComponent];
       NSError *error = nil;
       BOOL succeeded;
       succeeded = [[NSFileManager defaultManager] removeItemAtURL:itemURL error:&error];
