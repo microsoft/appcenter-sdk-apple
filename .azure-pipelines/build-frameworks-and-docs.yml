@@ -42,7 +42,7 @@ jobs:
       scheme: 'All App Center Frameworks'
       xcodeVersion: specifyPath
       xcodeDeveloperDir: '$(XCODE_PATH)'
-      args: 'SYMROOT="$(Build.BinariesDirectory)"'
+      args: 'SYMROOT="$(Build.BinariesDirectory)" GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
     timeoutInMinutes: 50
 
   - task: Xcode@5

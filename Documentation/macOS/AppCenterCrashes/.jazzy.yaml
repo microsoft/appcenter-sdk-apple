@@ -5,7 +5,7 @@ sdk: macosx
 theme: ../../Themes/apple
 
 module: AppCenterCrashes
-module_version: 5.0.1
+module_version: 5.0.2
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 

@@ -8,6 +8,7 @@
 static MSACLogLevel _currentLogLevel = MSACLogLevelAssert;
 static MSACLogHandler currentLogHandler;
 static BOOL _isUserDefinedLogLevel = NO;
+static dispatch_queue_t loggerDispatchQueue;
 
 MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvider, MSACLogLevel logLevel, NSString *tag,
                                              __attribute__((unused)) const char *file, const char *function, uint line) {
@@ -44,6 +45,7 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
 
 + (void)initialize {
   currentLogHandler = msDefaultLogHandler;
+  loggerDispatchQueue = dispatch_queue_create("com.microsoft.appcenter.loggerQueue", DISPATCH_QUEUE_SERIAL);
 }
 
 + (MSACLogLevel)currentLogLevel {
@@ -78,12 +80,11 @@ MSACLogHandler const msDefaultLogHandler = ^(MSACLogMessageProvider messageProvi
               file:(const char *)file
           function:(const char *)function
               line:(uint)line {
-    
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        if (currentLogHandler) {
-            currentLogHandler(messageProvider, loglevel, tag, file, function, line);
-        }
+  if (currentLogHandler) {
+    dispatch_async(loggerDispatchQueue, ^{
+      currentLogHandler(messageProvider, loglevel, tag, file, function, line);
     });
+  }
 }
 
 + (BOOL)isUserDefinedLogLevel {

@@ -1,5 +1,15 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.0.2
+
+### App Center
+
+* **[Fix]** Fix NSLog congestion on Apple's Framework Thread.
+* **[Improvement]** Always specify `isDirectory` parameter for `[NSURL URLByAppendingPathComponent:]` for better performace.
+* **[Improvement]** Disable treating warnings as errors in code to avoid blockers when new Xcode warnings are introduced.
+
+ ___
+
 ## Version 5.0.1
 
 ### App Center
