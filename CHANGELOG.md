@@ -23,19 +23,6 @@
 * **[Fix]** Fix crash in getPresentationAnchor function if the active scene is not an instance of UIWindowScene.
  ___
 
-## Version 5.0.1
-
-### App Center
-
-* **[Fix]** Fix Unsafe Object Deserialization.
-* **[Fix]** Fix "Collection was mutated while being enumerated" exception in MSACChannelGroupDefault.
-* **[Fix]** Fix crash channel:didPrepareLog in MSACChannelGroupDefault
-
-### App Center Distribute
-
-* **[Fix]** Fix crash in getPresentationAnchor function if the active scene is not an instance of UIWindowScene.
- ___
-
 ## Version 5.0.0
 
 ### App Center
