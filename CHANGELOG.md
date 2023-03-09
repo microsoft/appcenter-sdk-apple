@@ -5,6 +5,8 @@
 ### App Center
 
 * **[Fix]** Fix NSLog congestion on Apple's Framework Thread.
+* **[Improvement]** Always specify `isDirectory` parameter for `[NSURL URLByAppendingPathComponent:]` for better performace.
+
  ___
 
 ## Version 5.0.1
