@@ -79,7 +79,7 @@ let package = Package(
             exclude: ["Support"],
             cSettings: {
                 var settings: [CSetting] = [
-                    .define("APP_CENTER_C_VERSION", to:"\"5.0.1\""),
+                    .define("APP_CENTER_C_VERSION", to:"\"5.0.2\""),
                     .define("APP_CENTER_C_BUILD", to: "\"1\"")
                 ]
                 settings.append(contentsOf: cHeaderSearchPaths)
