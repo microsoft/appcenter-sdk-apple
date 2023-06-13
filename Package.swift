@@ -41,6 +41,7 @@ let projectHeaderSearchPaths = [
     "../../AppCenterCrashes/AppCenterCrashes/WrapperSDKUtilities",
     "../../AppCenterDistribute/AppCenterDistribute/Internals",
     "../../AppCenterDistribute/AppCenterDistribute/Internals/Channel",
+    "../../AppCenterDistribute/AppCenterDistribute/Internals/Ingestion",
     "../../AppCenterDistribute/AppCenterDistribute/Internals/Model",
     "../../AppCenterDistribute/AppCenterDistribute/Internals/Version",
     "../../AppCenterDistribute/AppCenterDistribute/Internals/Util",
