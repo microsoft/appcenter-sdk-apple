@@ -2,6 +2,8 @@
 
 ## Version 5.0.3 (Under development)
 
+* **[Fix]** Fix the build issue with Xcode 15 beta when integrating via Swift Package Manager.
+
 ## Version 5.0.2
 
 ### App Center
