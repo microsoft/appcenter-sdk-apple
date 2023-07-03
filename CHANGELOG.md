@@ -1,5 +1,9 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.0.3
+
+* **[Fix]** Fix the build issue with Xcode 15 beta when integrating via Swift Package Manager.
+
 ## Version 5.0.2
 
 ### App Center
