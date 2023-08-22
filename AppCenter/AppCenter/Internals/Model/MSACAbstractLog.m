@@ -31,6 +31,7 @@ static NSString *const kMSACAppNamespacePrefix = @"I";
 @synthesize sid = _sid;
 @synthesize distributionGroupId = _distributionGroupId;
 @synthesize userId = _userId;
+@synthesize dataResidencyRegion = _dataResidencyRegion;
 @synthesize device = _device;
 @synthesize tag = _tag;
 
@@ -62,6 +63,9 @@ static NSString *const kMSACAppNamespacePrefix = @"I";
   if (self.device) {
     dict[kMSACDevice] = [self.device serializeToDictionary];
   }
+  if (self.dataResidencyRegion) {
+    dict[kMSACDataResidencyRegion] = self.dataResidencyRegion;
+  }
   return dict;
 }
 
@@ -80,7 +84,9 @@ static NSString *const kMSACAppNamespacePrefix = @"I";
          ((!self.sid && !log.sid) || [self.sid isEqualToString:log.sid]) &&
          ((!self.distributionGroupId && !log.distributionGroupId) || [self.distributionGroupId isEqualToString:log.distributionGroupId]) &&
          ((!self.userId && !log.userId) || [self.userId isEqualToString:log.userId]) &&
-         ((!self.device && !log.device) || [self.device isEqual:log.device]);
+         ((!self.device && !log.device) || [self.device isEqual:log.device]) &&
+         ((!self.dataResidencyRegion && !log.dataResidencyRegion) || [self.dataResidencyRegion isEqualToString:log.dataResidencyRegion]);
+
 }
 
 #pragma mark - NSCoding
@@ -98,6 +104,7 @@ static NSString *const kMSACAppNamespacePrefix = @"I";
     _distributionGroupId = [coder decodeObjectForKey:kMSACDistributionGroupId];
     _userId = [coder decodeObjectForKey:kMSACUserId];
     _device = [coder decodeObjectForKey:kMSACDevice];
+    _dataResidencyRegion = [coder decodeObjectForKey:kMSACDataResidencyRegion];
   }
   return self;
 }
@@ -109,6 +116,7 @@ static NSString *const kMSACAppNamespacePrefix = @"I";
   [coder encodeObject:self.distributionGroupId forKey:kMSACDistributionGroupId];
   [coder encodeObject:self.userId forKey:kMSACUserId];
   [coder encodeObject:self.device forKey:kMSACDevice];
+  [coder encodeObject:self.dataResidencyRegion forKey:kMSACDataResidencyRegion];
 }
 
 #pragma mark - Utility
