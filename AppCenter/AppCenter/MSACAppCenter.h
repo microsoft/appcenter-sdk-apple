@@ -179,6 +179,11 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic, strong) NSString *userId;
 
 /**
+ * Data residency identifier.
+ */
+@property(nonatomic, strong) NSString *dataResidencyRegion;
+
+/**
  * Set country code to use when building device properties.
  *
  * @see https://www.iso.org/obp/ui/#search for more information.

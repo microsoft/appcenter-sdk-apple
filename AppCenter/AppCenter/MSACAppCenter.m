@@ -194,6 +194,10 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   return [MSACUserIdContext sharedInstance].userId;
 }
 
++ (NSString *)dataResidencyRegion {
+  return [MSACAppCenter sharedInstance].dataResidencyRegion;
+}
+
 + (MSACLogHandler)logHandler {
   return MSACLogger.logHandler;
 }
@@ -252,6 +256,10 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 
 + (void)setUserId:(NSString *)userId {
   [[MSACAppCenter sharedInstance] setUserId:userId];
+}
+
++ (void)setDataResidencyRegion:(NSString *)dataResidencyRegion {
+  [MSACAppCenter sharedInstance].dataResidencyRegion=dataResidencyRegion;
 }
 
 + (void)setCountryCode:(NSString *)countryCode {
