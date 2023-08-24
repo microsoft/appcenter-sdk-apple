@@ -1034,6 +1034,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   // Send attachments log to log manager.
   for (MSACErrorAttachmentLog *attachment in errorAttachments) {
     attachment.errorId = incidentIdentifier;
+    attachment.dataResidencyRegion = [[MSACAppCenter sharedInstance] dataResidencyRegion];
     if (![MSACCrashes validatePropertiesForAttachment:attachment]) {
       MSACLogError([MSACCrashes logTag], @"Not all required fields are present in MSACErrorAttachmentLog.");
       continue;
@@ -1339,6 +1340,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
     // Second, get correlated user Id.
     log.userId = [[MSACUserIdContext sharedInstance] userIdAt:log.timestamp];
+    
+    // Get data residency region.
+    log.dataResidencyRegion = [[MSACAppCenter sharedInstance] dataResidencyRegion];
 
     // Then, enqueue crash log.
     [self.channelUnit enqueueItem:log flags:MSACFlagsCritical];
@@ -1386,6 +1390,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
     // Set userId to the error log.
     log.userId = [[MSACUserIdContext sharedInstance] userId];
+
+    // Set data residency region.
+    log.dataResidencyRegion = [[MSACAppCenter sharedInstance] dataResidencyRegion];
 
     // Set properties of the error log.
     log.errorId = MSAC_UUID_STRING;

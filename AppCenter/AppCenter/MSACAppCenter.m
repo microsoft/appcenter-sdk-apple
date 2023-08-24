@@ -259,7 +259,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (void)setDataResidencyRegion:(NSString *)dataResidencyRegion {
-  [MSACAppCenter sharedInstance].dataResidencyRegion=dataResidencyRegion;
+  [[MSACAppCenter sharedInstance] setDataResidencyRegion:dataResidencyRegion];
 }
 
 + (void)setCountryCode:(NSString *)countryCode {
@@ -582,6 +582,9 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
     }
   }
   [[MSACUserIdContext sharedInstance] setUserId:userId];
+}
+- (void)setDataResidencyRegion:(NSString *)dataResidencyRegion {
+  [MSACAppCenter sharedInstance].dataResidencyRegion=dataResidencyRegion;
 }
 
 - (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
