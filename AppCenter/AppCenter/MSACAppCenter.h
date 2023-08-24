@@ -110,6 +110,11 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic, strong) NSString *logUrl;
 
 /**
+ * Data residency identifier.
+ */
+@property(class, nonatomic, strong) NSString *dataResidencyRegion;
+
+/**
  * Set log handler.
  */
 @property(class, nonatomic) MSACLogHandler logHandler;
@@ -177,11 +182,6 @@ NS_SWIFT_NAME(AppCenter)
  * AppCenter must be configured or started before this API can be used.
  */
 @property(class, nonatomic, strong) NSString *userId;
-
-/**
- * Data residency identifier.
- */
-@property(nonatomic, strong) NSString *dataResidencyRegion;
 
 /**
  * Set country code to use when building device properties.
