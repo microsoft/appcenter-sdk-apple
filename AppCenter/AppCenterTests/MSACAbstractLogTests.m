@@ -33,6 +33,7 @@
   self.sut.timestamp = [NSDate dateWithTimeIntervalSince1970:0];
   self.sut.sid = @"FAKE-SESSION-ID";
   self.sut.distributionGroupId = @"FAKE-GROUP-ID";
+  self.sut.dataResidencyRegion = @"FAKE-DATA-RESIDENCY-REGION";
   self.sut.userId = @"FAKE-USER-ID";
   self.sut.device = OCMPartialMock([MSACDevice new]);
 
@@ -57,6 +58,7 @@
   assertThat(actual[@"timestamp"], equalTo(@"1970-01-01T00:00:00.000Z"));
   assertThat(actual[@"sid"], equalTo(@"FAKE-SESSION-ID"));
   assertThat(actual[@"distributionGroupId"], equalTo(@"FAKE-GROUP-ID"));
+  assertThat(actual[@"dataResidencyRegion"], equalTo(@"FAKE-DATA-RESIDENCY-REGION"));
   assertThat(actual[@"userId"], equalTo(@"FAKE-USER-ID"));
   assertThat(actual[@"device"], equalTo(@{}));
 }
@@ -76,6 +78,7 @@
   assertThat(actualLog.timestamp, equalTo(self.sut.timestamp));
   assertThat(actualLog.sid, equalTo(self.sut.sid));
   assertThat(actualLog.distributionGroupId, equalTo(self.sut.distributionGroupId));
+  assertThat(actualLog.dataResidencyRegion, equalTo(self.sut.dataResidencyRegion));
   assertThat(actualLog.userId, equalTo(self.sut.userId));
   assertThat(actualLog.device, equalTo(self.sut.device));
 }
@@ -126,6 +129,7 @@
   log.timestamp = self.sut.timestamp;
   log.sid = self.sut.sid;
   log.distributionGroupId = self.sut.distributionGroupId;
+  log.dataResidencyRegion = self.sut.dataResidencyRegion;
   log.userId = self.sut.userId;
   log.device = self.sut.device;
   log.tag = self.sut.tag;
@@ -174,6 +178,7 @@
   assertThat([actualDict objectForKey:@"timestamp"], equalTo(@"1970-01-01T00:00:00.000Z"));
   assertThat([actualDict objectForKey:@"sid"], equalTo(@"FAKE-SESSION-ID"));
   assertThat([actualDict objectForKey:@"distributionGroupId"], equalTo(@"FAKE-GROUP-ID"));
+  assertThat([actualDict objectForKey:@"dataResidencyRegion"], equalTo(@"FAKE-DATA-RESIDENCY-REGION"));
   assertThat([actualDict objectForKey:@"userId"], equalTo(@"FAKE-USER-ID"));
   assertThat([actualDict objectForKey:@"device"], equalTo(@{}));
 }
