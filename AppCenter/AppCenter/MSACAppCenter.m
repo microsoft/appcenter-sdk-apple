@@ -249,7 +249,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (NSString *)dataResidencyRegion {
-  return [[self sharedInstance] dataResidencyRegion];
+  return [[MSACAppCenter sharedInstance] dataResidencyRegion];
 }
 
 + (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
@@ -261,7 +261,7 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 }
 
 + (void)setDataResidencyRegion:(NSString *)dataResidencyRegion {
-  [[self sharedInstance] setDataResidencyRegion:dataResidencyRegion];
+  [[MSACAppCenter sharedInstance] setDataResidencyRegion:dataResidencyRegion];
 }
 
 + (void)setCountryCode:(NSString *)countryCode {
