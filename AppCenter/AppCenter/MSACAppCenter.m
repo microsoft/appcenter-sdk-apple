@@ -586,12 +586,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   [[MSACUserIdContext sharedInstance] setUserId:userId];
 }
 
-- (void)setDataResidencyRegion:(NSString *)dataResidencyRegion {
-  @synchronized(self) {
-    _dataResidencyRegion = dataResidencyRegion;
-  }
-}
-
 - (void)setNetworkRequestsAllowed:(BOOL)isAllowed {
   @synchronized(self) {
     MSACLogInfo([MSACAppCenter logTag], @"App Center SDK network requests are %@.", isAllowed ? @"allowed" : @"forbidden");
@@ -729,10 +723,6 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 
 - (NSString *)appSecret {
   return _appSecret;
-}
-
-- (NSString *)dataResidencyRegion {
-  return _dataResidencyRegion;
 }
 
 - (NSUUID *)installId {
