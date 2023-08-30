@@ -1339,7 +1339,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 
     // Second, get correlated user Id.
     log.userId = [[MSACUserIdContext sharedInstance] userIdAt:log.timestamp];
-    
+
     // Then, enqueue crash log.
     [self.channelUnit enqueueItem:log flags:MSACFlagsCritical];
 
