@@ -35,6 +35,9 @@ class AppCenterDelegateSwift : AppCenterDelegate {
   func setUserId(_ userId: String?) {
     AppCenter.userId = userId;
   }
+  func setDataResidencyRegion(_ dataResidencyRegion: String?) {
+    AppCenter.dataResidencyRegion = dataResidencyRegion;
+  }
   func setLogUrl(_ logUrl: String?) {
     AppCenter.logUrl = logUrl;
   }

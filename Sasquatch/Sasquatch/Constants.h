@@ -9,6 +9,7 @@ static NSString *const kMSUpdateTrackKey = @"kMSUpdateTrackKey";
 static NSString *const kMSChildTransmissionTargetTokenKey = @"kMSChildTransmissionTargetToken";
 static NSString *const kMSTransmissionIterval = @"kMSTransmissionIterval";
 static NSString *const kMSManualSessionTracker = @"kMSManualSessionTracker";
+static NSString *const kMSACDataResidencyRegion = @"kMSACDataResidencyRegion";
 
 static NSString *const kMSStartTargetKey = @"startTarget";
 static NSString *const kMSStorageMaxSizeKey = @"storageMaxSize";

@@ -48,6 +48,10 @@
   [MSACAppCenter setUserId:userId];
 }
 
+- (void)setDataResidencyRegion:(NSString *)dataResidencyRegion {
+  [MSACAppCenter setDataResidencyRegion:dataResidencyRegion];
+}
+
 - (void)setLogUrl:(NSString *)logUrl {
   [MSACAppCenter setLogUrl:logUrl];
 }

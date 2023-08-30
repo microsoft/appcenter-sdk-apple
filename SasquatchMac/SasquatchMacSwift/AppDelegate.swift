@@ -121,6 +121,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, CrashesDelegate, CLLocationM
     if userId != nil {
       AppCenter.userId = userId
     }
+    
+    // Set data residency region.
+    let dataResidencyRegion = UserDefaults.standard.string(forKey: kMSACDataResidencyRegion)
+    if dataResidencyRegion != nil {
+      AppCenter.dataResidencyRegion = dataResidencyRegion
+    }
 
     AppCenterProvider.shared().appCenter = AppCenterDelegateSwift()
 

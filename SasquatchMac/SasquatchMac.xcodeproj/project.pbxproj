@@ -924,7 +924,7 @@
 					};
 					D3C31C211E8E75B300B288CE = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = 285W24646W;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -934,7 +934,7 @@
 					};
 					D3C31C5F1E8E763600B288CE = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = 285W24646W;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -944,7 +944,7 @@
 					};
 					F8EE645A231E6F8E0007A52E = {
 						CreatedOnToolsVersion = 10.2.1;
-						DevelopmentTeam = UBF8T346G9;
+						DevelopmentTeam = 285W24646W;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
@@ -1601,9 +1601,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = 285W24646W;
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
@@ -1615,9 +1615,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacObjC/SasquatchMacObjC.entitlements;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = 285W24646W;
 				INFOPLIST_FILE = SasquatchMacObjC/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.objc;
 				PROVISIONING_PROFILE = "";
@@ -1631,7 +1631,7 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = 285W24646W;
 				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
@@ -1645,7 +1645,7 @@
 				CODE_SIGN_ENTITLEMENTS = SasquatchMacSwift/SasquatchMacSwift.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = 285W24646W;
 				INFOPLIST_FILE = SasquatchMacSwift/Info.plist;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift;
 				PROVISIONING_PROFILE = "";
@@ -1659,7 +1659,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Extension/SasquatchMacSwift_Today_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = 285W24646W;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift.extension;
 				PROVISIONING_PROFILE = "";
@@ -1673,7 +1673,7 @@
 				CODE_SIGN_ENTITLEMENTS = "SasquatchMacSwift-Extension/SasquatchMacSwift_Today_Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UBF8T346G9;
+				DEVELOPMENT_TEAM = 285W24646W;
 				INFOPLIST_FILE = "SasquatchMacSwift-Extension/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.appcenter.native.macos.sasquatch.swift.extension;
 				PROVISIONING_PROFILE = "";

@@ -66,6 +66,10 @@ class AppCenterDelegateSwift: AppCenterDelegate {
     AppCenter.userId = userId;
   }
   
+  func setDataResidencyRegion(_ dataResidencyRegion: String?) {
+    AppCenter.dataResidencyRegion = dataResidencyRegion;
+  }
+  
   func setCountryCode(_ countryCode: String?) {
     AppCenter.countryCode = countryCode;
   }

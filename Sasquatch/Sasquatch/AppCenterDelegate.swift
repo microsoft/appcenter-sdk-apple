@@ -23,6 +23,7 @@ import AppCenterCrashes
   func isDebuggerAttached() -> Bool
   func startAnalyticsFromLibrary()
   func setUserId(_ userId: String?)
+  func setDataResidencyRegion(_ dataResidencyRegion: String?)
   func setLogUrl(_ logUrl: String?)
   func setCountryCode(_ countryCode: String?)
   func isNetworkRequestsAllowed() -> Bool
