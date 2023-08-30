@@ -110,7 +110,7 @@ NS_SWIFT_NAME(AppCenter)
 @property(class, nonatomic, strong) NSString *logUrl;
 
 /**
- * Data residency identifier.
+ * Data residency region.
  */
 @property(class, nonatomic, strong) NSString *dataResidencyRegion;
 

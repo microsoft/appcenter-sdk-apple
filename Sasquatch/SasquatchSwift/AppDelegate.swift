@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     // Set data residency region
     let dataResidencyRegion = UserDefaults.standard.string(forKey: kMSACDataResidencyRegion)
     if dataResidencyRegion != nil {
-      AppCenter.dataResidencyRegion = userId;
+      AppCenter.dataResidencyRegion = dataResidencyRegion;
     }
 
     // Crashes Delegate.
