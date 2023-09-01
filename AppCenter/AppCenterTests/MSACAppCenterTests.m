@@ -1071,7 +1071,7 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   [MSACAppCenter setDataResidencyRegion:expectedDataResidencyRegion];
 
   // Then
-  XCTAssertEqualObjects(expectedDataResidencyRegion, [MSACAppCenter sharedInstance].dataResidencyRegion);
+  XCTAssertEqualObjects(expectedDataResidencyRegion, [MSACAppCenter dataResidencyRegion]);
 }
 
 @end

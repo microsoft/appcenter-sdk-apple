@@ -163,6 +163,14 @@
 
   // Then
   XCTAssertFalse([self.sut isEqual:log]);
+
+  // When 
+  self.sut.userId = @"FAKE-USER-ID";
+  self.sut.dataResidencyRegion = @"FAKE-NEW-DATA-RESIDENCY-REGION";
+
+  // Then
+  XCTAssertFalse([self.sut isEqual:log]);
+
 }
 
 - (void)testSerializingToJsonWorks {
