@@ -92,6 +92,12 @@ enum StartupMode { appCenter, oneCollector, both, none, skip };
     [MSACAppCenter setUserId:userId];
   }
 
+  // Set data residency region.
+  NSString *dataResidencyRegion = [[NSUserDefaults standardUserDefaults] objectForKey:kMSACDataResidencyRegion];
+  if (dataResidencyRegion) {
+    [MSACAppCenter setDataResidencyRegion:dataResidencyRegion];
+  }
+  
   [AppCenterProvider shared].appCenter = [[AppCenterDelegateObjC alloc] init];
   [self initUI];
   [self overrideCountryCode];

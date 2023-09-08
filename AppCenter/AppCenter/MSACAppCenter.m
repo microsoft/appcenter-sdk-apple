@@ -56,6 +56,8 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
 
 @synthesize logUrl = _logUrl;
 
+@synthesize dataResidencyRegion = _dataResidencyRegion;
+
 + (instancetype)sharedInstance {
   dispatch_once(&onceToken, ^{
     if (sharedInstance == nil) {
@@ -246,12 +248,20 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
   return kMSACGroupId;
 }
 
++ (NSString *)dataResidencyRegion {
+  return [[MSACAppCenter sharedInstance] dataResidencyRegion];
+}
+
 + (void)setMaxStorageSize:(long)sizeInBytes completionHandler:(void (^)(BOOL))completionHandler {
   [[MSACAppCenter sharedInstance] setMaxStorageSize:sizeInBytes completionHandler:completionHandler];
 }
 
 + (void)setUserId:(NSString *)userId {
   [[MSACAppCenter sharedInstance] setUserId:userId];
+}
+
++ (void)setDataResidencyRegion:(NSString *)dataResidencyRegion {
+  [[MSACAppCenter sharedInstance] setDataResidencyRegion:dataResidencyRegion];
 }
 
 + (void)setCountryCode:(NSString *)countryCode {
