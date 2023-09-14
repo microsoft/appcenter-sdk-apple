@@ -87,6 +87,9 @@ static NSString *const kMSACStartTimestampPrefix = @"ChannelStartTimer";
   if (item && !item.device) {
     item.device = [[MSACDeviceTracker sharedInstance] device];
   }
+  if (item && !item.dataResidencyRegion) {
+    item.dataResidencyRegion = [MSACAppCenter dataResidencyRegion];
+  }
   if (!item || ![item isValid]) {
     MSACLogWarning([MSACAppCenter logTag], @"Log is not valid.");
     return;

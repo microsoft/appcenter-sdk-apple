@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString *const kMSACDataResidencyRegion = @"dataResidencyRegion";
 static NSString *const kMSACDevice = @"device";
 static NSString *const kMSACDistributionGroupId = @"distributionGroupId";
 static NSString *const kMSACSId = @"sid";

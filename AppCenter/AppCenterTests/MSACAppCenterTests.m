@@ -1065,4 +1065,13 @@ static NSString *const kMSACNullifiedInstallIdString = @"00000000-0000-0000-0000
   XCTAssertEqual(tokenObject, self.channelGroupMock);
 }
 
+- (void)testSetDataResidencyRegion {
+  // If
+  NSString *expectedDataResidencyRegion = @"rg";
+  [MSACAppCenter setDataResidencyRegion:expectedDataResidencyRegion];
+
+  // Then
+  XCTAssertEqualObjects(expectedDataResidencyRegion, [MSACAppCenter dataResidencyRegion]);
+}
+
 @end

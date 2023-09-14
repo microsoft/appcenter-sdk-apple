@@ -125,6 +125,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CrashesDelegate, CLLocati
     if userId != nil {
       AppCenter.userId = userId;
     }
+    
+    // Set data residency region
+    let dataResidencyRegion = UserDefaults.standard.string(forKey: kMSACDataResidencyRegion)
+    if dataResidencyRegion != nil {
+      AppCenter.dataResidencyRegion = dataResidencyRegion;
+    }
 
     // Crashes Delegate.
     Crashes.userConfirmationHandler = ({ (errorReports: [ErrorReport]) in

@@ -1393,14 +1393,16 @@ static NSString *const kMSACTestGroupId = @"GroupId";
                                }];
 }
 
-- (void)testDeviceAndTimestampAreAddedOnEnqueuing {
+- (void)testDeviceAndTimestampAndDataResidencyRegionAreAddedOnEnqueuing {
 
   // If
   MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
   id<MSACLog> mockLog = [self getValidMockLog];
   mockLog.device = nil;
   mockLog.timestamp = nil;
+  mockLog.dataResidencyRegion = nil;
   [self initChannelEndJobExpectation];
+  [MSACAppCenter setDataResidencyRegion:@"RG1"];
 
   // When
   [channel enqueueItem:mockLog flags:MSACFlagsDefault];
@@ -1408,6 +1410,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   // Then
   XCTAssertNotNil(mockLog.device);
   XCTAssertNotNil(mockLog.timestamp);
+  XCTAssertNotNil(mockLog.dataResidencyRegion);
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:kMSACTestTimeout
                                handler:^(NSError *error) {
@@ -1417,13 +1420,14 @@ static NSString *const kMSACTestGroupId = @"GroupId";
                                }];
 }
 
-- (void)testDeviceAndTimestampAreNotOverwrittenOnEnqueuing {
+- (void)testDeviceAndTimestampAndDataResidencyRegionAreNotOverwrittenOnEnqueuing {
 
   // If
   MSACChannelUnitDefault *channel = [self createChannelUnitDefault];
   id<MSACLog> mockLog = [self getValidMockLog];
   MSACDevice *device = mockLog.device = [MSACDevice new];
   NSDate *timestamp = mockLog.timestamp = [NSDate new];
+  NSString *dataResidencyRegion = mockLog.dataResidencyRegion = @"RG1";
   [self initChannelEndJobExpectation];
 
   // When
@@ -1432,6 +1436,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   // Then
   XCTAssertEqual(mockLog.device, device);
   XCTAssertEqual(mockLog.timestamp, timestamp);
+  XCTAssertEqual(mockLog.dataResidencyRegion, dataResidencyRegion);
   [self enqueueChannelEndJobExpectation];
   [self waitForExpectationsWithTimeout:kMSACTestTimeout
                                handler:^(NSError *error) {

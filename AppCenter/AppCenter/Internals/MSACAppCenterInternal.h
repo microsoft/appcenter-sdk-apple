@@ -49,6 +49,8 @@ static NSString *const kMSACTrueEnvironmentString = @"1";
 
 @property(atomic, copy) NSString *logUrl;
 
+@property(atomic, copy) NSString *dataResidencyRegion;
+
 @property(nonatomic, readonly) NSUUID *installId;
 
 @property(nonatomic) NSNumber *requestedMaxStorageSizeInBytes;
@@ -109,6 +111,13 @@ static NSString *const kMSACTrueEnvironmentString = @"1";
  * @return The log URL.
  */
 - (NSString *)logUrl;
+
+/**
+ * Get the data residency region.
+ *
+ * @return data residency region.
+ */
+- (NSString *)dataResidencyRegion;
 
 /**
  * Get the app secret.

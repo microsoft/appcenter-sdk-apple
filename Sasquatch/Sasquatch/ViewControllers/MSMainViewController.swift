@@ -39,7 +39,9 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
   @IBOutlet weak var setAppSecretButton: UIButton!
   @IBOutlet weak var overrideCountryCodeButton: UIButton!
   @IBOutlet weak var userId: UILabel!
+  @IBOutlet weak var dataResidencyRegion: UILabel!
   @IBOutlet weak var setUserIdButton: UIButton!
+  @IBOutlet weak var setDataResidencyRegionButton: UIButton!
   
   var appCenter: AppCenterDelegate!
   private var startupModePicker: MSEnumPicker<StartupMode>?
@@ -119,6 +121,7 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
     self.sdkVersion.text = appCenter.sdkVersion()
     self.deviceIdLabel.text = UIDevice.current.identifierForVendor?.uuidString
     self.userId.text = self.showUserId()
+    self.dataResidencyRegion.text = self.showDataResidencyRegion()
     self.setAppSecretButton.isEnabled = StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.AppCenter || StartupMode.allValues[startUpModeForCurrentSession] == StartupMode.Both
 
     // Make sure the UITabBarController does not cut off the last cell.
@@ -195,6 +198,33 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
         UserDefaults.standard.removeObject(forKey: kMSUserIdKey)
         self.appCenter.setUserId(nil)
         self.userId.text = self.showUserId()
+    })
+    alertController.addAction(cancelAction)
+    alertController.addAction(saveAction)
+    alertController.addAction(resetAction)
+    self.present(alertController, animated: true, completion: nil)
+  }
+  
+  @IBAction func dataResidencyRegionSetting(_ sender: UIButton) {
+    let alertController = UIAlertController(title: "Data Residency Region",
+                                            message: nil,
+                                            preferredStyle:.alert)
+    alertController.addTextField { (dataResidencyRegionTextField) in
+        dataResidencyRegionTextField.text = UserDefaults.standard.string(forKey: kMSACDataResidencyRegion)
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
+        (_ action : UIAlertAction) -> Void in
+        let text = alertController.textFields?[0].text ?? ""
+        UserDefaults.standard.set(text, forKey: kMSACDataResidencyRegion)
+        self.appCenter.setDataResidencyRegion(text)
+        self.dataResidencyRegion.text = self.showDataResidencyRegion()
+    })
+    let resetAction = UIAlertAction(title: "Reset", style: .destructive, handler: {
+        (_ action : UIAlertAction) -> Void in
+        UserDefaults.standard.removeObject(forKey: kMSACDataResidencyRegion)
+        self.appCenter.setDataResidencyRegion(nil)
+        self.dataResidencyRegion.text = self.showDataResidencyRegion()
     })
     alertController.addAction(cancelAction)
     alertController.addAction(saveAction)
@@ -296,6 +326,14 @@ class MSMainViewController: UITableViewController, AppCenterProtocol {
         return "Empty string";
     }
     return userId;
+  }
+  
+  func showDataResidencyRegion () -> String {
+    let dataResidencyRegion = UserDefaults.standard.string(forKey: kMSACDataResidencyRegion) ?? "Unset";
+    if (dataResidencyRegion.isEmpty) {
+        return "Empty string";
+    }
+    return dataResidencyRegion;
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

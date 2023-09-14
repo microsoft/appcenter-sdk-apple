@@ -5,6 +5,7 @@
 
 static NSString *const kMSMainStoryboardName = @"SasquatchMac";
 static NSString *const kMSUserIdKey = @"userId";
+static NSString *const kMSACDataResidencyRegion = @"kMSACDataResidencyRegion";
 static NSString *const kMSLogUrl = @"logUrl";
 static NSString *const kMSAppSecret = @"appSecret";
 static NSString *const kMSLogTag = @"[SasquatchMac]";

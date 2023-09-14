@@ -29,7 +29,8 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   @IBOutlet var userIdLabel : NSTextField?
   @IBOutlet var setEnabledButton : NSButton?
   @IBOutlet var networkRequestsAllowed: NSButton?
-
+  @IBOutlet weak var dataResidencyRegionLabel: NSTextField!
+  
   @IBOutlet weak var deviceIdField: NSTextField!
   @IBOutlet weak var startupModeField: NSComboBox!
   @IBOutlet weak var storageMaxSizeField: NSTextField!
@@ -38,6 +39,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
   @IBOutlet weak var signOutButton: NSButton!
   @IBOutlet weak var overrideCountryCodeButton: NSButton!
 
+  @IBOutlet weak var setDataResidencyRegionButton: NSButton!
   @IBOutlet weak var setLogURLButton: NSButton!
   @IBOutlet weak var setAppSecretButton: NSButton!
   @IBOutlet weak var setUserIDButton: NSButton!
@@ -63,6 +65,7 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     appSecretLabel?.stringValue = UserDefaults.standard.string(forKey: kMSAppSecret) ?? appCenter.appSecret()
     logURLLabel?.stringValue = (UserDefaults.standard.object(forKey: kMSLogUrl) ?? prodLogUrl()) as! String
     userIdLabel?.stringValue = showUserId()
+    dataResidencyRegionLabel?.stringValue = showDataResidencyRegion()
     setEnabledButton?.state = appCenter.isAppCenterEnabled() ? .on : .off
     networkRequestsAllowed?.state = appCenter.isNetworkRequestsAllowed() ? .on : .off
   
@@ -250,6 +253,33 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
     }
     userIdLabel?.stringValue = showUserId()
   }
+  
+  @IBAction func setDataResidencyRegion(_ sender: NSButton) {
+    let alert: NSAlert = NSAlert()
+    alert.messageText = "Data Residency Region"
+    alert.addButton(withTitle: "Save")
+    alert.addButton(withTitle: "Reset")
+    alert.addButton(withTitle: "Cancel")
+    let textField: NSTextField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 25))
+    textField.stringValue = UserDefaults.standard.string(forKey: kMSACDataResidencyRegion) ?? ""
+    alert.accessoryView = textField
+    alert.alertStyle = .warning
+    switch(alert.runModal()) {
+    case .alertFirstButtonReturn:
+      let text = textField.stringValue
+      UserDefaults.standard.set(text, forKey: kMSACDataResidencyRegion)
+      appCenter.setDataResidencyRegion(text)
+      break
+    case .alertSecondButtonReturn:
+      UserDefaults.standard.removeObject(forKey: kMSACDataResidencyRegion)
+      appCenter.setDataResidencyRegion(nil)
+      break
+    default:
+      break
+    }
+    dataResidencyRegionLabel?.stringValue = showDataResidencyRegion()
+  }
+  
 
   private func prodLogUrl() -> String {
     switch startUpModeForCurrentSession {
@@ -268,5 +298,13 @@ class AppCenterViewController : NSViewController, NSTextFieldDelegate, NSTextVie
       return "Empty string"
     }
     return userId
+  }
+  
+  func showDataResidencyRegion() -> String {
+    let dataResidencyRegion = UserDefaults.standard.string(forKey: kMSACDataResidencyRegion) ?? "Unset"
+    if (dataResidencyRegion.isEmpty) {
+      return "Empty string"
+    }
+    return dataResidencyRegion
   }
 }
