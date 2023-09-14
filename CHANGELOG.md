@@ -1,5 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.0.4
+
+* **[Improvement]** Update App Center SDK to include privacy manifest.
+* **[Improvement]** Add `dataResidencyRegion` option to allow customers set residency of data for current user/device.
+
 ## Version 5.0.3
 
 * **[Fix]** Fix the build issue with Xcode 15 beta when integrating via Swift Package Manager.

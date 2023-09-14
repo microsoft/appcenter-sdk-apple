@@ -1333,6 +1333,8 @@
 		D55E7082252F5A1000AB994D /* MSACTestSessionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACTestSessionInfo.m; sourceTree = "<group>"; };
 		D55E7083252F5A1000AB994D /* MSACTestSessionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACTestSessionInfo.h; sourceTree = "<group>"; };
 		D5812F312423C2FA00C5F5C5 /* MSACUserDefaultsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACUserDefaultsTests.m; sourceTree = "<group>"; };
+		D80EC5002AB0713B000C82D7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D881A6B62AAF4176009644A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ../PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		DF5DA1F823A0E55500DE695C /* MSACDispatcherUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACDispatcherUtil.h; sourceTree = "<group>"; };
 		DF5DA1FC23A0E57B00DE695C /* MSACDispatcherUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MSACDispatcherUtil.m; sourceTree = "<group>"; };
 		DFCB7FFD2472C1BD0058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
@@ -1588,6 +1590,8 @@
 		6E0400FA1D1C98220051BCFA = {
 			isa = PBXGroup;
 			children = (
+				D80EC5002AB0713B000C82D7 /* PrivacyInfo.xcprivacy */,
+				D881A6B62AAF4176009644A0 /* PrivacyInfo.xcprivacy */,
 				6E0401051D1C98220051BCFA /* AppCenter */,
 				6E2395791D22EF4F00E543C8 /* AppCenterTests */,
 				6E0401041D1C98220051BCFA /* Products */,

@@ -386,6 +386,7 @@
 		C97E8632257F96E800717834 /* error_details_no_release.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = error_details_no_release.json; sourceTree = "<group>"; };
 		C9A91F8C230BFFFF0068070D /* AppCenterDistribute.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AppCenterDistribute.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB36230D73A800A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80EC53C2AB07ABB000C82D7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		DFCB806D2472D71C0058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
 		DFE954F2244D8B410061E3FA /* HTTPStubs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPStubs.m; sourceTree = "<group>"; };
 		DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+HTTPBodyTesting.m"; sourceTree = "<group>"; };
@@ -527,6 +528,7 @@
 		04FD4A131E451E12009B4468 = {
 			isa = PBXGroup;
 			children = (
+				D80EC53C2AB07ABB000C82D7 /* PrivacyInfo.xcprivacy */,
 				040AF0321E52859F005C1174 /* MSACIngestionProtocol.h */,
 				04FD4A1E1E451E12009B4468 /* AppCenterDistribute */,
 				04FD4A321E453531009B4468 /* AppCenterDistributeTests */,
