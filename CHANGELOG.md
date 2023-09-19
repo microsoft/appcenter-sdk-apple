@@ -3,7 +3,7 @@
 ## Version 5.0.4
 
 * **[Improvement]** Update App Center SDK to include privacy manifest.
-* **[Improvement]** Add `dataResidencyRegion` option to allow customers set residency of data for current user/device.
+* **[Internal]** Add `dataResidencyRegion` option.
 
 ## Version 5.0.3
 
