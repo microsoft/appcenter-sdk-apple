@@ -1,5 +1,7 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.0.5 (Under development)
+
 ## Version 5.0.4
 
 * **[Improvement]** Update App Center SDK to include privacy manifest.
