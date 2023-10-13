@@ -174,12 +174,7 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
 /**
  * Queue with high priority that will be used to create the log buffer files. The default main queue is too slow.
  */
-@property(nonatomic) dispatch_queue_t bufferFileQueue;
-
-/**
- * A group to wait for creation of buffers in the test.
- */
-@property(nonatomic) dispatch_group_t bufferFileGroup;
+@property(nonatomic) NSOperationQueue *bufferFileQueue;
 
 /**
  * Semaphore for exclusion with "startDelayedCrashProcessing" method.
@@ -346,11 +341,12 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
     _targetTokenEncrypter = [MSACEncrypter new];
 
     /*
-     * Using our own queue with high priority as the default main queue is slower and we want the files to be created as quickly as possible
-     * in case the app is crashing fast.
+     * Using our own queue with the highest quality of service as the default main queue is slower and we want the files to be created as quickly as possible
+     * in case the app is crashing fast. However, limit a number of concurrent operations to reduce a number of threads and avoid runtime pressure.
      */
-    _bufferFileQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-    _bufferFileGroup = dispatch_group_create();
+    _bufferFileQueue = [NSOperationQueue new];
+    _bufferFileQueue.qualityOfService = NSQualityOfServiceUserInteractive;
+    _bufferFileQueue.maxConcurrentOperationCount = 5;
     [self setupLogBuffer];
   }
   return self;
@@ -1152,9 +1148,9 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
       [files addObject:[MSACUtility fullURLForPathComponent:filePathComponent]];
 
       // Create files asynchronously. We don't really care as they are only ever used in the post-crash callback.
-      dispatch_group_async(self.bufferFileGroup, self.bufferFileQueue, ^{
+      [self.bufferFileQueue addOperationWithBlock: ^{
         [MSACUtility createFileAtPathComponent:filePathComponent withData:nil atomically:NO forceOverwrite:NO];
-      });
+      }];
 
       // We need to convert the NSURL to NSString as we cannot safe NSURL to our async-safe log buffer.
       NSString *path = files[i].path;

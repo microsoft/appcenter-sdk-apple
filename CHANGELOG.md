@@ -6,6 +6,7 @@
 
 * **[Improvement]** Update App Center SDK to include privacy manifest.
 * **[Internal]** Add `dataResidencyRegion` option.
+* **[Fix]** Mitigate the runtime pressure when starting App Center Crashes
 
 ## Version 5.0.3
 

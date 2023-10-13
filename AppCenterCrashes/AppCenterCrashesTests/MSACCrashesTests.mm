@@ -49,7 +49,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)applicationWillEnterForeground;
 - (void)didReceiveMemoryWarning:(NSNotification *)notification;
 
-@property(nonatomic) dispatch_group_t bufferFileGroup;
+@property(nonatomic) NSOperationQueue *bufferFileQueue;
 
 @property dispatch_source_t memoryPressureSource;
 
@@ -98,7 +98,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [MSACCrashes resetSharedInstance];
 
   // Wait for creation of buffers.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // Delete all files.
   [self.sut deleteAllFromCrashesDirectory];
@@ -125,7 +125,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   XCTAssertTrue(msACCrashesLogBuffer.size() == ms_crashes_log_buffer_size);
 
   // Wait for creation of buffers.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
   NSArray *files = [MSACUtility contentsOfDirectory:self.sut.logBufferPathComponent propertiesForKeys:nil];
   assertThat(files, hasCountOf(ms_crashes_log_buffer_size));
 }
@@ -329,7 +329,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testProcessCrashes {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -414,7 +414,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testProcessCrashesWithErrorAttachments {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -468,7 +468,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testProcessCrashesOnEnterForeground {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -562,7 +562,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 
   // If
   // Wait for creation of buffers.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // Then
   NSArray<NSURL *> *first = [MSACUtility contentsOfDirectory:self.sut.logBufferPathComponent
@@ -713,7 +713,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testLogBufferSave {
 
   // Wait for creation of buffers.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   __block NSUInteger numInvocations = 0;
@@ -821,7 +821,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testSendOrAwaitWhenAlwaysSendIsTrue {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -855,7 +855,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyAlwaysSend {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -895,7 +895,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifySend {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -935,7 +935,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testSendOrAwaitWhenAlwaysSendIsFalseAndNotifyDontSend {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -970,7 +970,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testGetUnprocessedCrashReportsWhenThereAreNone {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -989,7 +989,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testSendErrorAttachments {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -1029,7 +1029,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testGetUnprocessedCrashReports {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -1057,7 +1057,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testStartingCrashesWithoutAutomaticProcessing {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -1085,7 +1085,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testStartingCrashesWithAutomaticProcessing {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -1102,7 +1102,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testErrorOnIncorrectNotifyWithUserConfirmationCall {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   self.sut = OCMPartialMock(self.sut);
@@ -1120,7 +1120,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testCrashesSetCorrectUserIdToLogs {
 
   // Wait for creation of buffers to avoid corruption on OCMPartialMock.
-  dispatch_group_wait(self.sut.bufferFileGroup, DISPATCH_TIME_FOREVER);
+  [self.sut.bufferFileQueue waitUntilAllOperationsAreFinished];
 
   // If
   __block XCTestExpectation *expectation = [self expectationWithDescription:@"Channel received a log"];
