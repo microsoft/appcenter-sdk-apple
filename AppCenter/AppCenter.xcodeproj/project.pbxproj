@@ -3698,6 +3698,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C26F4DE42546EB33006E0EB7 /* XCFramework.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-framework",
+					SystemConfiguration,
+					"-lsqlite3",
+					"-Xlinker",
+					"-no_warn_duplicate_libraries",
+				);
 			};
 			name = Debug;
 		};
@@ -3705,6 +3715,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C26F4DE42546EB33006E0EB7 /* XCFramework.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-framework",
+					SystemConfiguration,
+					"-lsqlite3",
+					"-Xlinker",
+					"-no_warn_duplicate_libraries",
+				);
 			};
 			name = Release;
 		};
@@ -3712,6 +3732,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-framework",
+					SystemConfiguration,
+					"-lsqlite3",
+					"-Xlinker",
+					"-no_warn_duplicate_libraries",
+				);
 			};
 			name = Debug;
 		};
@@ -3719,6 +3749,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-framework",
+					SystemConfiguration,
+					"-lsqlite3",
+					"-Xlinker",
+					"-no_warn_duplicate_libraries",
+				);
 			};
 			name = Release;
 		};
@@ -3727,6 +3767,17 @@
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					CoreTelephony,
+					"-framework",
+					UIKit,
+					"-lsqlite3",
+					"-lz",
+					"-Xlinker",
+					"-no_warn_duplicate_libraries",
+				);
 			};
 			name = Debug;
 		};
@@ -3735,6 +3786,17 @@
 			baseConfigurationReference = 049BC8281ECE3A5200FB6719 /* iOS.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					CoreTelephony,
+					"-framework",
+					UIKit,
+					"-lsqlite3",
+					"-lz",
+					"-Xlinker",
+					"-no_warn_duplicate_libraries",
+				);
 			};
 			name = Release;
 		};
