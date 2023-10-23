@@ -87,8 +87,6 @@ let package = Package(
                 return settings
             }(),
             linkerSettings: [
-                .linkedLibrary("z"),
-                .linkedLibrary("sqlite3"),
                 .linkedFramework("Foundation"),
                 .linkedFramework("SystemConfiguration"),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
