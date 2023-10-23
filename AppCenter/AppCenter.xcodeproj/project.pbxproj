@@ -3656,6 +3656,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C26F4DED2546EB34006E0EB7 /* iOS Universal.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-framework",
+					SystemConfiguration,
+					"-lsqlite3",
+					"-Wl,-no_warn_duplicate_libraries",
+				);
 			};
 			name = Debug;
 		};
@@ -3663,6 +3672,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C26F4DED2546EB34006E0EB7 /* iOS Universal.xcconfig */;
 			buildSettings = {
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-framework",
+					SystemConfiguration,
+					"-lsqlite3",
+					"-Wl,-no_warn_duplicate_libraries",
+				);
 			};
 			name = Release;
 		};
@@ -3705,8 +3723,7 @@
 					"-framework",
 					SystemConfiguration,
 					"-lsqlite3",
-					"-Xlinker",
-					"-no_warn_duplicate_libraries",
+					"-Wl,-no_warn_duplicate_libraries",
 				);
 			};
 			name = Debug;
@@ -3722,8 +3739,7 @@
 					"-framework",
 					SystemConfiguration,
 					"-lsqlite3",
-					"-Xlinker",
-					"-no_warn_duplicate_libraries",
+					"-Wl,-no_warn_duplicate_libraries",
 				);
 			};
 			name = Release;
@@ -3739,8 +3755,7 @@
 					"-framework",
 					SystemConfiguration,
 					"-lsqlite3",
-					"-Xlinker",
-					"-no_warn_duplicate_libraries",
+					"-Wl,-no_warn_duplicate_libraries",
 				);
 			};
 			name = Debug;
@@ -3756,8 +3771,7 @@
 					"-framework",
 					SystemConfiguration,
 					"-lsqlite3",
-					"-Xlinker",
-					"-no_warn_duplicate_libraries",
+					"-Wl,-no_warn_duplicate_libraries",
 				);
 			};
 			name = Release;
@@ -3775,8 +3789,7 @@
 					UIKit,
 					"-lsqlite3",
 					"-lz",
-					"-Xlinker",
-					"-no_warn_duplicate_libraries",
+					"-Wl,-no_warn_duplicate_libraries",
 				);
 			};
 			name = Debug;
@@ -3794,8 +3807,7 @@
 					UIKit,
 					"-lsqlite3",
 					"-lz",
-					"-Xlinker",
-					"-no_warn_duplicate_libraries",
+					"-Wl,-no_warn_duplicate_libraries",
 				);
 			};
 			name = Release;
