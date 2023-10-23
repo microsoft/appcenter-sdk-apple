@@ -1312,7 +1312,7 @@
 				C24C9CF92472B3C30072C35D /* libCrashReporter.a */,
 				C24C9CFF2472B3C30072C35D /* Tests macOS.xctest */,
 				C24C9D032472B3C30072C35D /* Tests iOS.xctest */,
-				C24C9D072472B3C30072C35D /* CrashReporter tvOS Tests.xctest */,
+				C24C9D072472B3C30072C35D /* Tests tvOS.xctest */,
 				C24C9D092472B3C30072C35D /* DemoCrash macOS.app */,
 				C24C9D0B2472B3C30072C35D /* DemoCrash iOS.app */,
 				C24C9D0F2472B3C30072C35D /* DemoCrash tvOS.app */,
@@ -2701,6 +2701,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-lc++",
+					"-lz",
+					"-Wl,-no_warn_duplicate_libraries",
+				);
 			};
 			name = Debug;
 		};
@@ -2708,6 +2716,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-lc++",
+					"-lz",
+					"-Wl,-no_warn_duplicate_libraries",
+				);
 			};
 			name = Release;
 		};

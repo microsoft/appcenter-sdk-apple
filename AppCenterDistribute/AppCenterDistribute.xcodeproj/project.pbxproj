@@ -1352,6 +1352,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-weak_framework",
+					AuthenticationServices,
+					"-weak_framework",
+					SafariServices,
+					"-Wl,-no_warn_duplicate_libraries",
+				);
 			};
 			name = Debug;
 		};
@@ -1359,6 +1369,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Foundation,
+					"-weak_framework",
+					AuthenticationServices,
+					"-weak_framework",
+					SafariServices,
+					"-Wl,-no_warn_duplicate_libraries",
+				);
 			};
 			name = Release;
 		};
