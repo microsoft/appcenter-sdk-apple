@@ -68,23 +68,26 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 }
 
 + (NSArray<MSACStackFrame *> *)loadStackTrace:(NSArray<NSString *> *)stackTrace {
-  NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
-  for (NSString *line in stackTrace) {
-    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
-    NSMutableArray *array = [NSMutableArray arrayWithArray:[line componentsSeparatedByCharactersInSet:separatorSet]];
-    [array removeObject:@""];
-    MSACStackFrame *frame = [MSACStackFrame new];
-
-    // If the stack trace line doesn't contain full information it should be ignored.
-    if (array.count > 5) {
-      frame.fileName = [array objectAtIndex:1];
-      frame.address = [array objectAtIndex:2];
-      frame.className = [array objectAtIndex:3];
-      frame.methodName = [array objectAtIndex:4];
-      [frames addObject:frame];
+    NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
+    for (NSString *line in stackTrace) {
+        NSScanner *scanner = [NSScanner scannerWithString:line];
+        NSString *fileName, *address, *className, *methodName;
+        
+        BOOL success = [scanner scanUpToString:@" " intoString:&fileName] &&
+                       [scanner scanUpToString:@" " intoString:&address] &&
+                       [scanner scanUpToString:@" " intoString:&className] &&
+                       [scanner scanUpToString:@" " intoString:&methodName];
+        
+        if (success) {
+            MSACStackFrame *frame = [MSACStackFrame new];
+            frame.fileName = fileName;
+            frame.address = address;
+            frame.className = className;
+            frame.methodName = methodName;
+            [frames addObject:frame];
+        }
     }
-  }
-  return frames;
+    return frames;
 }
 
 - (BOOL)isValid {
