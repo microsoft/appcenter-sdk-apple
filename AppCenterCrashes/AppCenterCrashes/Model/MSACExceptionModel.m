@@ -69,21 +69,19 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 
 + (NSArray<MSACStackFrame *> *)loadStackTrace:(NSArray<NSString *> *)stackTrace {
     NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(.*?) (.*?) (.*?) (.*?) (.*)"
+                                                                           options:0
+                                                                             error:nil];
     for (NSString *line in stackTrace) {
-        NSScanner *scanner = [NSScanner scannerWithString:line];
-        NSString *fileName, *address, *className, *methodName;
-        
-        BOOL success = [scanner scanUpToString:@" " intoString:&fileName] &&
-                       [scanner scanUpToString:@" " intoString:&address] &&
-                       [scanner scanUpToString:@" " intoString:&className] &&
-                       [scanner scanUpToString:@" " intoString:&methodName];
-        
-        if (success) {
+        NSTextCheckingResult *match = [regex firstMatchInString:line
+                                                        options:0
+                                                          range:NSMakeRange(0, line.length)];
+        if (match && match.numberOfRanges == 6) {  // 1 for the entire match, 5 for each capturing group
             MSACStackFrame *frame = [MSACStackFrame new];
-            frame.fileName = fileName;
-            frame.address = address;
-            frame.className = className;
-            frame.methodName = methodName;
+            frame.fileName = [line substringWithRange:[match rangeAtIndex:1]];
+            frame.address = [line substringWithRange:[match rangeAtIndex:2]];
+            frame.className = [line substringWithRange:[match rangeAtIndex:3]];
+            frame.methodName = [line substringWithRange:[match rangeAtIndex:4]];
             [frames addObject:frame];
         }
     }
