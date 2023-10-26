@@ -69,14 +69,14 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 
 + (NSArray<MSACStackFrame *> *)loadStackTrace:(NSArray<NSString *> *)stackTrace {
     NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(.*?) (.*?) (.*?) (.*?) (.*)"
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^(.*?) (.*?) (.*?) (.*?) (.*?) (.*)"
                                                                            options:0
                                                                              error:nil];
     for (NSString *line in stackTrace) {
         NSTextCheckingResult *match = [regex firstMatchInString:line
                                                         options:0
                                                           range:NSMakeRange(0, line.length)];
-        if (match && match.numberOfRanges == 6) {  // 1 for the entire match, 5 for each capturing group
+        if (match && match.numberOfRanges == 7) {  // 1 for the entire match, 6 for each capturing group
             MSACStackFrame *frame = [MSACStackFrame new];
             frame.fileName = [line substringWithRange:[match rangeAtIndex:1]];
             frame.address = [line substringWithRange:[match rangeAtIndex:2]];
@@ -87,6 +87,7 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
     }
     return frames;
 }
+
 
 - (BOOL)isValid {
   return MSACLOG_VALIDATE_NOT_NIL(type) && MSACLOG_VALIDATE(frames, [self.frames count] > 0);
