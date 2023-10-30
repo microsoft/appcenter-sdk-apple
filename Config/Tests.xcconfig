@@ -10,7 +10,7 @@ WARNING_CFLAGS = -Wno-objc-messaging-id
 
 OTHER_CFLAGS = $(inherited) -iframework "$(PLATFORM_DIR)/Developer/Library/Frameworks"
 
-OTHER_LDFLAGS = $(inherited) -ObjC -lz
+OTHER_LDFLAGS = $(inherited) -ObjC
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework Foundation
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework Security
 OTHER_LDFLAGS = $(OTHER_LDFLAGS) -framework SystemConfiguration
