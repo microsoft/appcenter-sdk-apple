@@ -219,6 +219,14 @@ __attribute__((noreturn)) static void uncaught_cxx_exception_handler(const MSACC
   return [[MSACCrashes sharedInstance] trackError:exceptionModel withProperties:properties attachments:attachments];
 }
 
++ (NSString *)trackExceptionWithType:(NSString *)exceptionType
+            withExceptionMessage:(NSString *)exceptionMessage
+                  stackTrace:(NSArray<NSString *> *)stackTrace
+              properties:(nullable NSDictionary<NSString *, NSString *> *)properties
+                 attachments:(nullable NSArray<MSACErrorAttachmentLog *> *)attachments {
+  return [[MSACCrashes sharedInstance] trackError:[[MSACExceptionModel alloc] initWithType:exceptionType exceptionMessage:exceptionMessage stackTrace:stackTrace] withProperties:properties attachments:attachments];
+}
+
 + (void)generateTestCrash {
   @synchronized([MSACCrashes sharedInstance]) {
     if ([[MSACCrashes sharedInstance] canBeUsed]) {

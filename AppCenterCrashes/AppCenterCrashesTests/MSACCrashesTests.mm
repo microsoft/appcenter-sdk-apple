@@ -1369,6 +1369,41 @@ static unsigned int kAttachmentsPerCrashReport = 3;
   [MSACCrashes trackError:error withProperties:nil attachments:nil];
 }
 
+- (void)testTrackExceptionWithType {
+
+  // Init error.
+  NSString exceptionType = @"ExceptionType";
+  NSString exceptionMessage = @"ExceptionMessage";
+  NSString exceptionStackTrace = ["first line", "second line", "third line"];
+
+
+  // Mock channel.
+  id<MSACChannelUnitProtocol> channelUnitMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
+  id<MSACChannelGroupProtocol> channelGroupMock = OCMProtocolMock(@protocol(MSACChannelGroupProtocol));
+  OCMStub([channelGroupMock addChannelUnitWithConfiguration:[OCMArg checkWithBlock:^BOOL(MSACChannelUnitConfiguration *configuration) {
+                              return [configuration.groupId isEqualToString:@"Crashes"];
+                            }]])
+      .andReturn(channelUnitMock);
+  OCMStub([channelUnitMock enqueueItem:OCMOCK_ANY flags:MSACFlagsDefault]).andDo(^(NSInvocation *invocation) {
+    MSACHandledErrorLog *log;
+    [invocation getArgument:&log atIndex:2];
+    XCTAssertEqualObjects(log.type, @"handledError");
+    XCTAssertEqualObjects(log.exception.type, exceptionType);
+    XCTAssertEqualObjects(log.exception.message, exceptionMessage);
+    XCTAssertEqualObjects(log.exception.stackTrace, exceptionStackTrace);
+  });
+
+  // Start services.
+  [MSACAppCenter start:@"some-secret" withServices:@[ [MSACCrashes class] ]];
+  [[MSACCrashes sharedInstance] startWithChannelGroup:channelGroupMock
+                                            appSecret:kMSACTestAppSecret
+                              transmissionTargetToken:nil
+                                      fromApplication:YES];
+
+  // Call trackError.
+  [MSACCrashes trackExceptionWithType:exceptionType withExceptionMessage:exceptionMessage stackTrace:exceptionStackTrace properties:nil attachments:nil]
+}
+
 - (void)testTrackErrorsWithPropertiesAndAttachments {
 
   // Init counter.
