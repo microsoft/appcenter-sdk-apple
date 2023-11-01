@@ -1372,9 +1372,9 @@ static unsigned int kAttachmentsPerCrashReport = 3;
 - (void)testTrackExceptionWithType {
 
   // Init error.
-  NSString exceptionType = @"ExceptionType";
-  NSString exceptionMessage = @"ExceptionMessage";
-  NSString exceptionStackTrace = ["first line", "second line", "third line"];
+  NSString *exceptionType = @"ExceptionType";
+  NSString *exceptionMessage = @"ExceptionMessage";
+  NSArray<NSString *> *exceptionStackTrace = @[@"first line", @"second line", @"third line"];
 
 
   // Mock channel.
@@ -1390,7 +1390,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
     XCTAssertEqualObjects(log.type, @"handledError");
     XCTAssertEqualObjects(log.exception.type, exceptionType);
     XCTAssertEqualObjects(log.exception.message, exceptionMessage);
-    XCTAssertEqualObjects(log.exception.stackTrace, exceptionStackTrace);
+    XCTAssertEqualObjects(log.exception.stackTrace, exceptionStackTrace.description);
   });
 
   // Start services.
@@ -1401,7 +1401,7 @@ static unsigned int kAttachmentsPerCrashReport = 3;
                                       fromApplication:YES];
 
   // Call trackError.
-  [MSACCrashes trackExceptionWithType:exceptionType withExceptionMessage:exceptionMessage stackTrace:exceptionStackTrace properties:nil attachments:nil]
+  [MSACCrashes trackExceptionWithType:exceptionType withExceptionMessage:exceptionMessage stackTrace:exceptionStackTrace properties:nil attachments:nil];
 }
 
 - (void)testTrackErrorsWithPropertiesAndAttachments {
