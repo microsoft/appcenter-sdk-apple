@@ -57,7 +57,6 @@ Pod::Spec.new do |s|
   s.subspec 'Crashes' do |ss|
     ss.dependency 'AppCenter/Core'
     ss.frameworks = 'Foundation'
-    ss.libraries = 'z', 'c++'
     ss.vendored_frameworks = "AppCenter-SDK-Apple/AppCenterCrashes.xcframework"
   end
 
