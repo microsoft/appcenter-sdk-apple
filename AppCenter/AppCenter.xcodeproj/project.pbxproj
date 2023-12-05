@@ -179,6 +179,9 @@
 		24D44B422395DBBE003CC224 /* MSACTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSACTestUtil.m */; };
 		24D44B432395DBBE003CC224 /* MSACTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSACTestUtil.m */; };
 		24D44B442395DBBE003CC224 /* MSACTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D44B412395DBBE003CC224 /* MSACTestUtil.m */; };
+		328DBCFD2B106ED50030AF53 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 328DBCFC2B106ED50030AF53 /* Security.framework */; };
+		328DBCFE2B106F7A0030AF53 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 328DBCFC2B106ED50030AF53 /* Security.framework */; };
+		328DBD002B106F840030AF53 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 328DBCFF2B106F840030AF53 /* Security.framework */; };
 		359E8990224BF70600795CF5 /* MSACHttpCallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E898F224BF70400795CF5 /* MSACHttpCallTests.m */; };
 		359E8991224BF70800795CF5 /* MSACHttpCallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E898F224BF70400795CF5 /* MSACHttpCallTests.m */; };
 		359E8992224BF70900795CF5 /* MSACHttpCallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 359E898F224BF70400795CF5 /* MSACHttpCallTests.m */; };
@@ -1148,6 +1151,8 @@
 		2DA0350241FEC3A6A4919BFE /* MSACHttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACHttpClient.m; sourceTree = "<group>"; };
 		2DA0373E842A41C8413D1722 /* MSACHttpClientProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACHttpClientProtocol.h; sourceTree = "<group>"; };
 		2DA038EE68EEE1414A270ADA /* MSACMetadataExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACMetadataExtension.h; sourceTree = "<group>"; };
+		328DBCFC2B106ED50030AF53 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		328DBCFF2B106F840030AF53 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS17.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		3511AE7C20C5FF150056A739 /* MSACMockLogWithConversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACMockLogWithConversion.h; sourceTree = "<group>"; };
 		3513432D2056FF9000E6DC7D /* MSACAbstractLogPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACAbstractLogPrivate.h; sourceTree = "<group>"; };
 		354274162012AE4000BE766F /* MSACChannelProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSACChannelProtocol.h; sourceTree = "<group>"; };
@@ -1440,6 +1445,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				328DBCFD2B106ED50030AF53 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1447,6 +1453,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				328DBCFE2B106F7A0030AF53 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1454,6 +1461,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				328DBD002B106F840030AF53 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1516,6 +1524,15 @@
 				3571F65322457FCC0052406C /* MSACHttpCall.m */,
 			);
 			path = HttpClient;
+			sourceTree = "<group>";
+		};
+		328DBCF32B106ED50030AF53 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				328DBCFF2B106F840030AF53 /* Security.framework */,
+				328DBCFC2B106ED50030AF53 /* Security.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		354B79E0217109CE002183B5 /* Properties */ = {
@@ -1595,6 +1612,7 @@
 				6E0401051D1C98220051BCFA /* AppCenter */,
 				6E2395791D22EF4F00E543C8 /* AppCenterTests */,
 				6E0401041D1C98220051BCFA /* Products */,
+				328DBCF32B106ED50030AF53 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 			wrapsLines = 0;

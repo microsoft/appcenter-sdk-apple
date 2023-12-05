@@ -3,9 +3,37 @@
    LastUpgradeVersion = "1140"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "NO">
       <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8414DF7824599AF800B316C5"
+               BuildableName = "AppCenter XCFramework"
+               BlueprintName = "AppCenter XCFramework"
+               ReferencedContainer = "container:../AppCenter/AppCenter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F8B9C72A24695BE600B9FEF6"
+               BuildableName = "CrashReporter XCFramework"
+               BlueprintName = "CrashReporter XCFramework"
+               ReferencedContainer = "container:../Vendor/PLCrashReporter/CrashReporter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"

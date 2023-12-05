@@ -68,6 +68,9 @@
 		04FD4A341E453531009B4468 /* MSACDistributeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 04FD4A331E453531009B4468 /* MSACDistributeTests.m */; };
 		24E6AC9523A18AC900B8D33A /* MSACTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 24E6AC9423A18AC900B8D33A /* MSACTestUtil.m */; };
 		24E6AC9823A18BA800B8D33A /* MSACMockLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 24E6AC9623A18BA800B8D33A /* MSACMockLog.m */; };
+		32577ADC2B31DE6E00DDB359 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32577ADB2B31DE6E00DDB359 /* CrashReporter.framework */; };
+		328DBEE92B1F227F0030AF53 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 328DBEDC2B1F227F0030AF53 /* Security.framework */; };
+		328DBEEB2B1F22840030AF53 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 328DBEEA2B1F22840030AF53 /* AppCenter.framework */; };
 		387CC631210A9D9C002BA068 /* MSACMockKeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CC630210A9D9C002BA068 /* MSACMockKeychainUtil.m */; };
 		389638A41E79F59D007C3809 /* MSACDistributeTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 389638A31E79F59D007C3809 /* MSACDistributeTestUtil.m */; };
 		38A683641E774DCE00A63BC8 /* MSACSemVerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A683621E774DCE00A63BC8 /* MSACSemVerTests.m */; };
@@ -332,9 +335,13 @@
 		24E6AC9423A18AC900B8D33A /* MSACTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACTestUtil.m; path = ../../../AppCenter/AppCenterTests/Util/MSACTestUtil.m; sourceTree = "<group>"; };
 		24E6AC9623A18BA800B8D33A /* MSACMockLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MSACMockLog.m; path = ../../../AppCenter/AppCenterTests/Util/MSACMockLog.m; sourceTree = "<group>"; };
 		24E6AC9723A18BA800B8D33A /* MSACMockLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACMockLog.h; path = ../../../AppCenter/AppCenterTests/Util/MSACMockLog.h; sourceTree = "<group>"; };
+		3201780B2B31DE27007ACD9E /* PLCrashReporter */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = PLCrashReporter; path = ../Vendor/PLCrashReporter; sourceTree = "<group>"; };
 		324F3BAE25478A3F0006E223 /* XCFramework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = XCFramework.xcconfig; path = ../../../Config/XCFramework.xcconfig; sourceTree = "<group>"; };
 		324F3BAF25478A3F0006E223 /* iOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "iOS Universal.xcconfig"; path = "../../../Config/iOS Universal.xcconfig"; sourceTree = "<group>"; };
 		324F3BB025478A3F0006E223 /* tvOS Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "tvOS Universal.xcconfig"; path = "../../../Config/tvOS Universal.xcconfig"; sourceTree = "<group>"; };
+		32577ADB2B31DE6E00DDB359 /* CrashReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		328DBEDC2B1F227F0030AF53 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		328DBEEA2B1F22840030AF53 /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		383A2FE31EBA308700817742 /* MSACDistributeAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSACDistributeAppDelegate.h; sourceTree = "<group>"; };
 		383A2FE51EBA30B300817742 /* MSACDistributeAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSACDistributeAppDelegate.m; sourceTree = "<group>"; };
 		387CC62F210A9D9C002BA068 /* MSACMockKeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MSACMockKeychainUtil.h; path = ../../../AppCenter/AppCenterTests/Util/MSACMockKeychainUtil.h; sourceTree = "<group>"; };
@@ -434,6 +441,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				328DBEE92B1F227F0030AF53 /* Security.framework in Frameworks */,
+				32577ADC2B31DE6E00DDB359 /* CrashReporter.framework in Frameworks */,
+				328DBEEB2B1F22840030AF53 /* AppCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,6 +540,7 @@
 			children = (
 				D80EC53C2AB07ABB000C82D7 /* PrivacyInfo.xcprivacy */,
 				040AF0321E52859F005C1174 /* MSACIngestionProtocol.h */,
+				3201780B2B31DE27007ACD9E /* PLCrashReporter */,
 				04FD4A1E1E451E12009B4468 /* AppCenterDistribute */,
 				04FD4A321E453531009B4468 /* AppCenterDistributeTests */,
 				B2C070B91E5E68540076D6A9 /* Resources */,
@@ -695,6 +706,9 @@
 		C9A91F94230C000B0068070D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				32577ADB2B31DE6E00DDB359 /* CrashReporter.framework */,
+				328DBEEA2B1F22840030AF53 /* AppCenter.framework */,
+				328DBEDC2B1F227F0030AF53 /* Security.framework */,
 				C2200612230FDF7000848D5B /* AppCenter.framework */,
 				C9EBAB36230D73A800A20F0F /* AppCenter.framework */,
 			);
