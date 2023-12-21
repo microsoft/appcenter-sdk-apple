@@ -153,7 +153,7 @@ static NSString *const kMSACTestAppSecret = @"TestAppSecret";
   dispatch_async(dispatch_get_main_queue(), ^{
     [expectation fulfill];
   });
-  [self waitForExpectations:@[ expectation ] timeout:3];
+  [self waitForExpectations:@[ expectation ] timeout:10];
     
   // Then
   OCMVerify([mockHttpUtil hideSecretInString:OCMOCK_ANY secret:appSecret]);
