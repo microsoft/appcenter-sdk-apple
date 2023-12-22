@@ -232,7 +232,7 @@
 - (void)testResumeWithConcurrentChannelsModification {
 
   // If
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 2001; i++) {
     id<MSACChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
     [self.sut.channels addObject:channelMock];
   }
@@ -240,7 +240,7 @@
 
   // When
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      for (int i = 0; i < 1000; i++) {
+      for (int i = 0; i < 2000; i++) {
         [self.sut.channels removeLastObject];
       }
   });
@@ -252,7 +252,7 @@
 - (void)testPauseWithConcurrentChannelsModification {
 
     // If
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < 2001; i++) {
         id<MSACChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
         [self.sut.channels addObject:channelMock];
     }
@@ -260,7 +260,7 @@
 
     // When
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 2000; i++) {
             [self.sut.channels removeLastObject];
         }
     });
