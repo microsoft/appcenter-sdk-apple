@@ -379,6 +379,8 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   [self.settingsMock setObject:[[NSDate alloc] initWithTimeIntervalSince1970:2000] forKey:channel.oldestPendingLogTimestampKey];
   id dateMock = OCMClassMock([NSDate class]);
   OCMStub([dateMock date]).andReturn(date);
+  
+  sleep(1);
 
   // When
   NSUInteger resultFlushInterval = [channel resolveFlushInterval];
