@@ -11,8 +11,8 @@
 /*
  * Update dialog titles/messages
  */
-"MSDistributeAppUpdateAvailable" = "Uygulama güncelleştirmesi kullanılabilir";
-"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Bu uygulamanın geliştiricileri %@ %@ (%@) sürümüne güncelleştirmenizi gerektiriyor.";
+"MSDistributeAppUpdateAvailable" = "Uygulama güncellemesi mevcut";
+"MSDistributeAppUpdateAvailableMandatoryUpdateMessage" = "Bu uygulamanın geliştiricileri %@ %@ (%@) sürümüne güncelleştirmenizi rica ediyor.";
 "MSDistributeAppUpdateAvailableOptionalUpdateMessage" = "%@ %@ (%@), indirme ve yükleme için hazır.";
 "MSDistributeInAppUpdatesAreDisabled" = "Uygulama içi güncelleştirmeler devre dışı.";
-"MSDistributeInstallFailedMessage" = "Bu sürüm ya yan yüklenen veya özel modda bir tarayıcı kullanılarak indirilmiş.";
+"MSDistributeInstallFailedMessage" = "Bu sürüm ya bilinmeyen bir kaynaktan veya özel modda bir tarayıcı kullanılarak indirilmiş.";
