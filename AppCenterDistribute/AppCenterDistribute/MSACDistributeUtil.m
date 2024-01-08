@@ -21,7 +21,12 @@ NSBundle *MSACDistributeBundle(void) {
 #ifdef SWIFTPM_MODULE_BUNDLE
     bundle = SWIFTPM_MODULE_BUNDLE;
 #else
-    NSBundle *mainBundle = [NSBundle bundleForClass:[MSACDistribute class]];
+    NSBundle *mainBundle = [MSACDistribute resourceBundle];
+
+    if (!mainBundle) {
+      mainBundle = [NSBundle bundleForClass:[MSACDistribute class]];
+    }
+
     NSURL *url = [mainBundle URLForResource:APP_CENTER_DISTRIBUTE_BUNDLE_NAME withExtension:@"bundle"];
     if (url) {
       bundle = [NSBundle bundleWithURL:url];

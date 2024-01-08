@@ -72,6 +72,8 @@ static dispatch_once_t onceToken;
 
 @synthesize updateTrack = _updateTrack;
 
+@synthesize resourceBundle = _resourceBundle;
+
 #pragma mark - Service initialization
 
 - (instancetype)init {
@@ -351,6 +353,14 @@ static dispatch_once_t onceToken;
 
 + (void)checkForUpdate {
   [[MSACDistribute sharedInstance] checkForUpdate];
+}
+
++(void)setResourceBundle:(NSBundle *)resourceBundle {
+  [MSACDistribute sharedInstance].resourceBundle = resourceBundle;
+}
+
++(NSBundle *)resourceBundle {
+  return [MSACDistribute sharedInstance].resourceBundle;
 }
 
 #pragma mark - Private
@@ -1337,6 +1347,18 @@ static dispatch_once_t onceToken;
 - (MSACUpdateTrack)updateTrack {
   @synchronized(self) {
     return _updateTrack;
+  }
+}
+
+- (void)setResourceBundle:(NSBundle *)resourceBundle {
+  @synchronized(self) {
+    _resourceBundle = resourceBundle;
+  }
+}
+
+- (NSBundle *)resourceBundle {
+  @synchronized(self) {
+    return _resourceBundle;
   }
 }
 

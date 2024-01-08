@@ -176,6 +176,11 @@ static NSString *const kMSACTesterAppUpdateSetupFailedKey = @"TesterAppUpdateSet
 @property(nonatomic) MSACUpdateTrack updateTrack;
 
 /**
+ * Overrides default bundle for resources to be searched in
+ */
+@property(nullable, nonatomic) NSBundle* resourceBundle;
+
+/**
  * A flag to indicate whether automatic update check is disabled on start or not.
  */
 @property(atomic) BOOL automaticCheckForUpdateDisabled;

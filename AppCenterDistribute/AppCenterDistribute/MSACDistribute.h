@@ -53,6 +53,11 @@ typedef NS_ENUM(NSInteger, MSACUpdateTrack) {
 @property(class, nonatomic) MSACUpdateTrack updateTrack;
 
 /**
+ * Overrides default bundle for resources to be searched in
+ */
+@property(class, nullable, nonatomic) NSBundle* resourceBundle;
+
+/**
  * Distribute delegate
  *
  * @discussion If Distribute delegate is set and releaseAvailableWithDetails is returning <code>YES</code>, you must call
