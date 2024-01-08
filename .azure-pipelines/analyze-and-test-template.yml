@@ -12,12 +12,12 @@ jobs:
     pool:
       vmImage: macos-12
     steps:
-    - script: |
-        git clone https://github.com/microsoft/appcenter-sdk-apple.git
-      displayName: 'Clone App Center SDK Apple repository'
-    - script: |
-        git submodule update --init --recursive
-      displayName: 'Download submodules'
+    # - script: |
+    #     git clone https://github.com/microsoft/appcenter-sdk-apple.git
+    #   displayName: 'Clone App Center SDK Apple repository'
+    # - script: |
+    #     git submodule update --init --recursive
+    #   displayName: 'Download submodules'
 
 
     - task: Xcode@5
