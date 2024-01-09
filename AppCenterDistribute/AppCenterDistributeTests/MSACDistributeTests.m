@@ -3367,7 +3367,7 @@ static NSURL *sfURL;
                   fromApplication:YES];
   [self.sut checkLatestRelease:kMSACTestUpdateToken distributionGroupId:kMSACTestDistributionGroupId releaseHash:kMSACTestReleaseHash];
 
-  // sleep(1);
+  sleep(1);
   // Then
   [self waitForExpectationsWithTimeout:1
                                handler:^(NSError *error) {

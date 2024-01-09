@@ -380,7 +380,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
   id dateMock = OCMClassMock([NSDate class]);
   OCMStub([dateMock date]).andReturn(date);
   
-  // sleep(1);
+  sleep(1);
 
   // When
   NSUInteger resultFlushInterval = [channel resolveFlushInterval];
@@ -523,7 +523,7 @@ static NSString *const kMSACTestGroupId = @"GroupId";
     });
   });
 
-  // sleep(1);
+  sleep(1);
   // Then
   [self waitForExpectationsWithTimeout:kMSACTestTimeout
                                handler:^(NSError *error) {
