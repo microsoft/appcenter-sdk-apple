@@ -232,7 +232,7 @@
 - (void)testResumeWithConcurrentChannelsModification {
 
   // If
-  for (int i = 0; i < 3001; i++) {
+  for (int i = 0; i < 3000; i++) {
     id<MSACChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
     [self.sut.channels addObject:channelMock];
   }
@@ -252,7 +252,7 @@
 - (void)testPauseWithConcurrentChannelsModification {
 
     // If
-    for (int i = 0; i < 3001; i++) {
+    for (int i = 0; i < 3000; i++) {
         id<MSACChannelUnitProtocol> channelMock = OCMProtocolMock(@protocol(MSACChannelUnitProtocol));
         [self.sut.channels addObject:channelMock];
     }
