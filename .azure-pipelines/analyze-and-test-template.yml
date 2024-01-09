@@ -12,7 +12,7 @@ jobs:
     pool:
       vmImage: macos-12
     steps:
-      - checkout: self
+    - checkout: self
       submodules: recursive
 
 
