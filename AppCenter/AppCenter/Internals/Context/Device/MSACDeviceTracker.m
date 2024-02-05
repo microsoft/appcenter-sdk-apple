@@ -404,11 +404,15 @@ static MSACDeviceTracker *sharedInstance = nil;
 }
 
 - (NSString *)carrierCountry:(CTCarrier *)carrier {
-  return ([carrier.isoCountryCode length] > 0) ? carrier.isoCountryCode : nil;
+  return [self isValidCarrierCountry:carrier.isoCountryCode] ? carrier.isoCountryCode : nil;
 }
 
 - (BOOL)isValidCarrierName:(NSString *)carrier {
   return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame;
+}
+
+- (BOOL)isValidCarrierCountry:(NSString *)country {
+  return [country length] > 0 && [@"--" caseInsensitiveCompare:country] != NSOrderedSame;
 }
 
 - (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
