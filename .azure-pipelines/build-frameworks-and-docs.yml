@@ -64,6 +64,11 @@ jobs:
       Contents: '**/AppCenter-SDK-Apple*.zip'
       TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
+  - task: ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: '$(Build.ArtifactStagingDirectory)'
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifacts'
     inputs:
@@ -89,6 +94,16 @@ jobs:
       echo $BUILD_SOURCEVERSION > $(Build.ArtifactStagingDirectory)/Info/COMMIT
       Scripts/get-release-notes.sh $VERSION > $(Build.ArtifactStagingDirectory)/Info/RELEASE.md
     displayName: 'Collect Version Information'
+
+  - task: ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: '$(Build.ArtifactStagingDirectory)/Info'
+
+  - task: ManifestGeneratorTask@0
+    displayName: 'Manifest Generator'
+    inputs:
+      BuildDropPath: '$(Build.ArtifactStagingDirectory)/Info'
 
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Version Information'
