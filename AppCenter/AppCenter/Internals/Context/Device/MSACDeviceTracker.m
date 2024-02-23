@@ -411,8 +411,9 @@ static MSACDeviceTracker *sharedInstance = nil;
   return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame;
 }
 
+// The CTCarrier is deprecated without replacement since iOS 17 and will always return "--" for isoCountryCode.
 - (BOOL)isValidCarrierCountry:(NSString *)country {
-  return [country length] > 0 && [@"--" caseInsensitiveCompare:country] != NSOrderedSame;
+  return [country length] > 0 && [@"--" compare:country] != NSOrderedSame;
 }
 
 - (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
