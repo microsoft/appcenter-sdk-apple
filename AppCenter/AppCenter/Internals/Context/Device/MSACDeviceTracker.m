@@ -400,20 +400,21 @@ static MSACDeviceTracker *sharedInstance = nil;
 
 #if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (NSString *)carrierName:(CTCarrier *)carrier {
-  return [self isValidCarrierName:carrier.carrierName] ? carrier.carrierName : nil;
+  return [self isCarrierNameValid:carrier.carrierName] ? carrier.carrierName : nil;
 }
 
 - (NSString *)carrierCountry:(CTCarrier *)carrier {
-  return [self isValidCarrierCountry:carrier.isoCountryCode] ? carrier.isoCountryCode : nil;
+  return [self isCarrierCountyValid:carrier.isoCountryCode] ? carrier.isoCountryCode : nil;
 }
 
-- (BOOL)isValidCarrierName:(NSString *)carrier {
-  return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame;
+- (BOOL)isCarrierNameValid:(NSString *)carrier {
+  return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame && [@"--" isEqualToString:carrier] != NSOrderedSame;
 }
 
-// The CTCarrier is deprecated without replacement since iOS 17 and will always return "--" for isoCountryCode.
-- (BOOL)isValidCarrierCountry:(NSString *)country {
-  return [country length] > 0 && [@"--" compare:country] != NSOrderedSame;
+// The CTCarrier is deprecated without replacement since iOS 16 (https://developer.apple.com/documentation/coretelephony/ctcarrier)
+// and will always return "--" for isoCountryCode.
+- (BOOL)isCarrierCountyValid:(NSString *)country {
+  return [country length] > 0 && [@"--" isEqualToString:country] != NSOrderedSame;
 }
 
 - (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
