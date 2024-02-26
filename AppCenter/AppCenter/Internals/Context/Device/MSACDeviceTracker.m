@@ -408,13 +408,13 @@ static MSACDeviceTracker *sharedInstance = nil;
 }
 
 - (BOOL)isCarrierNameValid:(NSString *)carrier {
-  return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame && [@"--" isEqualToString:carrier] != NSOrderedSame;
+  return [carrier length] > 0 && [@"carrier" caseInsensitiveCompare:carrier] != NSOrderedSame && ![@"--" isEqualToString:carrier];
 }
 
 // The CTCarrier is deprecated without replacement since iOS 16 (https://developer.apple.com/documentation/coretelephony/ctcarrier)
 // and will always return "--" for isoCountryCode.
 - (BOOL)isCarrierCountyValid:(NSString *)country {
-  return [country length] > 0 && [@"--" isEqualToString:country] != NSOrderedSame;
+  return [country length] > 0 && ![@"--" isEqualToString:country];
 }
 
 - (CTCarrier *)firstCarrier:(NSDictionary<NSString *, CTCarrier *> *)carriers {
