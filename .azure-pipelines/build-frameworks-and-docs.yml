@@ -90,6 +90,18 @@ jobs:
       Scripts/get-release-notes.sh $VERSION > $(Build.ArtifactStagingDirectory)/Info/RELEASE.md
     displayName: 'Collect Version Information'
 
+  - task: APIScan@2
+    displayName: Run APIScan
+    inputs:
+      softwareFolder: '$(Build.ArtifactStagingDirectory)'
+      softwareName: 'appcenter-sdk-apple'
+      softwareVersionNum: '$(Build.BuildId)'
+      isLargeApp: false
+      toolVersion: 'Latest'
+    condition: and(succeeded(), ne(variables['DisableAPIScan'], 'true'))
+    env:
+      AzureServicesAuthConnectionString: runAs=App;AppId=$(ApiScanClientId);TenantId=$(ApiScanTenant);AppKey=$(ApiScanSecret)
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Version Information'
     inputs:
