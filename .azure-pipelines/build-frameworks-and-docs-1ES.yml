@@ -33,7 +33,7 @@ extends:
     stages:
     - stage: stage
       jobs:
-      - job: ''
+      - job: sdkBuildJob
         displayName: Build SDK for All Platforms
         templateContext:
           outputs:
@@ -41,7 +41,6 @@ extends:
             displayName: 'Publish Artifacts'
             path: '$(Build.ArtifactStagingDirectory)'
             artifactName: Release
-            sbomBuildDropPath: '$(Build.ArtifactStagingDirectory)'
         steps:
         - checkout: self
           submodules: recursive
@@ -78,7 +77,7 @@ extends:
             SourceFolder: './AppCenter-SDK-Apple'
             Contents: '**/AppCenter-SDK-Apple*.zip'
             TargetFolder: '$(Build.ArtifactStagingDirectory)'
-      - job: ''
+      - job: collectVersionInfo
         displayName: Version Information
         templateContext:
           outputs:
