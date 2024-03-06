@@ -41,7 +41,8 @@ extends:
             displayName: 'Publish Artifacts'
             path: '$(Build.ArtifactStagingDirectory)'
             artifactName: Release
-            sbomBuildDropPath: '$(Build.SourcesDirectory)'
+            sbomEnabled: true
+            sbomBuildDropPath: '$(Build.ArtifactStagingDirectory)'
         steps:
         - checkout: self
           submodules: recursive
