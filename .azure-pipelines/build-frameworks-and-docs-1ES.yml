@@ -1,0 +1,100 @@
+trigger:
+- master
+- develop
+pr:
+- master
+- develop
+- feature/*
+variables:
+  Configuration: Release
+  SDK: ''
+  EOCompliance-Mac: true
+  XCODE_PATH: '/Applications/Xcode_13.2.1.app/Contents/Developer'
+resources:
+  repositories:
+  - repository: 1ESPipelineTemplates
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+extends:
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+    template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
+  ${{ else }}:
+    template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
+  parameters:
+    pool:
+      name: Azure Pipelines
+      image: macos-latest
+      os: macOS
+    customBuildTags:
+    - ES365AIMigrationTooling-BulkMigrated
+    sdl:
+      sourceAnalysisPool: 1ES-PT-Windows-2022
+    stages:
+    - stage: stage
+      jobs:
+      - job: sdkBuildJob
+        displayName: Build SDK for All Platforms
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Artifacts'
+            path: '$(Build.ArtifactStagingDirectory)'
+            artifactName: Release
+        steps:
+        - checkout: self
+          submodules: recursive
+        - bash: |
+            version="$(Scripts/framework-version.sh)+$(git rev-parse --short $BUILD_SOURCEVERSION)"
+            echo "Change version to $version"
+            Scripts/framework-version.sh "$version"
+          displayName: 'Update Version'
+          condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+        - bash: 'sudo gem install jazzy --no-document'
+          displayName: 'Install Jazzy'
+        - task: Xcode@5
+          displayName: Build App Center Frameworks
+          inputs:
+            xcWorkspacePath: AppCenter.xcworkspace
+            scheme: 'All App Center Frameworks'
+            xcodeVersion: specifyPath
+            xcodeDeveloperDir: '$(XCODE_PATH)'
+            args: 'SYMROOT="$(Build.BinariesDirectory)" GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
+          timeoutInMinutes: 50
+        - task: Xcode@5
+          displayName: Generate App Center Documentation
+          inputs:
+            xcWorkspacePath: AppCenter.xcworkspace
+            scheme: 'All App Center Documentation'
+        - task: Bash@3
+          displayName: Archive
+          inputs:
+            targetType: filePath
+            filePath: './Scripts/create-archive.sh'
+        - task: CopyFiles@2
+          displayName: 'Copy Archives to Staging Directory'
+          inputs:
+            SourceFolder: './AppCenter-SDK-Apple'
+            Contents: '**/AppCenter-SDK-Apple*.zip'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      - job: collectVersionInfo
+        displayName: Version Information
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            displayName: 'Publish Version Information'
+            targetPath: '$(Build.ArtifactStagingDirectory)/Info'
+            artifactName: Info
+            sbomEnabled: false
+        steps:
+        - bash: |
+            swift --version
+            swift package describe
+          displayName: 'Print Swift Package Information'
+        - bash: |
+            VERSION=$(Scripts/framework-version.sh)
+            mkdir -p $(Build.ArtifactStagingDirectory)/Info
+            echo $VERSION > $(Build.ArtifactStagingDirectory)/Info/VERSION
+            echo $BUILD_SOURCEVERSION > $(Build.ArtifactStagingDirectory)/Info/COMMIT
+            Scripts/get-release-notes.sh $VERSION > $(Build.ArtifactStagingDirectory)/Info/RELEASE.md
+          displayName: 'Collect Version Information'
