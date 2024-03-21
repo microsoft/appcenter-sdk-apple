@@ -15,6 +15,7 @@ jobs:
     - checkout: self
       submodules: recursive
 
+
     - task: Xcode@5
       displayName: Analyze
       inputs:

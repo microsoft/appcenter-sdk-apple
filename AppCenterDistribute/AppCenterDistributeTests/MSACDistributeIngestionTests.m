@@ -154,6 +154,8 @@ static NSString *const kMSACTestAppSecret = @"TestAppSecret";
     [expectation fulfill];
   });
   [self waitForExpectations:@[ expectation ] timeout:3];
+  
+  sleep(1);
     
   // Then
   OCMVerify([mockHttpUtil hideSecretInString:OCMOCK_ANY secret:appSecret]);
