@@ -2,11 +2,13 @@
 
 ## Version 5.0.5 (Under development)
 
+* **[Fix]** Handle the special value (--) returned by CTCarrier after it has been depcrecated with iOS 16.
+
 ## Version 5.0.4
 
 * **[Improvement]** Update App Center SDK to include privacy manifest.
 * **[Internal]** Add `dataResidencyRegion` option.
-* **[Fix]** Mitigate the runtime pressure when starting App Center Crashes
+* **[Fix]** Mitigate the runtime pressure when starting App Center Crashes.
 
 ## Version 5.0.3
 
