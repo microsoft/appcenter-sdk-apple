@@ -633,7 +633,12 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 
   // Uncaught Exception.
   if (report.hasExceptionInfo) {
-    exceptionReason = [NSString stringWithString:report.exceptionInfo.exceptionReason];
+    NSString *reasonFromReport = report.exceptionInfo.exceptionReason;
+    if (reasonFromReport == nil) {
+      exceptionReason = @"N/A: exception reason is nil";
+    } else {
+      exceptionReason = [NSString stringWithString:reasonFromReport];
+    }
   }
   return exceptionReason;
 }
