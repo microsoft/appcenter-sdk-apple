@@ -72,6 +72,7 @@
 			buildPhases = (
 				D5E3B3E9247C04D900D93E90 /* Build Mac Catalyst Framework */,
 				8414DF7924599AF800B316C5 /* Combine XCFramework */,
+				BB88D1F32BADB885002FEAED /* CopyFiles */,
 			);
 			dependencies = (
 				C26F4E5A2546F38B006E0EB7 /* PBXTargetDependency */,
@@ -263,6 +264,7 @@
 		B29D884921E9286100EAF084 /* MSACOrderedDictionaryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B29D884621E9286100EAF084 /* MSACOrderedDictionaryTest.m */; };
 		B2CD74CE1F22BFD00070E7DF /* MSACMockService.m in Sources */ = {isa = PBXBuildFile; fileRef = 805F3F6A1F209C9D00B489E4 /* MSACMockService.m */; };
 		B2FD53651E567BCF0050F909 /* MSACDeviceHistoryInfoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B2FD53641E567BCF0050F909 /* MSACDeviceHistoryInfoTests.m */; };
+		BB88D1FC2BADB90D002FEAED /* PrivacyInfo.xcprivacy in CopyFiles */ = {isa = PBXBuildFile; fileRef = D80EC5002AB0713B000C82D7 /* PrivacyInfo.xcprivacy */; };
 		C2392EF6246429B300425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392EED2464279400425640 /* OCMock.framework */; };
 		C2392EF7246429CE00425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392EE52464279400425640 /* OCMock.framework */; };
 		C2392EF8246429E200425640 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2392EEF2464279400425640 /* OCMock.framework */; };
@@ -1096,6 +1098,19 @@
 			remoteInfo = "OCHamcrest-tvOS";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BB88D1F32BADB885002FEAED /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				BB88D1FC2BADB90D002FEAED /* PrivacyInfo.xcprivacy in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		041CFF8D1ECCFFD200B4654B /* Tests macOS.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Tests macOS.xcconfig"; path = "../../Config/Tests macOS.xcconfig"; sourceTree = "<group>"; };
