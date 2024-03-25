@@ -31,8 +31,8 @@ rm -rfv ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/*/${PRODUCT_NAME}.fram
 
 # Copy the PrivacyInfo.xcprivacy file.
 if [ -e "${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/PrivacyInfo.xcprivacy" ]; then
-  echo "Deleting old PrivacyInfo.xcprivacy from XCFramework"
+  echo "Deleting old PrivacyInfo.xcprivacy from ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
   rm -rf "${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/PrivacyInfo.xcprivacy"
 fi
-echo "Copying new PrivacyInfo.xcprivacy to XCFramework"
+echo "Copying new PrivacyInfo.xcprivacy to ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
 cp ${SRCROOT}/PrivacyInfo.xcprivacy ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework 
