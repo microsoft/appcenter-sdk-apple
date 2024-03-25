@@ -1110,7 +1110,7 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = AppCenter.xcframework;
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 10;
 			files = (
 				BB88D1FD2BADCB84002FEAED /* PrivacyInfo.xcprivacy in CopyFiles */,
 			);
@@ -1120,7 +1120,7 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = AppCenterAnalytics.xcframework;
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 10;
 			files = (
 				BB88D1FF2BADD506002FEAED /* PrivacyInfo.xcprivacy in CopyFiles */,
 			);
@@ -1130,7 +1130,7 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = AppCenterCrashes.xcframework;
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 10;
 			files = (
 				BB88D2012BADD543002FEAED /* PrivacyInfo.xcprivacy in CopyFiles */,
 			);
@@ -1140,7 +1140,7 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = AppCenterDistribute.xcframework;
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 10;
 			files = (
 				BB88D2032BADD567002FEAED /* PrivacyInfo.xcprivacy in CopyFiles */,
 			);
