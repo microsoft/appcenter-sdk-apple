@@ -408,6 +408,9 @@
 		C9EBAABE230D3A1D00A20F0F /* MSACErrorAttachmentLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8024743A1EAE077800AEC284 /* MSACErrorAttachmentLog.m */; };
 		C9EBAABF230D3A1D00A20F0F /* MSACErrorAttachmentLog+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3858A2191E93F3B400535A69 /* MSACErrorAttachmentLog+Utility.m */; };
 		C9EBAAC0230D3A1D00A20F0F /* MSACErrorReport.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F120DF1D657CF10060DED7 /* MSACErrorReport.m */; };
+		D8C05A532B7CCF1C00458569 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D80EC5122AB07A5E000C82D7 /* PrivacyInfo.xcprivacy */; };
+		D8C05A552B7CCF2300458569 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D80EC5122AB07A5E000C82D7 /* PrivacyInfo.xcprivacy */; };
+		D8C05A572B7CCF2A00458569 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D80EC5122AB07A5E000C82D7 /* PrivacyInfo.xcprivacy */; };
 		DFCB80662472D6920058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB805B2472D6770058D292 /* OCHamcrest.framework */; };
 		DFCB80692472D6DF0058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80532472D6770058D292 /* OCHamcrest.framework */; };
 		DFCB806C2472D6F00058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB805D2472D6770058D292 /* OCHamcrest.framework */; };
@@ -660,48 +663,6 @@
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
 		};
-		D55737CD254AB33F00B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A91FB6230C01140068070D;
-			remoteInfo = "AppCenter iOS Framework";
-		};
-		D55737CF254AB33F00B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6E2395781D22EF4F00E543C8;
-			remoteInfo = "AppCenter iOS Tests";
-		};
-		D55737D1254AB33F00B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A92007230C05D70068070D;
-			remoteInfo = "AppCenter macOS Framework";
-		};
-		D55737D3254AB33F00B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 046AEAF61ECA562A00CBE511;
-			remoteInfo = "AppCenter macOS Tests";
-		};
-		D55737D5254AB33F00B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9A92024230C07A50068070D;
-			remoteInfo = "AppCenter tvOS Framework";
-		};
-		D55737D7254AB33F00B64478 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0446DF2B1F3B864600C8E338;
-			remoteInfo = "AppCenter tvOS Tests";
-		};
 		D559CA132477ED0500CF60D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6E04012B1D1C98690051BCFA /* Project object */;
@@ -715,6 +676,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04EBBEE91F01C0E10006B8AE;
 			remoteInfo = "AppCenterCrashes tvOS Universal";
+		};
+		D8C05A2D2B7CCE8100458569 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 32CF777F26DFBB080087748A;
+			remoteInfo = "CrashReporter macOS Static Framework";
 		};
 		DFCB80522472D6770058D292 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -927,7 +895,6 @@
 		C9EBAB2C230D735E00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB2E230D736A00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EBAB30230D736F00A20F0F /* AppCenter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppCenter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AppCenter.xcodeproj; path = ../../AppCenter/AppCenter.xcodeproj; sourceTree = "<group>"; };
 		D80EC5122AB07A5E000C82D7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		DFCB80482472D6770058D292 /* OCHamcrest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCHamcrest.xcodeproj; path = ../../Vendor/OCHamcrest/Source/OCHamcrest.xcodeproj; sourceTree = "<group>"; };
 		F82E4C74217F1FD600EDAB34 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../../Vendor/SQLite3/sqlite3.c; sourceTree = "<group>"; };
@@ -1090,7 +1057,6 @@
 			isa = PBXGroup;
 			children = (
 				D80EC5122AB07A5E000C82D7 /* PrivacyInfo.xcprivacy */,
-				D55737BC254AB33100B64478 /* AppCenter */,
 				6E0401351D1C98690051BCFA /* AppCenterCrashes */,
 				6E171AE21D22F781000DC480 /* AppCenterCrashesTests */,
 				6EC99A221D4151C60016C325 /* Vendor */,
@@ -1307,6 +1273,7 @@
 			isa = PBXGroup;
 			children = (
 				C24C9CED2472B3C30072C35D /* CrashReporter.framework */,
+				D8C05A2E2B7CCE8100458569 /* CrashReporter.framework */,
 				C24C9CF12472B3C30072C35D /* CrashReporter.framework */,
 				C24C9CF72472B3C30072C35D /* CrashReporter.framework */,
 				C24C9CEF2472B3C30072C35D /* libCrashReporter.a */,
@@ -1354,27 +1321,6 @@
 				066E6C2E268B533D00ECACAE /* MSACExceptionModel.m */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		D55737BC254AB33100B64478 /* AppCenter */ = {
-			isa = PBXGroup;
-			children = (
-				D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */,
-			);
-			path = AppCenter;
-			sourceTree = "<group>";
-		};
-		D55737BE254AB33F00B64478 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D55737CE254AB33F00B64478 /* AppCenter.framework */,
-				D55737D0254AB33F00B64478 /* AppCenter.xctest */,
-				D55737D2254AB33F00B64478 /* AppCenter.framework */,
-				D55737D4254AB33F00B64478 /* AppCenter.xctest */,
-				D55737D6254AB33F00B64478 /* AppCenter.framework */,
-				D55737D8254AB33F00B64478 /* AppCenter.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		DFCB80492472D6770058D292 /* Products */ = {
@@ -1612,6 +1558,7 @@
 				C9A91F45230BFD930068070D /* Headers */,
 				C9A91F46230BFD930068070D /* Sources */,
 				C9A91F47230BFD930068070D /* Frameworks */,
+				D8C05A522B7CCF1700458569 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1631,6 +1578,7 @@
 				C9A91F53230BFDB40068070D /* Headers */,
 				C9A91F55230BFDB40068070D /* Sources */,
 				C9A91F56230BFDB40068070D /* Frameworks */,
+				D8C05A562B7CCF2700458569 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1650,6 +1598,7 @@
 				C9A91F5E230BFDB70068070D /* Headers */,
 				C9A91F60230BFDB70068070D /* Sources */,
 				C9A91F61230BFDB70068070D /* Frameworks */,
+				D8C05A542B7CCF1F00458569 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1698,10 +1647,6 @@
 			productRefGroup = 6E0401341D1C98690051BCFA /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = D55737BE254AB33F00B64478 /* Products */;
-					ProjectRef = D55737BD254AB33F00B64478 /* AppCenter.xcodeproj */;
-				},
 				{
 					ProductGroup = C24C9CD22472B3C30072C35D /* Products */;
 					ProjectRef = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
@@ -1847,10 +1792,10 @@
 			remoteRef = C24C9D022472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C24C9D072472B3C30072C35D /* Tests tvOS.xctest */ = {
+		C24C9D072472B3C30072C35D /* CrashReporter tvOS Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "Tests tvOS.xctest";
+			path = "CrashReporter tvOS Tests.xctest";
 			remoteRef = C24C9D062472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1882,46 +1827,11 @@
 			remoteRef = C24C9D122472B3C30072C35D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D55737CE254AB33F00B64478 /* AppCenter.framework */ = {
+		D8C05A2E2B7CCE8100458569 /* CrashReporter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = AppCenter.framework;
-			remoteRef = D55737CD254AB33F00B64478 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D55737D0254AB33F00B64478 /* AppCenter.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenter.xctest;
-			remoteRef = D55737CF254AB33F00B64478 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D55737D2254AB33F00B64478 /* AppCenter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenter.framework;
-			remoteRef = D55737D1254AB33F00B64478 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D55737D4254AB33F00B64478 /* AppCenter.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenter.xctest;
-			remoteRef = D55737D3254AB33F00B64478 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D55737D6254AB33F00B64478 /* AppCenter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AppCenter.framework;
-			remoteRef = D55737D5254AB33F00B64478 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D55737D8254AB33F00B64478 /* AppCenter.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AppCenter.xctest;
-			remoteRef = D55737D7254AB33F00B64478 /* PBXContainerItemProxy */;
+			path = CrashReporter.framework;
+			remoteRef = D8C05A2D2B7CCE8100458569 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DFCB80532472D6770058D292 /* OCHamcrest.framework */ = {
@@ -2087,6 +1997,30 @@
 				6EC99A3B1D416CCF0016C325 /* live_report_signal_marketing.plcrash in Resources */,
 				6EC99A371D416CCF0016C325 /* live_report_empty.plcrash in Resources */,
 				6EC99A381D416CCF0016C325 /* live_report_exception.plcrash in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8C05A522B7CCF1700458569 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8C05A532B7CCF1C00458569 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8C05A542B7CCF1F00458569 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8C05A552B7CCF2300458569 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8C05A562B7CCF2700458569 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8C05A572B7CCF2A00458569 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

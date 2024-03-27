@@ -124,6 +124,7 @@
 		C9EBAAED230D3A9B00A20F0F /* MSACDistributeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 383A2FE51EBA30B300817742 /* MSACDistributeAppDelegate.m */; };
 		C9EBAAEF230D3A9B00A20F0F /* MSACDistributeInfoTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 586031A5F44AF875F6226F45 /* MSACDistributeInfoTracker.m */; };
 		C9EBAAF0230D3A9B00A20F0F /* MSACReleaseDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BB2FD1E60A40D009D92C2 /* MSACReleaseDetails.m */; };
+		D8C05A642B7CCF4300458569 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D80EC53C2AB07ABB000C82D7 /* PrivacyInfo.xcprivacy */; };
 		DFCB808D2472D7310058D292 /* OCHamcrest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFCB80802472D71C0058D292 /* OCHamcrest.framework */; };
 		DFE95501244D8B4D0061E3FA /* HTTPStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F2244D8B410061E3FA /* HTTPStubs.m */; };
 		DFE95502244D8B4D0061E3FA /* NSURLRequest+HTTPBodyTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DFE954F3244D8B410061E3FA /* NSURLRequest+HTTPBodyTesting.m */; };
@@ -850,6 +851,9 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MSAC;
+				KnownAssetTags = (
+					New,
+				);
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Microsoft;
 				TargetAttributes = {
@@ -1034,6 +1038,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8C05A642B7CCF4300458569 /* PrivacyInfo.xcprivacy in Resources */,
 				C24D1C79247F34770025261B /* AppCenterDistributeResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
