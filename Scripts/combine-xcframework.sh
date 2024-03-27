@@ -30,9 +30,5 @@ echo "Cleanup resource bundles inside frameworks"
 rm -rfv ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/*/${PRODUCT_NAME}.framework/${BUNDLE_NAME}
 
 # Copy the PrivacyInfo.xcprivacy file.
-if [ -e "${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/PrivacyInfo.xcprivacy" ]; then
-  echo "Deleting old PrivacyInfo.xcprivacy from ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
-  rm -rf "${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework/PrivacyInfo.xcprivacy"
-fi
 echo "Copying new PrivacyInfo.xcprivacy to ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework"
 cp ${SRCROOT}/PrivacyInfo.xcprivacy ${BUILT_PRODUCTS_DIR}/${PROJECT_NAME}.xcframework 
