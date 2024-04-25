@@ -1,8 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 5.0.5 (Under development)
+## Version 5.0.5
 
 * **[Fix]** Handle the special value (--) returned by CTCarrier after it has been depcrecated with iOS 16.
+* **[Improvement]** Update PrivacyInfo files to include all relevant information.
+* **[Improvement]** Update PLCrashReporter to version 1.11.2.
 
 ## Version 5.0.4
 
