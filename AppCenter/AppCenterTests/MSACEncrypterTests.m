@@ -263,10 +263,12 @@
   NSString *clearText = @"Test string";
 
   // Save the key to disk. This must not change as it was used to encrypt the text.
+  // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="this is not a secret")]
   NSString *currentKey = @"zlIS50zXq7fm2GqassShXrjkMBsdjlTsmIT+d1D3CTI=";
   [MSACMockKeychainUtil storeString:currentKey forKey:kMSACEncryptionKeyTagOriginal];
 
   // This cipher text contains no metadata, and no IV was used.
+  // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="this is not a secret")]
   NSString *cipherText = @"S6uNmq7u0eKGaU2GQPUGMQ==";
   MSACEncrypter *encrypter = [MSACEncrypter new];
 
