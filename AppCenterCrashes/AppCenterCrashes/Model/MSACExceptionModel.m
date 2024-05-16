@@ -68,24 +68,26 @@ static NSString *const kMSACExceptionStackTrace = @"stackTrace";
 }
 
 + (NSArray<MSACStackFrame *> *)loadStackTrace:(NSArray<NSString *> *)stackTrace {
-  NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
-  for (NSString *line in stackTrace) {
-    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
-    NSMutableArray *array = [NSMutableArray arrayWithArray:[line componentsSeparatedByCharactersInSet:separatorSet]];
-    [array removeObject:@""];
-    MSACStackFrame *frame = [MSACStackFrame new];
-
-    // If the stack trace line doesn't contain full information it should be ignored.
-    if (array.count > 5) {
-      frame.fileName = [array objectAtIndex:1];
-      frame.address = [array objectAtIndex:2];
-      frame.className = [array objectAtIndex:3];
-      frame.methodName = [array objectAtIndex:4];
-      [frames addObject:frame];
+    NSMutableArray<MSACStackFrame *> *frames = [NSMutableArray<MSACStackFrame *> new];
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^(.*?) (.*?) (.*?) (.*?) (.*?) (.*)"
+                                                                           options:0
+                                                                             error:nil];
+    for (NSString *line in stackTrace) {
+        NSTextCheckingResult *match = [regex firstMatchInString:line
+                                                        options:0
+                                                          range:NSMakeRange(0, line.length)];
+        if (match && match.numberOfRanges == 7) {  // 1 for the entire match, 6 for each capturing group
+            MSACStackFrame *frame = [MSACStackFrame new];
+            frame.fileName = [line substringWithRange:[match rangeAtIndex:1]];
+            frame.address = [line substringWithRange:[match rangeAtIndex:2]];
+            frame.className = [line substringWithRange:[match rangeAtIndex:3]];
+            frame.methodName = [line substringWithRange:[match rangeAtIndex:4]];
+            [frames addObject:frame];
+        }
     }
-  }
-  return frames;
+    return frames;
 }
+
 
 - (BOOL)isValid {
   return MSACLOG_VALIDATE_NOT_NIL(type) && MSACLOG_VALIDATE(frames, [self.frames count] > 0);
