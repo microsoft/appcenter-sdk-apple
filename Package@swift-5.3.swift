@@ -55,9 +55,9 @@ let package = Package(
     name: "AppCenter",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v11),
+        .iOS(.v12),
         .macOS(.v10_13),
-        .tvOS(.v11)
+        .tvOS(.v12)
     ],
     products: [
         .library(
