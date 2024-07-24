@@ -1,5 +1,4 @@
 name: "CodeQL configuration"
 queries:
   - uses: codeql/javascript-queries@latest
-  - uses: codeql/powershell-queries@latest
   - uses: codeql/ruby-queries@latest
