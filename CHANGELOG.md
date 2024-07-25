@@ -3,6 +3,7 @@
 ## Version 5.0.6 (Under development)
 
 * **[Improvement]** Update target iOS and tvOS version to 12.0.
+* **[Improvement]** Bump minimum Xcode version to 12.
 
 ## Version 5.0.5
 
