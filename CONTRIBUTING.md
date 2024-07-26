@@ -5,7 +5,7 @@ The goal of this document is to provide a high-level overview of how you can get
 
 To contribute to the SDK, please
 
-* Install Xcode 12 on your Mac.
+* Install Xcode 13 on your Mac.
 * Install [Jazzy](https://github.com/realm/jazzy) to be able to generate documentation.
 * Install `clang-format` for code formatting via [Homebrew](https://brew.sh) using the command `brew install clang-format`.
 
@@ -19,7 +19,7 @@ Please make sure the following is done when submitting a pull request:
 
 1. Fork the repository and create your branch from `develop`.
 1. Run `git submodule update --init --recursive` before opening the solution.
-1. Use Xcode 12 or above to edit and compile the SDK.
+1. Use Xcode 13 or above to edit and compile the SDK.
 1. Make sure that there are no lint errors: run `gradlew assemble lint` command.
 1. Make sure all tests have passed and your code is covered.
 1. If your change includes a fix or feature related to the changelog of the next release, you have to update the **CHANGELOG.md**.
