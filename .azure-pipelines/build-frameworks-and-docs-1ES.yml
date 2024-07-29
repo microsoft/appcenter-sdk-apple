@@ -38,7 +38,7 @@ extends:
         templateContext:
           sdl:
             codeql:
-              language: javascript, ruby
+              language: javascript, ruby, cpp
           outputs:
           - output: pipelineArtifact
             displayName: 'Publish Artifacts'
