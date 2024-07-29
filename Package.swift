@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -53,11 +53,11 @@ let cHeaderSearchPaths: [CSetting] = projectHeaderSearchPaths.map { .headerSearc
 
 let package = Package(
     name: "AppCenter",
+    defaultLocalization: "en",
     platforms: [
-        .iOS(.v11),
+        .iOS(.v12),
         .macOS(.v10_13),
-        .macOS(.v10_13),
-        .tvOS(.v11)
+        .tvOS(.v12)
     ],
     products: [
         .library(
@@ -65,16 +65,20 @@ let package = Package(
             targets: ["AppCenterAnalytics"]),
         .library(
             name: "AppCenterCrashes",
-            targets: ["AppCenterCrashes"])
+            targets: ["AppCenterCrashes"]),
+        .library(
+            name: "AppCenterDistribute",
+            targets: ["AppCenterDistribute"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/microsoft/plcrashreporter.git", .upToNextMinor(from: "1.11.2")),
+        .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.11.2")),
     ],
     targets: [
         .target(
             name: "AppCenter",
             path: "AppCenter/AppCenter",
             exclude: ["Support"],
+            resources: [.process("../PrivacyInfo.xcprivacy")],
             cSettings: {
                 var settings: [CSetting] = [
                     .define("APP_CENTER_C_VERSION", to:"\"5.0.5\""),
@@ -98,6 +102,7 @@ let package = Package(
             dependencies: ["AppCenter"],
             path: "AppCenterAnalytics/AppCenterAnalytics",
             exclude: ["Support"],
+            resources: [.process("../PrivacyInfo.xcprivacy")],
             cSettings: cHeaderSearchPaths,
             linkerSettings: [
                 .linkedFramework("Foundation"),
@@ -107,14 +112,32 @@ let package = Package(
         ),
         .target(
             name: "AppCenterCrashes",
-            dependencies: ["AppCenter", "CrashReporter"],
+            dependencies: [
+                "AppCenter",
+                .product(name: "CrashReporter", package: "PLCrashReporter"),
+            ],
             path: "AppCenterCrashes/AppCenterCrashes",
-            exclude: ["Support"],
+            exclude: ["Support", "Internals/MSACCrashesBufferedLog.hpp"],
+            resources: [.process("../PrivacyInfo.xcprivacy")],
             cSettings: cHeaderSearchPaths,
             linkerSettings: [
                 .linkedFramework("Foundation"),
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS])),
                 .linkedFramework("AppKit", .when(platforms: [.macOS])),
+            ]
+        ),
+        .target(
+            name: "AppCenterDistribute",
+            dependencies: ["AppCenter"],
+            path: "AppCenterDistribute/AppCenterDistribute",
+            exclude: ["Support"],
+            resources: [.process("../PrivacyInfo.xcprivacy")],
+            cSettings: cHeaderSearchPaths,
+            linkerSettings: [
+                .linkedFramework("Foundation"),
+                .linkedFramework("SafariServices", .when(platforms: [.iOS])),
+                .linkedFramework("AuthenticationServices", .when(platforms: [.iOS])),
+                .linkedFramework("UIKit", .when(platforms: [.iOS])),
             ]
         )
     ]
