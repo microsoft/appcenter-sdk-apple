@@ -39,6 +39,7 @@ extends:
           sdl:
             codeql:
               language: javascript, ruby, cpp
+              cadence: 1
           outputs:
           - output: pipelineArtifact
             displayName: 'Publish Artifacts'
