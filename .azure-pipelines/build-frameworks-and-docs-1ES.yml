@@ -17,10 +17,10 @@ resources:
     name: 1ESPipelineTemplates/1ESPipelineTemplates
     ref: refs/tags/release
 extends:
-  # ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
-  template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
-  # ${{ else }}:
-  #   template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
+  ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}:
+    template: v1/1ES.Official.PipelineTemplate.yml@1ESPipelineTemplates
+  ${{ else }}:
+    template: v1/1ES.Unofficial.PipelineTemplate.yml@1ESPipelineTemplates
   parameters:
     pool:
       name: Azure Pipelines
@@ -39,7 +39,6 @@ extends:
           sdl:
             codeql:
               language: javascript, ruby, cpp
-              cadence: 1
           outputs:
           - output: pipelineArtifact
             displayName: 'Publish Artifacts'
