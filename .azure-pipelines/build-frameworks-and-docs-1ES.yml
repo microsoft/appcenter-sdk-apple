@@ -36,6 +36,9 @@ extends:
       - job: sdkBuildJob
         displayName: Build SDK for All Platforms
         templateContext:
+          sdl:
+            codeql:
+              language: javascript, ruby, cpp
           outputs:
           - output: pipelineArtifact
             displayName: 'Publish Artifacts'
