@@ -313,10 +313,10 @@
 		C9EBA9AF230D35FF00A20F0F /* MSACWrapperExceptionModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3A1DD14C240030878F /* MSACWrapperExceptionModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9B0230D35FF00A20F0F /* MSACStackFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 3507AE3B1DD14C240030878F /* MSACStackFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9B1230D35FF00A20F0F /* MSACAbstractErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD3BF71D80EE49000A8A91 /* MSACAbstractErrorLog.h */; };
-		C9EBA9B2230D35FF00A20F0F /* MSACBinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* MSACBinary.h */; };
+		C9EBA9B2230D35FF00A20F0F /* MSACBinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C651D3E9321009EC9AC /* MSACBinary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9B3230D35FF00A20F0F /* MSACAppleErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C691D3E9332009EC9AC /* MSACAppleErrorLog.h */; };
 		C9EBA9B4230D35FF00A20F0F /* MSACHandledErrorLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 922446821F621D4500E4034A /* MSACHandledErrorLog.h */; };
-		C9EBA9B5230D35FF00A20F0F /* MSACThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C711D3E9381009EC9AC /* MSACThread.h */; };
+		C9EBA9B5230D35FF00A20F0F /* MSACThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E7D5C711D3E9381009EC9AC /* MSACThread.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C9EBA9B6230D360000A20F0F /* MSACWrapperException.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD15E1F29209000E1DF78 /* MSACWrapperException.h */; };
 		C9EBA9B7230D360000A20F0F /* MSACWrapperExceptionInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 353FD1601F29209000E1DF78 /* MSACWrapperExceptionInternal.h */; };
 		C9EBA9B8230D360000A20F0F /* MSACErrorAttachmentLogInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 382346411E8B3DAD001C3A76 /* MSACErrorAttachmentLogInternal.h */; };
@@ -452,6 +452,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9A91F5D230BFDB70068070D;
 			remoteInfo = "AppCenterCrashes macOS Framework";
+		};
+		32BF0C7D2C9188B400A0C0AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C24C9CD12472B3C30072C35D /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 32CF777F26DFBB080087748A;
+			remoteInfo = "CrashReporter macOS Static Framework";
 		};
 		C2392F5124642CEA00425640 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1181,15 +1188,11 @@
 				382346411E8B3DAD001C3A76 /* MSACErrorAttachmentLogInternal.h */,
 				B2CD3BF71D80EE49000A8A91 /* MSACAbstractErrorLog.h */,
 				B2CD3BF81D80EE49000A8A91 /* MSACAbstractErrorLog.m */,
-				6E7D5C651D3E9321009EC9AC /* MSACBinary.h */,
-				6E7D5C661D3E9321009EC9AC /* MSACBinary.m */,
 				6E7D5C691D3E9332009EC9AC /* MSACAppleErrorLog.h */,
 				6E7D5C6A1D3E9332009EC9AC /* MSACAppleErrorLog.m */,
 				922446821F621D4500E4034A /* MSACHandledErrorLog.h */,
 				922446831F621F3A00E4034A /* MSACHandledErrorLog.m */,
 				B2F120E61D657F4F0060DED7 /* MSACErrorReportPrivate.h */,
-				6E7D5C711D3E9381009EC9AC /* MSACThread.h */,
-				6E7D5C721D3E9381009EC9AC /* MSACThread.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1309,6 +1312,10 @@
 			children = (
 				3507AE3A1DD14C240030878F /* MSACWrapperExceptionModel.h */,
 				6E7D5C6E1D3E9346009EC9AC /* MSACWrapperExceptionModel.m */,
+				6E7D5C651D3E9321009EC9AC /* MSACBinary.h */,
+				6E7D5C661D3E9321009EC9AC /* MSACBinary.m */,
+				6E7D5C711D3E9381009EC9AC /* MSACThread.h */,
+				6E7D5C721D3E9381009EC9AC /* MSACThread.m */,
 				3507AE3B1DD14C240030878F /* MSACStackFrame.h */,
 				6E7D5C761D3E9395009EC9AC /* MSACStackFrame.m */,
 				38BD86511E8499EF004E8D7A /* MSACErrorAttachmentLog.h */,
@@ -1370,7 +1377,6 @@
 			files = (
 				C9EBA9B1230D35FF00A20F0F /* MSACAbstractErrorLog.h in Headers */,
 				C9EBA97C230D35DB00A20F0F /* MSACWrapperCrashesHelper.h in Headers */,
-				C9EBA9B5230D35FF00A20F0F /* MSACThread.h in Headers */,
 				C9EBA973230D35CE00A20F0F /* MSACCrashes.h in Headers */,
 				C9EBA9B3230D35FF00A20F0F /* MSACAppleErrorLog.h in Headers */,
 				C9EBA9B4230D35FF00A20F0F /* MSACHandledErrorLog.h in Headers */,
@@ -1379,6 +1385,7 @@
 				C9EBA984230D35EC00A20F0F /* MSACWrapperExceptionManager.h in Headers */,
 				C9EBA9B2230D35FF00A20F0F /* MSACBinary.h in Headers */,
 				C2FE827C23757CB7007DCD28 /* MSACApplicationForwarder.h in Headers */,
+				C9EBA9B5230D35FF00A20F0F /* MSACThread.h in Headers */,
 				C9EBA985230D35EC00A20F0F /* MSACCrashesInternal.h in Headers */,
 				C9EBA9D0230D361E00A20F0F /* MSACCrashesUtilPrivate.h in Headers */,
 				C9EBA9B0230D35FF00A20F0F /* MSACStackFrame.h in Headers */,

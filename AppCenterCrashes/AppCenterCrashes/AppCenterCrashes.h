@@ -13,6 +13,9 @@
 #import <AppCenterCrashes/MSACStackFrame.h>
 #import <AppCenterCrashes/MSACWrapperCrashesHelper.h>
 #import <AppCenterCrashes/MSACWrapperExceptionModel.h>
+#import <AppCenterCrashes/MSACBinary.h>
+#import <AppCenterCrashes/MSACThread.h>
+
 #else
 #import "MSACCrashHandlerSetupDelegate.h"
 #import "MSACCrashes.h"
@@ -23,4 +26,6 @@
 #import "MSACStackFrame.h"
 #import "MSACWrapperCrashesHelper.h"
 #import "MSACWrapperExceptionModel.h"
+#import <MSACBinary.h>
+#import <MSACThread.h>
 #endif

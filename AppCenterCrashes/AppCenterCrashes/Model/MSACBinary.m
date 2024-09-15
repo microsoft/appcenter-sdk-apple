@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #import "MSACBinary.h"
+#import "AppCenter+Internal.h"
 
 static NSString *const kMSACId = @"id";
 static NSString *const kMSACStartAddress = @"startAddress";

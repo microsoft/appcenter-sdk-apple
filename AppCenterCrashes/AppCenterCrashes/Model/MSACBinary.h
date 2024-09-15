@@ -3,8 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AppCenter+Internal.h"
+#if __has_include(<AppCenter/MSACSerializableObject.h>)
+#import <AppCenter/MSACSerializableObject.h>
+#else
 #import "MSACSerializableObject.h"
+#endif
 
 /**
  * Binary (library) definition for any platform.

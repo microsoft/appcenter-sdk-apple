@@ -4,6 +4,7 @@
 #import "MSACThread.h"
 #import "MSACExceptionModel.h"
 #import "MSACStackFrame.h"
+#import "AppCenter+Internal.h"
 
 static NSString *const kMSACThreadId = @"id";
 static NSString *const kMSACName = @"name";
