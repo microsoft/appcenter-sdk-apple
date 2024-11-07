@@ -27,6 +27,12 @@ NS_SWIFT_NAME(ChannelGroupProtocol)
 @protocol MSACChannelGroupProtocol <MSACChannelProtocol>
 
 /**
+ * An ingestion instance that is used to send batches of log items to the
+ * backend.
+ */
+@property(nonatomic, nullable) id<MSACIngestionProtocol> ingestion;
+
+/**
  * Initialize a channel unit with the given configuration.
  *
  * @param configuration channel configuration.

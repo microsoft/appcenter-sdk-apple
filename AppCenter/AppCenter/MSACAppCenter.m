@@ -358,6 +358,11 @@ static const long kMSACMinUpperSizeLimitInBytes = 24 * 1024;
       if ((![MSACLogger isUserDefinedLogLevel]) && ([MSACUtility currentAppEnvironment] == MSACEnvironmentOther)) {
         [MSACAppCenter setLogLevel:MSACLogLevelWarning];
       }
+        
+        if ([kMSACAppCenterBaseUrl isEqualToString:[[self.channelGroup ingestion] baseURL]]) {
+            [[self.channelGroup ingestion] checkAppCenterStatus];
+        }
+        
       success = true;
     }
     if (success) {

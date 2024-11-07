@@ -45,6 +45,16 @@ typedef void (^MSACSendAsyncCompletionHandler)(NSString *callId, NSHTTPURLRespon
  */
 - (void)sendAsync:(nullable NSObject *)data eTag:(nullable NSString *)eTag completionHandler:(MSACSendAsyncCompletionHandler)handler;
 
+/**
+  * Check App Center status.
+ */
+- (void)checkAppCenterStatus;
+
+/**
+ * Base URL (schema + authority + port only) used to communicate with the server.
+ */
+@property(nonatomic, copy) NSString *baseURL;
+
 @end
 
 NS_ASSUME_NONNULL_END

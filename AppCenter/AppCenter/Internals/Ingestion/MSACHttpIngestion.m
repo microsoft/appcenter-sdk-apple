@@ -204,6 +204,46 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
   }
 }
 
+- (void)checkAppCenterStatus {
+    NSURL *url = [NSURL URLWithString:kMSACStatusCheckURL];
+        
+    MSACHttpRequestCompletionHandler completionHandler = ^(NSData *_Nullable responseBody, NSHTTPURLResponse *_Nullable response, NSError *_Nullable error) {
+        if (error) {
+            MSACLogError([MSACAppCenter logTag], @"Failed to fetch JSON data from URL: %@", error.localizedDescription);
+            return;
+        }
+        
+        if (responseBody) {
+            NSError *jsonError;
+            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:responseBody options:0 error:&jsonError];
+            
+            if (jsonError) {
+                MSACLogError([MSACAppCenter logTag], @"Error getting App Center status from JSON: %@", jsonError.localizedDescription);
+                return;
+            }
+            
+            NSString *status = nil;
+            if ([jsonDict valueForKey:kMSACStatusKey]) {
+                status = jsonDict[kMSACStatusKey][kMSACStatusIndicatorKey];
+            }
+            if ([status isEqualToString:kMSACStatusIndicatorValue]) {
+                
+                [MSACAppCenter setNetworkRequestsAllowed:false];
+            } else {
+                MSACLogInfo([MSACAppCenter logTag], @"Status is unavailable.");
+            }
+        }
+    };
+    
+    [self.httpClient sendAsync:url
+                    method:@"GET"
+                   headers:nil
+                      data:nil
+            retryIntervals:self.callsRetryIntervals
+        compressionEnabled:YES
+         completionHandler:completionHandler];
+}
+
 #pragma mark - Printing
 
 - (void)printResponse:(NSHTTPURLResponse *)response body:(NSData *)responseBody error:(NSError *)error {

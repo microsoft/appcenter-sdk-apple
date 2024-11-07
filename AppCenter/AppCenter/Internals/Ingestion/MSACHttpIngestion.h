@@ -12,6 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 static NSString *const kMSACETagResponseHeader = @"etag";
 static NSString *const kMSACETagRequestHeader = @"If-None-Match";
 
+static NSString *const kMSACStatusCheckURL = @"https://status.appcenter.ms/api/v2/summary.json";
+static NSString *const kMSACStatusKey = @"status";
+static NSString *const kMSACStatusIndicatorKey = @"indicator";
+static NSString *const kMSACStatusIndicatorValue = @"minor";
+
 @interface MSACHttpIngestion : NSObject <MSACIngestionProtocol, MSACHttpClientDelegate>
 
 /**
@@ -89,6 +94,11 @@ static NSString *const kMSACETagRequestHeader = @"If-None-Match";
  * @return A complete URL with the given values.
  */
 - (NSURL *)buildURLWithBaseURL:(NSString *)baseURL apiPath:(NSString *)apiPath queryStrings:(NSDictionary *)queryStrings;
+
+/**
+  * Check App Center status.
+ */
+- (void)checkAppCenterStatus;
 
 @end
 
