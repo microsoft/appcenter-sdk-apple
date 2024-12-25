@@ -24,7 +24,7 @@ extends:
   parameters:
     pool:
       name: Azure Pipelines
-      image: macos-latest
+      image: macos-13
       os: macOS
     customBuildTags:
     - ES365AIMigrationTooling-BulkMigrated
