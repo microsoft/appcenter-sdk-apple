@@ -9,6 +9,7 @@ variables:
   Configuration: Release
   SDK: ''
   EOCompliance-Mac: true
+  XCODE_PATH: '/Applications/Xcode_14.2.app/Contents/Developer'
 resources:
   repositories:
   - repository: 1ESPipelineTemplates
@@ -35,9 +36,6 @@ extends:
       - job: sdkBuildJob
         displayName: Build SDK for All Platforms
         templateContext:
-          sdl:
-            codeql:
-              language: javascript, ruby, cpp
           outputs:
           - output: pipelineArtifact
             displayName: 'Publish Artifacts'
@@ -59,6 +57,8 @@ extends:
           inputs:
             xcWorkspacePath: AppCenter.xcworkspace
             scheme: 'All App Center Frameworks'
+            xcodeVersion: specifyPath
+            xcodeDeveloperDir: '$(XCODE_PATH)'
             args: 'SYMROOT="$(Build.BinariesDirectory)" GCC_TREAT_WARNINGS_AS_ERRORS=YES SWIFT_TREAT_WARNINGS_AS_ERRORS=YES'
           timeoutInMinutes: 50
         - task: Xcode@5
