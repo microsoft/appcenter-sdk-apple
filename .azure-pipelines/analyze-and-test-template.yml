@@ -36,6 +36,8 @@ jobs:
       inputs:
         actions: test
         xcWorkspacePath: AppCenter.xcworkspace
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '/Applications/Xcode_14.2.app/Contents/Developer'
         ${{ if eq(parameters.platform, 'MacCatalyst') }}:
           scheme: '${{ module }} iOS Framework'
           destinationPlatformOption: macOS
