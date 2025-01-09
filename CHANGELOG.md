@@ -3,6 +3,8 @@
 ## Version 5.0.6 (Under development)
 
 * **[Improvement]** Update target iOS and tvOS version to 12.0.
+* **[Improvement]** Update PLCrashReporter.
+* **[Improvement]** Update sqlite to 3.46.1, which fixes [CVE-2020-11656](https://github.com/advisories/GHSA-x2v5-p27f-53wp).
 
 ## Version 5.0.5
 
