@@ -10,7 +10,7 @@ jobs:
   - job:
     displayName: ${{ format('{0} {1}', parameters.platform, module) }}
     pool:
-      vmImage: macos-12
+      vmImage: macos-13
     steps:
     - checkout: self
       submodules: recursive
