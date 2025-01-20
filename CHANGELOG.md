@@ -1,6 +1,6 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
-## Version 5.0.6 (Under development)
+## Version 5.0.6
 
 * **[Improvement]** Update target iOS and tvOS version to 12.0.
 * **[Improvement]** Update PLCrashReporter.
