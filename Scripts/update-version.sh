@@ -33,7 +33,6 @@ PROJECT_DIR="$(dirname "$0")/.."
 DOCUMENT_DIR="$PROJECT_DIR/Documentation"
 PODSPEC_FILE="$PROJECT_DIR/AppCenter.podspec"
 SWIFTPM_FILE="$PROJECT_DIR/Package.swift"
-SWIFTPM_5_3_FILE="$PROJECT_DIR/Package@swift-5.3.swift"
 
 # Update framework version
 $(dirname "$0")/framework-version.sh $new_version
@@ -51,4 +50,3 @@ updateSwiftPMVersion() {
   sed -i '' 's/\(define("APP_CENTER_C_VERSION",[[:space:]]*to:*\).*/\1''"\\"'$new_version'\\""),''/g' $1
 }
 updateSwiftPMVersion $SWIFTPM_FILE
-updateSwiftPMVersion $SWIFTPM_5_3_FILE
