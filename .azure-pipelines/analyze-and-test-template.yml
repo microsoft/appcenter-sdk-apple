@@ -29,7 +29,7 @@ jobs:
           scheme: '${{ module }} ${{ parameters.platform }} Framework'
           destinationPlatformOption: ${{ parameters.platform }}
         ${{ if eq(parameters.platform, 'iOS') }}:
-          destinationSimulators: 'iPhone 15'
+          destinationSimulators: 'iPhone 14'
         ${{ if eq(parameters.platform, 'tvOS') }}:
           destinationSimulators: 'Apple TV'
 
@@ -47,7 +47,7 @@ jobs:
           scheme: '${{ module }} ${{ parameters.platform }} Framework'
           destinationPlatformOption: ${{ parameters.platform }}
         ${{ if eq(parameters.platform, 'iOS') }}:
-          destinationSimulators: 'iPhone 15'
+          destinationSimulators: 'iPhone 14'
         ${{ if eq(parameters.platform, 'tvOS') }}:
           destinationSimulators: 'Apple TV'
         publishJUnitResults: true
