@@ -12,6 +12,9 @@ jobs:
     pool:
       vmImage: macos-13
     steps:
+    - script: sudo xcode-select -s /Applications/Xcode_14.app/Contents/Developer
+      displayName: 'Set Xcode 14'
+
     - checkout: self
       submodules: recursive
 
