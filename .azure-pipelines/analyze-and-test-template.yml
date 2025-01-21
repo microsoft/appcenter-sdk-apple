@@ -12,9 +12,6 @@ jobs:
     pool:
       vmImage: macos-13
     steps:
-    - script: sudo xcode-select -s /Applications/Xcode_14.3.app/Contents/Developer
-      displayName: 'Set Xcode 14'
-
     - checkout: self
       submodules: recursive
 
@@ -23,6 +20,8 @@ jobs:
       inputs:
         actions: analyze
         xcWorkspacePath: AppCenter.xcworkspace
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '/Applications/Xcode_14.2.app/Contents/Developer'
         ${{ if eq(parameters.platform, 'MacCatalyst') }}:
           scheme: '${{ module }} iOS Framework'
           destinationPlatformOption: macOS
@@ -39,6 +38,8 @@ jobs:
       inputs:
         actions: test
         xcWorkspacePath: AppCenter.xcworkspace
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '/Applications/Xcode_14.2.app/Contents/Developer'
         ${{ if eq(parameters.platform, 'MacCatalyst') }}:
           scheme: '${{ module }} iOS Framework'
           destinationPlatformOption: macOS
