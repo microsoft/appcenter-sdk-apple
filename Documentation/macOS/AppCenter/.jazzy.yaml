@@ -5,7 +5,7 @@ sdk: macosx
 theme: ../../Themes/apple
 
 module: AppCenter
-module_version: 5.0.6
+module_version: 5.0.7
 author: Microsoft Corp
 author_url: http://www.microsoft.com
 

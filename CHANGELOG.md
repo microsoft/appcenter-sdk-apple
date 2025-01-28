@@ -1,4 +1,7 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
+## Version 5.0.6 (Under development)
+
+___
 
 ## Version 5.0.6
 
@@ -6,11 +9,15 @@
 * **[Improvement]** Update PLCrashReporter.
 * **[Improvement]** Update sqlite to 3.46.1, which fixes [CVE-2020-11656](https://github.com/advisories/GHSA-x2v5-p27f-53wp).
 
+___
+
 ## Version 5.0.5
 
 * **[Fix]** Handle the special value (--) returned by CTCarrier after it has been depcrecated with iOS 16.
 * **[Improvement]** Update PrivacyInfo files to include all relevant information.
 * **[Improvement]** Update PLCrashReporter to version 1.11.2.
+
+___
 
 ## Version 5.0.4
 
@@ -18,9 +25,13 @@
 * **[Internal]** Add `dataResidencyRegion` option.
 * **[Fix]** Mitigate the runtime pressure when starting App Center Crashes.
 
+___
+
 ## Version 5.0.3
 
 * **[Fix]** Fix the build issue with Xcode 15 beta when integrating via Swift Package Manager.
+
+___
 
 ## Version 5.0.2
 
@@ -30,7 +41,7 @@
 * **[Improvement]** Always specify `isDirectory` parameter for `[NSURL URLByAppendingPathComponent:]` for better performace.
 * **[Improvement]** Disable treating warnings as errors in code to avoid blockers when new Xcode warnings are introduced.
 
- ___
+___
 
 ## Version 5.0.1
 
@@ -43,7 +54,8 @@
 ### App Center Distribute
 
 * **[Fix]** Fix crash in getPresentationAnchor function if the active scene is not an instance of UIWindowScene.
- ___
+
+___
 
 ## Version 5.0.0
 
@@ -54,6 +66,8 @@
 ### App Center Crashes
 
 * **[Improvement]** Update PLCrashReporter to 1.11.0.
+
+___
 
 ## Version 4.4.3
 

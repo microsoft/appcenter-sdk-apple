@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.cocoapods_version = '>= 1.10'
   s.name              = 'AppCenter'
-  s.version           = '5.0.6'
+  s.version           = '5.0.7'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC

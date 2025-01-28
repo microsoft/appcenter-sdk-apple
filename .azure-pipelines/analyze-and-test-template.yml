@@ -10,7 +10,7 @@ jobs:
   - job:
     displayName: ${{ format('{0} {1}', parameters.platform, module) }}
     pool:
-      vmImage: macos-12
+      vmImage: macos-13
     steps:
     - checkout: self
       submodules: recursive
@@ -20,6 +20,8 @@ jobs:
       inputs:
         actions: analyze
         xcWorkspacePath: AppCenter.xcworkspace
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '/Applications/Xcode_14.2.app/Contents/Developer'
         ${{ if eq(parameters.platform, 'MacCatalyst') }}:
           scheme: '${{ module }} iOS Framework'
           destinationPlatformOption: macOS
@@ -27,7 +29,7 @@ jobs:
           scheme: '${{ module }} ${{ parameters.platform }} Framework'
           destinationPlatformOption: ${{ parameters.platform }}
         ${{ if eq(parameters.platform, 'iOS') }}:
-          destinationSimulators: 'iPhone 13'
+          destinationSimulators: 'iPhone 14'
         ${{ if eq(parameters.platform, 'tvOS') }}:
           destinationSimulators: 'Apple TV'
 
@@ -36,6 +38,8 @@ jobs:
       inputs:
         actions: test
         xcWorkspacePath: AppCenter.xcworkspace
+        xcodeVersion: specifyPath
+        xcodeDeveloperDir: '/Applications/Xcode_14.2.app/Contents/Developer'
         ${{ if eq(parameters.platform, 'MacCatalyst') }}:
           scheme: '${{ module }} iOS Framework'
           destinationPlatformOption: macOS
@@ -43,7 +47,7 @@ jobs:
           scheme: '${{ module }} ${{ parameters.platform }} Framework'
           destinationPlatformOption: ${{ parameters.platform }}
         ${{ if eq(parameters.platform, 'iOS') }}:
-          destinationSimulators: 'iPhone 13'
+          destinationSimulators: 'iPhone 14'
         ${{ if eq(parameters.platform, 'tvOS') }}:
           destinationSimulators: 'Apple TV'
         publishJUnitResults: true
