@@ -81,7 +81,7 @@ let package = Package(
             resources: [.process("../PrivacyInfo.xcprivacy")],
             cSettings: {
                 var settings: [CSetting] = [
-                    .define("APP_CENTER_C_VERSION", to:"\"5.0.6\""),
+                    .define("APP_CENTER_C_VERSION", to:"\"5.0.7\""),
                     .define("APP_CENTER_C_BUILD", to: "\"1\"")
                 ]
                 settings.append(contentsOf: cHeaderSearchPaths)
