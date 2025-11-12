@@ -1,5 +1,10 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.10.0
+
+* **[Fix]** Bump SQLite3 and protobuf-c to resolve vulnerabilities
+* **[Improvement]** Update PLCrashReporter to latest version 1.12.2
+
 ## Version 5.0.6
 
 * **[Improvement]** Update target iOS and tvOS version to 12.0.
