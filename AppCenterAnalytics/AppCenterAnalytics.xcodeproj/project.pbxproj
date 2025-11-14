@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -1309,6 +1309,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0431216E1EE0C213007054C5 /* Build tvOS Device Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1354,6 +1355,7 @@
 		};
 		324F3B94254782DB0006E223 /* Build iOS Simulator Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1373,6 +1375,7 @@
 		};
 		324F3B95254782F50006E223 /* Combine iOS Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1395,6 +1398,7 @@
 		};
 		324F3C0025478BD10006E223 /* Copy Products */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1414,6 +1418,7 @@
 		};
 		324F3DA025478FDF0006E223 /* Build tvOS Simulator Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1433,6 +1438,7 @@
 		};
 		324F3DA125478FE80006E223 /* Combine tvOS Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1455,6 +1461,7 @@
 		};
 		8414DF7F2459D3C500B316C5 /* Combine XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1495,6 +1502,7 @@
 		};
 		C2D73CD8230FC75800390198 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1514,6 +1522,7 @@
 		};
 		C2D73CD9230FC76800390198 /* Verify No Build Settings */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1533,6 +1542,7 @@
 		};
 		D5E3B3EA247C051100D93E90 /* Build Mac Catalyst */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1552,6 +1562,7 @@
 		};
 		E85547E81D2D6827002DF6E2 /* Build iOS Device Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
