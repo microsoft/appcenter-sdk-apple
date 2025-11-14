@@ -31,5 +31,6 @@
 #pragma clang diagnostic ignored "-Wdisabled-macro-expansion"
 #pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 #pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#import "CrashReporter.h"
+#import "PLCrashReporter.h"
+#import "PLCrashReportFormatter.h"
 #pragma clang diagnostic pop
