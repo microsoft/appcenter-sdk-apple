@@ -5,16 +5,6 @@
       "component": {
         "type": "git",
         "git": {
-          "name": "PLCrashReporter",
-          "repositoryUrl": "https://github.com/microsoft/plcrashreporter.git",
-          "commitHash": "52d876d704750b0e17758d1a213a94ada5becc80"
-        }
-      }
-    },
-    {
-      "component": {
-        "type": "git",
-        "git": {
           "name": "OCHamcrest",
           "repositoryUrl": "https://github.com/hamcrest/OCHamcrest.git",
           "commitHash": "5f77cf33732dfa02e0b9f15e43d05a9110cc2ff0"
@@ -47,7 +37,7 @@
         "git": {
           "name": "Official Git mirror of the SQLite source tree",
           "repositoryUrl": "https://github.com/sqlite/sqlite.git",
-          "commitHash": "f3d536d37825302e31ed0eddd811c689f38f85a3"
+          "commitHash": "8ed5e7365e6f12f427910188bbf6b254daad2ef6"
         }
       }
     },
@@ -57,7 +47,7 @@
         "git": {
           "name": "Protocol Buffers implementation in C",
           "repositoryUrl": "https://github.com/protobuf-c/protobuf-c.git",
-          "commitHash": "1390409f4ee4e26d0635310995b516eb702c3f9e"
+          "commitHash": "4719fdd7760624388c2c5b9d6759eb6a47490626"
         }
       }
     },

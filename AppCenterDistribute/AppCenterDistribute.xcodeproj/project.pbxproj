@@ -1048,6 +1048,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		04FD4A2C1E453159009B4468 /* Build iOS Device Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1078,6 +1079,7 @@
 		};
 		324F3BA4254783E50006E223 /* Build iOS Simulator Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1097,6 +1099,7 @@
 		};
 		324F3BA5254783F70006E223 /* Combine iOS Universal Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1119,6 +1122,7 @@
 		};
 		324F3C5C25478CE80006E223 /* Copy Products */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -1134,6 +1138,7 @@
 		};
 		845017DF245ADB360026E0DB /* Combine XCFramework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

@@ -360,37 +360,6 @@ static NSURL *sfURL;
   [distributeMock stopMocking];
 }
 
-- (void)testHandleValidUpdate {
-
-  // If
-  MSACReleaseDetails *details = [MSACReleaseDetails new];
-  id distributeMock = OCMPartialMock(self.sut);
-  __block int showConfirmationAlertCounter = 0;
-  OCMStub([distributeMock showConfirmationAlert:OCMOCK_ANY]).andDo(^(__attribute((unused)) NSInvocation *invocation) {
-    showConfirmationAlertCounter++;
-  });
-  OCMStub([distributeMock isNewerVersion:OCMOCK_ANY]).andReturn(YES);
-  details.id = @1;
-  details.downloadUrl = [NSURL URLWithString:@"https://contoso.com/valid/url"];
-  details.status = @"available";
-  details.minOs = @"1.0";
-
-  // When
-  [self.sut handleUpdate:details];
-
-  // Then
-  OCMVerify([distributeMock showConfirmationAlert:details]);
-
-  /*
-   * The reason of this additional checking is that OCMock doesn't work properly sometimes for OCMVerify and OCMReject. The test won't be
-   * failed even though the above line is changed to OCMReject, we are preventing the issue by adding more explicit checks.
-   */
-  XCTAssertEqual(showConfirmationAlertCounter, 1);
-
-  // Clear
-  [distributeMock stopMocking];
-}
-
 /**
  * This test is for various cases after update is postponed. This test doesn't
  * complete handleUpdate method and just

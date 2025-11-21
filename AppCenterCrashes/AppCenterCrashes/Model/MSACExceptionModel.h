@@ -42,7 +42,7 @@ NS_SWIFT_NAME(ExceptionModel)
 /**
  * Creates an instance of exception model.
  *
- * @exception exception.
+ * @param exception Obj-C exception
  *
  * @return A new instance of exception.
  */
