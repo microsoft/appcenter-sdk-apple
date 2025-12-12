@@ -71,7 +71,7 @@ let package = Package(
             targets: ["AppCenterDistribute"]),
     ],
     dependencies: [
-         .package(path: "../plcrashreporter"),
+          .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.12.2"))
     ],
     targets: [
         .target(
