@@ -139,11 +139,10 @@ static NSString *const kMSACTestAppSecret = @"TestAppSecret";
 - (void)testHttpClientDelegateObfuscateURLAndHeaderValue {
 
   // If
-  id mockLogger = OCMClassMock([MSACLogger class]);
+  MSACLogLevel initialLogLevel = [MSACLogger currentLogLevel];
+  [MSACLogger setCurrentLogLevel:MSACLogLevelVerbose];
   id mockHttpUtil = OCMClassMock([MSACHttpUtil class]);
-  OCMStub([mockLogger currentLogLevel]).andReturn(MSACLogLevelVerbose);
   __block NSString *appSecret = @"TestAppSecret";
-  __block int count = 0;
   NSDictionary<NSString *, NSString *> *headers = @{kMSACHeaderUpdateApiToken : appSecret};
   NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", kMSACDefaultApiUrl, kMSACTestAppSecret]];
 
@@ -158,8 +157,8 @@ static NSString *const kMSACTestAppSecret = @"TestAppSecret";
   // Then
   OCMVerify([mockHttpUtil hideSecretInString:OCMOCK_ANY secret:appSecret]);
 
-  [mockLogger stopMocking];
   [mockHttpUtil stopMocking];
+  [MSACLogger setCurrentLogLevel:initialLogLevel];
 }
 
 - (void)testObfuscateResponsePayload {

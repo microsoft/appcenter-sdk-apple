@@ -1,5 +1,9 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.12.0
+
+* **[Improvement]** Update target iOS and tvOS version to 13.0
+
 ## Version 5.10.0
 
 * **[Fix]** Bump SQLite3 and protobuf-c to resolve vulnerabilities

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.cocoapods_version = '>= 1.10'
   s.name              = 'AppCenter'
-  s.version           = '5.10.0'
+  s.version           = '5.12.0'
 
   s.summary           = 'Visual Studio App Center is your continuous integration, delivery and learning solution for iOS and macOS apps.'
   s.description       = <<-DESC
@@ -28,9 +28,9 @@ Pod::Spec.new do |s|
   s.license           = { :type => 'MIT', :file => 'AppCenter-SDK-Apple/LICENSE' }
   s.author            = { 'Microsoft' => 'appcentersdk@microsoft.com' }
 
-  s.ios.deployment_target = '12.0'
+  s.ios.deployment_target = '13.0'
   s.osx.deployment_target = '10.13'
-  s.tvos.deployment_target = '12.0'
+  s.tvos.deployment_target = '13.0'
   s.source = { :http => "https://github.com/microsoft/appcenter-sdk-apple/releases/download/#{s.version}/AppCenter-SDK-Apple-XCFramework-#{s.version}.zip" }
 
   s.preserve_path = 'AppCenter-SDK-Apple/README.md'

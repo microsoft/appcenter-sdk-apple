@@ -55,9 +55,9 @@ let package = Package(
     name: "AppCenter",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v12),
+        .iOS(.v13),
         .macOS(.v10_13),
-        .tvOS(.v12)
+        .tvOS(.v13)
     ],
     products: [
         .library(
@@ -71,7 +71,7 @@ let package = Package(
             targets: ["AppCenterDistribute"]),
     ],
     dependencies: [
-         .package(path: "../plcrashreporter"),
+          .package(url: "https://github.com/microsoft/PLCrashReporter.git", .upToNextMinor(from: "1.12.2"))
     ],
     targets: [
         .target(
@@ -81,7 +81,7 @@ let package = Package(
             resources: [.process("../PrivacyInfo.xcprivacy")],
             cSettings: {
                 var settings: [CSetting] = [
-                    .define("APP_CENTER_C_VERSION", to:"\"5.10.0\""),
+                    .define("APP_CENTER_C_VERSION", to:"\"5.12.0\""),
                     .define("APP_CENTER_C_BUILD", to: "\"1\"")
                 ]
                 settings.append(contentsOf: cHeaderSearchPaths)

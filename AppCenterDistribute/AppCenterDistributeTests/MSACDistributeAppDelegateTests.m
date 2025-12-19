@@ -16,7 +16,7 @@
 
   // If
   MSACDistributeAppDelegate *appDelegate = [[MSACDistributeAppDelegate alloc] init];
-  id distributeMock = OCMPartialMock([MSACDistribute sharedInstance]);
+  MSACDistribute *distributeMock = OCMPartialMock([MSACDistribute sharedInstance]);
   __block int count = 0;
   OCMStub([distributeMock openURL:OCMOCK_ANY]).andDo(^(__unused NSInvocation *invocation) {
     count++;

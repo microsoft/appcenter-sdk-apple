@@ -148,7 +148,9 @@ static NSString *const kMSACPartialURLComponentsName[] = {@"scheme", @"user", @"
     BOOL success = false;
     NSURLComponents *components;
     _baseURL = baseURL;
-    NSURL *partialURL = [NSURL URLWithString:[baseURL stringByAppendingString:self.apiPath]];
+      NSString *absUrl = [baseURL stringByAppendingString:self.apiPath];
+      CFURLRef cfURL = CFURLCreateWithString(NULL, (__bridge CFStringRef)absUrl, NULL);
+      NSURL *partialURL = (__bridge_transfer NSURL *)cfURL;
 
     // Merge new parial URL and current full URL.
     if (partialURL) {
