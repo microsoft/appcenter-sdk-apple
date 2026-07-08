@@ -119,6 +119,46 @@ static NSArray *kMacOSCrashReportsParameters = @[
   [defaults stopMocking];
 }
 
+- (void)testCreateErrorReportWithCorruptedNilExceptionReason {
+
+  // A corrupted report whose reason bytes aren't valid UTF-8 parses with hasExceptionInfo == YES
+  // but exceptionReason == nil; the formatter must handle it without raising.
+
+  // Start from a real report that has exception info with a valid reason.
+  NSData *validData = [MSACCrashesTestUtil dataOfFixtureCrashReportWithFileName:@"live_report_exception"];
+  XCTAssertNotNil(validData);
+  NSError *error = nil;
+  PLCrashReport *validReport = [[PLCrashReport alloc] initWithData:validData error:&error];
+  XCTAssertNotNil(validReport);
+  XCTAssertTrue(validReport.hasExceptionInfo);
+  NSString *validReason = validReport.exceptionInfo.exceptionReason;
+  XCTAssertNotNil(validReason);
+
+  // Overwrite the reason bytes with 0xFF (never valid in UTF-8). Same length keeps the protobuf
+  // structurally valid so the report still parses.
+  NSData *reasonBytes = [validReason dataUsingEncoding:NSUTF8StringEncoding];
+  NSRange reasonRange = [validData rangeOfData:reasonBytes options:0 range:NSMakeRange(0, validData.length)];
+  XCTAssertNotEqual(reasonRange.location, (NSUInteger)NSNotFound);
+  NSMutableData *corruptedData = [validData mutableCopy];
+  NSMutableData *invalidBytes = [NSMutableData dataWithLength:reasonRange.length];
+  memset(invalidBytes.mutableBytes, 0xFF, reasonRange.length);
+  [corruptedData replaceBytesInRange:reasonRange withBytes:invalidBytes.bytes length:reasonRange.length];
+
+  // Parse the corrupted report through the real PLCrashReporter parser and confirm the repro precondition.
+  error = nil;
+  PLCrashReport *corruptedReport = [[PLCrashReport alloc] initWithData:corruptedData error:&error];
+  XCTAssertNotNil(corruptedReport, @"Corrupted report should still parse: %@", error);
+  XCTAssertTrue(corruptedReport.hasExceptionInfo);
+  XCTAssertNil(corruptedReport.exceptionInfo.exceptionReason);
+
+  // Run the real formatter pipeline. Before the fix this raises NSInvalidArgumentException.
+  MSACErrorReport *errorReport;
+  XCTAssertNoThrow(errorReport = [MSACErrorLogFormatter errorReportFromCrashReport:corruptedReport]);
+  XCTAssertNotNil(errorReport);
+  XCTAssertNil(errorReport.exceptionReason);
+  assertThat(errorReport.exceptionName, equalTo(corruptedReport.exceptionInfo.exceptionName));
+}
+
 - (void)testErrorReportFromLog {
 
   // If.

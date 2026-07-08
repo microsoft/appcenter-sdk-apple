@@ -631,9 +631,10 @@ static const char *findSEL(const char *imageName, NSString *imageUUID, uint64_t 
 + (NSString *)extractExceptionReasonFromReport:(PLCrashReport *)report {
   NSString *exceptionReason = nil;
 
-  // Uncaught Exception.
-  if (report.hasExceptionInfo) {
-    exceptionReason = [NSString stringWithString:report.exceptionInfo.exceptionReason];
+  // Uncaught Exception. Guard against a nil reason: a corrupted report can have exception info whose
+  // reason is nil (e.g. invalid UTF-8 bytes), and +[NSString stringWithString:nil] would throw.
+  if (report.hasExceptionInfo && report.exceptionInfo.exceptionReason) {
+    exceptionReason = report.exceptionInfo.exceptionReason;
   }
   return exceptionReason;
 }

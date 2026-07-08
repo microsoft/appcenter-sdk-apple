@@ -1,5 +1,9 @@
 # App Center SDK for iOS, macOS and tvOS Change Log
 
+## Version 5.12.1
+
+* **[Fix]** Fix a crash when processing a crash report whose exception reason is missing (e.g. a corrupted report with invalid UTF-8), which could lead to a crash loop on the next launch.
+
 ## Version 5.12.0
 
 * **[Improvement]** Update target iOS and tvOS version to 13.0
